@@ -88,6 +88,10 @@ jar {
     }
 }
 
+loom {
+    log4jConfigs.from(file("src/main/resources/log4j.xml"))
+}
+
 // configure the maven publication
 publishing {
     publications {
