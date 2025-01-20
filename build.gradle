@@ -18,7 +18,7 @@ repositories {
         url = uri("https://maven.pkg.github.com/maucon/maucon-framework")
         credentials {
             username = "maucon"
-            password = System.getenv("GITHUB_PAT")
+            password = System.getenv("MAUCONFRAMEWORK_REPO_KEY")
         }
     }
 }
