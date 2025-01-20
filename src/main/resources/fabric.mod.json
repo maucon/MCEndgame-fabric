@@ -1,54 +1,54 @@
 {
-	"schemaVersion": 1,
-	"id": "mcendgame-fabric",
-	"version": "${version}",
-	"name": "MCEndgame-Fabric",
-	"description": "This is an example description! Tell everyone what your mod is about!",
-	"authors": [
-		"Me!"
-	],
-	"contact": {
-		"homepage": "https://fabricmc.net/",
-		"sources": "https://github.com/FabricMC/fabric-example-mod"
-	},
-	"license": "CC0-1.0",
-	"icon": "assets/mcendgame-fabric/icon.png",
-	"environment": "*",
-	"entrypoints": {
-		"main": [
-			{
-				"value": "de.fuballer.mcendgame.MCEndgameFabric",
-				"adapter": "kotlin"
-			}
-		],
-		"client": [
-			{
-				"value": "de.fuballer.mcendgame.MCEndgameFabricClient",
-				"adapter": "kotlin"
-			}
-		],
-		"fabric-datagen": [
-			{
-				"value": "de.fuballer.mcendgame.MCEndgameFabricDataGenerator",
-				"adapter": "kotlin"
-			}
-		]
-	},
-	"mixins": [
-		"mcendgame-fabric.mixins.json",
-		{
-			"config": "mcendgame-fabric.client.mixins.json",
-			"environment": "client"
-		}
-	],
-	"depends": {
-		"fabricloader": ">=0.16.10",
-		"minecraft": "~1.21.4",
-		"java": ">=21",
-		"fabric-api": "*",
-		"fabric-language-kotlin": "*"
-	},
-	"suggests": {
-		"another-mod": "*"
-	}
+  "schemaVersion": 1,
+  "id": "mcendgame",
+  "version": "${version}",
+  "name": "MCEndgame",
+  "description": "This is an example description! Tell everyone what your mod is about!",
+  "authors": [
+    "Me!"
+  ],
+  "contact": {
+    "homepage": "https://fabricmc.net/",
+    "sources": "https://github.com/FabricMC/fabric-example-mod"
+  },
+  "license": "CC0-1.0",
+  "icon": "assets/mcendgame/icon.png",
+  "environment": "*",
+  "entrypoints": {
+    "main": [
+      {
+        "value": "de.fuballer.mcendgame.MCEndgame",
+        "adapter": "kotlin"
+      }
+    ],
+    "client": [
+      {
+        "value": "de.fuballer.mcendgame.MCEndgameClient",
+        "adapter": "kotlin"
+      }
+    ],
+    "fabric-datagen": [
+      {
+        "value": "de.fuballer.mcendgame.MCEndgameDataGenerator",
+        "adapter": "kotlin"
+      }
+    ]
+  },
+  "mixins": [
+    "mcendgame.mixins.json",
+    {
+      "config": "mcendgame.client.mixins.json",
+      "environment": "client"
+    }
+  ],
+  "depends": {
+    "fabricloader": ">=0.16.10",
+    "minecraft": "~1.21.4",
+    "java": ">=21",
+    "fabric-api": "*",
+    "fabric-language-kotlin": "*"
+  },
+  "suggests": {
+    "another-mod": "*"
+  }
 }
