@@ -13,12 +13,8 @@ import net.minecraft.text.Text
 @Injectable
 class CorruptionRenderer {
     @Initialize
-    fun init() {
-        ItemTooltipCallback.EVENT.register(::onItemTooltipCallback)
-    }
-
-    fun onItemTooltipCallback(stack: ItemStack, tooltipContext: Item.TooltipContext, tooltipType: TooltipType, lines: MutableList<Text>) {
-        lines.add(Text.literal("Cheeseburger"))
-        stack.addItemTag(ItemTag.CORRUPTED)
+    fun on() = ItemTooltipCallback.EVENT.register { itemStack: ItemStack, _: Item.TooltipContext, _: TooltipType, texts: MutableList<Text> ->
+        texts.add(Text.literal("Cheeseburger"))
+        itemStack.addItemTag(ItemTag.CORRUPTED)
     }
 }
