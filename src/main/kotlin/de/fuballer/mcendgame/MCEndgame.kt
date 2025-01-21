@@ -14,6 +14,6 @@ object MCEndgame : ModInitializer {
         // Proceed with mild caution.
         logger.info("Hello Fabric world!")
 
-        CustomArmorItems()
+        CustomArmorItems
     }
 }
