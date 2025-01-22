@@ -1,4 +1,4 @@
-package de.fuballer.mcendgame.item.custom.armor.materials
+package de.fuballer.mcendgame.item.custom.armor
 
 import net.minecraft.item.equipment.ArmorMaterial
 import net.minecraft.item.equipment.EquipmentAsset

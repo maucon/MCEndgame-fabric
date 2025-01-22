@@ -1,6 +1,7 @@
-package de.fuballer.mcendgame.item.custom.armor.materials
+package de.fuballer.mcendgame.item.custom.armor.helmet.iceborne
 
 import de.fuballer.mcendgame.MCEndgame
+import de.fuballer.mcendgame.item.custom.armor.CustomArmorMaterial
 import net.minecraft.item.equipment.ArmorMaterial
 import net.minecraft.item.equipment.EquipmentAsset
 import net.minecraft.item.equipment.EquipmentAssetKeys
