@@ -3,11 +3,10 @@
   "package": "de.fuballer.mcendgame.mixin.client",
   "compatibilityLevel": "JAVA_21",
   "client": [
-    "ExampleClientMixin",
-    "PlayerEntityRendererMixin",
-    "LivingEntityRendererAccessor"
+    "LivingEntityRendererAccessor",
+    "PlayerEntityRendererMixin"
   ],
   "injectors": {
     "defaultRequire": 1
-	}
+  }
 }
