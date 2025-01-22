@@ -23,7 +23,7 @@ class CustomHumanoidArmorFeatureRenderer<S : BipedEntityRenderState, M : BipedEn
     entityModels: LoadedEntityModels,
 ) : FeatureRenderer<S, M>(featureContext) {
 
-    val texturedArmorModels: MutableMap<Item, TexturedArmorModel> = mutableMapOf()
+    private val texturedArmorModels: MutableMap<Item, TexturedArmorModel> = mutableMapOf()
 
     init {
         texturedArmorModels[CustomArmorItems.ICEBORNE] = TexturedArmorModel(
