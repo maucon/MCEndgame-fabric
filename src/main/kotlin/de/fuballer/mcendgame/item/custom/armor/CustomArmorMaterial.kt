@@ -5,8 +5,8 @@ import net.minecraft.item.equipment.EquipmentAsset
 import net.minecraft.registry.RegistryKey
 
 interface CustomArmorMaterial {
-    val BASE_DURABILITY: Int
-    val REGISTRY_KEY: RegistryKey<EquipmentAsset>
+    val baseDurability: Int
+    val registryKey: RegistryKey<EquipmentAsset>
 
-    val INSTANCE: ArmorMaterial
+    val instance: ArmorMaterial
 }

@@ -1,18 +1,17 @@
 package de.fuballer.mcendgame.item.custom.armor.helmet.iceborne
 
-import de.fuballer.mcendgame.MCEndgame
+import de.fuballer.mcendgame.util.IdentifierUtil
 import net.minecraft.client.model.*
 import net.minecraft.client.render.entity.model.BipedEntityModel
 import net.minecraft.client.render.entity.model.EntityModelLayer
 import net.minecraft.client.render.entity.model.EntityModelPartNames
 import net.minecraft.client.render.entity.state.BipedEntityRenderState
-import net.minecraft.util.Identifier
 
 class IceborneModel<S : BipedEntityRenderState>(
     root: ModelPart
 ) : BipedEntityModel<S>(root) {
     companion object {
-        val MODEL_LAYER = EntityModelLayer(Identifier.of(MCEndgame.MOD_ID, "iceborne"), "main")
+        val MODEL_LAYER = EntityModelLayer(IdentifierUtil.default("iceborne"), "main")
 
         fun getTexturedModelData(): TexturedModelData {
             val modelData = ModelData()

@@ -1,7 +1,6 @@
 package de.fuballer.mcendgame
 
 import de.maucon.mauconframework.MauConFramework
-import de.fuballer.mcendgame.item.custom.armor.CustomArmorItems
 import net.fabricmc.api.ModInitializer
 
 object MCEndgame : ModInitializer {
@@ -12,7 +11,5 @@ object MCEndgame : ModInitializer {
         // However, some things (like resources) may still be uninitialized.
         // Proceed with mild caution.
         MauConFramework.start(MCEndgame::class.java)
-
-        CustomArmorItems
     }
 }

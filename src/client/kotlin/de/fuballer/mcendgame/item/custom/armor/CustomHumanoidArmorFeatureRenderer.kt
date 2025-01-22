@@ -1,7 +1,7 @@
 package de.fuballer.mcendgame.item.custom.armor
 
-import de.fuballer.mcendgame.MCEndgame
 import de.fuballer.mcendgame.item.custom.armor.helmet.iceborne.IceborneModel
+import de.fuballer.mcendgame.util.IdentifierUtil
 import net.minecraft.client.model.Model
 import net.minecraft.client.render.OverlayTexture
 import net.minecraft.client.render.RenderLayer
@@ -27,7 +27,7 @@ class CustomHumanoidArmorFeatureRenderer<S : BipedEntityRenderState, M : BipedEn
 
     init {
         texturedArmorModels[CustomArmorItems.ICEBORNE] = TexturedArmorModel(
-            Identifier.of(MCEndgame.MOD_ID, "textures/entity/equipment/custom_humanoid/iceborne.png"),
+            IdentifierUtil.default("textures/entity/equipment/custom_humanoid/iceborne.png"),
             IceborneModel(ctx.getPart(IceborneModel.MODEL_LAYER))
         )
     }
