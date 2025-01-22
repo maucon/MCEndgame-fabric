@@ -2,6 +2,7 @@ package de.fuballer.mcendgame.item.custom.armor
 
 import de.fuballer.mcendgame.MCEndgame
 import de.fuballer.mcendgame.item.custom.armor.helmet.iceborne.IceborneArmorMaterial
+import de.maucon.mauconframework.annotation.Injectable
 import net.minecraft.item.ArmorItem
 import net.minecraft.item.Item
 import net.minecraft.item.equipment.EquipmentType
@@ -11,6 +12,7 @@ import net.minecraft.registry.RegistryKey
 import net.minecraft.registry.RegistryKeys
 import net.minecraft.util.Identifier
 
+@Injectable
 object CustomArmorItems {
     private fun register(item: Item, registryKey: RegistryKey<Item>) =
         Registry.register(Registries.ITEM, registryKey.value, item)
