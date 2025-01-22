@@ -21,6 +21,7 @@ repositories {
             password = System.getenv("MAUCONFRAMEWORK_REPO_KEY")
         }
     }
+    maven { url = 'https://maven.nucleoid.xyz/' }
 }
 
 loom {
@@ -51,7 +52,8 @@ dependencies {
     modImplementation "net.fabricmc.fabric-api:fabric-api:${project.fabric_version}"
     modImplementation "net.fabricmc:fabric-language-kotlin:${project.fabric_kotlin_version}"
 
-    implementation "de.maucon:maucon-framework:1.5.0"
+    modImplementation 'xyz.nucleoid:fantasy:0.6.5+1.21.2'
+    implementation "de.maucon:maucon-framework:1.6.0"
 }
 
 processResources {
@@ -86,6 +88,10 @@ jar {
     from("LICENSE") {
         rename { "${it}_${project.base.archivesName.get()}" }
     }
+}
+
+loom {
+    log4jConfigs.from(file("src/main/resources/log4j.xml"))
 }
 
 // configure the maven publication

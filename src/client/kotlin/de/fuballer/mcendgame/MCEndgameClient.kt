@@ -7,7 +7,7 @@ import net.fabricmc.api.ClientModInitializer
 object MCEndgameClient : ClientModInitializer {
     override fun onInitializeClient() {
         // This entrypoint is suitable for setting up client-specific logic, such as rendering.
-        println(MauConFramework.start(MCEndgameClient::class.java))
+        MauConFramework.start(MCEndgameClient::class.java)
 
         ArmorModelRegisterer.register()
     }
