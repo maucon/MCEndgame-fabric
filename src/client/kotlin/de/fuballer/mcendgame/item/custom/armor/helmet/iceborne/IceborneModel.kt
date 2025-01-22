@@ -2,15 +2,15 @@ package de.fuballer.mcendgame.item.custom.armor.helmet.iceborne
 
 import de.fuballer.mcendgame.MCEndgame
 import net.minecraft.client.model.*
-import net.minecraft.client.render.entity.model.EntityModel
+import net.minecraft.client.render.entity.model.BipedEntityModel
 import net.minecraft.client.render.entity.model.EntityModelLayer
-import net.minecraft.client.render.entity.state.EntityRenderState
+import net.minecraft.client.render.entity.model.EntityModelPartNames
+import net.minecraft.client.render.entity.state.BipedEntityRenderState
 import net.minecraft.util.Identifier
 
-class IceborneModel<T : EntityRenderState>(
+class IceborneModel<S : BipedEntityRenderState>(
     root: ModelPart
-) : EntityModel<T>(root) {
-
+) : BipedEntityModel<S>(root) {
     companion object {
         val MODEL_LAYER = EntityModelLayer(Identifier.of(MCEndgame.MOD_ID, "iceborne"), "main")
 
@@ -18,7 +18,15 @@ class IceborneModel<T : EntityRenderState>(
             val modelData = ModelData()
             val modelPartData = modelData.root
 
-            val helmet = modelPartData.addChild(
+            val head = modelPartData.addChild(EntityModelPartNames.HEAD)
+            val hat = head.addChild(EntityModelPartNames.HAT)
+            val body = modelPartData.addChild(EntityModelPartNames.BODY)
+            val rightArm = modelPartData.addChild(EntityModelPartNames.RIGHT_ARM)
+            val leftArm = modelPartData.addChild(EntityModelPartNames.LEFT_ARM)
+            val rightLeg = modelPartData.addChild(EntityModelPartNames.RIGHT_LEG)
+            val leftLeg = modelPartData.addChild(EntityModelPartNames.LEFT_LEG)
+
+            val helmet = head.addChild(
                 "helmet",
                 ModelPartBuilder.create().uv(16, 48).cuboid(-4.0f, -8.0f, -4.0f, 8.0f, 8.0f, 8.0f, Dilation(1.0f))
                     .uv(18, 31).cuboid(-1.0f, -9.75f, -6.0f, 2.0f, 4.0f, 12.0f, Dilation(0.0f))

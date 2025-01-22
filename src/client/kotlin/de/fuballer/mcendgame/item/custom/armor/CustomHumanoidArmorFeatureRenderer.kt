@@ -2,33 +2,33 @@ package de.fuballer.mcendgame.item.custom.armor
 
 import de.fuballer.mcendgame.MCEndgame
 import de.fuballer.mcendgame.item.custom.armor.helmet.iceborne.IceborneModel
-import net.minecraft.client.model.ModelPart
+import net.minecraft.client.model.Model
 import net.minecraft.client.render.OverlayTexture
 import net.minecraft.client.render.RenderLayer
 import net.minecraft.client.render.VertexConsumerProvider
+import net.minecraft.client.render.entity.EntityRendererFactory
 import net.minecraft.client.render.entity.feature.FeatureRenderer
 import net.minecraft.client.render.entity.feature.FeatureRendererContext
 import net.minecraft.client.render.entity.model.BipedEntityModel
-import net.minecraft.client.render.entity.model.LoadedEntityModels
 import net.minecraft.client.render.entity.state.BipedEntityRenderState
 import net.minecraft.client.render.item.ItemRenderer
 import net.minecraft.client.util.math.MatrixStack
-import net.minecraft.entity.EquipmentSlot
 import net.minecraft.item.Item
 import net.minecraft.item.ItemStack
 import net.minecraft.util.Identifier
 
 class CustomHumanoidArmorFeatureRenderer<S : BipedEntityRenderState, M : BipedEntityModel<S>>(
     featureContext: FeatureRendererContext<S, M>,
-    entityModels: LoadedEntityModels,
+    ctx: EntityRendererFactory.Context,
 ) : FeatureRenderer<S, M>(featureContext) {
 
-    private val texturedArmorModels: MutableMap<Item, TexturedArmorModel> = mutableMapOf()
+    private val texturedArmorModels: MutableMap<Item, TexturedArmorModel<BipedEntityModel<S>>> =
+        mutableMapOf()
 
     init {
         texturedArmorModels[CustomArmorItems.ICEBORNE] = TexturedArmorModel(
             Identifier.of(MCEndgame.MOD_ID, "textures/entity/equipment/custom_humanoid/iceborne.png"),
-            entityModels.getModelPart(IceborneModel.MODEL_LAYER)
+            IceborneModel(ctx.getPart(IceborneModel.MODEL_LAYER))
         )
     }
 
@@ -44,28 +44,24 @@ class CustomHumanoidArmorFeatureRenderer<S : BipedEntityRenderState, M : BipedEn
             matrixStack,
             vertexConsumerProvider,
             bipedEntityRenderState.equippedChestStack,
-            EquipmentSlot.CHEST,
             light
         )
         this.renderArmor(
             matrixStack,
             vertexConsumerProvider,
             bipedEntityRenderState.equippedLegsStack,
-            EquipmentSlot.LEGS,
             light
         )
         this.renderArmor(
             matrixStack,
             vertexConsumerProvider,
             bipedEntityRenderState.equippedFeetStack,
-            EquipmentSlot.FEET,
             light
         )
         this.renderArmor(
             matrixStack,
             vertexConsumerProvider,
             bipedEntityRenderState.equippedHeadStack,
-            EquipmentSlot.HEAD,
             light
         )
     }
@@ -74,20 +70,19 @@ class CustomHumanoidArmorFeatureRenderer<S : BipedEntityRenderState, M : BipedEn
         matrices: MatrixStack,
         vertexConsumerProvider: VertexConsumerProvider,
         itemStack: ItemStack,
-        slot: EquipmentSlot,
         light: Int,
     ) {
         val item = itemStack.item
         val texturedArmorModel = texturedArmorModels[item] ?: return
 
-        val model = texturedArmorModel.MODEL_PART
-        copyTransforms(model, slot)
+        val model = texturedArmorModel.MODEL
+        this.contextModel.copyTransforms(model)
 
         renderModel(model, texturedArmorModel.TEXTURE, matrices, vertexConsumerProvider, light, itemStack.hasGlint())
     }
 
     private fun renderModel(
-        model: ModelPart,
+        model: Model,
         texture: Identifier,
         matrices: MatrixStack,
         vertexConsumerProvider: VertexConsumerProvider,
@@ -104,15 +99,5 @@ class CustomHumanoidArmorFeatureRenderer<S : BipedEntityRenderState, M : BipedEn
             light,
             OverlayTexture.DEFAULT_UV
         )
-    }
-
-    private fun copyTransforms(
-        model: ModelPart,
-        slot: EquipmentSlot,
-    ) {
-        when (slot) {
-            EquipmentSlot.HEAD -> model.copyTransform(this.contextModel.head)
-            else -> return
-        }
     }
 }

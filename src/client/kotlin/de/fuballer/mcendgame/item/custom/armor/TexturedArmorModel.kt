@@ -1,9 +1,9 @@
 package de.fuballer.mcendgame.item.custom.armor
 
-import net.minecraft.client.model.ModelPart
+import net.minecraft.client.model.Model
 import net.minecraft.util.Identifier
 
-data class TexturedArmorModel(
+data class TexturedArmorModel<T : Model>(
     val TEXTURE: Identifier,
-    val MODEL_PART: ModelPart,
+    val MODEL: T,
 )

@@ -20,6 +20,6 @@ public abstract class PlayerEntityRendererMixin {
 
         PlayerEntityRenderer renderer = (PlayerEntityRenderer) (Object) this;
 
-        accessor.invokeAddFeature(new CustomHumanoidArmorFeatureRenderer<>(renderer, ctx.getEntityModels()));
+        accessor.invokeAddFeature(new CustomHumanoidArmorFeatureRenderer<>(renderer, ctx));
     }
 }
