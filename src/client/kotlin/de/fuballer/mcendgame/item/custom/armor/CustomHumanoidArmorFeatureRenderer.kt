@@ -82,8 +82,6 @@ class CustomHumanoidArmorFeatureRenderer<S : BipedEntityRenderState, M : BipedEn
         val model = texturedArmorModel.MODEL_PART
         copyTransforms(model, slot)
 
-        println(this.contextModel.head.pitch)
-
         renderModel(model, texturedArmorModel.TEXTURE, matrices, vertexConsumerProvider, light)
     }
 
@@ -107,7 +105,7 @@ class CustomHumanoidArmorFeatureRenderer<S : BipedEntityRenderState, M : BipedEn
         slot: EquipmentSlot,
     ) {
         when (slot) {
-            EquipmentSlot.HEAD -> this.contextModel.head.copyTransform(model)
+            EquipmentSlot.HEAD -> model.copyTransform(this.contextModel.head)
             else -> return
         }
     }
