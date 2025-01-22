@@ -11,6 +11,7 @@ import net.minecraft.client.render.entity.feature.FeatureRendererContext
 import net.minecraft.client.render.entity.model.BipedEntityModel
 import net.minecraft.client.render.entity.model.LoadedEntityModels
 import net.minecraft.client.render.entity.state.BipedEntityRenderState
+import net.minecraft.client.render.item.ItemRenderer
 import net.minecraft.client.util.math.MatrixStack
 import net.minecraft.entity.EquipmentSlot
 import net.minecraft.item.Item
@@ -82,7 +83,7 @@ class CustomHumanoidArmorFeatureRenderer<S : BipedEntityRenderState, M : BipedEn
         val model = texturedArmorModel.MODEL_PART
         copyTransforms(model, slot)
 
-        renderModel(model, texturedArmorModel.TEXTURE, matrices, vertexConsumerProvider, light)
+        renderModel(model, texturedArmorModel.TEXTURE, matrices, vertexConsumerProvider, light, itemStack.hasGlint())
     }
 
     private fun renderModel(
@@ -91,10 +92,15 @@ class CustomHumanoidArmorFeatureRenderer<S : BipedEntityRenderState, M : BipedEn
         matrices: MatrixStack,
         vertexConsumerProvider: VertexConsumerProvider,
         light: Int,
+        glint: Boolean,
     ) {
         model.render(
             matrices,
-            vertexConsumerProvider.getBuffer(RenderLayer.getArmorCutoutNoCull(texture)),
+            ItemRenderer.getArmorGlintConsumer(
+                vertexConsumerProvider,
+                RenderLayer.getArmorCutoutNoCull(texture),
+                glint
+            ),
             light,
             OverlayTexture.DEFAULT_UV
         )

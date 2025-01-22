@@ -25,6 +25,7 @@ object CustomArmorItems {
             ), registryKey
         )
 
-    private val ICEBORNE_KEY: RegistryKey<Item> = RegistryKey.of(RegistryKeys.ITEM, Identifier.of(MCEndgame.MOD_ID, "iceborne"))
+    private val ICEBORNE_KEY: RegistryKey<Item> =
+        RegistryKey.of(RegistryKeys.ITEM, Identifier.of(MCEndgame.MOD_ID, "iceborne"))
     val ICEBORNE = registerArmor(IceborneArmorMaterial, EquipmentType.HELMET, ICEBORNE_KEY)
 }
