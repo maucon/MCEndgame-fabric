@@ -10,6 +10,5 @@ import net.minecraft.registry.RegistryKey
 
 @Injectable
 object CustomArmorItems {
-    private val ICEBORNE_KEY: RegistryKey<Item> = RegistryKeyUtil.createItemKey("iceborne")
-    val ICEBORNE = RegistryUtil.registerArmorItem(IceborneArmorMaterial, EquipmentType.HELMET, ICEBORNE_KEY)
+    val ICEBORNE = RegistryUtil.registerArmorItem(IceborneArmorMaterial, EquipmentType.HELMET, "iceborne")
 }
