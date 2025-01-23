@@ -20,10 +20,10 @@ class IceborneModel<S : BipedEntityRenderState>(
             val head = modelPartData.addChild(EntityModelPartNames.HEAD)
             val hat = head.addChild(EntityModelPartNames.HAT)
             val body = modelPartData.addChild(EntityModelPartNames.BODY)
-            val rightArm = modelPartData.addChild(EntityModelPartNames.RIGHT_ARM)
-            val leftArm = modelPartData.addChild(EntityModelPartNames.LEFT_ARM)
-            val rightLeg = modelPartData.addChild(EntityModelPartNames.RIGHT_LEG)
-            val leftLeg = modelPartData.addChild(EntityModelPartNames.LEFT_LEG)
+            val right_arm = modelPartData.addChild(EntityModelPartNames.RIGHT_ARM)
+            val left_arm = modelPartData.addChild(EntityModelPartNames.LEFT_ARM)
+            val right_leg = modelPartData.addChild(EntityModelPartNames.RIGHT_LEG)
+            val left_leg = modelPartData.addChild(EntityModelPartNames.LEFT_LEG)
 
             val helmet = head.addChild(
                 "helmet",

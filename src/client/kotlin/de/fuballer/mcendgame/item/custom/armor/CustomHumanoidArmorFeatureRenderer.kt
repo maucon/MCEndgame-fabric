@@ -1,5 +1,6 @@
 package de.fuballer.mcendgame.item.custom.armor
 
+import de.fuballer.mcendgame.item.custom.armor.chestplate.bound_abyss.BoundAbyssModel
 import de.fuballer.mcendgame.item.custom.armor.helmet.iceborne.IceborneModel
 import de.fuballer.mcendgame.util.IdentifierUtil
 import net.minecraft.client.model.Model
@@ -29,6 +30,10 @@ class CustomHumanoidArmorFeatureRenderer<S : BipedEntityRenderState, M : BipedEn
         texturedArmorModels[CustomArmorItems.ICEBORNE] = TexturedArmorModel(
             IdentifierUtil.default("textures/entity/equipment/custom_humanoid/iceborne.png"),
             IceborneModel(ctx.getPart(IceborneModel.MODEL_LAYER))
+        )
+        texturedArmorModels[CustomArmorItems.BOUND_ABYSS] = TexturedArmorModel(
+            IdentifierUtil.default("textures/entity/equipment/custom_humanoid/bound_abyss.png"),
+            IceborneModel(ctx.getPart(BoundAbyssModel.MODEL_LAYER))
         )
     }
 
