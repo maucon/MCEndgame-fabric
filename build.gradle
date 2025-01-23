@@ -52,7 +52,7 @@ dependencies {
     modImplementation "net.fabricmc.fabric-api:fabric-api:${project.fabric_version}"
     modImplementation "net.fabricmc:fabric-language-kotlin:${project.fabric_kotlin_version}"
 
-    modImplementation 'xyz.nucleoid:fantasy:0.6.5+1.21.2'
+    modImplementation "xyz.nucleoid:fantasy:0.6.5+1.21.2"
     implementation "de.maucon:maucon-framework:1.6.0"
 }
 

@@ -5,6 +5,7 @@ import de.fuballer.mcendgame.components.item_tag.ItemTagsExtensions.addItemTag
 import de.maucon.mauconframework.annotation.Initialize
 import de.maucon.mauconframework.annotation.Injectable
 import net.fabricmc.fabric.api.client.item.v1.ItemTooltipCallback
+import net.minecraft.client.MinecraftClient
 import net.minecraft.item.Item
 import net.minecraft.item.ItemStack
 import net.minecraft.item.tooltip.TooltipType

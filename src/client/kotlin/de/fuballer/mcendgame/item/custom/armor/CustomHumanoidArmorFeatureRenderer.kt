@@ -75,10 +75,10 @@ class CustomHumanoidArmorFeatureRenderer<S : BipedEntityRenderState, M : BipedEn
         val item = itemStack.item
         val texturedArmorModel = texturedArmorModels[item] ?: return
 
-        val model = texturedArmorModel.MODEL
+        val model = texturedArmorModel.model
         this.contextModel.copyTransforms(model)
 
-        renderModel(model, texturedArmorModel.TEXTURE, matrices, vertexConsumerProvider, light, itemStack.hasGlint())
+        renderModel(model, texturedArmorModel.texture, matrices, vertexConsumerProvider, light, itemStack.hasGlint())
     }
 
     private fun renderModel(
