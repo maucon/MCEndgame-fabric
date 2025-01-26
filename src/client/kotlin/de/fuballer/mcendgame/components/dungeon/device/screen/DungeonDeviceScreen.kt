@@ -10,8 +10,11 @@ import net.minecraft.text.Text
 import net.minecraft.util.Identifier
 
 @Environment(EnvType.CLIENT)
-class DungeonDeviceScreen(handler: DungeonDeviceScreenHandler, inventory: PlayerInventory, title: Text) :
-    HandledScreen<DungeonDeviceScreenHandler>(handler, inventory, title) {
+class DungeonDeviceScreen(
+    handler: DungeonDeviceScreenHandler,
+    inventory: PlayerInventory,
+    title: Text
+) : HandledScreen<DungeonDeviceScreenHandler>(handler, inventory, title) {
 
     override fun init() {
         super.init()

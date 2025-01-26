@@ -1,22 +1,19 @@
 package de.fuballer.mcendgame.components.dungeon.device.screen
 
-import net.fabricmc.api.EnvType
-import net.fabricmc.api.Environment
+import de.fuballer.mcendgame.components.dungeon.device.DungeonDevice
 import net.minecraft.entity.player.PlayerEntity
 import net.minecraft.entity.player.PlayerInventory
 import net.minecraft.item.ItemStack
-import net.minecraft.screen.Generic3x3ContainerScreenHandler
+import net.minecraft.screen.ScreenHandler
 
-@Environment(EnvType.CLIENT)
 class DungeonDeviceScreenHandler(
     syncId: Int,
     playerInventory: PlayerInventory
-) : Generic3x3ContainerScreenHandler(syncId, playerInventory) {
-
-
+) : ScreenHandler(DungeonDevice.SCREEN_HANDLER, syncId) {
 
     override fun quickMove(player: PlayerEntity, slot: Int): ItemStack {
-        return super.quickMove(player, slot)
+        println("WHAT")
+        return ItemStack.EMPTY
     }
 
     override fun canUse(player: PlayerEntity): Boolean {
