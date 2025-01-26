@@ -6,7 +6,7 @@ import de.maucon.mauconframework.annotation.Injectable
 import net.minecraft.client.gui.screen.ingame.HandledScreens
 
 @Injectable
-object DungeonDeviceScreenHandlerRegisterer {
+object DungeonDeviceScreenRegisterer {
     @Initialize
     fun register() {
         HandledScreens.register(DungeonDevice.SCREEN_HANDLER, ::DungeonDeviceScreen)

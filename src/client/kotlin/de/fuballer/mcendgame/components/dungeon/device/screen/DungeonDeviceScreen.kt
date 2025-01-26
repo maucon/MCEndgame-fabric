@@ -1,13 +1,19 @@
 package de.fuballer.mcendgame.components.dungeon.device.screen
 
+import de.fuballer.mcendgame.components.dungeon.device.DungeonDevice
+import de.fuballer.mcendgame.util.IdentifierUtil
 import net.fabricmc.api.EnvType
 import net.fabricmc.api.Environment
 import net.minecraft.client.gui.DrawContext
 import net.minecraft.client.gui.screen.ingame.HandledScreen
+import net.minecraft.client.gui.widget.ButtonWidget
 import net.minecraft.client.render.RenderLayer
 import net.minecraft.entity.player.PlayerInventory
 import net.minecraft.text.Text
 import net.minecraft.util.Identifier
+
+private val TEXTURE = IdentifierUtil.default("textures/gui/container/dungeon_device.png")
+private val OPEN_DUNGEON_BUTTON_TEXT = Text.translatable("container.mcendgame.dungeon_device.open")
 
 @Environment(EnvType.CLIENT)
 class DungeonDeviceScreen(
@@ -16,31 +22,45 @@ class DungeonDeviceScreen(
     title: Text
 ) : HandledScreen<DungeonDeviceScreenHandler>(handler, inventory, title) {
 
+    private val createDungeonButton = ButtonWidget
+        .builder(OPEN_DUNGEON_BUTTON_TEXT, ::onCreateDungeonButtonPress)
+        .size(36, 12)
+        .build()
+
     override fun init() {
         super.init()
-        titleX = (this.backgroundWidth - textRenderer.getWidth(this.title)) / 2
+        titleX = (backgroundWidth - textRenderer.getWidth(title)) / 2
+
+        createDungeonButton.setPosition((width - backgroundWidth) / 2 + 69, (height - backgroundHeight) / 2 + 62)
+        addDrawableChild(createDungeonButton)
     }
 
     override fun render(context: DrawContext, mouseX: Int, mouseY: Int, delta: Float) {
         super.render(context, mouseX, mouseY, delta)
-        this.drawMouseoverTooltip(context, mouseX, mouseY)
+        drawMouseoverTooltip(context, mouseX, mouseY)
     }
 
     override fun drawBackground(context: DrawContext, delta: Float, mouseX: Int, mouseY: Int) {
-        val i = (this.width - this.backgroundWidth) / 2
-        val j = (this.height - this.backgroundHeight) / 2
+        val textureX = (width - backgroundWidth) / 2
+        val textureY = (height - backgroundHeight) / 2
+
+        context.drawItem(DungeonDevice.BLOCK.asItem().defaultStack, textureX + 8, textureY + 8)
 
         context.drawTexture(
-            { texture: Identifier -> RenderLayer.getGuiTextured(texture) }, TEXTURE, i, j, 0.0f, 0.0f,
-            this.backgroundWidth,
-            this.backgroundHeight, 256, 256
+            { texture: Identifier -> RenderLayer.getGuiTextured(texture) },
+            TEXTURE,
+            textureX,
+            textureY,
+            0.0f,
+            0.0f,
+            backgroundWidth,
+            backgroundHeight,
+            256,
+            256
         )
-        context.drawBorder(10, 10, 100, 100, -0x1)
-
-        context.drawText(textRenderer, "CROSSE CRARA", 40, 40 - textRenderer.fontHeight - 10, -0x1, true)
     }
 
-    companion object {
-        private val TEXTURE: Identifier = Identifier.ofVanilla("textures/gui/container/dispenser.png")
+    private fun onCreateDungeonButtonPress(button: ButtonWidget) {
+        println("open dungeon")
     }
 }
