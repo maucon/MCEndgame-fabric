@@ -11,6 +11,9 @@ import net.minecraft.item.Items
 import net.minecraft.item.equipment.EquipmentType
 import net.minecraft.registry.Registries
 import net.minecraft.registry.Registry
+import net.minecraft.resource.featuretoggle.FeatureFlags
+import net.minecraft.screen.ScreenHandler
+import net.minecraft.screen.ScreenHandlerType
 
 object RegistryUtil {
     fun registerItem(factory: (Item.Settings) -> Item, settings: Item.Settings, name: String): Item =
@@ -29,4 +32,7 @@ object RegistryUtil {
             Item.Settings().maxDamage(material.baseDurability),
             name
         )
+
+    fun <T : ScreenHandler> registerScreenHandler(name: String, factory: ScreenHandlerType.Factory<T>): ScreenHandlerType<T> =
+        Registry.register(Registries.SCREEN_HANDLER, name, ScreenHandlerType(factory, FeatureFlags.VANILLA_FEATURES))
 }

@@ -1,4 +1,5 @@
 {
   "item.mcendgame.iceborne": "Iceborne Helmet",
-  "block.mcendgame.dungeon_device": "Dungeon Device"
+  "block.mcendgame.dungeon_device": "Dungeon Device",
+  "container.mcendgame.dungeon_device": "Dungeon Device"
 }
