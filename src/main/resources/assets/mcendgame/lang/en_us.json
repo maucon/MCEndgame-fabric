@@ -1,4 +1,7 @@
 {
   "item.mcendgame.iceborne": "Iceborne Helmet",
-  "item.mcendgame.bound_abyss": "Bound Abyss"
+  "item.mcendgame.bound_abyss": "Bound Abyss",
+  "block.mcendgame.dungeon_device": "Dungeon Device",
+  "container.mcendgame.dungeon_device.title": "Dungeon Device",
+  "container.mcendgame.dungeon_device.open": "Open"
 }

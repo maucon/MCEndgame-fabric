@@ -1,0 +1,12 @@
+{
+  "parent": "minecraft:block/cube",
+  "textures": {
+    "particle": "mcendgame:block/dungeon_device_top",
+    "north": "mcendgame:block/dungeon_device_side",
+    "south": "mcendgame:block/dungeon_device_side",
+    "east": "mcendgame:block/dungeon_device_side",
+    "west": "mcendgame:block/dungeon_device_side",
+    "up": "mcendgame:block/dungeon_device_top",
+    "down": "mcendgame:block/dungeon_device_bottom"
+  }
+}
