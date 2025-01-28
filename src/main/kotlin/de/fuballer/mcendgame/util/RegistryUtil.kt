@@ -1,6 +1,6 @@
 package de.fuballer.mcendgame.util
 
-import de.fuballer.mcendgame.item.custom.armor.CustomArmorMaterial
+import de.fuballer.mcendgame.components.item.custom.armor.CustomArmorMaterial
 import net.minecraft.component.ComponentType
 import net.minecraft.item.ArmorItem
 import net.minecraft.item.Item

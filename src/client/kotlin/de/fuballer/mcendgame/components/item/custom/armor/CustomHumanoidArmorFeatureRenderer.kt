@@ -1,7 +1,8 @@
-package de.fuballer.mcendgame.item.custom.armor
+package de.fuballer.mcendgame.components.item.custom.armor
 
-import de.fuballer.mcendgame.item.custom.armor.chestplate.bound_abyss.BoundAbyssModel
-import de.fuballer.mcendgame.item.custom.armor.helmet.iceborne.IceborneModel
+import de.fuballer.mcendgame.components.item.custom.armor.CustomArmorItems
+import de.fuballer.mcendgame.components.item.custom.armor.chestplate.bound_abyss.BoundAbyssModel
+import de.fuballer.mcendgame.components.item.custom.armor.helmet.iceborne.IceborneModel
 import de.fuballer.mcendgame.util.IdentifierUtil
 import net.minecraft.client.model.Model
 import net.minecraft.client.render.OverlayTexture
@@ -33,7 +34,7 @@ class CustomHumanoidArmorFeatureRenderer<S : BipedEntityRenderState, M : BipedEn
         )
         texturedArmorModels[CustomArmorItems.BOUND_ABYSS] = TexturedArmorModel(
             IdentifierUtil.default("textures/entity/equipment/custom_humanoid/bound_abyss.png"),
-            IceborneModel(ctx.getPart(BoundAbyssModel.MODEL_LAYER))
+            BoundAbyssModel(ctx.getPart(BoundAbyssModel.MODEL_LAYER))
         )
     }
 
@@ -46,24 +47,28 @@ class CustomHumanoidArmorFeatureRenderer<S : BipedEntityRenderState, M : BipedEn
         limbDistance: Float
     ) {
         this.renderArmor(
+            bipedEntityRenderState,
             matrixStack,
             vertexConsumerProvider,
             bipedEntityRenderState.equippedChestStack,
             light
         )
         this.renderArmor(
+            bipedEntityRenderState,
             matrixStack,
             vertexConsumerProvider,
             bipedEntityRenderState.equippedLegsStack,
             light
         )
         this.renderArmor(
+            bipedEntityRenderState,
             matrixStack,
             vertexConsumerProvider,
             bipedEntityRenderState.equippedFeetStack,
             light
         )
         this.renderArmor(
+            bipedEntityRenderState,
             matrixStack,
             vertexConsumerProvider,
             bipedEntityRenderState.equippedHeadStack,
@@ -72,6 +77,7 @@ class CustomHumanoidArmorFeatureRenderer<S : BipedEntityRenderState, M : BipedEn
     }
 
     private fun renderArmor(
+        bipedEntityRenderState: S,
         matrices: MatrixStack,
         vertexConsumerProvider: VertexConsumerProvider,
         itemStack: ItemStack,
@@ -82,11 +88,23 @@ class CustomHumanoidArmorFeatureRenderer<S : BipedEntityRenderState, M : BipedEn
 
         val model = texturedArmorModel.MODEL
         this.contextModel.copyTransforms(model)
+        if (model is Animated) {
+            model.animate(bipedEntityRenderState)
+        }
 
-        renderModel(model, texturedArmorModel.TEXTURE, matrices, vertexConsumerProvider, light, itemStack.hasGlint())
+        renderModel(
+            bipedEntityRenderState,
+            model,
+            texturedArmorModel.TEXTURE,
+            matrices,
+            vertexConsumerProvider,
+            light,
+            itemStack.hasGlint(),
+        )
     }
 
     private fun renderModel(
+        bipedEntityRenderState: S,
         model: Model,
         texture: Identifier,
         matrices: MatrixStack,
@@ -94,15 +112,13 @@ class CustomHumanoidArmorFeatureRenderer<S : BipedEntityRenderState, M : BipedEn
         light: Int,
         glint: Boolean,
     ) {
-        model.render(
-            matrices,
-            ItemRenderer.getArmorGlintConsumer(
-                vertexConsumerProvider,
-                RenderLayer.getArmorCutoutNoCull(texture),
-                glint
-            ),
-            light,
-            OverlayTexture.DEFAULT_UV
-        )
+        var vertexConsumer =
+            ItemRenderer.getArmorGlintConsumer(vertexConsumerProvider, RenderLayer.getArmorCutoutNoCull(texture), glint)
+        if (model is CustomVertexConsumer) {
+            vertexConsumer = model.getVertexConsumer(bipedEntityRenderState, vertexConsumerProvider, vertexConsumer)
+        }
+
+        model.render(matrices, vertexConsumer, light, OverlayTexture.DEFAULT_UV)
+        model.render(matrices, vertexConsumer, 0xF000F0, OverlayTexture.DEFAULT_UV)
     }
 }

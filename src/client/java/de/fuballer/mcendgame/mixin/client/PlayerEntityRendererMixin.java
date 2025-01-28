@@ -1,6 +1,7 @@
 package de.fuballer.mcendgame.mixin.client;
 
-import de.fuballer.mcendgame.item.custom.armor.CustomHumanoidArmorFeatureRenderer;
+import de.fuballer.mcendgame.components.item.custom.armor.CustomHumanoidArmorFeatureRenderer;
+import net.fabricmc.fabric.mixin.client.rendering.LivingEntityRendererAccessor;
 import net.minecraft.client.render.entity.EntityRendererFactory;
 import net.minecraft.client.render.entity.PlayerEntityRenderer;
 import org.spongepowered.asm.mixin.Mixin;
@@ -20,6 +21,6 @@ public abstract class PlayerEntityRendererMixin {
 
         PlayerEntityRenderer renderer = (PlayerEntityRenderer) (Object) this;
 
-        accessor.invokeAddFeature(new CustomHumanoidArmorFeatureRenderer<>(renderer, ctx));
+        accessor.callAddFeature(new CustomHumanoidArmorFeatureRenderer<>(renderer, ctx));
     }
 }

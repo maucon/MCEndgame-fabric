@@ -1,4 +1,4 @@
-package de.fuballer.mcendgame.item.custom.armor.helmet.iceborne
+package de.fuballer.mcendgame.components.item.custom.armor.helmet.iceborne
 
 import de.fuballer.mcendgame.util.IdentifierUtil
 import net.minecraft.client.model.*

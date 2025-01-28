@@ -1,7 +1,7 @@
-package de.fuballer.mcendgame.item.custom.armor
+package de.fuballer.mcendgame.components.item.custom.armor
 
-import de.fuballer.mcendgame.item.custom.armor.helmet.iceborne.BoundAbyssArmorMaterial
-import de.fuballer.mcendgame.item.custom.armor.helmet.iceborne.IceborneArmorMaterial
+import de.fuballer.mcendgame.components.item.custom.armor.helmet.iceborne.BoundAbyssArmorMaterial
+import de.fuballer.mcendgame.components.item.custom.armor.helmet.iceborne.IceborneArmorMaterial
 import de.fuballer.mcendgame.util.RegistryKeyUtil
 import de.fuballer.mcendgame.util.RegistryUtil
 import de.maucon.mauconframework.annotation.Injectable
