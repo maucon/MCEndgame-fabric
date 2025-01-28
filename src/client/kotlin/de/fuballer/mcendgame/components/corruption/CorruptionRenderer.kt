@@ -1,7 +1,7 @@
 package de.fuballer.mcendgame.components.corruption
 
-import de.fuballer.mcendgame.components.item_tag.ItemTag
-import de.fuballer.mcendgame.components.item_tag.ItemTagsExtensions.addItemTag
+import de.fuballer.mcendgame.functional.item_tag.ItemTag
+import de.fuballer.mcendgame.functional.item_tag.ItemTagsExtensions.addItemTag
 import de.maucon.mauconframework.annotation.Initialize
 import de.maucon.mauconframework.annotation.Injectable
 import net.fabricmc.fabric.api.client.item.v1.ItemTooltipCallback

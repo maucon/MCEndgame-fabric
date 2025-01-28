@@ -1,8 +1,10 @@
 package de.fuballer.mcendgame.components.dungeon.device
 
+import de.fuballer.mcendgame.components.dungeon.device.networking.OpenDungeonPayload
 import de.fuballer.mcendgame.components.dungeon.device.screen.DungeonDeviceScreenHandler
 import de.fuballer.mcendgame.util.RegistryUtil
 import de.maucon.mauconframework.annotation.Injectable
+import net.fabricmc.fabric.api.screenhandler.v1.ExtendedScreenHandlerType
 import net.minecraft.block.AbstractBlock.Settings
 import net.minecraft.block.Blocks
 
@@ -17,5 +19,8 @@ object DungeonDevice {
         NAME
     )
     val BLOCK_ENTITY_TYPE = RegistryUtil.registerBlockEntityType(::DungeonDeviceBlockEntity, BLOCK, NAME)
-    val SCREEN_HANDLER = RegistryUtil.registerScreenHandler(NAME, ::DungeonDeviceScreenHandler)
+    val EXTENDED_SCREEN_HANDLER = ExtendedScreenHandlerType(
+        { syncId, inventory, payload -> DungeonDeviceScreenHandler(syncId, inventory, payload = payload) },
+        OpenDungeonPayload.CODEC
+    ).also { RegistryUtil.registerScreenHandler(NAME, it) }
 }

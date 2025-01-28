@@ -1,4 +1,4 @@
-package de.fuballer.mcendgame.components.inventory
+package de.fuballer.mcendgame.functional.inventory
 
 import net.minecraft.entity.player.PlayerEntity
 import net.minecraft.inventory.Inventories

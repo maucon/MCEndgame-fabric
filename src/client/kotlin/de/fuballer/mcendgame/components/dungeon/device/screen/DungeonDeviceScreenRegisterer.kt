@@ -9,6 +9,6 @@ import net.minecraft.client.gui.screen.ingame.HandledScreens
 object DungeonDeviceScreenRegisterer {
     @Initialize
     fun register() {
-        HandledScreens.register(DungeonDevice.SCREEN_HANDLER, ::DungeonDeviceScreen)
+        HandledScreens.register(DungeonDevice.EXTENDED_SCREEN_HANDLER, ::DungeonDeviceScreen)
     }
 }

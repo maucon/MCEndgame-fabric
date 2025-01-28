@@ -43,4 +43,7 @@ object RegistryUtil {
 
     fun <T : ScreenHandler> registerScreenHandler(name: String, factory: ScreenHandlerType.Factory<T>): ScreenHandlerType<T> =
         Registry.register(Registries.SCREEN_HANDLER, IdentifierUtil.default(name), ScreenHandlerType(factory, FeatureSet.empty()))
+
+    fun <T : ScreenHandler> registerScreenHandler(name: String, screenHandlerType: ScreenHandlerType<T>): ScreenHandlerType<T> =
+        Registry.register(Registries.SCREEN_HANDLER, IdentifierUtil.default(name), screenHandlerType)
 }

@@ -1,9 +1,11 @@
 package de.fuballer.mcendgame.components.dungeon.device.screen
 
+import com.mojang.logging.LogUtils
 import de.fuballer.mcendgame.components.dungeon.device.DungeonDevice
 import de.fuballer.mcendgame.util.IdentifierUtil
 import net.fabricmc.api.EnvType
 import net.fabricmc.api.Environment
+import net.fabricmc.fabric.api.client.networking.v1.ClientPlayNetworking
 import net.minecraft.client.gui.DrawContext
 import net.minecraft.client.gui.screen.ingame.HandledScreen
 import net.minecraft.client.gui.widget.ButtonWidget
@@ -18,9 +20,10 @@ private val OPEN_DUNGEON_BUTTON_TEXT = Text.translatable("container.mcendgame.du
 @Environment(EnvType.CLIENT)
 class DungeonDeviceScreen(
     handler: DungeonDeviceScreenHandler,
-    inventory: PlayerInventory,
+    private val inventory: PlayerInventory,
     title: Text
 ) : HandledScreen<DungeonDeviceScreenHandler>(handler, inventory, title) {
+    private val log = LogUtils.getLogger()
 
     private val createDungeonButton = ButtonWidget
         .builder(OPEN_DUNGEON_BUTTON_TEXT, ::onCreateDungeonButtonPress)
@@ -61,6 +64,7 @@ class DungeonDeviceScreen(
     }
 
     private fun onCreateDungeonButtonPress(button: ButtonWidget) {
-        println("open dungeon")
+        ClientPlayNetworking.send(handler.payload)
+        log.info("Dungeon opened by ${inventory.player.gameProfile.name}")
     }
 }

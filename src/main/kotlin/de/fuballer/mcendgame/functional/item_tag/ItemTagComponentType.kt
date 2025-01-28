@@ -1,4 +1,4 @@
-package de.fuballer.mcendgame.components.item_tag
+package de.fuballer.mcendgame.functional.item_tag
 
 import de.fuballer.mcendgame.util.CodecExtensions.setOf
 import de.fuballer.mcendgame.util.RegistryUtil
