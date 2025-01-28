@@ -1,4 +1,4 @@
-package de.fuballer.mcendgame.item.custom.armor
+package de.fuballer.mcendgame.components.item.custom.armor
 
 import net.minecraft.client.model.Model
 import net.minecraft.util.Identifier
