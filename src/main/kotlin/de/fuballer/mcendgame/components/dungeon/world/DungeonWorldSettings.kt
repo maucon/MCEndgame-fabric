@@ -15,7 +15,7 @@ object DungeonWorldSettings {
 
     val WORLD_CONFIG: RuntimeWorldConfig =
         RuntimeWorldConfig()
-            .setDimensionType(DimensionTypes.THE_END)
+            .setDimensionType(DimensionTypes.OVERWORLD)
             .setDifficulty(Difficulty.HARD)
             .setGenerator(VoidChunkGenerator(RuntimeConfig.SERVER))
             .setTimeOfDay(18000L)
