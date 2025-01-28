@@ -1,4 +1,4 @@
-package de.fuballer.mcendgame.components.item_tag
+package de.fuballer.mcendgame.functional.item_tag
 
 import net.minecraft.item.ItemStack
 
