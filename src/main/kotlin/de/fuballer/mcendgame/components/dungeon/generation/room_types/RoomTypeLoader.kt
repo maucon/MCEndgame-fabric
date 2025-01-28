@@ -1,5 +1,6 @@
-package de.fuballer.mcendgame.components.dungeon.generation
+package de.fuballer.mcendgame.components.dungeon.generation.room_types
 
+import de.fuballer.mcendgame.components.dungeon.generation.DungeonGenerationSettings
 import de.fuballer.mcendgame.components.dungeon.generation.data.*
 import de.fuballer.mcendgame.util.IdentifierUtil
 import de.fuballer.mcendgame.util.Vec3iExtensions.clone

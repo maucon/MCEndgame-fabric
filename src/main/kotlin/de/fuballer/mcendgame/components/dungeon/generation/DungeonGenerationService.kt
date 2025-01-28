@@ -18,16 +18,16 @@ class DungeonGenerationService(
 ) {
     @Initialize
     fun on() = DungeonOpenEvent.NOTIFIER.listen { event ->
-        val dungeonWorld = generate(event.player, 1, BlockPos.ORIGIN) // FIXME
+        val dungeonWorld = generate(event.player, BlockPos.ORIGIN) // FIXME
 
         event.player.teleport(dungeonWorld, 0.0, 14.0, 0.0, setOf(), 0.0f, 0.0f, false)
     }
 
-    fun generate(
+    private fun generate(
         player: PlayerEntity,
-        dungeonLevel: Int,
         leaveLocation: BlockPos // FIXME should be a location
     ): ServerWorld { // FIXME should return start location
+        val dungeonLevel = 1 // TODO from palyer
         val seed = Random.nextInt() // TODO player seed
         val world = dungeonWorldService.create(player)
         val random = Random(seed)

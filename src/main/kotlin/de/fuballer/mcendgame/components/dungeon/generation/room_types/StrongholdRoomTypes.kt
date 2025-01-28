@@ -1,4 +1,4 @@
-package de.fuballer.mcendgame.components.dungeon.generation
+package de.fuballer.mcendgame.components.dungeon.generation.room_types
 
 import de.fuballer.mcendgame.components.dungeon.generation.data.RoomType
 import de.fuballer.mcendgame.util.random.RandomOption
@@ -8,25 +8,25 @@ import net.fabricmc.fabric.api.event.lifecycle.v1.ServerLifecycleEvents
 import net.minecraft.util.math.BlockPos
 
 @Injectable
-object RoomTypes {
-    lateinit var STRONGHOLD_START_ROOM: RoomType
-    lateinit var STRONGHOLD_BOSS_ROOM: RoomType
-    lateinit var STRONGHOLD_ROOMS: List<RandomOption<RoomType>>
+object StrongholdRoomTypes {
+    lateinit var START_ROOM: RoomType
+    lateinit var BOSS_ROOM: RoomType
+    lateinit var ROOMS: List<RandomOption<RoomType>>
 
     @Initialize
     fun on() = ServerLifecycleEvents.SERVER_STARTED.register { server ->
         val templateManager = server.structureTemplateManager
 
-        STRONGHOLD_START_ROOM = RoomTypeLoader.load(templateManager, "dungeon/stronghold/start")
+        START_ROOM = RoomTypeLoader.load(templateManager, "dungeon/stronghold/start")
 
-        STRONGHOLD_BOSS_ROOM = RoomTypeLoader.load(
+        BOSS_ROOM = RoomTypeLoader.load(
             templateManager, "dungeon/stronghold/boss",
             mapOf(
                 "dungeon/stronghold/boss2" to BlockPos(0, 0, 48)
             )
         )
 
-        STRONGHOLD_ROOMS = listOf(
+        ROOMS = listOf(
             RandomOption(4, RoomTypeLoader.load(templateManager, "dungeon/stronghold/arches_side-stairs")),
             RandomOption(4, RoomTypeLoader.load(templateManager, "dungeon/stronghold/arena")),
             RandomOption(4, RoomTypeLoader.load(templateManager, "dungeon/stronghold/around-bars_workshop-corner_curve")),
