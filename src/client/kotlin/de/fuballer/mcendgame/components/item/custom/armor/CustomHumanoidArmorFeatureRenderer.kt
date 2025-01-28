@@ -86,7 +86,7 @@ class CustomHumanoidArmorFeatureRenderer<S : BipedEntityRenderState, M : BipedEn
         val item = itemStack.item
         val texturedArmorModel = texturedArmorModels[item] ?: return
 
-        val model = texturedArmorModel.MODEL
+        val model = texturedArmorModel.model
         this.contextModel.copyTransforms(model)
         if (model is Animated) {
             model.animate(bipedEntityRenderState)
@@ -95,7 +95,7 @@ class CustomHumanoidArmorFeatureRenderer<S : BipedEntityRenderState, M : BipedEn
         renderModel(
             bipedEntityRenderState,
             model,
-            texturedArmorModel.TEXTURE,
+            texturedArmorModel.texture,
             matrices,
             vertexConsumerProvider,
             light,
