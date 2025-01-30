@@ -1,6 +1,10 @@
 {
   "item.mcendgame.iceborne": "Iceborne Helmet",
   "item.mcendgame.bound_abyss": "Bound Abyss",
+  "item.mcendgame.druids_helmet": "Druids Helmet",
+  "item.mcendgame.druids_chestplate": "Druids Chestplate",
+  "item.mcendgame.druids_leggings": "Druids Leggings",
+  "item.mcendgame.druids_boots": "Druids Boots",
   "block.mcendgame.dungeon_device": "Dungeon Device",
   "container.mcendgame.dungeon_device.title": "Dungeon Device",
   "container.mcendgame.dungeon_device.open": "Open"
