@@ -1,15 +1,34 @@
 package de.fuballer.mcendgame.components.item.custom.armor.leggings.druids_leggings
 
+import de.fuballer.mcendgame.components.item.custom.armor.Animated
 import de.fuballer.mcendgame.util.IdentifierUtil
 import net.minecraft.client.model.*
 import net.minecraft.client.render.entity.model.BipedEntityModel
 import net.minecraft.client.render.entity.model.EntityModelLayer
 import net.minecraft.client.render.entity.model.EntityModelPartNames
 import net.minecraft.client.render.entity.state.BipedEntityRenderState
+import net.minecraft.client.render.entity.state.EntityRenderState
 
 class DruidsLeggingsModel<S : BipedEntityRenderState>(
     root: ModelPart
-) : BipedEntityModel<S>(root) {
+) : BipedEntityModel<S>(root), Animated {
+    private val animation = DruidsLeggingsAnimation()
+
+    val battleSkirtBack: ModelPart
+    val battleSkirtFront: ModelPart
+
+    init {
+        val leggingsWaist = this.body.getChild("leggings_waist")
+        val battleSkirt = leggingsWaist.getChild("battle_skirt")
+        battleSkirtBack = battleSkirt.getChild("battle_skirt_back")
+        battleSkirtFront = battleSkirt.getChild("battle_skirt_front")
+    }
+
+    override fun animate(renderState: EntityRenderState) {
+        if (renderState !is BipedEntityRenderState) return
+        animation.setTransforms(this, renderState)
+    }
+
     companion object {
         val MODEL_LAYER = EntityModelLayer(IdentifierUtil.default("druids_leggings"), "main")
 
