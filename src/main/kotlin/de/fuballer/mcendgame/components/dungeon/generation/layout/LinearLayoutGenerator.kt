@@ -14,7 +14,7 @@ import kotlin.random.Random
 private fun calculateComplexityLimit() = 125
 private fun calculateBranchComplexityLimit() = 5
 
-private val branchingPoints = listOf(0.33, 0.66) // -> 3 boss rooms
+private val branchingPoints: List<Double> = listOf(0.33, 0.66) // -> 3 boss rooms
 private var complexityLimit = 0
 private var branchComplexityLimit = 0
 
@@ -272,9 +272,9 @@ class LinearLayoutGenerator(
     ): Double {
         val directions = listOf(
             Vec3i(1, 0, 0),  // East
-            Vec3i(0, 0, 1),  // North
+            Vec3i(0, 0, -1),  // South
             Vec3i(-1, 0, 0), // West
-            Vec3i(0, 0, -1)  // South
+            Vec3i(0, 0, 1)  // North
         )
 
         val currentIndex = directions.indexOf(currentDoor.dir)
@@ -284,7 +284,7 @@ class LinearLayoutGenerator(
             throw IllegalArgumentException("Invalid direction vector")
         }
 
-        val rotation = (currentIndex - nextIndex + 4) % 4 * 90
+        val rotation = (nextIndex - currentIndex + 6) % 4 * 90
 
         return rotation.toDouble()
     }
@@ -292,7 +292,8 @@ class LinearLayoutGenerator(
     private fun rotatedRoomToArea(origin: Vec3i, size: Vec3i): Area {
         val decSize = size.decrement()
         val pos1 = Vec3i(min(origin.x, origin.x + decSize.x), origin.y, min(origin.z, origin.z + decSize.z))
-        val pos2 = Vec3i(max(origin.x, origin.x + decSize.x), (origin.y + decSize.y), max(origin.z, origin.z + decSize.z))
+        val pos2 =
+            Vec3i(max(origin.x, origin.x + decSize.x), (origin.y + decSize.y), max(origin.z, origin.z + decSize.z))
 
         return Area(pos1, pos2)
     }
