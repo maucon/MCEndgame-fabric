@@ -4,7 +4,6 @@ import de.fuballer.mcendgame.components.dungeon.world.db.DungeonWorldEntity
 import de.fuballer.mcendgame.components.dungeon.world.db.DungeonWorldRepository
 import de.fuballer.mcendgame.components.scheduler.Scheduler
 import de.fuballer.mcendgame.configuration.RuntimeConfig
-import de.fuballer.mcendgame.event.DungeonOpenEvent
 import de.maucon.mauconframework.annotation.Initialize
 import de.maucon.mauconframework.annotation.Injectable
 import de.maucon.mauconframework.annotation.Logging
@@ -12,6 +11,7 @@ import kotlinx.datetime.Clock
 import kotlinx.datetime.DateTimeUnit
 import kotlinx.datetime.plus
 import net.fabricmc.fabric.api.event.lifecycle.v1.ServerLifecycleEvents
+import net.minecraft.entity.player.PlayerEntity
 import net.minecraft.server.world.ServerWorld
 import org.slf4j.Logger
 
@@ -22,26 +22,25 @@ class DungeonWorldService(
     private val scheduler: Scheduler
 ) {
     @Initialize
-    fun init() = ServerLifecycleEvents.SERVER_STARTED.register {
+    fun onServerStarted() = ServerLifecycleEvents.SERVER_STARTED.register {
         scheduler.repeating(DungeonWorldSettings.EMPTY_WORLD_CHECK_PERIOD, ::deleteEmptyWorlds)
     }
 
     @Initialize
-    fun on() = DungeonOpenEvent.NOTIFIER.listen { event ->
-        println(event)
-
-        val dungeonWorld = createWorld()
-
-        event.player.teleport(dungeonWorld, 0.0, 100.0, 0.0, setOf(), 0.0f, 0.0f, false)
-
-        val entity = DungeonWorldEntity(event.player, dungeonWorld)
-        dungeonWorldRepo.save(entity)
+    fun onServerStopping() = ServerLifecycleEvents.SERVER_STOPPING.register {
+        dungeonWorldRepo.findAll()
+            .forEach { deleteWorld(it) }
     }
 
-    private fun createWorld(): ServerWorld {
-        return RuntimeConfig.FANTASY
+    fun create(player: PlayerEntity): ServerWorld {
+        val world = RuntimeConfig.FANTASY
             .openTemporaryWorld(DungeonWorldSettings.generateIdentifier(), DungeonWorldSettings.WORLD_CONFIG)
             .asWorld()
+
+        val entity = DungeonWorldEntity(player, world)
+        dungeonWorldRepo.save(entity)
+
+        return world
     }
 
     private fun deleteEmptyWorlds() {
@@ -53,7 +52,10 @@ class DungeonWorldService(
                 dungeonWorldRepo.save(it)
             }
             .filter { it.emptySince.plus(DungeonWorldSettings.MAX_EMPTY_TIME, DateTimeUnit.SECOND) < Clock.System.now() }
-            .forEach { deleteWorld(it) }
+            .forEach {
+                log.warn("Dungeon world '${it.world.registryKey.value}' was empty for too long, deleting it!")
+                deleteWorld(it)
+            }
     }
 
     private fun updateDeleteTimer(entity: DungeonWorldEntity) {
@@ -63,8 +65,6 @@ class DungeonWorldService(
     }
 
     private fun deleteWorld(entity: DungeonWorldEntity) {
-        log.warn("Dungeon world '${entity.world.registryKey.value}' was empty for too long, deleting it!")
-
         RuntimeConfig.FANTASY.tickDeleteWorld(entity.world) // is this enough?
         dungeonWorldRepo.delete(entity)
     }
