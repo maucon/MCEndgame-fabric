@@ -1,6 +1,5 @@
 package de.fuballer.mcendgame.components.item.custom.armor
 
-import de.fuballer.mcendgame.components.item.custom.armor.CustomArmorItems
 import de.fuballer.mcendgame.components.item.custom.armor.chestplate.bound_abyss.BoundAbyssModel
 import de.fuballer.mcendgame.components.item.custom.armor.helmet.iceborne.IceborneModel
 import de.fuballer.mcendgame.util.IdentifierUtil

@@ -10,6 +10,7 @@ object ZombieStats : EntityTypeStats {
     override val canHaveWeapons = true
     override val isRanged = false
     override val canHaveArmor = true
+    override val canBeInvisible = true
 
     override val baseHealth = 20.0
     override val healthPerTier = 0.0

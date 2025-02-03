@@ -2,9 +2,9 @@ package de.fuballer.mcendgame.util
 
 import de.fuballer.mcendgame.components.dungeon.generation.data.SpawnPosition
 import de.fuballer.mcendgame.components.entity.EntityTypeStats
-import net.minecraft.entity.LivingEntity
 import net.minecraft.entity.SpawnReason
 import net.minecraft.entity.attribute.EntityAttributes
+import net.minecraft.entity.mob.MobEntity
 import net.minecraft.server.world.ServerWorld
 
 object EntityUtil {
@@ -12,8 +12,8 @@ object EntityUtil {
         world: ServerWorld,
         type: EntityTypeStats,
         location: SpawnPosition,
-        dungeonLevel: Int,
-    ): LivingEntity {
+        level: Int,
+    ): MobEntity {
         val entity = type.type.spawn(world, location.blockPos(), SpawnReason.STRUCTURE)
             ?: throw Exception("Couldn't  spawn entity of type: ${type.type}, in world: $world")
 
@@ -24,25 +24,24 @@ object EntityUtil {
             location.rot.toFloat(),
             0F
         )
-
-        setStats(entity, type, dungeonLevel)
+        setStats(entity, type, level)
 
         return entity
     }
 
     private fun setStats(
-        entity: LivingEntity,
+        entity: MobEntity,
         type: EntityTypeStats,
-        dungeonLevel: Int,
+        level: Int,
     ) {
-        val newMaxHealth = type.baseHealth + dungeonLevel * type.healthPerTier
+        val newMaxHealth = type.baseHealth + level * type.healthPerTier
         entity.getAttributeInstance(EntityAttributes.MAX_HEALTH)?.baseValue = newMaxHealth
         entity.health = newMaxHealth.toFloat()
 
-        val newAttackDamage = type.baseDamage + dungeonLevel * type.damagePerTier
+        val newAttackDamage = type.baseDamage + level * type.damagePerTier
         entity.getAttributeInstance(EntityAttributes.ATTACK_DAMAGE)?.baseValue = newAttackDamage
 
-        val newMovementSpeed = type.baseSpeed + dungeonLevel * type.speedPerTier
+        val newMovementSpeed = type.baseSpeed + level * type.speedPerTier
         entity.getAttributeInstance(EntityAttributes.MOVEMENT_SPEED)?.baseValue = newMovementSpeed
 
         entity.getAttributeInstance(EntityAttributes.KNOCKBACK_RESISTANCE)?.baseValue = type.knockbackResistance

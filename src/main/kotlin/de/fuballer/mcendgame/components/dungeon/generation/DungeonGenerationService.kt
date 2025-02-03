@@ -29,7 +29,7 @@ class DungeonGenerationService(
         player: PlayerEntity,
         leaveLocation: BlockPos // FIXME should be a location
     ): ServerWorld { // FIXME should return start location
-        val dungeonLevel = 1 // TODO from palyer
+        val dungeonLevel = 1 // TODO from player
         val seed = Random.nextInt() // TODO player seed
         val world = dungeonWorldService.create(player)
         val random = Random(seed)
@@ -44,7 +44,6 @@ class DungeonGenerationService(
         // TODO apply event
 
         enemyGenerationService.generate(world, dungeonLevel, enemyTypes, layout.enemySpawnPos, random)
-        // generateEnemies(layout, random, world, mapTier, entityTypes)
         // generateBosses(layout, world, mapTier, bossEntityTypes, leaveLocation)
 
         // TODO calculate startPos
