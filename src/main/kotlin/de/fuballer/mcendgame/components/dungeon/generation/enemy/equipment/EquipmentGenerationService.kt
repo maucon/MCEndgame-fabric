@@ -1,5 +1,6 @@
 package de.fuballer.mcendgame.components.dungeon.generation.enemy.equipment
 
+import de.fuballer.mcendgame.components.dungeon.generation.enemy.equipment.enchantment.EnchantmentService
 import de.fuballer.mcendgame.components.item.equipment.Equipment
 import de.fuballer.mcendgame.util.random.RandomOption
 import de.fuballer.mcendgame.util.random.RandomUtil
@@ -8,46 +9,51 @@ import de.maucon.mauconframework.annotation.Injectable
 import net.minecraft.entity.EquipmentSlot
 import net.minecraft.entity.LivingEntity
 import net.minecraft.item.ItemStack
+import net.minecraft.server.MinecraftServer
 import kotlin.random.Random
 
 @Injectable
-class EquipmentGenerationService {
+class EquipmentGenerationService(
+    private val enchantmentService: EnchantmentService,
+) {
     fun generate(
         entity: LivingEntity,
         level: Int,
         weapons: Boolean,
         ranged: Boolean,
         armor: Boolean,
+        server: MinecraftServer,
         random: Random,
     ) {
         if (weapons) {
-            createMainHandItem(random, level, ranged)?.also {
+            createMainHandItem(level, ranged, server, random)?.also {
                 entity.equipStack(EquipmentSlot.MAINHAND, it)
             }
-            createOffHandItem(random, level)?.also {
+            createOffHandItem(level, server, random)?.also {
                 entity.equipStack(EquipmentSlot.OFFHAND, it)
             }
         }
 
         if (!armor) return
-        createEquipmentSortable(random, level, EquipmentGenerationSettings.HELMETS)?.also {
+        createEquipmentSortable(level, EquipmentGenerationSettings.HELMETS, server, random)?.also {
             entity.equipStack(EquipmentSlot.HEAD, it)
         }
-        createEquipmentSortable(random, level, EquipmentGenerationSettings.CHESTPLATES)?.also {
+        createEquipmentSortable(level, EquipmentGenerationSettings.CHESTPLATES, server, random)?.also {
             entity.equipStack(EquipmentSlot.CHEST, it)
         }
-        createEquipmentSortable(random, level, EquipmentGenerationSettings.LEGGINGS)?.also {
+        createEquipmentSortable(level, EquipmentGenerationSettings.LEGGINGS, server, random)?.also {
             entity.equipStack(EquipmentSlot.LEGS, it)
         }
-        createEquipmentSortable(random, level, EquipmentGenerationSettings.BOOTS)?.also {
+        createEquipmentSortable(level, EquipmentGenerationSettings.BOOTS, server, random)?.also {
             entity.equipStack(EquipmentSlot.FEET, it)
         }
     }
 
     private fun createMainHandItem(
-        random: Random,
         level: Int,
         isRanged: Boolean,
+        server: MinecraftServer,
+        random: Random,
     ): ItemStack? {
         val options = if (isRanged) {
             RandomUtil.pick(EquipmentGenerationSettings.RANGED_MAINHAND_PROBABILITIES, random).option
@@ -55,50 +61,54 @@ class EquipmentGenerationService {
             RandomUtil.pick(EquipmentGenerationSettings.MAINHAND_PROBABILITIES, random).option
         } ?: return null
 
-        return createEquipmentSortable(random, level, options)
+        return createEquipmentSortable(level, options, server, random)
     }
 
     private fun createOffHandItem(
-        random: Random,
         level: Int,
+        server: MinecraftServer,
+        random: Random,
     ): ItemStack? {
         if (random.nextDouble() < EquipmentGenerationSettings.OFFHAND_OTHER_OVER_MAINHAND_PROBABILITY) {
-            return createEquipment(random, level, EquipmentGenerationSettings.OTHER_ITEMS)
+            return createEquipment(level, EquipmentGenerationSettings.OTHER_ITEMS, server, random)
         }
 
-        return createMainHandItem(random, level, false)
+        return createMainHandItem(level, false, server, random)
     }
 
     private fun createEquipmentSortable(
-        random: Random,
         level: Int,
         equipmentOptions: List<SortableRandomOption<out Equipment?>>,
+        server: MinecraftServer,
+        random: Random,
     ): ItemStack? {
         val rolls = EquipmentGenerationSettings.calculateEquipmentRollTries(level)
         val equipment = RandomUtil.pick(equipmentOptions, rolls, random).option ?: return null
 
-        return createEquipment(random, level, equipment)
+        return createEquipment(level, equipment, server, random)
     }
 
     private fun createEquipment(
-        random: Random,
         level: Int,
         equipmentOptions: List<RandomOption<out Equipment?>>,
+        server: MinecraftServer,
+        random: Random,
     ): ItemStack? {
         val equipment = RandomUtil.pick(equipmentOptions, random).option ?: return null
 
-        return createEquipment(random, level, equipment)
+        return createEquipment(level, equipment, server, random)
     }
 
     private fun createEquipment(
-        random: Random,
         level: Int,
         equipment: Equipment,
+        server: MinecraftServer,
+        random: Random,
     ): ItemStack {
         val item = equipment.item
         val itemStack = ItemStack(item)
 
-        //TODO add enchants
+        enchantmentService.enchantItem(itemStack, equipment.rollableEnchants, level, server, random)
 
         return itemStack
     }

@@ -45,6 +45,7 @@ class EnemyGenerationService(
             type.canHaveWeapons,
             type.isRanged,
             type.canHaveArmor,
+            world.server,
             random
         )
 
