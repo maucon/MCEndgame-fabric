@@ -57,7 +57,8 @@ class LinearLayoutGenerator(
             throw IllegalStateException("No valid layout could be generated")
         }
 
-        return Layout(SpawnPosition(Vec3i.ZERO, 0.0), tiles, spawnLocations, bossSpawnLocations) // FIXME spawn location
+        val spawnPos = SpawnPosition(startRoomType.markerPoints.startPos!!, -90.0)
+        return Layout(spawnPos, tiles, spawnLocations, bossSpawnLocations)
     }
 
     private fun generateNextRoom(

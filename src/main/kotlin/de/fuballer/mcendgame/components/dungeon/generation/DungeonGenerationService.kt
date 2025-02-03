@@ -21,8 +21,6 @@ class DungeonGenerationService(
     @Initialize
     fun on() = DungeonOpenEvent.NOTIFIER.listen { event ->
         val dungeonWorld = generate(event.player, BlockPos.ORIGIN) // FIXME
-
-        event.player.teleport(dungeonWorld, 0.0, 14.0, 0.0, setOf(), 0.0f, 0.0f, false)
     }
 
     private fun generate(
@@ -49,6 +47,9 @@ class DungeonGenerationService(
         // TODO calculate startPos
         // val startLocation = layout.spawnPos.pos
         // TODO create portals
+
+        val (pos, rot) = layout.spawnPos
+        player.teleport(world, pos.x + 0.5, pos.y.toDouble(), pos.z + 0.5, setOf(), rot.toFloat(), 0.0f, false)
 
         return world // FIXME
     }
