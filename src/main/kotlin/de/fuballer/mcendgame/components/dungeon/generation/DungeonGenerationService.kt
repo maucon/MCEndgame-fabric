@@ -1,6 +1,7 @@
 package de.fuballer.mcendgame.components.dungeon.generation
 
 import de.fuballer.mcendgame.components.dungeon.generation.builder.DungeonBuilderService
+import de.fuballer.mcendgame.components.dungeon.generation.enemy.EnemyGenerationService
 import de.fuballer.mcendgame.components.dungeon.type.DungeonType
 import de.fuballer.mcendgame.components.dungeon.world.DungeonWorldService
 import de.fuballer.mcendgame.event.DungeonOpenEvent
@@ -14,7 +15,8 @@ import kotlin.random.Random
 @Injectable
 class DungeonGenerationService(
     private val dungeonWorldService: DungeonWorldService,
-    private val dungeonBuilderService: DungeonBuilderService
+    private val dungeonBuilderService: DungeonBuilderService,
+    private val enemyGenerationService: EnemyGenerationService,
 ) {
     @Initialize
     fun on() = DungeonOpenEvent.NOTIFIER.listen { event ->
@@ -32,7 +34,7 @@ class DungeonGenerationService(
         val world = dungeonWorldService.create(player)
         val random = Random(seed)
         val dungeonType = DungeonType.STRONGHOLD // TODO player dungeon type
-        val (mapType) = dungeonType.roll(random)
+        val (mapType, enemyTypes) = dungeonType.roll(random)
 
         val layoutGenerator = mapType.layoutGeneratorProvider()
         val layout = layoutGenerator.generateDungeon(random, dungeonLevel)
@@ -41,6 +43,7 @@ class DungeonGenerationService(
 
         // TODO apply event
 
+        enemyGenerationService.generate(world, dungeonLevel, enemyTypes, layout.enemySpawnPos, random)
         // generateEnemies(layout, random, world, mapTier, entityTypes)
         // generateBosses(layout, world, mapTier, bossEntityTypes, leaveLocation)
 
