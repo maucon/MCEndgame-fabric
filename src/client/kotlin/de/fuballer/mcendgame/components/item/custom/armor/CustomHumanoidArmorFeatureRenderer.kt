@@ -1,7 +1,11 @@
 package de.fuballer.mcendgame.components.item.custom.armor
 
+import de.fuballer.mcendgame.components.item.custom.armor.boots.druids_boots.DruidsBootsModel
 import de.fuballer.mcendgame.components.item.custom.armor.chestplate.bound_abyss.BoundAbyssModel
+import de.fuballer.mcendgame.components.item.custom.armor.chestplate.druids_chestplate.DruidsChestplateModel
+import de.fuballer.mcendgame.components.item.custom.armor.helmet.druids_helmet.DruidsHelmetModel
 import de.fuballer.mcendgame.components.item.custom.armor.helmet.iceborne.IceborneModel
+import de.fuballer.mcendgame.components.item.custom.armor.leggings.druids_leggings.DruidsLeggingsModel
 import de.fuballer.mcendgame.util.IdentifierUtil
 import net.minecraft.client.model.Model
 import net.minecraft.client.render.OverlayTexture
@@ -34,6 +38,22 @@ class CustomHumanoidArmorFeatureRenderer<S : BipedEntityRenderState, M : BipedEn
         texturedArmorModels[CustomArmorItems.BOUND_ABYSS] = TexturedArmorModel(
             IdentifierUtil.default("textures/entity/equipment/custom_humanoid/bound_abyss.png"),
             BoundAbyssModel(ctx.getPart(BoundAbyssModel.MODEL_LAYER))
+        )
+        texturedArmorModels[CustomArmorItems.DRUIDS_HELMET] = TexturedArmorModel(
+            IdentifierUtil.default("textures/entity/equipment/custom_humanoid/druids.png"),
+            DruidsHelmetModel(ctx.getPart(DruidsHelmetModel.MODEL_LAYER))
+        )
+        texturedArmorModels[CustomArmorItems.DRUIDS_CHESTPLATE] = TexturedArmorModel(
+            IdentifierUtil.default("textures/entity/equipment/custom_humanoid/druids.png"),
+            DruidsChestplateModel(ctx.getPart(DruidsChestplateModel.MODEL_LAYER))
+        )
+        texturedArmorModels[CustomArmorItems.DRUIDS_LEGGINGS] = TexturedArmorModel(
+            IdentifierUtil.default("textures/entity/equipment/custom_humanoid/druids.png"),
+            DruidsLeggingsModel(ctx.getPart(DruidsLeggingsModel.MODEL_LAYER))
+        )
+        texturedArmorModels[CustomArmorItems.DRUIDS_BOOTS] = TexturedArmorModel(
+            IdentifierUtil.default("textures/entity/equipment/custom_humanoid/druids.png"),
+            DruidsBootsModel(ctx.getPart(DruidsBootsModel.MODEL_LAYER))
         )
     }
 

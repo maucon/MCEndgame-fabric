@@ -1,7 +1,11 @@
 package de.fuballer.mcendgame.components.item.custom.armor
 
+import de.fuballer.mcendgame.components.item.custom.armor.boots.druids_boots.DruidsBootsModel
 import de.fuballer.mcendgame.components.item.custom.armor.chestplate.bound_abyss.BoundAbyssModel
+import de.fuballer.mcendgame.components.item.custom.armor.chestplate.druids_chestplate.DruidsChestplateModel
+import de.fuballer.mcendgame.components.item.custom.armor.helmet.druids_helmet.DruidsHelmetModel
 import de.fuballer.mcendgame.components.item.custom.armor.helmet.iceborne.IceborneModel
+import de.fuballer.mcendgame.components.item.custom.armor.leggings.druids_leggings.DruidsLeggingsModel
 import de.maucon.mauconframework.annotation.Initialize
 import de.maucon.mauconframework.annotation.Injectable
 import net.fabricmc.fabric.api.client.rendering.v1.EntityModelLayerRegistry
@@ -17,6 +21,22 @@ object ArmorModelRegisterer {
         EntityModelLayerRegistry.registerModelLayer(
             BoundAbyssModel.MODEL_LAYER,
             BoundAbyssModel.Companion::getTexturedModelData
+        )
+        EntityModelLayerRegistry.registerModelLayer(
+            DruidsHelmetModel.MODEL_LAYER,
+            DruidsHelmetModel.Companion::getTexturedModelData
+        )
+        EntityModelLayerRegistry.registerModelLayer(
+            DruidsChestplateModel.MODEL_LAYER,
+            DruidsChestplateModel.Companion::getTexturedModelData
+        )
+        EntityModelLayerRegistry.registerModelLayer(
+            DruidsLeggingsModel.MODEL_LAYER,
+            DruidsLeggingsModel.Companion::getTexturedModelData
+        )
+        EntityModelLayerRegistry.registerModelLayer(
+            DruidsBootsModel.MODEL_LAYER,
+            DruidsBootsModel.Companion::getTexturedModelData
         )
     }
 }
