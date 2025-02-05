@@ -18,10 +18,13 @@ private val CORRUPTION_TEXT = Text.translatable("mcendgame.corrupted").formatted
 @Environment(EnvType.CLIENT)
 class CorruptionRenderer {
     @Initialize
-    fun on() = ItemTooltipCallback.EVENT.register { itemStack: ItemStack, _: Item.TooltipContext, _: TooltipType, texts: MutableList<Text> ->
-        if (itemStack.isCorrupted()) {
-            texts.add(1, Text.empty())
-            texts.add(1, CORRUPTION_TEXT)
+    fun on() = ItemTooltipCallback.EVENT.register { itemStack: ItemStack, _: Item.TooltipContext, tooltipType: TooltipType, texts: MutableList<Text> ->
+        if (!itemStack.isCorrupted()) return@register
+
+        if (tooltipType.isAdvanced) {
+            texts.add(texts.size - 2, CORRUPTION_TEXT)
+        } else {
+            texts.add(CORRUPTION_TEXT)
         }
     }
 }
