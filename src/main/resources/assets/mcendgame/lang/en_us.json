@@ -7,5 +7,13 @@
   "item.mcendgame.druids_boots": "Druids Boots",
   "block.mcendgame.dungeon_device": "Dungeon Device",
   "container.mcendgame.dungeon_device.title": "Dungeon Device",
-  "container.mcendgame.dungeon_device.open": "Open"
+  "container.mcendgame.dungeon_device.open": "Open",
+
+  "mcendgame.corrupted": "Corrupted",
+  "attribute.mcendgame.error": "Could not load attribute type",
+  "attribute.mcendgame.increased_projectile": "%s%% increased Projectile Damage",
+  "attribute.mcendgame.fire_resistance": "%s%% Fire Resistance",
+  "attribute.mcendgame.increased_elemental_damage": " %s%% Elemental Damage",
+  "attribute.mcendgame.flat_elemental_damage": " %s to %s added Elemental Damage",
+  "attribute.mcendgame.armor": "%s Armor"
 }
