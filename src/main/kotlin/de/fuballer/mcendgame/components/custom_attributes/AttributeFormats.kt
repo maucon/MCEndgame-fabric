@@ -1,0 +1,50 @@
+package de.fuballer.mcendgame.components.custom_attributes
+
+import de.fuballer.mcendgame.components.custom_attributes.data.*
+
+object AttributeFormats {
+    val EMPTY_ROLL = { _: List<AttributeRoll<*>> -> listOf<String>() }
+    val INCREASE_ROLL = { rolls: List<AttributeRoll<*>> ->
+        listOf(String.format("%.0f", rolls[0].asDoubleRoll().getActualRoll() * 100))
+    }
+    val SIGNED_INCREASE_ROLL = { rolls: List<AttributeRoll<*>> ->
+        listOf(String.format("%+.0f", rolls[0].asDoubleRoll().getActualRoll() * 100))
+    }
+    val STRING_ROLL = { rolls: List<AttributeRoll<*>> ->
+        listOf(rolls[0].asStringRoll().getActualRoll())
+    }
+    val INT_ROLL = { rolls: List<AttributeRoll<*>> ->
+        listOf(rolls[0].getActualRoll().toString())
+    }
+    val SIGNED_INT_ROLL = { rolls: List<AttributeRoll<*>> ->
+        listOf(String.format("%+d", rolls[0].asIntRoll().getActualRoll()))
+    }
+    val TWO_INT_ROLL = { rolls: List<AttributeRoll<*>> ->
+        listOf(rolls[0].getActualRoll().toString(), rolls[1].getActualRoll().toString())
+    }
+
+    val EMPTY_BOUNDS = { _: List<AttributeBounds<*>> -> listOf<String>() }
+    val INCREASE_BOUNDS = { bounds: List<AttributeBounds<*>> ->
+        val bound = bounds[0].asDoubleBounds()
+        listOf(String.format("(%.0f-%.0f)", bound.min * 100, bound.max * 100))
+    }
+    val STRING_SHOW_ALL_OPTIONS = { bounds: List<AttributeBounds<*>> ->
+        listOf(bounds[0].asStringBounds().options.joinToString(prefix = "(", postfix = ")"))
+    }
+    val INT_BOUNDS = { bounds: List<AttributeBounds<*>> ->
+        val bound = bounds[0].asIntBounds()
+        listOf(String.format("(%d-%d)", bound.min, bound.max))
+    }
+    val TWO_INT_BOUNDS = { bounds: List<AttributeBounds<*>> ->
+        val bound1 = bounds[0].asIntBounds()
+        val bound2 = bounds[1].asIntBounds()
+        listOf(String.format("(%d-%d)", bound1.min, bound1.max), String.format("(%d-%d)", bound2.min, bound2.max))
+    }
+
+    private fun AttributeRoll<*>.asDoubleRoll() = this as DoubleRoll
+    private fun AttributeRoll<*>.asStringRoll() = this as StringRoll
+    private fun AttributeRoll<*>.asIntRoll() = this as IntRoll
+    private fun AttributeBounds<*>.asDoubleBounds() = this as DoubleBounds
+    private fun AttributeBounds<*>.asStringBounds() = this as StringBounds
+    private fun AttributeBounds<*>.asIntBounds() = this as IntBounds
+}
