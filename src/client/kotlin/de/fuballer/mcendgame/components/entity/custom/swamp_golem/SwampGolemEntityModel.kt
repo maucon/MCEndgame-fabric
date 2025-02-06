@@ -5,7 +5,6 @@ import net.minecraft.client.model.*
 import net.minecraft.client.render.entity.model.BipedEntityModel
 import net.minecraft.client.render.entity.model.EntityModelLayer
 import net.minecraft.client.render.entity.state.BipedEntityRenderState
-import net.minecraft.util.math.MathHelper
 
 
 class SwampGolemEntityModel<S : BipedEntityRenderState>(
@@ -133,17 +132,6 @@ class SwampGolemEntityModel<S : BipedEntityRenderState>(
     override fun setAngles(
         renderState: S,
     ) {
-        root.traverse().forEach(ModelPart::resetTransform)
-        setHeadAngles(renderState)
-    }
-
-    private fun setHeadAngles(
-        renderState: S,
-    ) {
-        val yaw = MathHelper.clamp(renderState.yawDegrees, -30F, 30F)
-        val pitch = MathHelper.clamp(renderState.pitch, -30F, 30F)
-
-        head.yaw = yaw
-        head.pitch = pitch
+        super.setAngles(renderState)
     }
 }

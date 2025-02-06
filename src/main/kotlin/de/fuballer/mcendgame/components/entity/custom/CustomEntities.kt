@@ -11,8 +11,8 @@ object CustomEntities {
     val SWAMP_GOLEM = RegistryUtil.registerEntity(
         "swamp_golem",
         EntityType.Builder.create({ type, world -> SwampGolemEntity(type, world) }, SpawnGroup.MONSTER)
-            .dimensions(0.8f, 1.75f)
-            .eyeHeight(1.6f)
+            .dimensions(0.8f, 1.95f)
+            .eyeHeight(1.65f)
             .passengerAttachments(1.8125f)
             .vehicleAttachment(-0.7f)
             .maxTrackingRange(8)
