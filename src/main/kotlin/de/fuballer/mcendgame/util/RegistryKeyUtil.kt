@@ -2,6 +2,7 @@ package de.fuballer.mcendgame.util
 
 import net.minecraft.block.Block
 import net.minecraft.component.ComponentType
+import net.minecraft.entity.EntityType
 import net.minecraft.item.Item
 import net.minecraft.item.equipment.EquipmentAsset
 import net.minecraft.item.equipment.EquipmentAssetKeys
@@ -13,6 +14,8 @@ object RegistryKeyUtil {
     fun createItemKey(name: String): RegistryKey<Item> = createKey(RegistryKeys.ITEM, name)
 
     fun createBlockKey(name: String): RegistryKey<Block> = createKey(RegistryKeys.BLOCK, name)
+
+    fun createEntityKey(name: String): RegistryKey<EntityType<*>> = createKey(RegistryKeys.ENTITY_TYPE, name)
 
     fun createDataComponentTypeKey(name: String): RegistryKey<ComponentType<*>> = createKey(RegistryKeys.DATA_COMPONENT_TYPE, name)
 

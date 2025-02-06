@@ -9,12 +9,15 @@ import net.minecraft.block.Blocks
 import net.minecraft.block.entity.BlockEntity
 import net.minecraft.block.entity.BlockEntityType
 import net.minecraft.component.ComponentType
+import net.minecraft.entity.Entity
+import net.minecraft.entity.EntityType
 import net.minecraft.item.ArmorItem
 import net.minecraft.item.Item
 import net.minecraft.item.Items
 import net.minecraft.item.equipment.EquipmentType
 import net.minecraft.registry.Registries
 import net.minecraft.registry.Registry
+import net.minecraft.registry.RegistryKey
 import net.minecraft.resource.featuretoggle.FeatureSet
 import net.minecraft.screen.ScreenHandler
 import net.minecraft.screen.ScreenHandlerType
@@ -30,6 +33,12 @@ object RegistryUtil {
 
     fun registerBlockEntityType(factory: (BlockPos, BlockState) -> BlockEntity, block: Block, name: String): BlockEntityType<*> =
         Registry.register(Registries.BLOCK_ENTITY_TYPE, IdentifierUtil.default(name), FabricBlockEntityTypeBuilder.create(factory, block).build())
+
+    fun <T : Entity> registerEntity(key: RegistryKey<EntityType<*>>, type: EntityType.Builder<T>) : EntityType<T> =
+        Registry.register(Registries.ENTITY_TYPE, key, type.build(key))
+
+    fun <T : Entity> registerEntity(name: String, type: EntityType.Builder<T>): EntityType<T> =
+        registerEntity(RegistryKeyUtil.createEntityKey(name), type)
 
     fun <T> registerDataComponentType(componentType: ComponentType<T>, name: String): ComponentType<T> =
         Registry.register(Registries.DATA_COMPONENT_TYPE, RegistryKeyUtil.createDataComponentTypeKey(name), componentType)

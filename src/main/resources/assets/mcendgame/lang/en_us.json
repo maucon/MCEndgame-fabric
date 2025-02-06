@@ -15,5 +15,7 @@
   "attribute.mcendgame.fire_resistance": "%s%% Fire Resistance",
   "attribute.mcendgame.increased_elemental_damage": " %s%% Elemental Damage",
   "attribute.mcendgame.flat_elemental_damage": " %s to %s added Elemental Damage",
-  "attribute.mcendgame.armor": "%s Armor"
+  "attribute.mcendgame.armor": "%s Armor",
+
+  "entity.mcendgame.swamp_golem": "Swamp Golem"
 }
