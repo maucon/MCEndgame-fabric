@@ -31,7 +31,7 @@ class SwampGolemEntityModel<S : BipedEntityRenderState>(
                 "head",
                 ModelPartBuilder.create().uv(46, 18).cuboid(-4.0f, -5.5f, -4.0f, 8.0f, 8.0f, 8.0f, Dilation(0.0f))
                     .uv(46, 0).cuboid(-4.0f, -5.5f, -4.0f, 8.0f, 10.0f, 8.0f, Dilation(0.25f)),
-                ModelTransform.of(0.0f, -0.357f, -4.7499f, 0.0873f, 0.0f, 0.0f)
+                ModelTransform.of(0.0f, -1.857f, -1.9999f, 0.0873f, 0.0f, 0.0f)
             )
 
             val hat = head.addChild(
@@ -41,7 +41,7 @@ class SwampGolemEntityModel<S : BipedEntityRenderState>(
             )
 
             val body =
-                modelPartData.addChild("body", ModelPartBuilder.create(), ModelTransform.pivot(0.0f, 11.5f, 0.0f))
+                modelPartData.addChild("body", ModelPartBuilder.create(), ModelTransform.pivot(0.0f, 10.0f, 2.75f))
 
             val lower_body = body.addChild(
                 "lower_body",
@@ -59,7 +59,7 @@ class SwampGolemEntityModel<S : BipedEntityRenderState>(
             val left_arm = modelPartData.addChild(
                 "left_arm",
                 ModelPartBuilder.create(),
-                ModelTransform.of(7.5f, 1.0067f, -2.0553f, 0.3491f, 0.0f, 0.0f)
+                ModelTransform.of(7.5f, -0.4933f, 0.6947f, 0.3491f, 0.0f, 0.0f)
             )
 
             val upper_left_arm = left_arm.addChild(
@@ -78,7 +78,7 @@ class SwampGolemEntityModel<S : BipedEntityRenderState>(
             val right_arm = modelPartData.addChild(
                 "right_arm",
                 ModelPartBuilder.create(),
-                ModelTransform.of(-7.5f, 1.0067f, -2.0553f, 0.3491f, 0.0f, 0.0f)
+                ModelTransform.of(-7.5f, -0.4933f, 0.6947f, 0.3491f, 0.0f, 0.0f)
             )
 
             val upper_right_arm = right_arm.addChild(
@@ -95,23 +95,26 @@ class SwampGolemEntityModel<S : BipedEntityRenderState>(
             )
 
             val left_leg =
-                modelPartData.addChild("left_leg", ModelPartBuilder.create(), ModelTransform.pivot(3.5f, 12.0f, 0.0f))
+                modelPartData.addChild("left_leg", ModelPartBuilder.create(), ModelTransform.pivot(3.5f, 11.0f, 2.75f))
 
             val upper_left_leg = left_leg.addChild(
                 "upper_left_leg",
                 ModelPartBuilder.create().uv(63, 93).cuboid(-2.25f, -1.75f, -3.25f, 5.0f, 9.0f, 5.0f, Dilation(0.0f))
                     .uv(63, 79).cuboid(-2.25f, -1.75f, -3.25f, 5.0f, 9.0f, 5.0f, Dilation(0.25f)),
-                ModelTransform.of(-0.5f, 1.0f, 0.0f, -0.7835f, -0.0617f, -0.0618f)
+                ModelTransform.of(-0.5f, 1.0f, 0.0f, -0.609f, -0.0617f, -0.0618f)
             )
 
             val lower_left_leg = upper_left_leg.addChild(
                 "lower_left_leg",
                 ModelPartBuilder.create().uv(66, 107).cuboid(-1.25f, -2.25f, -0.75f, 4.0f, 10.0f, 4.0f, Dilation(0.0f)),
-                ModelTransform.of(-0.5f, 7.25f, -0.75f, 1.0472f, 0.0f, 0.0f)
+                ModelTransform.of(-0.5f, 7.75f, -1.0f, 0.8727f, 0.0f, 0.0f)
             )
 
-            val right_leg =
-                modelPartData.addChild("right_leg", ModelPartBuilder.create(), ModelTransform.pivot(-3.5f, 12.0f, 0.0f))
+            val right_leg = modelPartData.addChild(
+                "right_leg",
+                ModelPartBuilder.create(),
+                ModelTransform.of(-3.5f, 11.0f, 2.75f, 0.1745f, 0.0f, 0.0f)
+            )
 
             val upper_right_leg = right_leg.addChild(
                 "upper_right_leg",
@@ -123,7 +126,7 @@ class SwampGolemEntityModel<S : BipedEntityRenderState>(
             val lower_right_leg = upper_right_leg.addChild(
                 "lower_right_leg",
                 ModelPartBuilder.create().uv(43, 107).cuboid(-2.75f, -2.25f, -0.75f, 4.0f, 10.0f, 4.0f, Dilation(0.0f)),
-                ModelTransform.of(0.5f, 7.25f, -0.75f, 1.0472f, 0.0f, 0.0f)
+                ModelTransform.of(0.5f, 7.75f, -1.0f, 0.8727f, 0.0f, 0.0f)
             )
             return TexturedModelData.of(modelData, 128, 128)
         }
