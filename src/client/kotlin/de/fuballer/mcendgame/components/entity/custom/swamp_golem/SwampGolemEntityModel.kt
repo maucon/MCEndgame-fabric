@@ -5,6 +5,8 @@ import net.minecraft.client.model.*
 import net.minecraft.client.render.entity.model.BipedEntityModel
 import net.minecraft.client.render.entity.model.EntityModelLayer
 import net.minecraft.client.render.entity.state.BipedEntityRenderState
+import net.minecraft.util.Arm
+import net.minecraft.util.math.MathHelper
 
 
 class SwampGolemEntityModel<S : BipedEntityRenderState>(
@@ -136,5 +138,38 @@ class SwampGolemEntityModel<S : BipedEntityRenderState>(
         renderState: S,
     ) {
         super.setAngles(renderState)
+    }
+
+    override fun animateArms(
+        state: S,
+        animationProgress: Float
+    ) {
+        val swing = state.handSwingProgress
+        if (!(swing <= 0.0f)) {
+            val arm = state.preferredArm
+            val armModelPart = this.getArm(arm)
+            body.yaw = MathHelper.sin(MathHelper.sqrt(swing) * (Math.PI * 2).toFloat()) * 0.2f
+            if (arm == Arm.LEFT) {
+                body.yaw *= -1.0f
+            }
+
+            val h = state.ageScale
+            rightArm.pivotZ = MathHelper.sin(body.yaw) * 5.0f * h
+            rightArm.pivotX = -MathHelper.cos(body.yaw) * 5.0f * h
+            leftArm.pivotZ = -MathHelper.sin(body.yaw) * 5.0f * h
+            leftArm.pivotX = MathHelper.cos(body.yaw) * 5.0f * h
+            rightArm.yaw += body.yaw
+            leftArm.yaw += body.yaw
+            leftArm.pitch += body.yaw
+            var g = 1.0f - swing
+            g *= g
+            g *= g
+            g = 1.0f - g
+            val i = MathHelper.sin(g * Math.PI.toFloat())
+            val j = MathHelper.sin(swing * Math.PI.toFloat()) * -(head.pitch - 0.7f) * 0.75f
+            armModelPart.pitch -= i * 1.2f + j
+            armModelPart.yaw += body.yaw * 1.3f
+            armModelPart.roll += MathHelper.sin(swing * Math.PI.toFloat()) * -0.1f
+        }
     }
 }
