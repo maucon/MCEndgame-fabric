@@ -1,5 +1,6 @@
 package de.fuballer.mcendgame.components.entity.custom.swamp_golem
 
+import net.minecraft.entity.AnimationState
 import net.minecraft.entity.EntityType
 import net.minecraft.entity.ai.goal.ActiveTargetGoal
 import net.minecraft.entity.ai.goal.LookAroundGoal
@@ -9,8 +10,10 @@ import net.minecraft.entity.attribute.DefaultAttributeContainer
 import net.minecraft.entity.attribute.EntityAttributes
 import net.minecraft.entity.data.DataTracker
 import net.minecraft.entity.data.TrackedData
+import net.minecraft.entity.data.TrackedDataHandler
 import net.minecraft.entity.data.TrackedDataHandlerRegistry
 import net.minecraft.entity.mob.HostileEntity
+import net.minecraft.entity.passive.ChickenEntity
 import net.minecraft.entity.player.PlayerEntity
 import net.minecraft.world.World
 
@@ -18,10 +21,13 @@ class SwampGolemEntity(
     type: EntityType<out SwampGolemEntity>,
     world: World,
 ) : HostileEntity(type, world) {
+    val slamAnimationState = AnimationState()
+
     companion object {
-        const val SLAM_DURATION = 40
-        val SLAM_TICKS: TrackedData<Int> =
-            DataTracker.registerData(SwampGolemEntity::class.java, TrackedDataHandlerRegistry.INTEGER)
+        private val SWAMP_GOLEM_POSE_TDH = TrackedDataHandler.create(SwampGolemPose.PACKET_CODEC)
+            .also { TrackedDataHandlerRegistry.register(it) }
+        val SWAMP_GOLEM_POSE: TrackedData<SwampGolemPose> =
+            DataTracker.registerData(SwampGolemEntity::class.java, SWAMP_GOLEM_POSE_TDH)
 
         fun createAttributes(): DefaultAttributeContainer.Builder {
             return createHostileAttributes()
@@ -39,34 +45,29 @@ class SwampGolemEntity(
         goalSelector.add(8, LookAroundGoal(this))
 
         targetSelector.add(1, ActiveTargetGoal(this, PlayerEntity::class.java, true))
+        targetSelector.add(1, ActiveTargetGoal(this, ChickenEntity::class.java, true))
     }
 
     override fun initDataTracker(builder: DataTracker.Builder) {
         super.initDataTracker(builder)
-        builder.add(SLAM_TICKS, -1)
+        builder.add(SWAMP_GOLEM_POSE, SwampGolemPose.IDLING)
     }
 
-    override fun tick() {
-        super.tick()
-        tickSlam()
-    }
-
-    private fun tickSlam() {
-        if (!isSlamming()) return
-
-        val slamTicks = dataTracker.get(SLAM_TICKS)
-        if (slamTicks < SLAM_DURATION) {
-            dataTracker.set(SLAM_TICKS, slamTicks + 1)
-        } else {
-            dataTracker.set(SLAM_TICKS, -1)
+    override fun onTrackedDataSet(data: TrackedData<*>) {
+        if (data == SWAMP_GOLEM_POSE) {
+            when (dataTracker.get(SWAMP_GOLEM_POSE)) {
+                SwampGolemPose.SLAMMING -> slamAnimationState.start(age)
+                else -> {}
+            }
         }
+        super.onTrackedDataSet(data)
     }
 
-    fun slam() {
-        dataTracker.set(SLAM_TICKS, 0)
+    fun startSlam() {
+        dataTracker.set(SWAMP_GOLEM_POSE, SwampGolemPose.SLAMMING)
     }
 
-    fun isSlamming() = dataTracker.get(SLAM_TICKS) >= 0
-
-    fun getSlamProgress() = dataTracker.get(SLAM_TICKS) / SLAM_DURATION.toDouble()
+    fun endSlam() {
+        dataTracker.set(SWAMP_GOLEM_POSE, SwampGolemPose.IDLING)
+    }
 }

@@ -3,11 +3,12 @@ package de.fuballer.mcendgame.components.entity.custom.swamp_golem
 import de.fuballer.mcendgame.util.IdentifierUtil
 import net.minecraft.client.render.entity.BipedEntityRenderer
 import net.minecraft.client.render.entity.EntityRendererFactory
+import net.minecraft.client.render.entity.MobEntityRenderer
 
 class SwampGolemRenderer(
     context: EntityRendererFactory.Context,
 ) :
-    BipedEntityRenderer<SwampGolemEntity, SwampGolemRenderState, SwampGolemEntityModel>(
+    MobEntityRenderer<SwampGolemEntity, SwampGolemRenderState, SwampGolemEntityModel>(
         context,
         SwampGolemEntityModel(context.getPart(SwampGolemEntityModel.SWAMP_GOLEM)),
         0.65F //shadow radius
@@ -25,7 +26,6 @@ class SwampGolemRenderer(
         tickDelta: Float
     ) {
         super.updateRenderState(entity, renderState, tickDelta)
-        renderState.isSlamming = entity.isSlamming()
-        renderState.slamProgress = entity.getSlamProgress()
+        renderState.slamAnimationState.copyFrom(entity.slamAnimationState)
     }
 }

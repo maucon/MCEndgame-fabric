@@ -1,8 +1,8 @@
 package de.fuballer.mcendgame.components.entity.custom.swamp_golem
 
-import net.minecraft.client.render.entity.state.BipedEntityRenderState
+import net.minecraft.client.render.entity.state.LivingEntityRenderState
+import net.minecraft.entity.AnimationState
 
-class SwampGolemRenderState : BipedEntityRenderState() {
-    var isSlamming = false
-    var slamProgress = 0.0
+class SwampGolemRenderState : LivingEntityRenderState() {
+    val slamAnimationState: AnimationState = AnimationState()
 }

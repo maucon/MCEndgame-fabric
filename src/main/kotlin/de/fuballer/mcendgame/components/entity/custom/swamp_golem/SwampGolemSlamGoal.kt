@@ -20,6 +20,13 @@ class SwampGolemSlamGoal(
     private var cooldown = 0
     private var lastUpdateTime = 0L
 
+    private var slamState = -1
+
+    companion object {
+        private val slamDuration = 25 // 1.25s
+        private val slamImpactTime = 17 // 0.85s
+    }
+
     init {
         setControls(EnumSet.of(Control.MOVE, Control.LOOK))
     }
@@ -37,12 +44,16 @@ class SwampGolemSlamGoal(
     }
 
     override fun shouldContinue(): Boolean {
+        if (isInSlam()) return true
+
         val target = mob.target ?: return false
         if (!target.isAlive) return false
 
         if (!mob.isInWalkTargetRange(target.blockPos)) return false
         return target !is PlayerEntity || (!target.isSpectator && !target.isCreative)
     }
+
+    private fun isInSlam() = slamState >= 0
 
     override fun start() {
         mob.navigation.startMovingAlong(path, speed)
@@ -88,6 +99,8 @@ class SwampGolemSlamGoal(
         cooldown = max(cooldown - 1, 0)
         updateCountdownTicks = max(updateCountdownTicks - 1, 0)
 
+        updateSlam()
+
         if (!shouldUpdate(target)) return
 
         targetX = target.x
@@ -106,11 +119,21 @@ class SwampGolemSlamGoal(
         updateCountdownTicks = getTickCount(updateCountdownTicks)
     }
 
+    private fun updateSlam() {
+        if (slamState < 0) return
+
+        if (++slamState < slamDuration) return
+
+        slamState = -1
+        mob.endSlam()
+    }
+
     private fun trySlam(target: LivingEntity) {
         if (!canSlam(target)) return
 
         resetCooldown()
-        mob.slam()
+        slamState = 0
+        mob.startSlam()
     }
 
     private fun resetCooldown() {
