@@ -11,7 +11,6 @@ import kotlin.math.max
 class SwampGolemSlamGoal(
     private val mob: SwampGolemEntity,
     private val speed: Double,
-    private val pauseWhenMobIdle: Boolean,
 ) : Goal() {
     private var path: Path? = null
     private var targetX = 0.0
@@ -41,8 +40,6 @@ class SwampGolemSlamGoal(
         val target = mob.target ?: return false
         if (!target.isAlive) return false
 
-        if (!pauseWhenMobIdle) return !mob.navigation.isIdle
-
         if (!mob.isInWalkTargetRange(target.blockPos)) return false
         return target !is PlayerEntity || (!target.isSpectator && !target.isCreative)
     }
@@ -51,7 +48,6 @@ class SwampGolemSlamGoal(
         mob.navigation.startMovingAlong(path, speed)
         mob.isAttacking = true
         updateCountdownTicks = 0
-        cooldown = 0
     }
 
     override fun stop() {
@@ -76,7 +72,7 @@ class SwampGolemSlamGoal(
         target: LivingEntity
     ): Boolean {
         if (updateCountdownTicks > 0) return false
-        if (!mob.visibilityCache.canSee(target) && !pauseWhenMobIdle) return false
+        if (!mob.visibilityCache.canSee(target)) return false
 
         if (targetX == 0.0 && targetY == 0.0 && targetZ == 0.0) return true
         if (target.squaredDistanceTo(targetX, targetY, targetZ) >= 1.0) return true
@@ -115,11 +111,10 @@ class SwampGolemSlamGoal(
 
         resetCooldown()
         mob.slam()
-        mob.slamAttack(getServerWorld(this.mob))
     }
 
     private fun resetCooldown() {
-        cooldown = getTickCount(50)
+        cooldown = getTickCount(80)
     }
 
     private fun isCooledDown() = cooldown <= 0

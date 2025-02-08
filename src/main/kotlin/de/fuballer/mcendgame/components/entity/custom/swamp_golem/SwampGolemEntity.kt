@@ -7,27 +7,22 @@ import net.minecraft.entity.ai.goal.LookAtEntityGoal
 import net.minecraft.entity.ai.goal.WanderAroundFarGoal
 import net.minecraft.entity.attribute.DefaultAttributeContainer
 import net.minecraft.entity.attribute.EntityAttributes
+import net.minecraft.entity.data.DataTracker
+import net.minecraft.entity.data.TrackedData
+import net.minecraft.entity.data.TrackedDataHandlerRegistry
 import net.minecraft.entity.mob.HostileEntity
 import net.minecraft.entity.player.PlayerEntity
-import net.minecraft.server.world.ServerWorld
 import net.minecraft.world.World
 
 class SwampGolemEntity(
     type: EntityType<out SwampGolemEntity>,
     world: World,
 ) : HostileEntity(type, world) {
-
-    override fun initGoals() {
-        //goalSelector.add(2, MeleeAttackGoal(this, 1.0, false))
-        goalSelector.add(2, SwampGolemSlamGoal(this, 1.0, false))
-        goalSelector.add(7, WanderAroundFarGoal(this, 1.0))
-        goalSelector.add(8, LookAtEntityGoal(this, PlayerEntity::class.java, 8.0f))
-        goalSelector.add(8, LookAroundGoal(this))
-
-        targetSelector.add(1, ActiveTargetGoal(this, PlayerEntity::class.java, true))
-    }
-
     companion object {
+        const val SLAM_DURATION = 40
+        val SLAM_TICKS: TrackedData<Int> =
+            DataTracker.registerData(SwampGolemEntity::class.java, TrackedDataHandlerRegistry.INTEGER)
+
         fun createAttributes(): DefaultAttributeContainer.Builder {
             return createHostileAttributes()
                 .add(EntityAttributes.FOLLOW_RANGE, 35.0)
@@ -37,11 +32,41 @@ class SwampGolemEntity(
         }
     }
 
+    override fun initGoals() {
+        goalSelector.add(2, SwampGolemSlamGoal(this, 1.0))
+        goalSelector.add(7, WanderAroundFarGoal(this, 1.0))
+        goalSelector.add(8, LookAtEntityGoal(this, PlayerEntity::class.java, 8.0f))
+        goalSelector.add(8, LookAroundGoal(this))
+
+        targetSelector.add(1, ActiveTargetGoal(this, PlayerEntity::class.java, true))
+    }
+
+    override fun initDataTracker(builder: DataTracker.Builder) {
+        super.initDataTracker(builder)
+        builder.add(SLAM_TICKS, -1)
+    }
+
+    override fun tick() {
+        super.tick()
+        tickSlam()
+    }
+
+    private fun tickSlam() {
+        if (!isSlamming()) return
+
+        val slamTicks = dataTracker.get(SLAM_TICKS)
+        if (slamTicks < SLAM_DURATION) {
+            dataTracker.set(SLAM_TICKS, slamTicks + 1)
+        } else {
+            dataTracker.set(SLAM_TICKS, -1)
+        }
+    }
+
     fun slam() {
-        println("SLAM ANIMATION")
+        dataTracker.set(SLAM_TICKS, 0)
     }
 
-    fun slamAttack(world: ServerWorld) {
+    fun isSlamming() = dataTracker.get(SLAM_TICKS) >= 0
 
-    }
+    fun getSlamProgress() = dataTracker.get(SLAM_TICKS) / SLAM_DURATION.toDouble()
 }
