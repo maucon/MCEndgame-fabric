@@ -3,6 +3,7 @@ package de.fuballer.mcendgame.components.entity.custom.swamp_golem
 import net.minecraft.entity.LivingEntity
 import net.minecraft.entity.ai.goal.Goal
 import net.minecraft.entity.ai.pathing.Path
+import net.minecraft.entity.attribute.EntityAttributes
 import net.minecraft.entity.player.PlayerEntity
 import net.minecraft.predicate.entity.EntityPredicates
 import java.util.*
@@ -20,7 +21,7 @@ class SwampGolemSlamGoal(
     private var cooldown = 0
     private var lastUpdateTime = 0L
 
-    private var slamState = -1
+    private var slamTime = -1
 
     companion object {
         private val slamDuration = 25 // 1.25s
@@ -53,7 +54,7 @@ class SwampGolemSlamGoal(
         return target !is PlayerEntity || (!target.isSpectator && !target.isCreative)
     }
 
-    private fun isInSlam() = slamState >= 0
+    private fun isInSlam() = slamTime >= 0
 
     override fun start() {
         mob.navigation.startMovingAlong(path, speed)
@@ -120,19 +121,28 @@ class SwampGolemSlamGoal(
     }
 
     private fun updateSlam() {
-        if (slamState < 0) return
+        if (slamTime < 0) return
+        slamTime++
 
-        if (++slamState < slamDuration) return
+        testSlamDamage()
+        if (slamTime < slamDuration) return
 
-        slamState = -1
+        slamTime = -1
         mob.endSlam()
+    }
+
+    private fun testSlamDamage() {
+        if (slamTime != slamImpactTime) return
+
+        val damage = mob.getAttributeValue(EntityAttributes.ATTACK_DAMAGE).toFloat()
+        mob.dealAreaDamage(mob, 5.0, damage)
     }
 
     private fun trySlam(target: LivingEntity) {
         if (!canSlam(target)) return
 
         resetCooldown()
-        slamState = 0
+        slamTime = 0
         mob.startSlam()
     }
 

@@ -1,5 +1,6 @@
 package de.fuballer.mcendgame.components.entity.custom.swamp_golem
 
+import de.fuballer.mcendgame.components.entity.custom.AreaDamageDealer
 import net.minecraft.entity.AnimationState
 import net.minecraft.entity.EntityType
 import net.minecraft.entity.ai.goal.ActiveTargetGoal
@@ -20,7 +21,7 @@ import net.minecraft.world.World
 class SwampGolemEntity(
     type: EntityType<out SwampGolemEntity>,
     world: World,
-) : HostileEntity(type, world) {
+) : HostileEntity(type, world), AreaDamageDealer {
     val slamAnimationState = AnimationState()
 
     companion object {
