@@ -3,7 +3,6 @@ package de.fuballer.mcendgame.components.entity.custom.swamp_golem
 import net.minecraft.entity.LivingEntity
 import net.minecraft.entity.ai.goal.Goal
 import net.minecraft.entity.ai.pathing.Path
-import net.minecraft.entity.attribute.EntityAttributes
 import net.minecraft.entity.player.PlayerEntity
 import net.minecraft.predicate.entity.EntityPredicates
 import java.util.*
@@ -20,8 +19,8 @@ class SwampGolemSlamGoal(
     private var updateCountdownTicks = 0
     private var cooldown = 0
     private var lastUpdateTime = 0L
-
     private var slamTime = -1
+    private var frozenYaw = 0F
 
     companion object {
         private val slamDuration = 25 // 1.25s
@@ -80,27 +79,15 @@ class SwampGolemSlamGoal(
         trySlam(target)
     }
 
-    private fun shouldUpdate(
-        target: LivingEntity
-    ): Boolean {
-        if (updateCountdownTicks > 0) return false
-        if (!mob.visibilityCache.canSee(target)) return false
-
-        if (targetX == 0.0 && targetY == 0.0 && targetZ == 0.0) return true
-        if (target.squaredDistanceTo(targetX, targetY, targetZ) >= 1.0) return true
-
-        return mob.random.nextFloat() < 0.05
-    }
-
     private fun update(
         target: LivingEntity
     ) {
-        mob.lookControl.lookAt(target, 30.0f, 30.0f)
+        if (!updateSlam()) {
+            mob.lookControl.lookAt(target, 30.0f, 30.0f)
+        }
 
         cooldown = max(cooldown - 1, 0)
         updateCountdownTicks = max(updateCountdownTicks - 1, 0)
-
-        updateSlam()
 
         if (!shouldUpdate(target)) return
 
@@ -120,22 +107,48 @@ class SwampGolemSlamGoal(
         updateCountdownTicks = getTickCount(updateCountdownTicks)
     }
 
-    private fun updateSlam() {
-        if (slamTime < 0) return
+    private fun shouldUpdate(
+        target: LivingEntity
+    ): Boolean {
+        if (updateCountdownTicks > 0) return false
+        if (!mob.visibilityCache.canSee(target)) return false
+
+        if (targetX == 0.0 && targetY == 0.0 && targetZ == 0.0) return true
+        if (target.squaredDistanceTo(targetX, targetY, targetZ) >= 1.0) return true
+
+        return mob.random.nextFloat() < 0.05
+    }
+
+    private fun updateSlam(): Boolean {
+        if (slamTime < 0) return false
+
+        stopMovement()
+
         slamTime++
 
         testSlamDamage()
-        if (slamTime < slamDuration) return
+        if (slamTime < slamDuration) return true
 
+        updateCountdownTicks = getTickCount(5)
         slamTime = -1
         mob.endSlam()
+
+        return true
+    }
+
+    private fun stopMovement() {
+        mob.navigation.stop()
+
+        if (slamTime == 0) {
+            frozenYaw = mob.yaw
+        }
+        mob.yaw = frozenYaw
     }
 
     private fun testSlamDamage() {
         if (slamTime != slamImpactTime) return
 
-        val damage = mob.getAttributeValue(EntityAttributes.ATTACK_DAMAGE).toFloat()
-        mob.dealAreaDamage(mob, 5.0, damage)
+        mob.dealAreaDamage(mob, 4.0, 0.8)
     }
 
     private fun trySlam(target: LivingEntity) {
