@@ -131,7 +131,7 @@ class SwampGolemSlamGoal(
 
         updateCountdownTicks = getTickCount(5)
         slamTime = -1
-        mob.endSlam()
+        mob.setPose(SwampGolemPose.IDLING)
 
         return true
     }
@@ -156,7 +156,7 @@ class SwampGolemSlamGoal(
 
         resetCooldown()
         slamTime = 0
-        mob.startSlam()
+        mob.setPose(SwampGolemPose.SLAMMING)
     }
 
     private fun resetCooldown() {

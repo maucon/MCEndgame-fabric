@@ -64,11 +64,9 @@ class SwampGolemEntity(
         super.onTrackedDataSet(data)
     }
 
-    fun startSlam() {
-        dataTracker.set(SWAMP_GOLEM_POSE, SwampGolemPose.SLAMMING)
-    }
-
-    fun endSlam() {
-        dataTracker.set(SWAMP_GOLEM_POSE, SwampGolemPose.IDLING)
+    fun setPose(
+        pose: SwampGolemPose
+    ) {
+        dataTracker.set(SWAMP_GOLEM_POSE, pose)
     }
 }
