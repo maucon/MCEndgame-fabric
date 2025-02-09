@@ -3,6 +3,7 @@ package de.fuballer.mcendgame.components.entity.custom.interfaces
 import net.minecraft.entity.LivingEntity
 import net.minecraft.entity.attribute.EntityAttributes
 import net.minecraft.entity.mob.MobEntity
+import net.minecraft.particle.ParticleTypes
 import net.minecraft.server.world.ServerWorld
 import net.minecraft.util.math.Box
 import net.minecraft.util.math.Vec3d
@@ -40,6 +41,8 @@ interface SlamAttacker : CustomPosesEntity {
             scaledRadius,
             scaledKnockbackStrength
         )
+
+        createParticles(world, damageCenter, scaledRadius)
     }
 
     private fun damageTargets(
@@ -70,5 +73,23 @@ interface SlamAttacker : CustomPosesEntity {
         val min = value * minSlamStrength
         val range = value * (1 - minSlamStrength)
         return (min + range * distancePercent)
+    }
+
+    private fun createParticles(
+        world: ServerWorld,
+        center: Vec3d,
+        scaledRadius: Double,
+    ) {
+        world.spawnParticles(
+            ParticleTypes.CLOUD,
+            center.x,
+            center.y + 0.2,
+            center.z,
+            (15 * scaledRadius).toInt(),
+            scaledRadius * 0.5,
+            0.1,
+            scaledRadius * 0.5,
+            0.01
+        )
     }
 }

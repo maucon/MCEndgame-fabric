@@ -112,7 +112,7 @@ class SlamAttackGoal<T>(
         if (!mob.visibilityCache.canSee(target)) return false
 
         if (targetX == 0.0 && targetY == 0.0 && targetZ == 0.0) return true
-        if (target.squaredDistanceTo(targetX, targetY, targetZ) >= 1.0) return true
+        if (target.squaredDistanceTo(targetX, targetY, targetZ) >= 0.5) return true
 
         return mob.random.nextFloat() < 0.05
     }
