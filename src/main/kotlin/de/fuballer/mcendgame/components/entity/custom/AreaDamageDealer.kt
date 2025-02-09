@@ -31,7 +31,15 @@ interface AreaDamageDealer {
         val targets = world.getEntitiesByClass(LivingEntity::class.java, box) { it != entity && shouldDamage(it) }
             .filter { entity.distanceTo(it) <= scaledRadius }
 
-        damageTargets(entity, targets, world, slamCenter, scaledRadius, scaledKnockbackStrength)
+        damageTargets(
+            entity,
+            targets,
+            world,
+            slamCenter,
+            damageFactorAtMaxDistance,
+            scaledRadius,
+            scaledKnockbackStrength
+        )
     }
 
     private fun damageTargets(
@@ -39,6 +47,7 @@ interface AreaDamageDealer {
         targets: List<LivingEntity>,
         world: ServerWorld,
         slamCenter: Vec3d,
+        damageFactorAtMaxDistance: Float,
         scaledRadius: Double,
         scaledKnockbackStrength: Double,
     ) {
@@ -49,7 +58,9 @@ interface AreaDamageDealer {
             val distance = distanceVector.length()
             val distancePercent = max(1 - (distance / scaledRadius), 0.0)
 
-            val damage = (distancePercent * attackDamage).toFloat()
+            val minDamage = damageFactorAtMaxDistance * attackDamage
+            val dmgRange = attackDamage * (1 - damageFactorAtMaxDistance)
+            val damage = (minDamage + distancePercent * dmgRange).toFloat()
             target.damage(world, world.damageSources.mobAttack(entity), damage)
 
             val effectiveKnockbackStrength = scaledKnockbackStrength * distancePercent

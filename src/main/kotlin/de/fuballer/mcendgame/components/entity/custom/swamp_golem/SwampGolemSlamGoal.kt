@@ -20,11 +20,11 @@ class SwampGolemSlamGoal(
     private var cooldown = 0
     private var lastUpdateTime = 0L
     private var slamTime = -1
-    private var frozenYaw = 0F
 
     companion object {
         private val slamDuration = 25 // 1.25s
         private val slamImpactTime = 17 // 0.85s
+        private val slamCooldown = 50 // 2.5s
     }
 
     init {
@@ -44,7 +44,7 @@ class SwampGolemSlamGoal(
     }
 
     override fun shouldContinue(): Boolean {
-        if (isInSlam()) return true
+        if (slamTime >= 0) return true
 
         val target = mob.target ?: return false
         if (!target.isAlive) return false
@@ -52,8 +52,6 @@ class SwampGolemSlamGoal(
         if (!mob.isInWalkTargetRange(target.blockPos)) return false
         return target !is PlayerEntity || (!target.isSpectator && !target.isCreative)
     }
-
-    private fun isInSlam() = slamTime >= 0
 
     override fun start() {
         mob.navigation.startMovingAlong(path, speed)
@@ -122,7 +120,7 @@ class SwampGolemSlamGoal(
     private fun updateSlam(): Boolean {
         if (slamTime < 0) return false
 
-        stopMovement()
+        mob.navigation.stop()
 
         slamTime++
 
@@ -136,35 +134,20 @@ class SwampGolemSlamGoal(
         return true
     }
 
-    private fun stopMovement() {
-        mob.navigation.stop()
-
-        if (slamTime == 0) {
-            frozenYaw = mob.yaw
-        }
-        mob.yaw = frozenYaw
-    }
-
     private fun testSlamDamage() {
         if (slamTime != slamImpactTime) return
 
-        mob.dealAreaDamage(mob, 4.0, 0.8)
+        mob.dealAreaDamage(mob, 3.0, 0.8, damageFactorAtMaxDistance = 0.3F)
     }
 
     private fun trySlam(target: LivingEntity) {
         if (!canSlam(target)) return
 
-        resetCooldown()
         slamTime = 0
         mob.setPose(SwampGolemPose.SLAMMING)
+        cooldown = getTickCount(slamCooldown)
     }
-
-    private fun resetCooldown() {
-        cooldown = getTickCount(80)
-    }
-
-    private fun isCooledDown() = cooldown <= 0
 
     private fun canSlam(target: LivingEntity) =
-        isCooledDown() && mob.isInAttackRange(target) && mob.visibilityCache.canSee(target)
+        cooldown <= 0 && mob.isInAttackRange(target) && mob.visibilityCache.canSee(target)
 }

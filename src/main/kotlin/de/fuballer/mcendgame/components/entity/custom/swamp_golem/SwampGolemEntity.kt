@@ -64,9 +64,21 @@ class SwampGolemEntity(
         super.onTrackedDataSet(data)
     }
 
+    override fun rotate(yaw: Float, pitch: Float) {
+        if (isRotationLocked()) return
+        super.rotate(yaw, pitch)
+    }
+
+    override fun setYaw(yaw: Float) {
+        if (isRotationLocked()) return
+        super.setYaw(yaw)
+    }
+
     fun setPose(
         pose: SwampGolemPose
     ) {
         dataTracker.set(SWAMP_GOLEM_POSE, pose)
     }
+
+    private fun isRotationLocked() = dataTracker.get(SWAMP_GOLEM_POSE) == SwampGolemPose.SLAMMING
 }
