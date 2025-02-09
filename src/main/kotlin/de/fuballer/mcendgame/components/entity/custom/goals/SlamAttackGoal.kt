@@ -1,17 +1,23 @@
-package de.fuballer.mcendgame.components.entity.custom.swamp_golem
+package de.fuballer.mcendgame.components.entity.custom.goals
 
+import de.fuballer.mcendgame.components.entity.custom.interfaces.CustomPosesEntity
+import de.fuballer.mcendgame.components.entity.custom.interfaces.SlamAttacker
 import net.minecraft.entity.LivingEntity
 import net.minecraft.entity.ai.goal.Goal
 import net.minecraft.entity.ai.pathing.Path
+import net.minecraft.entity.mob.MobEntity
 import net.minecraft.entity.player.PlayerEntity
 import net.minecraft.predicate.entity.EntityPredicates
 import java.util.*
 import kotlin.math.max
 
-class SwampGolemSlamGoal(
-    private val mob: SwampGolemEntity,
-    private val speed: Double,
-) : Goal() {
+class SlamAttackGoal<T>(
+    private val mob: T,
+    private val moveSpeedFactor: Double,
+    private val slamDuration: Int,
+    private val slamImpactTime: Int,
+    private val slamCooldown: Int,
+) : Goal() where T : MobEntity, T : SlamAttacker {
     private var path: Path? = null
     private var targetX = 0.0
     private var targetY = 0.0
@@ -20,12 +26,6 @@ class SwampGolemSlamGoal(
     private var cooldown = 0
     private var lastUpdateTime = 0L
     private var slamTime = -1
-
-    companion object {
-        private val slamDuration = 25 // 1.25s
-        private val slamImpactTime = 17 // 0.85s
-        private val slamCooldown = 50 // 2.5s
-    }
 
     init {
         setControls(EnumSet.of(Control.MOVE, Control.LOOK))
@@ -54,7 +54,7 @@ class SwampGolemSlamGoal(
     }
 
     override fun start() {
-        mob.navigation.startMovingAlong(path, speed)
+        mob.navigation.startMovingAlong(path, moveSpeedFactor)
         mob.isAttacking = true
         updateCountdownTicks = 0
     }
@@ -98,7 +98,7 @@ class SwampGolemSlamGoal(
         val distance = mob.squaredDistanceTo(target)
         updateCountdownTicks += (distance / 100).toInt()
 
-        if (!mob.navigation.startMovingTo(target, speed)) {
+        if (!mob.navigation.startMovingTo(target, moveSpeedFactor)) {
             updateCountdownTicks += 15
         }
 
@@ -129,22 +129,21 @@ class SwampGolemSlamGoal(
 
         updateCountdownTicks = getTickCount(5)
         slamTime = -1
-        mob.setPose(SwampGolemPose.IDLING)
+        mob.setPose(CustomPosesEntity.CustomPose.IDLING)
 
         return true
     }
 
     private fun testSlamDamage() {
         if (slamTime != slamImpactTime) return
-
-        mob.dealAreaDamage(mob, 3.0, 0.8, damageFactorAtMaxDistance = 0.3F)
+        mob.slam()
     }
 
     private fun trySlam(target: LivingEntity) {
         if (!canSlam(target)) return
 
         slamTime = 0
-        mob.setPose(SwampGolemPose.SLAMMING)
+        mob.setPose(CustomPosesEntity.CustomPose.SLAMMING)
         cooldown = getTickCount(slamCooldown)
     }
 

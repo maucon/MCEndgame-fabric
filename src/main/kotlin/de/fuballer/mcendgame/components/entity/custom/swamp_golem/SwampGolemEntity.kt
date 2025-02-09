@@ -1,8 +1,11 @@
 package de.fuballer.mcendgame.components.entity.custom.swamp_golem
 
-import de.fuballer.mcendgame.components.entity.custom.AreaDamageDealer
+import de.fuballer.mcendgame.components.entity.custom.goals.SlamAttackGoal
+import de.fuballer.mcendgame.components.entity.custom.interfaces.CustomPosesEntity
+import de.fuballer.mcendgame.components.entity.custom.interfaces.SlamAttacker
 import net.minecraft.entity.AnimationState
 import net.minecraft.entity.EntityType
+import net.minecraft.entity.LivingEntity
 import net.minecraft.entity.ai.goal.ActiveTargetGoal
 import net.minecraft.entity.ai.goal.LookAroundGoal
 import net.minecraft.entity.ai.goal.LookAtEntityGoal
@@ -11,8 +14,6 @@ import net.minecraft.entity.attribute.DefaultAttributeContainer
 import net.minecraft.entity.attribute.EntityAttributes
 import net.minecraft.entity.data.DataTracker
 import net.minecraft.entity.data.TrackedData
-import net.minecraft.entity.data.TrackedDataHandler
-import net.minecraft.entity.data.TrackedDataHandlerRegistry
 import net.minecraft.entity.mob.HostileEntity
 import net.minecraft.entity.passive.ChickenEntity
 import net.minecraft.entity.player.PlayerEntity
@@ -21,14 +22,11 @@ import net.minecraft.world.World
 class SwampGolemEntity(
     type: EntityType<out SwampGolemEntity>,
     world: World,
-) : HostileEntity(type, world), AreaDamageDealer {
+) : HostileEntity(type, world), SlamAttacker {
     val slamAnimationState = AnimationState()
 
     companion object {
-        private val SWAMP_GOLEM_POSE_TDH = TrackedDataHandler.create(SwampGolemPose.PACKET_CODEC)
-            .also { TrackedDataHandlerRegistry.register(it) }
-        val SWAMP_GOLEM_POSE: TrackedData<SwampGolemPose> =
-            DataTracker.registerData(SwampGolemEntity::class.java, SWAMP_GOLEM_POSE_TDH)
+        val CUSTOM_POSE = DataTracker.registerData(SwampGolemEntity::class.java, CustomPosesEntity.CUSTOM_POSE_TDH)
 
         fun createAttributes(): DefaultAttributeContainer.Builder {
             return createHostileAttributes()
@@ -39,8 +37,17 @@ class SwampGolemEntity(
         }
     }
 
+    //Slam Attacker properties
+    override val slamAttacker = this
+    override val slamRadius = 3.0
+    override val minSlamStrength = 0.3
+    override val slamCenterFacingOffset = 1.1
+    override val applyScale = true
+    override val knockbackStrength = 1.0
+    override fun shouldDamage(target: LivingEntity) = target.isAlive
+
     override fun initGoals() {
-        goalSelector.add(2, SwampGolemSlamGoal(this, 1.0))
+        goalSelector.add(2, SlamAttackGoal(this, 1.0, 25, 17, 50))
         goalSelector.add(7, WanderAroundFarGoal(this, 1.0))
         goalSelector.add(8, LookAtEntityGoal(this, PlayerEntity::class.java, 8.0f))
         goalSelector.add(8, LookAroundGoal(this))
@@ -51,13 +58,13 @@ class SwampGolemEntity(
 
     override fun initDataTracker(builder: DataTracker.Builder) {
         super.initDataTracker(builder)
-        builder.add(SWAMP_GOLEM_POSE, SwampGolemPose.IDLING)
+        builder.add(CUSTOM_POSE, CustomPosesEntity.CustomPose.IDLING)
     }
 
     override fun onTrackedDataSet(data: TrackedData<*>) {
-        if (data == SWAMP_GOLEM_POSE) {
-            when (dataTracker.get(SWAMP_GOLEM_POSE)) {
-                SwampGolemPose.SLAMMING -> slamAnimationState.start(age)
+        if (data == CUSTOM_POSE) {
+            when (dataTracker.get(CUSTOM_POSE)) {
+                CustomPosesEntity.CustomPose.SLAMMING -> slamAnimationState.start(age)
                 else -> {}
             }
         }
@@ -74,11 +81,9 @@ class SwampGolemEntity(
         super.setYaw(yaw)
     }
 
-    fun setPose(
-        pose: SwampGolemPose
-    ) {
-        dataTracker.set(SWAMP_GOLEM_POSE, pose)
+    override fun setPose(pose: CustomPosesEntity.CustomPose) {
+        dataTracker.set(CUSTOM_POSE, pose)
     }
 
-    private fun isRotationLocked() = dataTracker.get(SWAMP_GOLEM_POSE) == SwampGolemPose.SLAMMING
+    private fun isRotationLocked() = dataTracker.get(CUSTOM_POSE) == CustomPosesEntity.CustomPose.SLAMMING
 }

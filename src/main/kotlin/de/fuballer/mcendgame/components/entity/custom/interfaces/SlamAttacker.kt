@@ -1,0 +1,74 @@
+package de.fuballer.mcendgame.components.entity.custom.interfaces
+
+import net.minecraft.entity.LivingEntity
+import net.minecraft.entity.attribute.EntityAttributes
+import net.minecraft.entity.mob.MobEntity
+import net.minecraft.server.world.ServerWorld
+import net.minecraft.util.math.Box
+import net.minecraft.util.math.Vec3d
+import kotlin.math.max
+
+interface SlamAttacker : CustomPosesEntity {
+    val slamAttacker: MobEntity
+    val slamRadius: Double
+    val minSlamStrength: Double
+    val slamCenterFacingOffset: Double
+    val applyScale: Boolean
+    val knockbackStrength: Double
+
+    fun shouldDamage(target: LivingEntity): Boolean
+
+    fun slam() {
+        val world = slamAttacker.world as? ServerWorld ?: return
+
+        val scale = if (applyScale) slamAttacker.getAttributeValue(EntityAttributes.SCALE) else 1.0
+        val scaledRadius = slamRadius * scale
+        val scaledKnockbackStrength = knockbackStrength * scale
+        val scaledOffset = slamCenterFacingOffset * scale
+
+        val offset = slamAttacker.rotationVector.normalize().multiply(scaledOffset)
+        val damageCenter = slamAttacker.pos.add(offset)
+
+        val box = Box(damageCenter, Vec3d.ZERO).expand(scaledRadius) //TODO is this box even used
+        val targets = world.getEntitiesByClass(LivingEntity::class.java, box) { it != slamAttacker && shouldDamage(it) }
+            .filter { damageCenter.distanceTo(it.pos) <= scaledRadius }
+
+        damageTargets(
+            targets,
+            world,
+            damageCenter,
+            scaledRadius,
+            scaledKnockbackStrength
+        )
+    }
+
+    private fun damageTargets(
+        targets: List<LivingEntity>,
+        world: ServerWorld,
+        damageCenter: Vec3d,
+        scaledRadius: Double,
+        scaledKnockbackStrength: Double,
+    ) {
+        val attackDamage = slamAttacker.getAttributeValue(EntityAttributes.ATTACK_DAMAGE).toFloat()
+
+        for (target in targets) {
+            val distanceVector = target.pos.subtract(damageCenter)
+            val distancePercent = max(1 - (distanceVector.length() / scaledRadius), 0.0)
+
+            val damage = getDistanceScaled(attackDamage.toDouble(), distancePercent).toFloat()
+            target.damage(world, world.damageSources.mobAttack(slamAttacker), damage)
+
+            val effectiveKnockbackStrength = getDistanceScaled(scaledKnockbackStrength, distancePercent)
+            target.takeKnockback(effectiveKnockbackStrength, -distanceVector.x, -distanceVector.z)
+        }
+    }
+
+    private fun getDistanceScaled(
+        value: Double,
+        distancePercent: Double,
+    ): Double {
+        val min = value * minSlamStrength
+        val range = value * (1 - minSlamStrength)
+        return (min + range * distancePercent)
+    }
+}
