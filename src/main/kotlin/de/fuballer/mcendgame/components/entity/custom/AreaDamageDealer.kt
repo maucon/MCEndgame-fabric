@@ -29,7 +29,7 @@ interface AreaDamageDealer {
 
         val box = Box(slamCenter, Vec3d.ZERO).expand(scaledRadius) //TODO is this box even used
         val targets = world.getEntitiesByClass(LivingEntity::class.java, box) { it != entity && shouldDamage(it) }
-            .filter { entity.distanceTo(it) <= scaledRadius }
+            .filter { slamCenter.distanceTo(it.pos) <= scaledRadius }
 
         damageTargets(
             entity,
