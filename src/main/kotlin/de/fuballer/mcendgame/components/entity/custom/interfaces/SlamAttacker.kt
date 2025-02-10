@@ -5,9 +5,12 @@ import net.minecraft.entity.attribute.EntityAttributes
 import net.minecraft.entity.mob.MobEntity
 import net.minecraft.particle.ParticleTypes
 import net.minecraft.server.world.ServerWorld
+import net.minecraft.sound.SoundCategory
+import net.minecraft.sound.SoundEvents
 import net.minecraft.util.math.Box
 import net.minecraft.util.math.Vec3d
 import kotlin.math.max
+import kotlin.math.min
 
 interface SlamAttacker : CustomPosesEntity {
     val slamAttacker: MobEntity
@@ -43,6 +46,7 @@ interface SlamAttacker : CustomPosesEntity {
         )
 
         createParticles(world, damageCenter, scaledRadius)
+        playSound(world, damageCenter, scaledRadius)
     }
 
     private fun damageTargets(
@@ -90,6 +94,24 @@ interface SlamAttacker : CustomPosesEntity {
             0.1,
             scaledRadius * 0.5,
             0.01
+        )
+    }
+
+    private fun playSound(
+        world: ServerWorld,
+        slamCenter: Vec3d,
+        slamRadius: Double,
+    ) {
+        val volume = min(slamRadius / 3, 2.0).toFloat()
+        world.playSound(
+            null,
+            slamCenter.x,
+            slamCenter.y,
+            slamCenter.z,
+            SoundEvents.ENTITY_GENERIC_EXPLODE,
+            SoundCategory.HOSTILE,
+            volume,
+            1F
         )
     }
 }

@@ -35,6 +35,7 @@ class SwampGolemEntity(
                 .add(EntityAttributes.MOVEMENT_SPEED, 0.20)
                 .add(EntityAttributes.ATTACK_DAMAGE, 4.0)
                 .add(EntityAttributes.ARMOR, 5.0)
+                .add(EntityAttributes.KNOCKBACK_RESISTANCE, 0.5)
         }
     }
 
