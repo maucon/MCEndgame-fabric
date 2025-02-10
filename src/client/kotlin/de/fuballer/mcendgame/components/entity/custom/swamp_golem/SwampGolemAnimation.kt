@@ -6,6 +6,69 @@ import net.minecraft.client.render.entity.animation.Keyframe
 import net.minecraft.client.render.entity.animation.Transformation
 
 object SwampGolemAnimation {
+    val IDLE: Animation = Animation.Builder.create(3.0f).looping()
+        .addBoneAnimation(
+            "upper_body", Transformation(
+                Transformation.Targets.ROTATE,
+                Keyframe(
+                    0.0f,
+                    AnimationHelper.createRotationalVector(0.0f, 0.0f, 0.0f),
+                    Transformation.Interpolations.CUBIC
+                ),
+                Keyframe(
+                    1.5f,
+                    AnimationHelper.createRotationalVector(2.5f, 0.0f, 0.0f),
+                    Transformation.Interpolations.CUBIC
+                ),
+                Keyframe(
+                    3.0f,
+                    AnimationHelper.createRotationalVector(0.0f, 0.0f, 0.0f),
+                    Transformation.Interpolations.CUBIC
+                )
+            )
+        )
+        .addBoneAnimation(
+            "upper_left_arm", Transformation(
+                Transformation.Targets.ROTATE,
+                Keyframe(
+                    0.0f,
+                    AnimationHelper.createRotationalVector(0.0f, 0.0f, 0.0f),
+                    Transformation.Interpolations.CUBIC
+                ),
+                Keyframe(
+                    1.5f,
+                    AnimationHelper.createRotationalVector(0.0f, 0.0f, -5.0f),
+                    Transformation.Interpolations.CUBIC
+                ),
+                Keyframe(
+                    3.0f,
+                    AnimationHelper.createRotationalVector(0.0f, 0.0f, 0.0f),
+                    Transformation.Interpolations.CUBIC
+                )
+            )
+        )
+        .addBoneAnimation(
+            "upper_right_arm", Transformation(
+                Transformation.Targets.ROTATE,
+                Keyframe(
+                    0.0f,
+                    AnimationHelper.createRotationalVector(0.0f, 0.0f, 0.0f),
+                    Transformation.Interpolations.CUBIC
+                ),
+                Keyframe(
+                    1.5f,
+                    AnimationHelper.createRotationalVector(0.0f, 0.0f, 5.0f),
+                    Transformation.Interpolations.CUBIC
+                ),
+                Keyframe(
+                    3.0f,
+                    AnimationHelper.createRotationalVector(0.0f, 0.0f, 0.0f),
+                    Transformation.Interpolations.CUBIC
+                )
+            )
+        )
+        .build()
+
     val SLAM: Animation = Animation.Builder.create(1.25f)
         .addBoneAnimation(
             "lower_body", Transformation(

@@ -24,6 +24,7 @@ class SwampGolemEntity(
     world: World,
 ) : HostileEntity(type, world), SlamAttacker {
     val slamAnimationState = AnimationState()
+    val idleAnimationState = AnimationState()
 
     companion object {
         val CUSTOM_POSE = DataTracker.registerData(SwampGolemEntity::class.java, CustomPosesEntity.CUSTOM_POSE_TDH)
@@ -65,6 +66,7 @@ class SwampGolemEntity(
         if (data == CUSTOM_POSE) {
             when (dataTracker.get(CUSTOM_POSE)) {
                 CustomPosesEntity.CustomPose.SLAMMING -> slamAnimationState.start(age)
+                CustomPosesEntity.CustomPose.IDLING -> idleAnimationState.start(age)
                 else -> {}
             }
         }

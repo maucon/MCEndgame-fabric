@@ -1,7 +1,6 @@
 package de.fuballer.mcendgame.components.entity.custom.swamp_golem
 
 import de.fuballer.mcendgame.util.IdentifierUtil
-import net.minecraft.client.render.entity.BipedEntityRenderer
 import net.minecraft.client.render.entity.EntityRendererFactory
 import net.minecraft.client.render.entity.MobEntityRenderer
 
@@ -27,5 +26,6 @@ class SwampGolemRenderer(
     ) {
         super.updateRenderState(entity, renderState, tickDelta)
         renderState.slamAnimationState.copyFrom(entity.slamAnimationState)
+        renderState.idleAnimationState.copyFrom(entity.idleAnimationState)
     }
 }

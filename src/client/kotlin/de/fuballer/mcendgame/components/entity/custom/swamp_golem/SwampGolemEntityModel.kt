@@ -140,5 +140,16 @@ class SwampGolemEntityModel(
         super.setAngles(renderState)
 
         animate(renderState.slamAnimationState, SwampGolemAnimation.SLAM, renderState.age, 1F)
+        animate(renderState.idleAnimationState, SwampGolemAnimation.IDLE, renderState.age, 1F)
+
+        setHeadAngles(renderState)
+    }
+
+    private fun setHeadAngles(
+        renderState: SwampGolemRenderState,
+    ) {
+        head.pitch += Math.toRadians(renderState.pitch.toDouble()).toFloat()
+        head.yaw += Math.toRadians(renderState.yawDegrees.toDouble()).toFloat()
+        head.yaw = Math.clamp(head.yaw, -0.8F, 0.8F)
     }
 }
