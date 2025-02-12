@@ -93,42 +93,40 @@ class SwampGolemEntityModel(
                 ModelTransform.of(0.0f, -7.607f, -1.9999f, -0.3054f, 0.0f, 0.0f)
             )
 
-            val left_leg = lower_body.addChild(
-                "left_leg",
-                ModelPartBuilder.create(),
-                ModelTransform.of(3.5f, -0.5f, 0.0f, -0.0436f, 0.0f, 0.0f)
-            )
+            val left_leg =
+                lower_body.addChild("left_leg", ModelPartBuilder.create(), ModelTransform.pivot(3.5f, -0.5f, 0.0f))
 
             val upper_left_leg = left_leg.addChild(
                 "upper_left_leg",
                 ModelPartBuilder.create().uv(63, 93).cuboid(-2.25f, -1.75f, -3.25f, 5.0f, 9.0f, 5.0f, Dilation(0.0f))
                     .uv(63, 79).cuboid(-2.25f, -1.75f, -3.25f, 5.0f, 9.0f, 5.0f, Dilation(0.25f)),
-                ModelTransform.of(-0.5f, 1.0f, 0.0f, -0.609f, -0.0617f, -0.0618f)
+                ModelTransform.of(-0.5f, 1.0f, 0.0f, -0.6526f, -0.0617f, -0.0618f)
             )
 
             val lower_left_leg = upper_left_leg.addChild(
                 "lower_left_leg",
-                ModelPartBuilder.create().uv(66, 107).cuboid(-1.25f, -2.25f, -0.75f, 4.0f, 10.0f, 4.0f, Dilation(0.0f)),
-                ModelTransform.of(-0.5f, 7.75f, -1.0f, 0.8727f, 0.0f, 0.0f)
+                ModelPartBuilder.create().uv(66, 107)
+                    .cuboid(-2.0f, -0.2358f, -0.039f, 4.0f, 10.0f, 4.0f, Dilation(0.0f)),
+                ModelTransform.of(0.25f, 7.0f, -3.0f, 0.8727f, 0.0f, 0.0f)
             )
 
-            val right_leg = lower_body.addChild(
-                "right_leg",
-                ModelPartBuilder.create(),
-                ModelTransform.of(-3.5f, -0.5f, 0.0f, 0.1309f, 0.0f, 0.0f)
-            )
+            val right_leg =
+                lower_body.addChild("right_leg", ModelPartBuilder.create(), ModelTransform.pivot(-3.5f, -0.5f, 0.0f))
 
             val upper_right_leg = right_leg.addChild(
                 "upper_right_leg",
-                ModelPartBuilder.create().uv(41, 93).cuboid(-2.75f, -1.75f, -3.25f, 5.0f, 9.0f, 5.0f, Dilation(0.0f))
-                    .uv(41, 79).cuboid(-2.75f, -1.75f, -3.25f, 5.0f, 9.0f, 5.0f, Dilation(0.25f)),
-                ModelTransform.of(0.5f, 1.0f, 0.0f, -0.7835f, 0.0617f, 0.0618f)
+                ModelPartBuilder.create().uv(41, 93).mirrored()
+                    .cuboid(-2.75f, -1.75f, -3.25f, 5.0f, 9.0f, 5.0f, Dilation(0.0f)).mirrored(false)
+                    .uv(41, 79).mirrored().cuboid(-2.75f, -1.75f, -3.25f, 5.0f, 9.0f, 5.0f, Dilation(0.25f))
+                    .mirrored(false),
+                ModelTransform.of(0.5f, 1.0f, 0.0f, -0.6526f, 0.0617f, 0.0618f)
             )
 
             val lower_right_leg = upper_right_leg.addChild(
                 "lower_right_leg",
-                ModelPartBuilder.create().uv(43, 107).cuboid(-2.75f, -2.25f, -0.75f, 4.0f, 10.0f, 4.0f, Dilation(0.0f)),
-                ModelTransform.of(0.5f, 7.75f, -1.0f, 0.8727f, 0.0f, 0.0f)
+                ModelPartBuilder.create().uv(43, 107).mirrored()
+                    .cuboid(-1.75f, -0.2358f, -0.039f, 4.0f, 10.0f, 4.0f, Dilation(0.0f)).mirrored(false),
+                ModelTransform.of(-0.5f, 7.0f, -3.0f, 0.8727f, 0.0f, 0.0f)
             )
             return TexturedModelData.of(modelData, 128, 128)
         }
@@ -141,6 +139,7 @@ class SwampGolemEntityModel(
 
         animate(renderState.slamAnimationState, SwampGolemAnimation.SLAM, renderState.age, 1F)
         animate(renderState.idleAnimationState, SwampGolemAnimation.IDLE, renderState.age, 1F)
+        animate(renderState.walkAnimationState, SwampGolemAnimation.WALK, renderState.age, 1F)
 
         setHeadAngles(renderState)
     }

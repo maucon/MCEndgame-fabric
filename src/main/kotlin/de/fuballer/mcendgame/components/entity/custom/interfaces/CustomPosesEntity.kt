@@ -16,6 +16,7 @@ interface CustomPosesEntity {
 
     enum class CustomPose {
         IDLING,
+        WALKING,
         SLAMMING;
 
         companion object {

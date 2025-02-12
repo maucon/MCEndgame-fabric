@@ -25,6 +25,7 @@ class SwampGolemEntity(
 ) : HostileEntity(type, world), SlamAttacker {
     val slamAnimationState = AnimationState()
     val idleAnimationState = AnimationState()
+    val walkAnimationState = AnimationState()
 
     companion object {
         val CUSTOM_POSE = DataTracker.registerData(SwampGolemEntity::class.java, CustomPosesEntity.CUSTOM_POSE_TDH)
@@ -58,6 +59,22 @@ class SwampGolemEntity(
         targetSelector.add(1, ActiveTargetGoal(this, ChickenEntity::class.java, true))
     }
 
+    override fun tick() {
+        super.tick()
+        tickWalking()
+    }
+
+    private fun tickWalking() {
+        if (world.isClient) return
+        if (navigation.isFollowingPath) {
+            if (dataTracker.get(CUSTOM_POSE) != CustomPosesEntity.CustomPose.IDLING) return
+            dataTracker.set(CUSTOM_POSE, CustomPosesEntity.CustomPose.WALKING)
+        } else {
+            if (dataTracker.get(CUSTOM_POSE) != CustomPosesEntity.CustomPose.WALKING) return
+            dataTracker.set(CUSTOM_POSE, CustomPosesEntity.CustomPose.IDLING)
+        }
+    }
+
     override fun initDataTracker(builder: DataTracker.Builder) {
         super.initDataTracker(builder)
         builder.add(CUSTOM_POSE, CustomPosesEntity.CustomPose.IDLING)
@@ -66,8 +83,22 @@ class SwampGolemEntity(
     override fun onTrackedDataSet(data: TrackedData<*>) {
         if (data == CUSTOM_POSE) {
             when (dataTracker.get(CUSTOM_POSE)) {
-                CustomPosesEntity.CustomPose.SLAMMING -> slamAnimationState.start(age)
-                CustomPosesEntity.CustomPose.IDLING -> idleAnimationState.start(age)
+                CustomPosesEntity.CustomPose.SLAMMING -> {
+                    walkAnimationState.stop()
+                    idleAnimationState.stop()
+                    slamAnimationState.start(age)
+                }
+
+                CustomPosesEntity.CustomPose.IDLING -> {
+                    walkAnimationState.stop()
+                    idleAnimationState.start(age)
+                }
+
+                CustomPosesEntity.CustomPose.WALKING -> {
+                    idleAnimationState.stop()
+                    walkAnimationState.start(age)
+                }
+
                 else -> {}
             }
         }

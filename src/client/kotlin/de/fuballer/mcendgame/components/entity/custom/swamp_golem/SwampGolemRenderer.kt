@@ -27,5 +27,6 @@ class SwampGolemRenderer(
         super.updateRenderState(entity, renderState, tickDelta)
         renderState.slamAnimationState.copyFrom(entity.slamAnimationState)
         renderState.idleAnimationState.copyFrom(entity.idleAnimationState)
+        renderState.walkAnimationState.copyFrom(entity.walkAnimationState)
     }
 }
