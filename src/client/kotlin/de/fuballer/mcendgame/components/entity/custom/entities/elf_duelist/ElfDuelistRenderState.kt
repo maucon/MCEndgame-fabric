@@ -5,4 +5,6 @@ import net.minecraft.entity.AnimationState
 
 class ElfDuelistRenderState : LivingEntityRenderState() {
     val idleAnimationState: AnimationState = AnimationState()
+
+    var aggressionAnimationState: Float = 0F //0-1
 }

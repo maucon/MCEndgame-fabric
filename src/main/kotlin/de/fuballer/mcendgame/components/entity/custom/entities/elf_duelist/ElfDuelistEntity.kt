@@ -4,11 +4,13 @@ import de.fuballer.mcendgame.components.entity.custom.entities.swamp_golem.Swamp
 import de.fuballer.mcendgame.components.entity.custom.interfaces.CustomPosesEntity
 import net.minecraft.entity.AnimationState
 import net.minecraft.entity.EntityType
+import net.minecraft.entity.LivingEntity
 import net.minecraft.entity.ai.goal.*
 import net.minecraft.entity.attribute.DefaultAttributeContainer
 import net.minecraft.entity.attribute.EntityAttributes
 import net.minecraft.entity.data.DataTracker
 import net.minecraft.entity.data.TrackedData
+import net.minecraft.entity.data.TrackedDataHandlerRegistry
 import net.minecraft.entity.mob.HostileEntity
 import net.minecraft.entity.passive.ChickenEntity
 import net.minecraft.entity.player.PlayerEntity
@@ -22,6 +24,9 @@ class ElfDuelistEntity(
 
     companion object {
         val CUSTOM_POSE = DataTracker.registerData(ElfDuelistEntity::class.java, CustomPosesEntity.CUSTOM_POSE_TDH)
+        val HAS_TARGET = DataTracker.registerData(ElfDuelistEntity::class.java, TrackedDataHandlerRegistry.BOOLEAN)
+        val TARGET_GAINED = DataTracker.registerData(ElfDuelistEntity::class.java, TrackedDataHandlerRegistry.INTEGER)
+        val TARGET_LOST = DataTracker.registerData(ElfDuelistEntity::class.java, TrackedDataHandlerRegistry.INTEGER)
 
         fun createAttributes(): DefaultAttributeContainer.Builder {
             return createHostileAttributes()
@@ -35,12 +40,21 @@ class ElfDuelistEntity(
 
     override fun initGoals() {
         goalSelector.add(0, SwimGoal(this))
+        goalSelector.add(1, ElfDuelistAttackGoal(this))
         goalSelector.add(7, WanderAroundFarGoal(this, 1.0))
         goalSelector.add(8, LookAtEntityGoal(this, PlayerEntity::class.java, 8.0f))
         goalSelector.add(8, LookAroundGoal(this))
 
         targetSelector.add(1, ActiveTargetGoal(this, PlayerEntity::class.java, true))
         targetSelector.add(1, ActiveTargetGoal(this, ChickenEntity::class.java, true))
+    }
+
+    override fun initDataTracker(builder: DataTracker.Builder) {
+        super.initDataTracker(builder)
+        builder.add(CUSTOM_POSE, CustomPosesEntity.CustomPose.IDLING)
+        builder.add(HAS_TARGET, false)
+        builder.add(TARGET_GAINED, 0)
+        builder.add(TARGET_LOST, 0)
     }
 
     override fun onTrackedDataSet(data: TrackedData<*>) {
@@ -60,12 +74,21 @@ class ElfDuelistEntity(
         super.tick()
     }
 
-    override fun initDataTracker(builder: DataTracker.Builder) {
-        super.initDataTracker(builder)
-        builder.add(CUSTOM_POSE, CustomPosesEntity.CustomPose.IDLING)
-    }
-
     override fun setPose(pose: CustomPosesEntity.CustomPose) {
         dataTracker.set(CUSTOM_POSE, pose)
+    }
+
+    override fun setTarget(newTarget: LivingEntity?) {
+        if (newTarget == null) {
+            if (target != null) {
+                dataTracker.set(TARGET_LOST, age)
+                dataTracker.set(HAS_TARGET, false)
+            }
+        } else if (target == null) {
+            dataTracker.set(TARGET_GAINED, age)
+            dataTracker.set(HAS_TARGET, true)
+        }
+
+        super.setTarget(newTarget)
     }
 }

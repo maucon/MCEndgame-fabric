@@ -3,6 +3,8 @@ package de.fuballer.mcendgame.components.entity.custom.entities.elf_duelist
 import de.fuballer.mcendgame.util.IdentifierUtil
 import net.minecraft.client.render.entity.EntityRendererFactory
 import net.minecraft.client.render.entity.MobEntityRenderer
+import kotlin.math.max
+import kotlin.math.min
 
 class ElfDuelistRenderer(
     context: EntityRendererFactory.Context,
@@ -25,5 +27,23 @@ class ElfDuelistRenderer(
     ) {
         super.updateRenderState(entity, renderState, tickDelta)
         renderState.idleAnimationState.copyFrom(entity.idleAnimationState)
+
+        updateAggressionAnimationState(entity, renderState, tickDelta)
+    }
+
+    private fun updateAggressionAnimationState(
+        entity: ElfDuelistEntity,
+        renderState: ElfDuelistRenderState,
+        tickDelta: Float
+    ) {
+        if (entity.dataTracker.get(ElfDuelistEntity.HAS_TARGET)) {
+            val timeSinceTargetGained =
+                max(entity.age - entity.dataTracker.get(ElfDuelistEntity.TARGET_GAINED) + tickDelta, 0F)
+            renderState.aggressionAnimationState = min(timeSinceTargetGained / 10F, 1F)
+            return
+        }
+
+        val timeSinceTargetLost = max(entity.age - entity.dataTracker.get(ElfDuelistEntity.TARGET_LOST) + tickDelta, 0F)
+        renderState.aggressionAnimationState = max(1 - timeSinceTargetLost / 10F, 0F)
     }
 }
