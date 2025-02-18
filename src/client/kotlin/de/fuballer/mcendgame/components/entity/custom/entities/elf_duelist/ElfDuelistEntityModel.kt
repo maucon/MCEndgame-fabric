@@ -4,6 +4,7 @@ import de.fuballer.mcendgame.util.IdentifierUtil
 import net.minecraft.client.model.*
 import net.minecraft.client.render.entity.model.EntityModel
 import net.minecraft.client.render.entity.model.EntityModelLayer
+import kotlin.math.cos
 import kotlin.math.min
 import kotlin.math.sin
 
@@ -178,10 +179,9 @@ class ElfDuelistEntityModel(
     ) {
         super.setAngles(renderState)
 
-        //animate(renderState.idleAnimationState, ElfDuelistAnimation.IDLE, renderState.age, 1F)
-
         setHeadAngles(renderState)
-        setLimbAngles(renderState)
+        setIdleAngles(renderState)
+        setWalkAngles(renderState)
     }
 
     private fun setHeadAngles(
@@ -189,30 +189,49 @@ class ElfDuelistEntityModel(
     ) {
         elfHead.pitch += Math.toRadians(renderState.pitch.toDouble()).toFloat()
         elfHead.yaw += Math.toRadians(renderState.yawDegrees.toDouble()).toFloat()
-        elfHead.yaw = Math.clamp(elfHead.yaw, -0.8F, 0.8F)
+        elfHead.yaw = Math.clamp(elfHead.yaw, -1F, 1F)
     }
 
-    private fun setLimbAngles(
+    private fun setIdleAngles(
+        renderState: ElfDuelistRenderState,
+    ) {
+        val idleState = renderState.idleAnimationState
+
+        val ageSinCurve = (sin(renderState.age * 0.08F) + 1F) / 2F
+        val armRoll = ageSinCurve * idleState * 0.1F + 0.05F
+        elfArmLeft.roll -= armRoll
+        elfArmRight.roll += armRoll
+
+        val ageCosCurve = cos(renderState.age * 0.08F)
+        val armPitch = ageCosCurve * idleState * 0.06F
+        elfArmLeft.pitch += armPitch
+        elfArmRight.pitch += armPitch
+
+        elfBreast.pitch -= ageSinCurve * idleState * 0.1F
+        elfCape.roll += ageCosCurve * 0.02F
+    }
+
+    private fun setWalkAngles(
         renderState: ElfDuelistRenderState,
     ) {
         val limbSwing = sin(renderState.limbFrequency * 0.6F)
         val speed = renderState.limbAmplitudeMultiplier
         val limbAmplitude = min(1.2F, speed * 1.5F)
         val legAngle = limbSwing * limbAmplitude
-        elfLegLeft.pitch = legAngle
-        elfLegRight.pitch = -legAngle
+        elfLegLeft.pitch += legAngle
+        elfLegRight.pitch -= legAngle
 
         val aggressionState = renderState.aggressionAnimationState
         val aggressionLean = Math.clamp(speed - 0.25F, 0F, 1F) * aggressionState
-        elfBody.pitch = aggressionLean * 0.2F
-        elfUpperBody.pitch = aggressionLean * 0.2F
+        elfBody.pitch += aggressionLean * 0.2F
+        elfUpperBody.pitch += aggressionLean * 0.2F
 
         val swordsRotation = Math.clamp(speed, 0.2F, 1F) * aggressionState
-        elfArmLeft.roll = swordsRotation * -0.15F
-        elfArmLeft.yaw = swordsRotation * -0.6F
-        elfArmLeft.pitch = swordsRotation * 0.3F
-        elfArmRight.roll = swordsRotation * 0.15F
-        elfArmRight.yaw = swordsRotation * 0.6F
-        elfArmRight.pitch = swordsRotation * 0.3F
+        elfArmLeft.roll -= swordsRotation * 0.15F
+        elfArmLeft.yaw -= swordsRotation * 0.6F
+        elfArmLeft.pitch += swordsRotation * 0.3F
+        elfArmRight.roll += swordsRotation * 0.15F
+        elfArmRight.yaw += swordsRotation * 0.6F
+        elfArmRight.pitch += swordsRotation * 0.3F
     }
 }

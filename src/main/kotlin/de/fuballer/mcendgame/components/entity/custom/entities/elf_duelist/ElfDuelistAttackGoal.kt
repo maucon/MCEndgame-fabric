@@ -52,6 +52,8 @@ class ElfDuelistAttackGoal(
     private fun update(
         target: LivingEntity
     ) {
+        mob.lookControl.lookAt(target, 30.0f, 30.0f)
+
         updateCountdownTicks = max(updateCountdownTicks - 1, 0)
 
         if (!shouldUpdate(target)) return

@@ -26,8 +26,9 @@ class ElfDuelistRenderer(
         tickDelta: Float
     ) {
         super.updateRenderState(entity, renderState, tickDelta)
-        renderState.idleAnimationState.copyFrom(entity.idleAnimationState)
 
+        renderState.idleAnimationState =
+            entity.dataTracker.get(ElfDuelistEntity.IDLE_TICKS) / ElfDuelistEntity.FULL_IDLE_TICKS.toFloat()
         updateAggressionAnimationState(entity, renderState, tickDelta)
     }
 

@@ -1,8 +1,5 @@
 package de.fuballer.mcendgame.components.entity.custom.entities.elf_duelist
 
-import de.fuballer.mcendgame.components.entity.custom.entities.swamp_golem.SwampGolemEntity
-import de.fuballer.mcendgame.components.entity.custom.interfaces.CustomPosesEntity
-import net.minecraft.entity.AnimationState
 import net.minecraft.entity.EntityType
 import net.minecraft.entity.LivingEntity
 import net.minecraft.entity.ai.goal.*
@@ -14,16 +11,16 @@ import net.minecraft.entity.data.TrackedDataHandlerRegistry
 import net.minecraft.entity.mob.HostileEntity
 import net.minecraft.entity.passive.ChickenEntity
 import net.minecraft.entity.player.PlayerEntity
+import net.minecraft.util.math.MathHelper
 import net.minecraft.world.World
 
 class ElfDuelistEntity(
     type: EntityType<out ElfDuelistEntity>,
     world: World,
-) : HostileEntity(type, world), CustomPosesEntity {
-    val idleAnimationState = AnimationState()
-
+) : HostileEntity(type, world) {
     companion object {
-        val CUSTOM_POSE = DataTracker.registerData(ElfDuelistEntity::class.java, CustomPosesEntity.CUSTOM_POSE_TDH)
+        val FULL_IDLE_TICKS = 10
+        val IDLE_TICKS = DataTracker.registerData(ElfDuelistEntity::class.java, TrackedDataHandlerRegistry.INTEGER)
         val HAS_TARGET = DataTracker.registerData(ElfDuelistEntity::class.java, TrackedDataHandlerRegistry.BOOLEAN)
         val TARGET_GAINED = DataTracker.registerData(ElfDuelistEntity::class.java, TrackedDataHandlerRegistry.INTEGER)
         val TARGET_LOST = DataTracker.registerData(ElfDuelistEntity::class.java, TrackedDataHandlerRegistry.INTEGER)
@@ -51,31 +48,29 @@ class ElfDuelistEntity(
 
     override fun initDataTracker(builder: DataTracker.Builder) {
         super.initDataTracker(builder)
-        builder.add(CUSTOM_POSE, CustomPosesEntity.CustomPose.IDLING)
+        builder.add(IDLE_TICKS, FULL_IDLE_TICKS)
         builder.add(HAS_TARGET, false)
         builder.add(TARGET_GAINED, 0)
         builder.add(TARGET_LOST, 0)
     }
 
     override fun onTrackedDataSet(data: TrackedData<*>) {
-        if (data == SwampGolemEntity.CUSTOM_POSE) {
-            when (dataTracker.get(SwampGolemEntity.CUSTOM_POSE)) {
-                CustomPosesEntity.CustomPose.IDLING -> {
-                    idleAnimationState.start(age)
-                }
-
-                else -> {}
-            }
-        }
         super.onTrackedDataSet(data)
     }
 
     override fun tick() {
         super.tick()
+
+        updateIdleTime()
     }
 
-    override fun setPose(pose: CustomPosesEntity.CustomPose) {
-        dataTracker.set(CUSTOM_POSE, pose)
+    private fun updateIdleTime() {
+        if (world.isClient) return
+
+        val isIdle = navigation.isIdle
+        val currentIdleTicks = dataTracker.get(IDLE_TICKS)
+        if ((currentIdleTicks == FULL_IDLE_TICKS && isIdle) || (currentIdleTicks == 0 && !isIdle)) return
+        dataTracker.set(IDLE_TICKS, MathHelper.clamp(currentIdleTicks + if (isIdle) 1 else -1, 0, FULL_IDLE_TICKS))
     }
 
     override fun setTarget(newTarget: LivingEntity?) {
