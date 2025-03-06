@@ -37,14 +37,21 @@ class ElfDuelistRenderer(
         renderState: ElfDuelistRenderState,
         tickDelta: Float
     ) {
+        val time = entity.world.time
+
         if (entity.dataTracker.get(ElfDuelistEntity.HAS_TARGET)) {
             val timeSinceTargetGained =
-                max(entity.age - entity.dataTracker.get(ElfDuelistEntity.TARGET_GAINED) + tickDelta, 0F)
+                max(time - entity.dataTracker.get(ElfDuelistEntity.TARGET_GAINED) + tickDelta, 0F)
             renderState.aggressionAnimationState = min(timeSinceTargetGained / 10F, 1F)
-            return
+        } else {
+            val timeSinceTargetLost =
+                max(time - entity.dataTracker.get(ElfDuelistEntity.TARGET_LOST) + tickDelta, 0F)
+            renderState.aggressionAnimationState = max(1 - timeSinceTargetLost / 10F, 0F)
         }
 
-        val timeSinceTargetLost = max(entity.age - entity.dataTracker.get(ElfDuelistEntity.TARGET_LOST) + tickDelta, 0F)
-        renderState.aggressionAnimationState = max(1 - timeSinceTargetLost / 10F, 0F)
+        renderState.prevAttackPose = entity.dataTracker.get(ElfDuelistEntity.PREVIOUS_ATTACK_POSE)
+        renderState.attackPose = entity.dataTracker.get(ElfDuelistEntity.ATTACK_POSE)
+        renderState.attackAnimationTime =
+            time - entity.dataTracker.get(ElfDuelistEntity.ATTACK_POSE_CHANGED) + tickDelta
     }
 }

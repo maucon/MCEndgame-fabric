@@ -15,7 +15,7 @@ class ElfDuelistAttackGoal(
     private var targetY = 0.0
     private var targetZ = 0.0
 
-    private var updateCountdownTicks = 0
+    private var updatePathingCountdownTicks = 0
 
     override fun canStart(): Boolean {
         val target = mob.target ?: return false
@@ -53,36 +53,67 @@ class ElfDuelistAttackGoal(
         target: LivingEntity
     ) {
         mob.lookControl.lookAt(target, 30.0f, 30.0f)
+        updatePathing(target)
+        updateAttack(target)
+    }
 
-        updateCountdownTicks = max(updateCountdownTicks - 1, 0)
+    private fun updatePathing(
+        target: LivingEntity
+    ) {
+        updatePathingCountdownTicks = max(updatePathingCountdownTicks - 1, 0)
 
-        if (!shouldUpdate(target)) return
+        if (!shouldUpdatePathing(target)) return
 
         targetX = target.x
         targetY = target.y
         targetZ = target.z
 
-        updateCountdownTicks = 4 + mob.random.nextInt(7)
+        updatePathingCountdownTicks = 4 + mob.random.nextInt(7)
 
         val distance = mob.squaredDistanceTo(target)
-        updateCountdownTicks += (distance / 100).toInt()
+        updatePathingCountdownTicks += (distance / 100).toInt()
 
         if (!mob.navigation.startMovingTo(target, moveSpeedFactor)) {
-            updateCountdownTicks += 15
+            updatePathingCountdownTicks += 15
         }
 
-        updateCountdownTicks = getTickCount(updateCountdownTicks)
+        updatePathingCountdownTicks = getTickCount(updatePathingCountdownTicks)
     }
 
-    private fun shouldUpdate(
+    private fun shouldUpdatePathing(
         target: LivingEntity
     ): Boolean {
-        if (updateCountdownTicks > 0) return false
+        if (updatePathingCountdownTicks > 0) return false
         if (!mob.visibilityCache.canSee(target)) return false
 
         if (targetX == 0.0 && targetY == 0.0 && targetZ == 0.0) return true
         if (target.squaredDistanceTo(targetX, targetY, targetZ) >= 1) return true
 
         return mob.random.nextFloat() < 0.05
+    }
+
+    private fun updateAttack(
+        target: LivingEntity
+    ) {
+        if (!shouldUpdateAttack(target)) return
+
+        val currentPose = mob.dataTracker.get(ElfDuelistEntity.ATTACK_POSE)
+        val nextPose = ElfDuelistAttackPose.POSE_SEQUENCES[currentPose]?.random()?.newPose ?: return
+        mob.setAttackPose(nextPose)
+    }
+
+    private fun shouldUpdateAttack(
+        target: LivingEntity
+    ): Boolean {
+        if (mob.squaredDistanceTo(target) > 2) return false
+
+        val currentAttack = ElfDuelistAttackPose.getAttack(
+            mob.dataTracker.get(ElfDuelistEntity.PREVIOUS_ATTACK_POSE),
+            mob.dataTracker.get(ElfDuelistEntity.ATTACK_POSE)
+        ) ?: return true
+        val totalAttackDuration = currentAttack.animationTime + currentAttack.cooldownAfter
+        val ticksSinceAttackStart = mob.world.time - mob.dataTracker.get(ElfDuelistEntity.ATTACK_POSE_CHANGED)
+
+        return ticksSinceAttackStart > totalAttackDuration
     }
 }

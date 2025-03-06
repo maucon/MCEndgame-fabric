@@ -4,9 +4,8 @@ import de.fuballer.mcendgame.util.IdentifierUtil
 import net.minecraft.client.model.*
 import net.minecraft.client.render.entity.model.EntityModel
 import net.minecraft.client.render.entity.model.EntityModelLayer
-import kotlin.math.cos
-import kotlin.math.min
-import kotlin.math.sin
+import kotlin.math.*
+
 
 class ElfDuelistEntityModel(
     modelPart: ModelPart,
@@ -102,20 +101,20 @@ class ElfDuelistEntityModel(
 
             val elfArmUpperLeft = elfArmLeft.addChild(
                 "elfArmUpperLeft",
-                ModelPartBuilder.create().uv(80, 32).cuboid(3.75f, -0.25f, -1.3f, 3.0f, 6.0f, 3.0f, Dilation(0.0f)),
-                ModelTransform.pivot(-3.75f, -0.75f, -0.25f)
+                ModelPartBuilder.create().uv(80, 32).cuboid(0.0f, -1.0f, -1.55f, 3.0f, 6.0f, 3.0f, Dilation(0.0f)),
+                ModelTransform.pivot(0.0f, 0.0f, 0.0f)
             )
 
             val elfPauldronLeft = elfArmUpperLeft.addChild(
                 "elfPauldronLeft",
                 ModelPartBuilder.create().uv(80, 23).cuboid(0.25f, 0.25f, -1.5f, 3.0f, 5.0f, 3.0f, Dilation(0.25f)),
-                ModelTransform.of(3.75f, -0.75f, 0.25f, 0.0f, 0.0f, 0.0436f)
+                ModelTransform.of(0.0f, -1.5f, 0.0f, 0.0f, 0.0f, 0.0436f)
             )
 
             val elfArmLowerLeft = elfArmUpperLeft.addChild(
                 "elfArmLowerLeft",
-                ModelPartBuilder.create().uv(80, 42).cuboid(3.75f, 5.25f, -1.3f, 3.0f, 7.0f, 3.0f, Dilation(-0.25f)),
-                ModelTransform.pivot(0.0f, 0.0f, 0.0f)
+                ModelPartBuilder.create().uv(80, 42).cuboid(-1.5f, -0.5f, -1.5f, 3.0f, 7.0f, 3.0f, Dilation(-0.25f)),
+                ModelTransform.pivot(1.5f, 5.0f, -0.05f)
             )
 
             val elfSwordLeft = elfArmLowerLeft.addChild(
@@ -123,7 +122,7 @@ class ElfDuelistEntityModel(
                 ModelPartBuilder.create().uv(95, 46).cuboid(-0.5f, -1.75f, -0.5f, 1.0f, 5.0f, 1.0f, Dilation(0.0f))
                     .uv(89, 53).cuboid(-2.0f, -2.75f, -2.0f, 4.0f, 1.0f, 4.0f, Dilation(0.0f))
                     .uv(95, 59).cuboid(-0.5f, -19.75f, -0.5f, 1.0f, 17.0f, 1.0f, Dilation(0.0f)),
-                ModelTransform.of(5.0f, 11.0f, 0.25f, 1.5708f, 0.0f, 0.0f)
+                ModelTransform.of(-0.25f, 5.25f, 0.05f, 1.5708f, 0.0f, 0.0f)
             )
 
             val elfArmRight =
@@ -131,20 +130,20 @@ class ElfDuelistEntityModel(
 
             val elfArmUpperRight = elfArmRight.addChild(
                 "elfArmUpperRight",
-                ModelPartBuilder.create().uv(42, 32).cuboid(-6.75f, -0.25f, -1.3f, 3.0f, 6.0f, 3.0f, Dilation(0.0f)),
-                ModelTransform.pivot(3.75f, -0.75f, -0.25f)
+                ModelPartBuilder.create().uv(42, 32).cuboid(-3.0f, -1.0f, -1.55f, 3.0f, 6.0f, 3.0f, Dilation(0.0f)),
+                ModelTransform.pivot(0.0f, 0.0f, 0.0f)
             )
 
             val elfPauldronRight = elfArmUpperRight.addChild(
                 "elfPauldronRight",
                 ModelPartBuilder.create().uv(42, 23).cuboid(-3.25f, 0.25f, -1.5f, 3.0f, 5.0f, 3.0f, Dilation(0.25f)),
-                ModelTransform.of(-3.75f, -0.75f, 0.25f, 0.0f, 0.0f, -0.0436f)
+                ModelTransform.of(0.0f, -1.5f, 0.0f, 0.0f, 0.0f, -0.0436f)
             )
 
             val elfArmLowerRight = elfArmUpperRight.addChild(
                 "elfArmLowerRight",
-                ModelPartBuilder.create().uv(42, 42).cuboid(-6.75f, 5.25f, -1.3f, 3.0f, 7.0f, 3.0f, Dilation(-0.25f)),
-                ModelTransform.pivot(0.0f, 0.0f, 0.0f)
+                ModelPartBuilder.create().uv(42, 42).cuboid(-1.5f, -0.5f, -1.5f, 3.0f, 7.0f, 3.0f, Dilation(-0.25f)),
+                ModelTransform.pivot(-1.5f, 5.0f, -0.05f)
             )
 
             val elfSwordRight = elfArmLowerRight.addChild(
@@ -152,7 +151,7 @@ class ElfDuelistEntityModel(
                 ModelPartBuilder.create().uv(35, 46).cuboid(-0.5f, -1.75f, -0.5f, 1.0f, 5.0f, 1.0f, Dilation(0.0f))
                     .uv(29, 53).cuboid(-2.0f, -2.75f, -2.0f, 4.0f, 1.0f, 4.0f, Dilation(0.0f))
                     .uv(35, 59).cuboid(-0.5f, -19.75f, -0.5f, 1.0f, 17.0f, 1.0f, Dilation(0.0f)),
-                ModelTransform.of(-5.0f, 11.0f, 0.25f, 1.5708f, 0.0f, 0.0f)
+                ModelTransform.of(0.25f, 5.25f, 0.05f, 1.5708f, 0.0f, 0.0f)
             )
 
             val elfLegLeft = elf.addChild(
@@ -182,6 +181,7 @@ class ElfDuelistEntityModel(
         setHeadAngles(renderState)
         setIdleAngles(renderState)
         setWalkAngles(renderState)
+        setAttackAngles(renderState)
     }
 
     private fun setHeadAngles(
@@ -233,5 +233,80 @@ class ElfDuelistEntityModel(
         elfArmRight.roll += swordsRotation * 0.15F
         elfArmRight.yaw += swordsRotation * 0.6F
         elfArmRight.pitch += swordsRotation * 0.3F
+    }
+
+    private fun setAttackAngles(
+        renderState: ElfDuelistRenderState,
+    ) {
+        val prevPose = renderState.prevAttackPose
+        val nextPose = renderState.attackPose
+        val attack = ElfDuelistAttackPose.Companion.getAttack(prevPose, nextPose) ?: return
+        val attackTime = attack.animationTime
+        val attackProgress = min(renderState.attackAnimationTime / attackTime, 1F)
+
+        val smoothedProgress =
+            if (attackProgress < 0.5) attackProgress.pow(3) * 4 else 1 - (1 - attackProgress).pow(3) * 4
+        val invSmoothedProgress = 1 - smoothedProgress
+
+        if (prevPose == ElfDuelistAttackPose.DEFAULT && nextPose == ElfDuelistAttackPose.UPWARDS_SLICE_RIGHT) {
+            elfArmRight.pitch -= smoothedProgress * 1.5F
+            elfArmRight.roll += smoothedProgress * 0.7F
+            elfArmLowerRight.pitch -= max((smoothedProgress - 0.8F) * 5F, 0F) * 0.8F
+            elfArmRight.yaw -= smoothedProgress * 0.8F
+            elfSwordRight.pitch += min(smoothedProgress, 0.6F) * 0.8F
+            elfSwordRight.pitch -= max(smoothedProgress - 0.6F, 0F) * 0.4F
+
+            elfSwordLeft.pitch += smoothedProgress * 0.2F
+
+            elfBody.yaw -= smoothedProgress * 0.08F
+            elfUpperBody.yaw -= smoothedProgress * 0.15F
+
+            return
+        }
+        if (prevPose == ElfDuelistAttackPose.UPWARDS_SLICE_RIGHT && nextPose == ElfDuelistAttackPose.DEFAULT) {
+            elfArmRight.pitch -= invSmoothedProgress * 1.5F
+            elfArmRight.roll += invSmoothedProgress * 0.7F
+            elfArmLowerRight.pitch -= max((invSmoothedProgress - 0.8F) * 5F, 0F) * 0.8F
+            elfArmRight.yaw -= invSmoothedProgress * 0.8F
+            elfSwordRight.pitch += min(invSmoothedProgress, 0.6F) * 0.8F
+            elfSwordRight.pitch -= max(invSmoothedProgress - 0.6F, 0F) * 0.4F
+
+            elfSwordLeft.pitch += invSmoothedProgress * 0.2F
+
+            elfBody.yaw -= invSmoothedProgress * 0.08F
+            elfUpperBody.yaw -= invSmoothedProgress * 0.15F
+
+            return
+        }
+        if (prevPose == ElfDuelistAttackPose.DEFAULT && nextPose == ElfDuelistAttackPose.UPWARDS_SLICE_LEFT) {
+            elfArmLeft.pitch -= smoothedProgress * 1.5F
+            elfArmLeft.roll -= smoothedProgress * 0.7F
+            elfArmLowerLeft.pitch -= max((smoothedProgress - 0.8F) * 5F, 0F) * 0.8F
+            elfArmLeft.yaw += smoothedProgress * 0.8F
+            elfSwordLeft.pitch += min(smoothedProgress, 0.6F) * 0.8F
+            elfSwordLeft.pitch -= max(smoothedProgress - 0.6F, 0F) * 0.4F
+
+            elfSwordRight.pitch += smoothedProgress * 0.2F
+
+            elfBody.yaw += smoothedProgress * 0.08F
+            elfUpperBody.yaw += smoothedProgress * 0.15F
+
+            return
+        }
+        if (prevPose == ElfDuelistAttackPose.UPWARDS_SLICE_LEFT && nextPose == ElfDuelistAttackPose.DEFAULT) {
+            elfArmLeft.pitch -= invSmoothedProgress * 1.5F
+            elfArmLeft.roll -= invSmoothedProgress * 0.7F
+            elfArmLowerLeft.pitch -= max((invSmoothedProgress - 0.8F) * 5F, 0F) * 0.8F
+            elfArmLeft.yaw += invSmoothedProgress * 0.8F
+            elfSwordLeft.pitch += min(invSmoothedProgress, 0.6F) * 0.8F
+            elfSwordLeft.pitch -= max(invSmoothedProgress - 0.6F, 0F) * 0.4F
+
+            elfSwordRight.pitch += invSmoothedProgress * 0.2F
+
+            elfBody.yaw += invSmoothedProgress * 0.08F
+            elfUpperBody.yaw += invSmoothedProgress * 0.15F
+
+            return
+        }
     }
 }

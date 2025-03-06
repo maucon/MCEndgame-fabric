@@ -7,6 +7,7 @@ import net.minecraft.entity.attribute.DefaultAttributeContainer
 import net.minecraft.entity.attribute.EntityAttributes
 import net.minecraft.entity.data.DataTracker
 import net.minecraft.entity.data.TrackedData
+import net.minecraft.entity.data.TrackedDataHandler
 import net.minecraft.entity.data.TrackedDataHandlerRegistry
 import net.minecraft.entity.mob.HostileEntity
 import net.minecraft.entity.passive.ChickenEntity
@@ -21,9 +22,18 @@ class ElfDuelistEntity(
     companion object {
         val FULL_IDLE_TICKS = 10
         val IDLE_TICKS = DataTracker.registerData(ElfDuelistEntity::class.java, TrackedDataHandlerRegistry.INTEGER)
+
         val HAS_TARGET = DataTracker.registerData(ElfDuelistEntity::class.java, TrackedDataHandlerRegistry.BOOLEAN)
-        val TARGET_GAINED = DataTracker.registerData(ElfDuelistEntity::class.java, TrackedDataHandlerRegistry.INTEGER)
-        val TARGET_LOST = DataTracker.registerData(ElfDuelistEntity::class.java, TrackedDataHandlerRegistry.INTEGER)
+        val TARGET_GAINED = DataTracker.registerData(ElfDuelistEntity::class.java, TrackedDataHandlerRegistry.LONG)
+        val TARGET_LOST = DataTracker.registerData(ElfDuelistEntity::class.java, TrackedDataHandlerRegistry.LONG)
+
+        val ATTACK_POSE_TDH: TrackedDataHandler<ElfDuelistAttackPose> =
+            TrackedDataHandler.create(ElfDuelistAttackPose.PACKET_CODEC)
+                .also { TrackedDataHandlerRegistry.register(it) }
+        val ATTACK_POSE = DataTracker.registerData(ElfDuelistEntity::class.java, ATTACK_POSE_TDH)
+        val PREVIOUS_ATTACK_POSE = DataTracker.registerData(ElfDuelistEntity::class.java, ATTACK_POSE_TDH)
+        val ATTACK_POSE_CHANGED =
+            DataTracker.registerData(ElfDuelistEntity::class.java, TrackedDataHandlerRegistry.LONG)
 
         fun createAttributes(): DefaultAttributeContainer.Builder {
             return createHostileAttributes()
@@ -50,8 +60,11 @@ class ElfDuelistEntity(
         super.initDataTracker(builder)
         builder.add(IDLE_TICKS, FULL_IDLE_TICKS)
         builder.add(HAS_TARGET, false)
-        builder.add(TARGET_GAINED, 0)
-        builder.add(TARGET_LOST, 0)
+        builder.add(TARGET_GAINED, -1000)
+        builder.add(TARGET_LOST, -1000)
+        builder.add(ATTACK_POSE, ElfDuelistAttackPose.DEFAULT)
+        builder.add(PREVIOUS_ATTACK_POSE, ElfDuelistAttackPose.DEFAULT)
+        builder.add(ATTACK_POSE_CHANGED, -1000)
     }
 
     override fun onTrackedDataSet(data: TrackedData<*>) {
@@ -76,14 +89,23 @@ class ElfDuelistEntity(
     override fun setTarget(newTarget: LivingEntity?) {
         if (newTarget == null) {
             if (target != null) {
-                dataTracker.set(TARGET_LOST, age)
+                dataTracker.set(TARGET_LOST, world.time)
                 dataTracker.set(HAS_TARGET, false)
             }
         } else if (target == null) {
-            dataTracker.set(TARGET_GAINED, age)
+            dataTracker.set(TARGET_GAINED, world.time)
             dataTracker.set(HAS_TARGET, true)
         }
 
         super.setTarget(newTarget)
+    }
+
+    fun setAttackPose(newPose: ElfDuelistAttackPose) {
+        val currentPose = dataTracker.get(ATTACK_POSE)
+        if (newPose == currentPose) return
+
+        dataTracker.set(PREVIOUS_ATTACK_POSE, currentPose)
+        dataTracker.set(ATTACK_POSE, newPose)
+        dataTracker.set(ATTACK_POSE_CHANGED, world.time)
     }
 }
