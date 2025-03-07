@@ -3,7 +3,9 @@ package de.fuballer.mcendgame.components.entity.custom.entities.elf_duelist
 import net.minecraft.entity.LivingEntity
 import net.minecraft.entity.ai.goal.Goal
 import net.minecraft.entity.ai.pathing.Path
+import net.minecraft.entity.attribute.EntityAttributes
 import net.minecraft.predicate.entity.EntityPredicates
+import net.minecraft.server.world.ServerWorld
 import kotlin.math.max
 
 class ElfDuelistAttackGoal(
@@ -16,6 +18,7 @@ class ElfDuelistAttackGoal(
     private var targetZ = 0.0
 
     private var updatePathingCountdownTicks = 0
+    private var dealDamageTime = 0
 
     override fun canStart(): Boolean {
         val target = mob.target ?: return false
@@ -88,6 +91,7 @@ class ElfDuelistAttackGoal(
 
         if (targetX == 0.0 && targetY == 0.0 && targetZ == 0.0) return true
         if (target.squaredDistanceTo(targetX, targetY, targetZ) >= 1) return true
+        if (mob.navigation.isIdle && mob.squaredDistanceTo(target) > 1) return true
 
         return mob.random.nextFloat() < 0.05
     }
@@ -95,17 +99,43 @@ class ElfDuelistAttackGoal(
     private fun updateAttack(
         target: LivingEntity
     ) {
-        if (!shouldUpdateAttack(target)) return
+        updateAttackDamage(target)
+        if (!shouldStartNextAttack(target)) return
 
         val currentPose = mob.dataTracker.get(ElfDuelistEntity.ATTACK_POSE)
-        val nextPose = ElfDuelistAttackPose.POSE_SEQUENCES[currentPose]?.random()?.newPose ?: return
+        val chosenAttack = ElfDuelistAttackPose.POSE_SEQUENCES[currentPose]?.random() ?: return
+        val nextPose = chosenAttack.newPose
         mob.setAttackPose(nextPose)
+        dealDamageTime = getTickCount(chosenAttack.damageTime)
     }
 
-    private fun shouldUpdateAttack(
+    private fun updateAttackDamage(
+        target: LivingEntity
+    ) {
+        if (dealDamageTime == 0) return
+        if (--dealDamageTime > 0) return
+
+        dealDamage(target)
+    }
+
+    private fun dealDamage(
+        target: LivingEntity
+    ) {
+        val world = mob.world as? ServerWorld ?: return
+        if (!isInReach(target)) return
+
+        val attackDamage = mob.getAttributeValue(EntityAttributes.ATTACK_DAMAGE).toFloat()
+        target.damage(world, world.damageSources.mobAttack(mob), attackDamage)
+
+        val distanceVector = target.eyePos.subtract(mob.eyePos)
+        val attackKnockback = mob.getAttributeValue(EntityAttributes.ATTACK_KNOCKBACK)
+        target.takeKnockback(attackKnockback, -distanceVector.x, -distanceVector.z)
+    }
+
+    private fun shouldStartNextAttack(
         target: LivingEntity
     ): Boolean {
-        if (mob.squaredDistanceTo(target) > 2) return false
+        if (!isInReach(target)) return false
 
         val currentAttack = ElfDuelistAttackPose.getAttack(
             mob.dataTracker.get(ElfDuelistEntity.PREVIOUS_ATTACK_POSE),
@@ -116,4 +146,7 @@ class ElfDuelistAttackGoal(
 
         return ticksSinceAttackStart > totalAttackDuration
     }
+
+    private fun isInReach(target: LivingEntity) = mob.eyePos.squaredDistanceTo(target.eyePos) < 2.5
+            || mob.eyePos.squaredDistanceTo(target.pos) < 2.5
 }

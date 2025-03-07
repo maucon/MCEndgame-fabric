@@ -4,7 +4,7 @@ data class ElfDuelistAttack(
     val oldPose: ElfDuelistAttackPose,
     val newPose: ElfDuelistAttackPose,
     val animationTime: Float,
-    val damageTime: Long,
-    val cooldownAfter: Long,
+    val damageTime: Int,
+    val cooldownAfter: Int,
 ) {
 }

@@ -21,11 +21,9 @@ enum class ElfDuelistAttackPose {
             ),
             UPWARDS_SLICE_LEFT to listOf(
                 ElfDuelistAttack(UPWARDS_SLICE_LEFT, DEFAULT, 6F, 3, 5),
-                //ElfDuelistAttack(UPWARDS_SLICE_LEFT, UPWARDS_SLICE_RIGHT, 6F, 3, 5),
             ),
             UPWARDS_SLICE_RIGHT to listOf(
                 ElfDuelistAttack(UPWARDS_SLICE_RIGHT, DEFAULT, 6F, 3, 5),
-                //ElfDuelistAttack(UPWARDS_SLICE_RIGHT, UPWARDS_SLICE_LEFT, 6F, 3, 5),
             ),
         )
 
