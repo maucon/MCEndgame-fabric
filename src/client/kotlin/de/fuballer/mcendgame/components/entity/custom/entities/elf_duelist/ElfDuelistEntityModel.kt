@@ -256,7 +256,7 @@ class ElfDuelistEntityModel(
             elfSwordRight.pitch += min(smoothedProgress, 0.6F) * 0.8F
             elfSwordRight.pitch -= max(smoothedProgress - 0.6F, 0F) * 0.4F
 
-            elfSwordLeft.pitch += smoothedProgress * 0.2F
+            elfArmLeft.pitch += smoothedProgress * 0.2F
 
             elfBody.yaw -= smoothedProgress * 0.08F
             elfUpperBody.yaw -= smoothedProgress * 0.15F
@@ -271,7 +271,7 @@ class ElfDuelistEntityModel(
             elfSwordRight.pitch += min(invSmoothedProgress, 0.6F) * 0.8F
             elfSwordRight.pitch -= max(invSmoothedProgress - 0.6F, 0F) * 0.4F
 
-            elfSwordLeft.pitch += invSmoothedProgress * 0.2F
+            elfArmLeft.pitch += invSmoothedProgress * 0.2F
 
             elfBody.yaw -= invSmoothedProgress * 0.08F
             elfUpperBody.yaw -= invSmoothedProgress * 0.15F
@@ -286,7 +286,7 @@ class ElfDuelistEntityModel(
             elfSwordLeft.pitch += min(smoothedProgress, 0.6F) * 0.8F
             elfSwordLeft.pitch -= max(smoothedProgress - 0.6F, 0F) * 0.4F
 
-            elfSwordRight.pitch += smoothedProgress * 0.2F
+            elfArmRight.pitch += smoothedProgress * 0.2F
 
             elfBody.yaw += smoothedProgress * 0.08F
             elfUpperBody.yaw += smoothedProgress * 0.15F
@@ -301,7 +301,7 @@ class ElfDuelistEntityModel(
             elfSwordLeft.pitch += min(invSmoothedProgress, 0.6F) * 0.8F
             elfSwordLeft.pitch -= max(invSmoothedProgress - 0.6F, 0F) * 0.4F
 
-            elfSwordRight.pitch += invSmoothedProgress * 0.2F
+            elfArmRight.pitch += invSmoothedProgress * 0.2F
 
             elfBody.yaw += invSmoothedProgress * 0.08F
             elfUpperBody.yaw += invSmoothedProgress * 0.15F
@@ -315,7 +315,7 @@ class ElfDuelistEntityModel(
             elfArmRight.yaw -= invSmoothedProgress * 0.8F + elfArmRight.yaw
             elfSwordRight.pitch += 0.32F + smoothedProgress * 1.2F
 
-            elfSwordLeft.pitch += invSmoothedProgress * 0.2F
+            elfArmLeft.pitch += invSmoothedProgress * 0.2F
 
             elfBody.yaw -= 0.08F - smoothedProgress * 0.04F
             elfUpperBody.yaw -= 0.15F - smoothedProgress * 0.08F
@@ -339,7 +339,7 @@ class ElfDuelistEntityModel(
             elfArmLeft.yaw += invSmoothedProgress * 0.8F + elfArmLeft.yaw
             elfSwordLeft.pitch += 0.32F + smoothedProgress * 1.2F
 
-            elfSwordLeft.pitch += invSmoothedProgress * 0.2F
+            elfArmRight.pitch += invSmoothedProgress * 0.2F
 
             elfBody.yaw += 0.08F - smoothedProgress * 0.04F
             elfUpperBody.yaw += 0.15F - smoothedProgress * 0.08F
@@ -353,6 +353,60 @@ class ElfDuelistEntityModel(
 
             elfBody.yaw += invSmoothedProgress * 0.04F
             elfUpperBody.yaw += invSmoothedProgress * 0.07F
+
+            return
+        }
+        if (prevPose == ElfDuelistAttackPose.DEFAULT && nextPose == ElfDuelistAttackPose.THRUST_RIGHT) {
+            elfArmRight.pitch -= smoothedProgress * 1.5F
+            elfSwordRight.pitch += smoothedProgress * 1.52F
+            elfArmRight.yaw -= smoothedProgress * elfArmRight.yaw
+
+            elfBody.yaw -= smoothedProgress * 0.04F
+            elfUpperBody.yaw -= smoothedProgress * 0.07F
+
+            return
+        }
+        if (prevPose == ElfDuelistAttackPose.DEFAULT && nextPose == ElfDuelistAttackPose.THRUST_LEFT) {
+            elfArmLeft.pitch -= smoothedProgress * 1.5F
+            elfSwordLeft.pitch += smoothedProgress * 1.52F
+            elfArmLeft.yaw += smoothedProgress * elfArmLeft.yaw
+
+            elfBody.yaw += smoothedProgress * 0.04F
+            elfUpperBody.yaw += smoothedProgress * 0.07F
+
+            return
+        }
+        if (prevPose == ElfDuelistAttackPose.UPWARDS_SLICE_RIGHT && nextPose == ElfDuelistAttackPose.THRUST_LEFT) {
+            elfArmRight.pitch -= invSmoothedProgress * 1.5F
+            elfArmRight.roll += invSmoothedProgress * 0.7F
+            elfArmLowerRight.pitch -= max((invSmoothedProgress - 0.8F) * 5F, 0F) * 0.8F
+            elfArmRight.yaw -= invSmoothedProgress * (0.8F + elfArmRight.yaw)
+            elfSwordRight.pitch += min(invSmoothedProgress, 0.6F) * 0.8F
+            elfSwordRight.pitch -= max(invSmoothedProgress - 0.6F, 0F) * 0.4F
+
+            elfArmLeft.pitch -= smoothedProgress * 1.7F - 0.2F
+            elfSwordLeft.pitch += smoothedProgress * 1.52F
+            elfArmLeft.yaw += smoothedProgress * elfArmLeft.yaw
+
+            elfBody.yaw += smoothedProgress * 0.12F - 0.08F
+            elfUpperBody.yaw += smoothedProgress * 0.22F - 0.15F
+
+            return
+        }
+        if (prevPose == ElfDuelistAttackPose.UPWARDS_SLICE_LEFT && nextPose == ElfDuelistAttackPose.THRUST_RIGHT) {
+            elfArmLeft.pitch -= invSmoothedProgress * 1.5F
+            elfArmLeft.roll -= invSmoothedProgress * 0.7F
+            elfArmLowerLeft.pitch -= max((invSmoothedProgress - 0.8F) * 5F, 0F) * 0.8F
+            elfArmLeft.yaw += invSmoothedProgress * (0.8F + elfArmLeft.yaw)
+            elfSwordLeft.pitch += min(invSmoothedProgress, 0.6F) * 0.8F
+            elfSwordLeft.pitch -= max(invSmoothedProgress - 0.6F, 0F) * 0.4F
+
+            elfArmRight.pitch -= smoothedProgress * 1.7F - 0.2F
+            elfSwordRight.pitch += smoothedProgress * 1.52F
+            elfArmRight.yaw -= smoothedProgress * elfArmRight.yaw
+
+            elfBody.yaw -= smoothedProgress * 0.12F - 0.08F
+            elfUpperBody.yaw -= smoothedProgress * 0.22F - 0.15F
 
             return
         }
