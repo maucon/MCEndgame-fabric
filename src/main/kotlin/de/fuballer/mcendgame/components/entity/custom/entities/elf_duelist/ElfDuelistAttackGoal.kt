@@ -95,7 +95,7 @@ class ElfDuelistAttackGoal(
 
         if (targetX == 0.0 && targetY == 0.0 && targetZ == 0.0) return true
         if (target.pos.distanceTo(Vec3d(targetX, targetY, targetZ)) > 1) return true
-        if (mob.navigation.isIdle && mob.distanceTo(target) > 1) return true
+        if (mob.navigation.isIdle && mob.distanceTo(target) > 1.8) return true
 
         return mob.random.nextFloat() < 0.05
     }
@@ -151,6 +151,6 @@ class ElfDuelistAttackGoal(
         return ticksSinceAttackStart > totalAttackDuration
     }
 
-    private fun isInReach(target: LivingEntity) = mob.eyePos.distanceTo(target.eyePos) < 1.8
-            || mob.eyePos.distanceTo(target.pos) < 1.8
+    private fun isInReach(target: LivingEntity) = mob.eyePos.distanceTo(target.eyePos) < 2.2
+            || mob.eyePos.distanceTo(target.pos) < 2.2
 }

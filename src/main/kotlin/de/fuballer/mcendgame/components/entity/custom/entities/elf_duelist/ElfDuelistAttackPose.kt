@@ -20,24 +20,24 @@ enum class ElfDuelistAttackPose {
             DEFAULT to listOf(
                 ElfDuelistAttack(DEFAULT, UPWARDS_SLICE_LEFT, 6F, 3, 2),
                 ElfDuelistAttack(DEFAULT, UPWARDS_SLICE_RIGHT, 6F, 3, 2),
-                ElfDuelistAttack(DEFAULT, THRUST_LEFT, 5F, 4, 3),
-                ElfDuelistAttack(DEFAULT, THRUST_RIGHT, 5F, 4, 3),
+                ElfDuelistAttack(DEFAULT, THRUST_LEFT, 5F, 4, 1),
+                ElfDuelistAttack(DEFAULT, THRUST_RIGHT, 5F, 4, 1),
             ),
             UPWARDS_SLICE_LEFT to listOf(
                 ElfDuelistAttack(UPWARDS_SLICE_LEFT, DEFAULT, 6F, 3, 5),
-                ElfDuelistAttack(UPWARDS_SLICE_LEFT, THRUST_LEFT, 5F, 4, 3),
-                ElfDuelistAttack(UPWARDS_SLICE_LEFT, THRUST_RIGHT, 6F, 4, 4),
+                ElfDuelistAttack(UPWARDS_SLICE_LEFT, THRUST_LEFT, 5F, 4, 1),
+                ElfDuelistAttack(UPWARDS_SLICE_LEFT, THRUST_RIGHT, 6F, 4, 2),
             ),
             UPWARDS_SLICE_RIGHT to listOf(
                 ElfDuelistAttack(UPWARDS_SLICE_RIGHT, DEFAULT, 6F, 3, 5),
-                ElfDuelistAttack(UPWARDS_SLICE_RIGHT, THRUST_RIGHT, 5F, 4, 3),
-                ElfDuelistAttack(UPWARDS_SLICE_RIGHT, THRUST_LEFT, 6F, 4, 4),
+                ElfDuelistAttack(UPWARDS_SLICE_RIGHT, THRUST_RIGHT, 5F, 4, 1),
+                ElfDuelistAttack(UPWARDS_SLICE_RIGHT, THRUST_LEFT, 6F, 4, 2),
             ),
             THRUST_LEFT to listOf(
-                ElfDuelistAttack(THRUST_LEFT, DEFAULT, 6F, 0, 2),
+                ElfDuelistAttack(THRUST_LEFT, DEFAULT, 4F, 0, 2),
             ),
             THRUST_RIGHT to listOf(
-                ElfDuelistAttack(THRUST_RIGHT, DEFAULT, 6F, 0, 2),
+                ElfDuelistAttack(THRUST_RIGHT, DEFAULT, 4F, 0, 2),
             ),
         )
 
