@@ -11,6 +11,7 @@ import net.minecraft.entity.data.TrackedDataHandler
 import net.minecraft.entity.data.TrackedDataHandlerRegistry
 import net.minecraft.entity.mob.HostileEntity
 import net.minecraft.entity.passive.ChickenEntity
+import net.minecraft.entity.passive.VillagerEntity
 import net.minecraft.entity.player.PlayerEntity
 import net.minecraft.util.math.MathHelper
 import net.minecraft.world.World
@@ -53,7 +54,7 @@ class ElfDuelistEntity(
         goalSelector.add(8, LookAroundGoal(this))
 
         targetSelector.add(1, ActiveTargetGoal(this, PlayerEntity::class.java, true))
-        targetSelector.add(1, ActiveTargetGoal(this, ChickenEntity::class.java, true))
+        targetSelector.add(1, ActiveTargetGoal(this, VillagerEntity::class.java, true))
     }
 
     override fun initDataTracker(builder: DataTracker.Builder) {

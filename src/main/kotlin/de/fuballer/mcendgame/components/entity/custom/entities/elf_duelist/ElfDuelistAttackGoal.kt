@@ -6,6 +6,8 @@ import net.minecraft.entity.ai.pathing.Path
 import net.minecraft.entity.attribute.EntityAttributes
 import net.minecraft.predicate.entity.EntityPredicates
 import net.minecraft.server.world.ServerWorld
+import net.minecraft.util.math.Vec3d
+import java.util.*
 import kotlin.math.max
 
 class ElfDuelistAttackGoal(
@@ -19,6 +21,10 @@ class ElfDuelistAttackGoal(
 
     private var updatePathingCountdownTicks = 0
     private var dealDamageTime = 0
+
+    init {
+        setControls(EnumSet.of(Control.MOVE, Control.LOOK))
+    }
 
     override fun canStart(): Boolean {
         val target = mob.target ?: return false
@@ -71,13 +77,10 @@ class ElfDuelistAttackGoal(
         targetY = target.y
         targetZ = target.z
 
-        updatePathingCountdownTicks = 4 + mob.random.nextInt(7)
-
-        val distance = mob.squaredDistanceTo(target)
-        updatePathingCountdownTicks += (distance / 100).toInt()
+        updatePathingCountdownTicks = 4 + mob.random.nextInt(4) + (mob.distanceTo(target) / 10).toInt()
 
         if (!mob.navigation.startMovingTo(target, moveSpeedFactor)) {
-            updatePathingCountdownTicks += 15
+            updatePathingCountdownTicks += 10
         }
 
         updatePathingCountdownTicks = getTickCount(updatePathingCountdownTicks)
@@ -86,12 +89,13 @@ class ElfDuelistAttackGoal(
     private fun shouldUpdatePathing(
         target: LivingEntity
     ): Boolean {
-        if (updatePathingCountdownTicks > 0) return false
         if (!mob.visibilityCache.canSee(target)) return false
 
+        if (updatePathingCountdownTicks == 0) return true
+
         if (targetX == 0.0 && targetY == 0.0 && targetZ == 0.0) return true
-        if (target.squaredDistanceTo(targetX, targetY, targetZ) >= 1) return true
-        if (mob.navigation.isIdle && mob.squaredDistanceTo(target) > 1) return true
+        if (target.pos.distanceTo(Vec3d(targetX, targetY, targetZ)) > 1) return true
+        if (mob.navigation.isIdle && mob.distanceTo(target) > 1) return true
 
         return mob.random.nextFloat() < 0.05
     }
@@ -147,6 +151,6 @@ class ElfDuelistAttackGoal(
         return ticksSinceAttackStart > totalAttackDuration
     }
 
-    private fun isInReach(target: LivingEntity) = mob.eyePos.squaredDistanceTo(target.eyePos) < 2.5
-            || mob.eyePos.squaredDistanceTo(target.pos) < 2.5
+    private fun isInReach(target: LivingEntity) = mob.eyePos.distanceTo(target.eyePos) < 1.8
+            || mob.eyePos.distanceTo(target.pos) < 1.8
 }

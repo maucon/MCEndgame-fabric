@@ -7,7 +7,9 @@ import net.minecraft.network.codec.PacketCodecs
 enum class ElfDuelistAttackPose {
     DEFAULT,
     UPWARDS_SLICE_LEFT,
-    UPWARDS_SLICE_RIGHT;
+    UPWARDS_SLICE_RIGHT,
+    THRUST_LEFT,
+    THRUST_RIGHT;
 
     companion object {
         val PACKET_CODEC: PacketCodec<ByteBuf, ElfDuelistAttackPose> = PacketCodecs.indexed(
@@ -21,9 +23,17 @@ enum class ElfDuelistAttackPose {
             ),
             UPWARDS_SLICE_LEFT to listOf(
                 ElfDuelistAttack(UPWARDS_SLICE_LEFT, DEFAULT, 6F, 3, 5),
+                ElfDuelistAttack(UPWARDS_SLICE_LEFT, THRUST_LEFT, 5F, 4, 3),
             ),
             UPWARDS_SLICE_RIGHT to listOf(
                 ElfDuelistAttack(UPWARDS_SLICE_RIGHT, DEFAULT, 6F, 3, 5),
+                ElfDuelistAttack(UPWARDS_SLICE_RIGHT, THRUST_RIGHT, 5F, 4, 3),
+            ),
+            THRUST_LEFT to listOf(
+                ElfDuelistAttack(THRUST_LEFT, DEFAULT, 6F, 0, 2),
+            ),
+            THRUST_RIGHT to listOf(
+                ElfDuelistAttack(THRUST_RIGHT, DEFAULT, 6F, 0, 2),
             ),
         )
 
