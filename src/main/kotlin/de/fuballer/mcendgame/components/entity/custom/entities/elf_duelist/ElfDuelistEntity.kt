@@ -10,7 +10,6 @@ import net.minecraft.entity.data.TrackedData
 import net.minecraft.entity.data.TrackedDataHandler
 import net.minecraft.entity.data.TrackedDataHandlerRegistry
 import net.minecraft.entity.mob.HostileEntity
-import net.minecraft.entity.passive.ChickenEntity
 import net.minecraft.entity.passive.VillagerEntity
 import net.minecraft.entity.player.PlayerEntity
 import net.minecraft.util.math.MathHelper
@@ -75,7 +74,25 @@ class ElfDuelistEntity(
     override fun tick() {
         super.tick()
 
+        resetAttackPose()
         updateIdleTime()
+    }
+
+    private fun resetAttackPose() {
+        if (target?.isAlive == true) return
+        if (!isPreviousAttackDone()) return
+        setAttackPose(ElfDuelistAttackPose.DEFAULT)
+    }
+
+    fun isPreviousAttackDone(): Boolean {
+        val currentAttack = ElfDuelistAttackPose.getAttack(
+            dataTracker.get(PREVIOUS_ATTACK_POSE),
+            dataTracker.get(ATTACK_POSE)
+        ) ?: return true
+        val totalAttackDuration = currentAttack.animationTime + currentAttack.cooldownAfter
+        val ticksSinceAttackStart = world.time - dataTracker.get(ATTACK_POSE_CHANGED)
+
+        return ticksSinceAttackStart > totalAttackDuration
     }
 
     private fun updateIdleTime() {

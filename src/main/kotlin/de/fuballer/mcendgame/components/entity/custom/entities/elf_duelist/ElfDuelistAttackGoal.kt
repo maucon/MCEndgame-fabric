@@ -104,11 +104,11 @@ class ElfDuelistAttackGoal(
         target: LivingEntity
     ) {
         updateAttackDamage(target)
-        if (!shouldStartNextAttack(target)) return
+        if (!mob.isPreviousAttackDone()) return
 
         val currentPose = mob.dataTracker.get(ElfDuelistEntity.ATTACK_POSE)
         val chosenAttack = ElfDuelistAttackPose.POSE_SEQUENCES[currentPose]?.random() ?: return
-        val nextPose = chosenAttack.newPose
+        val nextPose = if (isInReach(target)) chosenAttack.newPose else ElfDuelistAttackPose.DEFAULT
         mob.setAttackPose(nextPose)
         dealDamageTime = getTickCount(chosenAttack.damageTime)
     }
@@ -136,21 +136,6 @@ class ElfDuelistAttackGoal(
         target.takeKnockback(attackKnockback, -distanceVector.x, -distanceVector.z)
     }
 
-    private fun shouldStartNextAttack(
-        target: LivingEntity
-    ): Boolean {
-        if (!isInReach(target)) return false
-
-        val currentAttack = ElfDuelistAttackPose.getAttack(
-            mob.dataTracker.get(ElfDuelistEntity.PREVIOUS_ATTACK_POSE),
-            mob.dataTracker.get(ElfDuelistEntity.ATTACK_POSE)
-        ) ?: return true
-        val totalAttackDuration = currentAttack.animationTime + currentAttack.cooldownAfter
-        val ticksSinceAttackStart = mob.world.time - mob.dataTracker.get(ElfDuelistEntity.ATTACK_POSE_CHANGED)
-
-        return ticksSinceAttackStart > totalAttackDuration
-    }
-
-    private fun isInReach(target: LivingEntity) = mob.eyePos.distanceTo(target.eyePos) < 2.2
-            || mob.eyePos.distanceTo(target.pos) < 2.2
+    private fun isInReach(target: LivingEntity) = target.isAlive && (mob.eyePos.distanceTo(target.eyePos) < 2.2
+            || mob.eyePos.distanceTo(target.pos) < 2.2)
 }
