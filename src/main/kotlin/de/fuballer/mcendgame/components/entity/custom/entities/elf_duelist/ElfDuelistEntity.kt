@@ -47,10 +47,11 @@ class ElfDuelistEntity(
 
     override fun initGoals() {
         goalSelector.add(0, SwimGoal(this))
-        goalSelector.add(1, ElfDuelistAttackGoal(this))
-        goalSelector.add(7, WanderAroundFarGoal(this, 1.0))
-        goalSelector.add(8, LookAtEntityGoal(this, PlayerEntity::class.java, 8.0f))
-        goalSelector.add(8, LookAroundGoal(this))
+        goalSelector.add(1, ElfDuelistMeleeAttackGoal(this))
+        goalSelector.add(2, ElfDuelistPathToTargetGoal(this))
+        //goalSelector.add(7, WanderAroundFarGoal(this, 1.0))
+        //goalSelector.add(8, LookAtEntityGoal(this, PlayerEntity::class.java, 8.0f))
+        //goalSelector.add(8, LookAroundGoal(this))
 
         targetSelector.add(1, ActiveTargetGoal(this, PlayerEntity::class.java, true))
         targetSelector.add(1, ActiveTargetGoal(this, VillagerEntity::class.java, true))
