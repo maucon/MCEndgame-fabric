@@ -3,7 +3,8 @@
   "package": "de.fuballer.mcendgame.mixin",
   "compatibilityLevel": "JAVA_21",
   "mixins": [
-    "ExampleMixin"
+    "ExampleMixin",
+    "LivingEntityDamageMixin"
   ],
   "injectors": {
     "defaultRequire": 1
