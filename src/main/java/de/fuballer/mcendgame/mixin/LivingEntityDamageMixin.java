@@ -1,8 +1,11 @@
 package de.fuballer.mcendgame.mixin;
 
-import de.fuballer.mcendgame.accessors.EntityAccessor;
+import de.fuballer.mcendgame.components.custom_attributes.CustomAttributesExtensions;
+import de.fuballer.mcendgame.components.custom_attributes.data.CustomAttribute;
+import de.fuballer.mcendgame.components.damage.DamageCalculationEvent;
 import it.unimi.dsi.fastutil.doubles.DoubleDoubleImmutablePair;
 import net.minecraft.advancement.criterion.Criteria;
+import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityStatuses;
 import net.minecraft.entity.EquipmentSlot;
 import net.minecraft.entity.LivingEntity;
@@ -11,6 +14,7 @@ import net.minecraft.entity.effect.StatusEffectInstance;
 import net.minecraft.entity.effect.StatusEffects;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.entity.projectile.ProjectileEntity;
+import net.minecraft.item.ItemStack;
 import net.minecraft.registry.tag.DamageTypeTags;
 import net.minecraft.registry.tag.EntityTypeTags;
 import net.minecraft.server.network.ServerPlayerEntity;
@@ -22,6 +26,8 @@ import org.spongepowered.asm.mixin.Shadow;
 import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.Inject;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfoReturnable;
+
+import java.util.List;
 
 @Mixin(LivingEntity.class)
 public abstract class LivingEntityDamageMixin {
@@ -55,6 +61,19 @@ public abstract class LivingEntityDamageMixin {
 
     @Inject(at = @At("HEAD"), method = "damage", cancellable = true)
     private void damage(ServerWorld world, DamageSource source, float amount, CallbackInfoReturnable<Boolean> info) {
+
+        Entity attacker = source.getAttacker();
+        if (attacker instanceof LivingEntity livingAttacker) {
+            ItemStack mainHand = livingAttacker.getMainHandStack();
+            if (mainHand != null) {
+                List<CustomAttribute> attributes = CustomAttributesExtensions.INSTANCE.getCustomAttributes(mainHand);
+                attributes.forEach(System.out::println);
+            }
+        }
+
+        var event = new DamageCalculationEvent(blockEntity, playerEntity);
+        DamageCalculationEvent.Companion.getNOTIFIER().interact(event);
+
         LivingEntity entity = (LivingEntity) (Object) this;
         if (entity.isInvulnerableTo(world, source)) {
             info.setReturnValue(false);
@@ -78,17 +97,17 @@ public abstract class LivingEntityDamageMixin {
         }
 
         float f = amount;
-        boolean bl = false;
-        float g = 0.0F;
+        boolean damageShieldBlocked = false;
+        float blockedDamage = 0.0F;
         if (amount > 0.0F && entity.blockedByShield(source)) {
             entity.damageShield(amount);
-            g = amount;
+            blockedDamage = amount;
             amount = 0.0F;
             if (!source.isIn(DamageTypeTags.IS_PROJECTILE) && source.getSource() instanceof LivingEntity livingEntity) {
                 this.takeShieldHit(livingEntity);
             }
 
-            bl = true;
+            damageShieldBlocked = true;
         }
 
         if (source.isIn(DamageTypeTags.IS_FREEZING) && entity.getType().isIn(EntityTypeTags.FREEZE_HURTS_EXTRA_TYPES)) {
@@ -105,7 +124,7 @@ public abstract class LivingEntityDamageMixin {
             amount = Float.MAX_VALUE;
         }
 
-        boolean bl2 = true;
+        boolean inInvulnerabilityTime = true;
         if ((float) entity.timeUntilRegen > 10.0F && !source.isIn(DamageTypeTags.BYPASSES_COOLDOWN)) {
             if (amount <= this.lastDamageTaken) {
                 info.setReturnValue(false);
@@ -114,7 +133,7 @@ public abstract class LivingEntityDamageMixin {
 
             this.applyDamage(world, source, amount - this.lastDamageTaken);
             this.lastDamageTaken = amount;
-            bl2 = false;
+            inInvulnerabilityTime = false;
         } else {
             this.lastDamageTaken = amount;
             entity.timeUntilRegen = 20;
@@ -125,15 +144,15 @@ public abstract class LivingEntityDamageMixin {
 
         this.becomeAngry(source);
         this.setAttackingPlayer(source);
-        if (bl2) {
-            if (bl) {
+        if (inInvulnerabilityTime) {
+            if (damageShieldBlocked) {
                 world.sendEntityStatus(entity, EntityStatuses.BLOCK_WITH_SHIELD);
             } else {
                 world.sendEntityDamage(entity, source);
             }
 
             /*
-            if (!source.isIn(DamageTypeTags.NO_IMPACT) && (!bl || amount > 0.0F)) {
+            if (!source.isIn(DamageTypeTags.NO_IMPACT) && (!damageShieldBlocked || amount > 0.0F)) {
                 ((EntityAccessor) entity).scheduleVelocityUpdate();
             }*/
 
@@ -150,7 +169,7 @@ public abstract class LivingEntityDamageMixin {
                 }
 
                 entity.takeKnockback(0.4F, d, e);
-                if (!bl) {
+                if (!damageShieldBlocked) {
                     entity.tiltScreen(d, e);
                 }
             }
@@ -158,18 +177,18 @@ public abstract class LivingEntityDamageMixin {
 
         if (entity.isDead()) {
             if (!this.tryUseDeathProtector(source)) {
-                if (bl2) {
+                if (inInvulnerabilityTime) {
                     entity.playSound(this.getDeathSound());
                 }
 
                 entity.onDeath(source);
             }
-        } else if (bl2) {
+        } else if (inInvulnerabilityTime) {
             this.playHurtSound(source);
         }
 
-        boolean bl3 = !bl || amount > 0.0F;
-        if (bl3) {
+        boolean shouldHit = !damageShieldBlocked || amount > 0.0F;
+        if (shouldHit) {
             this.lastDamageSource = source;
             this.lastDamageTime = entity.getWorld().getTime();
 
@@ -179,16 +198,16 @@ public abstract class LivingEntityDamageMixin {
         }
 
         if (entity instanceof ServerPlayerEntity serverPlayerEntity) {
-            Criteria.ENTITY_HURT_PLAYER.trigger(serverPlayerEntity, source, f, amount, bl);
-            if (g > 0.0F && g < 3.4028235E37F) {
-                serverPlayerEntity.increaseStat(Stats.DAMAGE_BLOCKED_BY_SHIELD, Math.round(g * 10.0F));
+            Criteria.ENTITY_HURT_PLAYER.trigger(serverPlayerEntity, source, f, amount, damageShieldBlocked);
+            if (blockedDamage > 0.0F && blockedDamage < 3.4028235E37F) {
+                serverPlayerEntity.increaseStat(Stats.DAMAGE_BLOCKED_BY_SHIELD, Math.round(blockedDamage * 10.0F));
             }
         }
 
         if (source.getAttacker() instanceof ServerPlayerEntity serverPlayerEntityx) {
-            Criteria.PLAYER_HURT_ENTITY.trigger(serverPlayerEntityx, entity, source, f, amount, bl);
+            Criteria.PLAYER_HURT_ENTITY.trigger(serverPlayerEntityx, entity, source, f, amount, damageShieldBlocked);
         }
 
-        info.setReturnValue(bl3);
+        info.setReturnValue(shouldHit);
     }
 }
