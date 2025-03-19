@@ -15,18 +15,14 @@ import net.minecraft.world.World
 
 @Injectable
 class TestListener { // TODO REMOVE
-    @Initialize
+//    @Initialize
     fun on() =
         AttackEntityCallback.EVENT.register { player: PlayerEntity, world: World, hand: Hand, _: Entity, _: EntityHitResult? ->
             if (world.isClient) return@register ActionResult.PASS
             if (hand != Hand.MAIN_HAND) return@register ActionResult.PASS
 
             val attributes = listOf(
-                CustomAttributes.FLAT_ELEMENTAL_DAMAGE_T6.roll(),
-                CustomAttributes.ARMOR_T0.roll(),
-                CustomAttributes.INCREASED_ELEMENTAL_DAMAGE_T666.roll(),
-                CustomAttributes.INCREASED_PROJECTILE_DAMAGE_T1.roll(),
-                CustomAttributes.INCREASED_PROJECTILE_DAMAGE_T2.roll(),
+                CustomAttributes.DAMAGE_AGAINST_FULL_LIFE_T1.roll()
             )
             player.mainHandStack.setCustomAttributes(attributes)
 

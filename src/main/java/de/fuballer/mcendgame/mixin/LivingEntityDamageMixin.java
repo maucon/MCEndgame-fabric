@@ -1,11 +1,8 @@
 package de.fuballer.mcendgame.mixin;
 
-import de.fuballer.mcendgame.components.custom_attributes.CustomAttributesExtensions;
-import de.fuballer.mcendgame.components.custom_attributes.data.CustomAttribute;
-import de.fuballer.mcendgame.components.damage.DamageCalculationEvent;
+import de.fuballer.mcendgame.components.damage.ApplyDamageCalculationEvent;
 import it.unimi.dsi.fastutil.doubles.DoubleDoubleImmutablePair;
 import net.minecraft.advancement.criterion.Criteria;
-import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityStatuses;
 import net.minecraft.entity.EquipmentSlot;
 import net.minecraft.entity.LivingEntity;
@@ -14,20 +11,19 @@ import net.minecraft.entity.effect.StatusEffectInstance;
 import net.minecraft.entity.effect.StatusEffects;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.entity.projectile.ProjectileEntity;
-import net.minecraft.item.ItemStack;
 import net.minecraft.registry.tag.DamageTypeTags;
 import net.minecraft.registry.tag.EntityTypeTags;
 import net.minecraft.server.network.ServerPlayerEntity;
 import net.minecraft.server.world.ServerWorld;
 import net.minecraft.sound.SoundEvent;
 import net.minecraft.stat.Stats;
+import net.minecraft.world.event.GameEvent;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.Shadow;
 import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.Inject;
+import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfoReturnable;
-
-import java.util.List;
 
 @Mixin(LivingEntity.class)
 public abstract class LivingEntityDamageMixin {
@@ -59,22 +55,48 @@ public abstract class LivingEntityDamageMixin {
     @Shadow
     protected abstract void playHurtSound(DamageSource damageSource);
 
-    @Inject(at = @At("HEAD"), method = "damage", cancellable = true)
-    private void damage(ServerWorld world, DamageSource source, float amount, CallbackInfoReturnable<Boolean> info) {
+    @Shadow
+    protected abstract float applyArmorToDamage(DamageSource source, float amount);
 
-        Entity attacker = source.getAttacker();
-        if (attacker instanceof LivingEntity livingAttacker) {
-            ItemStack mainHand = livingAttacker.getMainHandStack();
-            if (mainHand != null) {
-                List<CustomAttribute> attributes = CustomAttributesExtensions.INSTANCE.getCustomAttributes(mainHand);
-                attributes.forEach(System.out::println);
+    @Shadow
+    protected abstract float modifyAppliedDamage(DamageSource source, float amount);
+
+    @Inject(at = @At("HEAD"), method = "applyDamage", cancellable = true)
+    protected void applyDamage(ServerWorld world, DamageSource source, float amount, CallbackInfo ci) {
+        LivingEntity entity = (LivingEntity) (Object) this;
+
+        var event = ApplyDamageCalculationEvent.Companion.of(entity, world, source, amount);
+        ApplyDamageCalculationEvent.Companion.getNOTIFIER().interact(event);
+
+        System.out.println("amount before: " + amount);
+        amount *= (float) (1 + (event.getIncreasedDamage().stream().mapToDouble(a -> a).sum()));
+        System.out.println("amount after: " + amount);
+
+        if (!entity.isInvulnerableTo(world, source)) {
+            amount = this.applyArmorToDamage(source, amount);
+            amount = this.modifyAppliedDamage(source, amount);
+            float healthDamage = Math.max(amount - entity.getAbsorptionAmount(), 0.0F);
+            entity.setAbsorptionAmount(entity.getAbsorptionAmount() - (amount - healthDamage));
+            float g = amount - healthDamage;
+            if (g > 0.0F && g < 3.4028235E37F && source.getAttacker() instanceof ServerPlayerEntity serverPlayerEntity) {
+                serverPlayerEntity.increaseStat(Stats.DAMAGE_DEALT_ABSORBED, Math.round(g * 10.0F));
+            }
+
+            if (healthDamage != 0.0F) {
+                entity.getDamageTracker().onDamage(source, healthDamage);
+                entity.setHealth(entity.getHealth() - healthDamage);
+                entity.setAbsorptionAmount(entity.getAbsorptionAmount() - healthDamage);
+                entity.emitGameEvent(GameEvent.ENTITY_DAMAGE);
             }
         }
 
-        var event = new DamageCalculationEvent(blockEntity, playerEntity);
-        DamageCalculationEvent.Companion.getNOTIFIER().interact(event);
+        ci.cancel();
+    }
 
+    @Inject(at = @At("HEAD"), method = "damage", cancellable = true)
+    private void damage(ServerWorld world, DamageSource source, float amount, CallbackInfoReturnable<Boolean> info) {
         LivingEntity entity = (LivingEntity) (Object) this;
+
         if (entity.isInvulnerableTo(world, source)) {
             info.setReturnValue(false);
             return;

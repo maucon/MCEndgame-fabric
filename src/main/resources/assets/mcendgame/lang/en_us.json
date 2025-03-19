@@ -16,6 +16,7 @@
   "attribute.mcendgame.increased_elemental_damage": " %s%% Elemental Damage",
   "attribute.mcendgame.flat_elemental_damage": " %s to %s added Elemental Damage",
   "attribute.mcendgame.armor": "%s Armor",
+  "attribute.mcendgame.damage_against_full_life": " %s%% increased damage against full life enemies",
 
   "entity.mcendgame.swamp_golem": "Swamp Golem"
 }
