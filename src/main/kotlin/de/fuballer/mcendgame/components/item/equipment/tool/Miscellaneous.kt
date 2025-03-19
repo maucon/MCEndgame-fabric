@@ -1,5 +1,9 @@
 package de.fuballer.mcendgame.components.item.equipment.tool
 
+import de.fuballer.mcendgame.components.custom_attributes.data.DoubleBounds
+import de.fuballer.mcendgame.components.custom_attributes.data.RollableCustomAttribute
+import de.fuballer.mcendgame.components.custom_attributes.types.CustomAttributeTypes
+import de.fuballer.mcendgame.components.custom_attributes.types.VanillaAttributeTypes
 import de.fuballer.mcendgame.components.item.equipment.Equipment
 import de.fuballer.mcendgame.components.item.equipment.enchantment.EquipmentEnchantment
 import de.fuballer.mcendgame.util.random.RandomOption
@@ -11,11 +15,32 @@ import net.minecraft.item.Items
 enum class Miscellaneous(
     override val item: Item,
     override val slot: EquipmentSlot,
+    override val rollableCustomAttribute: List<RandomOption<RollableCustomAttribute>>,
     override val rollableEnchants: List<RandomOption<EquipmentEnchantment>>,
 ) : Equipment {
     BOW(
         Items.BOW,
         EquipmentSlot.MAINHAND,
+        listOf(
+            RandomOption(5, RollableCustomAttribute(CustomAttributeTypes.INCREASED_DAMAGE, 1, DoubleBounds(0.09, 0.12))),
+            RandomOption(10, RollableCustomAttribute(CustomAttributeTypes.INCREASED_DAMAGE, 2, DoubleBounds(0.06, 0.09))),
+            RandomOption(15, RollableCustomAttribute(CustomAttributeTypes.INCREASED_DAMAGE, 3, DoubleBounds(0.03, 0.06))),
+            RandomOption(5, RollableCustomAttribute(CustomAttributeTypes.INCREASED_PROJECTILE_DAMAGE, 1, DoubleBounds(0.3, 0.42))),
+            RandomOption(10, RollableCustomAttribute(CustomAttributeTypes.INCREASED_PROJECTILE_DAMAGE, 2, DoubleBounds(0.18, 0.3))),
+            RandomOption(15, RollableCustomAttribute(CustomAttributeTypes.INCREASED_PROJECTILE_DAMAGE, 3, DoubleBounds(0.06, 0.18))),
+            RandomOption(5, RollableCustomAttribute(CustomAttributeTypes.INCREASED_ELEMENTAL_DAMAGE, 1, DoubleBounds(0.12, 0.17))),
+            RandomOption(10, RollableCustomAttribute(CustomAttributeTypes.INCREASED_ELEMENTAL_DAMAGE, 2, DoubleBounds(0.07, 0.12))),
+            RandomOption(15, RollableCustomAttribute(CustomAttributeTypes.INCREASED_ELEMENTAL_DAMAGE, 3, DoubleBounds(0.02, 0.07))),
+            RandomOption(5, RollableCustomAttribute(CustomAttributeTypes.ELEMENTAL_DAMAGE, 1, DoubleBounds(3.0, 4.0))),
+            RandomOption(10, RollableCustomAttribute(CustomAttributeTypes.ELEMENTAL_DAMAGE, 2, DoubleBounds(2.0, 3.0))),
+            RandomOption(15, RollableCustomAttribute(CustomAttributeTypes.ELEMENTAL_DAMAGE, 3, DoubleBounds(1.0, 2.0))),
+            RandomOption(5, RollableCustomAttribute(VanillaAttributeTypes.INCREASED_ATTACK_DAMAGE, 1, DoubleBounds(0.12, 0.17))),
+            RandomOption(10, RollableCustomAttribute(VanillaAttributeTypes.INCREASED_ATTACK_DAMAGE, 2, DoubleBounds(0.07, 0.12))),
+            RandomOption(15, RollableCustomAttribute(VanillaAttributeTypes.INCREASED_ATTACK_DAMAGE, 3, DoubleBounds(0.02, 0.07))),
+            RandomOption(5, RollableCustomAttribute(VanillaAttributeTypes.ATTACK_DAMAGE, 1, DoubleBounds(3.0, 4.0))),
+            RandomOption(10, RollableCustomAttribute(VanillaAttributeTypes.ATTACK_DAMAGE, 2, DoubleBounds(2.0, 3.0))),
+            RandomOption(15, RollableCustomAttribute(VanillaAttributeTypes.ATTACK_DAMAGE, 3, DoubleBounds(1.0, 2.0))),
+        ),
         listOf(
             RandomOption(10, EquipmentEnchantment.MENDING),
             RandomOption(20, EquipmentEnchantment.UNBREAKING_1),
@@ -36,6 +61,26 @@ enum class Miscellaneous(
     TRIDENT(
         Items.TRIDENT,
         EquipmentSlot.MAINHAND,
+        listOf(
+            RandomOption(5, RollableCustomAttribute(VanillaAttributeTypes.ATTACK_DAMAGE, 1, DoubleBounds(3.0, 4.0))),
+            RandomOption(10, RollableCustomAttribute(VanillaAttributeTypes.ATTACK_DAMAGE, 2, DoubleBounds(2.0, 3.0))),
+            RandomOption(20, RollableCustomAttribute(VanillaAttributeTypes.ATTACK_DAMAGE, 3, DoubleBounds(1.0, 2.0))),
+            RandomOption(5, RollableCustomAttribute(VanillaAttributeTypes.INCREASED_ATTACK_DAMAGE, 1, DoubleBounds(0.15, 0.2))),
+            RandomOption(10, RollableCustomAttribute(VanillaAttributeTypes.INCREASED_ATTACK_DAMAGE, 2, DoubleBounds(0.1, 0.15))),
+            RandomOption(20, RollableCustomAttribute(VanillaAttributeTypes.INCREASED_ATTACK_DAMAGE, 3, DoubleBounds(0.05, 0.1))),
+            RandomOption(5, RollableCustomAttribute(VanillaAttributeTypes.INCREASED_ATTACK_SPEED, 1, DoubleBounds(0.21, 0.3))),
+            RandomOption(10, RollableCustomAttribute(VanillaAttributeTypes.INCREASED_ATTACK_SPEED, 2, DoubleBounds(0.13, 0.21))),
+            RandomOption(20, RollableCustomAttribute(VanillaAttributeTypes.INCREASED_ATTACK_SPEED, 3, DoubleBounds(0.05, 0.13))),
+            RandomOption(5, RollableCustomAttribute(CustomAttributeTypes.ELEMENTAL_DAMAGE, 1, DoubleBounds(3.0, 4.0))),
+            RandomOption(10, RollableCustomAttribute(CustomAttributeTypes.ELEMENTAL_DAMAGE, 2, DoubleBounds(2.0, 3.0))),
+            RandomOption(20, RollableCustomAttribute(CustomAttributeTypes.ELEMENTAL_DAMAGE, 3, DoubleBounds(1.0, 2.0))),
+            RandomOption(5, RollableCustomAttribute(CustomAttributeTypes.INCREASED_ELEMENTAL_DAMAGE, 1, DoubleBounds(0.15, 0.2))),
+            RandomOption(10, RollableCustomAttribute(CustomAttributeTypes.INCREASED_ELEMENTAL_DAMAGE, 2, DoubleBounds(0.1, 0.15))),
+            RandomOption(20, RollableCustomAttribute(CustomAttributeTypes.INCREASED_ELEMENTAL_DAMAGE, 3, DoubleBounds(0.05, 0.1))),
+            RandomOption(5, RollableCustomAttribute(CustomAttributeTypes.INCREASED_DAMAGE, 1, DoubleBounds(0.1, 0.13))),
+            RandomOption(10, RollableCustomAttribute(CustomAttributeTypes.INCREASED_DAMAGE, 2, DoubleBounds(0.06, 0.1))),
+            RandomOption(20, RollableCustomAttribute(CustomAttributeTypes.INCREASED_DAMAGE, 3, DoubleBounds(0.02, 0.06))),
+        ),
         listOf(
             RandomOption(10, EquipmentEnchantment.MENDING),
             RandomOption(20, EquipmentEnchantment.UNBREAKING_1),
@@ -59,6 +104,26 @@ enum class Miscellaneous(
     MACE(
         Items.MACE,
         EquipmentSlot.MAINHAND,
+        listOf(
+            RandomOption(5, RollableCustomAttribute(VanillaAttributeTypes.ATTACK_DAMAGE, 1, DoubleBounds(3.0, 4.0))),
+            RandomOption(10, RollableCustomAttribute(VanillaAttributeTypes.ATTACK_DAMAGE, 2, DoubleBounds(2.0, 3.0))),
+            RandomOption(20, RollableCustomAttribute(VanillaAttributeTypes.ATTACK_DAMAGE, 3, DoubleBounds(1.0, 2.0))),
+            RandomOption(5, RollableCustomAttribute(VanillaAttributeTypes.INCREASED_ATTACK_DAMAGE, 1, DoubleBounds(0.15, 0.2))),
+            RandomOption(10, RollableCustomAttribute(VanillaAttributeTypes.INCREASED_ATTACK_DAMAGE, 2, DoubleBounds(0.1, 0.15))),
+            RandomOption(20, RollableCustomAttribute(VanillaAttributeTypes.INCREASED_ATTACK_DAMAGE, 3, DoubleBounds(0.05, 0.1))),
+            RandomOption(5, RollableCustomAttribute(VanillaAttributeTypes.INCREASED_ATTACK_SPEED, 1, DoubleBounds(0.21, 0.3))),
+            RandomOption(10, RollableCustomAttribute(VanillaAttributeTypes.INCREASED_ATTACK_SPEED, 2, DoubleBounds(0.13, 0.21))),
+            RandomOption(20, RollableCustomAttribute(VanillaAttributeTypes.INCREASED_ATTACK_SPEED, 3, DoubleBounds(0.05, 0.13))),
+            RandomOption(5, RollableCustomAttribute(CustomAttributeTypes.ELEMENTAL_DAMAGE, 1, DoubleBounds(3.0, 4.0))),
+            RandomOption(10, RollableCustomAttribute(CustomAttributeTypes.ELEMENTAL_DAMAGE, 2, DoubleBounds(2.0, 3.0))),
+            RandomOption(20, RollableCustomAttribute(CustomAttributeTypes.ELEMENTAL_DAMAGE, 3, DoubleBounds(1.0, 2.0))),
+            RandomOption(5, RollableCustomAttribute(CustomAttributeTypes.INCREASED_ELEMENTAL_DAMAGE, 1, DoubleBounds(0.15, 0.2))),
+            RandomOption(10, RollableCustomAttribute(CustomAttributeTypes.INCREASED_ELEMENTAL_DAMAGE, 2, DoubleBounds(0.1, 0.15))),
+            RandomOption(20, RollableCustomAttribute(CustomAttributeTypes.INCREASED_ELEMENTAL_DAMAGE, 3, DoubleBounds(0.05, 0.1))),
+            RandomOption(5, RollableCustomAttribute(CustomAttributeTypes.INCREASED_DAMAGE, 1, DoubleBounds(0.1, 0.13))),
+            RandomOption(10, RollableCustomAttribute(CustomAttributeTypes.INCREASED_DAMAGE, 2, DoubleBounds(0.06, 0.1))),
+            RandomOption(20, RollableCustomAttribute(CustomAttributeTypes.INCREASED_DAMAGE, 3, DoubleBounds(0.02, 0.06))),
+        ),
         listOf(
             RandomOption(10, EquipmentEnchantment.MENDING),
             RandomOption(20, EquipmentEnchantment.UNBREAKING_1),
@@ -95,6 +160,11 @@ enum class Miscellaneous(
         Items.FISHING_ROD,
         EquipmentSlot.OFFHAND,
         listOf(
+            RandomOption(5, RollableCustomAttribute(VanillaAttributeTypes.LUCK, 1, DoubleBounds(3.5, 5.0))),
+            RandomOption(10, RollableCustomAttribute(VanillaAttributeTypes.LUCK, 2, DoubleBounds(2.0, 3.5))),
+            RandomOption(15, RollableCustomAttribute(VanillaAttributeTypes.LUCK, 3, DoubleBounds(0.5, 2.0))),
+        ),
+        listOf(
             RandomOption(10, EquipmentEnchantment.MENDING),
             RandomOption(25, EquipmentEnchantment.UNBREAKING_1),
             RandomOption(20, EquipmentEnchantment.UNBREAKING_2),
@@ -112,6 +182,41 @@ enum class Miscellaneous(
         Items.SHIELD,
         EquipmentSlot.OFFHAND,
         listOf(
+            RandomOption(5, RollableCustomAttribute(CustomAttributeTypes.INCREASED_DAMAGE, 1, DoubleBounds(0.09, 0.12))),
+            RandomOption(10, RollableCustomAttribute(CustomAttributeTypes.INCREASED_DAMAGE, 2, DoubleBounds(0.06, 0.09))),
+            RandomOption(15, RollableCustomAttribute(CustomAttributeTypes.INCREASED_DAMAGE, 3, DoubleBounds(0.03, 0.06))),
+            RandomOption(5, RollableCustomAttribute(CustomAttributeTypes.INCREASED_ELEMENTAL_DAMAGE, 1, DoubleBounds(0.12, 0.17))),
+            RandomOption(10, RollableCustomAttribute(CustomAttributeTypes.INCREASED_ELEMENTAL_DAMAGE, 2, DoubleBounds(0.07, 0.12))),
+            RandomOption(15, RollableCustomAttribute(CustomAttributeTypes.INCREASED_ELEMENTAL_DAMAGE, 3, DoubleBounds(0.02, 0.07))),
+            RandomOption(5, RollableCustomAttribute(CustomAttributeTypes.ELEMENTAL_DAMAGE, 1, DoubleBounds(3.0, 4.0))),
+            RandomOption(10, RollableCustomAttribute(CustomAttributeTypes.ELEMENTAL_DAMAGE, 2, DoubleBounds(2.0, 3.0))),
+            RandomOption(15, RollableCustomAttribute(CustomAttributeTypes.ELEMENTAL_DAMAGE, 3, DoubleBounds(1.0, 2.0))),
+            RandomOption(5, RollableCustomAttribute(VanillaAttributeTypes.INCREASED_ATTACK_DAMAGE, 1, DoubleBounds(0.12, 0.17))),
+            RandomOption(10, RollableCustomAttribute(VanillaAttributeTypes.INCREASED_ATTACK_DAMAGE, 2, DoubleBounds(0.07, 0.12))),
+            RandomOption(15, RollableCustomAttribute(VanillaAttributeTypes.INCREASED_ATTACK_DAMAGE, 3, DoubleBounds(0.02, 0.07))),
+            RandomOption(5, RollableCustomAttribute(VanillaAttributeTypes.ATTACK_DAMAGE, 1, DoubleBounds(3.0, 4.0))),
+            RandomOption(10, RollableCustomAttribute(VanillaAttributeTypes.ATTACK_DAMAGE, 2, DoubleBounds(2.0, 3.0))),
+            RandomOption(15, RollableCustomAttribute(VanillaAttributeTypes.ATTACK_DAMAGE, 3, DoubleBounds(1.0, 2.0))),
+            RandomOption(5, RollableCustomAttribute(VanillaAttributeTypes.ARMOR, 1, DoubleBounds(2.5, 3.0))),
+            RandomOption(10, RollableCustomAttribute(VanillaAttributeTypes.ARMOR, 2, DoubleBounds(1.5, 2.5))),
+            RandomOption(20, RollableCustomAttribute(VanillaAttributeTypes.ARMOR, 3, DoubleBounds(0.5, 1.5))),
+            RandomOption(5, RollableCustomAttribute(VanillaAttributeTypes.ARMOR_TOUGHNESS, 1, DoubleBounds(2.5, 3.0))),
+            RandomOption(10, RollableCustomAttribute(VanillaAttributeTypes.ARMOR_TOUGHNESS, 2, DoubleBounds(1.5, 2.5))),
+            RandomOption(20, RollableCustomAttribute(VanillaAttributeTypes.ARMOR_TOUGHNESS, 3, DoubleBounds(0.5, 1.5))),
+            RandomOption(5, RollableCustomAttribute(VanillaAttributeTypes.MAX_HEALTH, 1, DoubleBounds(2.5, 3.0))),
+            RandomOption(10, RollableCustomAttribute(VanillaAttributeTypes.MAX_HEALTH, 2, DoubleBounds(1.5, 2.5))),
+            RandomOption(20, RollableCustomAttribute(VanillaAttributeTypes.MAX_HEALTH, 3, DoubleBounds(0.5, 1.5))),
+            RandomOption(5, RollableCustomAttribute(CustomAttributeTypes.AEGIS, 1, DoubleBounds(2.5, 3.0))),
+            RandomOption(10, RollableCustomAttribute(CustomAttributeTypes.AEGIS, 2, DoubleBounds(1.5, 2.5))),
+            RandomOption(20, RollableCustomAttribute(CustomAttributeTypes.AEGIS, 3, DoubleBounds(0.5, 1.5))),
+            RandomOption(5, RollableCustomAttribute(CustomAttributeTypes.DODGE, 1, DoubleBounds(0.1, 0.14))),
+            RandomOption(10, RollableCustomAttribute(CustomAttributeTypes.DODGE, 2, DoubleBounds(0.06, 0.1))),
+            RandomOption(20, RollableCustomAttribute(CustomAttributeTypes.DODGE, 3, DoubleBounds(0.02, 0.06))),
+            RandomOption(5, RollableCustomAttribute(CustomAttributeTypes.LESS_DAMAGE_TAKEN, 1, DoubleBounds(0.08, 0.11))),
+            RandomOption(10, RollableCustomAttribute(CustomAttributeTypes.LESS_DAMAGE_TAKEN, 2, DoubleBounds(0.05, 0.08))),
+            RandomOption(20, RollableCustomAttribute(CustomAttributeTypes.LESS_DAMAGE_TAKEN, 3, DoubleBounds(0.02, 0.05))),
+        ),
+        listOf(
             RandomOption(10, EquipmentEnchantment.MENDING),
             RandomOption(25, EquipmentEnchantment.UNBREAKING_1),
             RandomOption(20, EquipmentEnchantment.UNBREAKING_2),
@@ -122,6 +227,26 @@ enum class Miscellaneous(
     CROSSBOW(
         Items.CROSSBOW,
         EquipmentSlot.MAINHAND,
+        listOf(
+            RandomOption(5, RollableCustomAttribute(CustomAttributeTypes.INCREASED_DAMAGE, 1, DoubleBounds(0.09, 0.12))),
+            RandomOption(10, RollableCustomAttribute(CustomAttributeTypes.INCREASED_DAMAGE, 2, DoubleBounds(0.06, 0.09))),
+            RandomOption(15, RollableCustomAttribute(CustomAttributeTypes.INCREASED_DAMAGE, 3, DoubleBounds(0.03, 0.06))),
+            RandomOption(5, RollableCustomAttribute(CustomAttributeTypes.INCREASED_PROJECTILE_DAMAGE, 1, DoubleBounds(0.3, 0.42))),
+            RandomOption(10, RollableCustomAttribute(CustomAttributeTypes.INCREASED_PROJECTILE_DAMAGE, 2, DoubleBounds(0.18, 0.3))),
+            RandomOption(15, RollableCustomAttribute(CustomAttributeTypes.INCREASED_PROJECTILE_DAMAGE, 3, DoubleBounds(0.06, 0.18))),
+            RandomOption(5, RollableCustomAttribute(CustomAttributeTypes.INCREASED_ELEMENTAL_DAMAGE, 1, DoubleBounds(0.12, 0.17))),
+            RandomOption(10, RollableCustomAttribute(CustomAttributeTypes.INCREASED_ELEMENTAL_DAMAGE, 2, DoubleBounds(0.07, 0.12))),
+            RandomOption(15, RollableCustomAttribute(CustomAttributeTypes.INCREASED_ELEMENTAL_DAMAGE, 3, DoubleBounds(0.02, 0.07))),
+            RandomOption(5, RollableCustomAttribute(CustomAttributeTypes.ELEMENTAL_DAMAGE, 1, DoubleBounds(3.0, 4.0))),
+            RandomOption(10, RollableCustomAttribute(CustomAttributeTypes.ELEMENTAL_DAMAGE, 2, DoubleBounds(2.0, 3.0))),
+            RandomOption(15, RollableCustomAttribute(CustomAttributeTypes.ELEMENTAL_DAMAGE, 3, DoubleBounds(1.0, 2.0))),
+            RandomOption(5, RollableCustomAttribute(VanillaAttributeTypes.INCREASED_ATTACK_DAMAGE, 1, DoubleBounds(0.12, 0.17))),
+            RandomOption(10, RollableCustomAttribute(VanillaAttributeTypes.INCREASED_ATTACK_DAMAGE, 2, DoubleBounds(0.07, 0.12))),
+            RandomOption(15, RollableCustomAttribute(VanillaAttributeTypes.INCREASED_ATTACK_DAMAGE, 3, DoubleBounds(0.02, 0.07))),
+            RandomOption(5, RollableCustomAttribute(VanillaAttributeTypes.ATTACK_DAMAGE, 1, DoubleBounds(3.0, 4.0))),
+            RandomOption(10, RollableCustomAttribute(VanillaAttributeTypes.ATTACK_DAMAGE, 2, DoubleBounds(2.0, 3.0))),
+            RandomOption(15, RollableCustomAttribute(VanillaAttributeTypes.ATTACK_DAMAGE, 3, DoubleBounds(1.0, 2.0))),
+        ),
         listOf(
             RandomOption(10, EquipmentEnchantment.MENDING),
             RandomOption(25, EquipmentEnchantment.UNBREAKING_1),
@@ -141,6 +266,7 @@ enum class Miscellaneous(
     FLINT_AND_STEEL(
         Items.FLINT_AND_STEEL,
         EquipmentSlot.OFFHAND,
+        listOf(),
         listOf(
             RandomOption(10, EquipmentEnchantment.MENDING),
             RandomOption(25, EquipmentEnchantment.UNBREAKING_1),
@@ -152,6 +278,7 @@ enum class Miscellaneous(
     CARROT_ON_A_STICK(
         Items.CARROT_ON_A_STICK,
         EquipmentSlot.OFFHAND,
+        listOf(),
         listOf(
             RandomOption(10, EquipmentEnchantment.MENDING),
             RandomOption(25, EquipmentEnchantment.UNBREAKING_1),
@@ -163,6 +290,7 @@ enum class Miscellaneous(
     WARPED_FUNGUS_ON_A_STICK(
         Items.WARPED_FUNGUS_ON_A_STICK,
         EquipmentSlot.OFFHAND,
+        listOf(),
         listOf(
             RandomOption(10, EquipmentEnchantment.MENDING),
             RandomOption(25, EquipmentEnchantment.UNBREAKING_1),
@@ -175,6 +303,26 @@ enum class Miscellaneous(
         Items.ELYTRA,
         EquipmentSlot.CHEST,
         listOf(
+            RandomOption(5, RollableCustomAttribute(VanillaAttributeTypes.ARMOR, 1, DoubleBounds(3.0, 4.0))),
+            RandomOption(10, RollableCustomAttribute(VanillaAttributeTypes.ARMOR, 2, DoubleBounds(2.0, 3.0))),
+            RandomOption(20, RollableCustomAttribute(VanillaAttributeTypes.ARMOR, 3, DoubleBounds(1.0, 2.0))),
+            RandomOption(5, RollableCustomAttribute(VanillaAttributeTypes.ARMOR_TOUGHNESS, 1, DoubleBounds(3.0, 4.0))),
+            RandomOption(10, RollableCustomAttribute(VanillaAttributeTypes.ARMOR_TOUGHNESS, 2, DoubleBounds(2.0, 3.0))),
+            RandomOption(20, RollableCustomAttribute(VanillaAttributeTypes.ARMOR_TOUGHNESS, 3, DoubleBounds(1.0, 2.0))),
+            RandomOption(5, RollableCustomAttribute(VanillaAttributeTypes.MAX_HEALTH, 1, DoubleBounds(4.0, 5.0))),
+            RandomOption(10, RollableCustomAttribute(VanillaAttributeTypes.MAX_HEALTH, 2, DoubleBounds(2.5, 4.0))),
+            RandomOption(20, RollableCustomAttribute(VanillaAttributeTypes.MAX_HEALTH, 3, DoubleBounds(1.0, 2.0))),
+            RandomOption(5, RollableCustomAttribute(CustomAttributeTypes.AEGIS, 1, DoubleBounds(3.0, 4.0))),
+            RandomOption(10, RollableCustomAttribute(CustomAttributeTypes.AEGIS, 2, DoubleBounds(2.0, 3.0))),
+            RandomOption(20, RollableCustomAttribute(CustomAttributeTypes.AEGIS, 3, DoubleBounds(1.0, 2.0))),
+            RandomOption(5, RollableCustomAttribute(CustomAttributeTypes.DODGE, 1, DoubleBounds(0.15, 0.2))),
+            RandomOption(10, RollableCustomAttribute(CustomAttributeTypes.DODGE, 2, DoubleBounds(0.1, 0.15))),
+            RandomOption(20, RollableCustomAttribute(CustomAttributeTypes.DODGE, 3, DoubleBounds(0.05, 0.1))),
+            RandomOption(5, RollableCustomAttribute(CustomAttributeTypes.LESS_DAMAGE_TAKEN, 1, DoubleBounds(0.11, 0.15))),
+            RandomOption(10, RollableCustomAttribute(CustomAttributeTypes.LESS_DAMAGE_TAKEN, 2, DoubleBounds(0.07, 0.11))),
+            RandomOption(20, RollableCustomAttribute(CustomAttributeTypes.LESS_DAMAGE_TAKEN, 3, DoubleBounds(0.03, 0.07))),
+        ),
+        listOf(
             RandomOption(10, EquipmentEnchantment.MENDING),
             RandomOption(25, EquipmentEnchantment.UNBREAKING_1),
             RandomOption(20, EquipmentEnchantment.UNBREAKING_2),
@@ -186,6 +334,7 @@ enum class Miscellaneous(
     SHEARS(
         Items.SHEARS,
         EquipmentSlot.OFFHAND,
+        listOf(),
         listOf(
             RandomOption(10, EquipmentEnchantment.MENDING),
             RandomOption(25, EquipmentEnchantment.UNBREAKING_1),

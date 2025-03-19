@@ -8,10 +8,18 @@ import kotlin.reflect.full.memberProperties
 object CustomAttributeTypes {
     private val ERROR = CustomAttributeType("error", AttributeFormats.EMPTY_ROLL, AttributeFormats.EMPTY_BOUNDS)
 
-    val INCREASED_PROJECTILE_DAMAGE = CustomAttributeType("increased_projectile", AttributeFormats.SIGNED_INCREASE_ROLL, AttributeFormats.INCREASE_BOUNDS)
-    val INCREASED_ELEMENTAL_DAMAGE = CustomAttributeType("increased_elemental_damage", AttributeFormats.INCREASE_ROLL, AttributeFormats.INCREASE_BOUNDS)
-    val FLAT_ELEMENTAL_DAMAGE = CustomAttributeType("flat_elemental_damage", AttributeFormats.TWO_INT_ROLL, AttributeFormats.TWO_INT_BOUNDS)
-    val DAMAGE_AGAINST_FULL_LIFE = CustomAttributeType("damage_against_full_life", AttributeFormats.INCREASE_ROLL, AttributeFormats.INCREASE_BOUNDS)
+    // DEFENSE
+    val AEGIS = CustomAttributeType("aegis", AttributeFormats.SIGNED_DOUBLE_ROLL, AttributeFormats.DOUBLE_BOUNDS)
+    val DODGE = CustomAttributeType("dodge", AttributeFormats.PERCENT_ROLL, AttributeFormats.PERCENT_BOUNDS)
+    val LESS_DAMAGE_TAKEN = CustomAttributeType("less_damage_taken", AttributeFormats.PERCENT_ROLL, AttributeFormats.PERCENT_BOUNDS)
+
+    // OFFENSE
+    val ELEMENTAL_DAMAGE = CustomAttributeType("elemental_damage", AttributeFormats.SIGNED_DOUBLE_ROLL, AttributeFormats.DOUBLE_BOUNDS)
+    val INCREASED_DAMAGE = CustomAttributeType("increased_damage", AttributeFormats.SIGNED_PERCENT_ROLL, AttributeFormats.PERCENT_BOUNDS)
+    val INCREASED_ELEMENTAL_DAMAGE = CustomAttributeType("increased_elemental_damage", AttributeFormats.SIGNED_PERCENT_ROLL, AttributeFormats.PERCENT_BOUNDS)
+    val INCREASED_PROJECTILE_DAMAGE = CustomAttributeType("increased_projectile_damage", AttributeFormats.SIGNED_PERCENT_ROLL, AttributeFormats.PERCENT_BOUNDS)
+
+    val INCREASED_DAMAGE_AGAINST_FULL_LIFE = CustomAttributeType("increased_damage_against_full_life", AttributeFormats.SIGNED_PERCENT_ROLL, AttributeFormats.PERCENT_BOUNDS)
 
     // region get by key
     fun getByKey(key: String): CustomAttributeType {

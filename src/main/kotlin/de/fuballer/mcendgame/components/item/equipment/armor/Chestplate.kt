@@ -1,5 +1,9 @@
 package de.fuballer.mcendgame.components.item.equipment.armor
 
+import de.fuballer.mcendgame.components.custom_attributes.data.DoubleBounds
+import de.fuballer.mcendgame.components.custom_attributes.data.RollableCustomAttribute
+import de.fuballer.mcendgame.components.custom_attributes.types.CustomAttributeTypes
+import de.fuballer.mcendgame.components.custom_attributes.types.VanillaAttributeTypes
 import de.fuballer.mcendgame.components.item.equipment.Equipment
 import de.fuballer.mcendgame.components.item.equipment.enchantment.EquipmentEnchantment
 import de.fuballer.mcendgame.util.random.RandomOption
@@ -30,6 +34,27 @@ enum class Chestplate(
     );
 
     override val slot = EquipmentSlot.CHEST
+
+    override val rollableCustomAttribute = listOf(
+        RandomOption(5, RollableCustomAttribute(VanillaAttributeTypes.ARMOR, 1, DoubleBounds(3.0, 4.0))),
+        RandomOption(10, RollableCustomAttribute(VanillaAttributeTypes.ARMOR, 2, DoubleBounds(2.0, 3.0))),
+        RandomOption(20, RollableCustomAttribute(VanillaAttributeTypes.ARMOR, 3, DoubleBounds(1.0, 2.0))),
+        RandomOption(5, RollableCustomAttribute(VanillaAttributeTypes.ARMOR_TOUGHNESS, 1, DoubleBounds(3.0, 4.0))),
+        RandomOption(10, RollableCustomAttribute(VanillaAttributeTypes.ARMOR_TOUGHNESS, 2, DoubleBounds(2.0, 3.0))),
+        RandomOption(20, RollableCustomAttribute(VanillaAttributeTypes.ARMOR_TOUGHNESS, 3, DoubleBounds(1.0, 2.0))),
+        RandomOption(5, RollableCustomAttribute(VanillaAttributeTypes.MAX_HEALTH, 1, DoubleBounds(4.0, 5.0))),
+        RandomOption(10, RollableCustomAttribute(VanillaAttributeTypes.MAX_HEALTH, 2, DoubleBounds(2.5, 4.0))),
+        RandomOption(20, RollableCustomAttribute(VanillaAttributeTypes.MAX_HEALTH, 3, DoubleBounds(1.0, 2.0))),
+        RandomOption(5, RollableCustomAttribute(CustomAttributeTypes.AEGIS, 1, DoubleBounds(3.0, 4.0))),
+        RandomOption(10, RollableCustomAttribute(CustomAttributeTypes.AEGIS, 2, DoubleBounds(2.0, 3.0))),
+        RandomOption(20, RollableCustomAttribute(CustomAttributeTypes.AEGIS, 3, DoubleBounds(1.0, 2.0))),
+        RandomOption(5, RollableCustomAttribute(CustomAttributeTypes.DODGE, 1, DoubleBounds(0.15, 0.2))),
+        RandomOption(10, RollableCustomAttribute(CustomAttributeTypes.DODGE, 2, DoubleBounds(0.1, 0.15))),
+        RandomOption(20, RollableCustomAttribute(CustomAttributeTypes.DODGE, 3, DoubleBounds(0.05, 0.1))),
+        RandomOption(5, RollableCustomAttribute(CustomAttributeTypes.LESS_DAMAGE_TAKEN, 1, DoubleBounds(0.11, 0.15))),
+        RandomOption(10, RollableCustomAttribute(CustomAttributeTypes.LESS_DAMAGE_TAKEN, 2, DoubleBounds(0.07, 0.11))),
+        RandomOption(20, RollableCustomAttribute(CustomAttributeTypes.LESS_DAMAGE_TAKEN, 3, DoubleBounds(0.03, 0.07))),
+    )
 
     override val rollableEnchants = listOf(
         RandomOption(10, EquipmentEnchantment.MENDING),

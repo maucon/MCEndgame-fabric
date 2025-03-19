@@ -1,5 +1,9 @@
 package de.fuballer.mcendgame.components.item.equipment.tool
 
+import de.fuballer.mcendgame.components.custom_attributes.data.DoubleBounds
+import de.fuballer.mcendgame.components.custom_attributes.data.RollableCustomAttribute
+import de.fuballer.mcendgame.components.custom_attributes.types.CustomAttributeTypes
+import de.fuballer.mcendgame.components.custom_attributes.types.VanillaAttributeTypes
 import de.fuballer.mcendgame.components.item.equipment.Equipment
 import de.fuballer.mcendgame.components.item.equipment.enchantment.EquipmentEnchantment
 import de.fuballer.mcendgame.util.random.RandomOption
@@ -30,6 +34,27 @@ enum class Shovel(
     );
 
     override val slot = EquipmentSlot.MAINHAND
+
+    override val rollableCustomAttribute = listOf(
+        RandomOption(5, RollableCustomAttribute(VanillaAttributeTypes.ATTACK_DAMAGE, 1, DoubleBounds(3.5, 5.0))),
+        RandomOption(10, RollableCustomAttribute(VanillaAttributeTypes.ATTACK_DAMAGE, 2, DoubleBounds(2.0, 3.5))),
+        RandomOption(20, RollableCustomAttribute(VanillaAttributeTypes.ATTACK_DAMAGE, 3, DoubleBounds(0.5, 2.0))),
+        RandomOption(5, RollableCustomAttribute(VanillaAttributeTypes.INCREASED_ATTACK_DAMAGE, 1, DoubleBounds(0.15, 0.2))),
+        RandomOption(10, RollableCustomAttribute(VanillaAttributeTypes.INCREASED_ATTACK_DAMAGE, 2, DoubleBounds(0.1, 0.15))),
+        RandomOption(20, RollableCustomAttribute(VanillaAttributeTypes.INCREASED_ATTACK_DAMAGE, 3, DoubleBounds(0.05, 0.1))),
+        RandomOption(5, RollableCustomAttribute(VanillaAttributeTypes.INCREASED_ATTACK_SPEED, 1, DoubleBounds(0.25, 0.35))),
+        RandomOption(10, RollableCustomAttribute(VanillaAttributeTypes.INCREASED_ATTACK_SPEED, 2, DoubleBounds(0.15, 0.25))),
+        RandomOption(20, RollableCustomAttribute(VanillaAttributeTypes.INCREASED_ATTACK_SPEED, 3, DoubleBounds(0.05, 0.15))),
+        RandomOption(5, RollableCustomAttribute(CustomAttributeTypes.ELEMENTAL_DAMAGE, 1, DoubleBounds(3.5, 5.0))),
+        RandomOption(10, RollableCustomAttribute(CustomAttributeTypes.ELEMENTAL_DAMAGE, 2, DoubleBounds(2.0, 3.5))),
+        RandomOption(20, RollableCustomAttribute(CustomAttributeTypes.ELEMENTAL_DAMAGE, 3, DoubleBounds(0.5, 2.0))),
+        RandomOption(5, RollableCustomAttribute(CustomAttributeTypes.INCREASED_ELEMENTAL_DAMAGE, 1, DoubleBounds(0.15, 0.2))),
+        RandomOption(10, RollableCustomAttribute(CustomAttributeTypes.INCREASED_ELEMENTAL_DAMAGE, 2, DoubleBounds(0.1, 0.15))),
+        RandomOption(20, RollableCustomAttribute(CustomAttributeTypes.INCREASED_ELEMENTAL_DAMAGE, 3, DoubleBounds(0.05, 0.1))),
+        RandomOption(5, RollableCustomAttribute(CustomAttributeTypes.INCREASED_DAMAGE, 1, DoubleBounds(0.1, 0.13))),
+        RandomOption(10, RollableCustomAttribute(CustomAttributeTypes.INCREASED_DAMAGE, 2, DoubleBounds(0.06, 0.1))),
+        RandomOption(20, RollableCustomAttribute(CustomAttributeTypes.INCREASED_DAMAGE, 3, DoubleBounds(0.02, 0.06))),
+    )
 
     override val rollableEnchants = listOf(
         RandomOption(10, EquipmentEnchantment.MENDING),

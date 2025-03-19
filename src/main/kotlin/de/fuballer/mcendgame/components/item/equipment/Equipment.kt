@@ -1,5 +1,6 @@
 package de.fuballer.mcendgame.components.item.equipment
 
+import de.fuballer.mcendgame.components.custom_attributes.data.RollableCustomAttribute
 import de.fuballer.mcendgame.components.item.equipment.armor.Boots
 import de.fuballer.mcendgame.components.item.equipment.armor.Chestplate
 import de.fuballer.mcendgame.components.item.equipment.armor.Helmet
@@ -15,6 +16,7 @@ interface Equipment {
     val slot: EquipmentSlot
 
     val rollableEnchants: List<RandomOption<EquipmentEnchantment>>
+    val rollableCustomAttribute: List<RandomOption<RollableCustomAttribute>>
 
     companion object {
         private val materialToEquipment = mutableMapOf<Item, Equipment>()
