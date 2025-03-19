@@ -8,6 +8,7 @@ import net.minecraft.entity.ai.pathing.Path
 import net.minecraft.entity.mob.MobEntity
 import net.minecraft.entity.player.PlayerEntity
 import net.minecraft.predicate.entity.EntityPredicates
+import net.minecraft.util.math.Vec3d
 import java.util.*
 import kotlin.math.max
 
@@ -95,8 +96,8 @@ class SlamAttackGoal<T>(
 
         updateCountdownTicks = 4 + mob.random.nextInt(7)
 
-        val distance = mob.squaredDistanceTo(target)
-        updateCountdownTicks += (distance / 100).toInt()
+        val distance = mob.distanceTo(target)
+        updateCountdownTicks += (distance / 10).toInt()
 
         if (!mob.navigation.startMovingTo(target, moveSpeedFactor)) {
             updateCountdownTicks += 15
@@ -112,7 +113,8 @@ class SlamAttackGoal<T>(
         if (!mob.visibilityCache.canSee(target)) return false
 
         if (targetX == 0.0 && targetY == 0.0 && targetZ == 0.0) return true
-        if (target.squaredDistanceTo(targetX, targetY, targetZ) >= 0.5) return true
+        if (target.pos.distanceTo(Vec3d(targetX, targetY, targetZ)) > 1) return true
+        if (mob.navigation.isIdle && mob.distanceTo(target) > 1) return true
 
         return mob.random.nextFloat() < 0.05
     }
