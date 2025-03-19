@@ -35,7 +35,7 @@ enum class Sword(
 
     override val slot = EquipmentSlot.MAINHAND
 
-    override val rollableCustomAttribute = listOf(
+    override val rollableCustomAttributes = listOf(
         RandomOption(5, RollableCustomAttribute(VanillaAttributeTypes.ATTACK_DAMAGE, 1, DoubleBounds(3.0, 4.0))),
         RandomOption(10, RollableCustomAttribute(VanillaAttributeTypes.ATTACK_DAMAGE, 2, DoubleBounds(2.0, 3.0))),
         RandomOption(20, RollableCustomAttribute(VanillaAttributeTypes.ATTACK_DAMAGE, 3, DoubleBounds(1.0, 2.0))),

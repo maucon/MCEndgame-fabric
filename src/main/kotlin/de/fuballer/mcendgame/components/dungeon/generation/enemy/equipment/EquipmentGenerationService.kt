@@ -1,5 +1,6 @@
 package de.fuballer.mcendgame.components.dungeon.generation.enemy.equipment
 
+import de.fuballer.mcendgame.components.dungeon.generation.enemy.equipment.attributes.AttributeService
 import de.fuballer.mcendgame.components.dungeon.generation.enemy.equipment.enchantment.EnchantmentService
 import de.fuballer.mcendgame.components.item.equipment.Equipment
 import de.fuballer.mcendgame.util.random.RandomOption
@@ -15,6 +16,7 @@ import kotlin.random.Random
 @Injectable
 class EquipmentGenerationService(
     private val enchantmentService: EnchantmentService,
+    private val attributeService: AttributeService,
 ) {
     fun generate(
         entity: LivingEntity,
@@ -109,6 +111,7 @@ class EquipmentGenerationService(
         val itemStack = ItemStack(item)
 
         enchantmentService.enchantItem(itemStack, equipment.rollableEnchants, level, server, random)
+        attributeService.applyAttributes(itemStack, equipment.rollableCustomAttributes, level, random)
 
         return itemStack
     }

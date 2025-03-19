@@ -35,7 +35,7 @@ enum class Hoe(
 
     override val slot = EquipmentSlot.MAINHAND
 
-    override val rollableCustomAttribute: List<RandomOption<RollableCustomAttribute>>
+    override val rollableCustomAttributes: List<RandomOption<RollableCustomAttribute>>
         get() = listOf(
             RandomOption(5, RollableCustomAttribute(VanillaAttributeTypes.ATTACK_DAMAGE, 1, DoubleBounds(2.0, 2.5))),
             RandomOption(10, RollableCustomAttribute(VanillaAttributeTypes.ATTACK_DAMAGE, 2, DoubleBounds(1.2, 2.0))),

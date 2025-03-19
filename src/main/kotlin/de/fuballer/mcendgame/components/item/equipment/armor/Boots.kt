@@ -35,7 +35,7 @@ enum class Boots(
 
     override val slot = EquipmentSlot.FEET
 
-    override val rollableCustomAttribute = listOf(
+    override val rollableCustomAttributes = listOf(
         RandomOption(5, RollableCustomAttribute(VanillaAttributeTypes.ARMOR, 1, DoubleBounds(2.5, 3.0))),
         RandomOption(10, RollableCustomAttribute(VanillaAttributeTypes.ARMOR, 2, DoubleBounds(1.5, 2.5))),
         RandomOption(20, RollableCustomAttribute(VanillaAttributeTypes.ARMOR, 3, DoubleBounds(0.5, 1.5))),

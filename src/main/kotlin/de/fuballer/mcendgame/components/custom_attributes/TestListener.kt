@@ -1,6 +1,7 @@
 package de.fuballer.mcendgame.components.custom_attributes
 
 import de.fuballer.mcendgame.components.custom_attributes.CustomAttributesExtensions.setCustomAttributes
+import de.fuballer.mcendgame.components.custom_attributes.data.CustomAttribute
 import de.fuballer.mcendgame.functional.item_tag.ItemTag
 import de.fuballer.mcendgame.functional.item_tag.ItemTagsExtensions.addItemTag
 import de.maucon.mauconframework.annotation.Initialize
@@ -21,8 +22,8 @@ class TestListener { // TODO REMOVE
             if (world.isClient) return@register ActionResult.PASS
             if (hand != Hand.MAIN_HAND) return@register ActionResult.PASS
 
-            val attributes = listOf(
-                CustomAttributes.DAMAGE_AGAINST_FULL_LIFE_T1.roll()
+            val attributes = listOf<CustomAttribute>(
+
             )
             player.mainHandStack.setCustomAttributes(attributes)
 

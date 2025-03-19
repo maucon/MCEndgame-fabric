@@ -16,7 +16,7 @@ interface Equipment {
     val slot: EquipmentSlot
 
     val rollableEnchants: List<RandomOption<EquipmentEnchantment>>
-    val rollableCustomAttribute: List<RandomOption<RollableCustomAttribute>>
+    val rollableCustomAttributes: List<RandomOption<RollableCustomAttribute>>
 
     companion object {
         private val materialToEquipment = mutableMapOf<Item, Equipment>()

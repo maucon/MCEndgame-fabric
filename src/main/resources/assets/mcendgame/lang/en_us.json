@@ -11,12 +11,22 @@
 
   "mcendgame.corrupted": "Corrupted",
   "attribute.mcendgame.error": "Could not load attribute type",
-  "attribute.mcendgame.increased_projectile": "%s%% increased Projectile Damage",
-  "attribute.mcendgame.fire_resistance": "%s%% Fire Resistance",
-  "attribute.mcendgame.increased_elemental_damage": " %s%% Elemental Damage",
-  "attribute.mcendgame.flat_elemental_damage": " %s to %s added Elemental Damage",
   "attribute.mcendgame.armor": "%s Armor",
-  "attribute.mcendgame.damage_against_full_life": " %s%% increased damage against full life enemies",
+  "attribute.mcendgame.armor_toughness": "%s Armor Toughness",
+  "attribute.mcendgame.max_health": "%s Max Health",
+  "attribute.mcendgame.attack_damage": "%s Attack Damage",
+  "attribute.mcendgame.increased_attack_damage": "%s%% increased Attack Damage",
+  "attribute.mcendgame.increased_attack_speed": "%s%% Attack Speed",
+  "attribute.mcendgame.increased_movement_speed": "%s%% Movement Speed",
+  "attribute.mcendgame.luck": "%s Luck",
+  "attribute.mcendgame.aegis": "%s Aegis",
+  "attribute.mcendgame.dodge": "%s%% Dodge",
+  "attribute.mcendgame.less_damage_taken": "%s%% less Damage taken",
+  "attribute.mcendgame.elemental_damage": "%s Elemental Damage",
+  "attribute.mcendgame.increased_damage": "%s%% increased Damage",
+  "attribute.mcendgame.increased_elemental_damage": "%s%% increased Elemental Damage",
+  "attribute.mcendgame.increased_projectile_damage": "%s%% increased Projectile Damage",
+  "attribute.mcendgame.increased_damage_against_full_life": " %s%% increased Damage against Full Life Enemies",
 
   "entity.mcendgame.swamp_golem": "Swamp Golem"
 }

@@ -15,7 +15,7 @@ import net.minecraft.item.Items
 enum class Miscellaneous(
     override val item: Item,
     override val slot: EquipmentSlot,
-    override val rollableCustomAttribute: List<RandomOption<RollableCustomAttribute>>,
+    override val rollableCustomAttributes: List<RandomOption<RollableCustomAttribute>>,
     override val rollableEnchants: List<RandomOption<EquipmentEnchantment>>,
 ) : Equipment {
     BOW(

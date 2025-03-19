@@ -35,7 +35,7 @@ enum class Leggings(
 
     override val slot = EquipmentSlot.LEGS
 
-    override val rollableCustomAttribute = listOf(
+    override val rollableCustomAttributes = listOf(
         RandomOption(5, RollableCustomAttribute(VanillaAttributeTypes.ARMOR, 1, DoubleBounds(3.0, 4.0))),
         RandomOption(10, RollableCustomAttribute(VanillaAttributeTypes.ARMOR, 2, DoubleBounds(2.0, 3.0))),
         RandomOption(20, RollableCustomAttribute(VanillaAttributeTypes.ARMOR, 3, DoubleBounds(1.0, 2.0))),

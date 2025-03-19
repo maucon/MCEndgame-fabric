@@ -35,7 +35,7 @@ enum class Pickaxe(
 
     override val slot = EquipmentSlot.MAINHAND
 
-    override val rollableCustomAttribute = listOf(
+    override val rollableCustomAttributes = listOf(
         RandomOption(5, RollableCustomAttribute(VanillaAttributeTypes.ATTACK_DAMAGE, 1, DoubleBounds(3.5, 5.0))),
         RandomOption(10, RollableCustomAttribute(VanillaAttributeTypes.ATTACK_DAMAGE, 2, DoubleBounds(2.0, 3.5))),
         RandomOption(20, RollableCustomAttribute(VanillaAttributeTypes.ATTACK_DAMAGE, 3, DoubleBounds(0.5, 2.0))),
