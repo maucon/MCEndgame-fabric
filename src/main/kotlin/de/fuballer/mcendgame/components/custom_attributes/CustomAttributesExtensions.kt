@@ -1,7 +1,6 @@
 package de.fuballer.mcendgame.components.custom_attributes
 
-import de.fuballer.mcendgame.components.custom_attributes.data.CustomAttribute
-import de.fuballer.mcendgame.components.custom_attributes.data.CustomAttributeType
+import de.fuballer.mcendgame.components.custom_attributes.data.*
 import de.fuballer.mcendgame.util.RegistryUtil
 import de.maucon.mauconframework.annotation.Injectable
 import net.minecraft.component.ComponentType
@@ -34,7 +33,7 @@ object CustomAttributesExtensions {
             ?: return emptyList()
     }
 
-    fun LivingEntity.getCustomAttributes(): Map<CustomAttributeType, List<CustomAttribute>> {
+    fun LivingEntity.getAllCustomAttributes(): Map<CustomAttributeType, List<CustomAttribute>> {
         // TODO entity based attributes
         val customAttributes = mutableListOf<CustomAttribute>()
 
@@ -56,4 +55,11 @@ object CustomAttributesExtensions {
             .filter { it.type is CustomAttributeType }
             .groupBy { it.type as CustomAttributeType }
     }
+
+    fun AttributeRoll<*>.asDoubleRoll() = this as DoubleRoll
+    fun AttributeRoll<*>.asStringRoll() = this as StringRoll
+    fun AttributeRoll<*>.asIntRoll() = this as IntRoll
+    fun AttributeBounds<*>.asDoubleBounds() = this as DoubleBounds
+    fun AttributeBounds<*>.asStringBounds() = this as StringBounds
+    fun AttributeBounds<*>.asIntBounds() = this as IntBounds
 }

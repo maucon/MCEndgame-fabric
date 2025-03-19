@@ -1,6 +1,6 @@
 package de.fuballer.mcendgame.components.damage
 
-import de.fuballer.mcendgame.components.custom_attributes.CustomAttributesExtensions.getCustomAttributes
+import de.fuballer.mcendgame.components.custom_attributes.CustomAttributesExtensions.getAllCustomAttributes
 import de.fuballer.mcendgame.components.custom_attributes.data.CustomAttribute
 import de.fuballer.mcendgame.components.custom_attributes.data.CustomAttributeType
 import de.fuballer.mcendgame.event.Notifier
@@ -41,8 +41,8 @@ data class ApplyDamageCalculationEvent(
             amount: Float,
         ): ApplyDamageCalculationEvent {
             val damager = source.attacker
-            val damagerAttributes = (damager as? LivingEntity)?.getCustomAttributes() ?: emptyMap()
-            val damagedAttributes = damaged.getCustomAttributes()
+            val damagerAttributes = (damager as? LivingEntity)?.getAllCustomAttributes() ?: emptyMap()
+            val damagedAttributes = damaged.getAllCustomAttributes()
             val damageType = source.type
             val isCritical = false // TODO
 

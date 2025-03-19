@@ -1,6 +1,13 @@
 package de.fuballer.mcendgame.components.custom_attributes
 
-import de.fuballer.mcendgame.components.custom_attributes.data.*
+import de.fuballer.mcendgame.components.custom_attributes.CustomAttributesExtensions.asDoubleBounds
+import de.fuballer.mcendgame.components.custom_attributes.CustomAttributesExtensions.asDoubleRoll
+import de.fuballer.mcendgame.components.custom_attributes.CustomAttributesExtensions.asIntBounds
+import de.fuballer.mcendgame.components.custom_attributes.CustomAttributesExtensions.asIntRoll
+import de.fuballer.mcendgame.components.custom_attributes.CustomAttributesExtensions.asStringBounds
+import de.fuballer.mcendgame.components.custom_attributes.CustomAttributesExtensions.asStringRoll
+import de.fuballer.mcendgame.components.custom_attributes.data.AttributeBounds
+import de.fuballer.mcendgame.components.custom_attributes.data.AttributeRoll
 
 object AttributeFormats {
     val EMPTY_ROLL = { _: List<AttributeRoll<*>> -> listOf<String>() }
@@ -40,11 +47,4 @@ object AttributeFormats {
         val bound2 = bounds[1].asIntBounds()
         listOf(String.format("(%d-%d)", bound1.min, bound1.max), String.format("(%d-%d)", bound2.min, bound2.max))
     }
-
-    private fun AttributeRoll<*>.asDoubleRoll() = this as DoubleRoll
-    private fun AttributeRoll<*>.asStringRoll() = this as StringRoll
-    private fun AttributeRoll<*>.asIntRoll() = this as IntRoll
-    private fun AttributeBounds<*>.asDoubleBounds() = this as DoubleBounds
-    private fun AttributeBounds<*>.asStringBounds() = this as StringBounds
-    private fun AttributeBounds<*>.asIntBounds() = this as IntBounds
 }
