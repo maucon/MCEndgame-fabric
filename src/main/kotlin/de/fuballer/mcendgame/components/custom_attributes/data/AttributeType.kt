@@ -7,6 +7,7 @@ import de.fuballer.mcendgame.components.custom_attributes.types.VanillaAttribute
 import de.fuballer.mcendgame.util.CodecUtil
 import net.minecraft.entity.attribute.EntityAttribute
 import net.minecraft.entity.attribute.EntityAttributeModifier
+import net.minecraft.registry.entry.RegistryEntry
 
 sealed class AttributeType(
     val key: String,
@@ -19,7 +20,7 @@ sealed class AttributeType(
 }
 
 class VanillaAttributeType(
-    val attribute: EntityAttribute,
+    val attribute: RegistryEntry<EntityAttribute>,
     val scaleType: EntityAttributeModifier.Operation,
     key: String,
     formatRolls: (List<AttributeRoll<*>>) -> List<String>,

@@ -88,12 +88,12 @@ public abstract class LivingEntityDamageMixin {
         }
 
         var attackDamage = ApplyDamageUtil.INSTANCE.calculateAttackDamage(originalDamage, source, event);
-        attackDamage = mcendgame$applyArmorToDamage(attackDamage, source, event, entity);
-        attackDamage = mcendgame$modifyAppliedDamage(source, attackDamage, entity);
+        attackDamage = applyArmorToDamage(attackDamage, source, event, entity);
+        attackDamage = modifyAppliedDamage(source, attackDamage, entity);
 
         var elementalDamage = ApplyDamageUtil.INSTANCE.calculateElementalDamage(source, event);
-        elementalDamage = mcendgame$applyWardToDamage(elementalDamage, source, event, entity);
-        elementalDamage = mcendgame$modifyAppliedDamage(source, elementalDamage, entity);
+        elementalDamage = applyWardToDamage(elementalDamage, source, event, entity);
+        elementalDamage = modifyAppliedDamage(source, elementalDamage, entity);
 
         var combinedDamage = attackDamage + elementalDamage;
 
@@ -119,7 +119,7 @@ public abstract class LivingEntityDamageMixin {
     }
 
     @Unique
-    private float mcendgame$applyArmorToDamage(
+    private float applyArmorToDamage(
             float amount,
             DamageSource source,
             ApplyDamageCalculationEvent event,
@@ -136,14 +136,14 @@ public abstract class LivingEntityDamageMixin {
     }
 
     @Unique
-    private float mcendgame$applyWardToDamage(
+    private float applyWardToDamage(
             float amount,
             DamageSource source,
             ApplyDamageCalculationEvent event,
             LivingEntity entity
     ) {
-        //if (source.isIn(DamageTypeTags.BYPASSES_ARMOR)) return amount; //TODO DECIDE IF APPLY
-        //entity.damageArmor(source, amount);
+        // if (source.isIn(DamageTypeTags.BYPASSES_ARMOR)) return amount; //TODO DECIDE IF APPLY
+        // entity.damageArmor(source, amount);
 
         var ward = event.getWard().stream().mapToDouble(Double::doubleValue).sum();
         amount = ApplyDamageUtil.INSTANCE.reduceElementalDamageByWard(entity, amount, source, (float) ward);
@@ -152,7 +152,7 @@ public abstract class LivingEntityDamageMixin {
     }
 
     @Unique
-    protected float mcendgame$modifyAppliedDamage(
+    protected float modifyAppliedDamage(
             DamageSource source,
             float amount,
             LivingEntity entity

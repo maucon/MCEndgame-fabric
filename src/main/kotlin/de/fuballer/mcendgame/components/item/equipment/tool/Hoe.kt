@@ -7,6 +7,7 @@ import de.fuballer.mcendgame.components.custom_attributes.types.VanillaAttribute
 import de.fuballer.mcendgame.components.item.equipment.Equipment
 import de.fuballer.mcendgame.components.item.equipment.enchantment.EquipmentEnchantment
 import de.fuballer.mcendgame.util.random.RandomOption
+import net.minecraft.component.type.AttributeModifierSlot
 import net.minecraft.entity.EquipmentSlot
 import net.minecraft.item.Item
 import net.minecraft.item.Items
@@ -33,7 +34,7 @@ enum class Hoe(
         Items.NETHERITE_HOE,
     );
 
-    override val slot = EquipmentSlot.MAINHAND
+    override val slot = AttributeModifierSlot.MAINHAND
 
     override val rollableCustomAttributes: List<RandomOption<RollableCustomAttribute>>
         get() = listOf(

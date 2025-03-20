@@ -111,7 +111,7 @@ class EquipmentGenerationService(
         val itemStack = ItemStack(item)
 
         enchantmentService.enchantItem(itemStack, equipment.rollableEnchants, level, server, random)
-        attributeService.applyAttributes(itemStack, equipment.rollableCustomAttributes, level, random)
+        attributeService.applyAttributes(itemStack, equipment.rollableCustomAttributes, level, random, equipment.slot)
 
         return itemStack
     }

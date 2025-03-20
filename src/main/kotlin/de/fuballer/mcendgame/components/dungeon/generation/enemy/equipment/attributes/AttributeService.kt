@@ -6,6 +6,7 @@ import de.fuballer.mcendgame.components.custom_attributes.data.RollableCustomAtt
 import de.fuballer.mcendgame.util.random.RandomOption
 import de.fuballer.mcendgame.util.random.RandomUtil
 import de.maucon.mauconframework.annotation.Injectable
+import net.minecraft.component.type.AttributeModifierSlot
 import net.minecraft.item.ItemStack
 import kotlin.random.Random
 
@@ -16,8 +17,10 @@ class AttributeService {
         attributes: List<RandomOption<RollableCustomAttribute>>,
         level: Int,
         random: Random,
+        slot: AttributeModifierSlot,
     ) {
-        itemStack.setCustomAttributes(selectAttributes(level, attributes, random))
+        val customAttributes = selectAttributes(level, attributes, random)
+        itemStack.setCustomAttributes(customAttributes, slot)
     }
 
     private fun selectAttributes(
@@ -27,7 +30,7 @@ class AttributeService {
     ): List<CustomAttribute> {
         val statAmount = RandomUtil.pick(AttributeSettings.ATTRIBUTE_COUNT, level, random).option
 
-        val pickedAttributes = RandomUtil.pick(attributes, random, statAmount)
+        val pickedAttributes = RandomUtil.pick(attributes, random, statAmount) // TODO check for duplicates
         val rolledAttributes = pickedAttributes
             .map {
                 val percentageRolls = mutableListOf<Double>()

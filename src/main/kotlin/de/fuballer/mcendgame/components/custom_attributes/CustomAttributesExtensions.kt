@@ -1,11 +1,17 @@
 package de.fuballer.mcendgame.components.custom_attributes
 
+import de.fuballer.mcendgame.MCEndgame
 import de.fuballer.mcendgame.components.custom_attributes.data.*
+import de.fuballer.mcendgame.util.IdentifierUtil
 import de.fuballer.mcendgame.util.RegistryUtil
 import de.maucon.mauconframework.annotation.Injectable
 import net.minecraft.component.ComponentType
+import net.minecraft.component.DataComponentTypes
+import net.minecraft.component.type.AttributeModifierSlot
+import net.minecraft.component.type.AttributeModifiersComponent
 import net.minecraft.entity.EquipmentSlot
 import net.minecraft.entity.LivingEntity
+import net.minecraft.entity.attribute.EntityAttributeModifier
 import net.minecraft.item.ItemStack
 
 @Injectable
@@ -18,14 +24,19 @@ object CustomAttributesExtensions {
             "custom_attributes"
         )
 
-    fun ItemStack.setCustomAttributes(customAttributes: List<CustomAttribute>) {
+    fun ItemStack.setCustomAttributes(
+        customAttributes: List<CustomAttribute>,
+        slot: AttributeModifierSlot
+    ) {
         set(COMPONENT_TYPE, customAttributes)
-    }
 
-    fun ItemStack.addCustomAttributes(customAttribute: CustomAttribute) {
-        val attributes = getCustomAttributes().toMutableList()
-        attributes.add(customAttribute)
-        setCustomAttributes(attributes)
+        val attributeModifierComponent = getOrDefault(DataComponentTypes.ATTRIBUTE_MODIFIERS, AttributeModifiersComponent.DEFAULT);
+
+        val attributeComponentBuilder = AttributeModifiersComponent.builder()
+        addNonModAttributes(attributeModifierComponent, attributeComponentBuilder)
+        addVanillaTypeAttributes(customAttributes, attributeComponentBuilder, slot)
+
+        set(DataComponentTypes.ATTRIBUTE_MODIFIERS, attributeComponentBuilder.build())
     }
 
     fun ItemStack.getCustomAttributes(): List<CustomAttribute> {
@@ -62,4 +73,27 @@ object CustomAttributesExtensions {
     fun AttributeBounds<*>.asDoubleBounds() = this as DoubleBounds
     fun AttributeBounds<*>.asStringBounds() = this as StringBounds
     fun AttributeBounds<*>.asIntBounds() = this as IntBounds
+
+    private fun addNonModAttributes(attributeModifierComponent: AttributeModifiersComponent, newA: AttributeModifiersComponent.Builder) {
+        for (modifier in attributeModifierComponent.modifiers) {
+            if (modifier.modifier.id.namespace == MCEndgame.MOD_ID) continue
+
+            newA.add(modifier.attribute, modifier.modifier, modifier.slot)
+        }
+    }
+
+    private fun addVanillaTypeAttributes(
+        customAttributes: List<CustomAttribute>,
+        newA: AttributeModifiersComponent.Builder,
+        slot: AttributeModifierSlot
+    ) {
+        customAttributes
+            .filter { it.type is VanillaAttributeType }
+            .forEach {
+                val vanillaAttributeType = it.type as VanillaAttributeType
+                val attribute = vanillaAttributeType.attribute
+                val modifier = EntityAttributeModifier(IdentifierUtil.defaultRandom(), it.rolls[0].asDoubleRoll().getActualRoll(), vanillaAttributeType.scaleType)
+                newA.add(attribute, modifier, slot)
+            }
+    }
 }

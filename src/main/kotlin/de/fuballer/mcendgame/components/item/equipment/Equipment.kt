@@ -8,12 +8,13 @@ import de.fuballer.mcendgame.components.item.equipment.armor.Leggings
 import de.fuballer.mcendgame.components.item.equipment.enchantment.EquipmentEnchantment
 import de.fuballer.mcendgame.components.item.equipment.tool.*
 import de.fuballer.mcendgame.util.random.RandomOption
+import net.minecraft.component.type.AttributeModifierSlot
 import net.minecraft.entity.EquipmentSlot
 import net.minecraft.item.Item
 
 interface Equipment {
     val item: Item
-    val slot: EquipmentSlot
+    val slot: AttributeModifierSlot
 
     val rollableEnchants: List<RandomOption<EquipmentEnchantment>>
     val rollableCustomAttributes: List<RandomOption<RollableCustomAttribute>>

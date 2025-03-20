@@ -7,6 +7,7 @@ import de.fuballer.mcendgame.components.custom_attributes.types.VanillaAttribute
 import de.fuballer.mcendgame.components.item.equipment.Equipment
 import de.fuballer.mcendgame.components.item.equipment.enchantment.EquipmentEnchantment
 import de.fuballer.mcendgame.util.random.RandomOption
+import net.minecraft.component.type.AttributeModifierSlot
 import net.minecraft.entity.EquipmentSlot
 import net.minecraft.item.Item
 import net.minecraft.item.Items
@@ -14,13 +15,13 @@ import net.minecraft.item.Items
 @Suppress("unused")
 enum class Miscellaneous(
     override val item: Item,
-    override val slot: EquipmentSlot,
+    override val slot: AttributeModifierSlot,
     override val rollableCustomAttributes: List<RandomOption<RollableCustomAttribute>>,
     override val rollableEnchants: List<RandomOption<EquipmentEnchantment>>,
 ) : Equipment {
     BOW(
         Items.BOW,
-        EquipmentSlot.MAINHAND,
+        AttributeModifierSlot.MAINHAND,
         listOf(
             RandomOption(5, RollableCustomAttribute(CustomAttributeTypes.INCREASED_DAMAGE, 1, DoubleBounds(0.09, 0.12))),
             RandomOption(10, RollableCustomAttribute(CustomAttributeTypes.INCREASED_DAMAGE, 2, DoubleBounds(0.06, 0.09))),
@@ -60,7 +61,7 @@ enum class Miscellaneous(
     ),
     TRIDENT(
         Items.TRIDENT,
-        EquipmentSlot.MAINHAND,
+        AttributeModifierSlot.MAINHAND,
         listOf(
             RandomOption(5, RollableCustomAttribute(VanillaAttributeTypes.ATTACK_DAMAGE, 1, DoubleBounds(3.0, 4.0))),
             RandomOption(10, RollableCustomAttribute(VanillaAttributeTypes.ATTACK_DAMAGE, 2, DoubleBounds(2.0, 3.0))),
@@ -103,7 +104,7 @@ enum class Miscellaneous(
     ),
     MACE(
         Items.MACE,
-        EquipmentSlot.MAINHAND,
+        AttributeModifierSlot.MAINHAND,
         listOf(
             RandomOption(5, RollableCustomAttribute(VanillaAttributeTypes.ATTACK_DAMAGE, 1, DoubleBounds(3.0, 4.0))),
             RandomOption(10, RollableCustomAttribute(VanillaAttributeTypes.ATTACK_DAMAGE, 2, DoubleBounds(2.0, 3.0))),
@@ -158,7 +159,7 @@ enum class Miscellaneous(
     ),
     FISHING_ROD(
         Items.FISHING_ROD,
-        EquipmentSlot.OFFHAND,
+        AttributeModifierSlot.OFFHAND,
         listOf(
             RandomOption(5, RollableCustomAttribute(VanillaAttributeTypes.LUCK, 1, DoubleBounds(3.5, 5.0))),
             RandomOption(10, RollableCustomAttribute(VanillaAttributeTypes.LUCK, 2, DoubleBounds(2.0, 3.5))),
@@ -180,7 +181,7 @@ enum class Miscellaneous(
     ),
     SHIELD(
         Items.SHIELD,
-        EquipmentSlot.OFFHAND,
+        AttributeModifierSlot.OFFHAND,
         listOf(
             RandomOption(5, RollableCustomAttribute(CustomAttributeTypes.INCREASED_DAMAGE, 1, DoubleBounds(0.09, 0.12))),
             RandomOption(10, RollableCustomAttribute(CustomAttributeTypes.INCREASED_DAMAGE, 2, DoubleBounds(0.06, 0.09))),
@@ -226,7 +227,7 @@ enum class Miscellaneous(
     ),
     CROSSBOW(
         Items.CROSSBOW,
-        EquipmentSlot.MAINHAND,
+        AttributeModifierSlot.MAINHAND,
         listOf(
             RandomOption(5, RollableCustomAttribute(CustomAttributeTypes.INCREASED_DAMAGE, 1, DoubleBounds(0.09, 0.12))),
             RandomOption(10, RollableCustomAttribute(CustomAttributeTypes.INCREASED_DAMAGE, 2, DoubleBounds(0.06, 0.09))),
@@ -265,7 +266,7 @@ enum class Miscellaneous(
     ),
     FLINT_AND_STEEL(
         Items.FLINT_AND_STEEL,
-        EquipmentSlot.OFFHAND,
+        AttributeModifierSlot.OFFHAND,
         listOf(),
         listOf(
             RandomOption(10, EquipmentEnchantment.MENDING),
@@ -277,7 +278,7 @@ enum class Miscellaneous(
     ),
     CARROT_ON_A_STICK(
         Items.CARROT_ON_A_STICK,
-        EquipmentSlot.OFFHAND,
+        AttributeModifierSlot.OFFHAND,
         listOf(),
         listOf(
             RandomOption(10, EquipmentEnchantment.MENDING),
@@ -289,7 +290,7 @@ enum class Miscellaneous(
     ),
     WARPED_FUNGUS_ON_A_STICK(
         Items.WARPED_FUNGUS_ON_A_STICK,
-        EquipmentSlot.OFFHAND,
+        AttributeModifierSlot.OFFHAND,
         listOf(),
         listOf(
             RandomOption(10, EquipmentEnchantment.MENDING),
@@ -301,7 +302,7 @@ enum class Miscellaneous(
     ),
     ELYTRA(
         Items.ELYTRA,
-        EquipmentSlot.CHEST,
+        AttributeModifierSlot.CHEST,
         listOf(
             RandomOption(5, RollableCustomAttribute(VanillaAttributeTypes.ARMOR, 1, DoubleBounds(3.0, 4.0))),
             RandomOption(10, RollableCustomAttribute(VanillaAttributeTypes.ARMOR, 2, DoubleBounds(2.0, 3.0))),
@@ -333,7 +334,7 @@ enum class Miscellaneous(
     ),
     SHEARS(
         Items.SHEARS,
-        EquipmentSlot.OFFHAND,
+        AttributeModifierSlot.OFFHAND,
         listOf(),
         listOf(
             RandomOption(10, EquipmentEnchantment.MENDING),
