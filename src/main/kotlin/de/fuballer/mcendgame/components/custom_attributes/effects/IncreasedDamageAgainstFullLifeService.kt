@@ -7,15 +7,15 @@ import de.maucon.mauconframework.annotation.Initialize
 import de.maucon.mauconframework.annotation.Injectable
 
 @Injectable
-class DamageAgainstFullLifeService {
+class IncreasedDamageAgainstFullLifeService {
     @Initialize
     fun on() = ApplyDamageCalculationEvent.NOTIFIER.listen { event ->
         val attributes = event.damagerAttributes[CustomAttributeTypes.INCREASED_DAMAGE_AGAINST_FULL_LIFE] ?: return@listen
         if (event.damaged.health < event.damaged.maxHealth) return@listen
 
         attributes.forEach { attribute ->
-            val increaseDamage = attribute.rolls[0].asDoubleRoll().getActualRoll()
-            event.increasedDamage.add(increaseDamage)
+            val increasedDamage = attribute.rolls[0].asDoubleRoll().getActualRoll()
+            event.increasedDamage.add(increasedDamage)
         }
     }
 }

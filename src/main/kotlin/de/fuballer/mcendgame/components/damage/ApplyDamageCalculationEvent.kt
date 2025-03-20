@@ -26,8 +26,19 @@ data class ApplyDamageCalculationEvent(
     val increasedDamage: MutableList<Double> = mutableListOf(),
     val moreDamage: MutableList<Double> = mutableListOf(),
 
+    val increasedAttackDamage: MutableList<Double> = mutableListOf(),
+    val moreAttackDamage: MutableList<Double> = mutableListOf(),
+
+    val elementalDamage: MutableList<Double> = mutableListOf(),
+    val increasedElementalDamage: MutableList<Double> = mutableListOf(),
+    val moreElementalDamage: MutableList<Double> = mutableListOf(),
+
+    val increasedProjectileDamage: MutableList<Double> = mutableListOf(),
+
     val reducedDamage: MutableList<Double> = mutableListOf(),
     val lessDamage: MutableList<Double> = mutableListOf(),
+    val ward: MutableList<Double> = mutableListOf(),
+    var dodge: Boolean = false,
 
     var isExecute: Boolean = false,
 ) {

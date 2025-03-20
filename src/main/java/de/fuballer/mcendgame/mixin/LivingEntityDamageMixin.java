@@ -1,11 +1,15 @@
 package de.fuballer.mcendgame.mixin;
 
 import de.fuballer.mcendgame.components.damage.ApplyDamageCalculationEvent;
+import de.fuballer.mcendgame.components.damage.ApplyDamageUtil;
 import it.unimi.dsi.fastutil.doubles.DoubleDoubleImmutablePair;
 import net.minecraft.advancement.criterion.Criteria;
+import net.minecraft.enchantment.EnchantmentHelper;
+import net.minecraft.entity.DamageUtil;
 import net.minecraft.entity.EntityStatuses;
 import net.minecraft.entity.EquipmentSlot;
 import net.minecraft.entity.LivingEntity;
+import net.minecraft.entity.attribute.EntityAttributes;
 import net.minecraft.entity.damage.DamageSource;
 import net.minecraft.entity.effect.StatusEffectInstance;
 import net.minecraft.entity.effect.StatusEffects;
@@ -18,8 +22,10 @@ import net.minecraft.server.world.ServerWorld;
 import net.minecraft.sound.SoundEvent;
 import net.minecraft.stat.Stats;
 import net.minecraft.world.event.GameEvent;
+import org.jetbrains.annotations.Nullable;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.Shadow;
+import org.spongepowered.asm.mixin.Unique;
 import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.Inject;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
@@ -61,40 +67,130 @@ public abstract class LivingEntityDamageMixin {
     @Shadow
     protected abstract float modifyAppliedDamage(DamageSource source, float amount);
 
+    @Shadow
+    private @Nullable LivingEntity attacker;
+
     @Inject(at = @At("HEAD"), method = "applyDamage", cancellable = true)
-    protected void applyDamage(ServerWorld world, DamageSource source, float amount, CallbackInfo ci) {
+    protected void applyDamage(
+            ServerWorld world,
+            DamageSource source,
+            float originalDamage,
+            CallbackInfo ci
+    ) {
         LivingEntity entity = (LivingEntity) (Object) this;
 
-        var event = ApplyDamageCalculationEvent.Companion.of(entity, world, source, amount);
+        var event = ApplyDamageCalculationEvent.Companion.of(entity, world, source, originalDamage);
         ApplyDamageCalculationEvent.Companion.getNOTIFIER().interact(event);
 
-        System.out.println("amount before: " + amount);
-        amount *= (float) (1 + (event.getIncreasedDamage().stream().mapToDouble(a -> a).sum()));
-        System.out.println("amount after: " + amount);
+        if (entity.isInvulnerableTo(world, source)) {
+            ci.cancel();
+            return;
+        }
 
-        if (!entity.isInvulnerableTo(world, source)) {
-            amount = this.applyArmorToDamage(source, amount);
-            amount = this.modifyAppliedDamage(source, amount);
-            float healthDamage = Math.max(amount - entity.getAbsorptionAmount(), 0.0F);
-            entity.setAbsorptionAmount(entity.getAbsorptionAmount() - (amount - healthDamage));
-            float g = amount - healthDamage;
-            if (g > 0.0F && g < 3.4028235E37F && source.getAttacker() instanceof ServerPlayerEntity serverPlayerEntity) {
-                serverPlayerEntity.increaseStat(Stats.DAMAGE_DEALT_ABSORBED, Math.round(g * 10.0F));
-            }
+        var attackDamage = ApplyDamageUtil.INSTANCE.calculateAttackDamage(originalDamage, source, event);
+        attackDamage = mcendgame$applyArmorToDamage(attackDamage, source, event, entity);
+        attackDamage = mcendgame$modifyAppliedDamage(source, attackDamage, entity);
 
-            if (healthDamage != 0.0F) {
-                entity.getDamageTracker().onDamage(source, healthDamage);
-                entity.setHealth(entity.getHealth() - healthDamage);
-                entity.setAbsorptionAmount(entity.getAbsorptionAmount() - healthDamage);
-                entity.emitGameEvent(GameEvent.ENTITY_DAMAGE);
-            }
+        var elementalDamage = ApplyDamageUtil.INSTANCE.calculateElementalDamage(source, event);
+        elementalDamage = mcendgame$applyWardToDamage(elementalDamage, source, event, entity);
+        elementalDamage = mcendgame$modifyAppliedDamage(source, elementalDamage, entity);
+
+        var combinedDamage = attackDamage + elementalDamage;
+
+        System.out.println("-----------");
+        System.out.println("ATTACK:    " + attackDamage);
+        System.out.println("ELEMENTAL: " + elementalDamage);
+        System.out.println("TOTAL:     " + combinedDamage);
+
+        float healthDamage = Math.max(combinedDamage - entity.getAbsorptionAmount(), 0.0F);
+        float absorbedDamage = combinedDamage - healthDamage;
+        entity.setAbsorptionAmount(entity.getAbsorptionAmount() - absorbedDamage);
+        if (absorbedDamage > 0.0F && absorbedDamage < 3.4028235E37F && source.getAttacker() instanceof ServerPlayerEntity serverPlayerEntity) {
+            serverPlayerEntity.increaseStat(Stats.DAMAGE_DEALT_ABSORBED, Math.round(absorbedDamage * 10.0F));
+        }
+
+        if (healthDamage != 0.0F) {
+            entity.getDamageTracker().onDamage(source, healthDamage);
+            entity.setHealth(entity.getHealth() - healthDamage);
+            entity.emitGameEvent(GameEvent.ENTITY_DAMAGE);
         }
 
         ci.cancel();
     }
 
+    @Unique
+    private float mcendgame$applyArmorToDamage(
+            float amount,
+            DamageSource source,
+            ApplyDamageCalculationEvent event,
+            LivingEntity entity
+    ) {
+        if (source.isIn(DamageTypeTags.BYPASSES_ARMOR)) return amount;
+        entity.damageArmor(source, amount);
+
+        var armor = entity.getArmor();
+        var armorToughness = (float) entity.getAttributeValue(EntityAttributes.ARMOR_TOUGHNESS);
+        amount = ApplyDamageUtil.INSTANCE.reduceAttackDamageByArmor(entity, amount, source, armor, armorToughness);
+
+        return amount;
+    }
+
+    @Unique
+    private float mcendgame$applyWardToDamage(
+            float amount,
+            DamageSource source,
+            ApplyDamageCalculationEvent event,
+            LivingEntity entity
+    ) {
+        //if (source.isIn(DamageTypeTags.BYPASSES_ARMOR)) return amount; //TODO DECIDE IF APPLY
+        //entity.damageArmor(source, amount);
+
+        var ward = event.getWard().stream().mapToDouble(Double::doubleValue).sum();
+        amount = ApplyDamageUtil.INSTANCE.reduceElementalDamageByWard(entity, amount, source, (float) ward);
+
+        return amount;
+    }
+
+    @Unique
+    protected float mcendgame$modifyAppliedDamage(
+            DamageSource source,
+            float amount,
+            LivingEntity entity
+    ) {
+        if (source.isIn(DamageTypeTags.BYPASSES_EFFECTS)) return amount;
+
+        if (entity.hasStatusEffect(StatusEffects.RESISTANCE) && !source.isIn(DamageTypeTags.BYPASSES_RESISTANCE)) {
+            int resistance = entity.getStatusEffect(StatusEffects.RESISTANCE).getAmplifier() + 1;
+
+            float resistancePercent = resistance * 0.2F;
+            float resistedDamage = Math.min(amount * resistancePercent, amount);
+            amount -= resistedDamage;
+
+            if (resistedDamage > 0.0F && resistedDamage < 3.4028235E37F) {
+                if (entity instanceof ServerPlayerEntity) {
+                    ((ServerPlayerEntity) entity).increaseStat(Stats.DAMAGE_RESISTED, Math.round(resistedDamage * 10.0F));
+                } else if (source.getAttacker() instanceof ServerPlayerEntity) {
+                    ((ServerPlayerEntity) source.getAttacker()).increaseStat(Stats.DAMAGE_DEALT_RESISTED, Math.round(resistedDamage * 10.0F));
+                }
+            }
+        }
+
+        if (amount <= 0.0F) return 0.0F;
+        if (source.isIn(DamageTypeTags.BYPASSES_ENCHANTMENTS)) return amount;
+        if (!(entity.getWorld() instanceof ServerWorld serverWorld)) return amount;
+
+        var protectionAmount = EnchantmentHelper.getProtectionAmount(serverWorld, entity, source);
+        amount = DamageUtil.getInflictedDamage(amount, protectionAmount);
+        return amount;
+    }
+
     @Inject(at = @At("HEAD"), method = "damage", cancellable = true)
-    private void damage(ServerWorld world, DamageSource source, float amount, CallbackInfoReturnable<Boolean> info) {
+    private void damage(
+            ServerWorld world,
+            DamageSource source,
+            float amount,
+            CallbackInfoReturnable<Boolean> info
+    ) {
         LivingEntity entity = (LivingEntity) (Object) this;
 
         if (entity.isInvulnerableTo(world, source)) {
