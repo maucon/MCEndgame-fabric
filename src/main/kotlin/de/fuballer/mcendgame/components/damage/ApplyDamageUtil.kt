@@ -59,9 +59,9 @@ object ApplyDamageUtil {
         val baseDamage = attacker.getAttributeValue(EntityAttributes.ATTACK_DAMAGE)
 
         var damageIncrease = 1 + event.increasedDamage.sum()
-        damageIncrease += event.increasedAttackDamage.sum()
+        damageIncrease *= 1 + event.increasedAttackDamage.sum()
         if (source.source is ProjectileEntity) {
-            damageIncrease += event.increasedProjectileDamage.sum()
+            damageIncrease *= 1 + event.increasedProjectileDamage.sum()
         }
 
         var moreDamage = event.moreDamage.fold(1.0) { a, b -> a * (b + 1) }
@@ -83,9 +83,9 @@ object ApplyDamageUtil {
         val baseDamage = event.elementalDamage.sum()
 
         var damageIncrease = 1 + event.increasedDamage.sum()
-        damageIncrease += event.increasedElementalDamage.sum()
+        damageIncrease *= 1 + event.increasedElementalDamage.sum()
         if (source.source is ProjectileEntity) {
-            damageIncrease += event.increasedProjectileDamage.sum()
+            damageIncrease *= 1 + event.increasedProjectileDamage.sum()
         }
 
         var moreDamage = event.moreDamage.fold(1.0) { a, b -> a * (b + 1) }
