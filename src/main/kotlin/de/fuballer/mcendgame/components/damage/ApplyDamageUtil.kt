@@ -54,8 +54,9 @@ object ApplyDamageUtil {
     ): Float {
         val attacker = source.attacker as? LivingEntity ?: return originalDamage
 
-        //TODO if proj
-        //TODO hit cooldown
+        // TODO if proj
+        // TODO sweep
+
         val baseDamage = attacker.getAttributeValue(EntityAttributes.ATTACK_DAMAGE)
 
         var damageIncrease = 1 + event.increasedDamage.sum()
@@ -71,15 +72,18 @@ object ApplyDamageUtil {
 
         //TODO enchants
 
-        return (baseDamage * damageIncrease * moreDamage * criticalMultiplier).toFloat()
+        val attackCooldownMultiplier = DamageUtil.getAttackCooldownMultiplier(source.source)
+
+        return (baseDamage * damageIncrease * moreDamage * criticalMultiplier * attackCooldownMultiplier).toFloat()
     }
 
     fun calculateElementalDamage(
         source: DamageSource,
         event: ApplyDamageCalculationEvent,
     ): Float {
-        //TODO if proj
-        //TODO hit cooldown
+        // TODO if proj
+        // TODO sweep
+
         val baseDamage = event.elementalDamage.sum()
 
         var damageIncrease = 1 + event.increasedDamage.sum()
@@ -95,6 +99,10 @@ object ApplyDamageUtil {
 
         //TODO enchants
 
-        return (baseDamage * damageIncrease * moreDamage * criticalMultiplier).toFloat()
+        val attackCooldownMultiplier = DamageUtil.getAttackCooldownMultiplier(source.source)
+
+        return (baseDamage * damageIncrease * moreDamage * criticalMultiplier * attackCooldownMultiplier).toFloat()
     }
+
+
 }

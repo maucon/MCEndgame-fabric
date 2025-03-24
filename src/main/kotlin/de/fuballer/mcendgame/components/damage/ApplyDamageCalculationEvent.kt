@@ -62,13 +62,13 @@ data class ApplyDamageCalculationEvent(
             return ApplyDamageCalculationEvent(damager, damagerAttributes, damaged, damagedAttributes, damageType, world, isCritical)
         }
 
-
         private fun isCritical(
             entity: Entity?
         ): Boolean {
             val player = entity as? PlayerEntity ?: return false
+            val attackCooldown = DamageUtil.getAttackCooldownMultiplier(player)
 
-            if (player.getAttackCooldownProgress(0.5F) <= 0.9F) return false
+            if (attackCooldown <= 0.9F) return false
             if (player.fallDistance <= 0.0f) return false
             if (player.isOnGround) return false
             if (player.isClimbing) return false
