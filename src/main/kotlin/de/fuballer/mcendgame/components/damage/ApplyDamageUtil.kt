@@ -72,7 +72,7 @@ object ApplyDamageUtil {
 
         //TODO enchants
 
-        val attackCooldownMultiplier = DamageUtil.getAttackCooldownMultiplier(source.source)
+        val attackCooldownMultiplier = PlayerAccessUtil.getAttackCooldownMultiplier(source.source)
 
         return (baseDamage * damageIncrease * moreDamage * criticalMultiplier * attackCooldownMultiplier).toFloat()
     }
@@ -99,7 +99,7 @@ object ApplyDamageUtil {
 
         //TODO enchants
 
-        val attackCooldownMultiplier = DamageUtil.getAttackCooldownMultiplier(source.source)
+        val attackCooldownMultiplier = PlayerAccessUtil.getAttackCooldownMultiplier(source.source)
 
         return (baseDamage * damageIncrease * moreDamage * criticalMultiplier * attackCooldownMultiplier).toFloat()
     }

@@ -8,8 +8,6 @@ import net.minecraft.entity.Entity
 import net.minecraft.entity.LivingEntity
 import net.minecraft.entity.damage.DamageSource
 import net.minecraft.entity.damage.DamageType
-import net.minecraft.entity.effect.StatusEffects
-import net.minecraft.entity.player.PlayerEntity
 import net.minecraft.server.world.ServerWorld
 
 data class ApplyDamageCalculationEvent(
@@ -57,27 +55,9 @@ data class ApplyDamageCalculationEvent(
             val damagerAttributes = (damager as? LivingEntity)?.getAllCustomAttributes() ?: emptyMap()
             val damagedAttributes = damaged.getAllCustomAttributes()
             val damageType = source.type
-            val isCritical = isCritical(damager)
+            val isCritical = PlayerAccessUtil.getIsCritical(damager)
 
             return ApplyDamageCalculationEvent(damager, damagerAttributes, damaged, damagedAttributes, damageType, world, isCritical)
-        }
-
-        private fun isCritical(
-            entity: Entity?
-        ): Boolean {
-            val player = entity as? PlayerEntity ?: return false
-            val attackCooldown = DamageUtil.getAttackCooldownMultiplier(player)
-
-            if (attackCooldown <= 0.9F) return false
-            if (player.fallDistance <= 0.0f) return false
-            if (player.isOnGround) return false
-            if (player.isClimbing) return false
-            if (player.isTouchingWater) return false
-            if (player.hasStatusEffect(StatusEffects.BLINDNESS)) return false
-            if (player.hasVehicle()) return false
-            if (player.isSprinting) return false
-
-            return true
         }
     }
 }
