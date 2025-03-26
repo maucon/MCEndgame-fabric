@@ -6,7 +6,6 @@ import net.minecraft.client.render.entity.model.EntityModel
 import net.minecraft.client.render.entity.model.EntityModelLayer
 import kotlin.math.*
 
-
 class ElfDuelistEntityModel(
     modelPart: ModelPart,
 ) : EntityModel<ElfDuelistRenderState>(modelPart) {

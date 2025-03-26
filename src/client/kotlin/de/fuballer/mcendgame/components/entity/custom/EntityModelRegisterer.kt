@@ -1,5 +1,7 @@
 package de.fuballer.mcendgame.components.entity.custom
 
+import de.fuballer.mcendgame.components.entity.custom.entities.arachne.ArachneEntityModel
+import de.fuballer.mcendgame.components.entity.custom.entities.arachne.ArachneRenderer
 import de.fuballer.mcendgame.components.entity.custom.entities.elf_duelist.ElfDuelistEntityModel
 import de.fuballer.mcendgame.components.entity.custom.entities.elf_duelist.ElfDuelistRenderer
 import de.fuballer.mcendgame.components.entity.custom.entities.swamp_golem.SwampGolemEntityModel
@@ -24,5 +26,11 @@ object EntityModelRegisterer {
             ElfDuelistEntityModel.Companion::getTexturedModelData
         )
         EntityRendererRegistry.register(CustomEntities.ELF_DUELIST, ::ElfDuelistRenderer)
+
+        EntityModelLayerRegistry.registerModelLayer(
+            ArachneEntityModel.ARACHNE,
+            ArachneEntityModel.Companion::getTexturedModelData
+        )
+        EntityRendererRegistry.register(CustomEntities.ARACHNE, ::ArachneRenderer)
     }
 }

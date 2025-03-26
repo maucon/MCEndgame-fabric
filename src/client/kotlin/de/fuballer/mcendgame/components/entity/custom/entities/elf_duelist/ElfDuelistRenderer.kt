@@ -8,12 +8,11 @@ import kotlin.math.min
 
 class ElfDuelistRenderer(
     context: EntityRendererFactory.Context,
-) :
-    MobEntityRenderer<ElfDuelistEntity, ElfDuelistRenderState, ElfDuelistEntityModel>(
-        context,
-        ElfDuelistEntityModel(context.getPart(ElfDuelistEntityModel.ELF_DUELIST)),
-        0.4F //shadow
-    ) {
+) : MobEntityRenderer<ElfDuelistEntity, ElfDuelistRenderState, ElfDuelistEntityModel>(
+    context,
+    ElfDuelistEntityModel(context.getPart(ElfDuelistEntityModel.ELF_DUELIST)),
+    0.4F //shadow
+) {
     override fun createRenderState(): ElfDuelistRenderState =
         ElfDuelistRenderState()
 

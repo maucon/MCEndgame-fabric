@@ -1,5 +1,6 @@
 package de.fuballer.mcendgame.components.entity.custom
 
+import de.fuballer.mcendgame.components.entity.custom.entities.arachne.ArachneEntity
 import de.fuballer.mcendgame.components.entity.custom.entities.elf_duelist.ElfDuelistEntity
 import de.fuballer.mcendgame.components.entity.custom.entities.swamp_golem.SwampGolemEntity
 import de.fuballer.mcendgame.util.RegistryUtil
@@ -23,6 +24,15 @@ object CustomEntities {
         EntityType.Builder.create({ type, world -> ElfDuelistEntity(type, world) }, SpawnGroup.MONSTER)
             .dimensions(0.45f, 1.99f)
             .eyeHeight(1.8f)
+            .passengerAttachments(1.8125f)
+            .vehicleAttachment(-0.7f)
+            .maxTrackingRange(8)
+    )
+    val ARACHNE = RegistryUtil.registerEntity(
+        "arachne",
+        EntityType.Builder.create({ type, world -> ArachneEntity(type, world) }, SpawnGroup.MONSTER)
+            .dimensions(1.5f, 1.8f)
+            .eyeHeight(1.7f)
             .passengerAttachments(1.8125f)
             .vehicleAttachment(-0.7f)
             .maxTrackingRange(8)
