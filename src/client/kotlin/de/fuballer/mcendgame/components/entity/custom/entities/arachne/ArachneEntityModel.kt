@@ -4,6 +4,8 @@ import de.fuballer.mcendgame.util.IdentifierUtil
 import net.minecraft.client.model.*
 import net.minecraft.client.render.entity.model.EntityModel
 import net.minecraft.client.render.entity.model.EntityModelLayer
+import kotlin.math.max
+import kotlin.math.sin
 
 class ArachneEntityModel(
     modelPart: ModelPart,
@@ -464,6 +466,7 @@ class ArachneEntityModel(
         super.setAngles(renderState)
 
         setHeadAngles(renderState)
+        setLegAngles(renderState)
     }
 
     private fun setHeadAngles(
@@ -472,5 +475,36 @@ class ArachneEntityModel(
         head.pitch += Math.toRadians(renderState.pitch.toDouble()).toFloat()
         head.yaw += Math.toRadians(renderState.yawDegrees.toDouble()).toFloat()
         head.yaw = Math.clamp(head.yaw, -1F, 1F)
+    }
+
+    private fun setLegAngles(
+        renderState: ArachneRenderState,
+    ) {
+        if (!renderState.isMoving) return
+
+        val stepState = renderState.movingTicks / 3F
+
+        val legRollA = max(sin(stepState), 0F)
+        val legYawA = sin(stepState + Math.PI.toFloat() / 2F)
+        val legRollB = max(sin(stepState + Math.PI.toFloat()), 0F)
+        val legYawB = sin(stepState + Math.PI.toFloat() * 1.5F)
+
+        legRight1.roll += max(sin(stepState + 0.3F), 0F) * 0.4F
+        legRight1.yaw += sin(stepState + Math.PI.toFloat() / 2F + 0.3F) * 0.2F
+        legRight2.roll += max(sin(stepState + Math.PI.toFloat() + 0.12F), 0F) * 0.4F
+        legRight2.yaw += sin(stepState + Math.PI.toFloat() * 1.5F + 0.12F) * 0.2F
+        legRight3.roll += max(sin(stepState + 0.15F), 0F) * 0.4F
+        legRight3.yaw += sin(stepState + Math.PI.toFloat() / 2F + 0.15F) * 0.2F
+        legRight4.roll += max(sin(stepState + Math.PI.toFloat() + 0.21F), 0F) * 0.4F
+        legRight4.yaw += sin(stepState + Math.PI.toFloat() * 1.5F + 0.21F) * 0.2F
+
+        legLeft1.roll -= max(sin(stepState + Math.PI.toFloat() + 0.03F), 0F) * 0.4F
+        legLeft1.yaw -= sin(stepState + Math.PI.toFloat() * 1.5F + 0.03F) * 0.2F
+        legLeft2.roll -= max(sin(stepState + 0.25F), 0F) * 0.4F
+        legLeft2.yaw -= sin(stepState + Math.PI.toFloat() / 2F + 0.24F) * 0.2F
+        legLeft3.roll -= max(sin(stepState + Math.PI.toFloat() + 0.27F), 0F) * 0.4F
+        legLeft3.yaw -= sin(stepState + Math.PI.toFloat() * 1.5F + 0.27F) * 0.2F
+        legLeft4.roll -= max(sin(stepState + 0.33F), 0F) * 0.4F
+        legLeft4.yaw -= sin(stepState + Math.PI.toFloat() / 2F + 0.33F) * 0.2F
     }
 }

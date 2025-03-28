@@ -23,5 +23,10 @@ class ArachneRenderer(
         tickDelta: Float
     ) {
         super.updateRenderState(entity, renderState, tickDelta)
+
+        val movingStart = entity.dataTracker.get(ArachneEntity.MOVING_START)
+        val movingTicks = entity.world.time - movingStart
+        renderState.isMoving = movingStart >= 0
+        renderState.movingTicks = movingTicks.toFloat() + tickDelta
     }
 }
