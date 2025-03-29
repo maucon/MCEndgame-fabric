@@ -17,5 +17,7 @@
   "attribute.mcendgame.flat_elemental_damage": " %s to %s added Elemental Damage",
   "attribute.mcendgame.armor": "%s Armor",
 
-  "entity.mcendgame.swamp_golem": "Swamp Golem"
+  "entity.mcendgame.swamp_golem": "Swamp Golem",
+  "entity.mcendgame.elf_duelist": "Elf Duelist",
+  "entity.mcendgame.arachne": "Arachne"
 }

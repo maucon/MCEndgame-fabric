@@ -3,6 +3,7 @@ package de.fuballer.mcendgame.components.entity.custom.entities.arachne
 import de.fuballer.mcendgame.util.IdentifierUtil
 import net.minecraft.client.render.entity.EntityRendererFactory
 import net.minecraft.client.render.entity.MobEntityRenderer
+import net.minecraft.entity.attribute.EntityAttributes
 
 class ArachneRenderer(
     context: EntityRendererFactory.Context,
@@ -24,9 +25,8 @@ class ArachneRenderer(
     ) {
         super.updateRenderState(entity, renderState, tickDelta)
 
-        val movingStart = entity.dataTracker.get(ArachneEntity.MOVING_START)
-        val movingTicks = entity.world.time - movingStart
-        renderState.isMoving = movingStart >= 0
-        renderState.movingTicks = movingTicks.toFloat() + tickDelta
+        renderState.walkAnimationState.copyFrom(entity.walkAnimationState)
+
+        renderState.moveSpeed = entity.getAttributeValue(EntityAttributes.MOVEMENT_SPEED).toFloat()
     }
 }
