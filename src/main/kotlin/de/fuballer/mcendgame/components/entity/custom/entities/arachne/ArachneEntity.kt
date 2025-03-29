@@ -22,7 +22,7 @@ class ArachneEntity(
 ) : MountEntity(type, world), Monster {
     override val passengerPos = Vec3d(0.0, 0.75, -0.65)
 
-    var prevPos = Vec3d.ZERO
+    private var prevPos = Vec3d.ZERO
     val walkAnimationState = AnimationState()
 
     companion object {
