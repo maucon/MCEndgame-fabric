@@ -7,12 +7,16 @@ import net.minecraft.entity.EntityType
 import net.minecraft.entity.attribute.EntityAttributes
 import net.minecraft.entity.passive.AbstractHorseEntity
 import net.minecraft.entity.player.PlayerEntity
+import net.minecraft.item.Item
+import net.minecraft.util.ActionResult
+import net.minecraft.util.Hand
 import net.minecraft.util.math.Vec3d
 import net.minecraft.world.World
 
 abstract class MountEntity(
     type: EntityType<out ArachneEntity>,
     world: World,
+    private val tameFood: Map<Item, Double>,
 ) : AbstractHorseEntity(type, world) {
     abstract val passengerPos: Vec3d
 
@@ -26,7 +30,10 @@ abstract class MountEntity(
         return pos
     }
 
-    override fun getControlledMovementInput(controllingPlayer: PlayerEntity, movementInput: Vec3d?): Vec3d {
+    override fun getControlledMovementInput(
+        controllingPlayer: PlayerEntity,
+        movementInput: Vec3d
+    ): Vec3d {
         if (this.isOnGround && this.jumpStrength == 0.0f && this.isAngry && !this.jumping) {
             return Vec3d.ZERO
         } else {
@@ -40,5 +47,31 @@ abstract class MountEntity(
 
             return Vec3d(sidewaysMovement, 0.0, forwardMovement)
         }
+    }
+
+    override fun interactMob(
+        player: PlayerEntity,
+        hand: Hand
+    ): ActionResult {
+        val stack = player.getStackInHand(hand)
+        val item = stack.item
+
+        if (!isTame && tameFood.contains(item)) {
+            if (!world.isClient && canEat()) {
+                eat(player, hand, stack)
+                playEatSound()
+
+                if (random.nextDouble() < tameFood[item]!!) {
+                    bondWithPlayer(player)
+                }
+
+                return ActionResult.SUCCESS_SERVER
+            }
+            if (world.isClient) {
+                return ActionResult.CONSUME
+            }
+        }
+
+        return super.interactMob(player, hand)
     }
 }

@@ -13,19 +13,23 @@ import net.minecraft.entity.data.TrackedData
 import net.minecraft.entity.mob.Monster
 import net.minecraft.entity.passive.VillagerEntity
 import net.minecraft.entity.player.PlayerEntity
+import net.minecraft.item.Item
+import net.minecraft.item.Items
 import net.minecraft.util.math.Vec3d
 import net.minecraft.world.World
 
 class ArachneEntity(
     type: EntityType<out ArachneEntity>,
     world: World,
-) : MountEntity(type, world), Monster {
+) : MountEntity(type, world, TAME_FOOD), Monster {
     override val passengerPos = Vec3d(0.0, 0.75, -0.65)
 
     private var prevPos = Vec3d.ZERO
     val walkAnimationState = AnimationState()
 
     companion object {
+        val TAME_FOOD = mapOf<Item, Double>(Items.ROTTEN_FLESH to 0.1)
+
         val CUSTOM_POSE = DataTracker.registerData(ArachneEntity::class.java, CustomPosesEntity.CUSTOM_POSE_TDH)
 
         fun createAttributes(): DefaultAttributeContainer.Builder {
@@ -41,7 +45,7 @@ class ArachneEntity(
 
     override fun initGoals() {
         goalSelector.add(0, SwimGoal(this))
-        goalSelector.add(1, HorseBondWithPlayerGoal(this, 1.2))
+        //goalSelector.add(1, HorseBondWithPlayerGoal(this, 1.2))
         goalSelector.add(1, MeleeAttackGoal(this, 1.0, false))
         goalSelector.add(7, WanderAroundFarGoal(this, 1.0))
         goalSelector.add(8, LookAtEntityGoal(this, PlayerEntity::class.java, 8.0f))
@@ -95,7 +99,7 @@ class ArachneEntity(
     private fun isMoving(): Boolean {
         val change = prevPos.subtract(pos).length()
         prevPos = pos
-        return change > 0.05
+        return change > 0.01
     }
 
     override fun getInventoryColumns() = 3
