@@ -3,6 +3,8 @@ package de.fuballer.mcendgame.components.entity.custom.entities.arachne
 import de.fuballer.mcendgame.components.entity.custom.entities.mount.MountEntity
 import de.fuballer.mcendgame.components.entity.custom.goals.TameableActiveTargetGoal
 import de.fuballer.mcendgame.components.entity.custom.interfaces.CustomPosesEntity
+import net.minecraft.block.BlockState
+import net.minecraft.block.Blocks
 import net.minecraft.entity.AnimationState
 import net.minecraft.entity.EntityType
 import net.minecraft.entity.ai.goal.*
@@ -16,6 +18,10 @@ import net.minecraft.entity.passive.VillagerEntity
 import net.minecraft.entity.player.PlayerEntity
 import net.minecraft.item.Item
 import net.minecraft.item.Items
+import net.minecraft.sound.BlockSoundGroup
+import net.minecraft.sound.SoundEvent
+import net.minecraft.sound.SoundEvents
+import net.minecraft.util.math.BlockPos
 import net.minecraft.util.math.Vec3d
 import net.minecraft.world.World
 
@@ -109,4 +115,42 @@ class ArachneEntity(
     override fun handleFallDamage(fallDistance: Float, damageMultiplier: Float, damageSource: DamageSource) = false
 
     override fun occludeVibrationSignals() = true
+
+    override fun getAmbientSound(): SoundEvent {
+        return SoundEvents.ENTITY_SPIDER_AMBIENT
+    }
+
+    override fun getDeathSound(): SoundEvent {
+        return SoundEvents.ENTITY_SPIDER_DEATH
+    }
+
+    override fun getHurtSound(source: DamageSource): SoundEvent {
+        return SoundEvents.ENTITY_SPIDER_HURT
+    }
+
+    override fun playEatSound() {
+        playSound(SoundEvents.ENTITY_SPIDER_AMBIENT, 1.0f, 1.0f)
+    }
+
+    override fun playWalkSound(group: BlockSoundGroup) {
+        this.playSound(SoundEvents.ENTITY_SPIDER_STEP, group.getVolume() * 0.15f, group.getPitch())
+    }
+
+    override fun playStepSound(
+        pos: BlockPos,
+        state: BlockState
+    ) {
+        if (state.isLiquid) return
+
+        val blockState = world.getBlockState(pos.up())
+        val blockSoundGroup = if (blockState.isOf(Blocks.SNOW)) blockState.soundGroup else state.soundGroup
+
+        if (!hasPassengers()) {
+            playWalkSound(blockSoundGroup)
+            return
+        }
+
+        if (++soundTicks > 5 && soundTicks % 2 != 0) return
+        playWalkSound(blockSoundGroup)
+    }
 }
