@@ -7,6 +7,8 @@ import net.minecraft.block.BlockState
 import net.minecraft.block.Blocks
 import net.minecraft.entity.AnimationState
 import net.minecraft.entity.EntityType
+import net.minecraft.entity.LivingEntity
+import net.minecraft.entity.ai.RangedAttackMob
 import net.minecraft.entity.ai.goal.*
 import net.minecraft.entity.attribute.DefaultAttributeContainer
 import net.minecraft.entity.attribute.EntityAttributes
@@ -16,19 +18,24 @@ import net.minecraft.entity.data.TrackedData
 import net.minecraft.entity.mob.Monster
 import net.minecraft.entity.passive.VillagerEntity
 import net.minecraft.entity.player.PlayerEntity
+import net.minecraft.entity.projectile.ProjectileEntity
+import net.minecraft.entity.projectile.thrown.SnowballEntity
 import net.minecraft.item.Item
+import net.minecraft.item.ItemStack
 import net.minecraft.item.Items
+import net.minecraft.server.world.ServerWorld
 import net.minecraft.sound.BlockSoundGroup
 import net.minecraft.sound.SoundEvent
 import net.minecraft.sound.SoundEvents
 import net.minecraft.util.math.BlockPos
 import net.minecraft.util.math.Vec3d
 import net.minecraft.world.World
+import kotlin.math.sqrt
 
 class ArachneEntity(
     type: EntityType<out ArachneEntity>,
     world: World,
-) : MountEntity(type, world, TAME_FOOD), Monster {
+) : MountEntity(type, world, TAME_FOOD), Monster, RangedAttackMob {
     override val passengerPos = Vec3d(0.0, 0.75, -0.65)
 
     private var prevPos = Vec3d.ZERO
@@ -54,7 +61,8 @@ class ArachneEntity(
     override fun initGoals() {
         goalSelector.add(0, SwimGoal(this))
         //goalSelector.add(1, HorseBondWithPlayerGoal(this, 1.2))
-        goalSelector.add(1, MeleeAttackGoal(this, 1.0, false))
+        //goalSelector.add(1, MeleeAttackGoal(this, 1.0, false))
+        goalSelector.add(3, ProjectileAttackGoal(this, 1.25, 40, 20.0f))
         goalSelector.add(7, WanderAroundFarGoal(this, 1.0))
         goalSelector.add(8, LookAtEntityGoal(this, PlayerEntity::class.java, 8.0f))
         goalSelector.add(8, LookAroundGoal(this))
@@ -152,5 +160,23 @@ class ArachneEntity(
 
         if (++soundTicks > 5 && soundTicks % 2 != 0) return
         playWalkSound(blockSoundGroup)
+    }
+
+    override fun shootAt(
+        target: LivingEntity,
+        pullProgress: Float,
+    ) {
+        val serverWorld = world as? ServerWorld ?: return
+
+        val xDistance = target.x - x
+        val zDistance = target.z - z
+        val aimY = target.eyeY - 1.1f
+        val addedYVelocity = sqrt(xDistance * xDistance + zDistance * zDistance) * 0.2f
+
+        val itemStack = ItemStack(Items.SNOWBALL)
+        ProjectileEntity.spawn(SnowballEntity(serverWorld, this, itemStack), serverWorld, itemStack)
+        { entity: SnowballEntity ->
+            entity.setVelocity(xDistance, aimY - entity.y + addedYVelocity, zDistance, 1.6f, 2.0f)
+        }
     }
 }
