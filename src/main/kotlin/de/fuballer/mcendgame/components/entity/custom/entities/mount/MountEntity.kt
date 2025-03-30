@@ -5,9 +5,11 @@ import net.minecraft.entity.Entity
 import net.minecraft.entity.EntityDimensions
 import net.minecraft.entity.EntityType
 import net.minecraft.entity.attribute.EntityAttributes
+import net.minecraft.entity.damage.DamageSource
 import net.minecraft.entity.passive.AbstractHorseEntity
 import net.minecraft.entity.player.PlayerEntity
 import net.minecraft.item.Item
+import net.minecraft.server.world.ServerWorld
 import net.minecraft.util.ActionResult
 import net.minecraft.util.Hand
 import net.minecraft.util.math.Vec3d
@@ -63,6 +65,7 @@ abstract class MountEntity(
 
                 if (random.nextDouble() < tameFood[item]!!) {
                     bondWithPlayer(player)
+                    target = null
                 }
 
                 return ActionResult.SUCCESS_SERVER
@@ -73,5 +76,10 @@ abstract class MountEntity(
         }
 
         return super.interactMob(player, hand)
+    }
+
+    override fun isInvulnerableTo(world: ServerWorld, source: DamageSource): Boolean {
+        if (firstPassenger != null && firstPassenger == source.attacker) return true
+        return super.isInvulnerableTo(world, source)
     }
 }

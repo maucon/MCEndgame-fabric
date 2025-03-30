@@ -1,6 +1,7 @@
 package de.fuballer.mcendgame.components.entity.custom.entities.arachne
 
 import de.fuballer.mcendgame.components.entity.custom.entities.mount.MountEntity
+import de.fuballer.mcendgame.components.entity.custom.goals.TameableActiveTargetGoal
 import de.fuballer.mcendgame.components.entity.custom.interfaces.CustomPosesEntity
 import net.minecraft.entity.AnimationState
 import net.minecraft.entity.EntityType
@@ -40,6 +41,7 @@ class ArachneEntity(
                 .add(EntityAttributes.ATTACK_DAMAGE, 4.0)
                 .add(EntityAttributes.ARMOR, 0.0)
                 .add(EntityAttributes.KNOCKBACK_RESISTANCE, 0.8)
+                .add(EntityAttributes.MOVEMENT_EFFICIENCY, 0.85)
         }
     }
 
@@ -51,8 +53,8 @@ class ArachneEntity(
         goalSelector.add(8, LookAtEntityGoal(this, PlayerEntity::class.java, 8.0f))
         goalSelector.add(8, LookAroundGoal(this))
 
-        targetSelector.add(1, ActiveTargetGoal(this, PlayerEntity::class.java, true))
-        targetSelector.add(1, ActiveTargetGoal(this, VillagerEntity::class.java, true))
+        targetSelector.add(1, TameableActiveTargetGoal(this, PlayerEntity::class.java, true))
+        targetSelector.add(1, TameableActiveTargetGoal(this, VillagerEntity::class.java, true))
     }
 
     override fun initDataTracker(builder: DataTracker.Builder) {
@@ -105,4 +107,6 @@ class ArachneEntity(
     override fun getInventoryColumns() = 3
 
     override fun handleFallDamage(fallDistance: Float, damageMultiplier: Float, damageSource: DamageSource) = false
+
+    override fun occludeVibrationSignals() = true
 }
