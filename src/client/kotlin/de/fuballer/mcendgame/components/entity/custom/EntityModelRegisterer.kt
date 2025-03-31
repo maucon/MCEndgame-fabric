@@ -6,6 +6,8 @@ import de.fuballer.mcendgame.components.entity.custom.entities.elf_duelist.ElfDu
 import de.fuballer.mcendgame.components.entity.custom.entities.elf_duelist.ElfDuelistRenderer
 import de.fuballer.mcendgame.components.entity.custom.entities.swamp_golem.SwampGolemEntityModel
 import de.fuballer.mcendgame.components.entity.custom.entities.swamp_golem.SwampGolemRenderer
+import de.fuballer.mcendgame.components.entity.custom.entities.webshot.WebshotEntityModel
+import de.fuballer.mcendgame.components.entity.custom.entities.webshot.WebshotRenderer
 import de.maucon.mauconframework.annotation.Initialize
 import de.maucon.mauconframework.annotation.Injectable
 import net.fabricmc.fabric.api.client.rendering.v1.EntityModelLayerRegistry
@@ -32,5 +34,11 @@ object EntityModelRegisterer {
             ArachneEntityModel.Companion::getTexturedModelData
         )
         EntityRendererRegistry.register(CustomEntities.ARACHNE, ::ArachneRenderer)
+
+        EntityModelLayerRegistry.registerModelLayer(
+            WebshotEntityModel.WEBSHOT,
+            WebshotEntityModel.Companion::getTexturedModelData
+        )
+        EntityRendererRegistry.register(CustomEntities.WEBSHOT, ::WebshotRenderer)
     }
 }

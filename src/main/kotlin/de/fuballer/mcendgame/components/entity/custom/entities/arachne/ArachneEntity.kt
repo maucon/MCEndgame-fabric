@@ -1,6 +1,8 @@
 package de.fuballer.mcendgame.components.entity.custom.entities.arachne
 
+import de.fuballer.mcendgame.components.entity.custom.CustomEntities
 import de.fuballer.mcendgame.components.entity.custom.entities.mount.MountEntity
+import de.fuballer.mcendgame.components.entity.custom.entities.webshot.WebshotEntity
 import de.fuballer.mcendgame.components.entity.custom.goals.TameableActiveTargetGoal
 import de.fuballer.mcendgame.components.entity.custom.interfaces.CustomPosesEntity
 import net.minecraft.block.BlockState
@@ -19,7 +21,6 @@ import net.minecraft.entity.mob.Monster
 import net.minecraft.entity.passive.VillagerEntity
 import net.minecraft.entity.player.PlayerEntity
 import net.minecraft.entity.projectile.ProjectileEntity
-import net.minecraft.entity.projectile.thrown.SnowballEntity
 import net.minecraft.item.Item
 import net.minecraft.item.ItemStack
 import net.minecraft.item.Items
@@ -174,8 +175,8 @@ class ArachneEntity(
         val addedYVelocity = sqrt(xDistance * xDistance + zDistance * zDistance) * 0.2f
 
         val itemStack = ItemStack(Items.SNOWBALL)
-        ProjectileEntity.spawn(SnowballEntity(serverWorld, this, itemStack), serverWorld, itemStack)
-        { entity: SnowballEntity ->
+        ProjectileEntity.spawn(WebshotEntity(CustomEntities.WEBSHOT, serverWorld, this), serverWorld, itemStack)
+        { entity: WebshotEntity ->
             entity.setVelocity(xDistance, aimY - entity.y + addedYVelocity, zDistance, 1.6f, 2.0f)
         }
     }

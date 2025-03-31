@@ -1,24 +1,52 @@
 package de.fuballer.mcendgame.components.entity.custom.entities.webshot
 
 import de.fuballer.mcendgame.util.IdentifierUtil
+import net.minecraft.client.render.OverlayTexture
+import net.minecraft.client.render.VertexConsumerProvider
+import net.minecraft.client.render.entity.EntityRenderer
 import net.minecraft.client.render.entity.EntityRendererFactory
-import net.minecraft.client.render.entity.ProjectileEntityRenderer
+import net.minecraft.client.util.math.MatrixStack
+import net.minecraft.util.math.RotationAxis
 
 class WebshotRenderer(
     context: EntityRendererFactory.Context,
-) : ProjectileEntityRenderer<WebshotEntity, WebshotRenderState>(
+) : EntityRenderer<WebshotEntity, WebshotRenderState>(
     context,
 ) {
-    override fun getTexture(state: WebshotRenderState) =
-        IdentifierUtil.default("textures/entity/webshot/webshot.png")
+    val model = WebshotEntityModel(context.getPart(WebshotEntityModel.WEBSHOT))
+
+    companion object {
+        val TEXTURE = IdentifierUtil.default("textures/entity/webshot/webshot.png")
+    }
+
+    override fun render(
+        webshotRenderState: WebshotRenderState,
+        matrixStack: MatrixStack,
+        vertexConsumerProvider: VertexConsumerProvider,
+        i: Int
+    ) {
+        matrixStack.push()
+        matrixStack.translate(0.0f, -0.9f, 0.0f)
+        matrixStack.multiply(RotationAxis.POSITIVE_Y.rotationDegrees(webshotRenderState.yaw + 180))
+        matrixStack.multiply(RotationAxis.POSITIVE_Z.rotationDegrees(webshotRenderState.pitch))
+        model.setAngles(webshotRenderState)
+
+        val vertexConsumer = vertexConsumerProvider.getBuffer(model.getLayer(TEXTURE))
+        model.render(matrixStack, vertexConsumer, i, OverlayTexture.DEFAULT_UV)
+        matrixStack.pop()
+
+        super.render(webshotRenderState, matrixStack, vertexConsumerProvider, i)
+    }
 
     override fun createRenderState(): WebshotRenderState = WebshotRenderState()
 
     override fun updateRenderState(
         webshotEntity: WebshotEntity,
-        webshotenderState: WebshotRenderState,
+        webshotRenderState: WebshotRenderState,
         tickDelta: Float
     ) {
-        super.updateRenderState(webshotEntity, webshotenderState, tickDelta)
+        super.updateRenderState(webshotEntity, webshotRenderState, tickDelta)
+        webshotRenderState.pitch = webshotEntity.getLerpedPitch(tickDelta)
+        webshotRenderState.yaw = webshotEntity.getLerpedYaw(tickDelta)
     }
 }

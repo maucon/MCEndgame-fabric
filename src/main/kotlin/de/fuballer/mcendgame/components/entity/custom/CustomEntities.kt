@@ -41,6 +41,6 @@ object CustomEntities {
     val WEBSHOT = RegistryUtil.registerEntity(
         "webshot",
         EntityType.Builder.create({ type, world -> WebshotEntity(type, world) }, SpawnGroup.MISC)
-            .dimensions(0.1f, 0.1f)
+            .dimensions(0.4f, 0.4f)
     )
 }
