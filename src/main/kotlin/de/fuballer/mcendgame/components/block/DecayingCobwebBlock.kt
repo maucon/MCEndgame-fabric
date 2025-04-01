@@ -27,7 +27,7 @@ class DecayingCobwebBlock(
         const val NAME = "decaying_cobweb"
         val CODEC: MapCodec<DecayingCobwebBlock> = createCodec(::DecayingCobwebBlock)
 
-        private const val MAX_AGE = 5000
+        private const val MAX_AGE = 5
         const val TICK_INTERVAL = 20
         val AGE: IntProperty = IntProperty.of("age", 0, MAX_AGE)
     }
