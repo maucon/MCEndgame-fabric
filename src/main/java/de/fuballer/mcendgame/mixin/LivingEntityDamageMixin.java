@@ -1,7 +1,8 @@
 package de.fuballer.mcendgame.mixin;
 
-import de.fuballer.mcendgame.components.damage.ApplyDamageCalculationEvent;
+import de.fuballer.mcendgame.components.damage.ApplyDamageCalculationCommand;
 import de.fuballer.mcendgame.components.damage.ApplyDamageUtil;
+import de.maucon.mauconframework.command.CommandGateway;
 import it.unimi.dsi.fastutil.doubles.DoubleDoubleImmutablePair;
 import net.minecraft.advancement.criterion.Criteria;
 import net.minecraft.enchantment.EnchantmentHelper;
@@ -79,20 +80,20 @@ public abstract class LivingEntityDamageMixin {
     ) {
         LivingEntity entity = (LivingEntity) (Object) this;
 
-        var event = ApplyDamageCalculationEvent.Companion.of(entity, world, source, originalDamage);
-        ApplyDamageCalculationEvent.Companion.getNOTIFIER().interact(event);
+        var applyDamageCalculationCommand = ApplyDamageCalculationCommand.Companion.of(entity, world, source, originalDamage);
+        var cmd = CommandGateway.INSTANCE.apply(applyDamageCalculationCommand);
 
         if (entity.isInvulnerableTo(world, source)) {
             ci.cancel();
             return;
         }
 
-        var attackDamage = ApplyDamageUtil.INSTANCE.calculateAttackDamage(originalDamage, source, event);
-        attackDamage = applyArmorToDamage(attackDamage, source, event, entity);
+        var attackDamage = ApplyDamageUtil.INSTANCE.calculateAttackDamage(originalDamage, source, cmd);
+        attackDamage = applyArmorToDamage(attackDamage, source, cmd, entity);
         attackDamage = modifyAppliedDamage(source, attackDamage, entity);
 
-        var elementalDamage = ApplyDamageUtil.INSTANCE.calculateElementalDamage(source, event);
-        elementalDamage = applyWardToDamage(elementalDamage, source, event, entity);
+        var elementalDamage = ApplyDamageUtil.INSTANCE.calculateElementalDamage(source, cmd);
+        elementalDamage = applyWardToDamage(elementalDamage, source, cmd, entity);
         elementalDamage = modifyAppliedDamage(source, elementalDamage, entity);
 
         var combinedDamage = attackDamage + elementalDamage;
@@ -122,7 +123,7 @@ public abstract class LivingEntityDamageMixin {
     private float applyArmorToDamage(
             float amount,
             DamageSource source,
-            ApplyDamageCalculationEvent event,
+            ApplyDamageCalculationCommand cmd,
             LivingEntity entity
     ) {
         if (source.isIn(DamageTypeTags.BYPASSES_ARMOR)) return amount;
@@ -139,13 +140,13 @@ public abstract class LivingEntityDamageMixin {
     private float applyWardToDamage(
             float amount,
             DamageSource source,
-            ApplyDamageCalculationEvent event,
+            ApplyDamageCalculationCommand cmd,
             LivingEntity entity
     ) {
         // if (source.isIn(DamageTypeTags.BYPASSES_ARMOR)) return amount; //TODO DECIDE IF APPLY
         // entity.damageArmor(source, amount);
 
-        var ward = event.getWard().stream().mapToDouble(Double::doubleValue).sum();
+        var ward = cmd.getWard().stream().mapToDouble(Double::doubleValue).sum();
         amount = ApplyDamageUtil.INSTANCE.reduceElementalDamageByWard(entity, amount, source, (float) ward);
 
         return amount;

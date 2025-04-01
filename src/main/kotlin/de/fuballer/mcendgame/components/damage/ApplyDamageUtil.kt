@@ -50,7 +50,7 @@ object ApplyDamageUtil {
     fun calculateAttackDamage(
         originalDamage: Float,
         source: DamageSource,
-        event: ApplyDamageCalculationEvent,
+        event: ApplyDamageCalculationCommand,
     ): Float {
         val attacker = source.attacker as? LivingEntity ?: return originalDamage
 
@@ -79,7 +79,7 @@ object ApplyDamageUtil {
 
     fun calculateElementalDamage(
         source: DamageSource,
-        event: ApplyDamageCalculationEvent,
+        event: ApplyDamageCalculationCommand,
     ): Float {
         // TODO if proj
         // TODO sweep

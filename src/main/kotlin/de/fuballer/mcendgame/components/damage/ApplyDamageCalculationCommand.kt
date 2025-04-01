@@ -3,14 +3,13 @@ package de.fuballer.mcendgame.components.damage
 import de.fuballer.mcendgame.components.custom_attributes.CustomAttributesExtensions.getAllCustomAttributes
 import de.fuballer.mcendgame.components.custom_attributes.data.CustomAttribute
 import de.fuballer.mcendgame.components.custom_attributes.data.CustomAttributeType
-import de.fuballer.mcendgame.event.Notifier
 import net.minecraft.entity.Entity
 import net.minecraft.entity.LivingEntity
 import net.minecraft.entity.damage.DamageSource
 import net.minecraft.entity.damage.DamageType
 import net.minecraft.server.world.ServerWorld
 
-data class ApplyDamageCalculationEvent(
+data class ApplyDamageCalculationCommand(
     val damager: Entity?,
     val damagerAttributes: Map<CustomAttributeType, List<CustomAttribute>>,
 
@@ -43,21 +42,19 @@ data class ApplyDamageCalculationEvent(
     var isExecute: Boolean = false,
 ) {
     companion object {
-        val NOTIFIER = Notifier<ApplyDamageCalculationEvent>()
-
         fun of(
             damaged: LivingEntity,
             world: ServerWorld,
             source: DamageSource,
             amount: Float,
-        ): ApplyDamageCalculationEvent {
+        ): ApplyDamageCalculationCommand {
             val damager = source.attacker
             val damagerAttributes = (damager as? LivingEntity)?.getAllCustomAttributes() ?: emptyMap()
             val damagedAttributes = damaged.getAllCustomAttributes()
             val damageType = source.type
             val isCritical = PlayerAccessUtil.getIsCritical(damager)
 
-            return ApplyDamageCalculationEvent(damager, damagerAttributes, damaged, damagedAttributes, damageType, world, isCritical)
+            return ApplyDamageCalculationCommand(damager, damagerAttributes, damaged, damagedAttributes, damageType, world, isCritical)
         }
     }
 }
