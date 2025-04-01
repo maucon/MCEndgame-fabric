@@ -5,7 +5,7 @@ import de.fuballer.mcendgame.components.custom_attributes.data.CustomAttribute
 import de.fuballer.mcendgame.components.custom_attributes.data.RollableCustomAttribute
 import de.fuballer.mcendgame.util.random.RandomOption
 import de.fuballer.mcendgame.util.random.RandomUtil
-import de.maucon.mauconframework.annotation.Injectable
+import de.maucon.mauconframework.di.annotation.Injectable
 import net.minecraft.component.type.AttributeModifierSlot
 import net.minecraft.item.ItemStack
 import kotlin.random.Random

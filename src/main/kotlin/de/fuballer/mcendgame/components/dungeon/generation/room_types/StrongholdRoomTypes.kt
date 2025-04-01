@@ -2,8 +2,8 @@ package de.fuballer.mcendgame.components.dungeon.generation.room_types
 
 import de.fuballer.mcendgame.components.dungeon.generation.data.RoomType
 import de.fuballer.mcendgame.util.random.RandomOption
-import de.maucon.mauconframework.annotation.Initialize
-import de.maucon.mauconframework.annotation.Injectable
+import de.maucon.mauconframework.initializer.Initializer
+import de.maucon.mauconframework.di.annotation.Injectable
 import net.fabricmc.fabric.api.event.lifecycle.v1.ServerLifecycleEvents
 import net.minecraft.util.math.BlockPos
 
@@ -13,7 +13,7 @@ object StrongholdRoomTypes {
     lateinit var BOSS_ROOM: RoomType
     lateinit var ROOMS: List<RandomOption<RoomType>>
 
-    @Initialize
+    @Initializer
     fun on() = ServerLifecycleEvents.SERVER_STARTED.register { server ->
         val templateManager = server.structureTemplateManager
 

@@ -4,7 +4,7 @@ import de.fuballer.mcendgame.MCEndgame
 import de.fuballer.mcendgame.components.custom_attributes.data.*
 import de.fuballer.mcendgame.util.IdentifierUtil
 import de.fuballer.mcendgame.util.RegistryUtil
-import de.maucon.mauconframework.annotation.Injectable
+import de.maucon.mauconframework.di.annotation.Injectable
 import net.minecraft.component.ComponentType
 import net.minecraft.component.DataComponentTypes
 import net.minecraft.component.type.AttributeModifierSlot

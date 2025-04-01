@@ -3,12 +3,12 @@ package de.fuballer.mcendgame.components.custom_attributes.effects
 import de.fuballer.mcendgame.components.custom_attributes.CustomAttributesExtensions.asDoubleRoll
 import de.fuballer.mcendgame.components.custom_attributes.types.CustomAttributeTypes
 import de.fuballer.mcendgame.components.damage.ApplyDamageCalculationEvent
-import de.maucon.mauconframework.annotation.Initialize
-import de.maucon.mauconframework.annotation.Injectable
+import de.maucon.mauconframework.initializer.Initializer
+import de.maucon.mauconframework.di.annotation.Injectable
 
 @Injectable
 class ElementalDamageService {
-    @Initialize
+    @Initializer
     fun on() = ApplyDamageCalculationEvent.NOTIFIER.listen { event ->
         val attributes = event.damagerAttributes[CustomAttributeTypes.ELEMENTAL_DAMAGE] ?: return@listen
 

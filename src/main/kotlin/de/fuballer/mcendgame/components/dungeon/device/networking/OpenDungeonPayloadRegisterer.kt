@@ -2,14 +2,14 @@ package de.fuballer.mcendgame.components.dungeon.device.networking
 
 import de.fuballer.mcendgame.configuration.RuntimeConfig
 import de.fuballer.mcendgame.event.DungeonOpenEvent
-import de.maucon.mauconframework.annotation.Initialize
-import de.maucon.mauconframework.annotation.Injectable
+import de.maucon.mauconframework.initializer.Initializer
+import de.maucon.mauconframework.di.annotation.Injectable
 import net.fabricmc.fabric.api.networking.v1.PayloadTypeRegistry
 import net.fabricmc.fabric.api.networking.v1.ServerPlayNetworking
 
 @Injectable
 class OpenDungeonPayloadRegisterer {
-    @Initialize
+    @Initializer
     fun register() {
         PayloadTypeRegistry.playC2S().register(OpenDungeonPayload.ID, OpenDungeonPayload.CODEC)
 

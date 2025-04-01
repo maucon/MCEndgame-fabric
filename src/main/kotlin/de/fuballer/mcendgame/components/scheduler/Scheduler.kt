@@ -1,8 +1,8 @@
 package de.fuballer.mcendgame.components.scheduler
 
 import de.fuballer.mcendgame.configuration.RuntimeConfig
-import de.maucon.mauconframework.annotation.Initialize
-import de.maucon.mauconframework.annotation.Injectable
+import de.maucon.mauconframework.initializer.Initializer
+import de.maucon.mauconframework.di.annotation.Injectable
 import net.fabricmc.fabric.api.event.lifecycle.v1.ServerTickEvents
 import java.util.*
 
@@ -10,7 +10,7 @@ import java.util.*
 class Scheduler(
     private val taskRepo: TaskRepository
 ) {
-    @Initialize
+    @Initializer
     fun init() = ServerTickEvents.END_SERVER_TICK.register { server ->
         taskRepo.findAll().forEach { task ->
             val tickDifference = server.ticks - task.startTick
