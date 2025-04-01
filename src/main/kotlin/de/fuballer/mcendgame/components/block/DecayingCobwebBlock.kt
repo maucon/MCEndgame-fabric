@@ -19,6 +19,7 @@ import net.minecraft.util.math.Vec3d
 import net.minecraft.util.math.random.Random
 import net.minecraft.world.BlockView
 import net.minecraft.world.World
+import kotlin.math.min
 
 class DecayingCobwebBlock(
     settings: Settings,
@@ -83,7 +84,7 @@ class DecayingCobwebBlock(
         if (++age == MAX_AGE) {
             world.setBlockState(pos, Blocks.AIR.defaultState)
         } else {
-            world.setBlockState(pos, state.with(AGE, age), NO_REDRAW)
+            world.setBlockState(pos, state.with(AGE, min(age, MAX_AGE)), NO_REDRAW)
             world.scheduleBlockTick(pos, this, TICK_INTERVAL)
         }
     }
