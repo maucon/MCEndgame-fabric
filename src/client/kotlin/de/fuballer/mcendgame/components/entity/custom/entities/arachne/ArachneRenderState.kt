@@ -4,6 +4,7 @@ import net.minecraft.client.render.entity.state.LivingEntityRenderState
 import net.minecraft.entity.AnimationState
 
 class ArachneRenderState : LivingEntityRenderState() {
+    val idleAnimationState: AnimationState = AnimationState()
     val walkAnimationState: AnimationState = AnimationState()
 
     var isSaddled: Boolean = false

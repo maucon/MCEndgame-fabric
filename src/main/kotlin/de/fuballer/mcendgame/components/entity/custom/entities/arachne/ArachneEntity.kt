@@ -40,6 +40,7 @@ class ArachneEntity(
     override val passengerPos = Vec3d(0.0, 0.75, -0.65)
 
     private var prevPos = Vec3d.ZERO
+    val idleAnimationState = AnimationState()
     val walkAnimationState = AnimationState()
 
     companion object {
@@ -84,11 +85,11 @@ class ArachneEntity(
             when (dataTracker.get(CUSTOM_POSE)) {
                 CustomPosesEntity.CustomPose.IDLING -> {
                     walkAnimationState.stop()
-                    //idleAnimationState.start(age)
+                    idleAnimationState.start(age)
                 }
 
                 CustomPosesEntity.CustomPose.WALKING -> {
-                    //idleAnimationState.stop()
+                    idleAnimationState.stop()
                     walkAnimationState.start(age)
                 }
 
