@@ -7,7 +7,9 @@ import net.minecraft.block.Blocks
 import net.minecraft.entity.Entity
 import net.minecraft.entity.LivingEntity
 import net.minecraft.entity.effect.StatusEffects
+import net.minecraft.entity.player.PlayerEntity
 import net.minecraft.item.ItemStack
+import net.minecraft.item.SwordItem
 import net.minecraft.particle.ParticleTypes
 import net.minecraft.server.world.ServerWorld
 import net.minecraft.state.StateManager
@@ -15,6 +17,7 @@ import net.minecraft.state.property.IntProperty
 import net.minecraft.util.math.BlockPos
 import net.minecraft.util.math.Vec3d
 import net.minecraft.util.math.random.Random
+import net.minecraft.world.BlockView
 import net.minecraft.world.World
 
 class DecayingCobwebBlock(
@@ -24,7 +27,7 @@ class DecayingCobwebBlock(
         const val NAME = "decaying_cobweb"
         val CODEC: MapCodec<DecayingCobwebBlock> = createCodec(::DecayingCobwebBlock)
 
-        private const val MAX_AGE = 5
+        private const val MAX_AGE = 5000
         const val TICK_INTERVAL = 20
         val AGE: IntProperty = IntProperty.of("age", 0, MAX_AGE)
     }
@@ -32,8 +35,6 @@ class DecayingCobwebBlock(
     init {
         defaultState = stateManager.defaultState.with(AGE, 0)
     }
-
-    override fun getCodec() = CODEC
 
     override fun appendProperties(
         builder: StateManager.Builder<Block, BlockState>
@@ -102,5 +103,21 @@ class DecayingCobwebBlock(
             0.35,
             0.01
         )
+    }
+
+    override fun calcBlockBreakingDelta(
+        state: BlockState,
+        player: PlayerEntity,
+        world: BlockView,
+        pos: BlockPos
+    ): Float {
+        val itemStack = player.mainHandStack
+        if (itemStack.item !is SwordItem) return super.calcBlockBreakingDelta(state, player, world, pos)
+
+        val hardness = state.getHardness(world, pos)
+        if (hardness == -1.0f) return 0.0f
+
+        val delta = player.getBlockBreakingSpeed(state) / hardness / 30 // 30 simulates canHarvest() = true
+        return delta * 15 // mimics the factor in ToolMaterial.applySwordSettings
     }
 }

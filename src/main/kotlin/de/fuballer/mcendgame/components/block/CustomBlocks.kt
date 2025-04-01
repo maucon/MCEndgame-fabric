@@ -12,6 +12,13 @@ import net.minecraft.sound.BlockSoundGroup
 
 @Injectable
 object CustomBlocks {
+    val DUNGEON_DEVICE = RegistryUtil.registerBlock(
+        ::DungeonDeviceBlock,
+        Settings.create()
+            .resistance(Blocks.BEDROCK.blastResistance),
+        DungeonDevice.NAME
+    )
+
     val DECAYING_COBWEB = RegistryUtil.registerBlock(
         ::DecayingCobwebBlock,
         Settings.create()
@@ -24,12 +31,5 @@ object CustomBlocks {
             .strength(4.0f)
             .pistonBehavior(PistonBehavior.DESTROY),
         DecayingCobwebBlock.NAME
-    )
-
-    val DUNGEON_DEVICE = RegistryUtil.registerBlock(
-        ::DungeonDeviceBlock,
-        Settings.create()
-            .resistance(Blocks.BEDROCK.blastResistance),
-        DungeonDevice.NAME
     )
 }
