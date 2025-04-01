@@ -21,6 +21,10 @@
   "entity.mcendgame.swamp_golem": "Swamp Golem",
   "entity.mcendgame.elf_duelist": "Elf Duelist",
   "entity.mcendgame.arachne": "Arachne",
+  "entity.mcendgame.webshot": "Webshot",
 
-  "block.mcendgame.decaying_cobweb": "Decaying Cobweb"
+  "block.mcendgame.decaying_cobweb": "Decaying Cobweb",
+
+  "itemGroup.custom_armor": "MCEndgame Armor",
+  "itemGroup.custom_blocks": "MCEndgame Blocks"
 }
