@@ -3,6 +3,7 @@ package de.fuballer.mcendgame.components.entity.custom.entities.webshot
 import de.fuballer.mcendgame.util.IdentifierUtil
 import net.minecraft.client.render.OverlayTexture
 import net.minecraft.client.render.VertexConsumerProvider
+import net.minecraft.client.render.entity.ArrowEntityRenderer
 import net.minecraft.client.render.entity.EntityRenderer
 import net.minecraft.client.render.entity.EntityRendererFactory
 import net.minecraft.client.util.math.MatrixStack
@@ -26,9 +27,9 @@ class WebshotRenderer(
         i: Int
     ) {
         matrixStack.push()
-        matrixStack.translate(0.0f, -0.9f, 0.0f)
+        matrixStack.translate(0.0f, 0.15f, 0.0f)
         matrixStack.multiply(RotationAxis.POSITIVE_Y.rotationDegrees(webshotRenderState.yaw + 180))
-        matrixStack.multiply(RotationAxis.POSITIVE_Z.rotationDegrees(webshotRenderState.pitch))
+        matrixStack.multiply(RotationAxis.POSITIVE_X.rotationDegrees(webshotRenderState.pitch))
         model.setAngles(webshotRenderState)
 
         val vertexConsumer = vertexConsumerProvider.getBuffer(model.getLayer(TEXTURE))

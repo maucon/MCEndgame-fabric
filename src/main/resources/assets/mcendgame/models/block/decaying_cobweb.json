@@ -1,0 +1,7 @@
+{
+  "parent": "minecraft:block/cross",
+  "textures": {
+    "particle": "mcendgame:block/decaying_cobweb",
+    "cross": "mcendgame:block/decaying_cobweb"
+  }
+}

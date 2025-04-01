@@ -5,6 +5,7 @@
   "item.mcendgame.druids_chestplate": "Druids Chestplate",
   "item.mcendgame.druids_leggings": "Druids Leggings",
   "item.mcendgame.druids_boots": "Druids Boots",
+
   "block.mcendgame.dungeon_device": "Dungeon Device",
   "container.mcendgame.dungeon_device.title": "Dungeon Device",
   "container.mcendgame.dungeon_device.open": "Open",
@@ -19,5 +20,7 @@
 
   "entity.mcendgame.swamp_golem": "Swamp Golem",
   "entity.mcendgame.elf_duelist": "Elf Duelist",
-  "entity.mcendgame.arachne": "Arachne"
+  "entity.mcendgame.arachne": "Arachne",
+
+  "block.mcendgame.decaying_cobweb": "Decaying Cobweb"
 }

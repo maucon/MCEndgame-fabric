@@ -52,6 +52,8 @@ class ArachneEntity(
                 .add(EntityAttributes.FOLLOW_RANGE, 35.0)
                 .add(EntityAttributes.MOVEMENT_SPEED, 0.4)
                 .add(EntityAttributes.STEP_HEIGHT, 1.1)
+                .add(EntityAttributes.SAFE_FALL_DISTANCE, 10.0)
+                .add(EntityAttributes.FALL_DAMAGE_MULTIPLIER, 0.2)
                 .add(EntityAttributes.ATTACK_DAMAGE, 4.0)
                 .add(EntityAttributes.ARMOR, 0.0)
                 .add(EntityAttributes.KNOCKBACK_RESISTANCE, 0.8)
@@ -179,5 +181,14 @@ class ArachneEntity(
         { entity: WebshotEntity ->
             entity.setVelocity(xDistance, aimY - entity.y + addedYVelocity, zDistance, 1.6f, 2.0f)
         }
+    }
+
+    override fun slowMovement(
+        state: BlockState,
+        multiplier: Vec3d
+    ) {
+        onLanding()
+        if (state.isOf(Blocks.COBWEB)) return
+        movementMultiplier = multiplier
     }
 }

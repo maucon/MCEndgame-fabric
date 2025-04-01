@@ -1,15 +1,15 @@
 package de.fuballer.mcendgame.components.entity.custom.entities.webshot
 
-import net.minecraft.block.Blocks
+import de.fuballer.mcendgame.components.block.CustomBlocks
+import de.fuballer.mcendgame.components.block.DecayingCobwebBlock
 import net.minecraft.enchantment.EnchantmentHelper
 import net.minecraft.entity.Entity
 import net.minecraft.entity.EntityType
 import net.minecraft.entity.LivingEntity
 import net.minecraft.entity.data.DataTracker
-import net.minecraft.entity.projectile.PersistentProjectileEntity
+import net.minecraft.entity.projectile.ProjectileEntity
 import net.minecraft.entity.projectile.ProjectileUtil
-import net.minecraft.item.ItemStack
-import net.minecraft.item.Items
+import net.minecraft.particle.ParticleTypes
 import net.minecraft.server.world.ServerWorld
 import net.minecraft.util.hit.BlockHitResult
 import net.minecraft.util.hit.EntityHitResult
@@ -22,8 +22,13 @@ class WebshotEntity(
     type: EntityType<out WebshotEntity>,
     world: World,
     owner: LivingEntity? = null,
-) : PersistentProjectileEntity(type, world) {
-    var createdCobwebs = false
+) : ProjectileEntity(type, world) {
+    private var createdDecayingCobwebs = false
+    private var particleTimer = PARTICLE_COOLDOWN
+
+    companion object {
+        const val PARTICLE_COOLDOWN = 1
+    }
 
     init {
         if (owner != null) {
@@ -37,7 +42,6 @@ class WebshotEntity(
     }
 
     override fun initDataTracker(builder: DataTracker.Builder) {
-        super.initDataTracker(builder)
     }
 
     override fun getGravity() = 0.06
@@ -53,13 +57,24 @@ class WebshotEntity(
 
         if (world.getStatesInBox(boundingBox).noneMatch { blockState -> blockState.isAir }) {
             discard()
+            return
         } else if (this.isInsideWaterOrBubbleColumn) {
             discard()
-        } else {
-            velocity = currentVelocity.multiply(0.99)
-            applyGravity()
-            setPosition(x + currentVelocity.x, y + currentVelocity.y, z + currentVelocity.z)
+            return
         }
+        velocity = currentVelocity.multiply(0.99)
+        applyGravity()
+        setPosition(x + currentVelocity.x, y + currentVelocity.y, z + currentVelocity.z)
+
+        spawnParticles()
+    }
+
+    private fun spawnParticles() {
+        if (!world.isClient) return
+        if (particleTimer-- > 0) return
+        particleTimer = PARTICLE_COOLDOWN
+
+        world.addParticle(ParticleTypes.CLOUD, getParticleX(0.5), randomBodyY, getParticleZ(0.5), 0.0, 0.0, 0.0)
     }
 
     override fun onEntityHit(entityHitResult: EntityHitResult) {
@@ -69,12 +84,14 @@ class WebshotEntity(
         val attacker = owner as? LivingEntity ?: return
         val entity = entityHitResult.entity
 
-        generateCobwebs(entity.blockPos)
+        generateDecayingCobwebs(entity.blockPos)
 
         val damageSource = damageSources.mobProjectile(this, attacker)
         if (entity.damage(serverWorld, damageSource, 1.0f)) {
             EnchantmentHelper.onTargetDamaged(serverWorld, entity, damageSource)
         }
+
+        discard()
     }
 
     override fun onBlockHit(blockHitResult: BlockHitResult) {
@@ -84,12 +101,12 @@ class WebshotEntity(
             return
         }
 
-        generateCobwebs(blockHitResult.blockPos)
+        generateDecayingCobwebs(blockHitResult.blockPos)
     }
 
-    private fun generateCobwebs(blockPos: BlockPos) {
-        if (createdCobwebs) return
-        createdCobwebs = true
+    private fun generateDecayingCobwebs(blockPos: BlockPos) {
+        if (createdDecayingCobwebs) return
+        createdDecayingCobwebs = true
 
         var tryCount = 0
         var successCount = 0
@@ -99,7 +116,8 @@ class WebshotEntity(
             val pos = blockPos.add(random.nextBetween(-2, 2), random.nextBetween(-2, 2), random.nextBetween(-2, 2))
             if (!isValidCobwebPos(pos)) continue
             successCount++
-            world.setBlockState(pos, Blocks.COBWEB.defaultState)
+            world.setBlockState(pos, CustomBlocks.DECAYING_COBWEB.defaultState)
+            world.scheduleBlockTick(pos, CustomBlocks.DECAYING_COBWEB, DecayingCobwebBlock.TICK_INTERVAL)
         }
     }
 
@@ -107,18 +125,13 @@ class WebshotEntity(
         val blockState = world.getBlockState(blockPos)
         if (!blockState.isAir) return false
 
-        for (x in -1..1) {
-            for (y in -1..1) {
-                for (z in -1..1) {
-                    if (x == 0 && y == 0 && z == 0) continue
-                    val adjacentPos = blockPos.add(x, y, z)
-                    if (!world.getBlockState(adjacentPos).isAir) return true
-                }
-            }
-        }
+        if (!world.getBlockState(blockPos.up()).isAir) return true
+        if (!world.getBlockState(blockPos.down()).isAir) return true
+        if (!world.getBlockState(blockPos.north()).isAir) return true
+        if (!world.getBlockState(blockPos.east()).isAir) return true
+        if (!world.getBlockState(blockPos.south()).isAir) return true
+        if (!world.getBlockState(blockPos.west()).isAir) return true
 
         return false
     }
-
-    override fun getDefaultItemStack() = ItemStack(Items.COBWEB)
 }
