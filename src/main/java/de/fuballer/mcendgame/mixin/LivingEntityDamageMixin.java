@@ -32,6 +32,8 @@ import org.spongepowered.asm.mixin.injection.Inject;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfoReturnable;
 
+import java.util.Objects;
+
 @Mixin(LivingEntity.class)
 public abstract class LivingEntityDamageMixin {
     @Shadow
@@ -88,7 +90,8 @@ public abstract class LivingEntityDamageMixin {
             return;
         }
 
-        var attackDamage = ApplyDamageUtil.INSTANCE.calculateAttackDamage(originalDamage, source, cmd);
+        // TODO enchant breach
+        var attackDamage = ApplyDamageUtil.INSTANCE.calculateAttackDamage(originalDamage, entity, source, cmd);
         attackDamage = applyArmorToDamage(attackDamage, source, cmd, entity);
         attackDamage = modifyAppliedDamage(source, attackDamage, entity);
 
@@ -102,6 +105,8 @@ public abstract class LivingEntityDamageMixin {
         System.out.println("ATTACK:    " + attackDamage);
         System.out.println("ELEMENTAL: " + elementalDamage);
         System.out.println("TOTAL:     " + combinedDamage);
+        System.out.println("TYPE:      " + source.getType());
+        System.out.println("ATTACKED:  " + entity.getName());
 
         float healthDamage = Math.max(combinedDamage - entity.getAbsorptionAmount(), 0.0F);
         float absorbedDamage = combinedDamage - healthDamage;
@@ -161,7 +166,7 @@ public abstract class LivingEntityDamageMixin {
         if (source.isIn(DamageTypeTags.BYPASSES_EFFECTS)) return amount;
 
         if (entity.hasStatusEffect(StatusEffects.RESISTANCE) && !source.isIn(DamageTypeTags.BYPASSES_RESISTANCE)) {
-            int resistance = entity.getStatusEffect(StatusEffects.RESISTANCE).getAmplifier() + 1;
+            int resistance = Objects.requireNonNull(entity.getStatusEffect(StatusEffects.RESISTANCE)).getAmplifier() + 1;
 
             float resistancePercent = resistance * 0.2F;
             float resistedDamage = Math.min(amount * resistancePercent, amount);

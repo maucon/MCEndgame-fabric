@@ -49,15 +49,20 @@ object ApplyDamageUtil {
 
     fun calculateAttackDamage(
         originalDamage: Float,
+        attacked: LivingEntity,
         source: DamageSource,
         event: ApplyDamageCalculationCommand,
     ): Float {
         val attacker = source.attacker as? LivingEntity ?: return originalDamage
 
-        // TODO if proj
-        // TODO sweep
+        // TODO projectile are also based on attack damage now,
+        //  making them normally weak, but strong with a high AD weapon in main hand
+        var baseDamage = attacker.getAttributeValue(EntityAttributes.ATTACK_DAMAGE)
 
-        val baseDamage = attacker.getAttributeValue(EntityAttributes.ATTACK_DAMAGE)
+        if (source.type.msgId == CustomDamageTypes.SWEEPING_KEY.path) {
+            val sweepingRatio = attacker.getAttributeValue(EntityAttributes.SWEEPING_DAMAGE_RATIO)
+            baseDamage = 1.0 + sweepingRatio * baseDamage
+        }
 
         var damageIncrease = 1 + event.increasedDamage.sum()
         damageIncrease *= 1 + event.increasedAttackDamage.sum()
@@ -70,7 +75,12 @@ object ApplyDamageUtil {
 
         val criticalMultiplier = if (event.isDamageCritical) 1.5 else 1.0
 
-        //TODO enchants
+        val enchantmentAddedDamage = EnchantmentHelper.getDamage(attacker.world as ServerWorld, attacker.weaponStack, attacked, source, 0.0F)
+        println("enchantmentAddedDamage: $enchantmentAddedDamage")
+        // TODO Enchants
+        // TODO power
+        // TODO sharpness
+        // TODO damage against specifics
 
         val attackCooldownMultiplier = PlayerAccessUtil.getAttackCooldownMultiplier(source.source)
 
@@ -81,10 +91,14 @@ object ApplyDamageUtil {
         source: DamageSource,
         event: ApplyDamageCalculationCommand,
     ): Float {
-        // TODO if proj
-        // TODO sweep
+        val attacker = source.attacker as? LivingEntity ?: return 0.0F
 
-        val baseDamage = event.elementalDamage.sum()
+        var baseDamage = event.elementalDamage.sum()
+
+        if (source.type.msgId == CustomDamageTypes.SWEEPING_KEY.path) {
+            val sweepingRatio = attacker.getAttributeValue(EntityAttributes.SWEEPING_DAMAGE_RATIO)
+            baseDamage = 1.0 + sweepingRatio * baseDamage
+        }
 
         var damageIncrease = 1 + event.increasedDamage.sum()
         damageIncrease *= 1 + event.increasedElementalDamage.sum()
@@ -96,13 +110,8 @@ object ApplyDamageUtil {
         moreDamage *= event.moreElementalDamage.fold(1.0) { a, b -> a * (b + 1) }
 
         val criticalMultiplier = if (event.isDamageCritical) 1.5 else 1.0
-
-        //TODO enchants
-
         val attackCooldownMultiplier = PlayerAccessUtil.getAttackCooldownMultiplier(source.source)
 
         return (baseDamage * damageIncrease * moreDamage * criticalMultiplier * attackCooldownMultiplier).toFloat()
     }
-
-
 }
