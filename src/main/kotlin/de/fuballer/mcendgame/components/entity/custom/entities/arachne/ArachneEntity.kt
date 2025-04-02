@@ -2,6 +2,7 @@ package de.fuballer.mcendgame.components.entity.custom.entities.arachne
 
 import de.fuballer.mcendgame.components.entity.custom.CustomEntities
 import de.fuballer.mcendgame.components.entity.custom.entities.mount.MountEntity
+import de.fuballer.mcendgame.components.entity.custom.entities.mount.MovementDirection
 import de.fuballer.mcendgame.components.entity.custom.entities.webshot.WebshotEntity
 import de.fuballer.mcendgame.components.entity.custom.goals.TameableActiveTargetGoal
 import de.fuballer.mcendgame.components.entity.custom.interfaces.CustomPosesEntity
@@ -40,8 +41,10 @@ class ArachneEntity(
     override val passengerPos = Vec3d(0.0, 0.75, -0.65)
 
     private var prevPos = Vec3d.ZERO
+    private var changedPosPreviousTick = false
     val idleAnimationState = AnimationState()
     val walkAnimationState = AnimationState()
+    val walkBWAnimationState = AnimationState()
 
     companion object {
         val TAME_FOOD = mapOf<Item, Double>(Items.ROTTEN_FLESH to 0.1)
@@ -85,12 +88,20 @@ class ArachneEntity(
             when (dataTracker.get(CUSTOM_POSE)) {
                 CustomPosesEntity.CustomPose.IDLING -> {
                     walkAnimationState.stop()
+                    walkBWAnimationState.stop()
                     idleAnimationState.start(age)
                 }
 
                 CustomPosesEntity.CustomPose.WALKING -> {
                     idleAnimationState.stop()
+                    walkBWAnimationState.stop()
                     walkAnimationState.start(age)
+                }
+
+                CustomPosesEntity.CustomPose.WALKING_BW -> {
+                    idleAnimationState.stop()
+                    walkAnimationState.stop()
+                    walkBWAnimationState.start(age)
                 }
 
                 else -> {}
@@ -107,19 +118,24 @@ class ArachneEntity(
     private fun updateMovementState() {
         if (world.isClient) return
 
-        if (isMoving()) {
-            if (dataTracker.get(CUSTOM_POSE) == CustomPosesEntity.CustomPose.WALKING) return
-            dataTracker.set(CUSTOM_POSE, CustomPosesEntity.CustomPose.WALKING)
-        } else {
-            if (dataTracker.get(CUSTOM_POSE) == CustomPosesEntity.CustomPose.IDLING) return
-            dataTracker.set(CUSTOM_POSE, CustomPosesEntity.CustomPose.IDLING)
-        }
-    }
+        when (getRelativeMovementDirection()) {
+            MovementDirection.NONE -> {
+                if (dataTracker.get(CUSTOM_POSE) == CustomPosesEntity.CustomPose.IDLING) return
+                dataTracker.set(CUSTOM_POSE, CustomPosesEntity.CustomPose.IDLING)
+            }
 
-    private fun isMoving(): Boolean {
-        val change = prevPos.subtract(pos).length()
-        prevPos = pos
-        return change > 0.01
+            MovementDirection.FORWARD -> {
+                if (dataTracker.get(CUSTOM_POSE) == CustomPosesEntity.CustomPose.WALKING) return
+                dataTracker.set(CUSTOM_POSE, CustomPosesEntity.CustomPose.WALKING)
+            }
+
+            MovementDirection.BACKWARD -> {
+                if (dataTracker.get(CUSTOM_POSE) == CustomPosesEntity.CustomPose.WALKING_BW) return
+                dataTracker.set(CUSTOM_POSE, CustomPosesEntity.CustomPose.WALKING_BW)
+            }
+
+            else -> {}
+        }
     }
 
     override fun getInventoryColumns() = 3

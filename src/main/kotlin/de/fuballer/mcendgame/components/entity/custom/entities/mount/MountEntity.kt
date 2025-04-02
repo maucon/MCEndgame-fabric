@@ -14,6 +14,8 @@ import net.minecraft.util.ActionResult
 import net.minecraft.util.Hand
 import net.minecraft.util.math.Vec3d
 import net.minecraft.world.World
+import kotlin.math.PI
+import kotlin.math.abs
 
 abstract class MountEntity(
     type: EntityType<out ArachneEntity>,
@@ -81,5 +83,15 @@ abstract class MountEntity(
     override fun isInvulnerableTo(world: ServerWorld, source: DamageSource): Boolean {
         if (firstPassenger != null && firstPassenger == source.attacker) return true
         return super.isInvulnerableTo(world, source)
+    }
+
+    private fun getRelativeMovement(): Vec3d = movement.rotateY(yaw / 180F * PI.toFloat())
+
+    fun getRelativeMovementDirection(): MovementDirection {
+        val relativeMovement = getRelativeMovement()
+        if (abs(relativeMovement.x) + abs(relativeMovement.z) < 0.05) return MovementDirection.NONE
+
+        if (relativeMovement.z < -0.01) return MovementDirection.BACKWARD
+        return MovementDirection.FORWARD
     }
 }

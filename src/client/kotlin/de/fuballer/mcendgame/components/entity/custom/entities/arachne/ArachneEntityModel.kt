@@ -1,5 +1,6 @@
 package de.fuballer.mcendgame.components.entity.custom.entities.arachne
 
+import ArachneAnimation
 import de.fuballer.mcendgame.util.IdentifierUtil
 import net.minecraft.client.model.*
 import net.minecraft.client.render.entity.model.EntityModel
@@ -487,6 +488,7 @@ class ArachneEntityModel(
         animate(renderState.idleAnimationState, ArachneAnimation.IDLE, renderState.age, 1.0F)
         val walkAnimSpeed = renderState.moveSpeed * 4F / renderState.baseScale
         animate(renderState.walkAnimationState, ArachneAnimation.WALK, renderState.age, walkAnimSpeed)
+        animate(renderState.walkBWAnimationState, ArachneAnimation.WALK_BW, renderState.age, walkAnimSpeed)
 
         setHeadAngles(renderState)
     }
