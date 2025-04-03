@@ -1,11 +1,12 @@
 package de.fuballer.mcendgame.components.entity.custom.entities.arachne
 
+import de.fuballer.mcendgame.components.block.CustomBlocks
 import de.fuballer.mcendgame.components.entity.custom.CustomEntities
 import de.fuballer.mcendgame.components.entity.custom.entities.mount.MountEntity
-import de.fuballer.mcendgame.components.entity.custom.entities.mount.MovementDirection
 import de.fuballer.mcendgame.components.entity.custom.entities.webshot.WebshotEntity
+import de.fuballer.mcendgame.components.entity.custom.goals.MountThrowOffPassengerGoal
+import de.fuballer.mcendgame.components.entity.custom.goals.StrafeProjectileAttackGoal
 import de.fuballer.mcendgame.components.entity.custom.goals.TameableActiveTargetGoal
-import de.fuballer.mcendgame.components.entity.custom.interfaces.CustomPosesEntity
 import net.minecraft.block.BlockState
 import net.minecraft.block.Blocks
 import net.minecraft.entity.AnimationState
@@ -16,8 +17,6 @@ import net.minecraft.entity.ai.goal.*
 import net.minecraft.entity.attribute.DefaultAttributeContainer
 import net.minecraft.entity.attribute.EntityAttributes
 import net.minecraft.entity.damage.DamageSource
-import net.minecraft.entity.data.DataTracker
-import net.minecraft.entity.data.TrackedData
 import net.minecraft.entity.mob.Monster
 import net.minecraft.entity.passive.VillagerEntity
 import net.minecraft.entity.player.PlayerEntity
@@ -39,17 +38,11 @@ class ArachneEntity(
     world: World,
 ) : MountEntity(type, world, TAME_FOOD), Monster, RangedAttackMob {
     override val passengerPos = Vec3d(0.0, 0.75, -0.65)
-
-    private var prevPos = Vec3d.ZERO
-    private var changedPosPreviousTick = false
-    val idleAnimationState = AnimationState()
-    val walkAnimationState = AnimationState()
-    val walkBWAnimationState = AnimationState()
+    override val backwardsSpeedMulti = 0.5F
+    override val sidewaysSpeedMulti = 0.5F
 
     companion object {
         val TAME_FOOD = mapOf<Item, Double>(Items.ROTTEN_FLESH to 0.1)
-
-        val CUSTOM_POSE = DataTracker.registerData(ArachneEntity::class.java, CustomPosesEntity.CUSTOM_POSE_TDH)
 
         fun createAttributes(): DefaultAttributeContainer.Builder {
             return createLivingAttributes()
@@ -67,78 +60,51 @@ class ArachneEntity(
 
     override fun initGoals() {
         goalSelector.add(0, SwimGoal(this))
-        //goalSelector.add(1, HorseBondWithPlayerGoal(this, 1.2))
-        //goalSelector.add(1, MeleeAttackGoal(this, 1.0, false))
-        goalSelector.add(3, ProjectileAttackGoal(this, 1.25, 40, 20.0f))
+        goalSelector.add(1, MountThrowOffPassengerGoal(this, 1.2))
+        goalSelector.add(2, StrafeProjectileAttackGoal(this, 1.0, 40, 10F))
         goalSelector.add(7, WanderAroundFarGoal(this, 1.0))
         goalSelector.add(8, LookAtEntityGoal(this, PlayerEntity::class.java, 8.0f))
         goalSelector.add(8, LookAroundGoal(this))
 
-        targetSelector.add(1, TameableActiveTargetGoal(this, PlayerEntity::class.java, true))
-        targetSelector.add(1, TameableActiveTargetGoal(this, VillagerEntity::class.java, true))
+        targetSelector.add(1, RevengeGoal(this))
+        targetSelector.add(2, TameableActiveTargetGoal(this, PlayerEntity::class.java, true))
+        targetSelector.add(3, TameableActiveTargetGoal(this, VillagerEntity::class.java, true))
     }
 
-    override fun initDataTracker(builder: DataTracker.Builder) {
-        super.initDataTracker(builder)
-        builder.add(CUSTOM_POSE, CustomPosesEntity.CustomPose.IDLING)
+    override fun startMovementAnimation(animationState: AnimationState) {
+        if (animationState == walkLeftAnimationState || animationState == walkRightAnimationState)
+            return super.startMovementAnimation(walkAnimationState)
+
+        super.startMovementAnimation(animationState)
     }
 
-    override fun onTrackedDataSet(data: TrackedData<*>) {
-        if (data == CUSTOM_POSE) {
-            when (dataTracker.get(CUSTOM_POSE)) {
-                CustomPosesEntity.CustomPose.IDLING -> {
-                    walkAnimationState.stop()
-                    walkBWAnimationState.stop()
-                    idleAnimationState.start(age)
-                }
+    override fun shootAt(
+        target: LivingEntity,
+        pullProgress: Float,
+    ) {
+        val serverWorld = world as? ServerWorld ?: return
 
-                CustomPosesEntity.CustomPose.WALKING -> {
-                    idleAnimationState.stop()
-                    walkBWAnimationState.stop()
-                    walkAnimationState.start(age)
-                }
+        val xDistance = target.x - x
+        val zDistance = target.z - z
+        val aimY = target.eyeY - 1.1f
+        val addedYVelocity = sqrt(xDistance * xDistance + zDistance * zDistance) * 0.2f
 
-                CustomPosesEntity.CustomPose.WALKING_BW -> {
-                    idleAnimationState.stop()
-                    walkAnimationState.stop()
-                    walkBWAnimationState.start(age)
-                }
-
-                else -> {}
-            }
-        }
-        super.onTrackedDataSet(data)
-    }
-
-    override fun tick() {
-        super.tick()
-        updateMovementState()
-    }
-
-    private fun updateMovementState() {
-        if (world.isClient) return
-
-        when (getRelativeMovementDirection()) {
-            MovementDirection.NONE -> {
-                if (dataTracker.get(CUSTOM_POSE) == CustomPosesEntity.CustomPose.IDLING) return
-                dataTracker.set(CUSTOM_POSE, CustomPosesEntity.CustomPose.IDLING)
-            }
-
-            MovementDirection.FORWARD -> {
-                if (dataTracker.get(CUSTOM_POSE) == CustomPosesEntity.CustomPose.WALKING) return
-                dataTracker.set(CUSTOM_POSE, CustomPosesEntity.CustomPose.WALKING)
-            }
-
-            MovementDirection.BACKWARD -> {
-                if (dataTracker.get(CUSTOM_POSE) == CustomPosesEntity.CustomPose.WALKING_BW) return
-                dataTracker.set(CUSTOM_POSE, CustomPosesEntity.CustomPose.WALKING_BW)
-            }
-
-            else -> {}
+        val itemStack = ItemStack(Items.SNOWBALL)
+        ProjectileEntity.spawn(WebshotEntity(CustomEntities.WEBSHOT, serverWorld, this), serverWorld, itemStack)
+        { entity: WebshotEntity ->
+            entity.setVelocity(xDistance, aimY - entity.y + addedYVelocity, zDistance, 1.6f, 2.0f)
         }
     }
 
-    override fun getInventoryColumns() = 3
+    override fun slowMovement(
+        state: BlockState,
+        multiplier: Vec3d
+    ) {
+        onLanding()
+        if (state.isOf(Blocks.COBWEB)) return
+        if (state.isOf(CustomBlocks.DECAYING_COBWEB)) return
+        movementMultiplier = multiplier
+    }
 
     override fun handleFallDamage(fallDistance: Float, damageMultiplier: Float, damageSource: DamageSource) = false
 
@@ -153,6 +119,10 @@ class ArachneEntity(
     }
 
     override fun getHurtSound(source: DamageSource): SoundEvent {
+        return SoundEvents.ENTITY_SPIDER_HURT
+    }
+
+    override fun getAngrySound(): SoundEvent {
         return SoundEvents.ENTITY_SPIDER_HURT
     }
 
@@ -180,32 +150,5 @@ class ArachneEntity(
 
         if (++soundTicks > 5 && soundTicks % 2 != 0) return
         playWalkSound(blockSoundGroup)
-    }
-
-    override fun shootAt(
-        target: LivingEntity,
-        pullProgress: Float,
-    ) {
-        val serverWorld = world as? ServerWorld ?: return
-
-        val xDistance = target.x - x
-        val zDistance = target.z - z
-        val aimY = target.eyeY - 1.1f
-        val addedYVelocity = sqrt(xDistance * xDistance + zDistance * zDistance) * 0.2f
-
-        val itemStack = ItemStack(Items.SNOWBALL)
-        ProjectileEntity.spawn(WebshotEntity(CustomEntities.WEBSHOT, serverWorld, this), serverWorld, itemStack)
-        { entity: WebshotEntity ->
-            entity.setVelocity(xDistance, aimY - entity.y + addedYVelocity, zDistance, 1.6f, 2.0f)
-        }
-    }
-
-    override fun slowMovement(
-        state: BlockState,
-        multiplier: Vec3d
-    ) {
-        onLanding()
-        if (state.isOf(Blocks.COBWEB)) return
-        movementMultiplier = multiplier
     }
 }

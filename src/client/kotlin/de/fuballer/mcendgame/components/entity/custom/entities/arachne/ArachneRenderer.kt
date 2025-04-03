@@ -3,7 +3,6 @@ package de.fuballer.mcendgame.components.entity.custom.entities.arachne
 import de.fuballer.mcendgame.util.IdentifierUtil
 import net.minecraft.client.render.entity.EntityRendererFactory
 import net.minecraft.client.render.entity.MobEntityRenderer
-import net.minecraft.entity.attribute.EntityAttributes
 import net.minecraft.util.Identifier
 
 class ArachneRenderer(
@@ -32,6 +31,7 @@ class ArachneRenderer(
         renderState.walkAnimationState.copyFrom(entity.walkAnimationState)
         renderState.walkBWAnimationState.copyFrom(entity.walkBWAnimationState)
         renderState.isSaddled = entity.isSaddled
-        renderState.moveSpeed = entity.getAttributeValue(EntityAttributes.MOVEMENT_SPEED).toFloat()
+
+        renderState.moveSpeed = entity.getAnimationMovementSpeed()
     }
 }

@@ -18,6 +18,8 @@ interface CustomPosesEntity {
         IDLING,
         WALKING,
         WALKING_BW,
+        WALKING_RIGHT,
+        WALKING_LEFT,
         SLAMMING;
 
         companion object {

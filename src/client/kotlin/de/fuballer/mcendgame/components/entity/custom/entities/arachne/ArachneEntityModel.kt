@@ -486,7 +486,7 @@ class ArachneEntityModel(
         super.setAngles(renderState)
 
         animate(renderState.idleAnimationState, ArachneAnimation.IDLE, renderState.age, 1.0F)
-        val walkAnimSpeed = renderState.moveSpeed * 4F / renderState.baseScale
+        val walkAnimSpeed = renderState.moveSpeed * 6F / renderState.baseScale
         animate(renderState.walkAnimationState, ArachneAnimation.WALK, renderState.age, walkAnimSpeed)
         animate(renderState.walkBWAnimationState, ArachneAnimation.WALK_BW, renderState.age, walkAnimSpeed)
 
