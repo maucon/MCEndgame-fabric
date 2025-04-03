@@ -20,14 +20,15 @@ import net.minecraft.util.math.Vec3d
 import net.minecraft.world.World
 import kotlin.math.PI
 import kotlin.math.abs
+import kotlin.math.sign
 
 abstract class MountEntity(
     type: EntityType<out ArachneEntity>,
     world: World,
     private val tameFood: Map<Item, Double>,
 ) : AbstractHorseEntity(type, world) {
-    open val backwardsSpeedMulti = 0.25F
-    open val sidewaysSpeedMulti = 0.5F
+    open val backwardsSpeedMulti = 0.25
+    open val sidewaysSpeedMulti = 0.5
     abstract val passengerPos: Vec3d
 
     val idleAnimationState = AnimationState()
@@ -110,19 +111,20 @@ abstract class MountEntity(
         controllingPlayer: PlayerEntity,
         movementInput: Vec3d
     ): Vec3d {
-        if (this.isOnGround && this.jumpStrength == 0.0f && this.isAngry && !this.jumping) {
-            return Vec3d.ZERO
-        } else {
-            val speed = getAttributeValue(EntityAttributes.MOVEMENT_SPEED)
+        if (isOnGround && jumpStrength == 0.0f && isAngry && !jumping) return Vec3d.ZERO
 
-            var forwardMovement = controllingPlayer.forwardSpeed * speed
-            if (forwardMovement <= 0.0f) {
-                forwardMovement *= backwardsSpeedMulti
-            }
-            val sidewaysMovement = controllingPlayer.sidewaysSpeed * sidewaysSpeedMulti * speed
+        val speed = getAttributeValue(EntityAttributes.MOVEMENT_SPEED)
 
-            return Vec3d(sidewaysMovement, 0.0, forwardMovement)
-        }
+        var forwardMovement = sign(controllingPlayer.forwardSpeed.toDouble())
+        if (forwardMovement < 0) forwardMovement *= backwardsSpeedMulti
+        forwardMovement *= speed
+
+        var sidewaysMovement = sign(controllingPlayer.sidewaysSpeed.toDouble())
+        sidewaysMovement *= sidewaysSpeedMulti
+        sidewaysMovement *= speed
+
+        return Vec3d(sidewaysMovement, 0.0, forwardMovement)
+
     }
 
     override fun interactMob(
@@ -174,11 +176,24 @@ abstract class MountEntity(
     private fun getMovementDirectionSpeedMultiplier() = when (dataTracker.get(MOVEMENT_POSE)) {
         CustomPosesEntity.CustomPose.IDLING -> 0F
         CustomPosesEntity.CustomPose.WALKING -> 1F
-        CustomPosesEntity.CustomPose.WALKING_BW -> backwardsSpeedMulti
+        CustomPosesEntity.CustomPose.WALKING_BW -> backwardsSpeedMulti.toFloat()
         CustomPosesEntity.CustomPose.WALKING_LEFT,
-        CustomPosesEntity.CustomPose.WALKING_RIGHT -> sidewaysSpeedMulti
+        CustomPosesEntity.CustomPose.WALKING_RIGHT -> sidewaysSpeedMulti.toFloat()
 
         else -> 0F
+    }
+
+    private fun getDirectionalMovementSpeed(
+        relativeMovement: Vec3d,
+        direction: MovementDirection,
+    ) = when (direction) {
+        MovementDirection.FORWARD,
+        MovementDirection.BACKWARD -> abs(relativeMovement.z)
+
+        MovementDirection.LEFT,
+        MovementDirection.RIGHT -> abs(relativeMovement.x)
+
+        else -> 0.0
     }
 
     fun getAnimationMovementSpeed(): Float {

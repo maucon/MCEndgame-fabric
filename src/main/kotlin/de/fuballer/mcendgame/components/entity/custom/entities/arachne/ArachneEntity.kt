@@ -38,8 +38,8 @@ class ArachneEntity(
     world: World,
 ) : MountEntity(type, world, TAME_FOOD), Monster, RangedAttackMob {
     override val passengerPos = Vec3d(0.0, 0.75, -0.65)
-    override val backwardsSpeedMulti = 0.5F
-    override val sidewaysSpeedMulti = 0.5F
+    override val backwardsSpeedMulti = 0.5
+    override val sidewaysSpeedMulti = 0.5
 
     companion object {
         val TAME_FOOD = mapOf<Item, Double>(Items.ROTTEN_FLESH to 0.1)
