@@ -20,7 +20,8 @@ interface CustomPosesEntity {
         WALKING_BW,
         WALKING_RIGHT,
         WALKING_LEFT,
-        SLAMMING;
+        SLAMMING,
+        SPITTING;
 
         companion object {
             val PACKET_CODEC: PacketCodec<ByteBuf, CustomPose> = PacketCodecs.indexed(

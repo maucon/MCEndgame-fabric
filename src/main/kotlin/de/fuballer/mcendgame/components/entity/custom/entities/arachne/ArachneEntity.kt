@@ -8,6 +8,7 @@ import de.fuballer.mcendgame.components.entity.custom.goals.KeepDistanceToTarget
 import de.fuballer.mcendgame.components.entity.custom.goals.MountThrowOffPassengerGoal
 import de.fuballer.mcendgame.components.entity.custom.goals.NoMovementProjectileAttackGoal
 import de.fuballer.mcendgame.components.entity.custom.goals.TameableActiveTargetGoal
+import de.fuballer.mcendgame.components.entity.custom.interfaces.CustomPosesEntity
 import net.minecraft.block.BlockState
 import net.minecraft.block.Blocks
 import net.minecraft.entity.AnimationState
@@ -18,6 +19,8 @@ import net.minecraft.entity.ai.goal.*
 import net.minecraft.entity.attribute.DefaultAttributeContainer
 import net.minecraft.entity.attribute.EntityAttributes
 import net.minecraft.entity.damage.DamageSource
+import net.minecraft.entity.data.DataTracker
+import net.minecraft.entity.data.TrackedData
 import net.minecraft.entity.mob.Monster
 import net.minecraft.entity.passive.VillagerEntity
 import net.minecraft.entity.player.PlayerEntity
@@ -43,6 +46,9 @@ class ArachneEntity(
     override val backwardsSpeedMulti = 0.5
     override val sidewaysSpeedMulti = 0.5
 
+    var attackAnimationTime = 0
+    val spitAnimationState = AnimationState()
+
     companion object {
         val TAME_FOOD = mapOf<Item, Double>(Items.ROTTEN_FLESH to 0.1)
 
@@ -58,6 +64,9 @@ class ArachneEntity(
                 .add(EntityAttributes.KNOCKBACK_RESISTANCE, 0.8)
                 .add(EntityAttributes.MOVEMENT_EFFICIENCY, 0.85)
         }
+
+        val ATTACK_POSE: TrackedData<CustomPosesEntity.CustomPose> =
+            DataTracker.registerData(ArachneEntity::class.java, CustomPosesEntity.CUSTOM_POSE_TDH)
     }
 
     override fun initGoals() {
@@ -72,6 +81,37 @@ class ArachneEntity(
         targetSelector.add(1, RevengeGoal(this))
         targetSelector.add(2, TameableActiveTargetGoal(this, PlayerEntity::class.java, true))
         targetSelector.add(3, TameableActiveTargetGoal(this, VillagerEntity::class.java, true))
+    }
+
+    override fun initDataTracker(builder: DataTracker.Builder) {
+        super.initDataTracker(builder)
+        builder.add(ATTACK_POSE, CustomPosesEntity.CustomPose.IDLING)
+    }
+
+    override fun onTrackedDataSet(data: TrackedData<*>) {
+        if (data == ATTACK_POSE) {
+            when (dataTracker.get(ATTACK_POSE)) {
+                CustomPosesEntity.CustomPose.SPITTING -> {
+                    spitAnimationState.start(age)
+                }
+
+                else -> {}
+            }
+        }
+        super.onTrackedDataSet(data)
+    }
+
+    override fun tick() {
+        super.tick()
+        updateAttackPose()
+    }
+
+    private fun updateAttackPose() {
+        if (world.isClient) return
+        if (attackAnimationTime <= 0) return
+        if (--attackAnimationTime > 0) return
+
+        dataTracker.set(ATTACK_POSE, CustomPosesEntity.CustomPose.IDLING)
     }
 
     override fun startMovementAnimation(animationState: AnimationState) {
@@ -92,7 +132,10 @@ class ArachneEntity(
         val aimY = target.eyeY - 1.1f
         val addedYVelocity = sqrt(xDistance * xDistance + zDistance * zDistance) * 0.2f
 
-        val itemStack = ItemStack(Items.SNOWBALL)
+        dataTracker.set(ATTACK_POSE, CustomPosesEntity.CustomPose.SPITTING)
+        attackAnimationTime = 9 // anim is 0.42s
+
+        val itemStack = ItemStack(Items.COBWEB)
         ProjectileEntity.spawn(WebshotEntity(CustomEntities.WEBSHOT, serverWorld, this), serverWorld, itemStack)
         { entity: WebshotEntity ->
             entity.setVelocity(xDistance, aimY - entity.y + addedYVelocity, zDistance, 1.6f, 2.0f)

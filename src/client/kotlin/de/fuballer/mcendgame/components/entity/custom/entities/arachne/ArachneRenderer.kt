@@ -31,6 +31,9 @@ class ArachneRenderer(
         renderState.idleAnimationState.copyFrom(entity.idleAnimationState)
         renderState.walkAnimationState.copyFrom(entity.walkAnimationState)
         renderState.walkBWAnimationState.copyFrom(entity.walkBWAnimationState)
+
+        renderState.spitAnimationState.copyFrom(entity.spitAnimationState)
+
         renderState.isSaddled = entity.isSaddled
 
         renderState.moveSpeed = entity.dataTracker.get(MountEntity.ANIMATION_MOVEMENT_SPEED)
