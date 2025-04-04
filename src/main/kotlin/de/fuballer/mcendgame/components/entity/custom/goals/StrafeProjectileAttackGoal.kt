@@ -18,7 +18,7 @@ class StrafeProjectileAttackGoal<T>(
     private var cooldown = -1
     private var seeingTargetTicker = 0
     private var movingToLeft = false
-    private var backward = false
+    private var strafeFB = 0F
     private var strafeDirChangeCounter = -1
 
     init {
@@ -96,17 +96,17 @@ class StrafeProjectileAttackGoal<T>(
 
         if (strafeDirChangeCounter >= 20) {
             if (entity.random.nextDouble() < 0.3) movingToLeft = !movingToLeft
-            if (entity.random.nextDouble() < 0.3) backward = !backward
             strafeDirChangeCounter = 0
         }
 
-        if (squaredDistanceToTarget > squaredRange * 0.75f) {
-            backward = false
-        } else if (squaredDistanceToTarget < squaredRange * 0.25f) {
-            backward = true
+        if (squaredDistanceToTarget > squaredRange) {
+            strafeFB = 0.5F
+        } else if (squaredDistanceToTarget < squaredRange * 0.4f) {
+            strafeFB = -0.5F
+        } else if (squaredDistanceToTarget < squaredRange * 0.8 && squaredDistanceToTarget > squaredRange * 0.6) {
+            strafeFB = 0F
         }
 
-        val strafeFB = if (backward) -0.5f else 0.5f
         val strafeLR = if (movingToLeft) 0.5f else -0.5f
         entity.moveControl.strafeTo(strafeFB, strafeLR)
         (entity.controllingVehicle as? MobEntity)?.lookAtEntity(target, 30.0F, 30.0F)

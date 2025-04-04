@@ -62,7 +62,7 @@ class ArachneEntity(
     override fun initGoals() {
         goalSelector.add(0, SwimGoal(this))
         goalSelector.add(1, MountThrowOffPassengerGoal(this, 1.2))
-        goalSelector.add(2, StrafeProjectileAttackGoal(this, 1.0, 40, 10F))
+        goalSelector.add(2, StrafeProjectileAttackGoal(this, 1.0, 40, 15F))
         goalSelector.add(7, WanderAroundFarGoal(this, 1.0))
         goalSelector.add(8, LookAtEntityGoal(this, PlayerEntity::class.java, 8.0f))
         goalSelector.add(8, LookAroundGoal(this))
