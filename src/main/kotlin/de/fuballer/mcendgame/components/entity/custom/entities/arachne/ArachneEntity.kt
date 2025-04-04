@@ -38,6 +38,7 @@ class ArachneEntity(
     world: World,
 ) : MountEntity(type, world, TAME_FOOD), Monster, RangedAttackMob {
     override val passengerPos = Vec3d(0.0, 0.75, -0.65)
+    override val riddenSpeedMulti = 1.5
     override val backwardsSpeedMulti = 0.5
     override val sidewaysSpeedMulti = 0.5
 

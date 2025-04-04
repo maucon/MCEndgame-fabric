@@ -27,6 +27,7 @@ abstract class MountEntity(
     world: World,
     private val tameFood: Map<Item, Double>,
 ) : AbstractHorseEntity(type, world) {
+    open val riddenSpeedMulti = 1.0
     open val backwardsSpeedMulti = 0.25
     open val sidewaysSpeedMulti = 0.5
     abstract val passengerPos: Vec3d
@@ -113,7 +114,7 @@ abstract class MountEntity(
     ): Vec3d {
         if (isOnGround && jumpStrength == 0.0f && isAngry && !jumping) return Vec3d.ZERO
 
-        val speed = getAttributeValue(EntityAttributes.MOVEMENT_SPEED)
+        val speed = getAttributeValue(EntityAttributes.MOVEMENT_SPEED) * riddenSpeedMulti
 
         var forwardMovement = sign(controllingPlayer.forwardSpeed.toDouble())
         if (forwardMovement < 0) forwardMovement *= backwardsSpeedMulti
@@ -124,7 +125,6 @@ abstract class MountEntity(
         sidewaysMovement *= speed
 
         return Vec3d(sidewaysMovement, 0.0, forwardMovement)
-
     }
 
     override fun interactMob(
@@ -173,7 +173,7 @@ abstract class MountEntity(
         return MovementDirection.FORWARD
     }
 
-    private fun getMovementDirectionSpeedMultiplier() = when (dataTracker.get(MOVEMENT_POSE)) {
+    private fun getRiddenMovementDirectionSpeedMultiplier() = when (dataTracker.get(MOVEMENT_POSE)) {
         CustomPosesEntity.CustomPose.IDLING -> 0F
         CustomPosesEntity.CustomPose.WALKING -> 1F
         CustomPosesEntity.CustomPose.WALKING_BW -> backwardsSpeedMulti.toFloat()
@@ -183,23 +183,17 @@ abstract class MountEntity(
         else -> 0F
     }
 
-    private fun getDirectionalMovementSpeed(
-        relativeMovement: Vec3d,
-        direction: MovementDirection,
-    ) = when (direction) {
-        MovementDirection.FORWARD,
-        MovementDirection.BACKWARD -> abs(relativeMovement.z)
+    fun getCurrentMovementSpeed(): Float {
+        if (dataTracker.get(MOVEMENT_POSE) == CustomPosesEntity.CustomPose.IDLING) return 0F
 
-        MovementDirection.LEFT,
-        MovementDirection.RIGHT -> abs(relativeMovement.x)
+        var speed = getAttributeValue(EntityAttributes.MOVEMENT_SPEED).toFloat()
 
-        else -> 0.0
-    }
+        if (isControlledByPlayer) {
+            speed *= riddenSpeedMulti.toFloat()
+            speed *= getRiddenMovementDirectionSpeedMultiplier()
+        }
 
-    fun getAnimationMovementSpeed(): Float {
-        val attribute = getAttributeValue(EntityAttributes.MOVEMENT_SPEED).toFloat()
-        val directionFactor = getMovementDirectionSpeedMultiplier()
-        return attribute * directionFactor
+        return speed
     }
 
     override fun getInventoryColumns() = 3

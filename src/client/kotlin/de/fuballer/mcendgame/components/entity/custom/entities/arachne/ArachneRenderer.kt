@@ -32,6 +32,6 @@ class ArachneRenderer(
         renderState.walkBWAnimationState.copyFrom(entity.walkBWAnimationState)
         renderState.isSaddled = entity.isSaddled
 
-        renderState.moveSpeed = entity.getAnimationMovementSpeed()
+        renderState.moveSpeed = entity.getCurrentMovementSpeed()
     }
 }
