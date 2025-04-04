@@ -114,6 +114,12 @@ class ArachneEntity(
         dataTracker.set(ATTACK_POSE, CustomPosesEntity.CustomPose.IDLING)
     }
 
+    private fun changeAttackPose(pose: CustomPosesEntity.CustomPose, animationTime: Int) {
+        if (attackAnimationTime > 0) return
+        dataTracker.set(ATTACK_POSE, pose)
+        attackAnimationTime = animationTime
+    }
+
     override fun startMovementAnimation(animationState: AnimationState) {
         if (animationState == walkLeftAnimationState || animationState == walkRightAnimationState)
             return super.startMovementAnimation(walkAnimationState)
@@ -132,8 +138,7 @@ class ArachneEntity(
         val aimY = target.eyeY - 1.1f
         val addedYVelocity = sqrt(xDistance * xDistance + zDistance * zDistance) * 0.2f
 
-        dataTracker.set(ATTACK_POSE, CustomPosesEntity.CustomPose.SPITTING)
-        attackAnimationTime = 9 // anim is 0.42s
+        changeAttackPose(CustomPosesEntity.CustomPose.SPITTING, 9)// anim is 0.42s
 
         val itemStack = ItemStack(Items.COBWEB)
         ProjectileEntity.spawn(WebshotEntity(CustomEntities.WEBSHOT, serverWorld, this), serverWorld, itemStack)
