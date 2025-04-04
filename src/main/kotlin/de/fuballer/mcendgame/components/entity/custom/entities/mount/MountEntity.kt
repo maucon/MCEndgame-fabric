@@ -10,6 +10,7 @@ import net.minecraft.entity.attribute.EntityAttributes
 import net.minecraft.entity.damage.DamageSource
 import net.minecraft.entity.data.DataTracker
 import net.minecraft.entity.data.TrackedData
+import net.minecraft.entity.data.TrackedDataHandlerRegistry
 import net.minecraft.entity.passive.AbstractHorseEntity
 import net.minecraft.entity.player.PlayerEntity
 import net.minecraft.item.Item
@@ -41,11 +42,14 @@ abstract class MountEntity(
     companion object {
         val MOVEMENT_POSE: TrackedData<CustomPosesEntity.CustomPose> =
             DataTracker.registerData(MountEntity::class.java, CustomPosesEntity.CUSTOM_POSE_TDH)
+        val ANIMATION_MOVEMENT_SPEED: TrackedData<Float> =
+            DataTracker.registerData(MountEntity::class.java, TrackedDataHandlerRegistry.FLOAT)
     }
 
     override fun initDataTracker(builder: DataTracker.Builder) {
         super.initDataTracker(builder)
         builder.add(MOVEMENT_POSE, CustomPosesEntity.CustomPose.IDLING)
+        builder.add(ANIMATION_MOVEMENT_SPEED, 0F)
     }
 
     override fun onTrackedDataSet(data: TrackedData<*>) {
@@ -85,6 +89,11 @@ abstract class MountEntity(
     open fun updateMovementState() {
         if (world.isClient) return
 
+        updateMovementDirection()
+        updateAnimationMovementSpeed()
+    }
+
+    private fun updateMovementDirection() {
         val currentPose = dataTracker.get(MOVEMENT_POSE)
         val newPose = when (getRelativeMovementDirection()) {
             MovementDirection.NONE -> CustomPosesEntity.CustomPose.IDLING
@@ -93,9 +102,24 @@ abstract class MountEntity(
             MovementDirection.LEFT -> CustomPosesEntity.CustomPose.WALKING_LEFT
             MovementDirection.RIGHT -> CustomPosesEntity.CustomPose.WALKING_RIGHT
         }
-
         if (currentPose == newPose) return
+
         dataTracker.set(MOVEMENT_POSE, newPose)
+    }
+
+    private fun updateAnimationMovementSpeed() {
+        val currentMovementSpeed = dataTracker.get(ANIMATION_MOVEMENT_SPEED)
+
+        var newMovementSpeed = movementSpeed
+
+        if (isControlledByPlayer) {
+            newMovementSpeed = getAttributeValue(EntityAttributes.MOVEMENT_SPEED).toFloat()
+            newMovementSpeed *= riddenSpeedMulti.toFloat()
+            newMovementSpeed *= getRiddenMovementDirectionSpeedMultiplier()
+        }
+
+        if (abs(currentMovementSpeed - newMovementSpeed) < 0.01) return
+        dataTracker.set(ANIMATION_MOVEMENT_SPEED, newMovementSpeed)
     }
 
     override fun getPassengerAttachmentPos(
@@ -181,19 +205,6 @@ abstract class MountEntity(
         CustomPosesEntity.CustomPose.WALKING_RIGHT -> sidewaysSpeedMulti.toFloat()
 
         else -> 0F
-    }
-
-    fun getCurrentMovementSpeed(): Float {
-        if (dataTracker.get(MOVEMENT_POSE) == CustomPosesEntity.CustomPose.IDLING) return 0F
-
-        var speed = getAttributeValue(EntityAttributes.MOVEMENT_SPEED).toFloat()
-
-        if (isControlledByPlayer) {
-            speed *= riddenSpeedMulti.toFloat()
-            speed *= getRiddenMovementDirectionSpeedMultiplier()
-        }
-
-        return speed
     }
 
     override fun getInventoryColumns() = 3

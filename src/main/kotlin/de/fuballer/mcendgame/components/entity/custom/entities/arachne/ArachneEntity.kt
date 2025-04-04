@@ -4,8 +4,8 @@ import de.fuballer.mcendgame.components.block.CustomBlocks
 import de.fuballer.mcendgame.components.entity.custom.CustomEntities
 import de.fuballer.mcendgame.components.entity.custom.entities.mount.MountEntity
 import de.fuballer.mcendgame.components.entity.custom.entities.webshot.WebshotEntity
+import de.fuballer.mcendgame.components.entity.custom.goals.KeepDistanceToTargetGoal
 import de.fuballer.mcendgame.components.entity.custom.goals.MountThrowOffPassengerGoal
-import de.fuballer.mcendgame.components.entity.custom.goals.StrafeProjectileAttackGoal
 import de.fuballer.mcendgame.components.entity.custom.goals.TameableActiveTargetGoal
 import net.minecraft.block.BlockState
 import net.minecraft.block.Blocks
@@ -62,7 +62,7 @@ class ArachneEntity(
     override fun initGoals() {
         goalSelector.add(0, SwimGoal(this))
         goalSelector.add(1, MountThrowOffPassengerGoal(this, 1.2))
-        goalSelector.add(2, StrafeProjectileAttackGoal(this, 1.0, 40, 15F))
+        goalSelector.add(2, KeepDistanceToTargetGoal(this, 1.0, 10F, 15F))
         goalSelector.add(7, WanderAroundFarGoal(this, 1.0))
         goalSelector.add(8, LookAtEntityGoal(this, PlayerEntity::class.java, 8.0f))
         goalSelector.add(8, LookAroundGoal(this))

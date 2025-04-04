@@ -1,5 +1,6 @@
 package de.fuballer.mcendgame.components.entity.custom.entities.arachne
 
+import de.fuballer.mcendgame.components.entity.custom.entities.mount.MountEntity
 import de.fuballer.mcendgame.util.IdentifierUtil
 import net.minecraft.client.render.entity.EntityRendererFactory
 import net.minecraft.client.render.entity.MobEntityRenderer
@@ -32,6 +33,6 @@ class ArachneRenderer(
         renderState.walkBWAnimationState.copyFrom(entity.walkBWAnimationState)
         renderState.isSaddled = entity.isSaddled
 
-        renderState.moveSpeed = entity.getCurrentMovementSpeed()
+        renderState.moveSpeed = entity.dataTracker.get(MountEntity.ANIMATION_MOVEMENT_SPEED)
     }
 }

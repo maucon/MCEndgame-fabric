@@ -4,18 +4,16 @@ import net.minecraft.entity.LivingEntity
 import net.minecraft.entity.ai.RangedAttackMob
 import net.minecraft.entity.ai.goal.Goal
 import net.minecraft.entity.mob.MobEntity
-import net.minecraft.util.math.MathHelper
 import java.util.*
-import kotlin.math.sqrt
 
-class StrafeProjectileAttackGoal<T>(
+class KeepDistanceToTargetGoal<T>(
     private val entity: T,
     private val speed: Double,
-    private val attackInterval: Int,
-    private val range: Float,
+    minDistance: Float,
+    maxDistance: Float,
 ) : Goal() where  T : RangedAttackMob, T : MobEntity {
-    private val squaredRange: Float
-    private var cooldown = -1
+    private val squaredMinDistance: Float
+    private val squaredMaxDistance: Float
     private var seeingTargetTicker = 0
     private var movingToLeft = false
     private var strafeFB = 0F
@@ -24,7 +22,8 @@ class StrafeProjectileAttackGoal<T>(
     init {
         controls = EnumSet.of(Control.MOVE, Control.LOOK)
 
-        squaredRange = range * range
+        squaredMinDistance = minDistance * minDistance
+        squaredMaxDistance = maxDistance * maxDistance
     }
 
     override fun canStart() = entity.target != null
@@ -43,7 +42,6 @@ class StrafeProjectileAttackGoal<T>(
         super.stop()
         entity.setAttacking(false)
         seeingTargetTicker = 0
-        cooldown = -1
         entity.navigation.stop()
         entity.moveControl.strafeTo(0F, 0F)
     }
@@ -53,9 +51,9 @@ class StrafeProjectileAttackGoal<T>(
     override fun tick() {
         val target = entity.target ?: return
 
-        val canSeeTarget = updateSeeingTargetTicker(target)
+        updateSeeingTargetTicker(target)
         val squaredDistanceToTarget = entity.squaredDistanceTo(target)
-        if (squaredDistanceToTarget <= squaredRange && seeingTargetTicker >= 20) {
+        if (squaredDistanceToTarget <= squaredMaxDistance && seeingTargetTicker >= 20) {
             entity.navigation.stop()
             strafeDirChangeCounter++
         } else {
@@ -65,12 +63,12 @@ class StrafeProjectileAttackGoal<T>(
 
         updateStrafing(target, squaredDistanceToTarget)
 
-        if (--cooldown > 0 || !canSeeTarget) return
+        /*if (--cooldown > 0 || !canSeeTarget) return
         cooldown = getTickCount(attackInterval)
 
         var distanceRangePercentage: Float = sqrt(squaredDistanceToTarget).toFloat() / range
         distanceRangePercentage = MathHelper.clamp(distanceRangePercentage, 0.1f, 1.0f)
-        entity.shootAt(target, distanceRangePercentage)
+        entity.shootAt(target, distanceRangePercentage)*/
     }
 
     private fun updateSeeingTargetTicker(
@@ -99,11 +97,11 @@ class StrafeProjectileAttackGoal<T>(
             strafeDirChangeCounter = 0
         }
 
-        if (squaredDistanceToTarget > squaredRange) {
+        if (squaredDistanceToTarget > squaredMaxDistance) {
             strafeFB = 0.5F
-        } else if (squaredDistanceToTarget < squaredRange * 0.4f) {
+        } else if (squaredDistanceToTarget < squaredMinDistance) {
             strafeFB = -0.5F
-        } else if (squaredDistanceToTarget < squaredRange * 0.8 && squaredDistanceToTarget > squaredRange * 0.6) {
+        } else {
             strafeFB = 0F
         }
 
