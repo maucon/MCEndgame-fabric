@@ -34,5 +34,6 @@ class WebshotEntityModel(
         renderState: WebshotRenderState,
     ) {
         super.setAngles(renderState)
+        webshot.roll += renderState.age * 0.12F
     }
 }
