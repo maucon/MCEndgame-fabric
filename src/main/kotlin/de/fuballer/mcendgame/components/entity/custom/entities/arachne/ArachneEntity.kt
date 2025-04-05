@@ -12,6 +12,7 @@ import de.fuballer.mcendgame.components.entity.custom.interfaces.CustomPosesEnti
 import net.minecraft.block.BlockState
 import net.minecraft.block.Blocks
 import net.minecraft.entity.AnimationState
+import net.minecraft.entity.Entity
 import net.minecraft.entity.EntityType
 import net.minecraft.entity.LivingEntity
 import net.minecraft.entity.ai.RangedAttackMob
@@ -46,8 +47,10 @@ class ArachneEntity(
     override val backwardsSpeedMulti = 0.5
     override val sidewaysSpeedMulti = 0.5
 
-    var attackAnimationTime = 0
+    private var attackAnimationTime = 0
     val spitAnimationState = AnimationState()
+
+    var hookedEntities = mutableListOf<Entity>()
 
     companion object {
         val TAME_FOOD = mapOf<Item, Double>(Items.ROTTEN_FLESH to 0.1)
@@ -104,6 +107,8 @@ class ArachneEntity(
     override fun tick() {
         super.tick()
         updateAttackPose()
+
+        hookedEntities = world.getOtherEntities(this, boundingBox.expand(10.0))
     }
 
     private fun updateAttackPose() {
