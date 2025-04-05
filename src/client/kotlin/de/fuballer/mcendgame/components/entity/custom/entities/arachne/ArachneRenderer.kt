@@ -12,6 +12,7 @@ import net.minecraft.client.util.math.MatrixStack
 import net.minecraft.util.Identifier
 import net.minecraft.util.math.BlockPos
 import net.minecraft.util.math.MathHelper
+import net.minecraft.util.math.Vec3d
 import net.minecraft.world.LightType
 import org.joml.Matrix4f
 
@@ -101,55 +102,49 @@ class ArachneRenderer(
         webHookData: ArachneRenderState.Companion.WebHookData
     ) {
         for (hookedData in webHookData.hookedEntities) {
-            val f = 0.025f
-            val g = (hookedData.pos.x - webHookData.pos.x).toFloat()
-            val h = (hookedData.pos.y - webHookData.pos.y).toFloat()
-            val i = (hookedData.pos.z - webHookData.pos.z).toFloat()
-            val j = MathHelper.inverseSqrt(g * g + i * i) * f / 2.0f
-            val k = i * j
-            val l = g * j
+            val hookedOffset = hookedData.pos.subtract(webHookData.pos)
+
+            val segmentSize = 0.025f
+            val horizontalSizeFactor = 1F / hookedOffset.horizontalLength() * segmentSize
+            val segmentSizeX = (hookedOffset.x * horizontalSizeFactor).toFloat()
+            val segmentSizeZ = (hookedOffset.z * horizontalSizeFactor).toFloat()
+
             matrices.push()
             matrices.translate(webHookData.offset)
             val vertexConsumer = vertexConsumers.getBuffer(RenderLayer.getLeash())
             val matrix4f = matrices.peek().positionMatrix
 
-            for (m in 0..24) {
+            for (segment in 0..24) {
                 renderWebHookSegment(
                     vertexConsumer,
                     matrix4f,
-                    g,
-                    h,
-                    i,
+                    hookedOffset,
                     hookedData.blockLight,
                     webHookData.blockLight,
                     hookedData.skyLight,
                     webHookData.skyLight,
-                    0.025f,
-                    0.025f,
-                    k,
-                    l,
-                    m,
-                    false
+                    segmentSize,
+                    segmentSizeZ,
+                    segmentSizeX,
+                    segment,
+                    false,
                 )
             }
 
-            for (m in 24 downTo 0) {
+            for (segment in 24 downTo 0) {
                 renderWebHookSegment(
                     vertexConsumer,
                     matrix4f,
-                    g,
-                    h,
-                    i,
+                    hookedOffset,
                     hookedData.blockLight,
                     webHookData.blockLight,
                     hookedData.skyLight,
                     webHookData.skyLight,
-                    0.025f,
-                    0.0f,
-                    k,
-                    l,
-                    m,
-                    true
+                    segmentSize,
+                    segmentSizeZ,
+                    segmentSizeX,
+                    segment,
+                    true,
                 )
             }
 
@@ -160,33 +155,43 @@ class ArachneRenderer(
     private fun renderWebHookSegment(
         vertexConsumer: VertexConsumer,
         matrix: Matrix4f,
-        leashedEntityX: Float,
-        leashedEntityY: Float,
-        leashedEntityZ: Float,
+        hookedEntityOffset: Vec3d, // relative pos
         leashedEntityBlockLight: Int,
         leashHolderBlockLight: Int,
         leashedEntitySkyLight: Int,
         leashHolderSkyLight: Int,
-        f: Float,
-        g: Float,
-        h: Float,
-        i: Float,
+        segmentSizeY: Float,
+        segmentSizeX: Float,
+        segmentSizeZ: Float,
         segmentIndex: Int,
-        isLeashKnot: Boolean
+        rotated: Boolean,
     ) {
-        val j = segmentIndex.toFloat() / 24.0f
-        val k = MathHelper.lerp(j, leashedEntityBlockLight.toFloat(), leashHolderBlockLight.toFloat()).toInt()
-        val l = MathHelper.lerp(j, leashedEntitySkyLight.toFloat(), leashHolderSkyLight.toFloat()).toInt()
-        val m = LightmapTextureManager.pack(k, l)
-        val n = if (segmentIndex % 2 == (if (isLeashKnot) 1 else 0)) 0.7f else 1.0f
-        val o = 0.5f * n
-        val p = 0.4f * n
-        val q = 0.3f * n
-        val r = leashedEntityX * j
-        val s =
-            if (leashedEntityY > 0.0f) leashedEntityY * j * j else leashedEntityY - leashedEntityY * (1.0f - j) * (1.0f - j)
-        val t = leashedEntityZ * j
-        vertexConsumer.vertex(matrix, r - h, s + g, t + i).color(o, p, q, 1.0f).light(m)
-        vertexConsumer.vertex(matrix, r + h, s + f - g, t - i).color(o, p, q, 1.0f).light(m)
+        val segmentPercent = segmentIndex.toFloat() / 24.0f
+        val blockLight = MathHelper.lerp(segmentPercent, leashedEntityBlockLight, leashHolderBlockLight)
+        val skyLight = MathHelper.lerp(segmentPercent, leashedEntitySkyLight, leashHolderSkyLight)
+        val light = LightmapTextureManager.pack(blockLight, skyLight)
+
+        val brightnessFactor = if (segmentIndex % 2 == (if (rotated) 1 else 0)) 0.7f else 1.0f
+        val red = 0.85f * brightnessFactor
+        val green = 0.85f * brightnessFactor
+        val blue = 0.85f * brightnessFactor
+
+        val segmentX = (hookedEntityOffset.x * segmentPercent).toFloat()
+        val segmentY =
+            (if (hookedEntityOffset.y > 0.0f) hookedEntityOffset.y * segmentPercent * segmentPercent else hookedEntityOffset.y - hookedEntityOffset.y * (1.0f - segmentPercent) * (1.0f - segmentPercent)).toFloat()
+        val segmentZ = (hookedEntityOffset.z * segmentPercent).toFloat()
+
+        vertexConsumer.vertex(
+            matrix,
+            segmentX - segmentSizeX / 2,
+            segmentY + if (rotated) segmentSizeY else 0F,
+            segmentZ + segmentSizeZ / 2
+        ).color(red, green, blue, 1.0f).light(light)
+        vertexConsumer.vertex(
+            matrix,
+            segmentX + segmentSizeX / 2,
+            segmentY + if (rotated) 0F else segmentSizeY,
+            segmentZ - segmentSizeZ / 2
+        ).color(red, green, blue, 1.0f).light(light)
     }
 }
