@@ -23,7 +23,6 @@ import net.minecraft.server.world.ServerWorld;
 import net.minecraft.sound.SoundEvent;
 import net.minecraft.stat.Stats;
 import net.minecraft.world.event.GameEvent;
-import org.jetbrains.annotations.Nullable;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.Shadow;
 import org.spongepowered.asm.mixin.Unique;
@@ -64,15 +63,6 @@ public abstract class LivingEntityDamageMixin {
     @Shadow
     protected abstract void playHurtSound(DamageSource damageSource);
 
-    @Shadow
-    protected abstract float applyArmorToDamage(DamageSource source, float amount);
-
-    @Shadow
-    protected abstract float modifyAppliedDamage(DamageSource source, float amount);
-
-    @Shadow
-    private @Nullable LivingEntity attacker;
-
     @Inject(at = @At("HEAD"), method = "applyDamage", cancellable = true)
     protected void applyDamage(
             ServerWorld world,
@@ -82,7 +72,7 @@ public abstract class LivingEntityDamageMixin {
     ) {
         LivingEntity entity = (LivingEntity) (Object) this;
 
-        var applyDamageCalculationCommand = ApplyDamageCalculationCommand.Companion.of(entity, world, source, originalDamage);
+        var applyDamageCalculationCommand = ApplyDamageCalculationCommand.Companion.of(entity, world, source);
         var cmd = CommandGateway.INSTANCE.apply(applyDamageCalculationCommand);
 
         if (entity.isInvulnerableTo(world, source)) {
@@ -102,22 +92,34 @@ public abstract class LivingEntityDamageMixin {
         var combinedDamage = attackDamage + elementalDamage;
 
         System.out.println("-----------");
+        System.out.println(source.getAttacker() + " -> " + entity);
         System.out.println("ATTACK:    " + attackDamage);
         System.out.println("ELEMENTAL: " + elementalDamage);
         System.out.println("TOTAL:     " + combinedDamage);
         System.out.println("TYPE:      " + source.getType());
-        System.out.println("ATTACKED:  " + entity.getName());
 
         float healthDamage = Math.max(combinedDamage - entity.getAbsorptionAmount(), 0.0F);
         float absorbedDamage = combinedDamage - healthDamage;
         entity.setAbsorptionAmount(entity.getAbsorptionAmount() - absorbedDamage);
-        if (absorbedDamage > 0.0F && absorbedDamage < 3.4028235E37F && source.getAttacker() instanceof ServerPlayerEntity serverPlayerEntity) {
-            serverPlayerEntity.increaseStat(Stats.DAMAGE_DEALT_ABSORBED, Math.round(absorbedDamage * 10.0F));
+
+        if (absorbedDamage > 0.0F && absorbedDamage < 3.4028235E37F) {
+            if (source.getAttacker() instanceof ServerPlayerEntity serverPlayerEntity) {
+                serverPlayerEntity.increaseStat(Stats.DAMAGE_DEALT_ABSORBED, Math.round(absorbedDamage * 10.0F));
+            }
+
+            if (entity instanceof PlayerEntity player) {
+                player.increaseStat(Stats.DAMAGE_ABSORBED, Math.round(absorbedDamage * 10.0F));
+            }
         }
 
         if (healthDamage != 0.0F) {
             entity.getDamageTracker().onDamage(source, healthDamage);
             entity.setHealth(entity.getHealth() - healthDamage);
+
+            if (entity instanceof PlayerEntity player && healthDamage < 3.4028235E37F) {
+                player.increaseStat(Stats.DAMAGE_TAKEN, Math.round(healthDamage * 10.0F));
+            }
+
             entity.emitGameEvent(GameEvent.ENTITY_DAMAGE);
         }
 

@@ -47,7 +47,6 @@ data class ApplyDamageCalculationCommand(
             damaged: LivingEntity,
             world: ServerWorld,
             source: DamageSource,
-            amount: Float,
         ): ApplyDamageCalculationCommand {
             val damager = source.attacker
             val damagerAttributes = (damager as? LivingEntity)?.getAllCustomAttributes() ?: emptyMap()
