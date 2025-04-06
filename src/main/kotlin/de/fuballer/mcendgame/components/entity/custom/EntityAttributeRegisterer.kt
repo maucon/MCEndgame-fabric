@@ -1,8 +1,9 @@
 package de.fuballer.mcendgame.components.entity.custom
 
-import de.fuballer.mcendgame.components.entity.custom.swamp_golem.SwampGolemEntity
-import de.maucon.mauconframework.initializer.Initializer
+import de.fuballer.mcendgame.components.entity.custom.entities.elf_duelist.ElfDuelistEntity
+import de.fuballer.mcendgame.components.entity.custom.entities.swamp_golem.SwampGolemEntity
 import de.maucon.mauconframework.di.annotation.Injectable
+import de.maucon.mauconframework.initializer.Initializer
 import net.fabricmc.fabric.api.`object`.builder.v1.entity.FabricDefaultAttributeRegistry
 
 @Injectable

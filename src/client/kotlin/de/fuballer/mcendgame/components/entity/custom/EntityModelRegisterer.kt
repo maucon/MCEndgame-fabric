@@ -2,8 +2,8 @@ package de.fuballer.mcendgame.components.entity.custom
 
 import de.fuballer.mcendgame.components.entity.custom.entities.elf_duelist.ElfDuelistEntityModel
 import de.fuballer.mcendgame.components.entity.custom.entities.elf_duelist.ElfDuelistRenderer
-import de.fuballer.mcendgame.components.entity.custom.swamp_golem.SwampGolemEntityModel
-import de.fuballer.mcendgame.components.entity.custom.swamp_golem.SwampGolemRenderer
+import de.fuballer.mcendgame.components.entity.custom.entities.swamp_golem.SwampGolemEntityModel
+import de.fuballer.mcendgame.components.entity.custom.entities.swamp_golem.SwampGolemRenderer
 import de.maucon.mauconframework.di.annotation.Injectable
 import de.maucon.mauconframework.initializer.Initializer
 import net.fabricmc.fabric.api.client.rendering.v1.EntityModelLayerRegistry
