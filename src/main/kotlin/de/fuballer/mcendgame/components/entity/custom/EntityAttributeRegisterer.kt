@@ -10,5 +10,6 @@ object EntityAttributeRegisterer {
     @Initializer
     fun register() {
         FabricDefaultAttributeRegistry.register(CustomEntities.SWAMP_GOLEM, SwampGolemEntity.createAttributes())
+        FabricDefaultAttributeRegistry.register(CustomEntities.ELF_DUELIST, ElfDuelistEntity.createAttributes())
     }
 }

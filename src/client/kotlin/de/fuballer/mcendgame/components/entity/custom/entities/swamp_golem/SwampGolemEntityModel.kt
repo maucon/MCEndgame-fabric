@@ -1,4 +1,4 @@
-package de.fuballer.mcendgame.components.entity.custom.swamp_golem
+package de.fuballer.mcendgame.components.entity.custom.entities.swamp_golem
 
 import de.fuballer.mcendgame.util.IdentifierUtil
 import net.minecraft.client.model.*
@@ -28,10 +28,6 @@ class SwampGolemEntityModel(
 
     companion object {
         val SWAMP_GOLEM = EntityModelLayer(IdentifierUtil.default("swamp_golem"), "main")
-
-        val SLAM_RAISE_TIME = 0.6F
-        val SLAM_STRIKE_TIME = 0.15F
-        val SLAM_RESET_TIME = 0.25F
 
         fun getTexturedModelData(): TexturedModelData {
             val modelData = ModelData()

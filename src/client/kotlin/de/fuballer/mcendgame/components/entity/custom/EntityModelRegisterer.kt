@@ -1,5 +1,7 @@
 package de.fuballer.mcendgame.components.entity.custom
 
+import de.fuballer.mcendgame.components.entity.custom.entities.elf_duelist.ElfDuelistEntityModel
+import de.fuballer.mcendgame.components.entity.custom.entities.elf_duelist.ElfDuelistRenderer
 import de.fuballer.mcendgame.components.entity.custom.swamp_golem.SwampGolemEntityModel
 import de.fuballer.mcendgame.components.entity.custom.swamp_golem.SwampGolemRenderer
 import de.maucon.mauconframework.di.annotation.Injectable
@@ -16,5 +18,11 @@ object EntityModelRegisterer {
             SwampGolemEntityModel.Companion::getTexturedModelData
         )
         EntityRendererRegistry.register(CustomEntities.SWAMP_GOLEM, ::SwampGolemRenderer)
+
+        EntityModelLayerRegistry.registerModelLayer(
+            ElfDuelistEntityModel.ELF_DUELIST,
+            ElfDuelistEntityModel.Companion::getTexturedModelData
+        )
+        EntityRendererRegistry.register(CustomEntities.ELF_DUELIST, ::ElfDuelistRenderer)
     }
 }

@@ -1,4 +1,4 @@
-package de.fuballer.mcendgame.components.entity.custom.swamp_golem
+package de.fuballer.mcendgame.components.entity.custom.entities.swamp_golem
 
 import de.fuballer.mcendgame.util.IdentifierUtil
 import net.minecraft.client.render.entity.EntityRendererFactory
@@ -10,9 +10,8 @@ class SwampGolemRenderer(
     MobEntityRenderer<SwampGolemEntity, SwampGolemRenderState, SwampGolemEntityModel>(
         context,
         SwampGolemEntityModel(context.getPart(SwampGolemEntityModel.SWAMP_GOLEM)),
-        0.65F //shadow radius
+        0.65F //shadow
     ) {
-
     override fun createRenderState(): SwampGolemRenderState =
         SwampGolemRenderState()
 

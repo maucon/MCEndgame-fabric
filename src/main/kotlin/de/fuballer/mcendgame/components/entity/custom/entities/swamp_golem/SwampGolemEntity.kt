@@ -1,4 +1,4 @@
-package de.fuballer.mcendgame.components.entity.custom.swamp_golem
+package de.fuballer.mcendgame.components.entity.custom.entities.swamp_golem
 
 import de.fuballer.mcendgame.components.entity.custom.goals.SlamAttackGoal
 import de.fuballer.mcendgame.components.entity.custom.interfaces.CustomPosesEntity
@@ -6,10 +6,7 @@ import de.fuballer.mcendgame.components.entity.custom.interfaces.SlamAttacker
 import net.minecraft.entity.AnimationState
 import net.minecraft.entity.EntityType
 import net.minecraft.entity.LivingEntity
-import net.minecraft.entity.ai.goal.ActiveTargetGoal
-import net.minecraft.entity.ai.goal.LookAroundGoal
-import net.minecraft.entity.ai.goal.LookAtEntityGoal
-import net.minecraft.entity.ai.goal.WanderAroundFarGoal
+import net.minecraft.entity.ai.goal.*
 import net.minecraft.entity.attribute.DefaultAttributeContainer
 import net.minecraft.entity.attribute.EntityAttributes
 import net.minecraft.entity.data.DataTracker
@@ -50,6 +47,7 @@ class SwampGolemEntity(
     override fun shouldDamage(target: LivingEntity) = target.isAlive
 
     override fun initGoals() {
+        goalSelector.add(0, SwimGoal(this))
         goalSelector.add(2, SlamAttackGoal(this, 1.0, 25, 17, 50))
         goalSelector.add(7, WanderAroundFarGoal(this, 1.0))
         goalSelector.add(8, LookAtEntityGoal(this, PlayerEntity::class.java, 8.0f))
