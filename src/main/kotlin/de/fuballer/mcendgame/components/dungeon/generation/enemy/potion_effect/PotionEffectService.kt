@@ -2,7 +2,7 @@ package de.fuballer.mcendgame.components.dungeon.generation.enemy.potion_effect
 
 import de.fuballer.mcendgame.components.dungeon.generation.enemy.EnemyGenerationSettings
 import de.fuballer.mcendgame.util.random.RandomUtil
-import de.maucon.mauconframework.annotation.Injectable
+import de.maucon.mauconframework.di.annotation.Injectable
 import net.minecraft.entity.mob.MobEntity
 import kotlin.random.Random
 

@@ -2,7 +2,7 @@ package de.fuballer.mcendgame.functional.item_tag
 
 import de.fuballer.mcendgame.util.CodecExtensions.setOf
 import de.fuballer.mcendgame.util.RegistryUtil
-import de.maucon.mauconframework.annotation.Injectable
+import de.maucon.mauconframework.di.annotation.Injectable
 import net.minecraft.component.ComponentType
 
 @Injectable

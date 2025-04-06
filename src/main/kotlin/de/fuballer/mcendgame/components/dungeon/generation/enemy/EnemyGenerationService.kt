@@ -7,7 +7,7 @@ import de.fuballer.mcendgame.components.entity.EntityTypeStats
 import de.fuballer.mcendgame.util.EntityUtil
 import de.fuballer.mcendgame.util.random.RandomOption
 import de.fuballer.mcendgame.util.random.RandomUtil
-import de.maucon.mauconframework.annotation.Injectable
+import de.maucon.mauconframework.di.annotation.Injectable
 import net.minecraft.entity.attribute.EntityAttributes
 import net.minecraft.entity.mob.MobEntity
 import net.minecraft.server.world.ServerWorld

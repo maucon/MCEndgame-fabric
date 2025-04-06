@@ -6,13 +6,13 @@ import de.fuballer.mcendgame.components.item.custom.armor.chestplate.druids_ches
 import de.fuballer.mcendgame.components.item.custom.armor.helmet.druids_helmet.DruidsHelmetModel
 import de.fuballer.mcendgame.components.item.custom.armor.helmet.iceborne.IceborneModel
 import de.fuballer.mcendgame.components.item.custom.armor.leggings.druids_leggings.DruidsLeggingsModel
-import de.maucon.mauconframework.annotation.Initialize
-import de.maucon.mauconframework.annotation.Injectable
+import de.maucon.mauconframework.initializer.Initializer
+import de.maucon.mauconframework.di.annotation.Injectable
 import net.fabricmc.fabric.api.client.rendering.v1.EntityModelLayerRegistry
 
 @Injectable
 object ArmorModelRegisterer {
-    @Initialize
+    @Initializer
     fun register() {
         EntityModelLayerRegistry.registerModelLayer(
             IceborneModel.MODEL_LAYER,

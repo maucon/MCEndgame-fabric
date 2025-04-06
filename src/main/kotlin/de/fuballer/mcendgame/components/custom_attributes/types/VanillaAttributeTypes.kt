@@ -8,7 +8,19 @@ import kotlin.reflect.KVisibility
 import kotlin.reflect.full.memberProperties
 
 object VanillaAttributeTypes {
-    val ARMOR = VanillaAttributeType(EntityAttributes.ARMOR.value(), EntityAttributeModifier.Operation.ADD_VALUE, "armor", AttributeFormats.SIGNED_INT_ROLL, AttributeFormats.INT_BOUNDS)
+    // DEFENSE
+    val ARMOR = VanillaAttributeType(EntityAttributes.ARMOR, EntityAttributeModifier.Operation.ADD_VALUE, "armor", AttributeFormats.SIGNED_DOUBLE_ROLL, AttributeFormats.DOUBLE_BOUNDS)
+    val ARMOR_TOUGHNESS = VanillaAttributeType(EntityAttributes.ARMOR_TOUGHNESS, EntityAttributeModifier.Operation.ADD_VALUE, "armor_toughness", AttributeFormats.SIGNED_DOUBLE_ROLL, AttributeFormats.DOUBLE_BOUNDS)
+    val MAX_HEALTH = VanillaAttributeType(EntityAttributes.MAX_HEALTH, EntityAttributeModifier.Operation.ADD_VALUE, "max_health", AttributeFormats.SIGNED_DOUBLE_ROLL, AttributeFormats.DOUBLE_BOUNDS)
+
+    // OFFENSE
+    val ATTACK_DAMAGE = VanillaAttributeType(EntityAttributes.ATTACK_DAMAGE, EntityAttributeModifier.Operation.ADD_VALUE, "attack_damage", AttributeFormats.SIGNED_DOUBLE_ROLL, AttributeFormats.DOUBLE_BOUNDS)
+    val INCREASED_ATTACK_DAMAGE = VanillaAttributeType(EntityAttributes.ATTACK_DAMAGE, EntityAttributeModifier.Operation.ADD_MULTIPLIED_BASE, "increased_attack_damage", AttributeFormats.SIGNED_PERCENT_ROLL, AttributeFormats.PERCENT_BOUNDS)
+    val INCREASED_ATTACK_SPEED = VanillaAttributeType(EntityAttributes.ATTACK_SPEED, EntityAttributeModifier.Operation.ADD_MULTIPLIED_BASE, "increased_attack_speed", AttributeFormats.SIGNED_PERCENT_ROLL, AttributeFormats.PERCENT_BOUNDS)
+
+    // MISC
+    val INCREASED_MOVEMENT_SPEED = VanillaAttributeType(EntityAttributes.MOVEMENT_SPEED, EntityAttributeModifier.Operation.ADD_MULTIPLIED_BASE, "increased_movement_speed", AttributeFormats.SIGNED_PERCENT_ROLL, AttributeFormats.PERCENT_BOUNDS)
+    val LUCK = VanillaAttributeType(EntityAttributes.LUCK, EntityAttributeModifier.Operation.ADD_VALUE, "luck", AttributeFormats.SIGNED_DOUBLE_ROLL, AttributeFormats.DOUBLE_BOUNDS)
 
     // region get by key
     fun getByKey(key: String): VanillaAttributeType {

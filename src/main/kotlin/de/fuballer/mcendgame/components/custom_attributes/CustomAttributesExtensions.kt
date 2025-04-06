@@ -1,9 +1,17 @@
 package de.fuballer.mcendgame.components.custom_attributes
 
-import de.fuballer.mcendgame.components.custom_attributes.data.CustomAttribute
+import de.fuballer.mcendgame.MCEndgame
+import de.fuballer.mcendgame.components.custom_attributes.data.*
+import de.fuballer.mcendgame.util.IdentifierUtil
 import de.fuballer.mcendgame.util.RegistryUtil
-import de.maucon.mauconframework.annotation.Injectable
+import de.maucon.mauconframework.di.annotation.Injectable
 import net.minecraft.component.ComponentType
+import net.minecraft.component.DataComponentTypes
+import net.minecraft.component.type.AttributeModifierSlot
+import net.minecraft.component.type.AttributeModifiersComponent
+import net.minecraft.entity.EquipmentSlot
+import net.minecraft.entity.LivingEntity
+import net.minecraft.entity.attribute.EntityAttributeModifier
 import net.minecraft.item.ItemStack
 
 @Injectable
@@ -16,18 +24,76 @@ object CustomAttributesExtensions {
             "custom_attributes"
         )
 
-    fun ItemStack.setCustomAttributes(customAttributes: List<CustomAttribute>) {
+    fun ItemStack.setCustomAttributes(
+        customAttributes: List<CustomAttribute>,
+        slot: AttributeModifierSlot
+    ) {
         set(COMPONENT_TYPE, customAttributes)
-    }
 
-    fun ItemStack.addCustomAttributes(customAttribute: CustomAttribute) {
-        val attributes = getCustomAttributes().toMutableList()
-        attributes.add(customAttribute)
-        setCustomAttributes(attributes)
+        val attributeModifierComponent = getOrDefault(DataComponentTypes.ATTRIBUTE_MODIFIERS, AttributeModifiersComponent.DEFAULT);
+
+        val attributeComponentBuilder = AttributeModifiersComponent.builder()
+        addNonModAttributes(attributeModifierComponent, attributeComponentBuilder)
+        addVanillaTypeAttributes(customAttributes, attributeComponentBuilder, slot)
+
+        set(DataComponentTypes.ATTRIBUTE_MODIFIERS, attributeComponentBuilder.build())
     }
 
     fun ItemStack.getCustomAttributes(): List<CustomAttribute> {
         return get(COMPONENT_TYPE)
             ?: return emptyList()
+    }
+
+    fun LivingEntity.getAllCustomAttributes(): Map<CustomAttributeType, List<CustomAttribute>> {
+        // TODO entity based attributes
+        val customAttributes = mutableListOf<CustomAttribute>()
+
+        val feetItem = this.getEquippedStack(EquipmentSlot.FEET)
+        customAttributes.addAll(feetItem.getCustomAttributes())
+        val legsItem = this.getEquippedStack(EquipmentSlot.LEGS)
+        customAttributes.addAll(legsItem.getCustomAttributes())
+        val bodyItem = this.getEquippedStack(EquipmentSlot.BODY)
+        customAttributes.addAll(bodyItem.getCustomAttributes())
+        val headItem = this.getEquippedStack(EquipmentSlot.HEAD)
+        customAttributes.addAll(headItem.getCustomAttributes())
+
+        val mainHandItem = this.getEquippedStack(EquipmentSlot.MAINHAND)
+        customAttributes.addAll(mainHandItem.getCustomAttributes())
+        val offHandItem = this.getEquippedStack(EquipmentSlot.OFFHAND)
+        customAttributes.addAll(offHandItem.getCustomAttributes())
+
+        return customAttributes
+            .filter { it.type is CustomAttributeType }
+            .groupBy { it.type as CustomAttributeType }
+    }
+
+    fun AttributeRoll<*>.asDoubleRoll() = this as DoubleRoll
+    fun AttributeRoll<*>.asStringRoll() = this as StringRoll
+    fun AttributeRoll<*>.asIntRoll() = this as IntRoll
+    fun AttributeBounds<*>.asDoubleBounds() = this as DoubleBounds
+    fun AttributeBounds<*>.asStringBounds() = this as StringBounds
+    fun AttributeBounds<*>.asIntBounds() = this as IntBounds
+
+    private fun addNonModAttributes(attributeModifierComponent: AttributeModifiersComponent, newA: AttributeModifiersComponent.Builder) {
+        for (modifier in attributeModifierComponent.modifiers) {
+            if (modifier.modifier.id.namespace == MCEndgame.MOD_ID) continue
+
+            newA.add(modifier.attribute, modifier.modifier, modifier.slot)
+        }
+    }
+
+    private fun addVanillaTypeAttributes(
+        customAttributes: List<CustomAttribute>,
+        newA: AttributeModifiersComponent.Builder,
+        slot: AttributeModifierSlot
+    ) {
+        customAttributes
+            .filter { it.type is VanillaAttributeType }
+            .forEach {
+                val vanillaAttributeType = it.type as VanillaAttributeType
+                val attribute = vanillaAttributeType.attribute
+                val modifier = EntityAttributeModifier(IdentifierUtil.defaultRandom(), it.rolls[0].asDoubleRoll().getActualRoll(), vanillaAttributeType.scaleType)
+                newA.add(attribute, modifier, slot)
+            }
     }
 }

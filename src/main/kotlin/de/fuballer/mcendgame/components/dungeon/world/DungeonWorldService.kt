@@ -4,9 +4,9 @@ import de.fuballer.mcendgame.components.dungeon.world.db.DungeonWorldEntity
 import de.fuballer.mcendgame.components.dungeon.world.db.DungeonWorldRepository
 import de.fuballer.mcendgame.components.scheduler.Scheduler
 import de.fuballer.mcendgame.configuration.RuntimeConfig
-import de.maucon.mauconframework.annotation.Initialize
-import de.maucon.mauconframework.annotation.Injectable
-import de.maucon.mauconframework.annotation.Logging
+import de.maucon.mauconframework.initializer.Initializer
+import de.maucon.mauconframework.di.annotation.Injectable
+import de.maucon.mauconframework.di.annotation.Logging
 import kotlinx.datetime.Clock
 import kotlinx.datetime.DateTimeUnit
 import kotlinx.datetime.plus
@@ -21,12 +21,12 @@ class DungeonWorldService(
     private val dungeonWorldRepo: DungeonWorldRepository,
     private val scheduler: Scheduler
 ) {
-    @Initialize
+    @Initializer
     fun onServerStarted() = ServerLifecycleEvents.SERVER_STARTED.register {
         scheduler.repeating(DungeonWorldSettings.EMPTY_WORLD_CHECK_PERIOD, ::deleteEmptyWorlds)
     }
 
-    @Initialize
+    @Initializer
     fun onServerStopping() = ServerLifecycleEvents.SERVER_STOPPING.register {
         dungeonWorldRepo.findAll()
             .forEach { deleteWorld(it) }

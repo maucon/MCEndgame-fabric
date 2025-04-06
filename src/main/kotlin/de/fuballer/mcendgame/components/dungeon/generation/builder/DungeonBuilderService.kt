@@ -4,7 +4,7 @@ import de.fuballer.mcendgame.components.dungeon.generation.data.PlaceableRoom
 import de.fuballer.mcendgame.util.RotationUtil
 import de.fuballer.mcendgame.util.Vec3iExtensions.rotateYDeg
 import de.fuballer.mcendgame.util.Vec3iExtensions.toBlockPos
-import de.maucon.mauconframework.annotation.Injectable
+import de.maucon.mauconframework.di.annotation.Injectable
 import net.minecraft.server.world.ServerWorld
 import net.minecraft.structure.StructurePlacementData
 import net.minecraft.structure.StructureTemplate

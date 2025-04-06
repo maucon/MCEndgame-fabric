@@ -3,7 +3,7 @@ package de.fuballer.mcendgame.components.entity.custom
 import de.fuballer.mcendgame.components.entity.custom.entities.elf_duelist.ElfDuelistEntity
 import de.fuballer.mcendgame.components.entity.custom.entities.swamp_golem.SwampGolemEntity
 import de.fuballer.mcendgame.util.RegistryUtil
-import de.maucon.mauconframework.annotation.Injectable
+import de.maucon.mauconframework.di.annotation.Injectable
 import net.minecraft.entity.EntityType
 import net.minecraft.entity.SpawnGroup
 

@@ -3,8 +3,8 @@ package de.fuballer.mcendgame.components.custom_attributes
 import de.fuballer.mcendgame.components.custom_attributes.CustomAttributesExtensions.getCustomAttributes
 import de.fuballer.mcendgame.components.custom_attributes.data.CustomAttribute
 import de.fuballer.mcendgame.util.NumberUtil
-import de.maucon.mauconframework.annotation.Initialize
-import de.maucon.mauconframework.annotation.Injectable
+import de.maucon.mauconframework.initializer.Initializer
+import de.maucon.mauconframework.di.annotation.Injectable
 import net.fabricmc.api.EnvType
 import net.fabricmc.api.Environment
 import net.fabricmc.fabric.api.client.item.v1.ItemTooltipCallback
@@ -23,7 +23,7 @@ private val TIER_DETAIL_COLOR = Formatting.AQUA
 @Injectable
 @Environment(EnvType.CLIENT)
 class CustomAttributesRenderer {
-    @Initialize
+    @Initializer
     fun on() = ItemTooltipCallback.EVENT.register { itemStack: ItemStack, _: Item.TooltipContext, tooltipType: TooltipType, texts: MutableList<Text> ->
         val customAttributes = itemStack.getCustomAttributes()
         if (customAttributes.isEmpty()) return@register
