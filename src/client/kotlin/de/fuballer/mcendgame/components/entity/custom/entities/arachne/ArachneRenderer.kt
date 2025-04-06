@@ -70,7 +70,7 @@ class ArachneRenderer(
         webHookData.skyLight = entity.world.getLightLevel(LightType.SKY, blockPos)
 
         val hookedEntityDataList = mutableListOf<ArachneRenderState.Companion.WebHookedEntityData>()
-        for (hookedEntity in entity.hookedEntities) {
+        for (hookedEntity in entity.hookedEntities.keys) {
             val hookedEntityData = ArachneRenderState.Companion.WebHookedEntityData()
 
             hookedEntityData.pos = hookedEntity.getLeashPos(tickDelta)

@@ -55,7 +55,10 @@ class ArachneEntity(
     private var attackAnimationTime = 0
     val spitAnimationState = AnimationState()
 
-    var hookedEntities = mutableListOf<Entity>()
+    private val hookPullCount = 5
+    private val hookPullInterval = 15
+    private val hookPullStrength = 2.0
+    var hookedEntities = mutableMapOf<Entity, Pair<Int, Int>>()
 
     companion object {
         val TAME_FOOD = mapOf<Item, Double>(Items.ROTTEN_FLESH to 0.1)
@@ -176,8 +179,11 @@ class ArachneEntity(
     }
 
     override fun addHookedEntity(hooked: Entity) {
-        if (hookedEntities.contains(hooked)) return
-        hookedEntities.add(hooked)
+        if (hookedEntities.contains(hooked)) {
+            hookedEntities[hooked] = Pair(0, hookedEntities[hooked]!!.second)
+            return
+        }
+        hookedEntities[hooked] = Pair(0, 0)
 
         val serverWorld = world as? ServerWorld ?: return
 
@@ -198,14 +204,37 @@ class ArachneEntity(
 
     private fun updateHookedEntities() {
         val toRemove = mutableListOf<Entity>()
-        for (hooked in hookedEntities) {
-            if (hooked.isAlive) continue
-            toRemove.add(hooked)
+        for (hooked in hookedEntities.keys) {
+            if (!hooked.isAlive) {
+                toRemove.add(hooked)
+                continue
+            }
+
+            var (pullCount, pullCooldown) = hookedEntities[hooked]!!
+            if (++pullCooldown >= hookPullInterval) {
+                pullCooldown = 0
+
+                if (pullCount++ > hookPullCount) {
+                    toRemove.add(hooked)
+                    continue
+                }
+
+                pullHookedEntity(hooked)
+            }
+
+            hookedEntities[hooked] = Pair(pullCount, pullCooldown)
         }
 
         for (entity in toRemove) {
             removeHookedEntity(entity)
         }
+    }
+
+    private fun pullHookedEntity(hooked: Entity) {
+        val direction = Vec3d(x - hooked.x, y - hooked.y, z - hooked.z)
+        val normalizedDirection = direction.normalize()
+        val velocity = normalizedDirection.multiply(hookPullStrength)
+        hooked.setVelocity(velocity.x, velocity.y, velocity.z)
     }
 
     override fun slowMovement(
