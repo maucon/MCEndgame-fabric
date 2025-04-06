@@ -104,7 +104,7 @@ class ArachneRenderer(
         for (hookedData in webHookData.hookedEntities) {
             val hookedOffset = hookedData.pos.subtract(webHookData.pos)
 
-            val segmentSize = 0.025f
+            val segmentSize = 0.05f
             val horizontalSizeFactor = 1F / hookedOffset.horizontalLength() * segmentSize
             val segmentSizeX = (hookedOffset.x * horizontalSizeFactor).toFloat()
             val segmentSizeZ = (hookedOffset.z * horizontalSizeFactor).toFloat()

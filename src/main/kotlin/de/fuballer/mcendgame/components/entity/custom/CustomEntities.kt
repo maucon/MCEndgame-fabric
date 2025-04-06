@@ -3,10 +3,13 @@ package de.fuballer.mcendgame.components.entity.custom
 import de.fuballer.mcendgame.components.entity.custom.entities.arachne.ArachneEntity
 import de.fuballer.mcendgame.components.entity.custom.entities.elf_duelist.ElfDuelistEntity
 import de.fuballer.mcendgame.components.entity.custom.entities.swamp_golem.SwampGolemEntity
+import de.fuballer.mcendgame.components.entity.custom.entities.webhook.WebhookEntity
 import de.fuballer.mcendgame.components.entity.custom.entities.webshot.WebshotEntity
+import de.fuballer.mcendgame.components.entity.custom.interfaces.HookAttackMob
 import de.fuballer.mcendgame.util.RegistryUtil
 import de.maucon.mauconframework.annotation.Injectable
 import net.minecraft.entity.EntityType
+import net.minecraft.entity.LivingEntity
 import net.minecraft.entity.SpawnGroup
 
 @Injectable
@@ -41,6 +44,11 @@ object CustomEntities {
     val WEBSHOT = RegistryUtil.registerEntity(
         "webshot",
         EntityType.Builder.create({ type, world -> WebshotEntity(type, world) }, SpawnGroup.MISC)
+            .dimensions(0.4f, 0.4f)
+    )
+    val WEBHOOK = RegistryUtil.registerEntity(
+        "webhook",
+        EntityType.Builder.create({ type, world -> WebhookEntity(type, world) }, SpawnGroup.MISC)
             .dimensions(0.4f, 0.4f)
     )
 }

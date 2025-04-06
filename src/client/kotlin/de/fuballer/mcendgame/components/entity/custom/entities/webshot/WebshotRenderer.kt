@@ -3,7 +3,6 @@ package de.fuballer.mcendgame.components.entity.custom.entities.webshot
 import de.fuballer.mcendgame.util.IdentifierUtil
 import net.minecraft.client.render.OverlayTexture
 import net.minecraft.client.render.VertexConsumerProvider
-import net.minecraft.client.render.entity.ArrowEntityRenderer
 import net.minecraft.client.render.entity.EntityRenderer
 import net.minecraft.client.render.entity.EntityRendererFactory
 import net.minecraft.client.util.math.MatrixStack
@@ -11,9 +10,7 @@ import net.minecraft.util.math.RotationAxis
 
 class WebshotRenderer(
     context: EntityRendererFactory.Context,
-) : EntityRenderer<WebshotEntity, WebshotRenderState>(
-    context,
-) {
+) : EntityRenderer<WebshotEntity, WebshotRenderState>(context) {
     val model = WebshotEntityModel(context.getPart(WebshotEntityModel.WEBSHOT))
 
     companion object {

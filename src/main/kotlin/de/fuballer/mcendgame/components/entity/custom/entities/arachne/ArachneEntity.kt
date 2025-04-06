@@ -3,12 +3,17 @@ package de.fuballer.mcendgame.components.entity.custom.entities.arachne
 import de.fuballer.mcendgame.components.block.CustomBlocks
 import de.fuballer.mcendgame.components.entity.custom.CustomEntities
 import de.fuballer.mcendgame.components.entity.custom.entities.mount.MountEntity
+import de.fuballer.mcendgame.components.entity.custom.entities.webhook.WebhookEntity
 import de.fuballer.mcendgame.components.entity.custom.entities.webshot.WebshotEntity
+import de.fuballer.mcendgame.components.entity.custom.goals.HookAttackGoal
 import de.fuballer.mcendgame.components.entity.custom.goals.KeepDistanceToTargetGoal
 import de.fuballer.mcendgame.components.entity.custom.goals.MountThrowOffPassengerGoal
-import de.fuballer.mcendgame.components.entity.custom.goals.NoMovementProjectileAttackGoal
 import de.fuballer.mcendgame.components.entity.custom.goals.TameableActiveTargetGoal
 import de.fuballer.mcendgame.components.entity.custom.interfaces.CustomPosesEntity
+import de.fuballer.mcendgame.components.entity.custom.interfaces.HookAttackMob
+import de.fuballer.mcendgame.components.entity.custom.networking.EntityHookEntityPayload
+import net.fabricmc.fabric.api.networking.v1.PlayerLookup
+import net.fabricmc.fabric.api.networking.v1.ServerPlayNetworking
 import net.minecraft.block.BlockState
 import net.minecraft.block.Blocks
 import net.minecraft.entity.AnimationState
@@ -41,7 +46,7 @@ import kotlin.math.sqrt
 class ArachneEntity(
     type: EntityType<out ArachneEntity>,
     world: World,
-) : MountEntity(type, world, TAME_FOOD), Monster, RangedAttackMob {
+) : MountEntity(type, world, TAME_FOOD), Monster, RangedAttackMob, HookAttackMob {
     override val passengerPos = Vec3d(0.0, 0.75, -0.65)
     override val riddenSpeedMulti = 1.5
     override val backwardsSpeedMulti = 0.5
@@ -75,8 +80,9 @@ class ArachneEntity(
     override fun initGoals() {
         goalSelector.add(0, SwimGoal(this))
         goalSelector.add(1, MountThrowOffPassengerGoal(this, 1.2))
-        goalSelector.add(2, NoMovementProjectileAttackGoal(this, 50, 15F))
-        goalSelector.add(3, KeepDistanceToTargetGoal(this, 1.0, 10F, 15F))
+        //goalSelector.add(2, NoMovementProjectileAttackGoal(this, 50, 15F))
+        goalSelector.add(3, HookAttackGoal(this, 50, 15F))
+        goalSelector.add(4, KeepDistanceToTargetGoal(this, 1.0, 10F, 15F))
         goalSelector.add(7, WanderAroundFarGoal(this, 1.0))
         goalSelector.add(8, LookAtEntityGoal(this, PlayerEntity::class.java, 8.0f))
         goalSelector.add(8, LookAroundGoal(this))
@@ -107,8 +113,7 @@ class ArachneEntity(
     override fun tick() {
         super.tick()
         updateAttackPose()
-
-        hookedEntities = world.getOtherEntities(this, boundingBox.expand(10.0))
+        updateHookedEntities()
     }
 
     private fun updateAttackPose() {
@@ -132,9 +137,9 @@ class ArachneEntity(
         super.startMovementAnimation(animationState)
     }
 
-    override fun shootAt(
+    private fun shootAt(
         target: LivingEntity,
-        pullProgress: Float,
+        projectile: ProjectileEntity,
     ) {
         val serverWorld = world as? ServerWorld ?: return
 
@@ -145,10 +150,61 @@ class ArachneEntity(
 
         changeAttackPose(CustomPosesEntity.CustomPose.SPITTING, 9)// anim is 0.42s
 
-        val itemStack = ItemStack(Items.COBWEB)
-        ProjectileEntity.spawn(WebshotEntity(CustomEntities.WEBSHOT, serverWorld, this), serverWorld, itemStack)
-        { entity: WebshotEntity ->
+        val itemStack = ItemStack(Items.AIR)
+        ProjectileEntity.spawn(projectile, serverWorld, itemStack)
+        { entity: ProjectileEntity ->
             entity.setVelocity(xDistance, aimY - entity.y + addedYVelocity, zDistance, 1.6f, 2.0f)
+        }
+    }
+
+    override fun shootAt(
+        target: LivingEntity,
+        pullProgress: Float,
+    ) {
+        val serverWorld = world as? ServerWorld ?: return
+        val projectile = WebshotEntity(CustomEntities.WEBSHOT, serverWorld, this)
+        shootAt(target, projectile)
+    }
+
+    override fun shootHookAt(
+        target: LivingEntity,
+    ) {
+        val serverWorld = world as? ServerWorld ?: return
+        val projectile = WebhookEntity(CustomEntities.WEBHOOK, serverWorld, this)
+        shootAt(target, projectile)
+        addHookedEntity(projectile)
+    }
+
+    override fun addHookedEntity(hooked: Entity) {
+        if (hookedEntities.contains(hooked)) return
+        hookedEntities.add(hooked)
+
+        val serverWorld = world as? ServerWorld ?: return
+
+        for (player in PlayerLookup.tracking(serverWorld, hooked.blockPos)) {
+            ServerPlayNetworking.send(player, EntityHookEntityPayload(id, hooked.id, false))
+        }
+    }
+
+    override fun removeHookedEntity(hooked: Entity) {
+        hookedEntities.remove(hooked)
+
+        val serverWorld = world as? ServerWorld ?: return
+
+        for (player in PlayerLookup.tracking(serverWorld, hooked.blockPos)) {
+            ServerPlayNetworking.send(player, EntityHookEntityPayload(id, hooked.id, true))
+        }
+    }
+
+    private fun updateHookedEntities() {
+        val toRemove = mutableListOf<Entity>()
+        for (hooked in hookedEntities) {
+            if (hooked.isAlive) continue
+            toRemove.add(hooked)
+        }
+
+        for (entity in toRemove) {
+            removeHookedEntity(entity)
         }
     }
 

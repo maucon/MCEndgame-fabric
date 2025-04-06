@@ -1,17 +1,15 @@
 package de.fuballer.mcendgame.components.entity.custom.goals
 
+import de.fuballer.mcendgame.components.entity.custom.interfaces.HookAttackMob
 import net.minecraft.entity.LivingEntity
-import net.minecraft.entity.ai.RangedAttackMob
 import net.minecraft.entity.ai.goal.Goal
 import net.minecraft.entity.mob.MobEntity
-import net.minecraft.util.math.MathHelper
-import kotlin.math.sqrt
 
-class NoMovementProjectileAttackGoal<T>(
+class HookAttackGoal<T>(
     private val entity: T,
     private val intervalTicks: Int,
     private val maxShootRange: Float,
-) : Goal() where T : MobEntity, T : RangedAttackMob {
+) : Goal() where T : MobEntity, T : HookAttackMob {
     private var targetSeenTicks = 0
     private var cooldown = 0
     private val maxShootRangeSquared = maxShootRange * maxShootRange
@@ -45,8 +43,6 @@ class NoMovementProjectileAttackGoal<T>(
 
         if (!canSeeTarget) return
 
-        var rangePercentage = sqrt(squaredDistanceToTarget).toFloat() / maxShootRange
-        rangePercentage = MathHelper.clamp(rangePercentage, 0.1f, 1.0f)
-        entity.shootAt(target, rangePercentage)
+        entity.shootHookAt(target!!)
     }
 }

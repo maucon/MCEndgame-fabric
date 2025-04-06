@@ -6,6 +6,7 @@ import de.fuballer.mcendgame.components.entity.custom.entities.elf_duelist.ElfDu
 import de.fuballer.mcendgame.components.entity.custom.entities.elf_duelist.ElfDuelistRenderer
 import de.fuballer.mcendgame.components.entity.custom.entities.swamp_golem.SwampGolemEntityModel
 import de.fuballer.mcendgame.components.entity.custom.entities.swamp_golem.SwampGolemRenderer
+import de.fuballer.mcendgame.components.entity.custom.entities.webhook.WebhookRenderer
 import de.fuballer.mcendgame.components.entity.custom.entities.webshot.WebshotEntityModel
 import de.fuballer.mcendgame.components.entity.custom.entities.webshot.WebshotRenderer
 import de.maucon.mauconframework.annotation.Initialize
@@ -40,5 +41,7 @@ object EntityModelRegisterer {
             WebshotEntityModel.Companion::getTexturedModelData
         )
         EntityRendererRegistry.register(CustomEntities.WEBSHOT, ::WebshotRenderer)
+
+        EntityRendererRegistry.register(CustomEntities.WEBHOOK, ::WebhookRenderer)
     }
 }
