@@ -13,10 +13,13 @@ class EntityHookEntityPayloadReceiverRegisterer {
         ClientPlayNetworking.registerGlobalReceiver(EntityHookEntityPayload.ID) { payload, _ ->
             val world = MinecraftClient.getInstance().world ?: return@registerGlobalReceiver
             val hooker = world.getEntityById(payload.hookerId) ?: return@registerGlobalReceiver
-            val hooked = world.getEntityById(payload.hookedId) ?: return@registerGlobalReceiver
-
             if (hooker !is HookAttackMob) return@registerGlobalReceiver
-            hooker.addHookedEntity(hooked)
+
+            if (payload.remove) {
+                hooker.removeHookedEntity(payload.hookedId)
+            } else {
+                hooker.addHookedEntity(payload.hookedId)
+            }
         }
     }
 }

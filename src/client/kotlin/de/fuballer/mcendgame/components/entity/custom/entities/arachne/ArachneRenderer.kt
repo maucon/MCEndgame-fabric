@@ -2,10 +2,7 @@ package de.fuballer.mcendgame.components.entity.custom.entities.arachne
 
 import de.fuballer.mcendgame.components.entity.custom.entities.mount.MountEntity
 import de.fuballer.mcendgame.util.IdentifierUtil
-import net.minecraft.client.render.LightmapTextureManager
-import net.minecraft.client.render.RenderLayer
-import net.minecraft.client.render.VertexConsumer
-import net.minecraft.client.render.VertexConsumerProvider
+import net.minecraft.client.render.*
 import net.minecraft.client.render.entity.EntityRendererFactory
 import net.minecraft.client.render.entity.MobEntityRenderer
 import net.minecraft.client.util.math.MatrixStack
@@ -59,25 +56,29 @@ class ArachneRenderer(
         val webHookData = ArachneRenderState.Companion.WebHookData()
         renderState.webHookData = webHookData
 
-        if (entity.hookedEntities.isEmpty()) return
+        if (entity.hookedEntityIds.isEmpty()) return
 
         val yaw = entity.lerpYaw(tickDelta) * (Math.PI / 180.0).toFloat()
         webHookData.offset = entity.getLeashOffset(tickDelta).rotateY(-yaw)
         webHookData.pos = entity.getLeashPos(tickDelta)
 
+        val world = entity.world
+
         val blockPos = BlockPos.ofFloored(entity.getCameraPosVec(tickDelta))
         webHookData.blockLight = getBlockLight(entity, blockPos)
-        webHookData.skyLight = entity.world.getLightLevel(LightType.SKY, blockPos)
+        webHookData.skyLight = world.getLightLevel(LightType.SKY, blockPos)
 
         val hookedEntityDataList = mutableListOf<ArachneRenderState.Companion.WebHookedEntityData>()
-        for (hookedEntity in entity.hookedEntities.keys) {
+        for (hookedEntityId in entity.hookedEntityIds) {
+            val hookedEntity = world.getEntityById(hookedEntityId) ?: continue
+
             val hookedEntityData = ArachneRenderState.Companion.WebHookedEntityData()
 
             hookedEntityData.pos = hookedEntity.getLeashPos(tickDelta)
 
             val hookedBlockPos = BlockPos.ofFloored(hookedEntity.getCameraPosVec(tickDelta))
-            hookedEntityData.blockLight = hookedEntity.world.getLightLevel(LightType.BLOCK, hookedBlockPos)
-            hookedEntityData.skyLight = entity.world.getLightLevel(LightType.SKY, hookedBlockPos)
+            hookedEntityData.blockLight = world.getLightLevel(LightType.BLOCK, hookedBlockPos)
+            hookedEntityData.skyLight = world.getLightLevel(LightType.SKY, hookedBlockPos)
 
             hookedEntityDataList.add(hookedEntityData)
         }
@@ -94,6 +95,10 @@ class ArachneRenderer(
 
         val webHookData = state.webHookData ?: return
         renderWebHook(matrices, vertexConsumers, webHookData)
+    }
+
+    override fun shouldRender(entity: ArachneEntity?, frustum: Frustum?, x: Double, y: Double, z: Double): Boolean {
+        return super.shouldRender(entity, frustum, x, y, z)
     }
 
     private fun renderWebHook(

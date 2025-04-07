@@ -72,6 +72,6 @@ class WebhookEntity(
         discard()
 
         val hooker = owner as? HookAttackMob ?: return
-        hooker.addHookedEntity(entity)
+        hooker.addHookedEntity(entity.uuid)
     }
 }

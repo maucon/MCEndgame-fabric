@@ -11,13 +11,9 @@ import de.fuballer.mcendgame.components.entity.custom.goals.MountThrowOffPasseng
 import de.fuballer.mcendgame.components.entity.custom.goals.TameableActiveTargetGoal
 import de.fuballer.mcendgame.components.entity.custom.interfaces.CustomPosesEntity
 import de.fuballer.mcendgame.components.entity.custom.interfaces.HookAttackMob
-import de.fuballer.mcendgame.components.entity.custom.networking.EntityHookEntityPayload
-import net.fabricmc.fabric.api.networking.v1.PlayerLookup
-import net.fabricmc.fabric.api.networking.v1.ServerPlayNetworking
 import net.minecraft.block.BlockState
 import net.minecraft.block.Blocks
 import net.minecraft.entity.AnimationState
-import net.minecraft.entity.Entity
 import net.minecraft.entity.EntityType
 import net.minecraft.entity.LivingEntity
 import net.minecraft.entity.ai.RangedAttackMob
@@ -41,6 +37,7 @@ import net.minecraft.sound.SoundEvents
 import net.minecraft.util.math.BlockPos
 import net.minecraft.util.math.Vec3d
 import net.minecraft.world.World
+import java.util.*
 import kotlin.math.sqrt
 
 class ArachneEntity(
@@ -55,10 +52,13 @@ class ArachneEntity(
     private var attackAnimationTime = 0
     val spitAnimationState = AnimationState()
 
-    private val hookPullCount = 5
-    private val hookPullInterval = 15
-    private val hookPullStrength = 2.0
-    var hookedEntities = mutableMapOf<Entity, Pair<Int, Int>>()
+    override val hooker = this
+    override val hookPullCount = 3
+    override val hookPullInterval = 15
+    override val hookPullStrength = 1.0
+    override val hookPullAdditionalY = 0.2
+    override val hookedEntityUuidMap = mutableMapOf<UUID, Pair<Int, Int>>()
+    override val hookedEntityIds = mutableListOf<Int>()
 
     companion object {
         val TAME_FOOD = mapOf<Item, Double>(Items.ROTTEN_FLESH to 0.1)
@@ -116,7 +116,7 @@ class ArachneEntity(
     override fun tick() {
         super.tick()
         updateAttackPose()
-        updateHookedEntities()
+        tickHooks()
     }
 
     private fun updateAttackPose() {
@@ -175,66 +175,7 @@ class ArachneEntity(
         val serverWorld = world as? ServerWorld ?: return
         val projectile = WebhookEntity(CustomEntities.WEBHOOK, serverWorld, this)
         shootAt(target, projectile)
-        addHookedEntity(projectile)
-    }
-
-    override fun addHookedEntity(hooked: Entity) {
-        if (hookedEntities.contains(hooked)) {
-            hookedEntities[hooked] = Pair(0, hookedEntities[hooked]!!.second)
-            return
-        }
-        hookedEntities[hooked] = Pair(0, 0)
-
-        val serverWorld = world as? ServerWorld ?: return
-
-        for (player in PlayerLookup.tracking(serverWorld, hooked.blockPos)) {
-            ServerPlayNetworking.send(player, EntityHookEntityPayload(id, hooked.id, false))
-        }
-    }
-
-    override fun removeHookedEntity(hooked: Entity) {
-        hookedEntities.remove(hooked)
-
-        val serverWorld = world as? ServerWorld ?: return
-
-        for (player in PlayerLookup.tracking(serverWorld, hooked.blockPos)) {
-            ServerPlayNetworking.send(player, EntityHookEntityPayload(id, hooked.id, true))
-        }
-    }
-
-    private fun updateHookedEntities() {
-        val toRemove = mutableListOf<Entity>()
-        for (hooked in hookedEntities.keys) {
-            if (!hooked.isAlive) {
-                toRemove.add(hooked)
-                continue
-            }
-
-            var (pullCount, pullCooldown) = hookedEntities[hooked]!!
-            if (++pullCooldown >= hookPullInterval) {
-                pullCooldown = 0
-
-                if (pullCount++ > hookPullCount) {
-                    toRemove.add(hooked)
-                    continue
-                }
-
-                pullHookedEntity(hooked)
-            }
-
-            hookedEntities[hooked] = Pair(pullCount, pullCooldown)
-        }
-
-        for (entity in toRemove) {
-            removeHookedEntity(entity)
-        }
-    }
-
-    private fun pullHookedEntity(hooked: Entity) {
-        val direction = Vec3d(x - hooked.x, y - hooked.y, z - hooked.z)
-        val normalizedDirection = direction.normalize()
-        val velocity = normalizedDirection.multiply(hookPullStrength)
-        hooked.setVelocity(velocity.x, velocity.y, velocity.z)
+        addHookedEntity(projectile.uuid)
     }
 
     override fun slowMovement(
@@ -292,4 +233,6 @@ class ArachneEntity(
         if (++soundTicks > 5 && soundTicks % 2 != 0) return
         playWalkSound(blockSoundGroup)
     }
+
+    override fun getLeashOffset() = Vec3d(0.0, standingEyeHeight * 0.9, width * 0.4)
 }

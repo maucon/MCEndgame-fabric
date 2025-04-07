@@ -26,7 +26,6 @@ class ArachneRenderState : LivingEntityRenderState() {
         }
 
         class WebHookedEntityData {
-            var offset: Vec3d = Vec3d.ZERO
             var pos: Vec3d = Vec3d.ZERO
             var blockLight: Int = 0
             var skyLight: Int = 15
