@@ -97,10 +97,6 @@ class ArachneRenderer(
         renderWebHook(matrices, vertexConsumers, webHookData)
     }
 
-    override fun shouldRender(entity: ArachneEntity?, frustum: Frustum?, x: Double, y: Double, z: Double): Boolean {
-        return super.shouldRender(entity, frustum, x, y, z)
-    }
-
     private fun renderWebHook(
         matrices: MatrixStack,
         vertexConsumers: VertexConsumerProvider,
@@ -198,5 +194,23 @@ class ArachneRenderer(
             segmentY + if (rotated) 0F else segmentSizeY,
             segmentZ - segmentSizeZ / 2
         ).color(red, green, blue, 1.0f).light(light)
+    }
+
+    override fun shouldRender(
+        entity: ArachneEntity,
+        frustum: Frustum,
+        x: Double,
+        y: Double,
+        z: Double
+    ): Boolean {
+        if (super.shouldRender(entity, frustum, x, y, z)) return true
+
+        val world = entity.world
+        for (hookedId in entity.hookedEntityIds) {
+            val hookedEntity = world.getEntityById(hookedId) ?: continue
+            if (frustum.isVisible(hookedEntity.boundingBox)) return true
+        }
+
+        return false
     }
 }
