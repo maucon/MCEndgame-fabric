@@ -11,6 +11,7 @@ import de.fuballer.mcendgame.components.entity.custom.goals.MountThrowOffPasseng
 import de.fuballer.mcendgame.components.entity.custom.goals.TameableActiveTargetGoal
 import de.fuballer.mcendgame.components.entity.custom.interfaces.CustomPosesEntity
 import de.fuballer.mcendgame.components.entity.custom.interfaces.HookAttackMob
+import de.fuballer.mcendgame.mixin_interfaces.LivingEntityWebbedAccessor
 import net.minecraft.block.BlockState
 import net.minecraft.block.Blocks
 import net.minecraft.entity.AnimationState
@@ -235,4 +236,24 @@ class ArachneEntity(
     }
 
     override fun getLeashOffset() = Vec3d(0.0, standingEyeHeight * 0.9, width * 0.4)
+
+    override fun addHookedEntity(hookedUuid: UUID) {
+        super.addHookedEntity(hookedUuid)
+
+        val world = world as? ServerWorld ?: return
+        val entity = world.getEntity(hookedUuid) ?: return
+
+        val accessor = entity as? LivingEntityWebbedAccessor ?: return
+        accessor.`mcendgame$setWebbed`(true)
+    }
+
+    override fun removeHookedEntity(hookedUuid: UUID) {
+        super.removeHookedEntity(hookedUuid)
+
+        val world = world as? ServerWorld ?: return
+        val entity = world.getEntity(hookedUuid) ?: return
+
+        val accessor = entity as? LivingEntityWebbedAccessor ?: return
+        accessor.`mcendgame$setWebbed`(false)
+    }
 }
