@@ -2447,4 +2447,457 @@ object ArachneAnimation {
             )
         )
         .build()
+
+    val ATTACK: Animation = Animation.Builder.create(1.75f)
+        .addBoneAnimation(
+            "temurLeft1", Transformation(
+                Transformation.Targets.ROTATE,
+                Keyframe(
+                    0.0f,
+                    AnimationHelper.createRotationalVector(0.0f, 0.0f, 0.0f),
+                    Transformation.Interpolations.CUBIC
+                ),
+                Keyframe(
+                    0.4583f,
+                    AnimationHelper.createRotationalVector(0.0f, 0.0f, -7.5f),
+                    Transformation.Interpolations.CUBIC
+                ),
+                Keyframe(
+                    0.7917f,
+                    AnimationHelper.createRotationalVector(0.0f, 0.0f, -7.5f),
+                    Transformation.Interpolations.CUBIC
+                ),
+                Keyframe(
+                    1.0417f,
+                    AnimationHelper.createRotationalVector(-5.1582f, 23.5672f, 49.9395f),
+                    Transformation.Interpolations.CUBIC
+                ),
+                Keyframe(
+                    1.75f,
+                    AnimationHelper.createRotationalVector(0.0f, 0.0f, 0.0f),
+                    Transformation.Interpolations.CUBIC
+                )
+            )
+        )
+        .addBoneAnimation(
+            "tibiaLeft1", Transformation(
+                Transformation.Targets.ROTATE,
+                Keyframe(
+                    0.0f,
+                    AnimationHelper.createRotationalVector(0.0f, 0.0f, 0.0f),
+                    Transformation.Interpolations.CUBIC
+                ),
+                Keyframe(
+                    0.5f,
+                    AnimationHelper.createRotationalVector(-5.0f, 0.0f, -70.0f),
+                    Transformation.Interpolations.CUBIC
+                ),
+                Keyframe(
+                    0.8333f,
+                    AnimationHelper.createRotationalVector(-5.0f, 0.0f, -70.0f),
+                    Transformation.Interpolations.CUBIC
+                ),
+                Keyframe(
+                    1.0833f,
+                    AnimationHelper.createRotationalVector(-0.0872f, 0.9962f, -67.5008f),
+                    Transformation.Interpolations.CUBIC
+                ),
+                Keyframe(
+                    1.75f,
+                    AnimationHelper.createRotationalVector(0.0f, 0.0f, 0.0f),
+                    Transformation.Interpolations.CUBIC
+                )
+            )
+        )
+        .addBoneAnimation(
+            "metatarsusLeft1", Transformation(
+                Transformation.Targets.ROTATE,
+                Keyframe(
+                    0.0f,
+                    AnimationHelper.createRotationalVector(0.0f, 0.0f, 0.0f),
+                    Transformation.Interpolations.CUBIC
+                ),
+                Keyframe(
+                    0.5f,
+                    AnimationHelper.createRotationalVector(-5.0f, 0.0f, -20.0f),
+                    Transformation.Interpolations.CUBIC
+                ),
+                Keyframe(
+                    0.8333f,
+                    AnimationHelper.createRotationalVector(-5.0f, 0.0f, -20.0f),
+                    Transformation.Interpolations.CUBIC
+                ),
+                Keyframe(
+                    1.0833f,
+                    AnimationHelper.createRotationalVector(2.1938f, 1.2202f, -32.4963f),
+                    Transformation.Interpolations.CUBIC
+                ),
+                Keyframe(
+                    1.75f,
+                    AnimationHelper.createRotationalVector(0.0f, 0.0f, 0.0f),
+                    Transformation.Interpolations.CUBIC
+                )
+            )
+        )
+        .addBoneAnimation(
+            "tarsusLeft1", Transformation(
+                Transformation.Targets.ROTATE,
+                Keyframe(
+                    0.0f,
+                    AnimationHelper.createRotationalVector(0.0f, 0.0f, 0.0f),
+                    Transformation.Interpolations.CUBIC
+                ),
+                Keyframe(
+                    0.5417f,
+                    AnimationHelper.createRotationalVector(-5.0f, 0.0f, 0.0f),
+                    Transformation.Interpolations.CUBIC
+                ),
+                Keyframe(
+                    0.875f,
+                    AnimationHelper.createRotationalVector(-5.0f, 0.0f, 0.0f),
+                    Transformation.Interpolations.CUBIC
+                ),
+                Keyframe(
+                    1.125f,
+                    AnimationHelper.createRotationalVector(-5.0f, 0.0f, 0.0f),
+                    Transformation.Interpolations.CUBIC
+                ),
+                Keyframe(
+                    1.75f,
+                    AnimationHelper.createRotationalVector(0.0f, 0.0f, 0.0f),
+                    Transformation.Interpolations.CUBIC
+                )
+            )
+        )
+        .addBoneAnimation(
+            "temurRight1", Transformation(
+                Transformation.Targets.ROTATE,
+                Keyframe(
+                    0.0f,
+                    AnimationHelper.createRotationalVector(0.0f, 0.0f, 0.0f),
+                    Transformation.Interpolations.CUBIC
+                ),
+                Keyframe(
+                    0.4583f,
+                    AnimationHelper.createRotationalVector(0.0f, 0.0f, 7.5f),
+                    Transformation.Interpolations.CUBIC
+                ),
+                Keyframe(
+                    0.7917f,
+                    AnimationHelper.createRotationalVector(0.0f, 0.0f, 7.5f),
+                    Transformation.Interpolations.CUBIC
+                ),
+                Keyframe(
+                    1.0417f,
+                    AnimationHelper.createRotationalVector(-5.1542f, -23.5682f, -49.9457f),
+                    Transformation.Interpolations.CUBIC
+                ),
+                Keyframe(
+                    1.75f,
+                    AnimationHelper.createRotationalVector(0.0f, 0.0f, 0.0f),
+                    Transformation.Interpolations.CUBIC
+                )
+            )
+        )
+        .addBoneAnimation(
+            "tibiaRight1", Transformation(
+                Transformation.Targets.ROTATE,
+                Keyframe(
+                    0.0f,
+                    AnimationHelper.createRotationalVector(0.0f, 0.0f, 0.0f),
+                    Transformation.Interpolations.CUBIC
+                ),
+                Keyframe(
+                    0.5f,
+                    AnimationHelper.createRotationalVector(-5.0f, 0.0f, 70.0f),
+                    Transformation.Interpolations.CUBIC
+                ),
+                Keyframe(
+                    0.8333f,
+                    AnimationHelper.createRotationalVector(-5.0f, 0.0f, 70.0f),
+                    Transformation.Interpolations.CUBIC
+                ),
+                Keyframe(
+                    1.0833f,
+                    AnimationHelper.createRotationalVector(-0.0716f, -1.0849f, 67.5479f),
+                    Transformation.Interpolations.CUBIC
+                ),
+                Keyframe(
+                    1.75f,
+                    AnimationHelper.createRotationalVector(0.0f, 0.0f, 0.0f),
+                    Transformation.Interpolations.CUBIC
+                )
+            )
+        )
+        .addBoneAnimation(
+            "metatarsusRight1", Transformation(
+                Transformation.Targets.ROTATE,
+                Keyframe(
+                    0.0f,
+                    AnimationHelper.createRotationalVector(0.0f, 0.0f, 0.0f),
+                    Transformation.Interpolations.CUBIC
+                ),
+                Keyframe(
+                    0.5417f,
+                    AnimationHelper.createRotationalVector(-5.0f, 0.0f, 20.0f),
+                    Transformation.Interpolations.CUBIC
+                ),
+                Keyframe(
+                    0.875f,
+                    AnimationHelper.createRotationalVector(-5.0f, 0.0f, 20.0f),
+                    Transformation.Interpolations.CUBIC
+                ),
+                Keyframe(
+                    1.125f,
+                    AnimationHelper.createRotationalVector(2.242f, -1.2295f, 32.5001f),
+                    Transformation.Interpolations.CUBIC
+                ),
+                Keyframe(
+                    1.75f,
+                    AnimationHelper.createRotationalVector(0.0f, 0.0f, 0.0f),
+                    Transformation.Interpolations.CUBIC
+                )
+            )
+        )
+        .addBoneAnimation(
+            "tarsusRight1", Transformation(
+                Transformation.Targets.ROTATE,
+                Keyframe(
+                    0.0f,
+                    AnimationHelper.createRotationalVector(0.0f, 0.0f, 0.0f),
+                    Transformation.Interpolations.CUBIC
+                ),
+                Keyframe(
+                    0.5417f,
+                    AnimationHelper.createRotationalVector(-5.0f, 0.0f, 0.0f),
+                    Transformation.Interpolations.CUBIC
+                ),
+                Keyframe(
+                    0.875f,
+                    AnimationHelper.createRotationalVector(-5.0f, 0.0f, 0.0f),
+                    Transformation.Interpolations.CUBIC
+                ),
+                Keyframe(
+                    1.125f,
+                    AnimationHelper.createRotationalVector(-5.0f, 0.0f, 0.0f),
+                    Transformation.Interpolations.CUBIC
+                ),
+                Keyframe(
+                    1.75f,
+                    AnimationHelper.createRotationalVector(0.0f, 0.0f, 0.0f),
+                    Transformation.Interpolations.CUBIC
+                )
+            )
+        )
+        .addBoneAnimation(
+            "upperbody", Transformation(
+                Transformation.Targets.ROTATE,
+                Keyframe(
+                    0.0f,
+                    AnimationHelper.createRotationalVector(0.0f, 0.0f, 0.0f),
+                    Transformation.Interpolations.CUBIC
+                ),
+                Keyframe(
+                    0.5f,
+                    AnimationHelper.createRotationalVector(-7.5f, 0.0f, 0.0f),
+                    Transformation.Interpolations.CUBIC
+                ),
+                Keyframe(
+                    0.8333f,
+                    AnimationHelper.createRotationalVector(-7.5f, 0.0f, 0.0f),
+                    Transformation.Interpolations.CUBIC
+                ),
+                Keyframe(
+                    1.0833f,
+                    AnimationHelper.createRotationalVector(10.68f, 0.0f, 0.0f),
+                    Transformation.Interpolations.CUBIC
+                ),
+                Keyframe(
+                    1.75f,
+                    AnimationHelper.createRotationalVector(0.0f, 0.0f, 0.0f),
+                    Transformation.Interpolations.CUBIC
+                )
+            )
+        )
+        .addBoneAnimation(
+            "chest", Transformation(
+                Transformation.Targets.ROTATE,
+                Keyframe(
+                    0.0f,
+                    AnimationHelper.createRotationalVector(0.0f, 0.0f, 0.0f),
+                    Transformation.Interpolations.CUBIC
+                ),
+                Keyframe(
+                    0.5417f,
+                    AnimationHelper.createRotationalVector(-5.0f, 0.0f, 0.0f),
+                    Transformation.Interpolations.CUBIC
+                ),
+                Keyframe(
+                    0.875f,
+                    AnimationHelper.createRotationalVector(-5.0f, 0.0f, 0.0f),
+                    Transformation.Interpolations.CUBIC
+                ),
+                Keyframe(
+                    1.125f,
+                    AnimationHelper.createRotationalVector(10.0f, 0.0f, 0.0f),
+                    Transformation.Interpolations.CUBIC
+                ),
+                Keyframe(
+                    1.75f,
+                    AnimationHelper.createRotationalVector(0.0f, 0.0f, 0.0f),
+                    Transformation.Interpolations.CUBIC
+                )
+            )
+        )
+        .addBoneAnimation(
+            "neck", Transformation(
+                Transformation.Targets.ROTATE,
+                Keyframe(
+                    0.0f,
+                    AnimationHelper.createRotationalVector(0.0f, 0.0f, 0.0f),
+                    Transformation.Interpolations.CUBIC
+                ),
+                Keyframe(
+                    0.5f,
+                    AnimationHelper.createRotationalVector(5.0f, 0.0f, 0.0f),
+                    Transformation.Interpolations.CUBIC
+                ),
+                Keyframe(
+                    0.8333f,
+                    AnimationHelper.createRotationalVector(5.0f, 0.0f, 0.0f),
+                    Transformation.Interpolations.CUBIC
+                ),
+                Keyframe(
+                    1.0833f,
+                    AnimationHelper.createRotationalVector(-10.0f, 0.0f, 0.0f),
+                    Transformation.Interpolations.CUBIC
+                ),
+                Keyframe(
+                    1.75f,
+                    AnimationHelper.createRotationalVector(0.0f, 0.0f, 0.0f),
+                    Transformation.Interpolations.CUBIC
+                )
+            )
+        )
+        .addBoneAnimation(
+            "head", Transformation(
+                Transformation.Targets.ROTATE,
+                Keyframe(
+                    0.0f,
+                    AnimationHelper.createRotationalVector(0.0f, 0.0f, 0.0f),
+                    Transformation.Interpolations.CUBIC
+                ),
+                Keyframe(
+                    0.5f,
+                    AnimationHelper.createRotationalVector(2.5f, 0.0f, 0.0f),
+                    Transformation.Interpolations.CUBIC
+                ),
+                Keyframe(
+                    0.8333f,
+                    AnimationHelper.createRotationalVector(2.5f, 0.0f, 0.0f),
+                    Transformation.Interpolations.CUBIC
+                ),
+                Keyframe(
+                    1.0833f,
+                    AnimationHelper.createRotationalVector(-7.5f, 0.0f, 0.0f),
+                    Transformation.Interpolations.CUBIC
+                ),
+                Keyframe(
+                    1.75f,
+                    AnimationHelper.createRotationalVector(0.0f, 0.0f, 0.0f),
+                    Transformation.Interpolations.CUBIC
+                )
+            )
+        )
+        .addBoneAnimation(
+            "armLeft", Transformation(
+                Transformation.Targets.ROTATE,
+                Keyframe(
+                    0.0f,
+                    AnimationHelper.createRotationalVector(0.0f, 0.0f, 0.0f),
+                    Transformation.Interpolations.CUBIC
+                ),
+                Keyframe(
+                    0.5417f,
+                    AnimationHelper.createRotationalVector(-5.0f, 0.0f, 0.0f),
+                    Transformation.Interpolations.CUBIC
+                ),
+                Keyframe(
+                    0.875f,
+                    AnimationHelper.createRotationalVector(-5.0f, 0.0f, 0.0f),
+                    Transformation.Interpolations.CUBIC
+                ),
+                Keyframe(
+                    1.125f,
+                    AnimationHelper.createRotationalVector(15.0f, 0.0f, 0.0f),
+                    Transformation.Interpolations.CUBIC
+                ),
+                Keyframe(
+                    1.75f,
+                    AnimationHelper.createRotationalVector(0.0f, 0.0f, 0.0f),
+                    Transformation.Interpolations.CUBIC
+                )
+            )
+        )
+        .addBoneAnimation(
+            "armRight", Transformation(
+                Transformation.Targets.ROTATE,
+                Keyframe(
+                    0.0f,
+                    AnimationHelper.createRotationalVector(0.0f, 0.0f, 0.0f),
+                    Transformation.Interpolations.CUBIC
+                ),
+                Keyframe(
+                    0.5417f,
+                    AnimationHelper.createRotationalVector(-5.0f, 0.0f, 0.0f),
+                    Transformation.Interpolations.CUBIC
+                ),
+                Keyframe(
+                    0.875f,
+                    AnimationHelper.createRotationalVector(-5.0f, 0.0f, 0.0f),
+                    Transformation.Interpolations.CUBIC
+                ),
+                Keyframe(
+                    1.125f,
+                    AnimationHelper.createRotationalVector(15.0f, 0.0f, 0.0f),
+                    Transformation.Interpolations.CUBIC
+                ),
+                Keyframe(
+                    1.75f,
+                    AnimationHelper.createRotationalVector(0.0f, 0.0f, 0.0f),
+                    Transformation.Interpolations.CUBIC
+                )
+            )
+        )
+        .addBoneAnimation(
+            "abdomen", Transformation(
+                Transformation.Targets.ROTATE,
+                Keyframe(
+                    0.0f,
+                    AnimationHelper.createRotationalVector(0.0f, 0.0f, 0.0f),
+                    Transformation.Interpolations.CUBIC
+                ),
+                Keyframe(
+                    0.4583f,
+                    AnimationHelper.createRotationalVector(-7.5f, 0.0f, 0.0f),
+                    Transformation.Interpolations.CUBIC
+                ),
+                Keyframe(
+                    0.7917f,
+                    AnimationHelper.createRotationalVector(-7.5f, 0.0f, 0.0f),
+                    Transformation.Interpolations.CUBIC
+                ),
+                Keyframe(
+                    1.0417f,
+                    AnimationHelper.createRotationalVector(7.5f, 0.0f, 0.0f),
+                    Transformation.Interpolations.CUBIC
+                ),
+                Keyframe(
+                    1.75f,
+                    AnimationHelper.createRotationalVector(0.0f, 0.0f, 0.0f),
+                    Transformation.Interpolations.CUBIC
+                )
+            )
+        )
+        .build()
 }
