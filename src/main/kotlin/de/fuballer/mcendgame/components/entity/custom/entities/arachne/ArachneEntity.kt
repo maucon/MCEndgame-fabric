@@ -5,9 +5,8 @@ import de.fuballer.mcendgame.components.entity.custom.CustomEntities
 import de.fuballer.mcendgame.components.entity.custom.entities.mount.MountEntity
 import de.fuballer.mcendgame.components.entity.custom.entities.webhook.WebhookEntity
 import de.fuballer.mcendgame.components.entity.custom.entities.webshot.WebshotEntity
-import de.fuballer.mcendgame.components.entity.custom.goals.HookAttackGoal
-import de.fuballer.mcendgame.components.entity.custom.goals.KeepDistanceToTargetGoal
 import de.fuballer.mcendgame.components.entity.custom.goals.MountThrowOffPassengerGoal
+import de.fuballer.mcendgame.components.entity.custom.goals.StayInMeleeRangeGoal
 import de.fuballer.mcendgame.components.entity.custom.goals.TameableActiveTargetGoal
 import de.fuballer.mcendgame.components.entity.custom.interfaces.CustomPosesEntity
 import de.fuballer.mcendgame.components.entity.custom.interfaces.HookAttackMob
@@ -52,6 +51,7 @@ class ArachneEntity(
 
     private var attackAnimationTime = 0
     val spitAnimationState = AnimationState()
+    val attackAnimationState = AnimationState()
 
     override val hooker = this
     override val hookPullCount = 3
@@ -85,8 +85,9 @@ class ArachneEntity(
         goalSelector.add(0, SwimGoal(this))
         goalSelector.add(1, MountThrowOffPassengerGoal(this, 1.2))
         //goalSelector.add(2, NoMovementProjectileAttackGoal(this, 50, 15F))
-        goalSelector.add(3, HookAttackGoal(this, 50, 15F))
-        goalSelector.add(4, KeepDistanceToTargetGoal(this, 1.0, 10F, 15F))
+        //goalSelector.add(3, HookAttackGoal(this, 50, 15F))
+        //goalSelector.add(4, KeepDistanceToTargetGoal(this, 1.0, 10F, 15F))
+        goalSelector.add(4, StayInMeleeRangeGoal(this, 1.0, 1.5))
         goalSelector.add(7, WanderAroundFarGoal(this, 1.0))
         goalSelector.add(8, LookAtEntityGoal(this, PlayerEntity::class.java, 8.0f))
         goalSelector.add(8, LookAroundGoal(this))
