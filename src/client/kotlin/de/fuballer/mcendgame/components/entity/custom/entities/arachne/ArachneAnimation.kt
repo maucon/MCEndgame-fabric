@@ -2448,7 +2448,7 @@ object ArachneAnimation {
         )
         .build()
 
-    val ATTACK: Animation = Animation.Builder.create(1.75f)
+    val ATTACK: Animation = Animation.Builder.create(1.375f)
         .addBoneAnimation(
             "temurLeft1", Transformation(
                 Transformation.Targets.ROTATE,
@@ -2458,22 +2458,22 @@ object ArachneAnimation {
                     Transformation.Interpolations.CUBIC
                 ),
                 Keyframe(
-                    0.4583f,
+                    0.3333f,
                     AnimationHelper.createRotationalVector(0.0f, 0.0f, -7.5f),
                     Transformation.Interpolations.CUBIC
                 ),
                 Keyframe(
-                    0.7917f,
+                    0.625f,
                     AnimationHelper.createRotationalVector(0.0f, 0.0f, -7.5f),
                     Transformation.Interpolations.CUBIC
                 ),
                 Keyframe(
-                    1.0417f,
+                    0.8333f,
                     AnimationHelper.createRotationalVector(-5.1582f, 23.5672f, 49.9395f),
                     Transformation.Interpolations.CUBIC
                 ),
                 Keyframe(
-                    1.75f,
+                    1.375f,
                     AnimationHelper.createRotationalVector(0.0f, 0.0f, 0.0f),
                     Transformation.Interpolations.CUBIC
                 )
@@ -2488,22 +2488,22 @@ object ArachneAnimation {
                     Transformation.Interpolations.CUBIC
                 ),
                 Keyframe(
-                    0.5f,
+                    0.375f,
                     AnimationHelper.createRotationalVector(-5.0f, 0.0f, -70.0f),
                     Transformation.Interpolations.CUBIC
                 ),
                 Keyframe(
-                    0.8333f,
+                    0.6667f,
                     AnimationHelper.createRotationalVector(-5.0f, 0.0f, -70.0f),
                     Transformation.Interpolations.CUBIC
                 ),
                 Keyframe(
-                    1.0833f,
+                    0.875f,
                     AnimationHelper.createRotationalVector(-0.0872f, 0.9962f, -67.5008f),
                     Transformation.Interpolations.CUBIC
                 ),
                 Keyframe(
-                    1.75f,
+                    1.375f,
                     AnimationHelper.createRotationalVector(0.0f, 0.0f, 0.0f),
                     Transformation.Interpolations.CUBIC
                 )
@@ -2518,22 +2518,22 @@ object ArachneAnimation {
                     Transformation.Interpolations.CUBIC
                 ),
                 Keyframe(
-                    0.5f,
+                    0.375f,
                     AnimationHelper.createRotationalVector(-5.0f, 0.0f, -20.0f),
                     Transformation.Interpolations.CUBIC
                 ),
                 Keyframe(
-                    0.8333f,
+                    0.6667f,
                     AnimationHelper.createRotationalVector(-5.0f, 0.0f, -20.0f),
                     Transformation.Interpolations.CUBIC
                 ),
                 Keyframe(
-                    1.0833f,
+                    0.875f,
                     AnimationHelper.createRotationalVector(2.1938f, 1.2202f, -32.4963f),
                     Transformation.Interpolations.CUBIC
                 ),
                 Keyframe(
-                    1.75f,
+                    1.375f,
                     AnimationHelper.createRotationalVector(0.0f, 0.0f, 0.0f),
                     Transformation.Interpolations.CUBIC
                 )
@@ -2548,22 +2548,22 @@ object ArachneAnimation {
                     Transformation.Interpolations.CUBIC
                 ),
                 Keyframe(
-                    0.5417f,
+                    0.4167f,
                     AnimationHelper.createRotationalVector(-5.0f, 0.0f, 0.0f),
                     Transformation.Interpolations.CUBIC
                 ),
                 Keyframe(
-                    0.875f,
+                    0.7083f,
                     AnimationHelper.createRotationalVector(-5.0f, 0.0f, 0.0f),
                     Transformation.Interpolations.CUBIC
                 ),
                 Keyframe(
-                    1.125f,
+                    0.9167f,
                     AnimationHelper.createRotationalVector(-5.0f, 0.0f, 0.0f),
                     Transformation.Interpolations.CUBIC
                 ),
                 Keyframe(
-                    1.75f,
+                    1.375f,
                     AnimationHelper.createRotationalVector(0.0f, 0.0f, 0.0f),
                     Transformation.Interpolations.CUBIC
                 )
@@ -2578,22 +2578,22 @@ object ArachneAnimation {
                     Transformation.Interpolations.CUBIC
                 ),
                 Keyframe(
-                    0.4583f,
+                    0.3333f,
                     AnimationHelper.createRotationalVector(0.0f, 0.0f, 7.5f),
                     Transformation.Interpolations.CUBIC
                 ),
                 Keyframe(
-                    0.7917f,
+                    0.625f,
                     AnimationHelper.createRotationalVector(0.0f, 0.0f, 7.5f),
                     Transformation.Interpolations.CUBIC
                 ),
                 Keyframe(
-                    1.0417f,
+                    0.8333f,
                     AnimationHelper.createRotationalVector(-5.1542f, -23.5682f, -49.9457f),
                     Transformation.Interpolations.CUBIC
                 ),
                 Keyframe(
-                    1.75f,
+                    1.375f,
                     AnimationHelper.createRotationalVector(0.0f, 0.0f, 0.0f),
                     Transformation.Interpolations.CUBIC
                 )
@@ -2608,22 +2608,22 @@ object ArachneAnimation {
                     Transformation.Interpolations.CUBIC
                 ),
                 Keyframe(
-                    0.5f,
+                    0.375f,
                     AnimationHelper.createRotationalVector(-5.0f, 0.0f, 70.0f),
                     Transformation.Interpolations.CUBIC
                 ),
                 Keyframe(
-                    0.8333f,
+                    0.6667f,
                     AnimationHelper.createRotationalVector(-5.0f, 0.0f, 70.0f),
                     Transformation.Interpolations.CUBIC
                 ),
                 Keyframe(
-                    1.0833f,
+                    0.875f,
                     AnimationHelper.createRotationalVector(-0.0716f, -1.0849f, 67.5479f),
                     Transformation.Interpolations.CUBIC
                 ),
                 Keyframe(
-                    1.75f,
+                    1.375f,
                     AnimationHelper.createRotationalVector(0.0f, 0.0f, 0.0f),
                     Transformation.Interpolations.CUBIC
                 )
@@ -2638,22 +2638,22 @@ object ArachneAnimation {
                     Transformation.Interpolations.CUBIC
                 ),
                 Keyframe(
-                    0.5417f,
+                    0.4167f,
                     AnimationHelper.createRotationalVector(-5.0f, 0.0f, 20.0f),
                     Transformation.Interpolations.CUBIC
                 ),
                 Keyframe(
-                    0.875f,
+                    0.7083f,
                     AnimationHelper.createRotationalVector(-5.0f, 0.0f, 20.0f),
                     Transformation.Interpolations.CUBIC
                 ),
                 Keyframe(
-                    1.125f,
+                    0.9167f,
                     AnimationHelper.createRotationalVector(2.242f, -1.2295f, 32.5001f),
                     Transformation.Interpolations.CUBIC
                 ),
                 Keyframe(
-                    1.75f,
+                    1.375f,
                     AnimationHelper.createRotationalVector(0.0f, 0.0f, 0.0f),
                     Transformation.Interpolations.CUBIC
                 )
@@ -2668,22 +2668,22 @@ object ArachneAnimation {
                     Transformation.Interpolations.CUBIC
                 ),
                 Keyframe(
-                    0.5417f,
+                    0.4167f,
                     AnimationHelper.createRotationalVector(-5.0f, 0.0f, 0.0f),
                     Transformation.Interpolations.CUBIC
                 ),
                 Keyframe(
-                    0.875f,
+                    0.7083f,
                     AnimationHelper.createRotationalVector(-5.0f, 0.0f, 0.0f),
                     Transformation.Interpolations.CUBIC
                 ),
                 Keyframe(
-                    1.125f,
+                    0.9167f,
                     AnimationHelper.createRotationalVector(-5.0f, 0.0f, 0.0f),
                     Transformation.Interpolations.CUBIC
                 ),
                 Keyframe(
-                    1.75f,
+                    1.375f,
                     AnimationHelper.createRotationalVector(0.0f, 0.0f, 0.0f),
                     Transformation.Interpolations.CUBIC
                 )
@@ -2698,22 +2698,22 @@ object ArachneAnimation {
                     Transformation.Interpolations.CUBIC
                 ),
                 Keyframe(
-                    0.5f,
+                    0.375f,
                     AnimationHelper.createRotationalVector(-7.5f, 0.0f, 0.0f),
                     Transformation.Interpolations.CUBIC
                 ),
                 Keyframe(
-                    0.8333f,
+                    0.6667f,
                     AnimationHelper.createRotationalVector(-7.5f, 0.0f, 0.0f),
                     Transformation.Interpolations.CUBIC
                 ),
                 Keyframe(
-                    1.0833f,
+                    0.875f,
                     AnimationHelper.createRotationalVector(10.68f, 0.0f, 0.0f),
                     Transformation.Interpolations.CUBIC
                 ),
                 Keyframe(
-                    1.75f,
+                    1.375f,
                     AnimationHelper.createRotationalVector(0.0f, 0.0f, 0.0f),
                     Transformation.Interpolations.CUBIC
                 )
@@ -2728,22 +2728,22 @@ object ArachneAnimation {
                     Transformation.Interpolations.CUBIC
                 ),
                 Keyframe(
-                    0.5417f,
+                    0.4167f,
                     AnimationHelper.createRotationalVector(-5.0f, 0.0f, 0.0f),
                     Transformation.Interpolations.CUBIC
                 ),
                 Keyframe(
-                    0.875f,
+                    0.7083f,
                     AnimationHelper.createRotationalVector(-5.0f, 0.0f, 0.0f),
                     Transformation.Interpolations.CUBIC
                 ),
                 Keyframe(
-                    1.125f,
+                    0.9167f,
                     AnimationHelper.createRotationalVector(10.0f, 0.0f, 0.0f),
                     Transformation.Interpolations.CUBIC
                 ),
                 Keyframe(
-                    1.75f,
+                    1.375f,
                     AnimationHelper.createRotationalVector(0.0f, 0.0f, 0.0f),
                     Transformation.Interpolations.CUBIC
                 )
@@ -2758,22 +2758,22 @@ object ArachneAnimation {
                     Transformation.Interpolations.CUBIC
                 ),
                 Keyframe(
-                    0.5f,
+                    0.375f,
                     AnimationHelper.createRotationalVector(5.0f, 0.0f, 0.0f),
                     Transformation.Interpolations.CUBIC
                 ),
                 Keyframe(
-                    0.8333f,
+                    0.6667f,
                     AnimationHelper.createRotationalVector(5.0f, 0.0f, 0.0f),
                     Transformation.Interpolations.CUBIC
                 ),
                 Keyframe(
-                    1.0833f,
+                    0.875f,
                     AnimationHelper.createRotationalVector(-10.0f, 0.0f, 0.0f),
                     Transformation.Interpolations.CUBIC
                 ),
                 Keyframe(
-                    1.75f,
+                    1.375f,
                     AnimationHelper.createRotationalVector(0.0f, 0.0f, 0.0f),
                     Transformation.Interpolations.CUBIC
                 )
@@ -2788,22 +2788,22 @@ object ArachneAnimation {
                     Transformation.Interpolations.CUBIC
                 ),
                 Keyframe(
-                    0.5f,
+                    0.375f,
                     AnimationHelper.createRotationalVector(2.5f, 0.0f, 0.0f),
                     Transformation.Interpolations.CUBIC
                 ),
                 Keyframe(
-                    0.8333f,
+                    0.6667f,
                     AnimationHelper.createRotationalVector(2.5f, 0.0f, 0.0f),
                     Transformation.Interpolations.CUBIC
                 ),
                 Keyframe(
-                    1.0833f,
+                    0.875f,
                     AnimationHelper.createRotationalVector(-7.5f, 0.0f, 0.0f),
                     Transformation.Interpolations.CUBIC
                 ),
                 Keyframe(
-                    1.75f,
+                    1.375f,
                     AnimationHelper.createRotationalVector(0.0f, 0.0f, 0.0f),
                     Transformation.Interpolations.CUBIC
                 )
@@ -2818,22 +2818,22 @@ object ArachneAnimation {
                     Transformation.Interpolations.CUBIC
                 ),
                 Keyframe(
-                    0.5417f,
+                    0.4167f,
                     AnimationHelper.createRotationalVector(-5.0f, 0.0f, 0.0f),
                     Transformation.Interpolations.CUBIC
                 ),
                 Keyframe(
-                    0.875f,
+                    0.7083f,
                     AnimationHelper.createRotationalVector(-5.0f, 0.0f, 0.0f),
                     Transformation.Interpolations.CUBIC
                 ),
                 Keyframe(
-                    1.125f,
+                    0.9167f,
                     AnimationHelper.createRotationalVector(15.0f, 0.0f, 0.0f),
                     Transformation.Interpolations.CUBIC
                 ),
                 Keyframe(
-                    1.75f,
+                    1.375f,
                     AnimationHelper.createRotationalVector(0.0f, 0.0f, 0.0f),
                     Transformation.Interpolations.CUBIC
                 )
@@ -2848,22 +2848,22 @@ object ArachneAnimation {
                     Transformation.Interpolations.CUBIC
                 ),
                 Keyframe(
-                    0.5417f,
+                    0.4167f,
                     AnimationHelper.createRotationalVector(-5.0f, 0.0f, 0.0f),
                     Transformation.Interpolations.CUBIC
                 ),
                 Keyframe(
-                    0.875f,
+                    0.7083f,
                     AnimationHelper.createRotationalVector(-5.0f, 0.0f, 0.0f),
                     Transformation.Interpolations.CUBIC
                 ),
                 Keyframe(
-                    1.125f,
+                    0.9167f,
                     AnimationHelper.createRotationalVector(15.0f, 0.0f, 0.0f),
                     Transformation.Interpolations.CUBIC
                 ),
                 Keyframe(
-                    1.75f,
+                    1.375f,
                     AnimationHelper.createRotationalVector(0.0f, 0.0f, 0.0f),
                     Transformation.Interpolations.CUBIC
                 )
@@ -2878,22 +2878,22 @@ object ArachneAnimation {
                     Transformation.Interpolations.CUBIC
                 ),
                 Keyframe(
-                    0.4583f,
+                    0.3333f,
                     AnimationHelper.createRotationalVector(-7.5f, 0.0f, 0.0f),
                     Transformation.Interpolations.CUBIC
                 ),
                 Keyframe(
-                    0.7917f,
+                    0.625f,
                     AnimationHelper.createRotationalVector(-7.5f, 0.0f, 0.0f),
                     Transformation.Interpolations.CUBIC
                 ),
                 Keyframe(
-                    1.0417f,
+                    0.8333f,
                     AnimationHelper.createRotationalVector(7.5f, 0.0f, 0.0f),
                     Transformation.Interpolations.CUBIC
                 ),
                 Keyframe(
-                    1.75f,
+                    1.375f,
                     AnimationHelper.createRotationalVector(0.0f, 0.0f, 0.0f),
                     Transformation.Interpolations.CUBIC
                 )

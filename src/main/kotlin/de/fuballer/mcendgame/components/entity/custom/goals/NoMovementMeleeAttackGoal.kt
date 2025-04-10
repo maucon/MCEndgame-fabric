@@ -8,9 +8,10 @@ class NoMovementMeleeAttackGoal<T>(
     private val entity: T,
     private val intervalTicks: Int,
     range: Double,
+    private val initialCooldown: Int = intervalTicks,
 ) : DisableAbleGoal() where T : MobEntity, T : MeleeAttackMob {
     private val squaredRange = range * range
-    private var cooldown = getTickCount(intervalTicks)
+    private var cooldown = 0
 
     override fun canStart(): Boolean {
         if (isDisabled) return false
@@ -19,7 +20,7 @@ class NoMovementMeleeAttackGoal<T>(
     }
 
     override fun start() {
-        cooldown = getTickCount(intervalTicks)
+        cooldown = getTickCount(initialCooldown)
     }
 
     override fun shouldContinue() = canStart()

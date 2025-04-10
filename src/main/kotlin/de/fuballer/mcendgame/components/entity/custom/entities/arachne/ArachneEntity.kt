@@ -16,7 +16,10 @@ import net.minecraft.entity.AnimationState
 import net.minecraft.entity.EntityType
 import net.minecraft.entity.LivingEntity
 import net.minecraft.entity.ai.RangedAttackMob
-import net.minecraft.entity.ai.goal.*
+import net.minecraft.entity.ai.goal.LookAroundGoal
+import net.minecraft.entity.ai.goal.LookAtEntityGoal
+import net.minecraft.entity.ai.goal.RevengeGoal
+import net.minecraft.entity.ai.goal.SwimGoal
 import net.minecraft.entity.attribute.DefaultAttributeContainer
 import net.minecraft.entity.attribute.EntityAttributes
 import net.minecraft.entity.damage.DamageSource
@@ -64,15 +67,15 @@ class ArachneEntity(
     private var meleeTicks = 0
     private var disabledMovementTicks = 0
 
-    private val stayInMeleeRangeGoal = StayInRangeGoal(this, 1.0, 1.2)
-    private val meleeAttackGoal = NoMovementMeleeAttackGoal(this, 50, 1.8)
+    private val stayInMeleeRangeGoal = StayInRangeGoal(this, 1.0, 2.0)
+    private val meleeAttackGoal = NoMovementMeleeAttackGoal(this, 50, 2.8, 20)
 
     private val hookAttackGoal = HookAttackGoal(this, 120, 15F)
-    private val projectileAttackGoal = NoMovementProjectileAttackGoal(this, 50, 15F)
+    private val projectileAttackGoal = NoMovementProjectileAttackGoal(this, 50, 15F, 20)
     private val rangedKeepDistanceGoal = KeepDistanceToTargetGoal(this, 1.0, 10F, 15F)
 
     private val throwOffPassengerGoal = MountThrowOffPassengerGoal(this, 1.2)
-    private val wanderGoal = WanderAroundFarGoal(this, 1.0)
+    private val wanderGoal = DisableAbleWanderAroundFarGoal(this, 1.0)
     private val lookAtPlayerGoal = LookAtEntityGoal(this, PlayerEntity::class.java, 8.0f)
     private val lookAroundGoal = LookAroundGoal(this)
 
@@ -138,6 +141,7 @@ class ArachneEntity(
         rangedKeepDistanceGoal.isDisabled = !isCurrentlyRanged || movementDisabled
 
         throwOffPassengerGoal.isDisabled = movementDisabled
+        wanderGoal.isDisabled = movementDisabled
     }
 
     override fun initDataTracker(builder: DataTracker.Builder) {
@@ -164,6 +168,8 @@ class ArachneEntity(
 
     override fun tick() {
         super.tick()
+
+        if (world.isClient) return
         tickChangeToRanged()
         updateAttackPose()
         updateBlockMovementTicks()
@@ -179,6 +185,7 @@ class ArachneEntity(
     private fun shouldChangeToRanged(): Boolean {
         if (isCurrentlyRanged) return false
         if (++meleeTicks <= MIN_MELEE_TICKS) return false
+        if (isMovementDisabled()) return false
 
         val livingTarget = target ?: return true
         if (livingTarget.isDead) return true
@@ -353,8 +360,10 @@ class ArachneEntity(
     }
 
     override fun meleeAttack(target: LivingEntity) {
-        changeAttackPose(CustomPosesEntity.CustomPose.MELEE_ATTACKING, 35)
-        blockMovement(35)
+        changeAttackPose(CustomPosesEntity.CustomPose.MELEE_ATTACKING, 28)
+        blockMovement(28)
+        lookAtEntity(target, 180F, 180F)
+        bodyYaw = yaw
     }
 
     private fun isMovementDisabled() = disabledMovementTicks > 0

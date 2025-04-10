@@ -7,7 +7,8 @@ import net.minecraft.entity.mob.MobEntity
 class HookAttackGoal<T>(
     private val entity: T,
     private val intervalTicks: Int,
-    private val maxShootRange: Float,
+    maxShootRange: Float,
+    private val initialCooldown: Int = intervalTicks,
 ) : DisableAbleGoal() where T : MobEntity, T : HookAttackMob {
     private var targetSeenTicks = 0
     private var cooldown = 0
@@ -20,7 +21,7 @@ class HookAttackGoal<T>(
     }
 
     override fun start() {
-        cooldown = getTickCount(intervalTicks)
+        cooldown = getTickCount(initialCooldown)
     }
 
     override fun shouldContinue() = canStart()

@@ -10,6 +10,7 @@ class NoMovementProjectileAttackGoal<T>(
     private val entity: T,
     private val intervalTicks: Int,
     private val maxShootRange: Float,
+    private val initialCooldown: Int = intervalTicks,
 ) : DisableAbleGoal() where T : MobEntity, T : RangedAttackMob {
     private var targetSeenTicks = 0
     private var cooldown = 0
@@ -22,7 +23,7 @@ class NoMovementProjectileAttackGoal<T>(
     }
 
     override fun start() {
-        cooldown = getTickCount(intervalTicks)
+        cooldown = getTickCount(initialCooldown)
     }
 
     override fun shouldContinue() = canStart()

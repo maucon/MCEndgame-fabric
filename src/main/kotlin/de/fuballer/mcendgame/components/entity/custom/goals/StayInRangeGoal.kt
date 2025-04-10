@@ -71,7 +71,7 @@ class StayInRangeGoal(
 
         updateCountdownTicks = max(updateCountdownTicks - 1, 0)
 
-        if (!shouldUpdate(target)) return
+        if (!shouldUpdateMovement(target)) return
 
         targetX = target.x
         targetY = target.y
@@ -88,15 +88,17 @@ class StayInRangeGoal(
         updateCountdownTicks = getTickCount(updateCountdownTicks)
     }
 
-    private fun shouldUpdate(
+    private fun shouldUpdateMovement(
         target: LivingEntity
     ): Boolean {
         if (updateCountdownTicks > 0) return false
         if (!entity.visibilityCache.canSee(target)) return false
 
+        val isInRange = entity.squaredDistanceTo(target) < squaredMaxDistance
+
         if (targetX == 0.0 && targetY == 0.0 && targetZ == 0.0) return true
-        if (target.pos.squaredDistanceTo(Vec3d(targetX, targetY, targetZ)) > 1) return true
-        if (entity.navigation.isIdle && entity.squaredDistanceTo(target) > squaredMaxDistance) return true
+        if (target.pos.squaredDistanceTo(Vec3d(targetX, targetY, targetZ)) > 1 && !isInRange) return true
+        if (entity.navigation.isIdle && !isInRange) return true
 
         return entity.random.nextFloat() < 0.05
     }
