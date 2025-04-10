@@ -2,7 +2,6 @@ package de.fuballer.mcendgame.components.entity.custom.goals
 
 import net.minecraft.entity.LivingEntity
 import net.minecraft.entity.ai.RangedAttackMob
-import net.minecraft.entity.ai.goal.Goal
 import net.minecraft.entity.mob.MobEntity
 import java.util.*
 
@@ -11,7 +10,7 @@ class KeepDistanceToTargetGoal<T>(
     private val speed: Double,
     minDistance: Float,
     maxDistance: Float,
-) : Goal() where  T : RangedAttackMob, T : MobEntity {
+) : DisableAbleGoal() where  T : RangedAttackMob, T : MobEntity {
     private val squaredMinDistance: Float
     private val squaredMaxDistance: Float
     private var seeingTargetTicker = 0
@@ -26,9 +25,13 @@ class KeepDistanceToTargetGoal<T>(
         squaredMaxDistance = maxDistance * maxDistance
     }
 
-    override fun canStart() = entity.target != null
+    override fun canStart(): Boolean {
+        if (isDisabled) return false
+        return entity.target != null
+    }
 
     override fun shouldContinue(): Boolean {
+        if (isDisabled) return false
         if (entity.target != null) return true
         return !entity.navigation.isIdle
     }

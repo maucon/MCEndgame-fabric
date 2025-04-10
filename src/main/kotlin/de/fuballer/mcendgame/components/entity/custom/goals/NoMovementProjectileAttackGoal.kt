@@ -2,7 +2,6 @@ package de.fuballer.mcendgame.components.entity.custom.goals
 
 import net.minecraft.entity.LivingEntity
 import net.minecraft.entity.ai.RangedAttackMob
-import net.minecraft.entity.ai.goal.Goal
 import net.minecraft.entity.mob.MobEntity
 import net.minecraft.util.math.MathHelper
 import kotlin.math.sqrt
@@ -11,12 +10,13 @@ class NoMovementProjectileAttackGoal<T>(
     private val entity: T,
     private val intervalTicks: Int,
     private val maxShootRange: Float,
-) : Goal() where T : MobEntity, T : RangedAttackMob {
+) : DisableAbleGoal() where T : MobEntity, T : RangedAttackMob {
     private var targetSeenTicks = 0
     private var cooldown = 0
     private val maxShootRangeSquared = maxShootRange * maxShootRange
 
     override fun canStart(): Boolean {
+        if (isDisabled) return false
         val target: LivingEntity = entity.target ?: return false
         return target.isAlive
     }

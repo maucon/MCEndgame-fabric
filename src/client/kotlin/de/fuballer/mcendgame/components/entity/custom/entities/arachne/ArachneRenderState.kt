@@ -10,6 +10,7 @@ class ArachneRenderState : LivingEntityRenderState() {
     val walkBWAnimationState: AnimationState = AnimationState()
 
     val spitAnimationState: AnimationState = AnimationState()
+    val meleeAttackAnimationState: AnimationState = AnimationState()
 
     var isSaddled: Boolean = false
     var moveSpeed: Float = 0F

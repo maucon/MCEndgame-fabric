@@ -36,10 +36,12 @@ class ArachneRenderer(
         super.updateRenderState(entity, renderState, tickDelta)
 
         renderState.idleAnimationState.copyFrom(entity.idleAnimationState)
+
         renderState.walkAnimationState.copyFrom(entity.walkAnimationState)
         renderState.walkBWAnimationState.copyFrom(entity.walkBWAnimationState)
 
         renderState.spitAnimationState.copyFrom(entity.spitAnimationState)
+        renderState.meleeAttackAnimationState.copyFrom(entity.attackAnimationState)
 
         renderState.isSaddled = entity.isSaddled
 

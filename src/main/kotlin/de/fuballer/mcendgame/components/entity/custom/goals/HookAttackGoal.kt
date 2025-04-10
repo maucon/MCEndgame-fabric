@@ -2,19 +2,19 @@ package de.fuballer.mcendgame.components.entity.custom.goals
 
 import de.fuballer.mcendgame.components.entity.custom.interfaces.HookAttackMob
 import net.minecraft.entity.LivingEntity
-import net.minecraft.entity.ai.goal.Goal
 import net.minecraft.entity.mob.MobEntity
 
 class HookAttackGoal<T>(
     private val entity: T,
     private val intervalTicks: Int,
     private val maxShootRange: Float,
-) : Goal() where T : MobEntity, T : HookAttackMob {
+) : DisableAbleGoal() where T : MobEntity, T : HookAttackMob {
     private var targetSeenTicks = 0
     private var cooldown = 0
     private val maxShootRangeSquared = maxShootRange * maxShootRange
 
     override fun canStart(): Boolean {
+        if (isDisabled) return false
         val target: LivingEntity = entity.target ?: return false
         return target.isAlive
     }

@@ -21,6 +21,7 @@ interface CustomPosesEntity {
         WALKING_RIGHT,
         WALKING_LEFT,
         SLAMMING,
+        MELEE_ATTACKING,
         SPITTING;
 
         companion object {

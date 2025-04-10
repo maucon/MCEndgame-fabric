@@ -3,14 +3,13 @@ package de.fuballer.mcendgame.components.entity.custom.goals
 import de.fuballer.mcendgame.components.entity.custom.entities.mount.MountEntity
 import net.minecraft.entity.EntityStatuses
 import net.minecraft.entity.ai.NoPenaltyTargeting
-import net.minecraft.entity.ai.goal.Goal
 import net.minecraft.util.math.Vec3d
 import java.util.*
 
 class MountThrowOffPassengerGoal(
     private val mount: MountEntity,
     private val speed: Double,
-) : Goal() {
+) : DisableAbleGoal() {
     private var throwOffTimer = 0
     private var target = Vec3d.ZERO
 
@@ -19,6 +18,7 @@ class MountThrowOffPassengerGoal(
     }
 
     override fun canStart(): Boolean {
+        if (isDisabled) return false
         if (mount.isTame) return false
         if (!mount.hasPassengers()) return false
 
@@ -32,6 +32,7 @@ class MountThrowOffPassengerGoal(
     }
 
     override fun shouldContinue(): Boolean {
+        if (isDisabled) return false
         if (mount.isTame) return false
         if (!mount.hasPassengers()) return false
         return --throwOffTimer > 0

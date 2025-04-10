@@ -490,6 +490,7 @@ class ArachneEntityModel(
         animate(renderState.walkBWAnimationState, ArachneAnimation.WALK_BW, renderState.age, walkAnimSpeed)
 
         animate(renderState.spitAnimationState, ArachneAnimation.SPIT, renderState.age, 1.0F)
+        animate(renderState.meleeAttackAnimationState, ArachneAnimation.ATTACK, renderState.age, 1.0F)
 
         setHeadAngles(renderState)
     }

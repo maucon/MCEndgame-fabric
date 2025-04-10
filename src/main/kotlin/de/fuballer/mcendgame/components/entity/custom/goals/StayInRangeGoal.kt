@@ -1,7 +1,6 @@
 package de.fuballer.mcendgame.components.entity.custom.goals
 
 import net.minecraft.entity.LivingEntity
-import net.minecraft.entity.ai.goal.Goal
 import net.minecraft.entity.ai.pathing.Path
 import net.minecraft.entity.mob.MobEntity
 import net.minecraft.entity.player.PlayerEntity
@@ -10,11 +9,11 @@ import net.minecraft.util.math.Vec3d
 import java.util.*
 import kotlin.math.max
 
-class StayInMeleeRangeGoal(
+class StayInRangeGoal(
     private val entity: MobEntity,
     private val moveSpeedFactor: Double,
     maxDistance: Double,
-) : Goal() {
+) : DisableAbleGoal() {
     private val squaredMaxDistance = maxDistance * maxDistance
     private var path: Path? = null
     private var updateCountdownTicks = 0
@@ -27,6 +26,7 @@ class StayInMeleeRangeGoal(
     }
 
     override fun canStart(): Boolean {
+        if (isDisabled) return false
         val target = entity.target ?: return false
         if (!target.isAlive) return false
 
@@ -35,6 +35,7 @@ class StayInMeleeRangeGoal(
     }
 
     override fun shouldContinue(): Boolean {
+        if (isDisabled) return false
         val target = entity.target ?: return false
         if (!target.isAlive) return false
 

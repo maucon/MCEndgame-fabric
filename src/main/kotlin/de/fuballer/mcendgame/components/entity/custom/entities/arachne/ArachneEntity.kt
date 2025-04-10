@@ -5,11 +5,10 @@ import de.fuballer.mcendgame.components.entity.custom.CustomEntities
 import de.fuballer.mcendgame.components.entity.custom.entities.mount.MountEntity
 import de.fuballer.mcendgame.components.entity.custom.entities.webhook.WebhookEntity
 import de.fuballer.mcendgame.components.entity.custom.entities.webshot.WebshotEntity
-import de.fuballer.mcendgame.components.entity.custom.goals.MountThrowOffPassengerGoal
-import de.fuballer.mcendgame.components.entity.custom.goals.StayInMeleeRangeGoal
-import de.fuballer.mcendgame.components.entity.custom.goals.TameableActiveTargetGoal
+import de.fuballer.mcendgame.components.entity.custom.goals.*
 import de.fuballer.mcendgame.components.entity.custom.interfaces.CustomPosesEntity
 import de.fuballer.mcendgame.components.entity.custom.interfaces.HookAttackMob
+import de.fuballer.mcendgame.components.entity.custom.interfaces.MeleeAttackMob
 import de.fuballer.mcendgame.mixin_interfaces.LivingEntityWebbedAccessor
 import net.minecraft.block.BlockState
 import net.minecraft.block.Blocks
@@ -43,13 +42,13 @@ import kotlin.math.sqrt
 class ArachneEntity(
     type: EntityType<out ArachneEntity>,
     world: World,
-) : MountEntity(type, world, TAME_FOOD), Monster, RangedAttackMob, HookAttackMob {
+) : MountEntity(type, world, TAME_FOOD), Monster, RangedAttackMob, HookAttackMob, MeleeAttackMob {
     override val passengerPos = Vec3d(0.0, 0.75, -0.65)
     override val riddenSpeedMulti = 1.5
     override val backwardsSpeedMulti = 0.5
     override val sidewaysSpeedMulti = 0.5
 
-    private var attackAnimationTime = 0
+    private var attackAnimationTicks = 0
     val spitAnimationState = AnimationState()
     val attackAnimationState = AnimationState()
 
@@ -61,8 +60,29 @@ class ArachneEntity(
     override val hookedEntityUuidMap = mutableMapOf<UUID, Pair<Int, Int>>()
     override val hookedEntityIds = mutableListOf<Int>()
 
+    private var isCurrentlyRanged = true
+    private var meleeTicks = 0
+    private var disabledMovementTicks = 0
+
+    private val stayInMeleeRangeGoal = StayInRangeGoal(this, 1.0, 1.2)
+    private val meleeAttackGoal = NoMovementMeleeAttackGoal(this, 50, 1.8)
+
+    private val hookAttackGoal = HookAttackGoal(this, 120, 15F)
+    private val projectileAttackGoal = NoMovementProjectileAttackGoal(this, 50, 15F)
+    private val rangedKeepDistanceGoal = KeepDistanceToTargetGoal(this, 1.0, 10F, 15F)
+
+    private val throwOffPassengerGoal = MountThrowOffPassengerGoal(this, 1.2)
+    private val wanderGoal = WanderAroundFarGoal(this, 1.0)
+    private val lookAtPlayerGoal = LookAtEntityGoal(this, PlayerEntity::class.java, 8.0f)
+    private val lookAroundGoal = LookAroundGoal(this)
+
     companion object {
         val TAME_FOOD = mapOf<Item, Double>(Items.ROTTEN_FLESH to 0.1)
+
+        const val MAX_STAY_MELEE_RANGE = 10.0
+        const val MAX_STAY_MELEE_RANGE_SQUARED = MAX_STAY_MELEE_RANGE * MAX_STAY_MELEE_RANGE
+        const val MIN_MELEE_TICKS = 100
+        const val RANDOM_STOP_MELEE_PROBABILITY = 0.002 // per tick
 
         fun createAttributes(): DefaultAttributeContainer.Builder {
             return createLivingAttributes()
@@ -81,20 +101,43 @@ class ArachneEntity(
             DataTracker.registerData(ArachneEntity::class.java, CustomPosesEntity.CUSTOM_POSE_TDH)
     }
 
+    init {
+        initDynamicGoals()
+    }
+
+    private fun initDynamicGoals() {
+        goalSelector.add(1, throwOffPassengerGoal)
+        goalSelector.add(2, hookAttackGoal)
+        goalSelector.add(3, projectileAttackGoal)
+        goalSelector.add(3, meleeAttackGoal)
+        goalSelector.add(4, rangedKeepDistanceGoal)
+        goalSelector.add(4, stayInMeleeRangeGoal)
+        goalSelector.add(5, wanderGoal)
+        goalSelector.add(6, lookAtPlayerGoal)
+        goalSelector.add(7, lookAroundGoal)
+
+        updateGoals()
+    }
+
     override fun initGoals() {
         goalSelector.add(0, SwimGoal(this))
-        goalSelector.add(1, MountThrowOffPassengerGoal(this, 1.2))
-        //goalSelector.add(2, NoMovementProjectileAttackGoal(this, 50, 15F))
-        //goalSelector.add(3, HookAttackGoal(this, 50, 15F))
-        //goalSelector.add(4, KeepDistanceToTargetGoal(this, 1.0, 10F, 15F))
-        goalSelector.add(4, StayInMeleeRangeGoal(this, 1.0, 1.5))
-        goalSelector.add(7, WanderAroundFarGoal(this, 1.0))
-        goalSelector.add(8, LookAtEntityGoal(this, PlayerEntity::class.java, 8.0f))
-        goalSelector.add(8, LookAroundGoal(this))
 
-        targetSelector.add(1, RevengeGoal(this))
-        targetSelector.add(2, TameableActiveTargetGoal(this, PlayerEntity::class.java, true))
-        targetSelector.add(3, TameableActiveTargetGoal(this, VillagerEntity::class.java, true))
+        targetSelector.add(0, RevengeGoal(this))
+        targetSelector.add(1, TameableActiveTargetGoal(this, PlayerEntity::class.java, true))
+        targetSelector.add(2, TameableActiveTargetGoal(this, VillagerEntity::class.java, true))
+    }
+
+    private fun updateGoals() {
+        val movementDisabled = isMovementDisabled()
+
+        meleeAttackGoal.isDisabled = isCurrentlyRanged
+        stayInMeleeRangeGoal.isDisabled = isCurrentlyRanged || movementDisabled
+
+        hookAttackGoal.isDisabled = !isCurrentlyRanged
+        projectileAttackGoal.isDisabled = !isCurrentlyRanged
+        rangedKeepDistanceGoal.isDisabled = !isCurrentlyRanged || movementDisabled
+
+        throwOffPassengerGoal.isDisabled = movementDisabled
     }
 
     override fun initDataTracker(builder: DataTracker.Builder) {
@@ -109,6 +152,10 @@ class ArachneEntity(
                     spitAnimationState.start(age)
                 }
 
+                CustomPosesEntity.CustomPose.MELEE_ATTACKING -> {
+                    attackAnimationState.start(age)
+                }
+
                 else -> {}
             }
         }
@@ -117,22 +164,58 @@ class ArachneEntity(
 
     override fun tick() {
         super.tick()
+        tickChangeToRanged()
         updateAttackPose()
+        updateBlockMovementTicks()
         tickHooks()
+    }
+
+    private fun tickChangeToRanged() {
+        if (!shouldChangeToRanged()) return
+        isCurrentlyRanged = true
+        updateGoals()
+    }
+
+    private fun shouldChangeToRanged(): Boolean {
+        if (isCurrentlyRanged) return false
+        if (++meleeTicks <= MIN_MELEE_TICKS) return false
+
+        val livingTarget = target ?: return true
+        if (livingTarget.isDead) return true
+
+        if (squaredDistanceTo(livingTarget) > MAX_STAY_MELEE_RANGE_SQUARED) return true
+
+        return random.nextDouble() < RANDOM_STOP_MELEE_PROBABILITY
+    }
+
+    private fun blockMovement(ticks: Int) {
+        if (ticks <= 0) return
+        val oldTicks = disabledMovementTicks
+        disabledMovementTicks = ticks
+        if (oldTicks > 0) return
+
+        updateGoals()
+        navigation.stop()
+    }
+
+    private fun updateBlockMovementTicks() {
+        if (disabledMovementTicks <= 0) return
+        if (--disabledMovementTicks > 0) return
+        updateGoals()
     }
 
     private fun updateAttackPose() {
         if (world.isClient) return
-        if (attackAnimationTime <= 0) return
-        if (--attackAnimationTime > 0) return
+        if (attackAnimationTicks <= 0) return
+        if (--attackAnimationTicks > 0) return
 
         dataTracker.set(ATTACK_POSE, CustomPosesEntity.CustomPose.IDLING)
     }
 
     private fun changeAttackPose(pose: CustomPosesEntity.CustomPose, animationTime: Int) {
-        if (attackAnimationTime > 0) return
+        if (attackAnimationTicks > 0) return
         dataTracker.set(ATTACK_POSE, pose)
-        attackAnimationTime = animationTime
+        attackAnimationTicks = animationTime
     }
 
     override fun startMovementAnimation(animationState: AnimationState) {
@@ -242,10 +325,21 @@ class ArachneEntity(
         super.addHookedEntity(hookedUuid)
 
         val world = world as? ServerWorld ?: return
-        val entity = world.getEntity(hookedUuid) ?: return
+        val entity = world.getEntity(hookedUuid) as? LivingEntity ?: return
+
+        triggerMeleeOnHook(entity)
 
         val accessor = entity as? LivingEntityWebbedAccessor ?: return
         accessor.`mcendgame$setWebbed`(true)
+    }
+
+    private fun triggerMeleeOnHook(hookedEntity: LivingEntity) {
+        if (target != hookedEntity && hookedEntity !is PlayerEntity) return
+        target = hookedEntity
+
+        isCurrentlyRanged = false
+        meleeTicks = 0
+        updateGoals()
     }
 
     override fun removeHookedEntity(hookedUuid: UUID) {
@@ -256,5 +350,19 @@ class ArachneEntity(
 
         val accessor = entity as? LivingEntityWebbedAccessor ?: return
         accessor.`mcendgame$setWebbed`(false)
+    }
+
+    override fun meleeAttack(target: LivingEntity) {
+        changeAttackPose(CustomPosesEntity.CustomPose.MELEE_ATTACKING, 35)
+        blockMovement(35)
+    }
+
+    private fun isMovementDisabled() = disabledMovementTicks > 0
+
+    override fun updateMovementPose() {
+        if (!isMovementDisabled()) return super.updateMovementPose()
+
+        if (dataTracker.get(MOVEMENT_POSE) == CustomPosesEntity.CustomPose.IDLING) return
+        dataTracker.set(MOVEMENT_POSE, CustomPosesEntity.CustomPose.IDLING)
     }
 }

@@ -89,11 +89,11 @@ abstract class MountEntity(
     open fun updateMovementState() {
         if (world.isClient) return
 
-        updateMovementDirection()
+        updateMovementPose()
         updateAnimationMovementSpeed()
     }
 
-    private fun updateMovementDirection() {
+    open fun updateMovementPose() {
         val currentPose = dataTracker.get(MOVEMENT_POSE)
         val newPose = when (getRelativeMovementDirection()) {
             MovementDirection.NONE -> CustomPosesEntity.CustomPose.IDLING
