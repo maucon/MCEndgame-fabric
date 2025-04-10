@@ -45,8 +45,8 @@ class KeepDistanceToTargetGoal<T>(
         super.stop()
         entity.setAttacking(false)
         seeingTargetTicker = 0
-        entity.navigation.stop()
         entity.moveControl.strafeTo(0F, 0F)
+        entity.navigation.stop()
     }
 
     override fun shouldRunEveryTick() = true

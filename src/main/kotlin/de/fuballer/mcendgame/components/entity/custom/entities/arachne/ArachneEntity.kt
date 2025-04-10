@@ -67,11 +67,11 @@ class ArachneEntity(
     private var meleeTicks = 0
     private var disabledMovementTicks = 0
 
-    private val stayInMeleeRangeGoal = StayInRangeGoal(this, 1.0, 2.0)
-    private val meleeAttackGoal = NoMovementMeleeAttackGoal(this, 50, 2.8, 20)
+    private val stayInMeleeRangeGoal = StayInRangeGoal(this, 1.0, 2.8)
+    private val meleeAttackGoal = NoMovementMeleeAttackGoal(this, 50, 3.3, 20)
 
-    private val hookAttackGoal = HookAttackGoal(this, 120, 15F)
-    private val projectileAttackGoal = NoMovementProjectileAttackGoal(this, 50, 15F, 20)
+    private val hookAttackGoal = HookAttackGoal(this, 100, 15F)
+    private val projectileAttackGoal = NoMovementProjectileAttackGoal(this, 50, 15F, 25)
     private val rangedKeepDistanceGoal = KeepDistanceToTargetGoal(this, 1.0, 10F, 15F)
 
     private val throwOffPassengerGoal = MountThrowOffPassengerGoal(this, 1.2)
@@ -82,7 +82,7 @@ class ArachneEntity(
     companion object {
         val TAME_FOOD = mapOf<Item, Double>(Items.ROTTEN_FLESH to 0.1)
 
-        const val MAX_STAY_MELEE_RANGE = 10.0
+        private const val MAX_STAY_MELEE_RANGE = 10.0
         const val MAX_STAY_MELEE_RANGE_SQUARED = MAX_STAY_MELEE_RANGE * MAX_STAY_MELEE_RANGE
         const val MIN_MELEE_TICKS = 100
         const val RANDOM_STOP_MELEE_PROBABILITY = 0.002 // per tick

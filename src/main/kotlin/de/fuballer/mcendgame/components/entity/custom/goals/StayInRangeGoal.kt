@@ -12,7 +12,7 @@ import kotlin.math.max
 class StayInRangeGoal(
     private val entity: MobEntity,
     private val moveSpeedFactor: Double,
-    maxDistance: Double,
+    private val maxDistance: Double,
 ) : DisableAbleGoal() {
     private val squaredMaxDistance = maxDistance * maxDistance
     private var path: Path? = null
@@ -71,6 +71,11 @@ class StayInRangeGoal(
 
         updateCountdownTicks = max(updateCountdownTicks - 1, 0)
 
+        val squaredDistance = entity.squaredDistanceTo(target)
+        if (squaredDistance < squaredMaxDistance) {
+            entity.navigation.stop()
+        }
+
         if (!shouldUpdateMovement(target)) return
 
         targetX = target.x
@@ -79,7 +84,7 @@ class StayInRangeGoal(
 
         updateCountdownTicks = 4 + entity.random.nextInt(7)
 
-        updateCountdownTicks += (entity.squaredDistanceTo(target) / 20).toInt()
+        updateCountdownTicks += (squaredDistance / 20).toInt()
 
         if (!entity.navigation.startMovingTo(target, moveSpeedFactor)) {
             updateCountdownTicks += 15
@@ -94,12 +99,12 @@ class StayInRangeGoal(
         if (updateCountdownTicks > 0) return false
         if (!entity.visibilityCache.canSee(target)) return false
 
-        val isInRange = entity.squaredDistanceTo(target) < squaredMaxDistance
 
         if (targetX == 0.0 && targetY == 0.0 && targetZ == 0.0) return true
+        val isInRange = entity.squaredDistanceTo(target) < squaredMaxDistance
         if (target.pos.squaredDistanceTo(Vec3d(targetX, targetY, targetZ)) > 1 && !isInRange) return true
         if (entity.navigation.isIdle && !isInRange) return true
 
-        return entity.random.nextFloat() < 0.05
+        return false
     }
 }
