@@ -283,6 +283,8 @@ class ArachneEntity(
         { entity: ProjectileEntity ->
             entity.setVelocity(xDistance, aimY - entity.y + addedYVelocity, zDistance, 1.6f, 2.0f)
         }
+
+        playSpitSound()
     }
 
     override fun shootAt(
@@ -338,7 +340,11 @@ class ArachneEntity(
     }
 
     override fun playWalkSound(group: BlockSoundGroup) {
-        this.playSound(SoundEvents.ENTITY_SPIDER_STEP, group.getVolume() * 0.15f, group.getPitch())
+        playSound(SoundEvents.ENTITY_SPIDER_STEP, group.getVolume() * 0.15f, group.getPitch())
+    }
+
+    private fun playSpitSound() {
+        playSound(SoundEvents.ENTITY_SPIDER_AMBIENT, 1.0f, 0.75F + random.nextFloat() * 0.25F)
     }
 
     override fun playStepSound(
