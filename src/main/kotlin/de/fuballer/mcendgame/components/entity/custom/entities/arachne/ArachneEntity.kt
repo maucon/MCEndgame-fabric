@@ -235,6 +235,7 @@ class ArachneEntity(
 
         updateGoals()
         navigation.stop()
+        moveControl.strafeTo(0F, 0F)
     }
 
     private fun updateBlockMovementTicks() {
