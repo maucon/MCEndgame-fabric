@@ -402,6 +402,7 @@ class ArachneEntity(
         changeAttackPose(CustomPosesEntity.CustomPose.MELEE_ATTACKING, 28)
         blockMovement(28)
         dealAttackDamageDelay = 15
+        lookControl.lookAt(target)
         lookAtEntity(target, 180F, 180F)
         bodyYaw = yaw
     }
