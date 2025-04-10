@@ -16,8 +16,6 @@ import net.minecraft.entity.AnimationState
 import net.minecraft.entity.EntityType
 import net.minecraft.entity.LivingEntity
 import net.minecraft.entity.ai.RangedAttackMob
-import net.minecraft.entity.ai.goal.LookAroundGoal
-import net.minecraft.entity.ai.goal.LookAtEntityGoal
 import net.minecraft.entity.ai.goal.RevengeGoal
 import net.minecraft.entity.ai.goal.SwimGoal
 import net.minecraft.entity.attribute.DefaultAttributeContainer
@@ -81,8 +79,8 @@ class ArachneEntity(
 
     private val throwOffPassengerGoal = MountThrowOffPassengerGoal(this, 1.2)
     private val wanderGoal = DisableAbleWanderAroundFarGoal(this, 1.0)
-    private val lookAtPlayerGoal = LookAtEntityGoal(this, PlayerEntity::class.java, 8.0f)
-    private val lookAroundGoal = LookAroundGoal(this)
+    private val lookAtPlayerGoal = DisableAbleLookAtEntityGoal(this, PlayerEntity::class.java, 8.0f)
+    private val lookAroundGoal = DisableAbleLookAroundGoal(this)
 
     private var previousScale = 0F
     private var maxStayMeleeRangeSquared = MAX_STAY_MELEE_RANGE * MAX_STAY_MELEE_RANGE
@@ -97,7 +95,7 @@ class ArachneEntity(
         const val MELEE_PURSUE_DISTANCE = 2.8
         const val MELEE_ATTACK_RANGE = 3.3
         const val MELEE_ATTACK_LENGTH = 4.0
-        const val MELEE_ATTACK_WIDTH = 2.6
+        const val MELEE_ATTACK_WIDTH = 3.0
         const val MELEE_ATTACK_HEIGHT = 3
 
         fun createAttributes(): DefaultAttributeContainer.Builder {
@@ -156,6 +154,8 @@ class ArachneEntity(
 
         throwOffPassengerGoal.isDisabled = movementDisabled
         wanderGoal.isDisabled = movementDisabled
+        lookAtPlayerGoal.isDisabled = movementDisabled
+        lookAroundGoal.isDisabled = movementDisabled
     }
 
     override fun initDataTracker(builder: DataTracker.Builder) {
@@ -235,11 +235,11 @@ class ArachneEntity(
 
         updateGoals()
         navigation.stop()
-        moveControl.strafeTo(0F, 0F)
     }
 
     private fun updateBlockMovementTicks() {
         if (disabledMovementTicks <= 0) return
+        moveControl.strafeTo(0F, 0F)
         if (--disabledMovementTicks > 0) return
         updateGoals()
     }
@@ -445,7 +445,7 @@ class ArachneEntity(
         val heightDistance = relativePos.y
 
         val scale = getAttributeValue(EntityAttributes.SCALE)
-        if (forwardDistance < width * scale * 0.25 || forwardDistance > MELEE_ATTACK_LENGTH * scale) return false
+        if (forwardDistance < width * scale * 0.2 || forwardDistance > MELEE_ATTACK_LENGTH * scale) return false
         if (abs(sidewaysDistance) > MELEE_ATTACK_WIDTH / 2.0 * scale) return false
         if (abs(heightDistance) > MELEE_ATTACK_HEIGHT / 2.0 * scale) return false
         return true
