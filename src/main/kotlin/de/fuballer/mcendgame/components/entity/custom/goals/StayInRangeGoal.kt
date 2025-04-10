@@ -12,9 +12,9 @@ import kotlin.math.max
 class StayInRangeGoal(
     private val entity: MobEntity,
     private val moveSpeedFactor: Double,
-    private val maxDistance: Double,
+    maxDistance: Double,
 ) : DisableAbleGoal() {
-    private val squaredMaxDistance = maxDistance * maxDistance
+    private var squaredMaxDistance = maxDistance * maxDistance
     private var path: Path? = null
     private var updateCountdownTicks = 0
     private var targetX = 0.0
@@ -106,5 +106,9 @@ class StayInRangeGoal(
         if (entity.navigation.isIdle && !isInRange) return true
 
         return false
+    }
+
+    fun setMaxDistance(maxDistance: Double) {
+        squaredMaxDistance = maxDistance * maxDistance
     }
 }

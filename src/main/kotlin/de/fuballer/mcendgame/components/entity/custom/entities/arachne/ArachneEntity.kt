@@ -32,6 +32,7 @@ import net.minecraft.entity.projectile.ProjectileEntity
 import net.minecraft.item.Item
 import net.minecraft.item.ItemStack
 import net.minecraft.item.Items
+import net.minecraft.particle.ParticleTypes
 import net.minecraft.server.world.ServerWorld
 import net.minecraft.sound.BlockSoundGroup
 import net.minecraft.sound.SoundEvent
@@ -40,7 +41,10 @@ import net.minecraft.util.math.BlockPos
 import net.minecraft.util.math.Vec3d
 import net.minecraft.world.World
 import java.util.*
+import kotlin.math.abs
+import kotlin.math.pow
 import kotlin.math.sqrt
+
 
 class ArachneEntity(
     type: EntityType<out ArachneEntity>,
@@ -66,9 +70,10 @@ class ArachneEntity(
     private var isCurrentlyRanged = true
     private var meleeTicks = 0
     private var disabledMovementTicks = 0
+    private var dealAttackDamageDelay = 0
 
-    private val stayInMeleeRangeGoal = StayInRangeGoal(this, 1.0, 2.8)
-    private val meleeAttackGoal = NoMovementMeleeAttackGoal(this, 50, 3.3, 20)
+    private val stayInMeleeRangeGoal = StayInRangeGoal(this, 1.0, MELEE_PURSUE_DISTANCE)
+    private val meleeAttackGoal = NoMovementMeleeAttackGoal(this, 50, MELEE_ATTACK_RANGE, 20)
 
     private val hookAttackGoal = HookAttackGoal(this, 100, 15F)
     private val projectileAttackGoal = NoMovementProjectileAttackGoal(this, 50, 15F, 25)
@@ -79,13 +84,21 @@ class ArachneEntity(
     private val lookAtPlayerGoal = LookAtEntityGoal(this, PlayerEntity::class.java, 8.0f)
     private val lookAroundGoal = LookAroundGoal(this)
 
+    private var previousScale = 0F
+    private var maxStayMeleeRangeSquared = MAX_STAY_MELEE_RANGE * MAX_STAY_MELEE_RANGE
+
     companion object {
         val TAME_FOOD = mapOf<Item, Double>(Items.ROTTEN_FLESH to 0.1)
 
         private const val MAX_STAY_MELEE_RANGE = 10.0
-        const val MAX_STAY_MELEE_RANGE_SQUARED = MAX_STAY_MELEE_RANGE * MAX_STAY_MELEE_RANGE
         const val MIN_MELEE_TICKS = 100
         const val RANDOM_STOP_MELEE_PROBABILITY = 0.002 // per tick
+
+        const val MELEE_PURSUE_DISTANCE = 2.8
+        const val MELEE_ATTACK_RANGE = 3.3
+        const val MELEE_ATTACK_LENGTH = 4.0
+        const val MELEE_ATTACK_WIDTH = 2.6
+        const val MELEE_ATTACK_HEIGHT = 3
 
         fun createAttributes(): DefaultAttributeContainer.Builder {
             return createLivingAttributes()
@@ -95,6 +108,7 @@ class ArachneEntity(
                 .add(EntityAttributes.SAFE_FALL_DISTANCE, 10.0)
                 .add(EntityAttributes.FALL_DAMAGE_MULTIPLIER, 0.2)
                 .add(EntityAttributes.ATTACK_DAMAGE, 4.0)
+                .add(EntityAttributes.ATTACK_KNOCKBACK, 2.0)
                 .add(EntityAttributes.ARMOR, 0.0)
                 .add(EntityAttributes.KNOCKBACK_RESISTANCE, 0.8)
                 .add(EntityAttributes.MOVEMENT_EFFICIENCY, 0.85)
@@ -174,6 +188,24 @@ class ArachneEntity(
         updateAttackPose()
         updateBlockMovementTicks()
         tickHooks()
+        tickDealAttackDamage()
+        tickScaleUpdate()
+    }
+
+    private fun tickScaleUpdate() {
+        if (scale == previousScale) return
+        previousScale = scale
+
+        meleeAttackGoal.setRange(MELEE_ATTACK_RANGE * scale)
+        stayInMeleeRangeGoal.setMaxDistance(MELEE_PURSUE_DISTANCE * scale)
+
+        maxStayMeleeRangeSquared = (MAX_STAY_MELEE_RANGE * scale).pow(2)
+    }
+
+    private fun tickDealAttackDamage() {
+        if (dealAttackDamageDelay <= 0) return
+        if (--dealAttackDamageDelay > 0) return
+        dealAttackDamage()
     }
 
     private fun tickChangeToRanged() {
@@ -190,7 +222,7 @@ class ArachneEntity(
         val livingTarget = target ?: return true
         if (livingTarget.isDead) return true
 
-        if (squaredDistanceTo(livingTarget) > MAX_STAY_MELEE_RANGE_SQUARED) return true
+        if (squaredDistanceTo(livingTarget) > maxStayMeleeRangeSquared) return true
 
         return random.nextDouble() < RANDOM_STOP_MELEE_PROBABILITY
     }
@@ -362,8 +394,72 @@ class ArachneEntity(
     override fun meleeAttack(target: LivingEntity) {
         changeAttackPose(CustomPosesEntity.CustomPose.MELEE_ATTACKING, 28)
         blockMovement(28)
+        dealAttackDamageDelay = 15
         lookAtEntity(target, 180F, 180F)
         bodyYaw = yaw
+    }
+
+    private fun dealAttackDamage() {
+        val serverWorld = world as? ServerWorld ?: return
+
+        var targets = serverWorld.getEntitiesByClass(
+            LivingEntity::class.java,
+            boundingBox.expand(MELEE_ATTACK_LENGTH * scale)
+        ) { it != this }
+
+        val forward = getRotationVector(pitch, bodyYaw).horizontal.normalize()
+        val sideways = forward.crossProduct(Vec3d(0.0, 1.0, 0.0))
+        targets = targets.filter {
+            isInAttackArea(it.pos.subtract(pos), forward, sideways)
+                    || isInAttackArea(it.eyePos.subtract(pos), forward, sideways)
+        }
+
+        //debugAttackAreaParticles(forward, sideways)
+
+        val damageSource = damageSources.mobAttack(this)
+        val damage = getAttributeValue(EntityAttributes.ATTACK_DAMAGE).toFloat()
+        val knockBackDirection = getRotationVector(pitch, bodyYaw).horizontal.normalize()
+        val knockBackStrength =
+            getAttributeValue(EntityAttributes.ATTACK_KNOCKBACK) * getAttributeValue(EntityAttributes.SCALE)
+
+        targets.forEach {
+            it.damage(serverWorld, damageSource, damage)
+            it.takeKnockback(knockBackStrength, -knockBackDirection.x, -knockBackDirection.z) //takeKnockback inverts it
+        }
+    }
+
+    private fun isInAttackArea(
+        relativePos: Vec3d,
+        forward: Vec3d,
+        sideways: Vec3d
+    ): Boolean {
+        val forwardDistance = relativePos.dotProduct(forward)
+        val sidewaysDistance = relativePos.dotProduct(sideways)
+        val heightDistance = relativePos.y
+
+        val scale = getAttributeValue(EntityAttributes.SCALE)
+        if (forwardDistance < width * scale * 0.25 || forwardDistance > MELEE_ATTACK_LENGTH * scale) return false
+        if (abs(sidewaysDistance) > MELEE_ATTACK_WIDTH / 2.0 * scale) return false
+        if (abs(heightDistance) > MELEE_ATTACK_HEIGHT / 2.0 * scale) return false
+        return true
+    }
+
+    private fun debugAttackAreaParticles(
+        forward: Vec3d,
+        sideways: Vec3d
+    ) {
+        val serverWorld = world as? ServerWorld ?: return
+
+        val pos1 = pos.add(forward.multiply(MELEE_ATTACK_LENGTH * scale))
+            .add(sideways.multiply(MELEE_ATTACK_WIDTH / 2.0 * scale)).add(0.0, MELEE_ATTACK_HEIGHT / 2.0, 0.0)
+        serverWorld.spawnParticles(
+            ParticleTypes.CRIT, pos1.x, pos1.y, pos1.z, 1, 0.0, 0.0, 0.0, 0.0
+        )
+        val pos2 = pos.add(forward.multiply(MELEE_ATTACK_LENGTH * scale))
+            .add(sideways.multiply(MELEE_ATTACK_WIDTH / -2.0 * scale)).add(0.0, MELEE_ATTACK_HEIGHT / 2.0, 0.0)
+        serverWorld.spawnParticles(
+            ParticleTypes.CRIT, pos2.x, pos2.y, pos2.z, 1, 0.0, 0.0, 0.0, 0.0
+        )
     }
 
     private fun isMovementDisabled() = disabledMovementTicks > 0
