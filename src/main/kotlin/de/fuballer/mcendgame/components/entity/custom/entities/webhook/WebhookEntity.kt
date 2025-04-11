@@ -1,13 +1,15 @@
 package de.fuballer.mcendgame.components.entity.custom.entities.webhook
 
+import de.fuballer.mcendgame.components.block.CustomBlocks
 import de.fuballer.mcendgame.components.entity.custom.interfaces.HookAttackMob
 import net.minecraft.enchantment.EnchantmentHelper
 import net.minecraft.entity.Entity
 import net.minecraft.entity.EntityType
 import net.minecraft.entity.LivingEntity
 import net.minecraft.entity.data.DataTracker
-import net.minecraft.entity.projectile.ProjectileEntity
+import net.minecraft.entity.projectile.PersistentProjectileEntity
 import net.minecraft.entity.projectile.ProjectileUtil
+import net.minecraft.item.ItemStack
 import net.minecraft.server.world.ServerWorld
 import net.minecraft.util.hit.EntityHitResult
 import net.minecraft.world.World
@@ -18,7 +20,7 @@ class WebhookEntity(
     type: EntityType<out WebhookEntity>,
     world: World,
     owner: LivingEntity? = null,
-) : ProjectileEntity(type, world) {
+) : PersistentProjectileEntity(type, world) {
     init {
         if (owner != null) {
             this.owner = owner
@@ -74,4 +76,6 @@ class WebhookEntity(
         val hooker = owner as? HookAttackMob ?: return
         hooker.addHookedEntity(entity.uuid)
     }
+
+    override fun getDefaultItemStack() = ItemStack(CustomBlocks.DECAYING_COBWEB)
 }

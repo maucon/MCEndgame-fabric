@@ -7,8 +7,9 @@ import net.minecraft.entity.Entity
 import net.minecraft.entity.EntityType
 import net.minecraft.entity.LivingEntity
 import net.minecraft.entity.data.DataTracker
-import net.minecraft.entity.projectile.ProjectileEntity
+import net.minecraft.entity.projectile.PersistentProjectileEntity
 import net.minecraft.entity.projectile.ProjectileUtil
+import net.minecraft.item.ItemStack
 import net.minecraft.particle.ParticleTypes
 import net.minecraft.server.world.ServerWorld
 import net.minecraft.util.hit.BlockHitResult
@@ -22,7 +23,7 @@ class WebshotEntity(
     type: EntityType<out WebshotEntity>,
     world: World,
     owner: LivingEntity? = null,
-) : ProjectileEntity(type, world) {
+) : PersistentProjectileEntity(type, world) {
     private var createdDecayingCobwebs = false
     private var particleTimer = PARTICLE_COOLDOWN
 
@@ -103,6 +104,8 @@ class WebshotEntity(
 
         generateDecayingCobwebs(blockHitResult.blockPos)
     }
+
+    override fun getDefaultItemStack() = ItemStack(CustomBlocks.DECAYING_COBWEB)
 
     private fun generateDecayingCobwebs(blockPos: BlockPos) {
         if (createdDecayingCobwebs) return

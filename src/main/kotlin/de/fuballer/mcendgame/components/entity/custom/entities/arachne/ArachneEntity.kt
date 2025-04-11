@@ -293,6 +293,7 @@ class ArachneEntity(
     ) {
         val serverWorld = world as? ServerWorld ?: return
         val projectile = WebshotEntity(CustomEntities.WEBSHOT, serverWorld, this)
+        projectile.damage = getAttributeValue(EntityAttributes.ATTACK_DAMAGE)
         shootAt(target, projectile)
     }
 
@@ -301,6 +302,7 @@ class ArachneEntity(
     ) {
         val serverWorld = world as? ServerWorld ?: return
         val projectile = WebhookEntity(CustomEntities.WEBHOOK, serverWorld, this)
+        projectile.damage = 1.0
         shootAt(target, projectile)
         addHookedEntity(projectile.uuid)
     }
