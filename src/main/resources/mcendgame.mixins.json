@@ -5,7 +5,8 @@
   "mixins": [
     "LivingEntityDamageMixin",
     "PlayerEntityDamageMixin",
-    "PlayerEntityMixin"
+    "PlayerEntityMixin",
+    "LivingEntityWebbedMixin"
   ],
   "injectors": {
     "defaultRequire": 1

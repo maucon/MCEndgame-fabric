@@ -13,6 +13,7 @@ import net.minecraft.entity.Entity
 import net.minecraft.entity.EntityType
 import net.minecraft.item.ArmorItem
 import net.minecraft.item.Item
+import net.minecraft.item.ItemGroup
 import net.minecraft.item.Items
 import net.minecraft.item.equipment.EquipmentType
 import net.minecraft.registry.Registries
@@ -55,4 +56,7 @@ object RegistryUtil {
 
     fun <T : ScreenHandler> registerScreenHandler(name: String, screenHandlerType: ScreenHandlerType<T>): ScreenHandlerType<T> =
         Registry.register(Registries.SCREEN_HANDLER, IdentifierUtil.default(name), screenHandlerType)
+
+    fun registerItemGroup(key: RegistryKey<ItemGroup>, type: ItemGroup.Builder): ItemGroup =
+        Registry.register(Registries.ITEM_GROUP, key, type.build())
 }

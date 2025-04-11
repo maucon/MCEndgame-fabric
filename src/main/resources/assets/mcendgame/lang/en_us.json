@@ -5,6 +5,7 @@
   "item.mcendgame.druids_chestplate": "Druids Chestplate",
   "item.mcendgame.druids_leggings": "Druids Leggings",
   "item.mcendgame.druids_boots": "Druids Boots",
+
   "block.mcendgame.dungeon_device": "Dungeon Device",
   "container.mcendgame.dungeon_device.title": "Dungeon Device",
   "container.mcendgame.dungeon_device.open": "Open",
@@ -28,5 +29,14 @@
   "attribute.mcendgame.increased_projectile_damage": "%s%% increased Projectile Damage",
   "attribute.mcendgame.increased_damage_against_full_life": " %s%% increased Damage against Full Life Enemies",
 
-  "entity.mcendgame.swamp_golem": "Swamp Golem"
+  "entity.mcendgame.swamp_golem": "Swamp Golem",
+  "entity.mcendgame.elf_duelist": "Elf Duelist",
+  "entity.mcendgame.arachne": "Arachne",
+  "entity.mcendgame.webshot": "Webshot",
+  "entity.mcendgame.webhook": "Webhook",
+
+  "block.mcendgame.decaying_cobweb": "Decaying Cobweb",
+
+  "itemGroup.custom_armor": "MCEndgame Armor",
+  "itemGroup.custom_blocks": "MCEndgame Blocks"
 }

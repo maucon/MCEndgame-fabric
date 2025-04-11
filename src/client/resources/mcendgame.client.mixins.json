@@ -8,7 +8,9 @@
     "LivingEntityMixin",
     "LivingEntityRendererMixin",
     "LivingEntityRenderStateMixin",
-    "PlayerEntityRendererMixin"
+    "PlayerEntityRendererMixin",
+    "LivingEntityRenderStateWebbedMixin",
+    "LivingEntityRendererWebbedMixin"
   ],
   "injectors": {
     "defaultRequire": 1

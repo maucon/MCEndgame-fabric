@@ -17,7 +17,12 @@ interface CustomPosesEntity {
     enum class CustomPose {
         IDLING,
         WALKING,
-        SLAMMING;
+        WALKING_BW,
+        WALKING_RIGHT,
+        WALKING_LEFT,
+        SLAMMING,
+        MELEE_ATTACKING,
+        SPITTING;
 
         companion object {
             val PACKET_CODEC: PacketCodec<ByteBuf, CustomPose> = PacketCodecs.indexed(
