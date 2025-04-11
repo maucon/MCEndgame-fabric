@@ -139,6 +139,5 @@ class CustomHumanoidArmorFeatureRenderer<S : BipedEntityRenderState, M : BipedEn
         }
 
         model.render(matrices, vertexConsumer, light, OverlayTexture.DEFAULT_UV)
-        model.render(matrices, vertexConsumer, 0xF000F0, OverlayTexture.DEFAULT_UV)
     }
 }
