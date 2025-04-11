@@ -4,7 +4,7 @@ import de.fuballer.mcendgame.components.item.custom.armor.helmet.iceborne.BoundA
 import de.fuballer.mcendgame.components.item.custom.armor.helmet.iceborne.DruidsArmorMaterial
 import de.fuballer.mcendgame.components.item.custom.armor.helmet.iceborne.IceborneArmorMaterial
 import de.fuballer.mcendgame.util.RegistryUtil
-import de.maucon.mauconframework.annotation.Injectable
+import de.maucon.mauconframework.di.annotation.Injectable
 import net.minecraft.item.equipment.EquipmentType
 
 @Injectable

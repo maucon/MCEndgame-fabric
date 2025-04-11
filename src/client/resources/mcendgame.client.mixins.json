@@ -4,6 +4,7 @@
   "compatibilityLevel": "JAVA_21",
   "client": [
     "ArmorStandEntityRendererMixin",
+    "ItemStackMixin",
     "LivingEntityMixin",
     "LivingEntityRendererMixin",
     "LivingEntityRenderStateMixin",

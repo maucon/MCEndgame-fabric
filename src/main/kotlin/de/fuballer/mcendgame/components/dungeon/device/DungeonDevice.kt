@@ -4,7 +4,7 @@ import de.fuballer.mcendgame.components.block.CustomBlocks
 import de.fuballer.mcendgame.components.dungeon.device.networking.OpenDungeonPayload
 import de.fuballer.mcendgame.components.dungeon.device.screen.DungeonDeviceScreenHandler
 import de.fuballer.mcendgame.util.RegistryUtil
-import de.maucon.mauconframework.annotation.Injectable
+import de.maucon.mauconframework.di.annotation.Injectable
 import net.fabricmc.fabric.api.screenhandler.v1.ExtendedScreenHandlerType
 
 @Injectable

@@ -7,7 +7,7 @@ import de.fuballer.mcendgame.components.entity.custom.entities.webhook.WebhookEn
 import de.fuballer.mcendgame.components.entity.custom.entities.webshot.WebshotEntity
 import de.fuballer.mcendgame.components.entity.custom.interfaces.HookAttackMob
 import de.fuballer.mcendgame.util.RegistryUtil
-import de.maucon.mauconframework.annotation.Injectable
+import de.maucon.mauconframework.di.annotation.Injectable
 import net.minecraft.entity.EntityType
 import net.minecraft.entity.LivingEntity
 import net.minecraft.entity.SpawnGroup

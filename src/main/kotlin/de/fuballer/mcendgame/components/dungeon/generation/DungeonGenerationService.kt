@@ -5,8 +5,8 @@ import de.fuballer.mcendgame.components.dungeon.generation.enemy.EnemyGeneration
 import de.fuballer.mcendgame.components.dungeon.type.DungeonType
 import de.fuballer.mcendgame.components.dungeon.world.DungeonWorldService
 import de.fuballer.mcendgame.event.DungeonOpenEvent
-import de.maucon.mauconframework.annotation.Initialize
-import de.maucon.mauconframework.annotation.Injectable
+import de.maucon.mauconframework.initializer.Initializer
+import de.maucon.mauconframework.di.annotation.Injectable
 import net.minecraft.entity.player.PlayerEntity
 import net.minecraft.server.world.ServerWorld
 import net.minecraft.util.math.BlockPos
@@ -18,7 +18,7 @@ class DungeonGenerationService(
     private val dungeonBuilderService: DungeonBuilderService,
     private val enemyGenerationService: EnemyGenerationService,
 ) {
-    @Initialize
+    @Initializer
     fun on() = DungeonOpenEvent.NOTIFIER.listen { event ->
         val dungeonWorld = generate(event.player, BlockPos.ORIGIN) // FIXME
     }

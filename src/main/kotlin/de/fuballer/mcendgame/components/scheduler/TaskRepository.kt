@@ -1,7 +1,7 @@
 package de.fuballer.mcendgame.components.scheduler
 
-import de.maucon.mauconframework.annotation.Injectable
-import de.maucon.mauconframework.extension.InMemoryMapRepository
+import de.maucon.mauconframework.di.annotation.Injectable
+import de.maucon.mauconframework.stereotype.extension.InMemoryMapRepository
 import java.util.*
 
 @Injectable

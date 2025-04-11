@@ -1,8 +1,8 @@
 package de.fuballer.mcendgame.components.corruption
 
 import de.fuballer.mcendgame.components.corruption.CorruptionExtensions.isCorrupted
-import de.maucon.mauconframework.annotation.Initialize
-import de.maucon.mauconframework.annotation.Injectable
+import de.maucon.mauconframework.initializer.Initializer
+import de.maucon.mauconframework.di.annotation.Injectable
 import net.fabricmc.api.EnvType
 import net.fabricmc.api.Environment
 import net.fabricmc.fabric.api.client.item.v1.ItemTooltipCallback
@@ -17,7 +17,7 @@ private val CORRUPTION_TEXT = Text.translatable("mcendgame.corrupted").formatted
 @Injectable
 @Environment(EnvType.CLIENT)
 class CorruptionRenderer {
-    @Initialize
+    @Initializer
     fun on() = ItemTooltipCallback.EVENT.register { itemStack: ItemStack, _: Item.TooltipContext, tooltipType: TooltipType, texts: MutableList<Text> ->
         if (!itemStack.isCorrupted()) return@register
 

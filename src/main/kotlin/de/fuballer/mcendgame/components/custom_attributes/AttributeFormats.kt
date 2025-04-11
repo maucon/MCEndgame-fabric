@@ -1,14 +1,21 @@
 package de.fuballer.mcendgame.components.custom_attributes
 
-import de.fuballer.mcendgame.components.custom_attributes.data.*
+import de.fuballer.mcendgame.components.custom_attributes.CustomAttributesExtensions.asDoubleBounds
+import de.fuballer.mcendgame.components.custom_attributes.CustomAttributesExtensions.asDoubleRoll
+import de.fuballer.mcendgame.components.custom_attributes.CustomAttributesExtensions.asIntBounds
+import de.fuballer.mcendgame.components.custom_attributes.CustomAttributesExtensions.asIntRoll
+import de.fuballer.mcendgame.components.custom_attributes.CustomAttributesExtensions.asStringBounds
+import de.fuballer.mcendgame.components.custom_attributes.CustomAttributesExtensions.asStringRoll
+import de.fuballer.mcendgame.components.custom_attributes.data.AttributeBounds
+import de.fuballer.mcendgame.components.custom_attributes.data.AttributeRoll
 
 object AttributeFormats {
     val EMPTY_ROLL = { _: List<AttributeRoll<*>> -> listOf<String>() }
-    val INCREASE_ROLL = { rolls: List<AttributeRoll<*>> ->
-        listOf(String.format("%.0f", rolls[0].asDoubleRoll().getActualRoll() * 100))
+    val PERCENT_ROLL = { rolls: List<AttributeRoll<*>> ->
+        listOf(String.format("%.1f", rolls[0].asDoubleRoll().getActualRoll() * 100))
     }
-    val SIGNED_INCREASE_ROLL = { rolls: List<AttributeRoll<*>> ->
-        listOf(String.format("%+.0f", rolls[0].asDoubleRoll().getActualRoll() * 100))
+    val SIGNED_PERCENT_ROLL = { rolls: List<AttributeRoll<*>> ->
+        listOf(String.format("%+.1f", rolls[0].asDoubleRoll().getActualRoll() * 100))
     }
     val STRING_ROLL = { rolls: List<AttributeRoll<*>> ->
         listOf(rolls[0].asStringRoll().getActualRoll())
@@ -22,11 +29,14 @@ object AttributeFormats {
     val TWO_INT_ROLL = { rolls: List<AttributeRoll<*>> ->
         listOf(rolls[0].getActualRoll().toString(), rolls[1].getActualRoll().toString())
     }
+    val SIGNED_DOUBLE_ROLL = { rolls: List<AttributeRoll<*>> ->
+        listOf(String.format("%+.1f", rolls[0].asDoubleRoll().getActualRoll()))
+    }
 
     val EMPTY_BOUNDS = { _: List<AttributeBounds<*>> -> listOf<String>() }
-    val INCREASE_BOUNDS = { bounds: List<AttributeBounds<*>> ->
+    val PERCENT_BOUNDS = { bounds: List<AttributeBounds<*>> ->
         val bound = bounds[0].asDoubleBounds()
-        listOf(String.format("(%.0f-%.0f)", bound.min * 100, bound.max * 100))
+        listOf(String.format("(%.1f-%.1f)", bound.min * 100, bound.max * 100))
     }
     val STRING_SHOW_ALL_OPTIONS = { bounds: List<AttributeBounds<*>> ->
         listOf(bounds[0].asStringBounds().options.joinToString(prefix = "(", postfix = ")"))
@@ -40,11 +50,8 @@ object AttributeFormats {
         val bound2 = bounds[1].asIntBounds()
         listOf(String.format("(%d-%d)", bound1.min, bound1.max), String.format("(%d-%d)", bound2.min, bound2.max))
     }
-
-    private fun AttributeRoll<*>.asDoubleRoll() = this as DoubleRoll
-    private fun AttributeRoll<*>.asStringRoll() = this as StringRoll
-    private fun AttributeRoll<*>.asIntRoll() = this as IntRoll
-    private fun AttributeBounds<*>.asDoubleBounds() = this as DoubleBounds
-    private fun AttributeBounds<*>.asStringBounds() = this as StringBounds
-    private fun AttributeBounds<*>.asIntBounds() = this as IntBounds
+    val DOUBLE_BOUNDS = { bounds: List<AttributeBounds<*>> ->
+        val bound = bounds[0].asDoubleBounds()
+        listOf(String.format("(%.1f-%.1f)", bound.min, bound.max))
+    }
 }

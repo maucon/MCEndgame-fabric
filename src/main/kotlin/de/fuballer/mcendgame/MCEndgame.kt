@@ -2,6 +2,7 @@ package de.fuballer.mcendgame
 
 import de.maucon.mauconframework.MauConFramework
 import net.fabricmc.api.ModInitializer
+import java.util.*
 
 object MCEndgame : ModInitializer {
     const val MOD_ID = "mcendgame"
@@ -10,6 +11,7 @@ object MCEndgame : ModInitializer {
         // This code runs as soon as Minecraft is in a mod-load-ready state.
         // However, some things (like resources) may still be uninitialized.
         // Proceed with mild caution.
+        Locale.setDefault(Locale.US)
         MauConFramework.start(MCEndgame::class.java)
     }
 }
