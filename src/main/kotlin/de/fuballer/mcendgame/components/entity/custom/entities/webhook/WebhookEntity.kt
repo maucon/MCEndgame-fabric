@@ -6,11 +6,12 @@ import net.minecraft.enchantment.EnchantmentHelper
 import net.minecraft.entity.Entity
 import net.minecraft.entity.EntityType
 import net.minecraft.entity.LivingEntity
-import net.minecraft.entity.data.DataTracker
 import net.minecraft.entity.projectile.PersistentProjectileEntity
+import net.minecraft.entity.projectile.ProjectileEntity
 import net.minecraft.entity.projectile.ProjectileUtil
 import net.minecraft.item.ItemStack
 import net.minecraft.server.world.ServerWorld
+import net.minecraft.util.hit.BlockHitResult
 import net.minecraft.util.hit.EntityHitResult
 import net.minecraft.world.World
 import kotlin.math.cos
@@ -32,13 +33,10 @@ class WebhookEntity(
         }
     }
 
-    override fun initDataTracker(builder: DataTracker.Builder) {
-    }
-
     override fun getGravity() = 0.06
 
     override fun tick() {
-        super.tick()
+        (this as ProjectileEntity).tick()
         val currentVelocity = velocity
 
         val hitResult = ProjectileUtil.getCollision(this) { entity: Entity -> canHit(entity) }
@@ -49,7 +47,7 @@ class WebhookEntity(
         if (world.getStatesInBox(boundingBox).noneMatch { blockState -> blockState.isAir }) {
             discard()
             return
-        } else if (this.isInsideWaterOrBubbleColumn) {
+        } else if (isInsideWaterOrBubbleColumn) {
             discard()
             return
         }
@@ -60,8 +58,6 @@ class WebhookEntity(
     }
 
     override fun onEntityHit(entityHitResult: EntityHitResult) {
-        super.onEntityHit(entityHitResult)
-
         val serverWorld = world as? ServerWorld ?: return
         val attacker = owner as? LivingEntity ?: return
         val entity = entityHitResult.entity
@@ -75,6 +71,11 @@ class WebhookEntity(
 
         val hooker = owner as? HookAttackMob ?: return
         hooker.addHookedEntity(entity.uuid)
+    }
+
+    override fun onBlockHit(blockHitResult: BlockHitResult) {
+        val blockState = world.getBlockState(blockHitResult.blockPos)
+        blockState.onProjectileHit(world, blockState, blockHitResult, this)
     }
 
     override fun getDefaultItemStack() = ItemStack(CustomBlocks.DECAYING_COBWEB)

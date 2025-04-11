@@ -6,8 +6,8 @@ import net.minecraft.enchantment.EnchantmentHelper
 import net.minecraft.entity.Entity
 import net.minecraft.entity.EntityType
 import net.minecraft.entity.LivingEntity
-import net.minecraft.entity.data.DataTracker
 import net.minecraft.entity.projectile.PersistentProjectileEntity
+import net.minecraft.entity.projectile.ProjectileEntity
 import net.minecraft.entity.projectile.ProjectileUtil
 import net.minecraft.item.ItemStack
 import net.minecraft.particle.ParticleTypes
@@ -42,13 +42,10 @@ class WebshotEntity(
         }
     }
 
-    override fun initDataTracker(builder: DataTracker.Builder) {
-    }
-
     override fun getGravity() = 0.06
 
     override fun tick() {
-        super.tick()
+        (this as ProjectileEntity).tick()
         val currentVelocity = velocity
 
         val hitResult = ProjectileUtil.getCollision(this) { entity: Entity -> canHit(entity) }
@@ -59,7 +56,7 @@ class WebshotEntity(
         if (world.getStatesInBox(boundingBox).noneMatch { blockState -> blockState.isAir }) {
             discard()
             return
-        } else if (this.isInsideWaterOrBubbleColumn) {
+        } else if (isInsideWaterOrBubbleColumn) {
             discard()
             return
         }
@@ -79,8 +76,6 @@ class WebshotEntity(
     }
 
     override fun onEntityHit(entityHitResult: EntityHitResult) {
-        super.onEntityHit(entityHitResult)
-
         val serverWorld = world as? ServerWorld ?: return
         val attacker = owner as? LivingEntity ?: return
         val entity = entityHitResult.entity
@@ -96,7 +91,9 @@ class WebshotEntity(
     }
 
     override fun onBlockHit(blockHitResult: BlockHitResult) {
-        super.onBlockHit(blockHitResult)
+        val blockState = world.getBlockState(blockHitResult.blockPos)
+        blockState.onProjectileHit(world, blockState, blockHitResult, this)
+
         if (world.isClient) {
             discard()
             return
