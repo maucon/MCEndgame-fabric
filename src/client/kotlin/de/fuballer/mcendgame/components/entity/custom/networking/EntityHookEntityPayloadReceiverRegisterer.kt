@@ -1,14 +1,14 @@
 package de.fuballer.mcendgame.components.entity.custom.networking
 
 import de.fuballer.mcendgame.components.entity.custom.interfaces.HookAttackMob
-import de.maucon.mauconframework.annotation.Initialize
-import de.maucon.mauconframework.annotation.Injectable
+import de.maucon.mauconframework.di.annotation.Injectable
+import de.maucon.mauconframework.initializer.Initializer
 import net.fabricmc.fabric.api.client.networking.v1.ClientPlayNetworking
 import net.minecraft.client.MinecraftClient
 
 @Injectable
 class EntityHookEntityPayloadReceiverRegisterer {
-    @Initialize
+    @Initializer
     fun register() {
         ClientPlayNetworking.registerGlobalReceiver(EntityHookEntityPayload.ID) { payload, _ ->
             val world = MinecraftClient.getInstance().world ?: return@registerGlobalReceiver

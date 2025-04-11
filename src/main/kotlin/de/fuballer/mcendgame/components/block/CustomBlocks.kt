@@ -3,7 +3,7 @@ package de.fuballer.mcendgame.components.block
 import de.fuballer.mcendgame.components.dungeon.device.DungeonDevice
 import de.fuballer.mcendgame.components.dungeon.device.DungeonDeviceBlock
 import de.fuballer.mcendgame.util.RegistryUtil
-import de.maucon.mauconframework.annotation.Injectable
+import de.maucon.mauconframework.di.annotation.Injectable
 import net.minecraft.block.AbstractBlock.Settings
 import net.minecraft.block.Blocks
 import net.minecraft.block.MapColor

@@ -4,8 +4,8 @@ import de.fuballer.mcendgame.components.block.CustomBlocks
 import de.fuballer.mcendgame.components.item.custom.armor.CustomArmorItems
 import de.fuballer.mcendgame.util.IdentifierUtil
 import de.fuballer.mcendgame.util.RegistryUtil
-import de.maucon.mauconframework.annotation.Initialize
-import de.maucon.mauconframework.annotation.Injectable
+import de.maucon.mauconframework.di.annotation.Injectable
+import de.maucon.mauconframework.initializer.Initializer
 import net.fabricmc.fabric.api.itemgroup.v1.FabricItemGroup
 import net.fabricmc.fabric.api.itemgroup.v1.ItemGroupEvents
 import net.minecraft.item.ItemStack
@@ -29,7 +29,7 @@ object CustomItemGroups {
             .displayName(Text.translatable("itemGroup.custom_blocks"))
     )
 
-    @Initialize
+    @Initializer
     fun init() {
         ItemGroupEvents.modifyEntriesEvent(CUSTOM_ARMOR_KEY).register { itemGroup ->
             itemGroup.add(CustomArmorItems.ICEBORNE)
