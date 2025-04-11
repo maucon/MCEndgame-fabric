@@ -174,10 +174,10 @@ class ArachneRenderer(
         val skyLight = MathHelper.lerp(segmentPercent, leashedEntitySkyLight, leashHolderSkyLight)
         val light = LightmapTextureManager.pack(blockLight, skyLight)
 
-        val brightnessFactor = if (segmentIndex % 2 == (if (rotated) 1 else 0)) 0.7f else 1.0f
-        val red = 0.85f * brightnessFactor
-        val green = 0.85f * brightnessFactor
-        val blue = 0.85f * brightnessFactor
+        val brightnessFactor = if (segmentIndex % 2 == (if (rotated) 1 else 0)) 0.85f else 0.98f
+        val red = 0.99f * brightnessFactor
+        val green = 0.95f * brightnessFactor
+        val blue = 0.87f * brightnessFactor
 
         val segmentX = (hookedEntityOffset.x * segmentPercent).toFloat()
         val segmentY =

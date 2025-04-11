@@ -46,7 +46,7 @@ class WebbedFeatureRenderer<T : LivingEntityRenderState, M : EntityModel<T>>(
         matrices.translate(0F, translateY, 0F)
 
         val scaleX = state.width * 1.1F * invScale
-        val scaleY = state.standingEyeHeight * 0.75F * invScale
+        val scaleY = state.standingEyeHeight * 0.75F * invScale * (2F / 3F) // model is 1.5 blocks
         matrices.scale(scaleX, scaleY, scaleX)
 
         val vertexConsumer = vertexConsumers.getBuffer(RenderLayer.getEntityCutout(TEXTURE))
