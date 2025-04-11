@@ -1,16 +1,16 @@
 {
   "required": true,
-  "package": "de.fuballer.mcendgame.mixin.client",
+  "package": "de.fuballer.client.mcendgame.mixin.client",
   "compatibilityLevel": "JAVA_21",
   "client": [
     "ArmorStandEntityRendererMixin",
     "ItemStackMixin",
     "LivingEntityMixin",
     "LivingEntityRendererMixin",
+    "LivingEntityRendererWebbedMixin",
     "LivingEntityRenderStateMixin",
-    "PlayerEntityRendererMixin",
     "LivingEntityRenderStateWebbedMixin",
-    "LivingEntityRendererWebbedMixin"
+    "PlayerEntityRendererMixin"
   ],
   "injectors": {
     "defaultRequire": 1
