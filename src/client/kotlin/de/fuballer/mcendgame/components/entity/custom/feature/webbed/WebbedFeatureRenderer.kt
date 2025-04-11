@@ -36,8 +36,8 @@ class WebbedFeatureRenderer<T : LivingEntityRenderState, M : EntityModel<T>>(
 
         matrices.push()
 
-        // players are rendered smaller for some fucking reason
-        // prob some other mobs too
+        // Players are rendered smaller due to an unknown scaling factor.
+        // This might also apply to other mobs.
         val invScale = 1F / getMatrixStackHeightScale(matrices)
 
         // 1.5 reverts translate in LivingEntityRenderer
