@@ -483,13 +483,13 @@ class ArachneEntityModel(
     ) {
         super.setAngles(renderState)
 
-        animate(renderState.idleAnimationState, de.fuballer.client.mcendgame.components.entity.custom.entities.arachne.ArachneAnimation.IDLE, renderState.age, 1.0F)
+        animate(renderState.idleAnimationState, ArachneAnimation.IDLE, renderState.age, 1.0F)
         val walkAnimSpeed = renderState.moveSpeed * 6F / renderState.baseScale
-        animate(renderState.walkAnimationState, de.fuballer.client.mcendgame.components.entity.custom.entities.arachne.ArachneAnimation.WALK, renderState.age, walkAnimSpeed)
-        animate(renderState.walkBWAnimationState, de.fuballer.client.mcendgame.components.entity.custom.entities.arachne.ArachneAnimation.WALK_BW, renderState.age, walkAnimSpeed)
+        animate(renderState.walkAnimationState, ArachneAnimation.WALK, renderState.age, walkAnimSpeed)
+        animate(renderState.walkBWAnimationState, ArachneAnimation.WALK_BW, renderState.age, walkAnimSpeed)
 
-        animate(renderState.spitAnimationState, de.fuballer.client.mcendgame.components.entity.custom.entities.arachne.ArachneAnimation.SPIT, renderState.age, 1.0F)
-        animate(renderState.meleeAttackAnimationState, de.fuballer.client.mcendgame.components.entity.custom.entities.arachne.ArachneAnimation.ATTACK, renderState.age, 1.0F)
+        animate(renderState.spitAnimationState, ArachneAnimation.SPIT, renderState.age, 1.0F)
+        animate(renderState.meleeAttackAnimationState, ArachneAnimation.ATTACK, renderState.age, 1.0F)
 
         setHeadAngles(renderState)
     }

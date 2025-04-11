@@ -18,8 +18,7 @@ class WebbedFeatureRenderer<T : LivingEntityRenderState, M : EntityModel<T>>(
     featureContext: FeatureRendererContext<T, M>,
     ctx: EntityRendererFactory.Context,
 ) : FeatureRenderer<T, M>(featureContext) {
-    val model =
-        WebbedModel(ctx.getPart(WebbedModel.WEBBED_LAYER))
+    val model = WebbedModel(ctx.getPart(WebbedModel.WEBBED_LAYER))
 
     companion object {
         private val TEXTURE = IdentifierUtil.default("textures/entity/feature/webbed/webbed.png")

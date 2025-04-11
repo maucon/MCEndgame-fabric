@@ -12,7 +12,7 @@ import net.minecraft.client.render.entity.state.EntityRenderState
 class DruidsLeggingsModel<S : BipedEntityRenderState>(
     root: ModelPart
 ) : BipedEntityModel<S>(root), Animated {
-    private val animation = de.fuballer.client.mcendgame.components.item.custom.armor.leggings.druids_leggings.DruidsLeggingsAnimation()
+    private val animation = DruidsLeggingsAnimation()
 
     val battleSkirtBack: ModelPart
     val battleSkirtFront: ModelPart

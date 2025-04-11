@@ -12,8 +12,7 @@ import net.minecraft.util.math.RotationAxis
 class WebshotRenderer(
     context: EntityRendererFactory.Context,
 ) : EntityRenderer<WebshotEntity, WebshotRenderState>(context) {
-    val model =
-        WebshotEntityModel(context.getPart(WebshotEntityModel.Companion.WEBSHOT))
+    val model = WebshotEntityModel(context.getPart(WebshotEntityModel.WEBSHOT))
 
     companion object {
         val TEXTURE = IdentifierUtil.default("textures/entity/webshot/webshot.png")
@@ -38,8 +37,7 @@ class WebshotRenderer(
         super.render(webshotRenderState, matrixStack, vertexConsumerProvider, i)
     }
 
-    override fun createRenderState(): WebshotRenderState =
-        WebshotRenderState()
+    override fun createRenderState(): WebshotRenderState = WebshotRenderState()
 
     override fun updateRenderState(
         webshotEntity: WebshotEntity,
