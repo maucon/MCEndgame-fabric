@@ -1,0 +1,15 @@
+package de.fuballer.client.mcendgame.mixin_interfaces;
+
+public interface LivingEntityRenderStateAccessor {
+    float mcendgame$getHealth();
+
+    void mcendgame$setHealth(float health);
+
+    float mcendgame$getMaxHealth();
+
+    void mcendgame$setMaxHealth(float maxHealth);
+
+    int mcendgame$getLowHealthTicks20();
+
+    void mcendgame$setLowHealthTicks20(int lowHealthTicks20);
+}
