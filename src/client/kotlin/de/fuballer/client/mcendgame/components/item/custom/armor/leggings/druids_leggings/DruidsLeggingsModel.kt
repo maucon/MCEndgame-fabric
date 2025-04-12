@@ -6,9 +6,7 @@ import net.minecraft.client.render.entity.model.BipedEntityModel
 import net.minecraft.client.render.entity.model.EntityModelLayer
 import net.minecraft.client.render.entity.model.EntityModelPartNames
 import net.minecraft.client.render.entity.state.BipedEntityRenderState
-import kotlin.math.abs
-import kotlin.math.max
-import kotlin.math.min
+import kotlin.math.*
 
 class DruidsLeggingsModel<S : BipedEntityRenderState>(
     root: ModelPart
@@ -118,7 +116,14 @@ class DruidsLeggingsModel<S : BipedEntityRenderState>(
     private fun setBattleSkirtAngles(renderState: S) {
         val minPitchFront = max(0F, abs(min(leftLeg.pitch, rightLeg.pitch)))
         battleSkirtFront.pitch -= minPitchFront
+
         val minPitchBack = max(0F, max(leftLeg.pitch, rightLeg.pitch))
-        battleSkirtBack.pitch += minPitchBack
+        val speed = renderState.limbAmplitudeMultiplier // 0.0 to 1.0
+        val speedPitchBack = speed * 1.45F
+        val randomPitchVariance = sin(renderState.age / 3F) * 0.08F * speed
+        battleSkirtBack.pitch += max(minPitchBack, speedPitchBack + randomPitchVariance)
+
+        val randomRollVariance = cos(renderState.age / 8F) * 0.03F
+        battleSkirtBack.roll += randomRollVariance
     }
 }
