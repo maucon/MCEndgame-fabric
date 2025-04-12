@@ -43,6 +43,6 @@ jobs:
 
       - name: Notify webhook
         run: |
-          artifact_url="${{ steps.artifact-upload-step.outputs.artifact-url }}"
+          artifact_url="${{ steps.artifact-upload.outputs.artifact-url }}"
           echo "Artifact URL: $artifact_url"
 #           todo notify webhook
