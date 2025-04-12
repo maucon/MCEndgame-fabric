@@ -1,6 +1,5 @@
 package de.fuballer.client.mcendgame.components.item.custom.armor.chestplate.bound_abyss
 
-import de.fuballer.client.mcendgame.components.item.custom.armor.Animated
 import de.fuballer.client.mcendgame.components.item.custom.armor.CustomVertexConsumer
 import de.fuballer.client.mcendgame.mixin_interfaces.LivingEntityRenderStateAccessor
 import de.fuballer.mcendgame.util.IdentifierUtil
@@ -12,16 +11,16 @@ import net.minecraft.client.render.entity.model.EntityModelLayer
 import net.minecraft.client.render.entity.model.EntityModelPartNames
 import net.minecraft.client.render.entity.state.BipedEntityRenderState
 import net.minecraft.client.render.entity.state.EntityRenderState
+import org.joml.Vector3f
 
 class BoundAbyssModel<S : BipedEntityRenderState>(
     root: ModelPart
-) : BipedEntityModel<S>(root), Animated, CustomVertexConsumer {
-    private val animation = BoundAbyssAnimation()
+) : BipedEntityModel<S>(root), CustomVertexConsumer {
 
-    val shoulderPadLeft: ModelPart
-    val vambraceLeft: ModelPart
-    val shoulderPadRight: ModelPart
-    val vambraceRight: ModelPart
+    private val shoulderPadLeft: ModelPart
+    private val vambraceLeft: ModelPart
+    private val shoulderPadRight: ModelPart
+    private val vambraceRight: ModelPart
 
     init {
         val chestplateArmLeft = this.leftArm.getChild("chestplateArmLeft")
@@ -33,11 +32,6 @@ class BoundAbyssModel<S : BipedEntityRenderState>(
         shoulderPadRight = chestplateArmRight.getChild("shoulderPadRight")
         val sleeveRight = chestplateArmRight.getChild("sleeveRight")
         vambraceRight = sleeveRight.getChild("vambraceRight")
-    }
-
-    override fun animate(renderState: EntityRenderState) {
-        if (renderState !is BipedEntityRenderState) return
-        animation.setTransforms(this, renderState)
     }
 
     override fun getVertexConsumer(
@@ -134,5 +128,28 @@ class BoundAbyssModel<S : BipedEntityRenderState>(
 
             return TexturedModelData.of(modelData, 64, 64)
         }
+    }
+
+    override fun setAngles(renderState: S) {
+        resetNotCopiedTransforms()
+        setLowHealthAngles(renderState)
+    }
+
+    private fun resetNotCopiedTransforms() {
+        shoulderPadLeft.resetTransform()
+        shoulderPadRight.resetTransform()
+        vambraceLeft.resetTransform()
+        vambraceRight.resetTransform()
+    }
+
+    private fun setLowHealthAngles(renderState: S) {
+        val accessor = renderState as? LivingEntityRenderStateAccessor ?: return
+        val lowHealthTicks20 = accessor.`mcendgame$getLowHealthTicks20`()
+        val openPercent = lowHealthTicks20 / 20F
+
+        shoulderPadLeft.translate(Vector3f(openPercent * 1.5F, openPercent * -0.8F, 0F))
+        shoulderPadRight.translate(Vector3f(openPercent * -1.5F, openPercent * -0.8F, 0F))
+        vambraceLeft.translate(Vector3f(openPercent * 1.2F, 0F, 0F))
+        vambraceRight.translate(Vector3f(openPercent * -1.2F, 0F, 0F))
     }
 }
