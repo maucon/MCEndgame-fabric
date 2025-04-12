@@ -45,6 +45,11 @@ jobs:
         run: |
           artifact_download_url="https://api.github.com/repos/maucon/MCEndgame-fabric/actions/artifacts/${{ steps.artifact-upload.outputs.artifact-id }}/zip"
           echo "Artifact URL: $artifact_download_url"
+          
+          curl -X POST ${{ secrets.WEBHOOK_URL }} \
+            -H "Content-Type: application/json" \
+            -H "x-webhook-auth: ${{ secrets.WEBHOOK_AUTH }}" \
+            -d "{\"artifact_url\": \"$artifact_download_url\"}"
 
 # todo notify webhook with artifact url
 # todo download jar in n8n
