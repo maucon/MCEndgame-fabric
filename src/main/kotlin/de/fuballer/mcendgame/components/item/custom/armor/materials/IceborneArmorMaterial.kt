@@ -1,4 +1,4 @@
-package de.fuballer.mcendgame.components.item.custom.armor.helmet.iceborne
+package de.fuballer.mcendgame.components.item.custom.armor.materials
 
 import de.fuballer.mcendgame.components.item.custom.armor.CustomArmorMaterial
 import de.fuballer.mcendgame.util.RegistryKeyUtil

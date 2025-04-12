@@ -1,4 +1,4 @@
-package de.fuballer.mcendgame.components.item.custom.armor.helmet.iceborne
+package de.fuballer.mcendgame.components.item.custom.armor.materials
 
 import de.fuballer.mcendgame.components.item.custom.armor.CustomArmorMaterial
 import de.fuballer.mcendgame.util.RegistryKeyUtil
@@ -9,9 +9,9 @@ import net.minecraft.registry.RegistryKey
 import net.minecraft.registry.tag.ItemTags
 import net.minecraft.sound.SoundEvents
 
-object DruidsArmorMaterial : CustomArmorMaterial {
+object BoundAbyssArmorMaterial : CustomArmorMaterial {
     override val baseDurability = 15
-    override val registryKey: RegistryKey<EquipmentAsset> = RegistryKeyUtil.createEquipmentAssetKey("druids")
+    override val registryKey: RegistryKey<EquipmentAsset> = RegistryKeyUtil.createEquipmentAssetKey("bound_abyss")
 
     override val instance = ArmorMaterial(
         baseDurability,
@@ -22,7 +22,7 @@ object DruidsArmorMaterial : CustomArmorMaterial {
         SoundEvents.ITEM_ARMOR_EQUIP_GENERIC,
         3.0f,
         0.1f,
-        ItemTags.REPAIRS_NETHERITE_ARMOR,
+        ItemTags.REPAIRS_GOLD_ARMOR,
         registryKey
     )
 }

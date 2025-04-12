@@ -4,6 +4,7 @@ import de.fuballer.client.mcendgame.components.item.custom.armor.boots.druids_bo
 import de.fuballer.client.mcendgame.components.item.custom.armor.chestplate.bound_abyss.BoundAbyssModel
 import de.fuballer.client.mcendgame.components.item.custom.armor.chestplate.druids_chestplate.DruidsChestplateModel
 import de.fuballer.client.mcendgame.components.item.custom.armor.helmet.druids_helmet.DruidsHelmetModel
+import de.fuballer.client.mcendgame.components.item.custom.armor.helmet.emberchant.EmberchantModel
 import de.fuballer.client.mcendgame.components.item.custom.armor.helmet.iceborne.IceborneModel
 import de.fuballer.client.mcendgame.components.item.custom.armor.leggings.druids_leggings.DruidsLeggingsModel
 import de.fuballer.mcendgame.components.item.custom.armor.CustomArmorItems
@@ -16,12 +17,14 @@ import net.minecraft.client.render.entity.EntityRendererFactory
 import net.minecraft.client.render.entity.feature.FeatureRenderer
 import net.minecraft.client.render.entity.feature.FeatureRendererContext
 import net.minecraft.client.render.entity.model.BipedEntityModel
+import net.minecraft.client.render.entity.state.ArmorStandEntityRenderState
 import net.minecraft.client.render.entity.state.BipedEntityRenderState
 import net.minecraft.client.render.item.ItemRenderer
 import net.minecraft.client.util.math.MatrixStack
 import net.minecraft.item.Item
 import net.minecraft.item.ItemStack
 import net.minecraft.util.Identifier
+import kotlin.math.PI
 
 class CustomHumanoidArmorFeatureRenderer<S : BipedEntityRenderState, M : BipedEntityModel<S>>(
     featureContext: FeatureRendererContext<S, M>,
@@ -55,6 +58,10 @@ class CustomHumanoidArmorFeatureRenderer<S : BipedEntityRenderState, M : BipedEn
         texturedArmorModels[CustomArmorItems.DRUIDS_BOOTS] = TexturedArmorModel(
             IdentifierUtil.default("textures/entity/equipment/custom_humanoid/druids.png"),
             DruidsBootsModel(ctx.getPart(DruidsBootsModel.MODEL_LAYER))
+        )
+        texturedArmorModels[CustomArmorItems.EMBERCHANT] = TexturedArmorModel(
+            IdentifierUtil.default("textures/entity/equipment/custom_humanoid/emberchant.png"),
+            EmberchantModel(ctx.getPart(EmberchantModel.MODEL_LAYER))
         )
     }
 
@@ -108,7 +115,12 @@ class CustomHumanoidArmorFeatureRenderer<S : BipedEntityRenderState, M : BipedEn
 
         val model = texturedArmorModel.model
         contextModel.copyTransforms(model)
+
         model.setAngles(bipedEntityRenderState)
+
+        if (bipedEntityRenderState is ArmorStandEntityRenderState) {
+            model.head.yaw += bipedEntityRenderState.yaw * PI.toFloat() / 180F
+        }
 
         renderModel(
             bipedEntityRenderState,

@@ -4,6 +4,7 @@ import de.fuballer.client.mcendgame.components.item.custom.armor.boots.druids_bo
 import de.fuballer.client.mcendgame.components.item.custom.armor.chestplate.bound_abyss.BoundAbyssModel
 import de.fuballer.client.mcendgame.components.item.custom.armor.chestplate.druids_chestplate.DruidsChestplateModel
 import de.fuballer.client.mcendgame.components.item.custom.armor.helmet.druids_helmet.DruidsHelmetModel
+import de.fuballer.client.mcendgame.components.item.custom.armor.helmet.emberchant.EmberchantModel
 import de.fuballer.client.mcendgame.components.item.custom.armor.helmet.iceborne.IceborneModel
 import de.fuballer.client.mcendgame.components.item.custom.armor.leggings.druids_leggings.DruidsLeggingsModel
 import de.maucon.mauconframework.di.annotation.Injectable
@@ -37,6 +38,10 @@ object ArmorModelRegisterer {
         EntityModelLayerRegistry.registerModelLayer(
             DruidsBootsModel.MODEL_LAYER,
             DruidsBootsModel.Companion::getTexturedModelData
+        )
+        EntityModelLayerRegistry.registerModelLayer(
+            EmberchantModel.MODEL_LAYER,
+            EmberchantModel.Companion::getTexturedModelData
         )
     }
 }

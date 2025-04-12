@@ -1,8 +1,9 @@
 package de.fuballer.mcendgame.components.item.custom.armor
 
-import de.fuballer.mcendgame.components.item.custom.armor.helmet.iceborne.BoundAbyssArmorMaterial
-import de.fuballer.mcendgame.components.item.custom.armor.helmet.iceborne.DruidsArmorMaterial
-import de.fuballer.mcendgame.components.item.custom.armor.helmet.iceborne.IceborneArmorMaterial
+import de.fuballer.mcendgame.components.item.custom.armor.materials.BoundAbyssArmorMaterial
+import de.fuballer.mcendgame.components.item.custom.armor.materials.DruidsArmorMaterial
+import de.fuballer.mcendgame.components.item.custom.armor.materials.EmberchantArmorMaterial
+import de.fuballer.mcendgame.components.item.custom.armor.materials.IceborneArmorMaterial
 import de.fuballer.mcendgame.util.RegistryUtil
 import de.maucon.mauconframework.di.annotation.Injectable
 import net.minecraft.item.equipment.EquipmentType
@@ -15,4 +16,5 @@ object CustomArmorItems {
     val DRUIDS_CHESTPLATE = RegistryUtil.registerArmorItem(DruidsArmorMaterial, EquipmentType.CHESTPLATE, "druids_chestplate")
     val DRUIDS_LEGGINGS = RegistryUtil.registerArmorItem(DruidsArmorMaterial, EquipmentType.LEGGINGS, "druids_leggings")
     val DRUIDS_BOOTS = RegistryUtil.registerArmorItem(DruidsArmorMaterial, EquipmentType.BOOTS, "druids_boots")
+    val EMBERCHANT = RegistryUtil.registerArmorItem(EmberchantArmorMaterial, EquipmentType.HELMET, "emberchant")
 }
