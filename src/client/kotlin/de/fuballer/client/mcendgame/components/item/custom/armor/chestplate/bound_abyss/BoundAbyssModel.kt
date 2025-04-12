@@ -16,7 +16,6 @@ import org.joml.Vector3f
 class BoundAbyssModel<S : BipedEntityRenderState>(
     root: ModelPart
 ) : BipedEntityModel<S>(root), CustomVertexConsumer {
-
     private val shoulderPadLeft: ModelPart
     private val vambraceLeft: ModelPart
     private val shoulderPadRight: ModelPart

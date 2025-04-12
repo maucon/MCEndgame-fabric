@@ -6,13 +6,15 @@ import net.minecraft.client.render.entity.model.BipedEntityModel
 import net.minecraft.client.render.entity.model.EntityModelLayer
 import net.minecraft.client.render.entity.model.EntityModelPartNames
 import net.minecraft.client.render.entity.state.BipedEntityRenderState
+import kotlin.math.abs
+import kotlin.math.max
+import kotlin.math.min
 
 class DruidsLeggingsModel<S : BipedEntityRenderState>(
     root: ModelPart
 ) : BipedEntityModel<S>(root) {
-
-    val battleSkirtBack: ModelPart
-    val battleSkirtFront: ModelPart
+    private val battleSkirtBack: ModelPart
+    private val battleSkirtFront: ModelPart
 
     init {
         val leggingsWaist = this.body.getChild("leggings_waist")
@@ -103,7 +105,20 @@ class DruidsLeggingsModel<S : BipedEntityRenderState>(
         }
     }
 
-    override fun setAngles(bipedEntityRenderState: S) {
-        super.setAngles(bipedEntityRenderState)
+    override fun setAngles(renderState: S) {
+        resetNotCopiedTransforms()
+        setBattleSkirtAngles(renderState)
+    }
+
+    private fun resetNotCopiedTransforms() {
+        battleSkirtBack.resetTransform()
+        battleSkirtFront.resetTransform()
+    }
+
+    private fun setBattleSkirtAngles(renderState: S) {
+        val minPitchFront = max(0F, abs(min(leftLeg.pitch, rightLeg.pitch)))
+        battleSkirtFront.pitch -= minPitchFront
+        val minPitchBack = max(0F, max(leftLeg.pitch, rightLeg.pitch))
+        battleSkirtBack.pitch += minPitchBack
     }
 }
