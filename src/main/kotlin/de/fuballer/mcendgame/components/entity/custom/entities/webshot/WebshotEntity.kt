@@ -3,12 +3,9 @@ package de.fuballer.mcendgame.components.entity.custom.entities.webshot
 import de.fuballer.mcendgame.components.block.CustomBlocks
 import de.fuballer.mcendgame.components.block.DecayingCobwebBlock
 import net.minecraft.enchantment.EnchantmentHelper
-import net.minecraft.entity.Entity
 import net.minecraft.entity.EntityType
 import net.minecraft.entity.LivingEntity
 import net.minecraft.entity.projectile.PersistentProjectileEntity
-import net.minecraft.entity.projectile.ProjectileEntity
-import net.minecraft.entity.projectile.ProjectileUtil
 import net.minecraft.item.ItemStack
 import net.minecraft.particle.ParticleTypes
 import net.minecraft.server.world.ServerWorld
@@ -45,25 +42,7 @@ class WebshotEntity(
     override fun getGravity() = 0.06
 
     override fun tick() {
-        (this as ProjectileEntity).tick()
-        val currentVelocity = velocity
-
-        val hitResult = ProjectileUtil.getCollision(this) { entity: Entity -> canHit(entity) }
-        hitOrDeflect(hitResult)
-
-        updateRotation()
-
-        if (world.getStatesInBox(boundingBox).noneMatch { blockState -> blockState.isAir }) {
-            discard()
-            return
-        } else if (isInsideWaterOrBubbleColumn) {
-            discard()
-            return
-        }
-        velocity = currentVelocity.multiply(0.99)
-        applyGravity()
-        setPosition(x + currentVelocity.x, y + currentVelocity.y, z + currentVelocity.z)
-
+        super.tick()
         spawnParticles()
     }
 
@@ -87,6 +66,7 @@ class WebshotEntity(
             EnchantmentHelper.onTargetDamaged(serverWorld, entity, damageSource)
         }
 
+        if (world.isClient) return
         discard()
     }
 
@@ -94,10 +74,8 @@ class WebshotEntity(
         val blockState = world.getBlockState(blockHitResult.blockPos)
         blockState.onProjectileHit(world, blockState, blockHitResult, this)
 
-        if (world.isClient) {
-            discard()
-            return
-        }
+        if (world.isClient) return
+        discard()
 
         generateDecayingCobwebs(blockHitResult.blockPos)
     }

@@ -70,10 +70,10 @@ class ArachneEntity(
     private var dealAttackDamageDelay = 0
 
     private val stayInMeleeRangeGoal = StayInRangeGoal(this, 1.0, MELEE_PURSUE_DISTANCE)
-    private val meleeAttackGoal = NoMovementMeleeAttackGoal(this, 50, MELEE_ATTACK_RANGE, 20)
+    private val meleeAttackGoal = NoMovementMeleeAttackGoal(this, 35, MELEE_ATTACK_RANGE, 20)
 
     private val hookAttackGoal = HookAttackGoal(this, 100, 15F)
-    private val projectileAttackGoal = NoMovementProjectileAttackGoal(this, 50, 15F, 25)
+    private val projectileAttackGoal = NoMovementProjectileAttackGoal(this, 35, 15F, 15)
     private val rangedKeepDistanceGoal = KeepDistanceToTargetGoal(this, 1.0, 10F, 15F)
 
     private val throwOffPassengerGoal = MountThrowOffPassengerGoal(this, 1.2)
@@ -401,8 +401,8 @@ class ArachneEntity(
 
     override fun meleeAttack(target: LivingEntity) {
         changeAttackPose(CustomPosesEntity.CustomPose.MELEE_ATTACKING, 28)
-        blockMovement(28)
-        dealAttackDamageDelay = 15
+        blockMovement(15)
+        dealAttackDamageDelay = 7
         lookControl.lookAt(target)
         lookAtEntity(target, 180F, 180F)
         bodyYaw = yaw
@@ -433,6 +433,7 @@ class ArachneEntity(
 
         targets.forEach {
             it.damage(serverWorld, damageSource, damage)
+            it.velocityModified = true
             it.takeKnockback(knockBackStrength, -knockBackDirection.x, -knockBackDirection.z) //takeKnockback inverts it
         }
     }
@@ -462,12 +463,12 @@ class ArachneEntity(
         val pos1 = pos.add(forward.multiply(MELEE_ATTACK_LENGTH * scale))
             .add(sideways.multiply(MELEE_ATTACK_WIDTH / 2.0 * scale)).add(0.0, MELEE_ATTACK_HEIGHT / 2.0, 0.0)
         serverWorld.spawnParticles(
-            ParticleTypes.CRIT, pos1.x, pos1.y, pos1.z, 1, 0.0, 0.0, 0.0, 0.0
+            ParticleTypes.FLAME, pos1.x, pos1.y, pos1.z, 1, 0.0, 0.0, 0.0, 0.0
         )
         val pos2 = pos.add(forward.multiply(MELEE_ATTACK_LENGTH * scale))
             .add(sideways.multiply(MELEE_ATTACK_WIDTH / -2.0 * scale)).add(0.0, MELEE_ATTACK_HEIGHT / 2.0, 0.0)
         serverWorld.spawnParticles(
-            ParticleTypes.CRIT, pos2.x, pos2.y, pos2.z, 1, 0.0, 0.0, 0.0, 0.0
+            ParticleTypes.FLAME, pos2.x, pos2.y, pos2.z, 1, 0.0, 0.0, 0.0, 0.0
         )
     }
 
