@@ -35,6 +35,7 @@ jobs:
         run: ./gradlew build
 
       - name: Upload build artifacts
+        id: artifact-upload
         uses: actions/upload-artifact@v4
         with:
           name: Artifacts
@@ -42,7 +43,8 @@ jobs:
 
       - name: Notify webhook
         run: |
-          echo "${{ github.run_id }}"
+          artifact_download_url="https://api.github.com/repos/maucon/MCEndgame-fabric/actions/artifacts/${{ steps.artifact-upload.outputs.artifact-id }}/zip"
+          echo "Artifact URL: $artifact_download_url"
 
 # todo notify webhook with artifact url
 # todo download jar in n8n
