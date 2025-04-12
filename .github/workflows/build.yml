@@ -39,3 +39,9 @@ jobs:
         with:
           name: Artifacts
           path: build/libs/
+
+      - name: Notify webhook
+        run: |
+          artifacts_url="https://api.github.com/repos/${{ github.repository }}/actions/runs/${{ github.run_id }}/artifacts"
+          echo "Artifact URL: $artifact_url"
+#           todo notify webhook
