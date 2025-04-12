@@ -42,11 +42,9 @@ jobs:
           path: build/libs/
 
       - name: Notify webhook
-        # todo only run on master
+        if: github.ref == 'refs/heads/master'
         run: |
           artifact_download_url="https://api.github.com/repos/maucon/MCEndgame-fabric/actions/artifacts/${{ steps.artifact-upload.outputs.artifact-id }}/zip"
-          echo "Artifact URL: $artifact_download_url"
-          
           curl -X POST ${{ secrets.WEBHOOK_URL }} \
             -H "Content-Type: application/json" \
             -H "x-webhook-auth: ${{ secrets.WEBHOOK_AUTH }}" \
