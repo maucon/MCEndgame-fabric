@@ -1,32 +1,24 @@
 package de.fuballer.client.mcendgame.components.item.custom.armor.leggings.druids_leggings
 
-import de.fuballer.client.mcendgame.components.item.custom.armor.Animated
 import de.fuballer.mcendgame.util.IdentifierUtil
 import net.minecraft.client.model.*
 import net.minecraft.client.render.entity.model.BipedEntityModel
 import net.minecraft.client.render.entity.model.EntityModelLayer
 import net.minecraft.client.render.entity.model.EntityModelPartNames
 import net.minecraft.client.render.entity.state.BipedEntityRenderState
-import net.minecraft.client.render.entity.state.EntityRenderState
+import kotlin.math.*
 
 class DruidsLeggingsModel<S : BipedEntityRenderState>(
     root: ModelPart
-) : BipedEntityModel<S>(root), Animated {
-    private val animation = DruidsLeggingsAnimation()
-
-    val battleSkirtBack: ModelPart
-    val battleSkirtFront: ModelPart
+) : BipedEntityModel<S>(root) {
+    private val battleSkirtBack: ModelPart
+    private val battleSkirtFront: ModelPart
 
     init {
         val leggingsWaist = this.body.getChild("leggings_waist")
         val battleSkirt = leggingsWaist.getChild("battle_skirt")
         battleSkirtBack = battleSkirt.getChild("battle_skirt_back")
         battleSkirtFront = battleSkirt.getChild("battle_skirt_front")
-    }
-
-    override fun animate(renderState: EntityRenderState) {
-        if (renderState !is BipedEntityRenderState) return
-        animation.setTransforms(this, renderState)
     }
 
     companion object {
@@ -109,5 +101,29 @@ class DruidsLeggingsModel<S : BipedEntityRenderState>(
             )
             return TexturedModelData.of(modelData, 128, 128)
         }
+    }
+
+    override fun setAngles(renderState: S) {
+        resetNotCopiedTransforms()
+        setBattleSkirtAngles(renderState)
+    }
+
+    private fun resetNotCopiedTransforms() {
+        battleSkirtBack.resetTransform()
+        battleSkirtFront.resetTransform()
+    }
+
+    private fun setBattleSkirtAngles(renderState: S) {
+        val minPitchFront = max(0F, abs(min(leftLeg.pitch, rightLeg.pitch)))
+        battleSkirtFront.pitch -= minPitchFront
+
+        val minPitchBack = max(0F, max(leftLeg.pitch, rightLeg.pitch))
+        val speed = renderState.limbAmplitudeMultiplier // 0.0 to 1.0
+        val speedPitchBack = speed * 1.45F
+        val randomPitchVariance = sin(renderState.age / 3F) * 0.08F * speed
+        battleSkirtBack.pitch += max(minPitchBack, speedPitchBack + randomPitchVariance)
+
+        val randomRollVariance = cos(renderState.age / 8F) * 0.03F
+        battleSkirtBack.roll += randomRollVariance
     }
 }

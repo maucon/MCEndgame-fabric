@@ -1,12 +1,14 @@
 package de.fuballer.client.mcendgame.components.entity.custom.feature
 
 import de.fuballer.client.mcendgame.components.entity.custom.feature.webbed.WebbedFeatureRenderer
+import de.fuballer.client.mcendgame.components.item.custom.armor.CustomHumanoidArmorFeatureRenderer
 import de.maucon.mauconframework.di.annotation.Injectable
 import de.maucon.mauconframework.initializer.Initializer
 import net.fabricmc.fabric.api.client.rendering.v1.LivingEntityFeatureRendererRegistrationCallback
 import net.minecraft.client.render.entity.feature.FeatureRendererContext
 import net.minecraft.client.render.entity.model.EntityModel
 import net.minecraft.client.render.entity.state.LivingEntityRenderState
+import net.minecraft.entity.EntityType
 
 @Injectable
 class FeatureRegisterer {

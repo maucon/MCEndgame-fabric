@@ -107,10 +107,8 @@ class CustomHumanoidArmorFeatureRenderer<S : BipedEntityRenderState, M : BipedEn
         val texturedArmorModel = texturedArmorModels[item] ?: return
 
         val model = texturedArmorModel.model
-        this.contextModel.copyTransforms(model)
-        if (model is Animated) {
-            model.animate(bipedEntityRenderState)
-        }
+        contextModel.copyTransforms(model)
+        model.setAngles(bipedEntityRenderState)
 
         renderModel(
             bipedEntityRenderState,
@@ -139,6 +137,5 @@ class CustomHumanoidArmorFeatureRenderer<S : BipedEntityRenderState, M : BipedEn
         }
 
         model.render(matrices, vertexConsumer, light, OverlayTexture.DEFAULT_UV)
-        model.render(matrices, vertexConsumer, 0xF000F0, OverlayTexture.DEFAULT_UV)
     }
 }
