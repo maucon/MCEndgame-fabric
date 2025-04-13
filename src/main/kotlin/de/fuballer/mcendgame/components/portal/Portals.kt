@@ -1,17 +1,47 @@
 package de.fuballer.mcendgame.components.portal
 
-import de.fuballer.mcendgame.components.portal.types.DefaultPortalEntity
+import de.fuballer.mcendgame.components.portal.teleport.TeleportLocation
+import de.fuballer.mcendgame.components.portal.type.DefaultPortalType
+import de.fuballer.mcendgame.components.portal.type.PortalType
+import de.fuballer.mcendgame.util.RegistryUtil
 import de.maucon.mauconframework.di.annotation.Injectable
 import de.maucon.mauconframework.initializer.Initializer
 import net.fabricmc.fabric.api.`object`.builder.v1.entity.FabricDefaultAttributeRegistry
+import net.minecraft.command.argument.EntityAnchorArgumentType
+import net.minecraft.entity.EntityType
+import net.minecraft.entity.SpawnGroup
+import net.minecraft.entity.SpawnReason
 import net.minecraft.entity.passive.AbstractHorseEntity.createLivingAttributes
+import net.minecraft.server.world.ServerWorld
+import net.minecraft.util.math.BlockPos
+import net.minecraft.util.math.Vec3d
 
 @Injectable
 object Portals {
-    val DEFAULT = PortalRegistry.register("default", ::DefaultPortalEntity)
+    val ENTITY_TYPE = RegistryUtil.registerEntity(
+        "portal",
+        EntityType.Builder.create(::PortalEntity, SpawnGroup.MISC)
+            .dimensions(PortalSettings.DEFAULT_HITBOX_WIDTH, PortalSettings.DEFAULT_HITBOX_HEIGHT)
+    )
 
     @Initializer
-    fun reg() {
-        FabricDefaultAttributeRegistry.register(DEFAULT, createLivingAttributes())
+    fun register() {
+        FabricDefaultAttributeRegistry.register(ENTITY_TYPE, createLivingAttributes())
+    }
+
+    fun spawn(
+        world: ServerWorld,
+        pos: BlockPos,
+        lookAt: Vec3d,
+        teleportLocation: TeleportLocation,
+        type: PortalType = DefaultPortalType()
+    ): PortalEntity {
+        val portal = ENTITY_TYPE.spawn(world, pos, SpawnReason.LOAD)!!
+
+        portal.type = type
+        portal.teleportLocation = teleportLocation
+        portal.lookAt(EntityAnchorArgumentType.EntityAnchor.FEET, lookAt)
+
+        return portal
     }
 }

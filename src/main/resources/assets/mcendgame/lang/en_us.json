@@ -35,9 +35,12 @@
   "entity.mcendgame.arachne": "Arachne",
   "entity.mcendgame.webshot": "Webshot",
   "entity.mcendgame.webhook": "Webhook",
+  "entity.mcendgame.portal": "Portal",
 
   "block.mcendgame.decaying_cobweb": "Decaying Cobweb",
 
   "itemGroup.custom_armor": "MCEndgame Armor",
-  "itemGroup.custom_blocks": "MCEndgame Blocks"
+  "itemGroup.custom_blocks": "MCEndgame Blocks",
+
+  "error.mcendgame.teleport.failed": "Destination location invalid! Closing portal."
 }

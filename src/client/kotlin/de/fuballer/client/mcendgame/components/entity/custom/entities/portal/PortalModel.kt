@@ -1,13 +1,13 @@
-package de.fuballer.client.mcendgame.components.portal
+package de.fuballer.client.mcendgame.components.entity.custom.entities.portal
 
 import de.fuballer.mcendgame.util.IdentifierUtil
 import net.minecraft.client.model.*
 import net.minecraft.client.render.entity.model.EntityModel
 import net.minecraft.client.render.entity.model.EntityModelLayer
 
-class DefaultPortalModel(
+class PortalModel(
     modelPart: ModelPart,
-) : EntityModel<DefaultPortalRenderState>(modelPart) {
+) : EntityModel<PortalRenderState>(modelPart) {
     val webshot = root.getChild("webshot")
 
     companion object {

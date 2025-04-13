@@ -248,7 +248,8 @@ class ArachneEntity(
         if (attackAnimationTicks <= 0) return
         if (--attackAnimationTicks > 0) return
 
-        dataTracker.set(ATTACK_POSE, CustomPosesEntity.CustomPose.IDLING)
+        dataTracker.set(
+            ATTACK_POSE, CustomPosesEntity.CustomPose.IDLING)
     }
 
     private fun changeAttackPose(pose: CustomPosesEntity.CustomPose, animationTime: Int) {

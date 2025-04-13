@@ -2,12 +2,16 @@ package de.fuballer.mcendgame.components.portal
 
 import de.fuballer.mcendgame.components.portal.teleport.TeleportExtensions.teleportTo
 import de.fuballer.mcendgame.components.portal.teleport.TeleportLocation
+import de.fuballer.mcendgame.components.portal.type.DefaultPortalType
+import de.fuballer.mcendgame.components.portal.type.PortalType
 import net.minecraft.entity.EntityType
 import net.minecraft.entity.EquipmentSlot
 import net.minecraft.entity.LivingEntity
 import net.minecraft.entity.MovementType
 import net.minecraft.entity.damage.DamageSource
 import net.minecraft.entity.data.DataTracker
+import net.minecraft.entity.data.TrackedData
+import net.minecraft.entity.data.TrackedDataHandlerRegistry
 import net.minecraft.entity.player.PlayerEntity
 import net.minecraft.item.ItemStack
 import net.minecraft.nbt.NbtCompound
@@ -18,25 +22,29 @@ import net.minecraft.util.Hand
 import net.minecraft.util.math.Vec3d
 import net.minecraft.world.World
 
-abstract class AbstractPortalEntity(
-    entityType: EntityType<out LivingEntity>,
-    world: World
-) : LivingEntity(entityType, world) {
-    private var ticksSinceStart = 0
+private const val TYPE_NBT = "type"
 
+class PortalEntity(
+    entityType: EntityType<out LivingEntity>,
+    world: World,
+) : LivingEntity(entityType, world) {
+
+    var type: PortalType = DefaultPortalType()
     var teleportLocation: TeleportLocation? = null
 
     init {
         this.setNoGravity(true)
+        isInvulnerable = true
     }
 
-    abstract fun playAnimation(ticksSinceStart: Int)
-
+    companion object {
+        val TYPE: TrackedData<String> = DataTracker.registerData(PortalEntity::class.java, TrackedDataHandlerRegistry.STRING)
+    }
 
     override fun tick() {
         super.tick()
 
-        playAnimation(ticksSinceStart++)
+        type.tickAnimation(this)
     }
 
     override fun interactAt(player: PlayerEntity, hitPos: Vec3d, hand: Hand): ActionResult {
@@ -47,7 +55,6 @@ abstract class AbstractPortalEntity(
     }
 
     private fun teleportPlayer(player: PlayerEntity): ActionResult {
-        println("teleportPlayer")
         val teleportSuccessful = teleportLocation?.let { player.teleportTo(it) } ?: false
 
         if (!teleportSuccessful) {
@@ -76,12 +83,18 @@ abstract class AbstractPortalEntity(
         remove(RemovalReason.KILLED)
     }
 
-
     override fun initDataTracker(builder: DataTracker.Builder) {
         super.initDataTracker(builder)
+        builder.add(TYPE, "default")
     }
 
-    override fun readCustomDataFromNbt(nbt: NbtCompound) {}
+    override fun readCustomDataFromNbt(nbt: NbtCompound) {
+        val typeId = nbt.getString(TYPE_NBT)
+        type = PortalType.getById(typeId)
+        dataTracker.set(TYPE, typeId)
+    }
 
-    override fun writeCustomDataToNbt(nbt: NbtCompound) {}
+    override fun writeCustomDataToNbt(nbt: NbtCompound) {
+        nbt.putString(TYPE_NBT, type.getId())
+    }
 }
