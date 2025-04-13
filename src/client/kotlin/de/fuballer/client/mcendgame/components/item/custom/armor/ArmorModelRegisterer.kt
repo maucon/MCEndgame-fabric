@@ -7,6 +7,7 @@ import de.fuballer.client.mcendgame.components.item.custom.armor.helmet.druids_h
 import de.fuballer.client.mcendgame.components.item.custom.armor.helmet.emberchant.EmberchantModel
 import de.fuballer.client.mcendgame.components.item.custom.armor.helmet.iceborne.IceborneModel
 import de.fuballer.client.mcendgame.components.item.custom.armor.leggings.druids_leggings.DruidsLeggingsModel
+import de.fuballer.client.mcendgame.components.item.custom.armor.leggings.lamias_gift.LamiasGiftModel
 import de.maucon.mauconframework.di.annotation.Injectable
 import de.maucon.mauconframework.initializer.Initializer
 import net.fabricmc.fabric.api.client.rendering.v1.EntityModelLayerRegistry
@@ -42,6 +43,10 @@ object ArmorModelRegisterer {
         EntityModelLayerRegistry.registerModelLayer(
             EmberchantModel.MODEL_LAYER,
             EmberchantModel.Companion::getTexturedModelData
+        )
+        EntityModelLayerRegistry.registerModelLayer(
+            LamiasGiftModel.MODEL_LAYER,
+            LamiasGiftModel.Companion::getTexturedModelData
         )
     }
 }

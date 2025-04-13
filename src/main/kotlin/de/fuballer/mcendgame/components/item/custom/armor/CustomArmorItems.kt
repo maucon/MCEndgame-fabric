@@ -1,9 +1,6 @@
 package de.fuballer.mcendgame.components.item.custom.armor
 
-import de.fuballer.mcendgame.components.item.custom.armor.materials.BoundAbyssArmorMaterial
-import de.fuballer.mcendgame.components.item.custom.armor.materials.DruidsArmorMaterial
-import de.fuballer.mcendgame.components.item.custom.armor.materials.EmberchantArmorMaterial
-import de.fuballer.mcendgame.components.item.custom.armor.materials.IceborneArmorMaterial
+import de.fuballer.mcendgame.components.item.custom.armor.materials.*
 import de.fuballer.mcendgame.util.RegistryUtil
 import de.maucon.mauconframework.di.annotation.Injectable
 import net.minecraft.item.equipment.EquipmentType
@@ -17,4 +14,5 @@ object CustomArmorItems {
     val DRUIDS_LEGGINGS = RegistryUtil.registerArmorItem(DruidsArmorMaterial, EquipmentType.LEGGINGS, "druids_leggings")
     val DRUIDS_BOOTS = RegistryUtil.registerArmorItem(DruidsArmorMaterial, EquipmentType.BOOTS, "druids_boots")
     val EMBERCHANT = RegistryUtil.registerArmorItem(EmberchantArmorMaterial, EquipmentType.HELMET, "emberchant")
+    val LAMIAS_GIFT = RegistryUtil.registerArmorItem(LamiasGiftArmorMaterial, EquipmentType.LEGGINGS, "lamias_gift")
 }
