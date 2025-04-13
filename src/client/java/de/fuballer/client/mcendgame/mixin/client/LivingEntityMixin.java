@@ -28,9 +28,4 @@ public class LivingEntityMixin implements LivingEntityAccessor {
     public int mcendgame$getLowHealthTicks20() {
         return lowHealthTicks20;
     }
-
-    @Override
-    public void mcendgame$setLowHealthTicks20(int lowHealthTicks20) {
-        this.lowHealthTicks20 = lowHealthTicks20;
-    }
 }
