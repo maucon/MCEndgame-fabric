@@ -5,6 +5,7 @@ import de.fuballer.mcendgame.components.item.custom.armor.CustomArmorItems;
 import net.minecraft.client.item.ItemModelManager;
 import net.minecraft.client.render.entity.BipedEntityRenderer;
 import net.minecraft.client.render.entity.state.BipedEntityRenderState;
+import net.minecraft.entity.EquipmentSlot;
 import net.minecraft.entity.LivingEntity;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.injection.At;
@@ -22,7 +23,7 @@ public class BipedEntityRendererMixin {
             CallbackInfo ci
     ) {
         var accessor = (BipedEntityRenderStateAccessor) state;
-        var wearsLamiasGift = state.equippedLegsStack.isOf(CustomArmorItems.INSTANCE.getLAMIAS_GIFT());
+        var wearsLamiasGift = entity.getEquippedStack(EquipmentSlot.LEGS).isOf(CustomArmorItems.INSTANCE.getLAMIAS_GIFT());
         accessor.mcendgame$setHideLegs(wearsLamiasGift);
         accessor.mcendgame$setHideBoots(wearsLamiasGift);
     }

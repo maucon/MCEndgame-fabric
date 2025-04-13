@@ -7,6 +7,7 @@ import net.minecraft.client.render.entity.model.BipedEntityModel
 import net.minecraft.client.render.entity.model.EntityModelLayer
 import net.minecraft.client.render.entity.model.EntityModelPartNames
 import net.minecraft.client.render.entity.state.BipedEntityRenderState
+import net.minecraft.client.render.entity.state.PlayerEntityRenderState
 import kotlin.math.sin
 
 
@@ -92,11 +93,32 @@ class LamiasGiftModel<S : BipedEntityRenderState>(
         val animSpeed = 7F
         val moveSpeed = renderState.limbAmplitudeMultiplier // 0.0 - 1.0
 
+        var tailOneYawFactor = 0.5F
+
+        (renderState as? PlayerEntityRenderState)?.let { playerState ->
+            if (playerState.isSwimming || playerState.isGliding) {
+                tailOne.pitch -= 0.8F
+                tailTwo.pitch -= 0.8F
+                tailOneYawFactor = 0.15F
+            } else if (playerState.isInSneakingPose) {
+                tailTwo.pitch -= 0.45F
+            }
+
+            if (playerState.hasVehicle) {
+                tailZero.yScale *= 0.5F
+                tailOne.zScale *= 2F
+                tailOne.pitch += 0.8F
+
+                tailTwo.pitch += 0.4F
+                tailThree.pitch += 0.1F
+            }
+        }
+
         val tailZeroRoll = sin(renderState.age / animSpeed) * moveSpeed * 0.1F
         tailZero.roll += tailZeroRoll
 
         tailOne.roll -= tailZeroRoll
-        tailOne.yaw -= sin((renderState.age - 7) / animSpeed) * moveSpeed * 0.5F
+        tailOne.yaw -= sin((renderState.age - 7) / animSpeed) * moveSpeed * tailOneYawFactor
 
         tailTwo.roll += sin((renderState.age - 14) / animSpeed) * moveSpeed * 0.5F
         tailThree.roll += sin((renderState.age - 21) / animSpeed) * moveSpeed * 0.5F
