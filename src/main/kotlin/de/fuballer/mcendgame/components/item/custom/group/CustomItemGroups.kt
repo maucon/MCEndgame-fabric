@@ -39,6 +39,7 @@ object CustomItemGroups {
             itemGroup.add(CustomArmorItems.DRUIDS_LEGGINGS)
             itemGroup.add(CustomArmorItems.DRUIDS_BOOTS)
             itemGroup.add(CustomArmorItems.EMBERCHANT)
+            itemGroup.add(CustomArmorItems.LAMIAS_GIFT)
         }
         ItemGroupEvents.modifyEntriesEvent(CUSTOM_BLOCKS_KEY).register { itemGroup ->
             itemGroup.add(CustomBlocks.DUNGEON_DEVICE)
