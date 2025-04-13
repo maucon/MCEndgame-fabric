@@ -1,17 +1,17 @@
-package de.fuballer.client.mcendgame.components.entity.custom.entities.webshot
+package de.fuballer.client.mcendgame.components.portal
 
 import de.fuballer.mcendgame.util.IdentifierUtil
 import net.minecraft.client.model.*
 import net.minecraft.client.render.entity.model.EntityModel
 import net.minecraft.client.render.entity.model.EntityModelLayer
 
-class WebshotEntityModel(
+class DefaultPortalModel(
     modelPart: ModelPart,
-) : EntityModel<WebshotRenderState>(modelPart) {
+) : EntityModel<DefaultPortalRenderState>(modelPart) {
     val webshot = root.getChild("webshot")
 
     companion object {
-        val WEBSHOT = EntityModelLayer(IdentifierUtil.default("webshot"), "main")
+        val DEFAULT_PORTAL = EntityModelLayer(IdentifierUtil.default("webshot"), "main")
 
         fun getTexturedModelData(): TexturedModelData {
             val modelData = ModelData()
@@ -27,12 +27,5 @@ class WebshotEntityModel(
             )
             return TexturedModelData.of(modelData, 32, 32)
         }
-    }
-
-    override fun setAngles(
-        renderState: WebshotRenderState,
-    ) {
-        super.setAngles(renderState)
-        webshot.roll += renderState.age * 0.12F
     }
 }

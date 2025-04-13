@@ -7,12 +7,11 @@ import net.minecraft.client.render.entity.MobEntityRenderer
 
 class SwampGolemRenderer(
     context: EntityRendererFactory.Context,
-) :
-    MobEntityRenderer<SwampGolemEntity, SwampGolemRenderState, SwampGolemEntityModel>(
-        context,
-        SwampGolemEntityModel(context.getPart(SwampGolemEntityModel.SWAMP_GOLEM)),
-        0.65F //shadow
-    ) {
+) : MobEntityRenderer<SwampGolemEntity, SwampGolemRenderState, SwampGolemEntityModel>(
+    context,
+    SwampGolemEntityModel(context.getPart(SwampGolemEntityModel.SWAMP_GOLEM)),
+    0.65F //shadow
+) {
     override fun createRenderState(): SwampGolemRenderState =
         SwampGolemRenderState()
 
