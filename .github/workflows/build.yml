@@ -42,7 +42,7 @@ jobs:
           path: build/libs/
 
       - name: Notify webhook
-        #if: github.ref == 'refs/heads/master' fixme just for testing
+        if: github.ref == 'refs/heads/master
         run: |
           curl -X POST ${{ secrets.WEBHOOK_URL }} \
             -H "Content-Type: application/json" \
