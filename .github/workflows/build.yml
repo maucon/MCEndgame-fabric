@@ -42,10 +42,9 @@ jobs:
           path: build/libs/
 
       - name: Notify webhook
-        if: github.ref == 'refs/heads/master'
+        #if: github.ref == 'refs/heads/master' fixme just for testing
         run: |
-          artifact_download_url="https://api.github.com/repos/maucon/MCEndgame-fabric/actions/artifacts/${{ steps.artifact-upload.outputs.artifact-id }}/zip"
           curl -X POST ${{ secrets.WEBHOOK_URL }} \
             -H "Content-Type: application/json" \
             -H "x-webhook-auth: ${{ secrets.WEBHOOK_AUTH }}" \
-            -d "{\"artifact_url\": \"$artifact_download_url\"}"
+            -d "{\"artifact-id\": \"${{ steps.artifact-upload.outputs.artifact-id }}\"}"
