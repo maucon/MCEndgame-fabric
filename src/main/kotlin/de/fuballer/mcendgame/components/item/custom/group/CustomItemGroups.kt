@@ -48,7 +48,7 @@ object CustomItemGroups {
             itemGroup.add(CustomArmorItems.DRUIDS_BOOTS)
             itemGroup.add(CustomArmorItems.EMBERCHANT)
             itemGroup.add(CustomArmorItems.LAMIAS_GIFT)
-            itemGroup.add(CustomArmorItems.LAMIAS_GIFT)
+            itemGroup.add(CustomArmorItems.GEISTERGALOSCHEN)
         }
         ItemGroupEvents.modifyEntriesEvent(CUSTOM_TOOLS_KEY).register { itemGroup ->
             itemGroup.add(CustomToolItems.BLOODHARVEST)

@@ -1,6 +1,7 @@
 package de.fuballer.client.mcendgame.components.item.custom.armor
 
 import de.fuballer.client.mcendgame.components.item.custom.armor.boots.druids_boots.DruidsBootsModel
+import de.fuballer.client.mcendgame.components.item.custom.armor.boots.geistergaloschen.GeistergaloschenModel
 import de.fuballer.client.mcendgame.components.item.custom.armor.chestplate.bound_abyss.BoundAbyssModel
 import de.fuballer.client.mcendgame.components.item.custom.armor.chestplate.druids_chestplate.DruidsChestplateModel
 import de.fuballer.client.mcendgame.components.item.custom.armor.helmet.druids_helmet.DruidsHelmetModel
@@ -47,6 +48,10 @@ object ArmorModelRegisterer {
         EntityModelLayerRegistry.registerModelLayer(
             LamiasGiftModel.MODEL_LAYER,
             LamiasGiftModel.Companion::getTexturedModelData
+        )
+        EntityModelLayerRegistry.registerModelLayer(
+            GeistergaloschenModel.MODEL_LAYER,
+            GeistergaloschenModel.Companion::getTexturedModelData
         )
     }
 }

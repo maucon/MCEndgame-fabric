@@ -15,4 +15,5 @@ object CustomArmorItems {
     val DRUIDS_BOOTS = RegistryUtil.registerArmorItem(DruidsArmorMaterial, EquipmentType.BOOTS, "druids_boots")
     val EMBERCHANT = RegistryUtil.registerArmorItem(EmberchantArmorMaterial, EquipmentType.HELMET, "emberchant")
     val LAMIAS_GIFT = RegistryUtil.registerArmorItem(LamiasGiftArmorMaterial, EquipmentType.LEGGINGS, "lamias_gift")
+    val GEISTERGALOSCHEN = RegistryUtil.registerArmorItem(GeistergaloschenArmorMaterial, EquipmentType.BOOTS, "geistergaloschen")
 }
