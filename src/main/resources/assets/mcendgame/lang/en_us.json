@@ -8,6 +8,9 @@
   "item.mcendgame.emberchant": "Emberchant",
   "item.mcendgame.lamias_gift": "Lamias Gift",
 
+  "item.mcendgame.bloodharvest": "Bloodharvest",
+  "item.mcendgame.twinfire": "Twinfire",
+
   "block.mcendgame.dungeon_device": "Dungeon Device",
   "container.mcendgame.dungeon_device.title": "Dungeon Device",
   "container.mcendgame.dungeon_device.open": "Open",
@@ -40,5 +43,6 @@
   "block.mcendgame.decaying_cobweb": "Decaying Cobweb",
 
   "itemGroup.custom_armor": "MCEndgame Armor",
+  "itemGroup.custom_tools": "MCEndgame Weapons & Tools",
   "itemGroup.custom_blocks": "MCEndgame Blocks"
 }

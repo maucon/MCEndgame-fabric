@@ -1,6 +1,6 @@
 package de.fuballer.mcendgame.util
 
-import de.fuballer.mcendgame.components.item.custom.armor.CustomArmorMaterial
+import de.fuballer.mcendgame.components.item.custom.armor.materials.CustomArmorMaterial
 import net.fabricmc.fabric.api.`object`.builder.v1.block.entity.FabricBlockEntityTypeBuilder
 import net.minecraft.block.AbstractBlock
 import net.minecraft.block.Block
@@ -11,10 +11,7 @@ import net.minecraft.block.entity.BlockEntityType
 import net.minecraft.component.ComponentType
 import net.minecraft.entity.Entity
 import net.minecraft.entity.EntityType
-import net.minecraft.item.ArmorItem
-import net.minecraft.item.Item
-import net.minecraft.item.ItemGroup
-import net.minecraft.item.Items
+import net.minecraft.item.*
 import net.minecraft.item.equipment.EquipmentType
 import net.minecraft.registry.Registries
 import net.minecraft.registry.Registry
@@ -35,7 +32,7 @@ object RegistryUtil {
     fun registerBlockEntityType(factory: (BlockPos, BlockState) -> BlockEntity, block: Block, name: String): BlockEntityType<*> =
         Registry.register(Registries.BLOCK_ENTITY_TYPE, IdentifierUtil.default(name), FabricBlockEntityTypeBuilder.create(factory, block).build())
 
-    fun <T : Entity> registerEntity(key: RegistryKey<EntityType<*>>, type: EntityType.Builder<T>) : EntityType<T> =
+    fun <T : Entity> registerEntity(key: RegistryKey<EntityType<*>>, type: EntityType.Builder<T>): EntityType<T> =
         Registry.register(Registries.ENTITY_TYPE, key, type.build(key))
 
     fun <T : Entity> registerEntity(name: String, type: EntityType.Builder<T>): EntityType<T> =
@@ -48,6 +45,16 @@ object RegistryUtil {
         registerItem(
             { ArmorItem(material.instance, type, it) },
             Item.Settings().maxDamage(material.baseDurability),
+            name
+        )
+
+    fun registerToolItem(
+        material: ToolMaterial, damage: Float, attackSpeed: Float, name: String,
+        itemFactory: (ToolMaterial, Float, Float, Item.Settings) -> Item
+    ) =
+        registerItem(
+            { itemFactory(material, damage, attackSpeed, it) },
+            Item.Settings(),
             name
         )
 
