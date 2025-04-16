@@ -1,7 +1,7 @@
-package de.fuballer.mcendgame.components.dungeon.generation.enemy.equipment
+package de.fuballer.mcendgame.components.dungeon.enemy.equipment
 
-import de.fuballer.mcendgame.components.dungeon.generation.enemy.equipment.attributes.AttributeService
-import de.fuballer.mcendgame.components.dungeon.generation.enemy.equipment.enchantment.EnchantmentService
+import de.fuballer.mcendgame.components.dungeon.enemy.equipment.attributes.AttributeService
+import de.fuballer.mcendgame.components.dungeon.enemy.equipment.enchantment.EnchantmentService
 import de.fuballer.mcendgame.components.item.equipment.Equipment
 import de.fuballer.mcendgame.util.random.RandomOption
 import de.fuballer.mcendgame.util.random.RandomUtil

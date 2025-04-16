@@ -1,4 +1,4 @@
-package de.fuballer.mcendgame.components.dungeon.generation.enemy.equipment
+package de.fuballer.mcendgame.components.dungeon.enemy.equipment
 
 import de.fuballer.mcendgame.components.item.equipment.Equipment
 import de.fuballer.mcendgame.components.item.equipment.armor.Boots

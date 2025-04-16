@@ -1,12 +1,13 @@
 package de.fuballer.mcendgame.components.dungeon.generation
 
+import de.fuballer.mcendgame.components.dungeon.boss.BossGenerationService
+import de.fuballer.mcendgame.components.dungeon.enemy.EnemyGenerationService
 import de.fuballer.mcendgame.components.dungeon.generation.builder.DungeonBuilderService
-import de.fuballer.mcendgame.components.dungeon.generation.enemy.EnemyGenerationService
 import de.fuballer.mcendgame.components.dungeon.type.DungeonType
 import de.fuballer.mcendgame.components.dungeon.world.DungeonWorldService
 import de.fuballer.mcendgame.event.DungeonOpenEvent
-import de.maucon.mauconframework.initializer.Initializer
 import de.maucon.mauconframework.di.annotation.Injectable
+import de.maucon.mauconframework.initializer.Initializer
 import net.minecraft.entity.player.PlayerEntity
 import net.minecraft.server.world.ServerWorld
 import net.minecraft.util.math.BlockPos
@@ -17,6 +18,7 @@ class DungeonGenerationService(
     private val dungeonWorldService: DungeonWorldService,
     private val dungeonBuilderService: DungeonBuilderService,
     private val enemyGenerationService: EnemyGenerationService,
+    private val bossGenerationService: BossGenerationService,
 ) {
     @Initializer
     fun on() = DungeonOpenEvent.NOTIFIER.listen { event ->
@@ -32,7 +34,7 @@ class DungeonGenerationService(
         val world = dungeonWorldService.create(player)
         val random = Random(seed)
         val dungeonType = DungeonType.STRONGHOLD // TODO player dungeon type
-        val (mapType, enemyTypes) = dungeonType.roll(random)
+        val (mapType, enemyTypes, bossTypes) = dungeonType.roll(random, 3)
 
         val layoutGenerator = mapType.layoutGeneratorProvider()
         val layout = layoutGenerator.generateDungeon(random, dungeonLevel)
@@ -42,7 +44,7 @@ class DungeonGenerationService(
         // TODO apply event
 
         enemyGenerationService.generate(world, dungeonLevel, enemyTypes, layout.enemySpawnPos, random)
-        // generateBosses(layout, world, mapTier, bossEntityTypes, leaveLocation)
+        bossGenerationService.generate(world, dungeonLevel, bossTypes, layout.bossSpawnPos, random)
 
         // TODO calculate startPos
         // val startLocation = layout.spawnPos.pos

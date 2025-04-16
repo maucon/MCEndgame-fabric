@@ -1,4 +1,4 @@
-package de.fuballer.mcendgame.components.dungeon.generation.enemy.equipment.enchantment
+package de.fuballer.mcendgame.components.dungeon.enemy.equipment.enchantment
 
 object EnchantmentSettings {
     private const val ENCHANT_TRIES_PER_TIER = 0.5
