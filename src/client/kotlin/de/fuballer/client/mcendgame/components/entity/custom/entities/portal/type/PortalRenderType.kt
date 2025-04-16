@@ -1,16 +1,17 @@
 package de.fuballer.client.mcendgame.components.entity.custom.entities.portal.type
 
-import de.fuballer.client.mcendgame.components.entity.custom.entities.portal.PortalModel
-import de.fuballer.mcendgame.components.portal.type.DefaultPortalType
-import de.fuballer.mcendgame.components.portal.type.TestPortalType
+import de.fuballer.client.mcendgame.components.entity.custom.entities.portal.PortalRenderState
+import de.fuballer.client.mcendgame.components.entity.custom.entities.portal.type.default_.DefaultPortalRenderType
+import de.fuballer.client.mcendgame.components.entity.custom.entities.portal.type.test.TestPortalRenderType
 import net.minecraft.client.render.entity.EntityRendererFactory
+import net.minecraft.client.render.entity.model.EntityModel
 import net.minecraft.util.Identifier
 
 interface PortalRenderType {
     fun getId(): String
     fun getTexture(): Identifier
     fun getShadowRadius(): Float
-    fun getModel(context: EntityRendererFactory.Context): PortalModel
+    fun getModel(context: EntityRendererFactory.Context): EntityModel<PortalRenderState>
 
     companion object {
         private val PORTAL_TYPES = mapOf(
@@ -18,8 +19,8 @@ interface PortalRenderType {
         )
 
         fun getType(typeName: String): PortalRenderType {
-             return PORTAL_TYPES[typeName]
-                ?:  DefaultPortalRenderType()
+            return PORTAL_TYPES[typeName]
+                ?: DefaultPortalRenderType()
         }
     }
 }

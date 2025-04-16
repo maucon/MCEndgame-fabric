@@ -5,15 +5,16 @@ import de.fuballer.mcendgame.components.portal.PortalEntity
 import net.minecraft.client.render.VertexConsumerProvider
 import net.minecraft.client.render.entity.EntityRendererFactory
 import net.minecraft.client.render.entity.LivingEntityRenderer
+import net.minecraft.client.render.entity.model.EntityModel
 import net.minecraft.client.util.math.MatrixStack
 import net.minecraft.text.Text
 import net.minecraft.util.Identifier
 
 class PortalRenderer(
     private val context: EntityRendererFactory.Context,
-) : LivingEntityRenderer<PortalEntity, PortalRenderState, PortalModel>(
+) : LivingEntityRenderer<PortalEntity, PortalRenderState, EntityModel<PortalRenderState>>(
     context,
-    PortalModel(context.getPart(PortalModel.DEFAULT_PORTAL)),
+    null,
     0.0F
 ) {
     override fun createRenderState(): PortalRenderState = PortalRenderState()

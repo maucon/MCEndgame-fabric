@@ -4,6 +4,7 @@ import de.fuballer.mcendgame.components.portal.teleport.TeleportExtensions.telep
 import de.fuballer.mcendgame.components.portal.teleport.TeleportLocation
 import de.fuballer.mcendgame.components.portal.type.DefaultPortalType
 import de.fuballer.mcendgame.components.portal.type.PortalType
+import net.minecraft.command.argument.EntityAnchorArgumentType
 import net.minecraft.entity.EntityType
 import net.minecraft.entity.EquipmentSlot
 import net.minecraft.entity.LivingEntity
@@ -45,6 +46,11 @@ class PortalEntity(
         super.tick()
 
         type.tickAnimation(this)
+
+        val serverWorld = world as? ServerWorld ?: return
+
+        val closest = serverWorld.getClosestPlayer(this, 10.0) ?: return
+        this.lookAt(EntityAnchorArgumentType.EntityAnchor.FEET, closest.pos) // FIXME
     }
 
     override fun interactAt(player: PlayerEntity, hitPos: Vec3d, hand: Hand): ActionResult {
