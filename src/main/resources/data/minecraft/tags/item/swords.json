@@ -1,6 +1,7 @@
 {
   "replace": false,
   "values": [
-    "mcendgame:bloodharvest"
+    "mcendgame:bloodharvest",
+    "mcendgame:twinfire"
   ]
 }

@@ -1,7 +1,6 @@
 package de.fuballer.client.mcendgame.components.item.custom.armor
 
 import de.fuballer.client.mcendgame.components.item.custom.armor.boots.druids_boots.DruidsBootsModel
-import de.fuballer.client.mcendgame.components.item.custom.armor.boots.geistergaloschen.GeistergaloschenModel
 import de.fuballer.client.mcendgame.components.item.custom.armor.chestplate.bound_abyss.BoundAbyssModel
 import de.fuballer.client.mcendgame.components.item.custom.armor.chestplate.druids_chestplate.DruidsChestplateModel
 import de.fuballer.client.mcendgame.components.item.custom.armor.helmet.druids_helmet.DruidsHelmetModel
@@ -69,10 +68,6 @@ class CustomHumanoidArmorFeatureRenderer<S : BipedEntityRenderState, M : BipedEn
         texturedArmorModels[CustomArmorItems.LAMIAS_GIFT] = TexturedArmorModel(
             IdentifierUtil.default("textures/entity/equipment/custom_humanoid/lamias_gift.png"),
             LamiasGiftModel(ctx.getPart(LamiasGiftModel.MODEL_LAYER))
-        )
-        texturedArmorModels[CustomArmorItems.GEISTERGALOSCHEN] = TexturedArmorModel(
-            IdentifierUtil.default("textures/entity/equipment/custom_humanoid/geistergaloschen.png"),
-            GeistergaloschenModel(ctx.getPart(GeistergaloschenModel.MODEL_LAYER))
         )
     }
 

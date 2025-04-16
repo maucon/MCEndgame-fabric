@@ -7,8 +7,10 @@
   "item.mcendgame.druids_boots": "Druids Boots",
   "item.mcendgame.emberchant": "Emberchant",
   "item.mcendgame.lamias_gift": "Lamias Gift",
-  "item.mcendgame.bloodharvest": "Bloodharvest",
   "item.mcendgame.geistergaloschen": "Geistergaloschen",
+
+  "item.mcendgame.bloodharvest": "Bloodharvest",
+  "item.mcendgame.twinfire": "Twinfire",
 
   "block.mcendgame.dungeon_device": "Dungeon Device",
   "container.mcendgame.dungeon_device.title": "Dungeon Device",

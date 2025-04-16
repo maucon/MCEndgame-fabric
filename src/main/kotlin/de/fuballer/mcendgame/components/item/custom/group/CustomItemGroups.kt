@@ -2,7 +2,7 @@ package de.fuballer.mcendgame.components.item.custom.group
 
 import de.fuballer.mcendgame.components.block.CustomBlocks
 import de.fuballer.mcendgame.components.item.custom.armor.CustomArmorItems
-import de.fuballer.mcendgame.components.item.custom.tools.CustomToolItems
+import de.fuballer.mcendgame.components.item.custom.tool.CustomToolItems
 import de.fuballer.mcendgame.util.IdentifierUtil
 import de.fuballer.mcendgame.util.RegistryUtil
 import de.maucon.mauconframework.di.annotation.Injectable
@@ -48,10 +48,10 @@ object CustomItemGroups {
             itemGroup.add(CustomArmorItems.DRUIDS_BOOTS)
             itemGroup.add(CustomArmorItems.EMBERCHANT)
             itemGroup.add(CustomArmorItems.LAMIAS_GIFT)
-            itemGroup.add(CustomArmorItems.GEISTERGALOSCHEN)
         }
         ItemGroupEvents.modifyEntriesEvent(CUSTOM_TOOLS_KEY).register { itemGroup ->
             itemGroup.add(CustomToolItems.BLOODHARVEST)
+            itemGroup.add(CustomToolItems.TWINFIRE)
         }
         ItemGroupEvents.modifyEntriesEvent(CUSTOM_BLOCKS_KEY).register { itemGroup ->
             itemGroup.add(CustomBlocks.DUNGEON_DEVICE)
