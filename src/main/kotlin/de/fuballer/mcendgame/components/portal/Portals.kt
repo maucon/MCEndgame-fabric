@@ -36,9 +36,11 @@ object Portals {
         teleportLocation: TeleportLocation,
         type: PortalType = DefaultPortalType()
     ): PortalEntity {
-        val portal = ENTITY_TYPE.spawn(world, pos, SpawnReason.LOAD)!!
+        val consumer = { entity: PortalEntity -> entity.dataTracker.set(PortalEntity.TYPE, type.getId()) }
+        val portal = ENTITY_TYPE.spawn(world, consumer, pos, SpawnReason.LOAD, false, false)!!
 
         portal.type = type
+
         portal.teleportLocation = teleportLocation
         portal.lookAt(EntityAnchorArgumentType.EntityAnchor.FEET, lookAt)
 

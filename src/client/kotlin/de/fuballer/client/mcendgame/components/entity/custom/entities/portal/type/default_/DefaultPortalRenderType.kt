@@ -19,7 +19,7 @@ class DefaultPortalRenderType : PortalRenderType {
     }
 
     override fun getShadowRadius(): Float {
-        return 1.0f
+        return 0.45f
     }
 
     override fun getModel(context: EntityRendererFactory.Context): EntityModel<PortalRenderState> {
