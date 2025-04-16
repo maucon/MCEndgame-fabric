@@ -13,8 +13,16 @@ import kotlin.random.Random
 
 private fun calculateComplexityLimit() = 125
 private fun calculateBranchComplexityLimit() = 5
+private fun calculateBranchingPoints(count: Int): List<Double> {
+    val branchOffset = 1.0 / count
+    val branchingPoints = mutableListOf<Double>()
+    for (branch in 1..<count) {
+        branchingPoints.add(branchOffset * branch)
+    }
+    return branchingPoints
+}
 
-private val branchingPoints: List<Double> = listOf(0.33, 0.66) // -> 3 boss rooms
+private var branchingPoints: List<Double> = listOf()
 private var complexityLimit = 0
 private var branchComplexityLimit = 0
 
@@ -28,10 +36,12 @@ class LinearLayoutGenerator(
 
     override fun generateDungeon(
         random: Random,
-        dungeonLevel: Int
+        dungeonLevel: Int,
+        bossCount: Int,
     ): Layout {
         this.random = random
 
+        branchingPoints = calculateBranchingPoints(bossCount)
         complexityLimit = calculateComplexityLimit()
         branchComplexityLimit = calculateBranchComplexityLimit()
 

@@ -4,5 +4,5 @@ import de.fuballer.mcendgame.components.dungeon.generation.data.Layout
 import kotlin.random.Random
 
 interface LayoutGenerator {
-    fun generateDungeon(random: Random, dungeonLevel: Int): Layout
+    fun generateDungeon(random: Random, dungeonLevel: Int, bossCount: Int): Layout
 }

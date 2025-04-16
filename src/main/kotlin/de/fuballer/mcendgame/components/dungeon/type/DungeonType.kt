@@ -13,7 +13,8 @@ import kotlin.random.Random
 enum class DungeonType(
     private val mapTypes: List<RandomOption<DungeonLayoutType>>,
     private val entityTypes: List<RandomOption<EntityTypeStats>>,
-    private val bossEntityTypes: List<RandomOption<EntityTypeStats>>
+    private val bossEntityTypes: List<RandomOption<EntityTypeStats>>,
+    val bossCount: Int,
 ) {
     STRONGHOLD(
         listOf(
@@ -25,18 +26,14 @@ enum class DungeonType(
         ),
         listOf(
             RandomOption(1, ArachneStats),
-            RandomOption(1, ArachneStats),
-            RandomOption(1, ArachneStats),
-        )
+        ),
+        3
     );
 
-    fun roll(random: Random, bossCount: Int): RolledDungeonType {
-        require(bossEntityTypes.size >= bossCount) { "DungeonType: '${this.name}' has less than $bossCount bosses" }
-
-        return RolledDungeonType(
+    fun roll(random: Random): RolledDungeonType =
+        RolledDungeonType(
             RandomUtil.pick(mapTypes, random).option,
             entityTypes,
-            RandomUtil.pick(bossEntityTypes, random, bossCount)
+            RandomUtil.pickAllowRepeatIfNecessary(bossEntityTypes, random, bossCount)
         )
-    }
 }
