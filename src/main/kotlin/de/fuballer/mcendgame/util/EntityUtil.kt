@@ -19,7 +19,7 @@ object EntityUtil {
 
         entity.refreshPositionAndAngles(
             location.pos.x + 0.5,
-            location.pos.y.toDouble(),
+            location.pos.y + 0.5,
             location.pos.z + 0.5,
             location.rot.toFloat(),
             0F

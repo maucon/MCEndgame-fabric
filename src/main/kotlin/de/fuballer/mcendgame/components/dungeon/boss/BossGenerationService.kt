@@ -1,5 +1,6 @@
 package de.fuballer.mcendgame.components.dungeon.boss
 
+import de.fuballer.mcendgame.accessors.MobEntityBossAccessor
 import de.fuballer.mcendgame.components.dungeon.generation.data.SpawnPosition
 import de.fuballer.mcendgame.components.entity.EntityTypeStats
 import de.fuballer.mcendgame.util.EntityUtil
@@ -32,8 +33,10 @@ class BossGenerationService {
         val entity = EntityUtil.spawnEntityWithStats(world, type, location, level)
 
         entity.setPersistent()
-        entity.isAiDisabled = true
         setScale(entity, random)
+
+        entity.isAiDisabled = true
+        (entity as MobEntityBossAccessor).`mcendgame$setDungeonBoss`()
 
         return entity
     }
