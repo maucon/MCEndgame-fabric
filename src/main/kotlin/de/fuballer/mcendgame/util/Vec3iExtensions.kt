@@ -7,11 +7,26 @@ import org.joml.Vector3d
 object Vec3iExtensions {
     fun Vec3i.clone(): Vec3i = Vec3i(x, y, z)
 
-    fun Vec3i.decrement() = Vec3i(x - 1, y - 1, z - 1)
+    fun Vec3i.stepTowardsZero() = Vec3i(
+        x + if (x > 0) -1 else if (x == 0) 0 else 1,
+        y + if (y > 0) -1 else if (y == 0) 0 else 1,
+        z + if (z > 0) -1 else if (z == 0) 0 else 1,
+    )
 
     fun Vec3i.rotateYRad(rad: Double): Vec3i {
         val vector3d = toVector3d().rotateY(rad).add(0.1, 0.1, 0.1)
         return Vec3i(floor(vector3d.x), floor(vector3d.y), floor(vector3d.z))
+    }
+
+    fun Vec3i.rotateY90(times: Int): Vec3i {
+        val steps = ((times % 4) + 4) % 4
+        return when (steps) {
+            0 -> this
+            1 -> Vec3i(-z, y, x)
+            2 -> Vec3i(-x, y, -z)
+            3 -> Vec3i(z, y, -x)
+            else -> this
+        }
     }
 
     fun Vec3i.rotateYDeg(deg: Double) = rotateYRad(Math.toRadians(deg))

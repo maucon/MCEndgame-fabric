@@ -1,6 +1,7 @@
 package de.fuballer.mcendgame.components.dungeon.generation.data
 
 import de.fuballer.mcendgame.util.Vec3iExtensions.clone
+import de.fuballer.mcendgame.util.Vec3iExtensions.rotateY90
 import de.fuballer.mcendgame.util.Vec3iExtensions.rotateYRad
 import net.minecraft.util.math.Vec3i
 
@@ -12,9 +13,16 @@ data class Door(
 
     fun getRotated(rad: Double): Door {
         val newPosition = pos.rotateYRad(rad)
-        val newRotation = dir.rotateYRad(rad)
+        val newDirection = dir.rotateYRad(rad)
 
-        return Door(newPosition, newRotation)
+        return Door(newPosition, newDirection)
+    }
+
+    fun getRotated90(times: Int): Door {
+        val newPosition = pos.rotateY90(times)
+        val newDirection = dir.rotateY90(times)
+
+        return Door(newPosition, newDirection)
     }
 
     fun getOffset(vec: Vec3i) = Door(

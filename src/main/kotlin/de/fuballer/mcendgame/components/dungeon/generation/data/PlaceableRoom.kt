@@ -5,6 +5,6 @@ import net.minecraft.util.math.Vec3i
 data class PlaceableRoom(
     val type: RoomType,
     val position: Vec3i,
-    val rotation: Double,
+    val rotation90: Int,
     //val extraBlocks: List<PlaceableBlock> = listOf()
 )

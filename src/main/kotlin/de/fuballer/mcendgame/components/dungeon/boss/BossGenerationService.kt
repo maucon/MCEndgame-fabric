@@ -32,6 +32,7 @@ class BossGenerationService {
         val entity = EntityUtil.spawnEntityWithStats(world, type, location, level)
 
         entity.setPersistent()
+        entity.isAiDisabled = true
         setScale(entity, random)
 
         return entity

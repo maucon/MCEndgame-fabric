@@ -2,7 +2,7 @@ package de.fuballer.mcendgame.components.dungeon.generation.builder
 
 import de.fuballer.mcendgame.components.dungeon.generation.data.PlaceableRoom
 import de.fuballer.mcendgame.util.RotationUtil
-import de.fuballer.mcendgame.util.Vec3iExtensions.rotateYDeg
+import de.fuballer.mcendgame.util.Vec3iExtensions.rotateY90
 import de.fuballer.mcendgame.util.Vec3iExtensions.toBlockPos
 import de.maucon.mauconframework.di.annotation.Injectable
 import net.minecraft.server.world.ServerWorld
@@ -17,12 +17,13 @@ class DungeonBuilderService {
         rooms: List<PlaceableRoom>
     ) {
         for (room in rooms) {
-            placeTemplate(world, room.type.template, room.position, room.rotation)
+            val rotDeg = room.rotation90 * 90.0
+            placeTemplate(world, room.type.template, room.position, rotDeg)
 
             for (extension in room.type.extensions) {
-                val rotOffset = extension.offset.rotateYDeg(room.rotation)
-                val position = rotOffset.add(room.position)
-                placeTemplate(world, extension.template, position, room.rotation)
+                val rotatedOffset = extension.offset.rotateY90(room.rotation90)
+                val position = rotatedOffset.add(room.position)
+                placeTemplate(world, extension.template, position, rotDeg)
             }
         }
     }
