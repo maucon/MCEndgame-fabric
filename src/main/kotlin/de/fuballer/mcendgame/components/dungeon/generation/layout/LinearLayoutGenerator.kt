@@ -3,7 +3,6 @@ package de.fuballer.mcendgame.components.dungeon.generation.layout
 import de.fuballer.mcendgame.components.dungeon.generation.data.*
 import de.fuballer.mcendgame.util.Vec3iExtensions.clone
 import de.fuballer.mcendgame.util.Vec3iExtensions.rotateY90
-import de.fuballer.mcendgame.util.Vec3iExtensions.rotateYRad
 import de.fuballer.mcendgame.util.Vec3iExtensions.stepTowardsZero
 import de.fuballer.mcendgame.util.random.RandomOption
 import de.fuballer.mcendgame.util.random.RandomUtil
@@ -186,7 +185,7 @@ class LinearLayoutGenerator(
             )
             tiles.add(tile)
 
-            addSpawnLocations(chosenRoomType, offsetRoomOrigin, rotationRad, spawnLocations, bossSpawnLocations)
+            addSpawnLocations(chosenRoomType, offsetRoomOrigin, rotation90, spawnLocations, bossSpawnLocations)
 
             return true
         }
@@ -332,23 +331,23 @@ class LinearLayoutGenerator(
     private fun addSpawnLocations(
         chosenRoom: RoomType,
         offsetRoomOrigin: Vec3i,
-        rotRad: Double,
+        rotation90: Int,
         spawnLocations: MutableList<SpawnPosition>,
         bossSpawnLocations: MutableList<SpawnPosition>,
     ) {
         chosenRoom.markerPoints.monsterPos.onEach {
-            val rotPos = it.pos.rotateYRad(rotRad)
+            val rotPos = it.pos.rotateY90(rotation90)
             val offsetPos = rotPos.add(offsetRoomOrigin)
 
             spawnLocations.add(SpawnPosition(offsetPos))
         }
 
         chosenRoom.markerPoints.bossPos.onEach {
-            val rotPos = it.pos.rotateYRad(rotRad)
+            val rotPos = it.pos.rotateY90(rotation90)
             val offsetPos = rotPos.add(offsetRoomOrigin)
 
-            val rotDeg = Math.toDegrees(rotRad)
-            val newRotation = ((it.rot + rotDeg) % 360) * -1
+            val rotDeg = rotation90 * 90.0
+            val newRotation = ((it.rot + rotDeg) % 360)
 
             bossSpawnLocations.add(SpawnPosition(offsetPos, newRotation))
         }
