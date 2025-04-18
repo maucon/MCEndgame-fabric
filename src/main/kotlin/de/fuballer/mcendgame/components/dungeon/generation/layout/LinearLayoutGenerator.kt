@@ -6,6 +6,7 @@ import de.fuballer.mcendgame.util.Vec3iExtensions.rotateY90
 import de.fuballer.mcendgame.util.Vec3iExtensions.stepTowardsZero
 import de.fuballer.mcendgame.util.random.RandomOption
 import de.fuballer.mcendgame.util.random.RandomUtil
+import net.minecraft.block.Blocks
 import net.minecraft.util.math.Vec3i
 import kotlin.math.max
 import kotlin.math.min
@@ -125,8 +126,6 @@ class LinearLayoutGenerator(
         for (chosenDoor in possibleDoors) {
 
             val rotation90 = calculateNeededRotation90(currentDoor, chosenDoor)
-            val rotationDeg = rotation90 * 90.0
-            val rotationRad = Math.toRadians(rotationDeg)
 
             val offsetRoomOrigin = calculateRoomOffsetAfterRotation(currentDoor, chosenDoor, rotation90)
 
@@ -156,32 +155,29 @@ class LinearLayoutGenerator(
                 continue
             }
 
-            /*
             val extraBlocks = mutableListOf<PlaceableBlock>()
-
             if (!isMainPath && roomComplexitySum == 0) { // first room of branch
-                val postLocation = VectorUtil.toBlockVector3(chosenDoor.position)
-                val skullRotation = chosenDoor.getDirectionInDegree()
+                val pos = chosenDoor.pos
+                val post = PlaceableBlock(pos.x, pos.y, pos.z, 0, Blocks.SPRUCE_FENCE)
 
+                val skullRotation = (chosenDoor.getDirectionAsBlockRotation16() + 8) % 16
                 val skull = PlaceableBlock(
-                    postLocation.x(),
-                    postLocation.y() + 1,
-                    postLocation.z(),
+                    pos.x,
+                    pos.y + 1,
+                    pos.z,
                     skullRotation,
-                    BlockTypes.WITHER_SKELETON_SKULL!!
+                    Blocks.WITHER_SKELETON_SKULL
                 )
-                val post =
-                    PlaceableBlock(postLocation.x(), postLocation.y(), postLocation.z(), 0.0, BlockTypes.SPRUCE_FENCE!!)
 
                 extraBlocks.add(skull)
                 extraBlocks.add(post)
-            }*/
+            }
 
             val tile = PlaceableRoom(
                 chosenRoomType,
                 offsetRoomOrigin,
                 rotation90,
-                //extraBlocks
+                extraBlocks
             )
             tiles.add(tile)
 

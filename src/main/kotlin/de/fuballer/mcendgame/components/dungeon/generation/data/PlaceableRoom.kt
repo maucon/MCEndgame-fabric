@@ -6,5 +6,5 @@ data class PlaceableRoom(
     val type: RoomType,
     val position: Vec3i,
     val rotation90: Int,
-    //val extraBlocks: List<PlaceableBlock> = listOf()
+    val extraBlocks: List<PlaceableBlock> = listOf()
 )
