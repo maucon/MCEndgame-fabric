@@ -1,6 +1,5 @@
 package de.fuballer.mcendgame.components.item.custom.armor.materials
 
-import de.fuballer.mcendgame.components.item.custom.armor.CustomArmorMaterial
 import de.fuballer.mcendgame.util.RegistryKeyUtil
 import net.minecraft.item.equipment.ArmorMaterial
 import net.minecraft.item.equipment.EquipmentAsset
@@ -16,7 +15,10 @@ object DruidsArmorMaterial : CustomArmorMaterial {
     override val instance = ArmorMaterial(
         baseDurability,
         mapOf(
-            EquipmentType.CHESTPLATE to 7,
+            EquipmentType.BOOTS to 3,
+            EquipmentType.LEGGINGS to 6,
+            EquipmentType.CHESTPLATE to 8,
+            EquipmentType.HELMET to 3,
         ),
         15,
         SoundEvents.ITEM_ARMOR_EQUIP_GENERIC,

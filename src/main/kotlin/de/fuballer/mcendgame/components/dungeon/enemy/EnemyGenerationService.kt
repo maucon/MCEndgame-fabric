@@ -1,8 +1,8 @@
-package de.fuballer.mcendgame.components.dungeon.generation.enemy
+package de.fuballer.mcendgame.components.dungeon.enemy
 
 import de.fuballer.mcendgame.components.dungeon.generation.data.SpawnPosition
-import de.fuballer.mcendgame.components.dungeon.generation.enemy.equipment.EquipmentGenerationService
-import de.fuballer.mcendgame.components.dungeon.generation.enemy.potion_effect.PotionEffectService
+import de.fuballer.mcendgame.components.dungeon.enemy.equipment.EquipmentGenerationService
+import de.fuballer.mcendgame.components.dungeon.enemy.potion_effect.PotionEffectService
 import de.fuballer.mcendgame.components.entity.EntityTypeStats
 import de.fuballer.mcendgame.util.EntityUtil
 import de.fuballer.mcendgame.util.random.RandomOption

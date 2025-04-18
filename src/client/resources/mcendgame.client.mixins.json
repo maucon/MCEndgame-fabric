@@ -3,6 +3,10 @@
   "package": "de.fuballer.client.mcendgame.mixin.client",
   "compatibilityLevel": "JAVA_21",
   "client": [
+    "ArmorFeatureRendererMixin",
+    "BipedEntityModelMixin",
+    "BipedEntityRendererMixin",
+    "BipedEntityRenderStateMixin",
     "ItemStackMixin",
     "LivingEntityMixin",
     "LivingEntityRendererMixin",

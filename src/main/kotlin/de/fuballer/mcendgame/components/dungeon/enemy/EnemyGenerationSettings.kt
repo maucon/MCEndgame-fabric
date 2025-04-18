@@ -1,4 +1,4 @@
-package de.fuballer.mcendgame.components.dungeon.generation.enemy
+package de.fuballer.mcendgame.components.dungeon.enemy
 
 import de.fuballer.mcendgame.components.potion_effect.PotionEffect
 import de.fuballer.mcendgame.util.random.RandomOption

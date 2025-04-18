@@ -33,6 +33,17 @@ object RandomUtil {
         return picked
     }
 
+    fun <T> pickAllowRepeatIfNecessary(
+        options: List<RandomOption<T>>,
+        random: Random,
+        maxAmount: Int
+    ): List<T> {
+        val picked = List(maxAmount / options.size) { options.map { it.option } }.flatten().toMutableList()
+        picked.addAll(pick(options, random, maxAmount % options.size))
+
+        return picked
+    }
+
     fun <T : SortableRandomOption<*>> pick(
         options: List<T>,
         rolls: Int,

@@ -1,4 +1,4 @@
-package de.fuballer.mcendgame.components.dungeon.generation.enemy.equipment.enchantment
+package de.fuballer.mcendgame.components.dungeon.enemy.equipment.enchantment
 
 import de.fuballer.mcendgame.components.item.equipment.enchantment.EquipmentEnchantment
 import de.fuballer.mcendgame.util.random.RandomOption

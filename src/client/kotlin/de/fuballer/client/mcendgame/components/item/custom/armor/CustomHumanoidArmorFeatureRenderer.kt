@@ -7,6 +7,8 @@ import de.fuballer.client.mcendgame.components.item.custom.armor.helmet.druids_h
 import de.fuballer.client.mcendgame.components.item.custom.armor.helmet.emberchant.EmberchantModel
 import de.fuballer.client.mcendgame.components.item.custom.armor.helmet.iceborne.IceborneModel
 import de.fuballer.client.mcendgame.components.item.custom.armor.leggings.druids_leggings.DruidsLeggingsModel
+import de.fuballer.client.mcendgame.components.item.custom.armor.leggings.lamias_gift.LamiasGiftModel
+import de.fuballer.client.mcendgame.mixin_interfaces.BipedEntityRenderStateAccessor
 import de.fuballer.mcendgame.components.item.custom.armor.CustomArmorItems
 import de.fuballer.mcendgame.util.IdentifierUtil
 import net.minecraft.client.model.Model
@@ -63,6 +65,10 @@ class CustomHumanoidArmorFeatureRenderer<S : BipedEntityRenderState, M : BipedEn
             IdentifierUtil.default("textures/entity/equipment/custom_humanoid/emberchant.png"),
             EmberchantModel(ctx.getPart(EmberchantModel.MODEL_LAYER))
         )
+        texturedArmorModels[CustomArmorItems.LAMIAS_GIFT] = TexturedArmorModel(
+            IdentifierUtil.default("textures/entity/equipment/custom_humanoid/lamias_gift.png"),
+            LamiasGiftModel(ctx.getPart(LamiasGiftModel.MODEL_LAYER))
+        )
     }
 
     override fun render(
@@ -73,28 +79,32 @@ class CustomHumanoidArmorFeatureRenderer<S : BipedEntityRenderState, M : BipedEn
         limbAngle: Float,
         limbDistance: Float
     ) {
-        this.renderArmor(
+        val stateAccessor = bipedEntityRenderState as BipedEntityRenderStateAccessor
+
+        renderArmor(
             bipedEntityRenderState,
             matrixStack,
             vertexConsumerProvider,
             bipedEntityRenderState.equippedChestStack,
             light
         )
-        this.renderArmor(
+        renderArmor(
             bipedEntityRenderState,
             matrixStack,
             vertexConsumerProvider,
             bipedEntityRenderState.equippedLegsStack,
             light
         )
-        this.renderArmor(
-            bipedEntityRenderState,
-            matrixStack,
-            vertexConsumerProvider,
-            bipedEntityRenderState.equippedFeetStack,
-            light
-        )
-        this.renderArmor(
+        if (!stateAccessor.`mcendgame$getHideBoots`()) {
+            renderArmor(
+                bipedEntityRenderState,
+                matrixStack,
+                vertexConsumerProvider,
+                bipedEntityRenderState.equippedFeetStack,
+                light
+            )
+        }
+        renderArmor(
             bipedEntityRenderState,
             matrixStack,
             vertexConsumerProvider,
@@ -143,7 +153,7 @@ class CustomHumanoidArmorFeatureRenderer<S : BipedEntityRenderState, M : BipedEn
         glint: Boolean,
     ) {
         var vertexConsumer =
-            ItemRenderer.getArmorGlintConsumer(vertexConsumerProvider, RenderLayer.getArmorCutoutNoCull(texture), glint)
+            ItemRenderer.getArmorGlintConsumer(vertexConsumerProvider, RenderLayer.getArmorCutoutNoCull(texture), glint) // RenderLayer.getEntityTranslucent
         if (model is CustomVertexConsumer) {
             vertexConsumer = model.getVertexConsumer(bipedEntityRenderState, vertexConsumerProvider, vertexConsumer)
         }
