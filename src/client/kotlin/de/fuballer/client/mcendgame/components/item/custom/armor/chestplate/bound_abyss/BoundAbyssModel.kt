@@ -1,7 +1,7 @@
 package de.fuballer.client.mcendgame.components.item.custom.armor.chestplate.bound_abyss
 
 import de.fuballer.client.mcendgame.components.item.custom.armor.CustomVertexConsumer
-import de.fuballer.client.mcendgame.mixin_interfaces.LivingEntityRenderStateAccessor
+import de.fuballer.client.mcendgame.accessor.LivingEntityRenderStateAccessor
 import de.fuballer.mcendgame.util.IdentifierUtil
 import net.minecraft.client.model.*
 import net.minecraft.client.render.VertexConsumer

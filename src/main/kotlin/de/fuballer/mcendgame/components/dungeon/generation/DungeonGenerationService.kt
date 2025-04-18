@@ -3,14 +3,19 @@ package de.fuballer.mcendgame.components.dungeon.generation
 import de.fuballer.mcendgame.components.dungeon.boss.BossGenerationService
 import de.fuballer.mcendgame.components.dungeon.enemy.EnemyGenerationService
 import de.fuballer.mcendgame.components.dungeon.generation.builder.DungeonBuilderService
+import de.fuballer.mcendgame.components.dungeon.generation.data.SpawnPosition
 import de.fuballer.mcendgame.components.dungeon.type.DungeonType
 import de.fuballer.mcendgame.components.dungeon.world.DungeonWorldService
+import de.fuballer.mcendgame.components.portal.Portals
+import de.fuballer.mcendgame.components.portal.teleport.TeleportLocation
+import de.fuballer.mcendgame.components.portal.type.DefaultPortalType
 import de.fuballer.mcendgame.event.DungeonOpenEvent
 import de.maucon.mauconframework.di.annotation.Injectable
 import de.maucon.mauconframework.initializer.Initializer
 import net.minecraft.entity.player.PlayerEntity
 import net.minecraft.server.world.ServerWorld
 import net.minecraft.util.math.BlockPos
+import net.minecraft.util.math.Vec3d
 import kotlin.random.Random
 
 @Injectable
@@ -22,13 +27,23 @@ class DungeonGenerationService(
 ) {
     @Initializer
     fun on() = DungeonOpenEvent.NOTIFIER.listen { event ->
-        val dungeonWorld = generate(event.player, BlockPos.ORIGIN) // FIXME
+        val player = event.player
+        val generatedDungeonData = generate(player, BlockPos.ORIGIN)
+
+        val serverWorld = player.world as? ServerWorld ?: return@listen
+
+        val startPos = generatedDungeonData.startPos
+        val teleportLocation = TeleportLocation(generatedDungeonData.world, Vec3d.of(startPos.pos), 0f, startPos.rot.toFloat())
+        val portalType = DefaultPortalType() // todo get from player
+
+        val portal = Portals.spawn(serverWorld, player.blockPos, Vec3d.ZERO, teleportLocation, portalType)
+        // TODO FIXME PLEASE
     }
 
     private fun generate(
         player: PlayerEntity,
         leaveLocation: BlockPos // FIXME should be a location
-    ): ServerWorld { // FIXME should return start location
+    ): GeneratedDungeonData {
         val dungeonLevel = 1 // TODO from player
         val seed = Random.nextInt() // TODO player seed
         val world = dungeonWorldService.create(player)
@@ -50,9 +65,11 @@ class DungeonGenerationService(
         // val startLocation = layout.spawnPos.pos
         // TODO create portals
 
-        val (pos, rot) = layout.spawnPos
-        player.teleport(world, pos.x + 0.5, pos.y.toDouble(), pos.z + 0.5, setOf(), rot.toFloat(), 0.0f, false)
-
-        return world // FIXME
+        return GeneratedDungeonData(world, layout.spawnPos)
     }
+
+    data class GeneratedDungeonData(
+        val world: ServerWorld,
+        val startPos: SpawnPosition
+    )
 }

@@ -1,4 +1,4 @@
-package de.fuballer.mcendgame.mixin_interfaces;
+package de.fuballer.mcendgame.accessor;
 
 public interface LivingEntityWebbedAccessor {
     void mcendgame$setWebbed(boolean webbed);

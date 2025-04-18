@@ -9,7 +9,7 @@ import de.fuballer.mcendgame.components.entity.custom.goals.*
 import de.fuballer.mcendgame.components.entity.custom.interfaces.CustomPosesEntity
 import de.fuballer.mcendgame.components.entity.custom.interfaces.HookAttackMob
 import de.fuballer.mcendgame.components.entity.custom.interfaces.MeleeAttackMob
-import de.fuballer.mcendgame.mixin_interfaces.LivingEntityWebbedAccessor
+import de.fuballer.mcendgame.accessor.LivingEntityWebbedAccessor
 import net.minecraft.block.BlockState
 import net.minecraft.block.Blocks
 import net.minecraft.entity.AnimationState
@@ -248,7 +248,8 @@ class ArachneEntity(
         if (attackAnimationTicks <= 0) return
         if (--attackAnimationTicks > 0) return
 
-        dataTracker.set(ATTACK_POSE, CustomPosesEntity.CustomPose.IDLING)
+        dataTracker.set(
+            ATTACK_POSE, CustomPosesEntity.CustomPose.IDLING)
     }
 
     private fun changeAttackPose(pose: CustomPosesEntity.CustomPose, animationTime: Int) {

@@ -1,6 +1,6 @@
 package de.fuballer.mcendgame.mixin;
 
-import de.fuballer.mcendgame.accessors.MobEntityBossAccessor;
+import de.fuballer.mcendgame.accessor.MobEntityBossAccessor;
 import net.minecraft.entity.LivingEntity;
 import net.minecraft.entity.damage.DamageSource;
 import net.minecraft.entity.mob.MobEntity;

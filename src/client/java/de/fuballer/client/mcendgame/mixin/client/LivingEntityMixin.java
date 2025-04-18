@@ -1,6 +1,6 @@
 package de.fuballer.client.mcendgame.mixin.client;
 
-import de.fuballer.client.mcendgame.mixin_interfaces.LivingEntityAccessor;
+import de.fuballer.client.mcendgame.accessor.LivingEntityAccessor;
 import net.minecraft.entity.LivingEntity;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.Unique;
