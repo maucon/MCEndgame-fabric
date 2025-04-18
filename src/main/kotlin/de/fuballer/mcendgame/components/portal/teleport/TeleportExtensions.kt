@@ -3,14 +3,21 @@ package de.fuballer.mcendgame.components.portal.teleport
 import net.minecraft.entity.player.PlayerEntity
 import net.minecraft.util.math.Vec3d
 import net.minecraft.world.TeleportTarget
+import xyz.nucleoid.fantasy.mixin.MinecraftServerAccess
 
 object TeleportExtensions {
     fun PlayerEntity.teleportTo(teleportLocation: TeleportLocation): Boolean {
-        // todo how to detect if worked?
+        val world = teleportLocation.world
+        val serverAccess = world.server as MinecraftServerAccess
+        val doesWorldExist = serverAccess.worlds
+            .map { it.key.value.path }
+            .contains(world.registryKey.value.path)
 
-        teleportTo(
+        if (!doesWorldExist) return false
+
+        val result = teleportTo(
             TeleportTarget(
-                teleportLocation.world,
+                world,
                 teleportLocation.coordinates,
                 Vec3d.ZERO,
                 teleportLocation.yRot,
@@ -18,6 +25,6 @@ object TeleportExtensions {
             ) { }
         )
 
-        return true
+        return result != null
     }
 }
