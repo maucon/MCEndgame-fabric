@@ -1,6 +1,6 @@
 package de.fuballer.mcendgame.mixin;
 
-import de.fuballer.mcendgame.accessors.PlayerEntityMixinAccessor;
+import de.fuballer.mcendgame.accessor.PlayerEntityMixinAccessor;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityType;
 import net.minecraft.entity.LivingEntity;

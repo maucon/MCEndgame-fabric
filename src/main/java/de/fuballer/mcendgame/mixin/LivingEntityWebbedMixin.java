@@ -1,6 +1,6 @@
 package de.fuballer.mcendgame.mixin;
 
-import de.fuballer.mcendgame.accessors.LivingEntityWebbedAccessor;
+import de.fuballer.mcendgame.accessor.LivingEntityWebbedAccessor;
 import net.minecraft.entity.LivingEntity;
 import net.minecraft.entity.data.DataTracker;
 import net.minecraft.entity.data.TrackedData;

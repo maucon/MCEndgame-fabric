@@ -1,6 +1,6 @@
 package de.fuballer.mcendgame.mixin;
 
-import de.fuballer.mcendgame.accessors.MobEntityBossAccessor;
+import de.fuballer.mcendgame.accessor.MobEntityBossAccessor;
 import net.minecraft.entity.mob.MobEntity;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.nbt.NbtCompound;

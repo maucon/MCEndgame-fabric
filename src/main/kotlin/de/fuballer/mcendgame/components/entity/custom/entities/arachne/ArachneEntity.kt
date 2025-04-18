@@ -9,7 +9,7 @@ import de.fuballer.mcendgame.components.entity.custom.goals.*
 import de.fuballer.mcendgame.components.entity.custom.interfaces.CustomPosesEntity
 import de.fuballer.mcendgame.components.entity.custom.interfaces.HookAttackMob
 import de.fuballer.mcendgame.components.entity.custom.interfaces.MeleeAttackMob
-import de.fuballer.mcendgame.accessors.LivingEntityWebbedAccessor
+import de.fuballer.mcendgame.accessor.LivingEntityWebbedAccessor
 import net.minecraft.block.BlockState
 import net.minecraft.block.Blocks
 import net.minecraft.entity.AnimationState

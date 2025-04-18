@@ -1,7 +1,7 @@
 package de.fuballer.client.mcendgame.mixin.client;
 
-import de.fuballer.client.mcendgame.mixin_interfaces.LivingEntityRenderStateWebbedAccessor;
-import de.fuballer.mcendgame.accessors.LivingEntityWebbedAccessor;
+import de.fuballer.client.mcendgame.accessor.LivingEntityRenderStateWebbedAccessor;
+import de.fuballer.mcendgame.accessor.LivingEntityWebbedAccessor;
 import net.minecraft.client.render.entity.LivingEntityRenderer;
 import net.minecraft.client.render.entity.state.LivingEntityRenderState;
 import net.minecraft.entity.LivingEntity;
