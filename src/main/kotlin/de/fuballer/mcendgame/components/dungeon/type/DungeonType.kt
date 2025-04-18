@@ -3,9 +3,9 @@ package de.fuballer.mcendgame.components.dungeon.type
 import de.fuballer.mcendgame.components.dungeon.generation.layout.DungeonLayoutType
 import de.fuballer.mcendgame.components.dungeon.type.data.RolledDungeonType
 import de.fuballer.mcendgame.components.entity.EntityTypeStats
-import de.fuballer.mcendgame.components.entity.types.ArachneStats
 import de.fuballer.mcendgame.components.entity.types.SkeletonStats
 import de.fuballer.mcendgame.components.entity.types.ZombieStats
+import de.fuballer.mcendgame.components.entity.types.boss.ArachneBossStats
 import de.fuballer.mcendgame.util.random.RandomOption
 import de.fuballer.mcendgame.util.random.RandomUtil
 import kotlin.random.Random
@@ -25,7 +25,7 @@ enum class DungeonType(
             RandomOption(15, SkeletonStats),
         ),
         listOf(
-            RandomOption(1, ArachneStats),
+            RandomOption(1, ArachneBossStats),
         ),
         3
     );
