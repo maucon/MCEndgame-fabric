@@ -35,6 +35,7 @@ class DungeonGenerationService(
         val startPos = generatedDungeonData.startPos
         val teleportLocation = TeleportLocation(generatedDungeonData.world, Vec3d.of(startPos.pos), 0f, startPos.rot.toFloat())
         val portalType = DefaultPortalType() // todo get from player
+
         val portal = Portals.spawn(serverWorld, player.blockPos, Vec3d.ZERO, teleportLocation, portalType)
         // TODO FIXME PLEASE
     }

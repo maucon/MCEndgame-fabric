@@ -23,7 +23,8 @@ import net.minecraft.util.Hand
 import net.minecraft.util.math.Vec3d
 import net.minecraft.world.World
 
-private const val TYPE_NBT = "type"
+private const val TYPE_NBT = "Type"
+private const val TELEPORT_LOCATION_NBT = "TeleportLocation"
 
 class PortalEntity(
     entityType: EntityType<out LivingEntity>,
@@ -46,11 +47,6 @@ class PortalEntity(
         super.tick()
 
         type.tickAnimation(this)
-
-        val serverWorld = world as? ServerWorld ?: return
-
-        val closest = serverWorld.getClosestPlayer(this, 10.0) ?: return
-        this.lookAt(EntityAnchorArgumentType.EntityAnchor.FEET, closest.pos) // FIXME
     }
 
     override fun interactAt(player: PlayerEntity, hitPos: Vec3d, hand: Hand): ActionResult {
@@ -98,9 +94,16 @@ class PortalEntity(
         val typeId = nbt.getString(TYPE_NBT)
         type = PortalType.getById(typeId)
         dataTracker.set(TYPE, typeId)
+
+        val teleportLocationNBT = nbt.getCompound(TELEPORT_LOCATION_NBT)
+        teleportLocation = TeleportLocation.fromNBT(teleportLocationNBT)
     }
 
     override fun writeCustomDataToNbt(nbt: NbtCompound) {
         nbt.putString(TYPE_NBT, type.getId())
+
+        teleportLocation?.toNBT()?.also {
+            nbt.put(TELEPORT_LOCATION_NBT, it)
+        }
     }
 }
