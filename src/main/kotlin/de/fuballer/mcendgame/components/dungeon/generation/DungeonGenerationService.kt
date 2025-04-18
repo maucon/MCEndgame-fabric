@@ -3,6 +3,7 @@ package de.fuballer.mcendgame.components.dungeon.generation
 import de.fuballer.mcendgame.components.dungeon.boss.BossGenerationService
 import de.fuballer.mcendgame.components.dungeon.enemy.EnemyGenerationService
 import de.fuballer.mcendgame.components.dungeon.generation.builder.DungeonBuilderService
+import de.fuballer.mcendgame.components.dungeon.generation.data.SpawnPosition
 import de.fuballer.mcendgame.components.dungeon.type.DungeonType
 import de.fuballer.mcendgame.components.dungeon.world.DungeonWorldService
 import de.fuballer.mcendgame.components.portal.Portals
