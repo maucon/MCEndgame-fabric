@@ -1,4 +1,4 @@
-package de.fuballer.mcendgame.components.dungeon.generation.enemy.equipment.attributes
+package de.fuballer.mcendgame.components.dungeon.enemy.equipment.attributes
 
 import de.fuballer.mcendgame.util.random.SortableRandomOption
 

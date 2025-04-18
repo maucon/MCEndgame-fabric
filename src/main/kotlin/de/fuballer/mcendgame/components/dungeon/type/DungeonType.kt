@@ -5,6 +5,7 @@ import de.fuballer.mcendgame.components.dungeon.type.data.RolledDungeonType
 import de.fuballer.mcendgame.components.entity.EntityTypeStats
 import de.fuballer.mcendgame.components.entity.types.SkeletonStats
 import de.fuballer.mcendgame.components.entity.types.ZombieStats
+import de.fuballer.mcendgame.components.entity.types.boss.ArachneBossStats
 import de.fuballer.mcendgame.util.random.RandomOption
 import de.fuballer.mcendgame.util.random.RandomUtil
 import kotlin.random.Random
@@ -12,7 +13,8 @@ import kotlin.random.Random
 enum class DungeonType(
     private val mapTypes: List<RandomOption<DungeonLayoutType>>,
     private val entityTypes: List<RandomOption<EntityTypeStats>>,
-//    private val bossEntityTypes: List<RandomOption<EntityTypeStats>>
+    private val bossEntityTypes: List<RandomOption<EntityTypeStats>>,
+    val bossCount: Int,
 ) {
     STRONGHOLD(
         listOf(
@@ -21,21 +23,17 @@ enum class DungeonType(
         listOf(
             RandomOption(40, ZombieStats),
             RandomOption(15, SkeletonStats),
-        )
-//        listOf(
-//            RandomOption(1, ZombieTypeStats),
-//            RandomOption(1, HuskTypeStats),
-//            RandomOption(1, SkeletonTypeStats),
-//        )
+        ),
+        listOf(
+            RandomOption(1, ArachneBossStats),
+        ),
+        3
     );
 
-    fun roll(random: Random): RolledDungeonType {
-//        require(bossEntityTypes.size >= 3) { "DungeonType: '${this.name}' has less than 3 bosses" }
-
-        return RolledDungeonType(
+    fun roll(random: Random): RolledDungeonType =
+        RolledDungeonType(
             RandomUtil.pick(mapTypes, random).option,
             entityTypes,
-//            RandomUtil.pick(bossEntityTypes, random, 3)
+            RandomUtil.pickAllowRepeatIfNecessary(bossEntityTypes, random, bossCount)
         )
-    }
 }

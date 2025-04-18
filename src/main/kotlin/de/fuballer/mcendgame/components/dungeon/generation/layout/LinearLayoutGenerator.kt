@@ -2,10 +2,11 @@ package de.fuballer.mcendgame.components.dungeon.generation.layout
 
 import de.fuballer.mcendgame.components.dungeon.generation.data.*
 import de.fuballer.mcendgame.util.Vec3iExtensions.clone
-import de.fuballer.mcendgame.util.Vec3iExtensions.decrement
-import de.fuballer.mcendgame.util.Vec3iExtensions.rotateYRad
+import de.fuballer.mcendgame.util.Vec3iExtensions.rotateY90
+import de.fuballer.mcendgame.util.Vec3iExtensions.stepTowardsZero
 import de.fuballer.mcendgame.util.random.RandomOption
 import de.fuballer.mcendgame.util.random.RandomUtil
+import net.minecraft.block.Blocks
 import net.minecraft.util.math.Vec3i
 import kotlin.math.max
 import kotlin.math.min
@@ -13,8 +14,16 @@ import kotlin.random.Random
 
 private fun calculateComplexityLimit() = 125
 private fun calculateBranchComplexityLimit() = 5
+private fun calculateBranchingPoints(count: Int): List<Double> {
+    val branchOffset = 1.0 / count
+    val branchingPoints = mutableListOf<Double>()
+    for (branch in 1..<count) {
+        branchingPoints.add(branchOffset * branch)
+    }
+    return branchingPoints
+}
 
-private val branchingPoints: List<Double> = listOf(0.33, 0.66) // -> 3 boss rooms
+private var branchingPoints: List<Double> = listOf()
 private var complexityLimit = 0
 private var branchComplexityLimit = 0
 
@@ -28,20 +37,22 @@ class LinearLayoutGenerator(
 
     override fun generateDungeon(
         random: Random,
-        dungeonLevel: Int
+        dungeonLevel: Int,
+        bossCount: Int,
     ): Layout {
         this.random = random
 
+        branchingPoints = calculateBranchingPoints(bossCount)
         complexityLimit = calculateComplexityLimit()
         branchComplexityLimit = calculateBranchComplexityLimit()
 
-        val startRoom = PlaceableRoom(startRoomType, Vec3i.ZERO, 0.0)
+        val startRoom = PlaceableRoom(startRoomType, Vec3i.ZERO, 0)
         val tiles = mutableListOf(startRoom)
 
         val spawnLocations = mutableListOf<SpawnPosition>()
         val bossSpawnLocations = mutableListOf<SpawnPosition>()
 
-        blockedArea.add(Area(Vec3i.ZERO, startRoomType.size.decrement()))
+        blockedArea.add(Area(Vec3i.ZERO, startRoomType.size.stepTowardsZero()))
 
         if (!generateNextRoom(
                 tiles,
@@ -114,13 +125,13 @@ class LinearLayoutGenerator(
         val possibleDoors = chosenRoomType.markerPoints.doors.shuffled(random)
         for (chosenDoor in possibleDoors) {
 
-            val rotation = calculateRotation(currentDoor, chosenDoor)
-            val rotationRad = Math.toRadians(rotation)
+            val rotation90 = calculateNeededRotation90(currentDoor, chosenDoor)
 
-            val offsetRoomOrigin = calculateRoomOffsetAfterRotation(currentDoor, chosenDoor, rotationRad)
+            val offsetRoomOrigin = calculateRoomOffsetAfterRotation(currentDoor, chosenDoor, rotation90)
 
-            val rotatedSize = chosenRoomType.size.rotateYRad(rotationRad)
+            val rotatedSize = chosenRoomType.size.rotateY90(rotation90)
             val area = rotatedRoomToArea(offsetRoomOrigin, rotatedSize)
+
             if (areaIsBlocked(area)) continue
 
             blockedArea.add(area)
@@ -135,7 +146,7 @@ class LinearLayoutGenerator(
                     existingBranches,
                     roomComplexitySum,
                     offsetRoomOrigin,
-                    rotationRad,
+                    rotation90,
                     spawnLocations,
                     bossSpawnLocations
                 )
@@ -144,36 +155,33 @@ class LinearLayoutGenerator(
                 continue
             }
 
-            /*
             val extraBlocks = mutableListOf<PlaceableBlock>()
-
             if (!isMainPath && roomComplexitySum == 0) { // first room of branch
-                val postLocation = VectorUtil.toBlockVector3(chosenDoor.position)
-                val skullRotation = chosenDoor.getDirectionInDegree()
+                val pos = chosenDoor.pos
+                val post = PlaceableBlock(pos.x, pos.y, pos.z, 0, Blocks.SPRUCE_FENCE)
 
+                val skullRotation = (chosenDoor.getDirectionAsBlockRotation16() + 8) % 16
                 val skull = PlaceableBlock(
-                    postLocation.x(),
-                    postLocation.y() + 1,
-                    postLocation.z(),
+                    pos.x,
+                    pos.y + 1,
+                    pos.z,
                     skullRotation,
-                    BlockTypes.WITHER_SKELETON_SKULL!!
+                    Blocks.WITHER_SKELETON_SKULL
                 )
-                val post =
-                    PlaceableBlock(postLocation.x(), postLocation.y(), postLocation.z(), 0.0, BlockTypes.SPRUCE_FENCE!!)
 
                 extraBlocks.add(skull)
                 extraBlocks.add(post)
-            }*/
+            }
 
             val tile = PlaceableRoom(
                 chosenRoomType,
                 offsetRoomOrigin,
-                rotation,
-                //extraBlocks
+                rotation90,
+                extraBlocks
             )
             tiles.add(tile)
 
-            addSpawnLocations(chosenRoomType, offsetRoomOrigin, rotationRad, spawnLocations, bossSpawnLocations)
+            addSpawnLocations(chosenRoomType, offsetRoomOrigin, rotation90, spawnLocations, bossSpawnLocations)
 
             return true
         }
@@ -205,7 +213,7 @@ class LinearLayoutGenerator(
         existingBranches: Int,
         roomComplexitySum: Int,
         offsetRoomOrigin: Vec3i,
-        rotationRad: Double,
+        rotation90: Int,
         spawnLocations: MutableList<SpawnPosition>,
         bossSpawnLocations: MutableList<SpawnPosition>
     ): Boolean {
@@ -216,7 +224,7 @@ class LinearLayoutGenerator(
         val updatedExistingBranches = if (remainingDoors.size > 1) existingBranches + 1 else existingBranches
 
         for (d in remainingDoors.indices) {
-            val nextDoor = remainingDoors[d].getRotated(rotationRad).getOffset(offsetRoomOrigin)
+            val nextDoor = remainingDoors[d].getRotated90(rotation90).getOffset(offsetRoomOrigin)
 
             val nextIsMainPath = isMainPath && d == remainingDoors.size - 1
             val nextRoomComplexitySum =
@@ -256,9 +264,9 @@ class LinearLayoutGenerator(
     private fun calculateRoomOffsetAfterRotation(
         currentDoor: Door,
         nextDoor: Door,
-        rotationRad: Double
+        rotation90: Int
     ): Vec3i {
-        val rotatedChosenDoor = nextDoor.getRotated(rotationRad)
+        val rotatedChosenDoor = nextDoor.getRotated90(rotation90)
         val rotatedChosenDoorOffset = rotatedChosenDoor.pos
 
         val currentDoorAdjacent = currentDoor.getAdjacentPosition()
@@ -267,15 +275,15 @@ class LinearLayoutGenerator(
         return roomOffset
     }
 
-    private fun calculateRotation(
+    private fun calculateNeededRotation90(
         currentDoor: Door,
         nextDoor: Door
-    ): Double {
+    ): Int {
         val directions = listOf(
             Vec3i(1, 0, 0),  // East
-            Vec3i(0, 0, -1),  // South
+            Vec3i(0, 0, 1),  // South
             Vec3i(-1, 0, 0), // West
-            Vec3i(0, 0, 1)  // North
+            Vec3i(0, 0, -1)  // North
         )
 
         val currentIndex = directions.indexOf(currentDoor.dir)
@@ -285,13 +293,13 @@ class LinearLayoutGenerator(
             throw IllegalArgumentException("Invalid direction vector")
         }
 
-        val rotation = (nextIndex - currentIndex + 6) % 4 * 90
+        val rotation90 = (6 - (nextIndex - currentIndex)) % 4
 
-        return rotation.toDouble()
+        return rotation90
     }
 
     private fun rotatedRoomToArea(origin: Vec3i, size: Vec3i): Area {
-        val decSize = size.decrement()
+        val decSize = size.stepTowardsZero()
         val pos1 = Vec3i(min(origin.x, origin.x + decSize.x), origin.y, min(origin.z, origin.z + decSize.z))
         val pos2 =
             Vec3i(max(origin.x, origin.x + decSize.x), (origin.y + decSize.y), max(origin.z, origin.z + decSize.z))
@@ -319,23 +327,23 @@ class LinearLayoutGenerator(
     private fun addSpawnLocations(
         chosenRoom: RoomType,
         offsetRoomOrigin: Vec3i,
-        rotRad: Double,
+        rotation90: Int,
         spawnLocations: MutableList<SpawnPosition>,
         bossSpawnLocations: MutableList<SpawnPosition>,
     ) {
         chosenRoom.markerPoints.monsterPos.onEach {
-            val rotPos = it.pos.rotateYRad(rotRad)
+            val rotPos = it.pos.rotateY90(rotation90)
             val offsetPos = rotPos.add(offsetRoomOrigin)
 
             spawnLocations.add(SpawnPosition(offsetPos))
         }
 
         chosenRoom.markerPoints.bossPos.onEach {
-            val rotPos = it.pos.rotateYRad(rotRad)
+            val rotPos = it.pos.rotateY90(rotation90)
             val offsetPos = rotPos.add(offsetRoomOrigin)
 
-            val rotDeg = Math.toDegrees(rotRad)
-            val newRotation = ((it.rot + rotDeg) % 360) * -1
+            val rotDeg = rotation90 * 90.0
+            val newRotation = ((it.rot + rotDeg) % 360)
 
             bossSpawnLocations.add(SpawnPosition(offsetPos, newRotation))
         }

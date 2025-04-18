@@ -78,7 +78,7 @@ object RoomTypeLoader {
         val bossPos = bossPosMarkerInfos.stream().map {
             SpawnPosition(
                 it.pos.add(offset),
-                it.state.get(Properties.ROTATION) * 22.5 // * 360/16
+                (it.state.get(Properties.ROTATION) * 22.5 + 180.0) % 360 // 0 rot -> 180 yaw
             )
         }.toList()
 
