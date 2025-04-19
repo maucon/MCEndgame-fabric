@@ -75,11 +75,10 @@ class EquipmentGenerationService(
         server: MinecraftServer,
         random: Random,
     ): ItemStack? {
-        val item = EquipmentGenerationSettings.UNIQUE_EQUIPMENT[slot]?.random(random) ?: return null
-        val itemStack =  ItemStack(item)
+        val equipment = EquipmentGenerationSettings.UNIQUE_EQUIPMENT[slot]?.random(random) ?: return null
+        val itemStack = ItemStack(equipment.item)
 
-        // TODO
-        //enchantmentService.enchantItem(itemStack, equipment.rollableEnchants, level, server, random)
+        enchantmentService.enchantItem(itemStack, equipment.rollableEnchants, level, server, random)
         return itemStack
     }
 

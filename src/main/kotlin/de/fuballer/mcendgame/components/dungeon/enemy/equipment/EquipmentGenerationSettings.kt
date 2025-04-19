@@ -1,7 +1,5 @@
 package de.fuballer.mcendgame.components.dungeon.enemy.equipment
 
-import de.fuballer.mcendgame.components.item.custom.armor.CustomArmorItems
-import de.fuballer.mcendgame.components.item.custom.tool.CustomToolItems
 import de.fuballer.mcendgame.components.item.equipment.Equipment
 import de.fuballer.mcendgame.components.item.equipment.armor.Boots
 import de.fuballer.mcendgame.components.item.equipment.armor.Chestplate
@@ -18,30 +16,30 @@ object EquipmentGenerationSettings {
 
     const val UNIQUE_EQUIPMENT_PROBABILITY = 0.01
 
-    val UNIQUE_EQUIPMENT = mapOf(
+    val UNIQUE_EQUIPMENT = mapOf<EquipmentSlot, List<Equipment>>(
         EquipmentSlot.MAINHAND to listOf(
-            CustomToolItems.TWINFIRE,
-            CustomToolItems.BLOODHARVEST,
+            Sword.TWINFIRE,
+            Sword.BLOODHARVEST,
         ),
         EquipmentSlot.OFFHAND to listOf(
-            CustomToolItems.TWINFIRE,
-            CustomToolItems.BLOODHARVEST,
+            Sword.TWINFIRE,
+            Sword.BLOODHARVEST,
         ),
         EquipmentSlot.HEAD to listOf(
-            CustomArmorItems.ICEBORNE,
-            CustomArmorItems.EMBERCHANT,
-            CustomArmorItems.DRUIDS_HELMET,
+            Helmet.ICEBORNE,
+            Helmet.EMBERCHANT,
+            Helmet.DRUIDS_HELMET,
         ),
         EquipmentSlot.CHEST to listOf(
-            CustomArmorItems.BOUND_ABYSS,
-            CustomArmorItems.DRUIDS_CHESTPLATE,
+            Chestplate.BOUND_ABYSS,
+            Chestplate.DRUIDS_CHESTPLATE,
         ),
         EquipmentSlot.LEGS to listOf(
-            CustomArmorItems.LAMIAS_GIFT,
-            CustomArmorItems.DRUIDS_LEGGINGS,
+            Leggings.LAMIAS_GIFT,
+            Leggings.DRUIDS_LEGGINGS,
         ),
         EquipmentSlot.FEET to listOf(
-            CustomArmorItems.DRUIDS_BOOTS,
+            Boots.DRUIDS_BOOTS,
         ),
     )
 
@@ -55,15 +53,6 @@ object EquipmentGenerationSettings {
         SortableRandomOption(800, 6, Helmet.DIAMOND),
         SortableRandomOption(500, 7, Helmet.NETHERITE),
     )
-    val LEGGINGS = listOf(
-        SortableRandomOption(500, 0, null),
-        SortableRandomOption(500, 1, Leggings.LEATHER),
-        SortableRandomOption(500, 2, Leggings.GOLDEN),
-        SortableRandomOption(500, 3, Leggings.CHAINMAIL),
-        SortableRandomOption(500, 4, Leggings.IRON),
-        SortableRandomOption(800, 6, Leggings.DIAMOND),
-        SortableRandomOption(500, 7, Leggings.NETHERITE)
-    )
     val CHESTPLATES = listOf(
         SortableRandomOption(500, 0, null),
         SortableRandomOption(500, 1, Chestplate.LEATHER),
@@ -72,6 +61,15 @@ object EquipmentGenerationSettings {
         SortableRandomOption(500, 4, Chestplate.IRON),
         SortableRandomOption(800, 6, Chestplate.DIAMOND),
         SortableRandomOption(500, 7, Chestplate.NETHERITE)
+    )
+    val LEGGINGS = listOf(
+        SortableRandomOption(500, 0, null),
+        SortableRandomOption(500, 1, Leggings.LEATHER),
+        SortableRandomOption(500, 2, Leggings.GOLDEN),
+        SortableRandomOption(500, 3, Leggings.CHAINMAIL),
+        SortableRandomOption(500, 4, Leggings.IRON),
+        SortableRandomOption(800, 6, Leggings.DIAMOND),
+        SortableRandomOption(500, 7, Leggings.NETHERITE)
     )
     val BOOTS = listOf(
         SortableRandomOption(500, 0, null),

@@ -4,6 +4,7 @@ import de.fuballer.mcendgame.components.custom_attributes.data.DoubleBounds
 import de.fuballer.mcendgame.components.custom_attributes.data.RollableCustomAttribute
 import de.fuballer.mcendgame.components.custom_attributes.types.CustomAttributeTypes
 import de.fuballer.mcendgame.components.custom_attributes.types.VanillaAttributeTypes
+import de.fuballer.mcendgame.components.item.custom.armor.CustomArmorItems
 import de.fuballer.mcendgame.components.item.equipment.Equipment
 import de.fuballer.mcendgame.components.item.equipment.enchantment.EquipmentEnchantment
 import de.fuballer.mcendgame.util.random.RandomOption
@@ -32,6 +33,9 @@ enum class Boots(
     ),
     NETHERITE(
         Items.NETHERITE_BOOTS,
+    ),
+    DRUIDS_BOOTS(
+        CustomArmorItems.DRUIDS_BOOTS,
     );
 
     override val slot = AttributeModifierSlot.FEET
