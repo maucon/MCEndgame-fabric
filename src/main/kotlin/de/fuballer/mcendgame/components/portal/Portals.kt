@@ -32,13 +32,15 @@ object Portals {
     fun spawn(
         world: ServerWorld,
         pos: BlockPos,
-        lookAt: Vec3d,
         teleportLocation: TeleportLocation,
+        lookAt: Vec3d = Vec3d.ZERO,
+        singleUse: Boolean = false,
         type: PortalType = DefaultPortalType()
     ): PortalEntity {
         val consumer = { entity: PortalEntity -> entity.dataTracker.set(PortalEntity.TYPE, type.getId()) }
         val portal = ENTITY_TYPE.spawn(world, consumer, pos, SpawnReason.LOAD, false, false)!!
 
+        portal.singleUse = singleUse
         portal.type = type
 
         portal.teleportLocation = teleportLocation

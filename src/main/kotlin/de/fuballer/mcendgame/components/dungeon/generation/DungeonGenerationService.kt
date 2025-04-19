@@ -9,6 +9,7 @@ import de.fuballer.mcendgame.components.dungeon.world.DungeonWorldService
 import de.fuballer.mcendgame.components.portal.Portals
 import de.fuballer.mcendgame.components.portal.teleport.TeleportLocation
 import de.fuballer.mcendgame.components.portal.type.DefaultPortalType
+import de.fuballer.mcendgame.components.portal.type.PortalType
 import de.fuballer.mcendgame.event.DungeonOpenEvent
 import de.maucon.mauconframework.di.annotation.Injectable
 import de.maucon.mauconframework.initializer.Initializer
@@ -33,10 +34,14 @@ class DungeonGenerationService(
         val serverWorld = player.world as? ServerWorld ?: return@listen
 
         val startPos = generatedDungeonData.startPos
-        val teleportLocation = TeleportLocation(generatedDungeonData.world, Vec3d.of(startPos.pos), 0f, startPos.rot.toFloat())
+        val centeredSpawnPos = Vec3d.of(startPos.pos).add(0.5, 0.0, 0.5)
         val portalType = DefaultPortalType() // todo get from player
 
-        val portal = Portals.spawn(serverWorld, player.blockPos, Vec3d.ZERO, teleportLocation, portalType)
+        spawnLeavePortal(centeredSpawnPos, event.blockEntity.pos.toCenterPos(), portalType, serverWorld, generatedDungeonData.world)
+
+        val teleportLocation = TeleportLocation(generatedDungeonData.world, centeredSpawnPos, 0f, startPos.rot.toFloat())
+
+        val portal = Portals.spawn(serverWorld, player.blockPos, teleportLocation, Vec3d.ZERO, type = portalType, singleUse = true)
         // TODO FIXME PLEASE
     }
 
@@ -66,6 +71,23 @@ class DungeonGenerationService(
         // TODO create portals
 
         return GeneratedDungeonData(world, layout.spawnPos)
+    }
+
+    private fun spawnLeavePortal(
+        spawnPos: Vec3d,
+        devicePos: Vec3d,
+        portalType: PortalType,
+        originWorld: ServerWorld,
+        dungeonWorld: ServerWorld
+    ) {
+        val teleportLocation = TeleportLocation(originWorld, devicePos.add(0.0,1.0,0.0))
+        val portalLocation = BlockPos(spawnPos.x.toInt(), spawnPos.y.toInt(), spawnPos.z.toInt())
+
+        Portals.spawn(dungeonWorld, portalLocation, teleportLocation, type = portalType)
+    }
+
+    private fun createEntryPortals() {
+
     }
 
     data class GeneratedDungeonData(

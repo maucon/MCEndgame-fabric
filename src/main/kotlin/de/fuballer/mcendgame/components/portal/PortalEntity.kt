@@ -25,8 +25,10 @@ import net.minecraft.util.math.Vec3d
 import net.minecraft.world.World
 import kotlin.jvm.optionals.getOrNull
 
+
 private const val TYPE_NBT = "Type"
 private const val TELEPORT_LOCATION_NBT = "TeleportLocation"
+private const val SINGLE_USE_NBT = "SingleUse"
 
 class PortalEntity(
     entityType: EntityType<out LivingEntity>,
@@ -37,6 +39,7 @@ class PortalEntity(
     private var removed: Boolean = false
     var type: PortalType = DefaultPortalType()
     var teleportLocation: TeleportLocation? = null
+    var singleUse = false
 
     init {
         this.setNoGravity(true)
@@ -48,9 +51,12 @@ class PortalEntity(
     }
 
     override fun tick() {
-        super.tick()
+        if (removed) {
+            discard()
+            return
+        }
 
-        if (removed) discard()
+        super.tick()
         type.tickAnimation(this)
     }
 
@@ -68,7 +74,9 @@ class PortalEntity(
             player.sendMessage(PortalSettings.TELEPORTATION_FAILED_MESSAGE, false)
         }
 
-        remove(RemovalReason.KILLED)
+        if (singleUse) {
+            remove(RemovalReason.KILLED)
+        }
         return ActionResult.SUCCESS
     }
 
@@ -101,6 +109,8 @@ class PortalEntity(
 
         if (world.isClient) return
 
+        singleUse = nbt.getBoolean(SINGLE_USE_NBT, false)
+
         teleportLocation = nbt.getSafe(TELEPORT_LOCATION_NBT, TeleportLocation.CODEC).getOrNull()
         if (teleportLocation == null) {
             log.info("Marking outdated portal to be removed: $uuid")
@@ -111,5 +121,6 @@ class PortalEntity(
     override fun writeCustomDataToNbt(nbt: NbtCompound) {
         nbt.putString(TYPE_NBT, type.getId())
         nbt.putNullable(TELEPORT_LOCATION_NBT, TeleportLocation.CODEC, teleportLocation)
+        nbt.putBoolean(SINGLE_USE_NBT, singleUse)
     }
 }
