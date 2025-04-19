@@ -1,5 +1,7 @@
 package de.fuballer.mcendgame.components.dungeon.enemy.equipment
 
+import de.fuballer.mcendgame.components.item.custom.armor.CustomArmorItems
+import de.fuballer.mcendgame.components.item.custom.tool.CustomToolItems
 import de.fuballer.mcendgame.components.item.equipment.Equipment
 import de.fuballer.mcendgame.components.item.equipment.armor.Boots
 import de.fuballer.mcendgame.components.item.equipment.armor.Chestplate
@@ -8,11 +10,40 @@ import de.fuballer.mcendgame.components.item.equipment.armor.Leggings
 import de.fuballer.mcendgame.components.item.equipment.tool.*
 import de.fuballer.mcendgame.util.random.RandomOption
 import de.fuballer.mcendgame.util.random.SortableRandomOption
+import net.minecraft.entity.EquipmentSlot
 
 object EquipmentGenerationSettings {
-
     private const val EQUIPMENT_ROLL_TRIES_PER_TIER = 0.25
     fun calculateEquipmentRollTries(mapTier: Int) = 1 + (mapTier * EQUIPMENT_ROLL_TRIES_PER_TIER).toInt()
+
+    const val UNIQUE_EQUIPMENT_PROBABILITY = 0.01
+
+    val UNIQUE_EQUIPMENT = mapOf(
+        EquipmentSlot.MAINHAND to listOf(
+            CustomToolItems.TWINFIRE,
+            CustomToolItems.BLOODHARVEST,
+        ),
+        EquipmentSlot.OFFHAND to listOf(
+            CustomToolItems.TWINFIRE,
+            CustomToolItems.BLOODHARVEST,
+        ),
+        EquipmentSlot.HEAD to listOf(
+            CustomArmorItems.ICEBORNE,
+            CustomArmorItems.EMBERCHANT,
+            CustomArmorItems.DRUIDS_HELMET,
+        ),
+        EquipmentSlot.CHEST to listOf(
+            CustomArmorItems.BOUND_ABYSS,
+            CustomArmorItems.DRUIDS_CHESTPLATE,
+        ),
+        EquipmentSlot.LEGS to listOf(
+            CustomArmorItems.LAMIAS_GIFT,
+            CustomArmorItems.DRUIDS_LEGGINGS,
+        ),
+        EquipmentSlot.FEET to listOf(
+            CustomArmorItems.DRUIDS_BOOTS,
+        ),
+    )
 
     val HELMETS = listOf(
         SortableRandomOption(500, 0, null),
@@ -50,6 +81,13 @@ object EquipmentGenerationSettings {
         SortableRandomOption(500, 4, Boots.IRON),
         SortableRandomOption(800, 6, Boots.DIAMOND),
         SortableRandomOption(500, 7, Boots.NETHERITE)
+    )
+
+    val ARMORSLOT_EQUIPMENT_MAP = mapOf<EquipmentSlot, List<SortableRandomOption<out Equipment?>>>(
+        EquipmentSlot.HEAD to HELMETS,
+        EquipmentSlot.CHEST to CHESTPLATES,
+        EquipmentSlot.LEGS to LEGGINGS,
+        EquipmentSlot.FEET to BOOTS,
     )
 
     private val SWORDS = listOf(
