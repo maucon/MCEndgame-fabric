@@ -3,6 +3,7 @@
   "package": "de.fuballer.mcendgame.mixin",
   "compatibilityLevel": "JAVA_21",
   "mixins": [
+    "ItemEntityFilterMixin",
     "LivingEntityBossMixin",
     "LivingEntityDamageMixin",
     "LivingEntityWebbedMixin",

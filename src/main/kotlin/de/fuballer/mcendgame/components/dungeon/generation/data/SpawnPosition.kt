@@ -1,6 +1,6 @@
 package de.fuballer.mcendgame.components.dungeon.generation.data
 
-import de.fuballer.mcendgame.util.Vec3iExtensions.toBlockPos
+import de.fuballer.mcendgame.util.Vec3iExtension.toBlockPos
 import net.minecraft.util.math.Vec3i
 
 data class SpawnPosition(

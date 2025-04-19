@@ -1,7 +1,7 @@
 package de.fuballer.mcendgame.components.dungeon.generation.data
 
-import de.fuballer.mcendgame.util.Vec3iExtensions.clone
-import de.fuballer.mcendgame.util.Vec3iExtensions.rotateY90
+import de.fuballer.mcendgame.util.Vec3iExtension.clone
+import de.fuballer.mcendgame.util.Vec3iExtension.rotateY90
 import net.minecraft.util.math.Vec3i
 
 data class Door(
