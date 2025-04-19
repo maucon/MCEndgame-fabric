@@ -1,11 +1,9 @@
 package de.fuballer.mcendgame.components.block
 
 import com.mojang.serialization.MapCodec
-import de.fuballer.mcendgame.functional.item_tag.ItemTagComponentType
 import net.minecraft.block.Block
 import net.minecraft.block.BlockState
 import net.minecraft.block.Blocks
-import net.minecraft.datafixer.fix.ItemVariantComponentizationFix
 import net.minecraft.entity.Entity
 import net.minecraft.entity.EntityCollisionHandler
 import net.minecraft.entity.LivingEntity
@@ -117,8 +115,6 @@ class DecayingCobwebBlock(
         pos: BlockPos
     ): Float {
         val itemStack = player.mainHandStack
-
-        itemStack.item.components
         if (itemStack.item !is SwordItem) return super.calcBlockBreakingDelta(state, player, world, pos)
 
         val hardness = state.getHardness(world, pos)

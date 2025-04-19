@@ -4,7 +4,6 @@ import de.fuballer.mcendgame.components.portal.teleport.TeleportExtensions.telep
 import de.fuballer.mcendgame.components.portal.teleport.TeleportLocation
 import de.fuballer.mcendgame.components.portal.type.DefaultPortalType
 import de.fuballer.mcendgame.components.portal.type.PortalType
-import net.minecraft.command.argument.EntityAnchorArgumentType
 import net.minecraft.entity.EntityType
 import net.minecraft.entity.EquipmentSlot
 import net.minecraft.entity.LivingEntity
@@ -22,6 +21,7 @@ import net.minecraft.util.Arm
 import net.minecraft.util.Hand
 import net.minecraft.util.math.Vec3d
 import net.minecraft.world.World
+import kotlin.jvm.optionals.getOrNull
 
 private const val TYPE_NBT = "Type"
 private const val TELEPORT_LOCATION_NBT = "TeleportLocation"
@@ -74,7 +74,6 @@ class PortalEntity(
 
     override fun move(type: MovementType, movement: Vec3d) {}
 
-    override fun getArmorItems(): MutableIterable<ItemStack> = mutableListOf()
     override fun getEquippedStack(slot: EquipmentSlot): ItemStack = ItemStack.EMPTY
     override fun equipStack(slot: EquipmentSlot?, stack: ItemStack) {}
     override fun getMainArm(): Arm = Arm.RIGHT
@@ -91,19 +90,16 @@ class PortalEntity(
     }
 
     override fun readCustomDataFromNbt(nbt: NbtCompound) {
-        val typeId = nbt.getString(TYPE_NBT)
+        val typeId = nbt.getString(TYPE_NBT).get()
         type = PortalType.getById(typeId)
         dataTracker.set(TYPE, typeId)
 
-        val teleportLocationNBT = nbt.getCompound(TELEPORT_LOCATION_NBT)
-        teleportLocation = TeleportLocation.fromNBT(teleportLocationNBT)
+        teleportLocation = nbt.get(TELEPORT_LOCATION_NBT, TeleportLocation.CODEC)
+            .getOrNull()
     }
 
     override fun writeCustomDataToNbt(nbt: NbtCompound) {
         nbt.putString(TYPE_NBT, type.getId())
-
-        teleportLocation?.toNBT()?.also {
-            nbt.put(TELEPORT_LOCATION_NBT, it)
-        }
+        nbt.putNullable(TELEPORT_LOCATION_NBT, TeleportLocation.CODEC, teleportLocation)
     }
 }

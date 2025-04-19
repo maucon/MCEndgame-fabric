@@ -1,5 +1,6 @@
 package de.fuballer.mcendgame.components.entity.custom.entities.arachne
 
+import de.fuballer.mcendgame.accessor.LivingEntityWebbedAccessor
 import de.fuballer.mcendgame.components.block.CustomBlocks
 import de.fuballer.mcendgame.components.entity.custom.CustomEntities
 import de.fuballer.mcendgame.components.entity.custom.entities.mount.MountEntity
@@ -9,7 +10,6 @@ import de.fuballer.mcendgame.components.entity.custom.goals.*
 import de.fuballer.mcendgame.components.entity.custom.interfaces.CustomPosesEntity
 import de.fuballer.mcendgame.components.entity.custom.interfaces.HookAttackMob
 import de.fuballer.mcendgame.components.entity.custom.interfaces.MeleeAttackMob
-import de.fuballer.mcendgame.accessor.LivingEntityWebbedAccessor
 import net.minecraft.block.BlockState
 import net.minecraft.block.Blocks
 import net.minecraft.entity.AnimationState
@@ -249,7 +249,8 @@ class ArachneEntity(
         if (--attackAnimationTicks > 0) return
 
         dataTracker.set(
-            ATTACK_POSE, CustomPosesEntity.CustomPose.IDLING)
+            ATTACK_POSE, CustomPosesEntity.CustomPose.IDLING
+        )
     }
 
     private fun changeAttackPose(pose: CustomPosesEntity.CustomPose, animationTime: Int) {
@@ -293,7 +294,7 @@ class ArachneEntity(
     ) {
         val serverWorld = world as? ServerWorld ?: return
         val projectile = WebshotEntity(CustomEntities.WEBSHOT, serverWorld, this)
-        projectile.damage = getAttributeValue(EntityAttributes.ATTACK_DAMAGE)
+        projectile.setDamage(getAttributeValue(EntityAttributes.ATTACK_DAMAGE))
         shootAt(target, projectile)
     }
 
@@ -302,7 +303,7 @@ class ArachneEntity(
     ) {
         val serverWorld = world as? ServerWorld ?: return
         val projectile = WebhookEntity(CustomEntities.WEBHOOK, serverWorld, this)
-        projectile.damage = 1.0
+        projectile.setDamage(1.0)
         shootAt(target, projectile)
         addHookedEntity(projectile.uuid)
     }
@@ -317,7 +318,7 @@ class ArachneEntity(
         movementMultiplier = multiplier
     }
 
-    override fun handleFallDamage(fallDistance: Float, damageMultiplier: Float, damageSource: DamageSource) = false
+    override fun handleFallDamage(fallDistance: Double, damagePerDistance: Float, damageSource: DamageSource) = false
 
     override fun occludeVibrationSignals() = true
 
