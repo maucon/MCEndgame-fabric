@@ -2,6 +2,7 @@ package de.fuballer.client.mcendgame.components.entity.custom.entities.portal
 
 import de.fuballer.client.mcendgame.components.entity.custom.entities.portal.type.PortalRenderType
 import de.fuballer.mcendgame.components.portal.PortalEntity
+import net.minecraft.client.render.RenderLayer
 import net.minecraft.client.render.VertexConsumerProvider
 import net.minecraft.client.render.entity.EntityRendererFactory
 import net.minecraft.client.render.entity.LivingEntityRenderer
@@ -22,7 +23,12 @@ class PortalRenderer(
     // do not render the name label
     override fun renderLabelIfPresent(state: PortalRenderState, text: Text, matrices: MatrixStack, vertexConsumers: VertexConsumerProvider, light: Int) {}
 
-    override fun getTexture(state: PortalRenderState): Identifier = state.type.getTexture()
+    override fun getTexture(state: PortalRenderState): Identifier = state.type.getTexture(state.age)
+
+    override fun getRenderLayer(state: PortalRenderState, showBody: Boolean, translucent: Boolean, showOutline: Boolean): RenderLayer? {
+        return state.type.getRenderLayer(this, state, showBody, translucent, showOutline)
+            ?: super.getRenderLayer(state, showBody, translucent, showOutline)
+    }
 
     override fun getShadowRadius(state: PortalRenderState): Float {
         return state.type.getShadowRadius()

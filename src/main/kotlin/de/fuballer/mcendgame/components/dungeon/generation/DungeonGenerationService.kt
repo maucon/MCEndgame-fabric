@@ -39,9 +39,10 @@ class DungeonGenerationService(
 
         spawnLeavePortal(centeredSpawnPos, event.blockEntity.pos.toCenterPos(), portalType, serverWorld, generatedDungeonData.world)
 
-        val teleportLocation = TeleportLocation(generatedDungeonData.world, centeredSpawnPos, 0f, startPos.rot.toFloat())
+        val dungeonStartLocation = TeleportLocation(generatedDungeonData.world, centeredSpawnPos, 0f, startPos.rot.toFloat())
+        val centeredDevicePos = event.blockEntity.pos.toCenterPos().subtract(0.0, 0.5, 0.0)
+        createEntryPortals(centeredDevicePos, portalType, serverWorld, dungeonStartLocation)
 
-        val portal = Portals.spawn(serverWorld, player.blockPos, teleportLocation, Vec3d.ZERO, type = portalType, singleUse = true)
         // TODO FIXME PLEASE
     }
 
@@ -80,14 +81,27 @@ class DungeonGenerationService(
         originWorld: ServerWorld,
         dungeonWorld: ServerWorld
     ) {
-        val teleportLocation = TeleportLocation(originWorld, devicePos.add(0.0,1.0,0.0))
-        val portalLocation = BlockPos(spawnPos.x.toInt(), spawnPos.y.toInt(), spawnPos.z.toInt())
-
-        Portals.spawn(dungeonWorld, portalLocation, teleportLocation, type = portalType)
+        val teleportLocation = TeleportLocation(originWorld, devicePos.add(0.0, 1.0, 0.0))
+        val portalLocation = spawnPos.subtract(0.5, 0.0, 0.0)
+        Portals.spawn(dungeonWorld, portalLocation, teleportLocation, type = portalType, lookAt = spawnPos)
     }
 
-    private fun createEntryPortals() {
+    private fun createEntryPortals(
+        devicePos: Vec3d,
+        portalType: PortalType,
+        originWorld: ServerWorld,
+        dungeonStartLocation: TeleportLocation
+    ) {
+        val angle = Math.toRadians(360.0 / 6).toFloat()
+        var offset = Vec3d(3.0, 0.0, 0.0)
 
+        repeat(6) {
+            val portalPos = devicePos.add(offset)
+            val portal = Portals.spawn(originWorld, portalPos, dungeonStartLocation, type = portalType, lookAt = devicePos, singleUse = true)
+
+//            portals.add(portal)
+            offset = offset.rotateY(angle)
+        }
     }
 
     data class GeneratedDungeonData(
