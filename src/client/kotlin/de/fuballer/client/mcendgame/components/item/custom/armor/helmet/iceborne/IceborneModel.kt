@@ -31,7 +31,7 @@ class IceborneModel<S : BipedEntityRenderState>(
                     .uv(18, 31).cuboid(-1.0f, -9.75f, -6.0f, 2.0f, 4.0f, 12.0f, Dilation(0.0f))
                     .uv(22, 20).cuboid(-1.0f, -11.2f, -4.0f, 2.0f, 2.0f, 8.0f, Dilation(-0.25f))
                     .uv(29, 15).cuboid(-1.0f, -6.25f, -5.9f, 2.0f, 3.0f, 1.0f, Dilation(-0.1f)),
-                ModelTransform.pivot(0.0f, 0.0f, 0.0f)
+                ModelTransform.origin(0.0f, 0.0f, 0.0f)
             )
 
             val left_horn = helmet.addChild(

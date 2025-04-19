@@ -18,7 +18,7 @@ class WebbedModel(
                 "webbed",
                 ModelPartBuilder.create().uv(0, 0).cuboid(-8.0f, -24.0f, -8.0f, 16.0f, 24.0f, 16.0f, Dilation(0.0f))
                     .uv(64, 0).cuboid(-8.0f, -24.0f, -8.0f, 16.0f, 24.0f, 16.0f, Dilation(0.5f)),
-                ModelTransform.pivot(0.0f, 24.0f, 0.0f)
+                ModelTransform.origin(0.0f, 24.0f, 0.0f)
             )
             return TexturedModelData.of(modelData, 128, 64)
         }

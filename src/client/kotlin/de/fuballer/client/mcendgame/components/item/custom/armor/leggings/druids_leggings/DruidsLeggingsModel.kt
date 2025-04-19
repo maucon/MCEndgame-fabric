@@ -40,13 +40,13 @@ class DruidsLeggingsModel<S : BipedEntityRenderState>(
                 ModelPartBuilder.create().uv(5, 40).cuboid(-5.0f, 7.0f, -3.0f, 10.0f, 7.0f, 6.0f, Dilation(0.05f))
                     .uv(9, 33).cuboid(-4.0f, 9.0f, -2.0f, 8.0f, 3.0f, 4.0f, Dilation(0.5f))
                     .uv(9, 27).cuboid(-4.0f, 6.75f, -2.0f, 8.0f, 2.0f, 4.0f, Dilation(0.26f)),
-                ModelTransform.pivot(0.0f, 0.0f, 0.0f)
+                ModelTransform.origin(0.0f, 0.0f, 0.0f)
             )
 
             val battle_skirt = leggings_waist.addChild(
                 "battle_skirt",
                 ModelPartBuilder.create(),
-                ModelTransform.pivot(0.0f, 0.0f, 0.0f)
+                ModelTransform.origin(0.0f, 0.0f, 0.0f)
             )
 
             val battle_skirt_back = battle_skirt.addChild(
@@ -78,26 +78,26 @@ class DruidsLeggingsModel<S : BipedEntityRenderState>(
                 modelPartData.addChild(
                     EntityModelPartNames.LEFT_LEG,
                     ModelPartBuilder.create(),
-                    ModelTransform.pivot(2.0f, 12.0f, 0.0f)
+                    ModelTransform.origin(2.0f, 12.0f, 0.0f)
                 )
 
             val left_leggings = left_leg.addChild(
                 "left_leggings",
                 ModelPartBuilder.create().uv(24, 53).cuboid(-2.1f, 0.0f, -2.0f, 4.0f, 12.0f, 4.0f, Dilation(0.5f)),
-                ModelTransform.pivot(0.0f, 0.0f, 0.0f)
+                ModelTransform.origin(0.0f, 0.0f, 0.0f)
             )
 
             val right_leg =
                 modelPartData.addChild(
                     EntityModelPartNames.RIGHT_LEG,
                     ModelPartBuilder.create(),
-                    ModelTransform.pivot(-2.0f, 12.0f, 0.0f)
+                    ModelTransform.origin(-2.0f, 12.0f, 0.0f)
                 )
 
             val right_leggings = right_leg.addChild(
                 "right_leggings",
                 ModelPartBuilder.create().uv(2, 53).cuboid(-1.9f, 0.0f, -2.0f, 4.0f, 12.0f, 4.0f, Dilation(0.5f)),
-                ModelTransform.pivot(0.0f, 0.0f, 0.0f)
+                ModelTransform.origin(0.0f, 0.0f, 0.0f)
             )
             return TexturedModelData.of(modelData, 128, 128)
         }

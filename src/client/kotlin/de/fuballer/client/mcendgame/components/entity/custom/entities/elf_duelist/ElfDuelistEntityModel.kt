@@ -39,24 +39,24 @@ class ElfDuelistEntityModel(
         fun getTexturedModelData(): TexturedModelData {
             val modelData = ModelData()
             val modelPartData = modelData.root
-            val elf = modelPartData.addChild("elf", ModelPartBuilder.create(), ModelTransform.pivot(0.0f, 0.0f, 0.0f))
+            val elf = modelPartData.addChild("elf", ModelPartBuilder.create(), ModelTransform.origin(0.0f, 0.0f, 0.0f))
 
             val elfBody = elf.addChild(
                 "elfBody",
                 ModelPartBuilder.create().uv(55, 46).cuboid(-4.0f, -1.5f, -1.85f, 8.0f, 3.0f, 4.0f, Dilation(0.0f)),
-                ModelTransform.pivot(0.0f, 10.5f, 0.0f)
+                ModelTransform.origin(0.0f, 10.5f, 0.0f)
             )
 
             val elfUpperBody = elfBody.addChild(
                 "elfUpperBody",
                 ModelPartBuilder.create().uv(57, 39).cuboid(-3.5f, -3.0f, -1.5f, 7.0f, 3.0f, 3.0f, Dilation(0.0f)),
-                ModelTransform.pivot(0.0f, -1.5f, 0.0f)
+                ModelTransform.origin(0.0f, -1.5f, 0.0f)
             )
 
             val elfChest = elfUpperBody.addChild(
                 "elfChest",
                 ModelPartBuilder.create().uv(57, 22).cuboid(-3.5f, -6.0f, -1.5f, 7.0f, 6.0f, 3.0f, Dilation(0.25f)),
-                ModelTransform.pivot(0.0f, -3.0f, 0.0f)
+                ModelTransform.origin(0.0f, -3.0f, 0.0f)
             )
 
             val elfBreast = elfChest.addChild(
@@ -74,14 +74,14 @@ class ElfDuelistEntityModel(
             val elfNeck = elfChest.addChild(
                 "elfNeck",
                 ModelPartBuilder.create().uv(63, 17).cuboid(-1.0f, -1.75f, -1.0f, 2.0f, 2.0f, 2.0f, Dilation(0.25f)),
-                ModelTransform.pivot(0.0f, -6.25f, 0.0f)
+                ModelTransform.origin(0.0f, -6.25f, 0.0f)
             )
 
             val elfHead = elfNeck.addChild(
                 "elfHead",
                 ModelPartBuilder.create().uv(51, 0).cuboid(-4.0f, -8.0f, -4.0f, 8.0f, 8.0f, 8.0f, Dilation(0.0f))
                     .uv(96, 0).cuboid(-4.0f, -8.0f, -4.0f, 8.0f, 16.0f, 8.0f, Dilation(0.25f)),
-                ModelTransform.pivot(0.0f, -0.75f, 0.0f)
+                ModelTransform.origin(0.0f, -0.75f, 0.0f)
             )
 
             val elfEarLeft = elfHead.addChild(
@@ -97,12 +97,12 @@ class ElfDuelistEntityModel(
             )
 
             val elfArmLeft =
-                elfChest.addChild("elfArmLeft", ModelPartBuilder.create(), ModelTransform.pivot(3.5f, -5.25f, 0.25f))
+                elfChest.addChild("elfArmLeft", ModelPartBuilder.create(), ModelTransform.origin(3.5f, -5.25f, 0.25f))
 
             val elfArmUpperLeft = elfArmLeft.addChild(
                 "elfArmUpperLeft",
                 ModelPartBuilder.create().uv(80, 32).cuboid(0.0f, -1.0f, -1.55f, 3.0f, 6.0f, 3.0f, Dilation(0.0f)),
-                ModelTransform.pivot(0.0f, 0.0f, 0.0f)
+                ModelTransform.origin(0.0f, 0.0f, 0.0f)
             )
 
             val elfPauldronLeft = elfArmUpperLeft.addChild(
@@ -114,7 +114,7 @@ class ElfDuelistEntityModel(
             val elfArmLowerLeft = elfArmUpperLeft.addChild(
                 "elfArmLowerLeft",
                 ModelPartBuilder.create().uv(80, 42).cuboid(-1.5f, -0.5f, -1.5f, 3.0f, 7.0f, 3.0f, Dilation(-0.25f)),
-                ModelTransform.pivot(1.5f, 5.0f, -0.05f)
+                ModelTransform.origin(1.5f, 5.0f, -0.05f)
             )
 
             val elfSwordLeft = elfArmLowerLeft.addChild(
@@ -126,12 +126,12 @@ class ElfDuelistEntityModel(
             )
 
             val elfArmRight =
-                elfChest.addChild("elfArmRight", ModelPartBuilder.create(), ModelTransform.pivot(-3.5f, -5.25f, 0.25f))
+                elfChest.addChild("elfArmRight", ModelPartBuilder.create(), ModelTransform.origin(-3.5f, -5.25f, 0.25f))
 
             val elfArmUpperRight = elfArmRight.addChild(
                 "elfArmUpperRight",
                 ModelPartBuilder.create().uv(42, 32).cuboid(-3.0f, -1.0f, -1.55f, 3.0f, 6.0f, 3.0f, Dilation(0.0f)),
-                ModelTransform.pivot(0.0f, 0.0f, 0.0f)
+                ModelTransform.origin(0.0f, 0.0f, 0.0f)
             )
 
             val elfPauldronRight = elfArmUpperRight.addChild(
@@ -143,7 +143,7 @@ class ElfDuelistEntityModel(
             val elfArmLowerRight = elfArmUpperRight.addChild(
                 "elfArmLowerRight",
                 ModelPartBuilder.create().uv(42, 42).cuboid(-1.5f, -0.5f, -1.5f, 3.0f, 7.0f, 3.0f, Dilation(-0.25f)),
-                ModelTransform.pivot(-1.5f, 5.0f, -0.05f)
+                ModelTransform.origin(-1.5f, 5.0f, -0.05f)
             )
 
             val elfSwordRight = elfArmLowerRight.addChild(
@@ -159,7 +159,7 @@ class ElfDuelistEntityModel(
                 ModelPartBuilder.create().uv(73, 72).cuboid(-1.5f, 0.0f, -1.5f, 3.0f, 6.0f, 3.0f, Dilation(0.25f))
                     .uv(73, 82).cuboid(-1.5f, 6.0f, -1.5f, 3.0f, 6.0f, 3.0f, Dilation(0.0f))
                     .uv(71, 54).cuboid(-2.0f, -1.75f, -1.75f, 4.0f, 13.0f, 4.0f, Dilation(0.25f)),
-                ModelTransform.pivot(2.0f, 12.0f, 0.0f)
+                ModelTransform.origin(2.0f, 12.0f, 0.0f)
             )
 
             val elfLegRight = elf.addChild(
@@ -167,7 +167,7 @@ class ElfDuelistEntityModel(
                 ModelPartBuilder.create().uv(49, 72).cuboid(-1.25f, 0.0f, -1.5f, 3.0f, 6.0f, 3.0f, Dilation(0.25f))
                     .uv(49, 82).cuboid(-1.25f, 6.0f, -1.5f, 3.0f, 6.0f, 3.0f, Dilation(0.0f))
                     .uv(47, 54).cuboid(-1.75f, -1.75f, -1.75f, 4.0f, 13.0f, 4.0f, Dilation(0.25f)),
-                ModelTransform.pivot(-2.25f, 12.0f, 0.0f)
+                ModelTransform.origin(-2.25f, 12.0f, 0.0f)
             )
             return TexturedModelData.of(modelData, 128, 128)
         }

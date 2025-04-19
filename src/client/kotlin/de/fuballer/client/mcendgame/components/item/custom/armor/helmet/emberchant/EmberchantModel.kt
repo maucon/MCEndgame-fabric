@@ -25,7 +25,7 @@ class EmberchantModel<S : BipedEntityRenderState>(
             val right_leg = modelPartData.addChild(EntityModelPartNames.RIGHT_LEG)
             val left_leg = modelPartData.addChild(EntityModelPartNames.LEFT_LEG)
 
-            val helmet = head.addChild("helmet", ModelPartBuilder.create(), ModelTransform.pivot(0.0f, 0.0f, 0.0f))
+            val helmet = head.addChild("helmet", ModelPartBuilder.create(), ModelTransform.origin(0.0f, 0.0f, 0.0f))
 
             val brim = helmet.addChild(
                 "brim", ModelPartBuilder.create().uv(0, 47).cuboid(-8.0f, 0.0f, -8.0f, 16.0f, 1.0f, 16.0f, Dilation(0.0f))

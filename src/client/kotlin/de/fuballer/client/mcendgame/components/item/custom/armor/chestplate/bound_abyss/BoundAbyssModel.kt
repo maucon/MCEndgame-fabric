@@ -56,13 +56,13 @@ class BoundAbyssModel<S : BipedEntityRenderState>(
             val right_leg = modelPartData.addChild(EntityModelPartNames.RIGHT_LEG)
             val left_leg = modelPartData.addChild(EntityModelPartNames.LEFT_LEG)
 
-            val body = modelPartData.addChild("body", ModelPartBuilder.create(), ModelTransform.pivot(0.0f, 0.0f, 0.0f))
+            val body = modelPartData.addChild("body", ModelPartBuilder.create(), ModelTransform.origin(0.0f, 0.0f, 0.0f))
 
             val chestplateBody = body.addChild(
                 "chestplateBody",
                 ModelPartBuilder.create().uv(18, 35).cuboid(-4.5f, -24.5f, -2.5f, 9.0f, 14.0f, 5.0f, Dilation(0.25f))
                     .uv(16, 22).cuboid(-5.0f, -24.85f, -3.0f, 10.0f, 7.0f, 6.0f, Dilation(0.0f)),
-                ModelTransform.pivot(0.0f, 24.0f, 0.0f)
+                ModelTransform.origin(0.0f, 24.0f, 0.0f)
             )
 
             val belt = chestplateBody.addChild(
@@ -72,12 +72,12 @@ class BoundAbyssModel<S : BipedEntityRenderState>(
             )
 
             val left_arm =
-                modelPartData.addChild("left_arm", ModelPartBuilder.create(), ModelTransform.pivot(5.0f, 2.0f, 0.0f))
+                modelPartData.addChild("left_arm", ModelPartBuilder.create(), ModelTransform.origin(5.0f, 2.0f, 0.0f))
 
             val chestplateArmLeft = left_arm.addChild(
                 "chestplateArmLeft",
                 ModelPartBuilder.create(),
-                ModelTransform.pivot(-5.0f, 22.0f, 0.0f)
+                ModelTransform.origin(-5.0f, 22.0f, 0.0f)
             )
 
             val shoulderPadLeft = chestplateArmLeft.addChild(
@@ -89,22 +89,22 @@ class BoundAbyssModel<S : BipedEntityRenderState>(
             val sleeveLeft = chestplateArmLeft.addChild(
                 "sleeveLeft",
                 ModelPartBuilder.create().uv(48, 30).cuboid(4.0f, -24.0f, -2.0f, 4.0f, 12.0f, 4.0f, Dilation(0.35f)),
-                ModelTransform.pivot(0.0f, 0.0f, 0.0f)
+                ModelTransform.origin(0.0f, 0.0f, 0.0f)
             )
 
             val vambraceLeft = sleeveLeft.addChild(
                 "vambraceLeft",
                 ModelPartBuilder.create().uv(48, 46).cuboid(4.0f, -18.0f, -2.0f, 4.0f, 6.0f, 4.0f, Dilation(0.5f)),
-                ModelTransform.pivot(0.0f, 0.0f, 0.0f)
+                ModelTransform.origin(0.0f, 0.0f, 0.0f)
             )
 
             val right_arm =
-                modelPartData.addChild("right_arm", ModelPartBuilder.create(), ModelTransform.pivot(-5.0f, 2.0f, 0.0f))
+                modelPartData.addChild("right_arm", ModelPartBuilder.create(), ModelTransform.origin(-5.0f, 2.0f, 0.0f))
 
             val chestplateArmRight = right_arm.addChild(
                 "chestplateArmRight",
                 ModelPartBuilder.create(),
-                ModelTransform.pivot(5.0f, 22.0f, 0.0f)
+                ModelTransform.origin(5.0f, 22.0f, 0.0f)
             )
 
             val shoulderPadRight = chestplateArmRight.addChild(
@@ -116,13 +116,13 @@ class BoundAbyssModel<S : BipedEntityRenderState>(
             val sleeveRight = chestplateArmRight.addChild(
                 "sleeveRight",
                 ModelPartBuilder.create().uv(0, 30).cuboid(-8.0f, -24.0f, -2.0f, 4.0f, 12.0f, 4.0f, Dilation(0.35f)),
-                ModelTransform.pivot(0.0f, 0.0f, 0.0f)
+                ModelTransform.origin(0.0f, 0.0f, 0.0f)
             )
 
             val vambraceRight = sleeveRight.addChild(
                 "vambraceRight",
                 ModelPartBuilder.create().uv(0, 46).cuboid(-8.0f, -18.0f, -2.0f, 4.0f, 6.0f, 4.0f, Dilation(0.5f)),
-                ModelTransform.pivot(0.0f, 0.0f, 0.0f)
+                ModelTransform.origin(0.0f, 0.0f, 0.0f)
             )
 
             return TexturedModelData.of(modelData, 64, 64)

@@ -28,7 +28,7 @@ class DruidsHelmetModel<S : BipedEntityRenderState>(
             val helmet = head.addChild(
                 "helmet",
                 ModelPartBuilder.create().uv(38, 73).cuboid(-4.0f, -8.0f, -4.0f, 8.0f, 8.0f, 8.0f, Dilation(0.6f)),
-                ModelTransform.pivot(0.0f, 0.0f, 0.0f)
+                ModelTransform.origin(0.0f, 0.0f, 0.0f)
             )
 
             val crystal = helmet.addChild(
