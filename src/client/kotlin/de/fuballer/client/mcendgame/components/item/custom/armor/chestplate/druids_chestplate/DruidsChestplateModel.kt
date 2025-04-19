@@ -94,4 +94,6 @@ class DruidsChestplateModel<S : BipedEntityRenderState>(
             return TexturedModelData.of(modelData, 128, 128)
         }
     }
+
+    override fun setAngles(bipedEntityRenderState: S) {}
 }

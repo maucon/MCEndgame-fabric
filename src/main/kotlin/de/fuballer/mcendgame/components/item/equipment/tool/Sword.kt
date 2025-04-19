@@ -4,11 +4,11 @@ import de.fuballer.mcendgame.components.custom_attributes.data.DoubleBounds
 import de.fuballer.mcendgame.components.custom_attributes.data.RollableCustomAttribute
 import de.fuballer.mcendgame.components.custom_attributes.types.CustomAttributeTypes
 import de.fuballer.mcendgame.components.custom_attributes.types.VanillaAttributeTypes
+import de.fuballer.mcendgame.components.item.custom.tool.CustomToolItems
 import de.fuballer.mcendgame.components.item.equipment.Equipment
 import de.fuballer.mcendgame.components.item.equipment.enchantment.EquipmentEnchantment
 import de.fuballer.mcendgame.util.random.RandomOption
 import net.minecraft.component.type.AttributeModifierSlot
-import net.minecraft.entity.EquipmentSlot
 import net.minecraft.item.Item
 import net.minecraft.item.Items
 
@@ -32,6 +32,12 @@ enum class Sword(
     ),
     NETHERITE(
         Items.NETHERITE_SWORD,
+    ),
+    TWINFIRE(
+        CustomToolItems.TWINFIRE,
+    ),
+    BLOODHARVEST(
+        CustomToolItems.BLOODHARVEST,
     );
 
     override val slot = AttributeModifierSlot.MAINHAND

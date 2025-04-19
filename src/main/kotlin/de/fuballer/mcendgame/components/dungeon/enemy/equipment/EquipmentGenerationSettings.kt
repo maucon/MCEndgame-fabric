@@ -8,11 +8,40 @@ import de.fuballer.mcendgame.components.item.equipment.armor.Leggings
 import de.fuballer.mcendgame.components.item.equipment.tool.*
 import de.fuballer.mcendgame.util.random.RandomOption
 import de.fuballer.mcendgame.util.random.SortableRandomOption
+import net.minecraft.entity.EquipmentSlot
 
 object EquipmentGenerationSettings {
-
     private const val EQUIPMENT_ROLL_TRIES_PER_TIER = 0.25
     fun calculateEquipmentRollTries(mapTier: Int) = 1 + (mapTier * EQUIPMENT_ROLL_TRIES_PER_TIER).toInt()
+
+    const val UNIQUE_EQUIPMENT_PROBABILITY = 0.01
+
+    val UNIQUE_EQUIPMENT = mapOf<EquipmentSlot, List<Equipment>>(
+        EquipmentSlot.MAINHAND to listOf(
+            Sword.TWINFIRE,
+            Sword.BLOODHARVEST,
+        ),
+        EquipmentSlot.OFFHAND to listOf(
+            Sword.TWINFIRE,
+            Sword.BLOODHARVEST,
+        ),
+        EquipmentSlot.HEAD to listOf(
+            Helmet.ICEBORNE,
+            Helmet.EMBERCHANT,
+            Helmet.DRUIDS_HELMET,
+        ),
+        EquipmentSlot.CHEST to listOf(
+            Chestplate.BOUND_ABYSS,
+            Chestplate.DRUIDS_CHESTPLATE,
+        ),
+        EquipmentSlot.LEGS to listOf(
+            Leggings.LAMIAS_GIFT,
+            Leggings.DRUIDS_LEGGINGS,
+        ),
+        EquipmentSlot.FEET to listOf(
+            Boots.DRUIDS_BOOTS,
+        ),
+    )
 
     val HELMETS = listOf(
         SortableRandomOption(500, 0, null),
@@ -24,15 +53,6 @@ object EquipmentGenerationSettings {
         SortableRandomOption(800, 6, Helmet.DIAMOND),
         SortableRandomOption(500, 7, Helmet.NETHERITE),
     )
-    val LEGGINGS = listOf(
-        SortableRandomOption(500, 0, null),
-        SortableRandomOption(500, 1, Leggings.LEATHER),
-        SortableRandomOption(500, 2, Leggings.GOLDEN),
-        SortableRandomOption(500, 3, Leggings.CHAINMAIL),
-        SortableRandomOption(500, 4, Leggings.IRON),
-        SortableRandomOption(800, 6, Leggings.DIAMOND),
-        SortableRandomOption(500, 7, Leggings.NETHERITE)
-    )
     val CHESTPLATES = listOf(
         SortableRandomOption(500, 0, null),
         SortableRandomOption(500, 1, Chestplate.LEATHER),
@@ -42,6 +62,15 @@ object EquipmentGenerationSettings {
         SortableRandomOption(800, 6, Chestplate.DIAMOND),
         SortableRandomOption(500, 7, Chestplate.NETHERITE)
     )
+    val LEGGINGS = listOf(
+        SortableRandomOption(500, 0, null),
+        SortableRandomOption(500, 1, Leggings.LEATHER),
+        SortableRandomOption(500, 2, Leggings.GOLDEN),
+        SortableRandomOption(500, 3, Leggings.CHAINMAIL),
+        SortableRandomOption(500, 4, Leggings.IRON),
+        SortableRandomOption(800, 6, Leggings.DIAMOND),
+        SortableRandomOption(500, 7, Leggings.NETHERITE)
+    )
     val BOOTS = listOf(
         SortableRandomOption(500, 0, null),
         SortableRandomOption(500, 1, Boots.LEATHER),
@@ -50,6 +79,13 @@ object EquipmentGenerationSettings {
         SortableRandomOption(500, 4, Boots.IRON),
         SortableRandomOption(800, 6, Boots.DIAMOND),
         SortableRandomOption(500, 7, Boots.NETHERITE)
+    )
+
+    val ARMORSLOT_EQUIPMENT_MAP = mapOf<EquipmentSlot, List<SortableRandomOption<out Equipment?>>>(
+        EquipmentSlot.HEAD to HELMETS,
+        EquipmentSlot.CHEST to CHESTPLATES,
+        EquipmentSlot.LEGS to LEGGINGS,
+        EquipmentSlot.FEET to BOOTS,
     )
 
     private val SWORDS = listOf(

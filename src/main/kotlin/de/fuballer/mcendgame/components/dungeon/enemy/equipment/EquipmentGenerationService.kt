@@ -28,27 +28,58 @@ class EquipmentGenerationService(
         random: Random,
     ) {
         if (weapons) {
-            createMainHandItem(level, ranged, server, random)?.also {
+            createEquipment(level, EquipmentSlot.MAINHAND, server, random, ranged)?.also {
                 entity.equipStack(EquipmentSlot.MAINHAND, it)
             }
-            createOffHandItem(level, server, random)?.also {
+            createEquipment(level, EquipmentSlot.OFFHAND, server, random)?.also {
                 entity.equipStack(EquipmentSlot.OFFHAND, it)
             }
         }
 
         if (!armor) return
-        createEquipmentSortable(level, EquipmentGenerationSettings.HELMETS, server, random)?.also {
+        createEquipment(level, EquipmentSlot.HEAD, server, random)?.also {
             entity.equipStack(EquipmentSlot.HEAD, it)
         }
-        createEquipmentSortable(level, EquipmentGenerationSettings.CHESTPLATES, server, random)?.also {
+        createEquipment(level, EquipmentSlot.CHEST, server, random)?.also {
             entity.equipStack(EquipmentSlot.CHEST, it)
         }
-        createEquipmentSortable(level, EquipmentGenerationSettings.LEGGINGS, server, random)?.also {
+        createEquipment(level, EquipmentSlot.LEGS, server, random)?.also {
             entity.equipStack(EquipmentSlot.LEGS, it)
         }
-        createEquipmentSortable(level, EquipmentGenerationSettings.BOOTS, server, random)?.also {
+        createEquipment(level, EquipmentSlot.FEET, server, random)?.also {
             entity.equipStack(EquipmentSlot.FEET, it)
         }
+    }
+
+    private fun createEquipment(
+        level: Int,
+        slot: EquipmentSlot,
+        server: MinecraftServer,
+        random: Random,
+        isRanged: Boolean = false,
+    ): ItemStack? {
+        if (random.nextDouble() <= EquipmentGenerationSettings.UNIQUE_EQUIPMENT_PROBABILITY) {
+            return createUniqueEquipment(level, slot, server, random)
+        }
+
+        return when (slot) {
+            EquipmentSlot.MAINHAND -> createMainHandItem(level, isRanged, server, random)
+            EquipmentSlot.OFFHAND -> createOffHandItem(level, server, random)
+            else -> createArmorEquipment(level, slot, server, random)
+        }
+    }
+
+    private fun createUniqueEquipment(
+        level: Int,
+        slot: EquipmentSlot,
+        server: MinecraftServer,
+        random: Random,
+    ): ItemStack? {
+        val equipment = EquipmentGenerationSettings.UNIQUE_EQUIPMENT[slot]?.random(random) ?: return null
+        val itemStack = ItemStack(equipment.item)
+
+        enchantmentService.enchantItem(itemStack, equipment.rollableEnchants, level, server, random)
+        return itemStack
     }
 
     private fun createMainHandItem(
@@ -76,6 +107,16 @@ class EquipmentGenerationService(
         }
 
         return createMainHandItem(level, false, server, random)
+    }
+
+    private fun createArmorEquipment(
+        level: Int,
+        slot: EquipmentSlot,
+        server: MinecraftServer,
+        random: Random,
+    ): ItemStack? {
+        val equipmentOptions = EquipmentGenerationSettings.ARMORSLOT_EQUIPMENT_MAP[slot] ?: return null
+        return createEquipmentSortable(level, equipmentOptions, server, random)
     }
 
     private fun createEquipmentSortable(
