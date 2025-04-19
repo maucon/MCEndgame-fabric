@@ -66,6 +66,7 @@ class DungeonDeviceScreen(
 
     private fun onCreateDungeonButtonPress(button: ButtonWidget) {
         ClientPlayNetworking.send(handler.payload)
+        close()
         log.info("Dungeon opened by ${inventory.player.gameProfile.name}")
     }
 }

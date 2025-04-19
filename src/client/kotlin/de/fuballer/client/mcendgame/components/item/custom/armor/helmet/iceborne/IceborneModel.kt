@@ -1,5 +1,6 @@
 package de.fuballer.client.mcendgame.components.item.custom.armor.helmet.iceborne
 
+import de.fuballer.client.mcendgame.components.item.custom.ModelPartDataExtension.createEmptyChild
 import de.fuballer.mcendgame.util.IdentifierUtil
 import net.minecraft.client.model.*
 import net.minecraft.client.render.entity.model.BipedEntityModel
@@ -17,13 +18,13 @@ class IceborneModel<S : BipedEntityRenderState>(
             val modelData = ModelData()
             val modelPartData = modelData.root
 
-            val head = modelPartData.addChild(EntityModelPartNames.HEAD)
-            val hat = head.addChild(EntityModelPartNames.HAT)
-            val body = modelPartData.addChild(EntityModelPartNames.BODY)
-            val right_arm = modelPartData.addChild(EntityModelPartNames.RIGHT_ARM)
-            val left_arm = modelPartData.addChild(EntityModelPartNames.LEFT_ARM)
-            val right_leg = modelPartData.addChild(EntityModelPartNames.RIGHT_LEG)
-            val left_leg = modelPartData.addChild(EntityModelPartNames.LEFT_LEG)
+            val head = modelPartData.createEmptyChild(EntityModelPartNames.HEAD)
+            val hat = head.createEmptyChild(EntityModelPartNames.HAT)
+            val body = modelPartData.createEmptyChild(EntityModelPartNames.BODY)
+            val right_arm = modelPartData.createEmptyChild(EntityModelPartNames.RIGHT_ARM)
+            val left_arm = modelPartData.createEmptyChild(EntityModelPartNames.LEFT_ARM)
+            val right_leg = modelPartData.createEmptyChild(EntityModelPartNames.RIGHT_LEG)
+            val left_leg = modelPartData.createEmptyChild(EntityModelPartNames.LEFT_LEG)
 
             val helmet = head.addChild(
                 "helmet",
@@ -31,7 +32,7 @@ class IceborneModel<S : BipedEntityRenderState>(
                     .uv(18, 31).cuboid(-1.0f, -9.75f, -6.0f, 2.0f, 4.0f, 12.0f, Dilation(0.0f))
                     .uv(22, 20).cuboid(-1.0f, -11.2f, -4.0f, 2.0f, 2.0f, 8.0f, Dilation(-0.25f))
                     .uv(29, 15).cuboid(-1.0f, -6.25f, -5.9f, 2.0f, 3.0f, 1.0f, Dilation(-0.1f)),
-                ModelTransform.pivot(0.0f, 0.0f, 0.0f)
+                ModelTransform.origin(0.0f, 0.0f, 0.0f)
             )
 
             val left_horn = helmet.addChild(

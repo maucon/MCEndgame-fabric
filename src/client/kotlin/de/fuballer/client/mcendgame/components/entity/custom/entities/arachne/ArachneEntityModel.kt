@@ -71,7 +71,7 @@ class ArachneEntityModel(
             val modelData = ModelData()
             val modelPartData = modelData.root
             val arachne =
-                modelPartData.addChild("arachne", ModelPartBuilder.create(), ModelTransform.pivot(0.0f, 25.0f, -3.0f))
+                modelPartData.addChild("arachne", ModelPartBuilder.create(), ModelTransform.origin(0.0f, 25.0f, -3.0f))
 
             val cephalothorax = arachne.addChild(
                 "cephalothorax",
@@ -79,10 +79,10 @@ class ArachneEntityModel(
                     .uv(114, 108).cuboid(-3.0f, -13.0f, 0.0f, 6.0f, 1.0f, 8.0f, Dilation(0.0f))
                     .uv(120, 103).cuboid(-2.5f, -14.0f, 1.0f, 5.0f, 1.0f, 3.0f, Dilation(0.0f))
                     .uv(122, 98).cuboid(-2.0f, -16.0f, 0.5f, 4.0f, 2.0f, 2.0f, Dilation(0.0f)),
-                ModelTransform.pivot(0.0f, 0.0f, 0.0f)
+                ModelTransform.origin(0.0f, 0.0f, 0.0f)
             )
 
-            val legs = cephalothorax.addChild("legs", ModelPartBuilder.create(), ModelTransform.pivot(0.0f, 0.0f, 0.0f))
+            val legs = cephalothorax.addChild("legs", ModelPartBuilder.create(), ModelTransform.origin(0.0f, 0.0f, 0.0f))
 
             val legLeft1 = legs.addChild(
                 "legLeft1",
@@ -388,19 +388,19 @@ class ArachneEntityModel(
                 "upperbody",
                 ModelPartBuilder.create().uv(116, 80).cuboid(-4.0f, -5.5f, -2.25f, 8.0f, 5.0f, 4.0f, Dilation(-0.35f))
                     .uv(116, 90).cuboid(-4.0f, -1.5f, -2.25f, 8.0f, 3.0f, 4.0f, Dilation(0.1f)),
-                ModelTransform.pivot(0.0f, -12.5f, 0.25f)
+                ModelTransform.origin(0.0f, -12.5f, 0.25f)
             )
 
             val chest = upperbody.addChild(
                 "chest",
                 ModelPartBuilder.create().uv(116, 49).cuboid(-4.0f, -7.0f, -2.25f, 8.0f, 7.0f, 4.0f, Dilation(0.0f)),
-                ModelTransform.pivot(0.0f, -4.5f, -0.25f)
+                ModelTransform.origin(0.0f, -4.5f, -0.25f)
             )
 
             val breast = chest.addChild(
                 "breast",
                 ModelPartBuilder.create().uv(117, 67).cuboid(-4.0f, -0.5f, -2.0f, 8.0f, 2.0f, 3.0f, Dilation(-0.25f)),
-                ModelTransform.pivot(0.0f, -4.0f, -2.25f)
+                ModelTransform.origin(0.0f, -4.0f, -2.25f)
             )
 
             val chestDressLower = breast.addChild(
@@ -425,42 +425,42 @@ class ArachneEntityModel(
             val neck = chest.addChild(
                 "neck",
                 ModelPartBuilder.create().uv(122, 42).cuboid(-1.5f, -2.0f, -1.5f, 3.0f, 3.0f, 3.0f, Dilation(0.0f)),
-                ModelTransform.pivot(0.0f, -7.0f, 0.0f)
+                ModelTransform.origin(0.0f, -7.0f, 0.0f)
             )
 
             val head = neck.addChild(
                 "head",
                 ModelPartBuilder.create().uv(112, 25).cuboid(-4.0f, -8.0f, -4.25f, 8.0f, 8.0f, 8.0f, Dilation(0.0f))
                     .uv(112, 0).cuboid(-4.0f, -8.0f, -4.25f, 8.0f, 16.0f, 8.0f, Dilation(0.15f)),
-                ModelTransform.pivot(0.0f, -1.0f, 0.0f)
+                ModelTransform.origin(0.0f, -1.0f, 0.0f)
             )
 
             val armLeft = chest.addChild(
                 "armLeft",
                 ModelPartBuilder.create().uv(142, 51).cuboid(0.0f, -0.5f, -1.5f, 3.0f, 6.0f, 3.0f, Dilation(0.0f))
                     .uv(155, 51).cuboid(0.0f, -0.5f, -1.5f, 3.0f, 6.0f, 3.0f, Dilation(0.1f)),
-                ModelTransform.pivot(3.75f, -6.25f, 0.0f)
+                ModelTransform.origin(3.75f, -6.25f, 0.0f)
             )
 
             val armLeftLower = armLeft.addChild(
                 "armLeftLower",
                 ModelPartBuilder.create().uv(142, 61).cuboid(4.0f, -18.75f, -1.5f, 3.0f, 7.0f, 3.0f, Dilation(-0.25f))
                     .uv(155, 61).cuboid(4.0f, -18.75f, -1.5f, 3.0f, 7.0f, 3.0f, Dilation(-0.15f)),
-                ModelTransform.pivot(-4.0f, 23.25f, 0.0f)
+                ModelTransform.origin(-4.0f, 23.25f, 0.0f)
             )
 
             val armRight = chest.addChild(
                 "armRight",
                 ModelPartBuilder.create().uv(102, 50).cuboid(-3.0f, -0.5f, -1.5f, 3.0f, 6.0f, 3.0f, Dilation(0.0f))
                     .uv(89, 50).cuboid(-3.0f, -0.5f, -1.5f, 3.0f, 6.0f, 3.0f, Dilation(0.1f)),
-                ModelTransform.pivot(-3.75f, -6.25f, 0.0f)
+                ModelTransform.origin(-3.75f, -6.25f, 0.0f)
             )
 
             val armRightLower = armRight.addChild(
                 "armRightLower",
                 ModelPartBuilder.create().uv(102, 60).cuboid(-7.0f, -18.75f, -1.5f, 3.0f, 7.0f, 3.0f, Dilation(-0.25f))
                     .uv(89, 60).cuboid(-7.0f, -18.75f, -1.5f, 3.0f, 7.0f, 3.0f, Dilation(-0.15f)),
-                ModelTransform.pivot(4.0f, 23.25f, 0.0f)
+                ModelTransform.origin(4.0f, 23.25f, 0.0f)
             )
 
             val abdomen = cephalothorax.addChild(
@@ -472,7 +472,7 @@ class ArachneEntityModel(
                     .uv(153, 151).cuboid(6.0f, -4.0f, 1.0f, 1.0f, 7.0f, 10.0f, Dilation(0.0f))
                     .uv(117, 181).cuboid(-5.0f, -3.75f, 12.0f, 10.0f, 7.0f, 1.0f, Dilation(0.0f))
                     .uv(119, 190).cuboid(-4.0f, -2.25f, 13.0f, 8.0f, 5.0f, 1.0f, Dilation(0.0f)),
-                ModelTransform.pivot(0.0f, -9.0f, 7.0f)
+                ModelTransform.origin(0.0f, -9.0f, 7.0f)
             )
             return TexturedModelData.of(modelData, 256, 256)
         }
@@ -498,7 +498,7 @@ class ArachneEntityModel(
         renderState: ArachneRenderState,
     ) {
         head.pitch += Math.toRadians(renderState.pitch.toDouble()).toFloat()
-        head.yaw += Math.toRadians(renderState.yawDegrees.toDouble()).toFloat()
+        head.yaw += Math.toRadians(renderState.relativeHeadYaw.toDouble()).toFloat()
         head.yaw = Math.clamp(head.yaw, -1F, 1F)
     }
 }

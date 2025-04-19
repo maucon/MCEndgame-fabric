@@ -33,7 +33,7 @@ class SwampGolemEntityModel(
             val modelData = ModelData()
             val modelPartData = modelData.root
             val body =
-                modelPartData.addChild("body", ModelPartBuilder.create(), ModelTransform.pivot(0.0f, 10.0f, 2.75f))
+                modelPartData.addChild("body", ModelPartBuilder.create(), ModelTransform.origin(0.0f, 10.0f, 2.75f))
 
             val lower_body = body.addChild(
                 "lower_body",
@@ -49,7 +49,7 @@ class SwampGolemEntityModel(
             )
 
             val left_arm =
-                upper_body.addChild("left_arm", ModelPartBuilder.create(), ModelTransform.pivot(6.75f, -6.25f, 0.15f))
+                upper_body.addChild("left_arm", ModelPartBuilder.create(), ModelTransform.origin(6.75f, -6.25f, 0.15f))
 
             val upper_left_arm = left_arm.addChild(
                 "upper_left_arm",
@@ -66,7 +66,7 @@ class SwampGolemEntityModel(
             )
 
             val right_arm =
-                upper_body.addChild("right_arm", ModelPartBuilder.create(), ModelTransform.pivot(-6.75f, -6.25f, 0.15f))
+                upper_body.addChild("right_arm", ModelPartBuilder.create(), ModelTransform.origin(-6.75f, -6.25f, 0.15f))
 
             val upper_right_arm = right_arm.addChild(
                 "upper_right_arm",
@@ -90,7 +90,7 @@ class SwampGolemEntityModel(
             )
 
             val left_leg =
-                lower_body.addChild("left_leg", ModelPartBuilder.create(), ModelTransform.pivot(3.5f, -0.5f, 0.0f))
+                lower_body.addChild("left_leg", ModelPartBuilder.create(), ModelTransform.origin(3.5f, -0.5f, 0.0f))
 
             val upper_left_leg = left_leg.addChild(
                 "upper_left_leg",
@@ -107,7 +107,7 @@ class SwampGolemEntityModel(
             )
 
             val right_leg =
-                lower_body.addChild("right_leg", ModelPartBuilder.create(), ModelTransform.pivot(-3.5f, -0.5f, 0.0f))
+                lower_body.addChild("right_leg", ModelPartBuilder.create(), ModelTransform.origin(-3.5f, -0.5f, 0.0f))
 
             val upper_right_leg = right_leg.addChild(
                 "upper_right_leg",
@@ -144,7 +144,7 @@ class SwampGolemEntityModel(
         renderState: SwampGolemRenderState,
     ) {
         head.pitch += Math.toRadians(renderState.pitch.toDouble()).toFloat()
-        head.yaw += Math.toRadians(renderState.yawDegrees.toDouble()).toFloat()
+        head.yaw += Math.toRadians(renderState.relativeHeadYaw.toDouble()).toFloat()
         head.yaw = Math.clamp(head.yaw, -0.8F, 0.8F)
     }
 }

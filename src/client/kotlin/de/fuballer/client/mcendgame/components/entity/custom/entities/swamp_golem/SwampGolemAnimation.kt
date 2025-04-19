@@ -34,7 +34,7 @@ object SwampGolemAnimation {
         )
         .addBoneAnimation(
             "lower_body", Transformation(
-                Transformation.Targets.TRANSLATE,
+                Transformation.Targets.MOVE_ORIGIN,
                 Keyframe(
                     0.0f,
                     AnimationHelper.createTranslationalVector(0.0f, 0.0f, 0.0f),
@@ -254,7 +254,7 @@ object SwampGolemAnimation {
         )
         .addBoneAnimation(
             "upper_left_leg", Transformation(
-                Transformation.Targets.TRANSLATE,
+                Transformation.Targets.MOVE_ORIGIN,
                 Keyframe(
                     0.0f,
                     AnimationHelper.createTranslationalVector(0.0f, 0.0f, 0.0f),
@@ -420,7 +420,7 @@ object SwampGolemAnimation {
         )
         .addBoneAnimation(
             "lower_body", Transformation(
-                Transformation.Targets.TRANSLATE,
+                Transformation.Targets.MOVE_ORIGIN,
                 Keyframe(
                     0.0f,
                     AnimationHelper.createTranslationalVector(0.0f, 0.0f, 0.0f),

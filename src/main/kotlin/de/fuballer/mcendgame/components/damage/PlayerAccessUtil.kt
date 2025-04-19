@@ -1,6 +1,6 @@
 package de.fuballer.mcendgame.components.damage
 
-import de.fuballer.mcendgame.accessors.PlayerEntityMixinAccessor
+import de.fuballer.mcendgame.accessor.PlayerEntityMixinAccessor
 import net.minecraft.entity.Entity
 
 object PlayerAccessUtil {

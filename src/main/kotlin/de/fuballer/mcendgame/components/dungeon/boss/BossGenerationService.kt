@@ -1,6 +1,6 @@
 package de.fuballer.mcendgame.components.dungeon.boss
 
-import de.fuballer.mcendgame.accessors.MobEntityBossAccessor
+import de.fuballer.mcendgame.accessor.MobEntityBossAccessor
 import de.fuballer.mcendgame.components.dungeon.generation.data.SpawnPosition
 import de.fuballer.mcendgame.components.entity.EntityTypeStats
 import de.fuballer.mcendgame.util.EntityUtil

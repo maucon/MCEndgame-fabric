@@ -51,7 +51,7 @@ class WebshotEntity(
         if (particleTimer-- > 0) return
         particleTimer = PARTICLE_COOLDOWN
 
-        world.addParticle(ParticleTypes.CLOUD, getParticleX(0.5), randomBodyY, getParticleZ(0.5), 0.0, 0.0, 0.0)
+        world.addParticleClient(ParticleTypes.CLOUD, getParticleX(0.5), randomBodyY, getParticleZ(0.5), 0.0, 0.0, 0.0)
     }
 
     override fun onEntityHit(entityHitResult: EntityHitResult) {

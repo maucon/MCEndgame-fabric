@@ -1,6 +1,6 @@
 package de.fuballer.mcendgame.mixin;
 
-import de.fuballer.mcendgame.accessors.MobEntityBossAccessor;
+import de.fuballer.mcendgame.accessor.MobEntityBossAccessor;
 import net.minecraft.entity.mob.MobEntity;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.nbt.NbtCompound;
@@ -53,6 +53,6 @@ public class MobEntityBossMixin implements MobEntityBossAccessor {
 
     @Inject(method = "readCustomDataFromNbt", at = @At("TAIL"))
     private void readBossFlag(NbtCompound nbt, CallbackInfo ci) {
-        isDungeonBoss = nbt.getBoolean("isDungeonBoss");
+        isDungeonBoss = nbt.getBoolean("isDungeonBoss").orElse(false);
     }
 }

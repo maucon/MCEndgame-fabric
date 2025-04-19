@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <configuration>
     <Loggers>
-        <Logger name="de.maucon.mauconframework" level="DEBUG">
+        <Logger name="de.maucon.mauconframework" level="INFO">
             <AppenderRef ref="SysOut"/>
             <AppenderRef ref="ServerGuiConsole"/>
         </Logger>

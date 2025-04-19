@@ -44,7 +44,7 @@ class ArachneRenderer(
         renderState.spitAnimationState.copyFrom(entity.spitAnimationState)
         renderState.meleeAttackAnimationState.copyFrom(entity.attackAnimationState)
 
-        renderState.isSaddled = entity.isSaddled
+        renderState.isSaddled = entity.hasSaddleEquipped()
 
         renderState.moveSpeed = entity.dataTracker.get(MountEntity.ANIMATION_MOVEMENT_SPEED)
 

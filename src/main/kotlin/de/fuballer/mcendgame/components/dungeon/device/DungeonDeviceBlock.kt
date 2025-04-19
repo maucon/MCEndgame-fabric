@@ -5,6 +5,7 @@ import net.minecraft.block.BlockState
 import net.minecraft.block.BlockWithEntity
 import net.minecraft.block.entity.BlockEntity
 import net.minecraft.entity.player.PlayerEntity
+import net.minecraft.server.world.ServerWorld
 import net.minecraft.util.ActionResult
 import net.minecraft.util.ItemScatterer
 import net.minecraft.util.hit.BlockHitResult
@@ -27,15 +28,20 @@ class DungeonDeviceBlock(
         return ActionResult.SUCCESS
     }
 
-    override fun onStateReplaced(state: BlockState, world: World, pos: BlockPos, newState: BlockState, moved: Boolean) {
-        if (!state.hasBlockEntity() || state.isOf(newState.block)) return
+    override fun onStateReplaced(
+        state: BlockState,
+        world: ServerWorld,
+        pos: BlockPos,
+        moved: Boolean
+    ) {
+        if (!state.hasBlockEntity()) return
 
         val blockEntity = world.getBlockEntity(pos) ?: return
         val dungeonDeviceBlockEntity = blockEntity as? DungeonDeviceBlockEntity ?: return
 
         ItemScatterer.spawn(world, pos, dungeonDeviceBlockEntity)
         world.updateComparators(pos, this)
-        super.onStateReplaced(state, world, pos, newState, moved)
+        super.onStateReplaced(state, world, pos, moved)
     }
 
     override fun createBlockEntity(pos: BlockPos, state: BlockState): BlockEntity = DungeonDeviceBlockEntity(pos, state)

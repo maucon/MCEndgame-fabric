@@ -1,6 +1,6 @@
 package de.fuballer.client.mcendgame.components.entity.custom.feature.webbed
 
-import de.fuballer.client.mcendgame.mixin_interfaces.LivingEntityRenderStateWebbedAccessor
+import de.fuballer.client.mcendgame.accessor.LivingEntityRenderStateWebbedAccessor
 import de.fuballer.mcendgame.util.IdentifierUtil
 import net.minecraft.client.render.OverlayTexture
 import net.minecraft.client.render.RenderLayer

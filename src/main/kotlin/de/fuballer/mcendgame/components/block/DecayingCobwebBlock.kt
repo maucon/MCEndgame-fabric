@@ -5,12 +5,13 @@ import net.minecraft.block.Block
 import net.minecraft.block.BlockState
 import net.minecraft.block.Blocks
 import net.minecraft.entity.Entity
+import net.minecraft.entity.EntityCollisionHandler
 import net.minecraft.entity.LivingEntity
 import net.minecraft.entity.effect.StatusEffects
 import net.minecraft.entity.player.PlayerEntity
 import net.minecraft.item.ItemStack
-import net.minecraft.item.SwordItem
 import net.minecraft.particle.ParticleTypes
+import net.minecraft.registry.tag.ItemTags
 import net.minecraft.server.world.ServerWorld
 import net.minecraft.state.StateManager
 import net.minecraft.state.property.IntProperty
@@ -49,6 +50,7 @@ class DecayingCobwebBlock(
         world: World,
         pos: BlockPos,
         entity: Entity,
+        handler: EntityCollisionHandler
     ) {
         var vec3d = Vec3d(0.25, 0.05, 0.25)
         if (entity is LivingEntity && entity.hasStatusEffect(StatusEffects.WEAVING)) {
@@ -113,7 +115,7 @@ class DecayingCobwebBlock(
         pos: BlockPos
     ): Float {
         val itemStack = player.mainHandStack
-        if (itemStack.item !is SwordItem) return super.calcBlockBreakingDelta(state, player, world, pos)
+        if (!itemStack.isIn(ItemTags.SWORDS)) return super.calcBlockBreakingDelta(state, player, world, pos)
 
         val hardness = state.getHardness(world, pos)
         if (hardness == -1.0f) return 0.0f

@@ -300,7 +300,7 @@ object ArachneAnimation {
     val IDLE: Animation = Animation.Builder.create(4.0f).looping()
         .addBoneAnimation(
             "cephalothorax", Transformation(
-                Transformation.Targets.TRANSLATE,
+                Transformation.Targets.MOVE_ORIGIN,
                 Keyframe(0.0f, AnimationHelper.createTranslationalVector(0.0f, 0.0f, 0.0f), Transformation.Interpolations.CUBIC),
                 Keyframe(1.9583f, AnimationHelper.createTranslationalVector(0.0f, -0.5f, 0.0f), Transformation.Interpolations.CUBIC),
                 Keyframe(4.0f, AnimationHelper.createTranslationalVector(0.0f, 0.0f, 0.0f), Transformation.Interpolations.CUBIC)

@@ -1,6 +1,6 @@
 package de.fuballer.client.mcendgame.mixin.client;
 
-import de.fuballer.client.mcendgame.mixin_interfaces.BipedEntityRenderStateAccessor;
+import de.fuballer.client.mcendgame.accessor.BipedEntityRenderStateAccessor;
 import net.minecraft.client.render.VertexConsumerProvider;
 import net.minecraft.client.render.entity.feature.ArmorFeatureRenderer;
 import net.minecraft.client.render.entity.model.BipedEntityModel;
