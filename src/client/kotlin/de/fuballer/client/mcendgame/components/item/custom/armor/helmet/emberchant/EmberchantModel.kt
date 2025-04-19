@@ -1,5 +1,6 @@
 package de.fuballer.client.mcendgame.components.item.custom.armor.helmet.emberchant
 
+import de.fuballer.client.mcendgame.components.item.custom.ModelPartDataExtension.createEmptyChild
 import de.fuballer.mcendgame.util.IdentifierUtil
 import net.minecraft.client.model.*
 import net.minecraft.client.render.entity.model.BipedEntityModel
@@ -17,15 +18,15 @@ class EmberchantModel<S : BipedEntityRenderState>(
             val modelData = ModelData()
             val modelPartData = modelData.root
 
-            val head = modelPartData.addChild(EntityModelPartNames.HEAD)
-            val hat = head.addChild(EntityModelPartNames.HAT)
-            val body = modelPartData.addChild(EntityModelPartNames.BODY)
-            val right_arm = modelPartData.addChild(EntityModelPartNames.RIGHT_ARM)
-            val left_arm = modelPartData.addChild(EntityModelPartNames.LEFT_ARM)
-            val right_leg = modelPartData.addChild(EntityModelPartNames.RIGHT_LEG)
-            val left_leg = modelPartData.addChild(EntityModelPartNames.LEFT_LEG)
+            val head = modelPartData.createEmptyChild(EntityModelPartNames.HEAD)
+            val hat = head.createEmptyChild(EntityModelPartNames.HAT)
+            val body = modelPartData.createEmptyChild(EntityModelPartNames.BODY)
+            val right_arm = modelPartData.createEmptyChild(EntityModelPartNames.RIGHT_ARM)
+            val left_arm = modelPartData.createEmptyChild(EntityModelPartNames.LEFT_ARM)
+            val right_leg = modelPartData.createEmptyChild(EntityModelPartNames.RIGHT_LEG)
+            val left_leg = modelPartData.createEmptyChild(EntityModelPartNames.LEFT_LEG)
 
-            val helmet = head.addChild("helmet", ModelPartBuilder.create(), ModelTransform.pivot(0.0f, 0.0f, 0.0f))
+            val helmet = head.addChild("helmet", ModelPartBuilder.create(), ModelTransform.origin(0.0f, 0.0f, 0.0f))
 
             val brim = helmet.addChild(
                 "brim", ModelPartBuilder.create().uv(0, 47).cuboid(-8.0f, 0.0f, -8.0f, 16.0f, 1.0f, 16.0f, Dilation(0.0f))

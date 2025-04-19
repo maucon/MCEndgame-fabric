@@ -1,5 +1,6 @@
 package de.fuballer.client.mcendgame.components.item.custom.armor.leggings.druids_leggings
 
+import de.fuballer.client.mcendgame.components.item.custom.ModelPartDataExtension.createEmptyChild
 import de.fuballer.mcendgame.util.IdentifierUtil
 import net.minecraft.client.model.*
 import net.minecraft.client.render.entity.model.BipedEntityModel
@@ -28,25 +29,25 @@ class DruidsLeggingsModel<S : BipedEntityRenderState>(
             val modelData = ModelData()
             val modelPartData = modelData.root
 
-            val head = modelPartData.addChild(EntityModelPartNames.HEAD)
-            val hat = head.addChild(EntityModelPartNames.HAT)
-            val left_arm = modelPartData.addChild(EntityModelPartNames.LEFT_ARM)
-            val right_arm = modelPartData.addChild(EntityModelPartNames.RIGHT_ARM)
+            val head = modelPartData.createEmptyChild(EntityModelPartNames.HEAD)
+            val hat = head.createEmptyChild(EntityModelPartNames.HAT)
+            val left_arm = modelPartData.createEmptyChild(EntityModelPartNames.LEFT_ARM)
+            val right_arm = modelPartData.createEmptyChild(EntityModelPartNames.RIGHT_ARM)
 
-            val body = modelPartData.addChild(EntityModelPartNames.BODY)
+            val body = modelPartData.createEmptyChild(EntityModelPartNames.BODY)
 
             val leggings_waist = body.addChild(
                 "leggings_waist",
                 ModelPartBuilder.create().uv(5, 40).cuboid(-5.0f, 7.0f, -3.0f, 10.0f, 7.0f, 6.0f, Dilation(0.05f))
                     .uv(9, 33).cuboid(-4.0f, 9.0f, -2.0f, 8.0f, 3.0f, 4.0f, Dilation(0.5f))
                     .uv(9, 27).cuboid(-4.0f, 6.75f, -2.0f, 8.0f, 2.0f, 4.0f, Dilation(0.26f)),
-                ModelTransform.pivot(0.0f, 0.0f, 0.0f)
+                ModelTransform.origin(0.0f, 0.0f, 0.0f)
             )
 
             val battle_skirt = leggings_waist.addChild(
                 "battle_skirt",
                 ModelPartBuilder.create(),
-                ModelTransform.pivot(0.0f, 0.0f, 0.0f)
+                ModelTransform.origin(0.0f, 0.0f, 0.0f)
             )
 
             val battle_skirt_back = battle_skirt.addChild(
@@ -78,26 +79,26 @@ class DruidsLeggingsModel<S : BipedEntityRenderState>(
                 modelPartData.addChild(
                     EntityModelPartNames.LEFT_LEG,
                     ModelPartBuilder.create(),
-                    ModelTransform.pivot(2.0f, 12.0f, 0.0f)
+                    ModelTransform.origin(2.0f, 12.0f, 0.0f)
                 )
 
             val left_leggings = left_leg.addChild(
                 "left_leggings",
                 ModelPartBuilder.create().uv(24, 53).cuboid(-2.1f, 0.0f, -2.0f, 4.0f, 12.0f, 4.0f, Dilation(0.5f)),
-                ModelTransform.pivot(0.0f, 0.0f, 0.0f)
+                ModelTransform.origin(0.0f, 0.0f, 0.0f)
             )
 
             val right_leg =
                 modelPartData.addChild(
                     EntityModelPartNames.RIGHT_LEG,
                     ModelPartBuilder.create(),
-                    ModelTransform.pivot(-2.0f, 12.0f, 0.0f)
+                    ModelTransform.origin(-2.0f, 12.0f, 0.0f)
                 )
 
             val right_leggings = right_leg.addChild(
                 "right_leggings",
                 ModelPartBuilder.create().uv(2, 53).cuboid(-1.9f, 0.0f, -2.0f, 4.0f, 12.0f, 4.0f, Dilation(0.5f)),
-                ModelTransform.pivot(0.0f, 0.0f, 0.0f)
+                ModelTransform.origin(0.0f, 0.0f, 0.0f)
             )
             return TexturedModelData.of(modelData, 128, 128)
         }
@@ -118,7 +119,7 @@ class DruidsLeggingsModel<S : BipedEntityRenderState>(
         battleSkirtFront.pitch -= minPitchFront
 
         val minPitchBack = max(0F, max(leftLeg.pitch, rightLeg.pitch))
-        val speed = renderState.limbAmplitudeMultiplier // 0.0 to 1.0
+        val speed = renderState.limbSwingAmplitude // 0.0 to 1.0
         val speedPitchBack = speed * 1.45F
         val randomPitchVariance = sin(renderState.age / 3F) * 0.08F * speed
         battleSkirtBack.pitch += max(minPitchBack, speedPitchBack + randomPitchVariance)

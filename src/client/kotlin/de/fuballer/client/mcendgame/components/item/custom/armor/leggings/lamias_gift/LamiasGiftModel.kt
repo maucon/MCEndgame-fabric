@@ -1,6 +1,6 @@
 package de.fuballer.client.mcendgame.components.item.custom.armor.leggings.lamias_gift
 
-
+import de.fuballer.client.mcendgame.components.item.custom.ModelPartDataExtension.createEmptyChild
 import de.fuballer.mcendgame.util.IdentifierUtil
 import net.minecraft.client.model.*
 import net.minecraft.client.render.entity.model.BipedEntityModel
@@ -9,7 +9,6 @@ import net.minecraft.client.render.entity.model.EntityModelPartNames
 import net.minecraft.client.render.entity.state.BipedEntityRenderState
 import net.minecraft.client.render.entity.state.PlayerEntityRenderState
 import kotlin.math.sin
-
 
 class LamiasGiftModel<S : BipedEntityRenderState>(
     root: ModelPart
@@ -29,18 +28,18 @@ class LamiasGiftModel<S : BipedEntityRenderState>(
             val modelData = ModelData()
             val modelPartData = modelData.root
 
-            val head = modelPartData.addChild(EntityModelPartNames.HEAD)
-            val hat = head.addChild(EntityModelPartNames.HAT)
-            val body = modelPartData.addChild(EntityModelPartNames.BODY)
-            val right_arm = modelPartData.addChild(EntityModelPartNames.RIGHT_ARM)
-            val left_arm = modelPartData.addChild(EntityModelPartNames.LEFT_ARM)
-            val right_leg = modelPartData.addChild(EntityModelPartNames.RIGHT_LEG)
-            val left_leg = modelPartData.addChild(EntityModelPartNames.LEFT_LEG)
+            val head = modelPartData.createEmptyChild(EntityModelPartNames.HEAD)
+            val hat = head.createEmptyChild(EntityModelPartNames.HAT)
+            val body = modelPartData.createEmptyChild(EntityModelPartNames.BODY)
+            val right_arm = modelPartData.createEmptyChild(EntityModelPartNames.RIGHT_ARM)
+            val left_arm = modelPartData.createEmptyChild(EntityModelPartNames.LEFT_ARM)
+            val right_leg = modelPartData.createEmptyChild(EntityModelPartNames.RIGHT_LEG)
+            val left_leg = modelPartData.createEmptyChild(EntityModelPartNames.LEFT_LEG)
 
-            val leggings = body.addChild("leggings", ModelPartBuilder.create(), ModelTransform.pivot(0.0f, 24.0f, 0.0f))
+            val leggings = body.addChild("leggings", ModelPartBuilder.create(), ModelTransform.origin(0.0f, 24.0f, 0.0f))
 
             val nagaTailZero =
-                leggings.addChild("nagaTailZero", ModelPartBuilder.create().uv(2, 1).cuboid(-4.5f, 0.0f, -3.0f, 9.0f, 10.0f, 5.0f, Dilation(0.0f)), ModelTransform.pivot(0.0f, -15.75f, 0.5f))
+                leggings.addChild("nagaTailZero", ModelPartBuilder.create().uv(2, 1).cuboid(-4.5f, 0.0f, -3.0f, 9.0f, 10.0f, 5.0f, Dilation(0.0f)), ModelTransform.origin(0.0f, -15.75f, 0.5f))
 
             val nagaTailOne = nagaTailZero.addChild(
                 "nagaTailOne",
@@ -57,19 +56,19 @@ class LamiasGiftModel<S : BipedEntityRenderState>(
             val nagaTailThree = nagaTailTwo.addChild(
                 "nagaTailThree",
                 ModelPartBuilder.create().uv(9, 42).cuboid(-2.0f, -0.5f, -1.5006f, 4.0f, 5.0f, 3.0f, Dilation(0.0f)),
-                ModelTransform.pivot(0.0f, 6.205f, -0.7981f)
+                ModelTransform.origin(0.0f, 6.205f, -0.7981f)
             )
 
             val nagaTailFour = nagaTailThree.addChild(
                 "nagaTailFour",
                 ModelPartBuilder.create().uv(11, 51).cuboid(-1.5f, -0.5f, -1.0056f, 3.0f, 5.0f, 2.0f, Dilation(0.0f)),
-                ModelTransform.pivot(0.0f, 4.5f, -0.5f)
+                ModelTransform.origin(0.0f, 4.5f, -0.5f)
             )
 
             val nagaTailFive = nagaTailFour.addChild(
                 "nagaTailFive",
                 ModelPartBuilder.create().uv(12, 58).cuboid(-1.0f, -0.5f, -0.6806f, 2.0f, 4.0f, 2.0f, Dilation(-0.25f)),
-                ModelTransform.pivot(0.0f, 4.5f, -0.5f)
+                ModelTransform.origin(0.0f, 4.5f, -0.5f)
             )
             return TexturedModelData.of(modelData, 32, 64)
         }
@@ -91,7 +90,7 @@ class LamiasGiftModel<S : BipedEntityRenderState>(
 
     private fun setTailAngles(renderState: S) {
         val animSpeed = 7F
-        val moveSpeed = renderState.limbAmplitudeMultiplier // 0.0 - 1.0
+        val moveSpeed = renderState.limbSwingAmplitude // 0.0 - 1.0
 
         var tailOneYawFactor = 0.5F
 

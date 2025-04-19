@@ -53,6 +53,6 @@ public class MobEntityBossMixin implements MobEntityBossAccessor {
 
     @Inject(method = "readCustomDataFromNbt", at = @At("TAIL"))
     private void readBossFlag(NbtCompound nbt, CallbackInfo ci) {
-        isDungeonBoss = nbt.getBoolean("isDungeonBoss");
+        isDungeonBoss = nbt.getBoolean("isDungeonBoss").orElse(false);
     }
 }

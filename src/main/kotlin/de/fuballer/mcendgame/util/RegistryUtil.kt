@@ -11,12 +11,13 @@ import net.minecraft.block.entity.BlockEntityType
 import net.minecraft.component.ComponentType
 import net.minecraft.entity.Entity
 import net.minecraft.entity.EntityType
-import net.minecraft.item.*
+import net.minecraft.item.Item
+import net.minecraft.item.ItemGroup
+import net.minecraft.item.Items
 import net.minecraft.item.equipment.EquipmentType
 import net.minecraft.registry.Registries
 import net.minecraft.registry.Registry
 import net.minecraft.registry.RegistryKey
-import net.minecraft.resource.featuretoggle.FeatureSet
 import net.minecraft.screen.ScreenHandler
 import net.minecraft.screen.ScreenHandlerType
 import net.minecraft.util.math.BlockPos
@@ -43,23 +44,11 @@ object RegistryUtil {
 
     fun registerArmorItem(material: CustomArmorMaterial, type: EquipmentType, name: String) =
         registerItem(
-            { ArmorItem(material.instance, type, it) },
-            Item.Settings().maxDamage(material.baseDurability),
+            ::Item,
+            Item.Settings().armor(material.instance, type)
+                .maxDamage(material.baseDurability),
             name
         )
-
-    fun registerToolItem(
-        material: ToolMaterial, damage: Float, attackSpeed: Float, name: String,
-        itemFactory: (ToolMaterial, Float, Float, Item.Settings) -> Item
-    ) =
-        registerItem(
-            { itemFactory(material, damage, attackSpeed, it) },
-            Item.Settings(),
-            name
-        )
-
-    fun <T : ScreenHandler> registerScreenHandler(name: String, factory: ScreenHandlerType.Factory<T>): ScreenHandlerType<T> =
-        Registry.register(Registries.SCREEN_HANDLER, IdentifierUtil.default(name), ScreenHandlerType(factory, FeatureSet.empty()))
 
     fun <T : ScreenHandler> registerScreenHandler(name: String, screenHandlerType: ScreenHandlerType<T>): ScreenHandlerType<T> =
         Registry.register(Registries.SCREEN_HANDLER, IdentifierUtil.default(name), screenHandlerType)

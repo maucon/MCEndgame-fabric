@@ -12,7 +12,7 @@ class TameableActiveTargetGoal<S, T>(
 ) : ActiveTargetGoal<T>(tameableMob, targetClass, checkVisibility) where S : MobEntity, S : Tameable, T : LivingEntity {
 
     override fun canStart(): Boolean {
-        if (tameableMob.ownerUuid != null) return false
+        if (tameableMob.owner?.uuid != null) return false
         return super.canStart()
     }
 }

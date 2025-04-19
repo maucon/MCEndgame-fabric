@@ -3,7 +3,7 @@ package de.fuballer.client.mcendgame.mixin.client;
 import de.fuballer.mcendgame.MCEndgame;
 import net.minecraft.component.DataComponentTypes;
 import net.minecraft.component.type.AttributeModifierSlot;
-import net.minecraft.component.type.AttributeModifiersComponent;
+import net.minecraft.component.type.TooltipDisplayComponent;
 import net.minecraft.entity.attribute.EntityAttribute;
 import net.minecraft.entity.attribute.EntityAttributeModifier;
 import net.minecraft.entity.player.PlayerEntity;
@@ -30,15 +30,16 @@ public abstract class ItemStackMixin {
     @Inject(at = @At("HEAD"), method = "appendAttributeModifiersTooltip", cancellable = true) // TODO make less invasive
     protected void appendAttributeModifiersTooltip(
             Consumer<Text> textConsumer,
-            @Nullable PlayerEntity player,
+            TooltipDisplayComponent displayComponent,
+            PlayerEntity player,
             CallbackInfo ci
     ) {
         var itemStack = (ItemStack) (Object) this;
 
-        AttributeModifiersComponent attributeModifiersComponent = itemStack.getOrDefault(DataComponentTypes.ATTRIBUTE_MODIFIERS, AttributeModifiersComponent.DEFAULT);
+        if (displayComponent.shouldDisplay(DataComponentTypes.ATTRIBUTE_MODIFIERS)) {
+            AttributeModifierSlot[] var4 = AttributeModifierSlot.values();
 
-        if (attributeModifiersComponent.showInTooltip()) {
-            for (AttributeModifierSlot attributeModifierSlot : AttributeModifierSlot.values()) {
+            for (AttributeModifierSlot attributeModifierSlot : var4) {
                 MutableBoolean mutableBoolean = new MutableBoolean(true);
                 itemStack.applyAttributeModifier(attributeModifierSlot, (attribute, modifier) -> {
                     if (!modifier.id().getNamespace().equals(MCEndgame.MOD_ID)) { // added line
@@ -52,6 +53,7 @@ public abstract class ItemStackMixin {
                     } // added line
                 });
             }
+
         }
 
         ci.cancel();
