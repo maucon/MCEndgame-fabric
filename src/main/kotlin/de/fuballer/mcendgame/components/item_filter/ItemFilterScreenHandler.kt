@@ -53,7 +53,7 @@ class ItemFilterScreenHandler(
     ) {
         offhandSwapLogic(slotIndex, button, actionType)
 
-        if (slotIndex < 0 || slotIndex > slots.size) return
+        if (slotIndex < 0 || slotIndex >= slots.size) return
         if (actionType != SlotActionType.PICKUP && actionType != SlotActionType.PICKUP_ALL && actionType != SlotActionType.QUICK_MOVE) return
 
         val slot = slots[slotIndex]
