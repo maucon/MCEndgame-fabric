@@ -38,7 +38,6 @@ public abstract class ItemStackMixin {
 
         if (displayComponent.shouldDisplay(DataComponentTypes.ATTRIBUTE_MODIFIERS)) {
             AttributeModifierSlot[] var4 = AttributeModifierSlot.values();
-            int var5 = var4.length;
 
             for (AttributeModifierSlot attributeModifierSlot : var4) {
                 MutableBoolean mutableBoolean = new MutableBoolean(true);

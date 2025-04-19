@@ -1,9 +1,11 @@
 package de.fuballer.mcendgame.components.portal
 
+import com.mojang.logging.LogUtils
 import de.fuballer.mcendgame.components.portal.teleport.TeleportExtensions.teleportTo
 import de.fuballer.mcendgame.components.portal.teleport.TeleportLocation
 import de.fuballer.mcendgame.components.portal.type.DefaultPortalType
 import de.fuballer.mcendgame.components.portal.type.PortalType
+import de.fuballer.mcendgame.util.NbtExtension.getSafe
 import net.minecraft.entity.EntityType
 import net.minecraft.entity.EquipmentSlot
 import net.minecraft.entity.LivingEntity
@@ -30,7 +32,9 @@ class PortalEntity(
     entityType: EntityType<out LivingEntity>,
     world: World,
 ) : LivingEntity(entityType, world) {
+    private val log = LogUtils.getLogger()
 
+    private var removed: Boolean = false
     var type: PortalType = DefaultPortalType()
     var teleportLocation: TeleportLocation? = null
 
@@ -46,6 +50,7 @@ class PortalEntity(
     override fun tick() {
         super.tick()
 
+        if (removed) discard()
         type.tickAnimation(this)
     }
 
@@ -94,8 +99,13 @@ class PortalEntity(
         type = PortalType.getById(typeId)
         dataTracker.set(TYPE, typeId)
 
-        teleportLocation = nbt.get(TELEPORT_LOCATION_NBT, TeleportLocation.CODEC).getOrNull()
-        if (teleportLocation?.world == null) teleportLocation = null
+        if (world.isClient) return
+
+        teleportLocation = nbt.getSafe(TELEPORT_LOCATION_NBT, TeleportLocation.CODEC).getOrNull()
+        if (teleportLocation == null) {
+            log.info("Marking outdated portal to be removed: $uuid")
+            removed = true
+        }
     }
 
     override fun writeCustomDataToNbt(nbt: NbtCompound) {
