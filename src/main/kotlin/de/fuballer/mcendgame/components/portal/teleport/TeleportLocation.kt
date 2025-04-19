@@ -10,7 +10,7 @@ import net.minecraft.util.Identifier
 import net.minecraft.util.math.Vec3d
 
 data class TeleportLocation(
-    val world: ServerWorld,
+    val world: ServerWorld?,
     val coordinates: Vec3d,
     val xRot: Float = 0.0F,
     val yRot: Float = 0.0F
@@ -20,7 +20,7 @@ data class TeleportLocation(
             instance.group(
                 Identifier.CODEC
                     .fieldOf("World")
-                    .forGetter { location -> location.world.registryKey.value },
+                    .forGetter { location -> location.world?.registryKey?.value },
 
                 Vec3d.CODEC
                     .fieldOf("Coordinates")
@@ -37,7 +37,6 @@ data class TeleportLocation(
             ).apply(instance) { worldId, vec3d, xRot, yRot ->
                 val worldKey = RegistryKey.of(RegistryKeys.WORLD, worldId)
                 val world = RuntimeConfig.SERVER.getWorld(worldKey)
-                    ?: throw IllegalArgumentException("World not found: $worldId") // TODO
 
                 TeleportLocation(world, vec3d, xRot, yRot)
             }

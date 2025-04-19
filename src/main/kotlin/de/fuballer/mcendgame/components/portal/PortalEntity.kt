@@ -94,8 +94,8 @@ class PortalEntity(
         type = PortalType.getById(typeId)
         dataTracker.set(TYPE, typeId)
 
-        teleportLocation = nbt.get(TELEPORT_LOCATION_NBT, TeleportLocation.CODEC)
-            .getOrNull()
+        teleportLocation = nbt.get(TELEPORT_LOCATION_NBT, TeleportLocation.CODEC).getOrNull()
+        if (teleportLocation?.world == null) teleportLocation = null
     }
 
     override fun writeCustomDataToNbt(nbt: NbtCompound) {

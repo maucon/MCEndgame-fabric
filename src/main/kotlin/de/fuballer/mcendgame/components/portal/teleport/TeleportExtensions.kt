@@ -7,7 +7,7 @@ import xyz.nucleoid.fantasy.mixin.MinecraftServerAccess
 
 object TeleportExtensions {
     fun PlayerEntity.teleportTo(teleportLocation: TeleportLocation): Boolean {
-        val world = teleportLocation.world
+        val world = teleportLocation.world ?: return false
         val doesWorldExist = world.server.worlds
             .map { it.registryKey.value.path }
             .contains(world.registryKey.value.path)
