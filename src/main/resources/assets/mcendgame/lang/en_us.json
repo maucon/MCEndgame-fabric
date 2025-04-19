@@ -11,7 +11,7 @@
   "item.mcendgame.bloodharvest": "Bloodharvest",
   "item.mcendgame.twinfire": "Twinfire",
 
-  "container.mcendgame.filter.title": "Filter",
+  "container.mcendgame.filter.title": "Filter (Blacklist)",
 
   "block.mcendgame.dungeon_device": "Dungeon Device",
   "container.mcendgame.dungeon_device.title": "Dungeon Device",
