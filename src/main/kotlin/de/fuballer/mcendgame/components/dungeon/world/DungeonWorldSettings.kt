@@ -42,5 +42,6 @@ object DungeonWorldSettings {
             .setGameRule(GameRules.SPAWN_CHUNK_RADIUS, 0)
             .setGameRule(GameRules.UNIVERSAL_ANGER, true)
 
-    fun generateIdentifier() = IdentifierUtil.default("dungeon-world-${UUID.randomUUID()}")
+    const val DUNGEON_WORLD_PREFIX = "dungeon-world"
+    fun generateIdentifier() = IdentifierUtil.default("$DUNGEON_WORLD_PREFIX-${UUID.randomUUID()}")
 }

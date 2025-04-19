@@ -3,8 +3,8 @@ package de.fuballer.mcendgame.components.dungeon.generation.room_types
 import de.fuballer.mcendgame.components.dungeon.generation.DungeonGenerationSettings
 import de.fuballer.mcendgame.components.dungeon.generation.data.*
 import de.fuballer.mcendgame.util.IdentifierUtil
-import de.fuballer.mcendgame.util.Vec3iExtensions.clone
-import de.fuballer.mcendgame.util.Vec3iExtensions.max
+import de.fuballer.mcendgame.util.Vec3iExtension.clone
+import de.fuballer.mcendgame.util.Vec3iExtension.max
 import net.minecraft.state.property.Properties
 import net.minecraft.structure.StructurePlacementData
 import net.minecraft.structure.StructureTemplate

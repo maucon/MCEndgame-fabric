@@ -1,9 +1,9 @@
 package de.fuballer.mcendgame.components.dungeon.generation.layout
 
 import de.fuballer.mcendgame.components.dungeon.generation.data.*
-import de.fuballer.mcendgame.util.Vec3iExtensions.clone
-import de.fuballer.mcendgame.util.Vec3iExtensions.rotateY90
-import de.fuballer.mcendgame.util.Vec3iExtensions.stepTowardsZero
+import de.fuballer.mcendgame.util.Vec3iExtension.clone
+import de.fuballer.mcendgame.util.Vec3iExtension.rotateY90
+import de.fuballer.mcendgame.util.Vec3iExtension.stepTowardsZero
 import de.fuballer.mcendgame.util.random.RandomOption
 import de.fuballer.mcendgame.util.random.RandomUtil
 import net.minecraft.block.Blocks

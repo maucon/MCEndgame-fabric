@@ -1,5 +1,6 @@
 package de.fuballer.mcendgame.components.item_filter
 
+import de.fuballer.mcendgame.util.WorldExtension.isDungeonWorld
 import de.maucon.mauconframework.command.CommandHandler
 import de.maucon.mauconframework.di.annotation.Injectable
 import net.minecraft.entity.player.PlayerEntity
@@ -15,7 +16,10 @@ class ItemFilterService {
 
     @CommandHandler
     fun on(cmd: PlayerItemPickupCommand) {
-        val uuid = cmd.player.uuid
+        val player = cmd.player
+        if (!player.world.isDungeonWorld()) return
+
+        val uuid = player.uuid
         val filter = playerFilter[uuid] ?: return
         if (filter.contains(cmd.item)) cmd.cancel()
     }

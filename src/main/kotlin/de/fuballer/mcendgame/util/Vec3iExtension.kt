@@ -3,7 +3,7 @@ package de.fuballer.mcendgame.util
 import net.minecraft.util.math.BlockPos
 import net.minecraft.util.math.Vec3i
 
-object Vec3iExtensions {
+object Vec3iExtension {
     fun Vec3i.clone(): Vec3i = Vec3i(x, y, z)
 
     fun Vec3i.stepTowardsZero() = Vec3i(
