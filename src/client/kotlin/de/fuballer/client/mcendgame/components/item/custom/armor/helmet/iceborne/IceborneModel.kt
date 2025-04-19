@@ -133,4 +133,6 @@ class IceborneModel<S : BipedEntityRenderState>(
             return TexturedModelData.of(modelData, 64, 64)
         }
     }
+
+    override fun setAngles(bipedEntityRenderState: S) {}
 }
