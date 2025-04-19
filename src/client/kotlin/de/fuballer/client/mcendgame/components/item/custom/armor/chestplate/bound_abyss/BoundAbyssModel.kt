@@ -1,7 +1,8 @@
 package de.fuballer.client.mcendgame.components.item.custom.armor.chestplate.bound_abyss
 
-import de.fuballer.client.mcendgame.components.item.custom.armor.CustomVertexConsumer
 import de.fuballer.client.mcendgame.accessor.LivingEntityRenderStateAccessor
+import de.fuballer.client.mcendgame.components.item.custom.ModelPartDataExtension.createEmptyChild
+import de.fuballer.client.mcendgame.components.item.custom.armor.CustomVertexConsumer
 import de.fuballer.mcendgame.util.IdentifierUtil
 import net.minecraft.client.model.*
 import net.minecraft.client.render.VertexConsumer
@@ -51,10 +52,10 @@ class BoundAbyssModel<S : BipedEntityRenderState>(
             val modelData = ModelData()
             val modelPartData = modelData.root
 
-            val head = modelPartData.addChild(EntityModelPartNames.HEAD)
-            val hat = head.addChild(EntityModelPartNames.HAT)
-            val right_leg = modelPartData.addChild(EntityModelPartNames.RIGHT_LEG)
-            val left_leg = modelPartData.addChild(EntityModelPartNames.LEFT_LEG)
+            val head = modelPartData.createEmptyChild(EntityModelPartNames.HEAD)
+            val hat = head.createEmptyChild(EntityModelPartNames.HAT)
+            val right_leg = modelPartData.createEmptyChild(EntityModelPartNames.RIGHT_LEG)
+            val left_leg = modelPartData.createEmptyChild(EntityModelPartNames.LEFT_LEG)
 
             val body = modelPartData.addChild("body", ModelPartBuilder.create(), ModelTransform.origin(0.0f, 0.0f, 0.0f))
 
@@ -146,9 +147,9 @@ class BoundAbyssModel<S : BipedEntityRenderState>(
         val lowHealthTicks20 = accessor.`mcendgame$getLowHealthTicks20`()
         val openPercent = lowHealthTicks20 / 20F
 
-        shoulderPadLeft.translate(Vector3f(openPercent * 1.5F, openPercent * -0.8F, 0F))
-        shoulderPadRight.translate(Vector3f(openPercent * -1.5F, openPercent * -0.8F, 0F))
-        vambraceLeft.translate(Vector3f(openPercent * 1.2F, 0F, 0F))
-        vambraceRight.translate(Vector3f(openPercent * -1.2F, 0F, 0F))
+        shoulderPadLeft.moveOrigin(Vector3f(openPercent * 1.5F, openPercent * -0.8F, 0F))
+        shoulderPadRight.moveOrigin(Vector3f(openPercent * -1.5F, openPercent * -0.8F, 0F))
+        vambraceLeft.moveOrigin(Vector3f(openPercent * 1.2F, 0F, 0F))
+        vambraceRight.moveOrigin(Vector3f(openPercent * -1.2F, 0F, 0F))
     }
 }

@@ -1,6 +1,6 @@
 package de.fuballer.client.mcendgame.components.item.custom.armor.leggings.lamias_gift
 
-
+import de.fuballer.client.mcendgame.components.item.custom.ModelPartDataExtension.createEmptyChild
 import de.fuballer.mcendgame.util.IdentifierUtil
 import net.minecraft.client.model.*
 import net.minecraft.client.render.entity.model.BipedEntityModel
@@ -9,7 +9,6 @@ import net.minecraft.client.render.entity.model.EntityModelPartNames
 import net.minecraft.client.render.entity.state.BipedEntityRenderState
 import net.minecraft.client.render.entity.state.PlayerEntityRenderState
 import kotlin.math.sin
-
 
 class LamiasGiftModel<S : BipedEntityRenderState>(
     root: ModelPart
@@ -29,13 +28,13 @@ class LamiasGiftModel<S : BipedEntityRenderState>(
             val modelData = ModelData()
             val modelPartData = modelData.root
 
-            val head = modelPartData.addChild(EntityModelPartNames.HEAD)
-            val hat = head.addChild(EntityModelPartNames.HAT)
-            val body = modelPartData.addChild(EntityModelPartNames.BODY)
-            val right_arm = modelPartData.addChild(EntityModelPartNames.RIGHT_ARM)
-            val left_arm = modelPartData.addChild(EntityModelPartNames.LEFT_ARM)
-            val right_leg = modelPartData.addChild(EntityModelPartNames.RIGHT_LEG)
-            val left_leg = modelPartData.addChild(EntityModelPartNames.LEFT_LEG)
+            val head = modelPartData.createEmptyChild(EntityModelPartNames.HEAD)
+            val hat = head.createEmptyChild(EntityModelPartNames.HAT)
+            val body = modelPartData.createEmptyChild(EntityModelPartNames.BODY)
+            val right_arm = modelPartData.createEmptyChild(EntityModelPartNames.RIGHT_ARM)
+            val left_arm = modelPartData.createEmptyChild(EntityModelPartNames.LEFT_ARM)
+            val right_leg = modelPartData.createEmptyChild(EntityModelPartNames.RIGHT_LEG)
+            val left_leg = modelPartData.createEmptyChild(EntityModelPartNames.LEFT_LEG)
 
             val leggings = body.addChild("leggings", ModelPartBuilder.create(), ModelTransform.origin(0.0f, 24.0f, 0.0f))
 
@@ -91,7 +90,7 @@ class LamiasGiftModel<S : BipedEntityRenderState>(
 
     private fun setTailAngles(renderState: S) {
         val animSpeed = 7F
-        val moveSpeed = renderState.limbAmplitudeMultiplier // 0.0 - 1.0
+        val moveSpeed = renderState.limbSwingAmplitude // 0.0 - 1.0
 
         var tailOneYawFactor = 0.5F
 

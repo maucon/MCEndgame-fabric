@@ -188,7 +188,7 @@ class ElfDuelistEntityModel(
         renderState: ElfDuelistRenderState,
     ) {
         elfHead.pitch += Math.toRadians(renderState.pitch.toDouble()).toFloat()
-        elfHead.yaw += Math.toRadians(renderState.yawDegrees.toDouble()).toFloat()
+        elfHead.yaw += Math.toRadians(renderState.relativeHeadYaw.toDouble()).toFloat()
         elfHead.yaw = Math.clamp(elfHead.yaw, -1F, 1F)
     }
 
@@ -214,8 +214,8 @@ class ElfDuelistEntityModel(
     private fun setWalkAngles(
         renderState: ElfDuelistRenderState,
     ) {
-        val limbSwing = sin(renderState.limbFrequency * 0.6F)
-        val speed = renderState.limbAmplitudeMultiplier
+        val limbSwing = sin(renderState.limbSwingAnimationProgress * 0.6F)
+        val speed = renderState.limbSwingAmplitude
         val limbAmplitude = min(1.2F, speed * 1.5F)
         val legAngle = limbSwing * limbAmplitude
         elfLegLeft.pitch += legAngle

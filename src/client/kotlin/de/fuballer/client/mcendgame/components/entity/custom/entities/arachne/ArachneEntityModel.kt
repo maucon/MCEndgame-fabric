@@ -498,7 +498,7 @@ class ArachneEntityModel(
         renderState: ArachneRenderState,
     ) {
         head.pitch += Math.toRadians(renderState.pitch.toDouble()).toFloat()
-        head.yaw += Math.toRadians(renderState.yawDegrees.toDouble()).toFloat()
+        head.yaw += Math.toRadians(renderState.relativeHeadYaw.toDouble()).toFloat()
         head.yaw = Math.clamp(head.yaw, -1F, 1F)
     }
 }
