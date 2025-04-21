@@ -22,6 +22,17 @@ repositories {
         }
     }
     maven { url = 'https://maven.nucleoid.xyz/' }
+    exclusiveContent {
+        forRepository {
+            maven {
+                name = 'GeckoLib'
+                url = 'https://dl.cloudsmith.io/public/geckolib3/geckolib/maven/'
+            }
+        }
+        filter {
+            includeGroup('software.bernie.geckolib')
+        }
+    }
 }
 
 loom {
@@ -53,6 +64,8 @@ dependencies {
 
     modImplementation "xyz.nucleoid:fantasy:0.6.5+"
     implementation "de.maucon:maucon-framework:1.7.0"
+
+    modImplementation "software.bernie.geckolib:geckolib-fabric-${minecraft_version}:5.0"
 
     include "de.maucon:maucon-framework:1.7.0"
     include "org.jetbrains.kotlin:kotlin-reflect"
