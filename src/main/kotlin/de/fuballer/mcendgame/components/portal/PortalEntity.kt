@@ -44,6 +44,7 @@ class PortalEntity(
     init {
         this.setNoGravity(true)
         isInvulnerable = true
+        noClip = true
     }
 
     companion object {
