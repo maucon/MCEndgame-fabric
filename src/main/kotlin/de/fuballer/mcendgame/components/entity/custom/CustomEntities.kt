@@ -1,6 +1,7 @@
 package de.fuballer.mcendgame.components.entity.custom
 
 import de.fuballer.mcendgame.components.entity.custom.entities.arachne.ArachneEntity
+import de.fuballer.mcendgame.components.entity.custom.entities.bonecrusher.BonecrusherEntity
 import de.fuballer.mcendgame.components.entity.custom.entities.elf_duelist.ElfDuelistEntity
 import de.fuballer.mcendgame.components.entity.custom.entities.swamp_golem.SwampGolemEntity
 import de.fuballer.mcendgame.components.entity.custom.entities.webhook.WebhookEntity
@@ -48,5 +49,12 @@ object CustomEntities {
         "webhook",
         EntityType.Builder.create({ type, world -> WebhookEntity(type, world) }, SpawnGroup.MISC)
             .dimensions(0.4f, 0.4f)
+    )
+    val BONECRUSHER = RegistryUtil.registerEntity(
+        "bonecrusher",
+        EntityType.Builder.create({ type, world -> BonecrusherEntity(type, world) }, SpawnGroup.MONSTER)
+            .dimensions(0.4f, 3f)
+            .eyeHeight(2.8f)
+            .maxTrackingRange(8)
     )
 }

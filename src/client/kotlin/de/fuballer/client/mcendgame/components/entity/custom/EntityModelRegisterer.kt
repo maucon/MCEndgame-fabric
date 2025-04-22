@@ -2,6 +2,8 @@ package de.fuballer.client.mcendgame.components.entity.custom
 
 import de.fuballer.client.mcendgame.components.entity.custom.entities.arachne.ArachneEntityModel
 import de.fuballer.client.mcendgame.components.entity.custom.entities.arachne.ArachneRenderer
+import de.fuballer.client.mcendgame.components.entity.custom.entities.bonecrusher.BonecrusherRenderState
+import de.fuballer.client.mcendgame.components.entity.custom.entities.bonecrusher.BonecrusherRenderer
 import de.fuballer.client.mcendgame.components.entity.custom.entities.elf_duelist.ElfDuelistEntityModel
 import de.fuballer.client.mcendgame.components.entity.custom.entities.elf_duelist.ElfDuelistRenderer
 import de.fuballer.client.mcendgame.components.entity.custom.entities.portal.PortalRenderer
@@ -49,12 +51,14 @@ object EntityModelRegisterer {
 
         EntityRendererRegistry.register(CustomEntities.WEBHOOK, ::WebhookRenderer)
 
+        EntityRendererRegistry.register(CustomEntities.BONECRUSHER) { state -> BonecrusherRenderer<BonecrusherRenderState>(state) }
+
         // portal
         EntityModelLayerRegistry.registerModelLayer(
             DefaultPortalEntityModel.PORTAL,
             DefaultPortalEntityModel::getTexturedModelData
         )
-         EntityModelLayerRegistry.registerModelLayer(
+        EntityModelLayerRegistry.registerModelLayer(
             TestPortalEntityModel.PORTAL,
             TestPortalEntityModel::getTexturedModelData
         )
