@@ -1,5 +1,6 @@
 package de.fuballer.mcendgame.components.entity.custom.entities.bonecrusher
 
+import de.fuballer.mcendgame.components.entity.custom.goals.DisableAbleWanderAroundFarGoal
 import de.fuballer.mcendgame.components.entity.custom.goals.NoMovementMeleeAttackGoal
 import de.fuballer.mcendgame.components.entity.custom.goals.StayInRangeGoal
 import de.fuballer.mcendgame.components.entity.custom.interfaces.MeleeAttackMob
@@ -35,9 +36,15 @@ class BonecrusherEntity(
     private var attackDamageDelay = 0
     private var attackDamageFunction: (() -> Unit)? = null
 
+    private val meleeAttackGoal = NoMovementMeleeAttackGoal(this, 30, 3.0)
+    private val stayInMeleeRangeGoal = StayInRangeGoal(this, 1.0, 2.0)
+
+    private val wanderGoal = DisableAbleWanderAroundFarGoal(this, 1.0)
+
     companion object {
         val WALK_ANIM: RawAnimation = RawAnimation.begin().thenLoop("movement.walk")
         val HIT_ANIM: RawAnimation = RawAnimation.begin().thenPlay("attack.hit")
+        val SLAM_ANIM: RawAnimation = RawAnimation.begin().thenPlay("attack.slam")
 
         fun createAttributes(): DefaultAttributeContainer.Builder {
             return createLivingAttributes()
@@ -51,13 +58,21 @@ class BonecrusherEntity(
         }
 
         val HIT_AREA_ATTACK = HorizontalRotationRelativeBoxAreaAttack(3.0, 1.3, 1.5, 0.0, 0.5, 0.5)
+        val SLAM_AREA_ATTACK = HorizontalRotationRelativeBoxAreaAttack(5.0, 2.5, 1.5, -1.0, 0.0, 0.5)
+    }
+
+    init{
+        initDynamicGoals()
+    }
+
+    private fun initDynamicGoals() {
+        goalSelector.add(1, meleeAttackGoal)
+        goalSelector.add(2, stayInMeleeRangeGoal)
+        goalSelector.add(7, wanderGoal)
     }
 
     override fun initGoals() {
         goalSelector.add(0, SwimGoal(this))
-        goalSelector.add(1, NoMovementMeleeAttackGoal(this, 30, 3.0))
-        goalSelector.add(2, StayInRangeGoal(this, 1.0, 2.0))
-        goalSelector.add(7, WanderAroundFarGoal(this, 0.75))
 
         targetSelector.add(2, ActiveTargetGoal(this, PlayerEntity::class.java, true))
         targetSelector.add(3, ActiveTargetGoal(this, VillagerEntity::class.java, true))
@@ -88,8 +103,9 @@ class BonecrusherEntity(
     override fun registerControllers(controllers: AnimatableManager.ControllerRegistrar) {
         controllers.add(
             AnimationController("movement_controller", 5) { animTest -> movementAnimationController(animTest) },
-            AnimationController<GeoAnimatable>("hit_controller") { _ -> PlayState.STOP }
+            AnimationController<GeoAnimatable>("attack_controller") { _ -> PlayState.STOP }
                 .triggerableAnim("hit", HIT_ANIM)
+                .triggerableAnim("slam", SLAM_ANIM)
         )
     }
 
@@ -102,10 +118,22 @@ class BonecrusherEntity(
 
     override fun meleeAttack(target: LivingEntity) {
         if (attackCooldown > 0) return
+        if (random.nextDouble() > 0.5) startHit()
+        else startSlam()
+    }
+
+    private fun startHit() {
         attackCooldown = 20
         attackDamageDelay = 5
         attackDamageFunction = ::dealHitDamage
-        triggerAnim("hit_controller", "hit")
+        triggerAnim("attack_controller", "hit")
+    }
+
+    private fun startSlam() {
+        attackCooldown = 50
+        attackDamageDelay = 17
+        attackDamageFunction = ::dealSlamDamage
+        triggerAnim("attack_controller", "slam")
     }
 
     private fun dealHitDamage() {
@@ -113,5 +141,12 @@ class BonecrusherEntity(
         val damage = getAttributeValue(EntityAttributes.ATTACK_DAMAGE).toFloat()
         val knockback = getAttributeValue(EntityAttributes.ATTACK_KNOCKBACK)
         HIT_AREA_ATTACK.dealDamage(this, damage, knockback)
+    }
+
+    private fun dealSlamDamage() {
+        if (world.isClient) return
+        val damage = getAttributeValue(EntityAttributes.ATTACK_DAMAGE).toFloat()
+        val knockback = getAttributeValue(EntityAttributes.ATTACK_KNOCKBACK)
+        SLAM_AREA_ATTACK.dealDamage(this, damage, knockback)
     }
 }
