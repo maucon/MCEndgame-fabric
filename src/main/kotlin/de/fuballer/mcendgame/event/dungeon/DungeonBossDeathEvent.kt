@@ -1,9 +1,9 @@
-package de.fuballer.mcendgame.event
+package de.fuballer.mcendgame.event.dungeon
 
 import net.minecraft.entity.LivingEntity
 import net.minecraft.world.World
 
-class DungeonBossDeathEvent(
+data class DungeonBossDeathEvent(
     val isClient: Boolean,
     val world: World,
     val entity: LivingEntity,

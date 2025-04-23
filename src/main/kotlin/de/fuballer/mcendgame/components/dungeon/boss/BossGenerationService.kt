@@ -40,7 +40,6 @@ class BossGenerationService {
         val accessor = entity as MobEntityBossAccessor
         accessor.`mcendgame$setDungeonBoss`()
         accessor.`mcendgame$setSpawnLocation`(location)
-        println("set spawn location $location")
 
         return entity
     }

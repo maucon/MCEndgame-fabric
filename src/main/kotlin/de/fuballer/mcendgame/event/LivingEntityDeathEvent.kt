@@ -3,7 +3,7 @@ package de.fuballer.mcendgame.event
 import net.minecraft.entity.LivingEntity
 import net.minecraft.world.World
 
-class LivingEntityDeathEvent(
+data class LivingEntityDeathEvent(
     val isClient: Boolean,
     val world: World,
     val entity: LivingEntity,

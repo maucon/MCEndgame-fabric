@@ -6,9 +6,9 @@ import de.fuballer.mcendgame.components.portal.Portals
 import de.fuballer.mcendgame.components.portal.teleport.TeleportLocation
 import de.fuballer.mcendgame.components.portal.type.DefaultPortalType
 import de.fuballer.mcendgame.components.portal.type.PortalType
-import de.fuballer.mcendgame.event.DungeonBossDeathEvent
-import de.fuballer.mcendgame.event.DungeonGeneratedEvent
-import de.fuballer.mcendgame.event.OpenDungeonButtonPressedEvent
+import de.fuballer.mcendgame.event.dungeon.DungeonBossDeathEvent
+import de.fuballer.mcendgame.event.dungeon.DungeonGeneratedEvent
+import de.fuballer.mcendgame.event.dungeon.OpenDungeonButtonPressedEvent
 import de.fuballer.mcendgame.util.BlockPosExtension.toVec3d
 import de.fuballer.mcendgame.util.Vec3iExtension.toCenter
 import de.fuballer.mcendgame.util.WorldExtension.isDungeonWorld

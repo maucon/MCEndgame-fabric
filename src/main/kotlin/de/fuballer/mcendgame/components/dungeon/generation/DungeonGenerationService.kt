@@ -6,8 +6,8 @@ import de.fuballer.mcendgame.components.dungeon.generation.builder.DungeonBuilde
 import de.fuballer.mcendgame.components.dungeon.type.DungeonType
 import de.fuballer.mcendgame.components.dungeon.world.DungeonWorldService
 import de.fuballer.mcendgame.configuration.RuntimeConfig
-import de.fuballer.mcendgame.event.DungeonGeneratedEvent
-import de.fuballer.mcendgame.event.OpenDungeonButtonPressedEvent
+import de.fuballer.mcendgame.event.dungeon.DungeonGeneratedEvent
+import de.fuballer.mcendgame.event.dungeon.OpenDungeonButtonPressedEvent
 import de.maucon.mauconframework.di.annotation.Injectable
 import de.maucon.mauconframework.event.EventGateway
 import de.maucon.mauconframework.event.EventSubscriber
