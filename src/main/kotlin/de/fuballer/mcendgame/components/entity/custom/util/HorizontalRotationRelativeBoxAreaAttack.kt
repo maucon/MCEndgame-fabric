@@ -10,13 +10,14 @@ import kotlin.math.max
 import kotlin.math.sqrt
 
 class HorizontalRotationRelativeBoxAreaAttack(
-    val forwardRange: Double, // only forward
-    val sideRange: Double, // left & right -> 2* sideRange
-    val heightRange: Double, // up & down -> 2* heightRange
-    val forwardOffset: Double = 0.0, // positive -> forward
-    val sideOffset: Double = 0.0, // positive -> right
-    val heightOffset: Double = 0.0, // positive -> up
-    val applyScale: Boolean = true,
+    private val forwardRange: Double, // only forward
+    private val sideRange: Double, // left & right -> 2* sideRange
+    private val heightRange: Double, // up & down -> 2* heightRange
+    private val forwardOffset: Double = 0.0, // positive -> forward
+    private val sideOffset: Double = 0.0, // positive -> right
+    private val heightOffset: Double = 0.0, // positive -> up
+    private val applyScale: Boolean = true,
+    private val useBoxCenterAsKnockbackCenter: Boolean = false,
 ) {
 
     fun dealDamage(damager: LivingEntity, damage: Float, knockback: Double) {
@@ -31,7 +32,7 @@ class HorizontalRotationRelativeBoxAreaAttack(
             isInAttackArea(it.pos.subtract(damager.pos), forward, sideways, scale)
         }
 
-        dealDamage(world, targets, damager, damage, knockback, scale, forward)
+        dealDamage(world, targets, damager, damage, knockback, scale, forward, sideways)
     }
 
     private fun getTargets(
@@ -98,6 +99,7 @@ class HorizontalRotationRelativeBoxAreaAttack(
         knockback: Double,
         scale: Double,
         forward: Vec3d,
+        sideways: Vec3d
     ) {
         val damageSource = damager.damageSources.mobAttack(damager)
         val knockBackStrength = knockback * if (applyScale) scale else 1.0
@@ -105,7 +107,30 @@ class HorizontalRotationRelativeBoxAreaAttack(
         targets.forEach {
             it.damage(world, damageSource, damage)
             it.velocityModified = true
-            it.takeKnockback(knockBackStrength, -forward.x, -forward.z) //takeKnockback inverts it
+            if (!useBoxCenterAsKnockbackCenter) {
+                it.takeKnockback(knockBackStrength, -forward.x, -forward.z) //takeKnockback inverts it
+            } else {
+                val knockbackCenter = getAttackBoxCenter(damager, scale, forward, sideways)
+                val knockbackDirection = it.pos.subtract(knockbackCenter).normalize()
+                it.takeKnockback(knockBackStrength, -knockbackDirection.x, -knockbackDirection.z)
+            }
         }
+    }
+
+    private fun getAttackBoxCenter(
+        damager: LivingEntity,
+        scale: Double,
+        forward: Vec3d,
+        sideways: Vec3d,
+    ): Vec3d {
+        var center = damager.pos
+
+        val forwardCenter = (forwardOffset + forwardRange / 2) * scale
+        center = center.add(forward.multiply(forwardCenter))
+
+        val sidewaysCenter = sideOffset * scale
+        center = center.add(sideways.multiply(sidewaysCenter))
+
+        return center
     }
 }

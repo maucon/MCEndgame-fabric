@@ -3,13 +3,14 @@ package de.fuballer.mcendgame.components.entity.custom.entities.bonecrusher
 import de.fuballer.mcendgame.components.entity.custom.goals.DisableAbleWanderAroundFarGoal
 import de.fuballer.mcendgame.components.entity.custom.goals.NoMovementMeleeAttackGoal
 import de.fuballer.mcendgame.components.entity.custom.goals.StayInRangeGoal
+import de.fuballer.mcendgame.components.entity.custom.interfaces.DisableAbleGoalsMob
 import de.fuballer.mcendgame.components.entity.custom.interfaces.MeleeAttackMob
+import de.fuballer.mcendgame.components.entity.custom.util.BlockedMovementManager
 import de.fuballer.mcendgame.components.entity.custom.util.HorizontalRotationRelativeBoxAreaAttack
 import net.minecraft.entity.EntityType
 import net.minecraft.entity.LivingEntity
 import net.minecraft.entity.ai.goal.ActiveTargetGoal
 import net.minecraft.entity.ai.goal.SwimGoal
-import net.minecraft.entity.ai.goal.WanderAroundFarGoal
 import net.minecraft.entity.attribute.DefaultAttributeContainer
 import net.minecraft.entity.attribute.EntityAttributes
 import net.minecraft.entity.mob.PathAwareEntity
@@ -29,7 +30,7 @@ import software.bernie.geckolib.util.GeckoLibUtil
 class BonecrusherEntity(
     type: EntityType<out BonecrusherEntity>,
     world: World,
-) : PathAwareEntity(type, world), GeoEntity, MeleeAttackMob {
+) : PathAwareEntity(type, world), GeoEntity, MeleeAttackMob, DisableAbleGoalsMob {
     private val cache: AnimatableInstanceCache = GeckoLibUtil.createInstanceCache(this)
 
     private var attackCooldown = 0
@@ -40,6 +41,8 @@ class BonecrusherEntity(
     private val stayInMeleeRangeGoal = StayInRangeGoal(this, 1.0, 2.0)
 
     private val wanderGoal = DisableAbleWanderAroundFarGoal(this, 1.0)
+
+    private val blockedMovementManager = BlockedMovementManager(this)
 
     companion object {
         val WALK_ANIM: RawAnimation = RawAnimation.begin().thenLoop("movement.walk")
@@ -58,10 +61,11 @@ class BonecrusherEntity(
         }
 
         val HIT_AREA_ATTACK = HorizontalRotationRelativeBoxAreaAttack(3.0, 1.3, 1.5, 0.0, 0.5, 0.5)
-        val SLAM_AREA_ATTACK = HorizontalRotationRelativeBoxAreaAttack(5.0, 2.5, 1.5, -1.0, 0.0, 0.5)
+        val SLAM_AREA_ATTACK =
+            HorizontalRotationRelativeBoxAreaAttack(5.0, 2.5, 1.5, 1.0, 0.0, 0.5, useBoxCenterAsKnockbackCenter = true)
     }
 
-    init{
+    init {
         initDynamicGoals()
     }
 
@@ -78,9 +82,17 @@ class BonecrusherEntity(
         targetSelector.add(3, ActiveTargetGoal(this, VillagerEntity::class.java, true))
     }
 
+    override fun updateGoals() {
+        val movementBlocked = blockedMovementManager.isBlocked()
+        meleeAttackGoal.isDisabled = movementBlocked
+        stayInMeleeRangeGoal.isDisabled = movementBlocked
+        wanderGoal.isDisabled = movementBlocked
+    }
+
     override fun tick() {
         super.tick()
         tickAttackCooldown()
+        blockedMovementManager.tick()
     }
 
     private fun tickAttackCooldown() {
@@ -133,6 +145,7 @@ class BonecrusherEntity(
         attackCooldown = 50
         attackDamageDelay = 17
         attackDamageFunction = ::dealSlamDamage
+        blockedMovementManager.blockMovement(25)
         triggerAnim("attack_controller", "slam")
     }
 
