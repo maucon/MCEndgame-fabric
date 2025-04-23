@@ -53,8 +53,8 @@ object CustomEntities {
     val BONECRUSHER = RegistryUtil.registerEntity(
         "bonecrusher",
         EntityType.Builder.create({ type, world -> BonecrusherEntity(type, world) }, SpawnGroup.MONSTER)
-            .dimensions(0.4f, 3f)
-            .eyeHeight(2.8f)
+            .dimensions(0.7f, 2.99f)
+            .eyeHeight(2.85f)
             .maxTrackingRange(8)
     )
 }
