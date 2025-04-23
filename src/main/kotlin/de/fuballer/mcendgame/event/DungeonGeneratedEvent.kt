@@ -6,6 +6,9 @@ import net.minecraft.util.math.BlockPos
 import net.minecraft.util.math.Vec3d
 import java.util.*
 
+/**
+ * only server-side
+ */
 data class DungeonGeneratedEvent(
     val originWorld: ServerWorld,
     val dungeonWorld: ServerWorld,

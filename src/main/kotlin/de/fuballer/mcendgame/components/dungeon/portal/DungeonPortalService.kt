@@ -1,13 +1,17 @@
 package de.fuballer.mcendgame.components.dungeon.portal
 
+import de.fuballer.mcendgame.accessor.MobEntityBossAccessor
 import de.fuballer.mcendgame.components.portal.PortalEntity
 import de.fuballer.mcendgame.components.portal.Portals
 import de.fuballer.mcendgame.components.portal.teleport.TeleportLocation
 import de.fuballer.mcendgame.components.portal.type.DefaultPortalType
 import de.fuballer.mcendgame.components.portal.type.PortalType
+import de.fuballer.mcendgame.event.DungeonBossDeathEvent
 import de.fuballer.mcendgame.event.DungeonGeneratedEvent
 import de.fuballer.mcendgame.event.OpenDungeonButtonPressedEvent
 import de.fuballer.mcendgame.util.BlockPosExtension.toVec3d
+import de.fuballer.mcendgame.util.Vec3iExtension.toCenter
+import de.fuballer.mcendgame.util.WorldExtension.isDungeonWorld
 import de.maucon.mauconframework.di.annotation.Injectable
 import de.maucon.mauconframework.event.EventSubscriber
 import net.minecraft.server.world.ServerWorld
@@ -25,11 +29,16 @@ class DungeonPortalService(
 
         val deviceCenterPos = event.dungeonDevicePos.toVec3d().add(0.5, 0.0, 0.5)
 
-        spawnLeavePortal(centeredSpawnPos, deviceCenterPos, portalType, event.originWorld, event.dungeonWorld)
+        val dungeonWorld = event.dungeonWorld
+        val leaveLocation = TeleportLocation(event.originWorld, deviceCenterPos.add(0.0, 1.0, 0.0))
+        spawnLeavePortal(leaveLocation, centeredSpawnPos, portalType, dungeonWorld)
 
         val deviceId = event.dungeonDevicePos.hashCode()
-        val dungeonTeleportLocation = TeleportLocation(event.dungeonWorld, centeredSpawnPos, 0f, startPos.rot.toFloat())
-        createEntryPortals(deviceId, deviceCenterPos, portalType, event.originWorld, dungeonTeleportLocation)
+        val dungeonTeleportLocation = TeleportLocation(dungeonWorld, centeredSpawnPos, 0f, startPos.rot.toFloat())
+        val portals = createEntryPortals(deviceCenterPos, portalType, event.originWorld, dungeonTeleportLocation)
+
+        val entity = DungeonPortalEntity(deviceId, dungeonWorld, leaveLocation, portals)
+        dungeonPortalRepo.save(entity)
     }
 
     @EventSubscriber
@@ -39,30 +48,36 @@ class DungeonPortalService(
         clearPortals(entity)
     }
 
-    // TODO on map device destroyed
-    // TODO on dungeon boss killed
-    // TODO close when dungeon world closed
+    @EventSubscriber
+    fun on(event: DungeonBossDeathEvent) {
+        if (event.isClient) return
+
+        val world = event.world as ServerWorld
+        if (!event.world.isDungeonWorld()) return
+
+        val spawnPosition = (event.entity as MobEntityBossAccessor).`mcendgame$getSpawnLocation`()!!
+        val dungeonPortalEntity = dungeonPortalRepo.findByDungeonWorld(world) ?: return
+
+        Portals.spawn(world, spawnPosition.pos.toCenter(), dungeonPortalEntity.leaveLocation, rotation = spawnPosition.rot.toFloat())
+    }
 
     private fun spawnLeavePortal(
+        leaveLocation: TeleportLocation,
         spawnPos: Vec3d,
-        devicePos: Vec3d,
         portalType: PortalType,
-        originWorld: ServerWorld,
         dungeonWorld: ServerWorld
     ) {
-        val teleportLocation = TeleportLocation(originWorld, devicePos.add(0.0, 1.0, 0.0))
         val portalLocation = spawnPos.subtract(0.5, 0.0, 0.0)
 
-        Portals.spawn(dungeonWorld, portalLocation, teleportLocation, type = portalType, lookAt = spawnPos)
+        Portals.spawn(dungeonWorld, portalLocation, leaveLocation, type = portalType, lookAt = spawnPos)
     }
 
     private fun createEntryPortals(
-        deviceId: Int,
         devicePos: Vec3d,
         portalType: PortalType,
         originWorld: ServerWorld,
         dungeonTeleportLocation: TeleportLocation
-    ) {
+    ): MutableList<PortalEntity> {
         val angle = Math.toRadians(360.0 / 6).toFloat()
         var offset = Vec3d(3.0, 0.0, 0.0)
 
@@ -75,11 +90,12 @@ class DungeonPortalService(
             offset = offset.rotateY(angle)
         }
 
-        val entity = DungeonPortalEntity(deviceId, portals)
-        dungeonPortalRepo.save(entity)
+        return portals
     }
 
     private fun clearPortals(dungeonPortalEntity: DungeonPortalEntity) {
-        dungeonPortalEntity.portals.forEach { it.discard() }
+        dungeonPortalEntity.portals
+            .onEach { it.discard() }
+            .clear()
     }
 }

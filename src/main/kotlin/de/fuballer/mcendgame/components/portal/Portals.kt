@@ -34,6 +34,7 @@ object Portals {
         pos: Vec3d,
         teleportLocation: TeleportLocation,
         lookAt: Vec3d = Vec3d.ZERO,
+        rotation: Float? = null,
         singleUse: Boolean = false,
         type: PortalType = DefaultPortalType()
     ): PortalEntity {
@@ -41,6 +42,7 @@ object Portals {
             entity.dataTracker.set(PortalEntity.TYPE, type.getId())
             entity.setPosition(pos)
             entity.lookAt(EntityAnchorArgumentType.EntityAnchor.FEET, lookAt)
+            rotation?.let { entity.rotate(it, 0f) }
             entity.singleUse = singleUse
             entity.type = type
             entity.teleportLocation = teleportLocation

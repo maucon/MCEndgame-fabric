@@ -53,13 +53,6 @@ public abstract class LivingEntityDamageMixin {
 
         var combinedDamage = attackDamage + elementalDamage;
 
-        System.out.println("-----------");
-        System.out.println(source.getAttacker() + " -> " + entity);
-        System.out.println("ATTACK:    " + attackDamage);
-        System.out.println("ELEMENTAL: " + elementalDamage);
-        System.out.println("TOTAL:     " + combinedDamage);
-        System.out.println("TYPE:      " + source.getType());
-
         float healthDamage = Math.max(combinedDamage - entity.getAbsorptionAmount(), 0.0F);
         float absorbedDamage = combinedDamage - healthDamage;
         entity.setAbsorptionAmount(entity.getAbsorptionAmount() - absorbedDamage);
