@@ -36,7 +36,10 @@ class BossGenerationService {
         setScale(entity, random)
 
         entity.isAiDisabled = true
-        (entity as MobEntityBossAccessor).`mcendgame$setDungeonBoss`()
+
+        val accessor = entity as MobEntityBossAccessor
+        accessor.`mcendgame$setDungeonBoss`()
+        accessor.`mcendgame$setSpawnLocation`(location)
 
         return entity
     }

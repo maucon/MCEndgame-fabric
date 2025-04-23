@@ -1,6 +1,7 @@
 package de.fuballer.mcendgame.util
 
 import net.minecraft.util.math.BlockPos
+import net.minecraft.util.math.Vec3d
 import net.minecraft.util.math.Vec3i
 
 object Vec3iExtension {
@@ -24,6 +25,7 @@ object Vec3iExtension {
     }
 
     fun Vec3i.toBlockPos() = BlockPos(x, y, z)
+    fun Vec3i.toCenter() = Vec3d(x + 0.5, y.toDouble(), z + 0.5)
 
     fun Vec3i.max(other: Vec3i) = Vec3i(kotlin.math.max(x, other.x), kotlin.math.max(y, other.y), kotlin.math.max(z, other.z))
 }

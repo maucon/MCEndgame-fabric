@@ -13,6 +13,7 @@ object RuntimeConfig {
 
     @Initializer
     fun init() {
+        // let this method use the fabric callback instead of our event system, because fantasy needs to be initiated on server thread
         ServerLifecycleEvents.SERVER_STARTING.register { server ->
             this.SERVER = server
             this.FANTASY = Fantasy.get(server)

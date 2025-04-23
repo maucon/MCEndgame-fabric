@@ -9,7 +9,8 @@
     "LivingEntityWebbedMixin",
     "MobEntityBossMixin",
     "PlayerEntityDamageMixin",
-    "PlayerEntityMixin"
+    "PlayerEntityMixin",
+    "event.LivingEntityEventsMixin"
   ],
   "injectors": {
     "defaultRequire": 1

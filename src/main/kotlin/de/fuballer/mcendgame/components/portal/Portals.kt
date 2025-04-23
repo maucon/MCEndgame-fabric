@@ -31,19 +31,22 @@ object Portals {
 
     fun spawn(
         world: ServerWorld,
-        pos: BlockPos,
-        lookAt: Vec3d,
+        pos: Vec3d,
         teleportLocation: TeleportLocation,
+        lookAt: Vec3d = Vec3d.ZERO,
+        rotation: Float? = null,
+        singleUse: Boolean = false,
         type: PortalType = DefaultPortalType()
     ): PortalEntity {
-        val consumer = { entity: PortalEntity -> entity.dataTracker.set(PortalEntity.TYPE, type.getId()) }
-        val portal = ENTITY_TYPE.spawn(world, consumer, pos, SpawnReason.LOAD, false, false)!!
-
-        portal.type = type
-
-        portal.teleportLocation = teleportLocation
-        portal.lookAt(EntityAnchorArgumentType.EntityAnchor.FEET, lookAt)
-
-        return portal
+        val consumer = { entity: PortalEntity ->
+            entity.dataTracker.set(PortalEntity.TYPE, type.getId())
+            entity.setPosition(pos)
+            entity.lookAt(EntityAnchorArgumentType.EntityAnchor.FEET, lookAt)
+            rotation?.let { entity.rotate(it, 0f) }
+            entity.singleUse = singleUse
+            entity.type = type
+            entity.teleportLocation = teleportLocation
+        }
+        return ENTITY_TYPE.spawn(world, consumer, BlockPos.ofFloored(pos.x, pos.y, pos.z), SpawnReason.LOAD, false, false)!!
     }
 }
