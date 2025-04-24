@@ -2,12 +2,16 @@ package de.fuballer.mcendgame.components.entity.custom.util
 
 import net.minecraft.entity.LivingEntity
 import net.minecraft.entity.attribute.EntityAttributes
+import net.minecraft.particle.ParticleTypes
+import net.minecraft.particle.SimpleParticleType
 import net.minecraft.server.world.ServerWorld
+import net.minecraft.sound.SoundCategory
+import net.minecraft.sound.SoundEvent
+import net.minecraft.sound.SoundEvents
 import net.minecraft.util.math.Box
 import net.minecraft.util.math.Vec3d
-import kotlin.math.abs
-import kotlin.math.max
-import kotlin.math.sqrt
+import kotlin.math.*
+import kotlin.random.Random
 
 class HorizontalRotationRelativeBoxAreaAttack(
     private val forwardRange: Double, // only forward
@@ -16,9 +20,21 @@ class HorizontalRotationRelativeBoxAreaAttack(
     private val forwardOffset: Double = 0.0, // positive -> forward
     private val sideOffset: Double = 0.0, // positive -> right
     private val heightOffset: Double = 0.0, // positive -> up
-    private val applyScale: Boolean = true,
     private val knockbackType: KnockbackType = KnockbackType.DAMAGER_CENTER,
+    private val applyScale: Boolean = true,
 ) {
+    private var createParticles: Boolean = false
+    private var particleCount: Int = 0
+    private var particleHeightOffset: Double = 0.0
+    private var particleType: SimpleParticleType = ParticleTypes.CRIT
+    private var particleSpeed: Double = 0.0
+
+    private var playSound: Boolean = false
+    private var soundRequiresHit: Boolean = true
+    private var sound: SoundEvent = SoundEvents.ENTITY_GENERIC_EXPLODE.value()
+    private var pitch: Float = 1F
+    private var volume: Float = 1F
+
     enum class KnockbackType {
         FACING,
         DAMAGER_CENTER,
@@ -38,7 +54,15 @@ class HorizontalRotationRelativeBoxAreaAttack(
                     || isInAttackArea(it.pos.add(0.0, it.height.toDouble(), 0.0).subtract(damager.pos), forward, sideways, scale)
         }
 
-        dealDamage(world, targets, damager, damage, knockback, scale, forward, sideways)
+        val slamCenter = getAttackBoxCenter(damager, scale, forward, sideways)
+
+        dealDamage(world, targets, damager, damage, knockback, scale, forward, slamCenter)
+
+        if (createParticles) createParticles(world, slamCenter, forward, sideways, scale)
+
+        if (!playSound) return
+        if (soundRequiresHit && targets.isEmpty()) return
+        playSound(world, slamCenter, scale)
     }
 
     private fun getTargets(
@@ -105,12 +129,12 @@ class HorizontalRotationRelativeBoxAreaAttack(
         knockback: Double,
         scale: Double,
         forward: Vec3d,
-        sideways: Vec3d
+        slamCenter: Vec3d,
     ) {
         val damageSource = damager.damageSources.mobAttack(damager)
         targets.forEach {
             it.damage(world, damageSource, damage)
-            applyKnockback(it, damager, knockback, scale, forward, sideways)
+            applyKnockback(it, damager, knockback, scale, forward, slamCenter)
         }
     }
 
@@ -120,7 +144,7 @@ class HorizontalRotationRelativeBoxAreaAttack(
         knockback: Double,
         scale: Double,
         forward: Vec3d,
-        sideways: Vec3d,
+        slamCenter: Vec3d,
     ) {
         val knockBackStrength = knockback * if (applyScale) scale else 1.0
         target.velocityModified = true
@@ -129,8 +153,7 @@ class HorizontalRotationRelativeBoxAreaAttack(
             KnockbackType.FACING -> target.takeKnockback(knockBackStrength, -forward.x, -forward.z)
 
             KnockbackType.BOX_CENTER -> {
-                val knockbackCenter = getAttackBoxCenter(damager, scale, forward, sideways)
-                val knockbackDirection = target.pos.subtract(knockbackCenter).normalize()
+                val knockbackDirection = target.pos.subtract(slamCenter).normalize()
                 target.takeKnockback(knockBackStrength, -knockbackDirection.x, -knockbackDirection.z)
             }
 
@@ -156,5 +179,79 @@ class HorizontalRotationRelativeBoxAreaAttack(
         center = center.add(sideways.multiply(sidewaysCenter))
 
         return center
+    }
+
+    fun setParticles(
+        count: Int,
+        heightOffset: Double,
+        type: SimpleParticleType,
+        speed: Double,
+    ): HorizontalRotationRelativeBoxAreaAttack {
+        createParticles = true
+        particleCount = count
+        particleHeightOffset = heightOffset
+        particleType = type
+        particleSpeed = speed
+
+        return this
+    }
+
+    private fun createParticles(
+        world: ServerWorld,
+        slamCenter: Vec3d,
+        forward: Vec3d,
+        sideways: Vec3d,
+        scale: Double,
+    ) {
+        val scaledParticleCount = (particleCount * scale).toInt()
+        for (i in 0 until scaledParticleCount) createParticle(world, slamCenter, forward, sideways, scale)
+    }
+
+    private fun createParticle(
+        world: ServerWorld,
+        slamCenter: Vec3d,
+        forward: Vec3d,
+        sideways: Vec3d,
+        scale: Double,
+    ) {
+        val forwardRandomOffset = (forwardRange / 2 * Random.nextDouble().pow(2) * if (Random.nextBoolean()) 1 else -1) * scale
+        val sidewaysRandomOffset = (sideRange * Random.nextDouble().pow(2) * if (Random.nextBoolean()) 1 else -1) * scale
+
+        val particlePos = slamCenter.add(forward.multiply(forwardRandomOffset)).add(sideways.multiply(sidewaysRandomOffset))
+        world.spawnParticles(particleType, particlePos.x, particlePos.y + particleHeightOffset, particlePos.z, 1, 0.0, 0.0, 0.0, particleSpeed)
+    }
+
+    fun setSound(
+        requiresHit: Boolean,
+        sound: SoundEvent,
+        pitch: Float,
+        volume: Float,
+    ): HorizontalRotationRelativeBoxAreaAttack {
+        playSound = true
+        soundRequiresHit = requiresHit
+        this.sound = sound
+        this.pitch = pitch
+        this.volume = volume
+
+        return this
+    }
+
+    private fun playSound(
+        world: ServerWorld,
+        slamCenter: Vec3d,
+        scale: Double,
+    ) {
+        val scaledVolume = min(volume * scale.toFloat(), 2F)
+
+        world.playSound(
+            null,
+            slamCenter.x,
+            slamCenter.y,
+            slamCenter.z,
+            sound,
+            SoundCategory.HOSTILE,
+            scaledVolume,
+            pitch
+        )
     }
 }

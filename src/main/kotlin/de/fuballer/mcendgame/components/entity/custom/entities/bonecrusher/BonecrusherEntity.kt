@@ -21,6 +21,8 @@ import net.minecraft.entity.data.TrackedDataHandlerRegistry
 import net.minecraft.entity.mob.PathAwareEntity
 import net.minecraft.entity.passive.VillagerEntity
 import net.minecraft.entity.player.PlayerEntity
+import net.minecraft.particle.ParticleTypes
+import net.minecraft.sound.SoundEvents
 import net.minecraft.world.World
 import software.bernie.geckolib.animatable.GeoAnimatable
 import software.bernie.geckolib.animatable.GeoEntity
@@ -103,7 +105,8 @@ class BonecrusherEntity(
             HorizontalRotationRelativeBoxAreaAttack(
                 5.0, 2.5, 1.5, 1.0, 0.0, 0.5,
                 knockbackType = HorizontalRotationRelativeBoxAreaAttack.KnockbackType.BOX_CENTER
-            )
+            ).setParticles(100, 0.1, ParticleTypes.CRIT, 0.5)
+                .setSound(false, SoundEvents.ENTITY_GENERIC_EXPLODE.value(), 1F, 1F)
 
         val SPIN_AREA_ATTACK_FRONT = HorizontalRotationRelativeBoxAreaAttack(
             4.0, 3.0, 1.0, 0.0, 0.0, 0.5,
