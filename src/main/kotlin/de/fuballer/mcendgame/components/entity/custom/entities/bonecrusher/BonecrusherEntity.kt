@@ -105,7 +105,7 @@ class BonecrusherEntity(
             HorizontalRotationRelativeBoxAreaAttack(
                 5.0, 2.5, 1.5, 1.0, 0.0, 0.5,
                 knockbackType = HorizontalRotationRelativeBoxAreaAttack.KnockbackType.BOX_CENTER
-            ).setParticles(100, 0.1, ParticleTypes.CRIT, 0.5)
+            ).setParticles(100, 0.25, ParticleTypes.CRIT, 0.5)
                 .setSound(false, SoundEvents.ENTITY_GENERIC_EXPLODE.value(), 1F, 1F)
 
         val SPIN_AREA_ATTACK_FRONT = HorizontalRotationRelativeBoxAreaAttack(
