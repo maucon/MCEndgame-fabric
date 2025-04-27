@@ -4,7 +4,7 @@ import de.fuballer.client.mcendgame.components.entity.custom.entities.arachne.Ar
 import de.fuballer.client.mcendgame.components.entity.custom.entities.arachne.ArachneRenderer
 import de.fuballer.client.mcendgame.components.entity.custom.entities.bonecrusher.BonecrusherRenderState
 import de.fuballer.client.mcendgame.components.entity.custom.entities.bonecrusher.BonecrusherRenderer
-import de.fuballer.client.mcendgame.components.entity.custom.entities.elf_duelist.ElfDuelistEntityModel
+import de.fuballer.client.mcendgame.components.entity.custom.entities.elf_duelist.ElfDuelistRenderState
 import de.fuballer.client.mcendgame.components.entity.custom.entities.elf_duelist.ElfDuelistRenderer
 import de.fuballer.client.mcendgame.components.entity.custom.entities.portal.PortalRenderer
 import de.fuballer.client.mcendgame.components.entity.custom.entities.portal.type.default_.DefaultPortalEntityModel
@@ -32,12 +32,6 @@ object EntityModelRegisterer {
         EntityRendererRegistry.register(CustomEntities.SWAMP_GOLEM, ::SwampGolemRenderer)
 
         EntityModelLayerRegistry.registerModelLayer(
-            ElfDuelistEntityModel.ELF_DUELIST,
-            ElfDuelistEntityModel::getTexturedModelData
-        )
-        EntityRendererRegistry.register(CustomEntities.ELF_DUELIST, ::ElfDuelistRenderer)
-
-        EntityModelLayerRegistry.registerModelLayer(
             ArachneEntityModel.ARACHNE,
             ArachneEntityModel::getTexturedModelData
         )
@@ -52,6 +46,7 @@ object EntityModelRegisterer {
         EntityRendererRegistry.register(CustomEntities.WEBHOOK, ::WebhookRenderer)
 
         EntityRendererRegistry.register(CustomEntities.BONECRUSHER) { state -> BonecrusherRenderer<BonecrusherRenderState>(state) }
+        EntityRendererRegistry.register(CustomEntities.ELF_DUELIST) { state -> ElfDuelistRenderer<ElfDuelistRenderState>(state) }
 
         // portal
         EntityModelLayerRegistry.registerModelLayer(

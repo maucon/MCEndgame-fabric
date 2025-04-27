@@ -18,6 +18,7 @@ import net.minecraft.entity.attribute.EntityAttributes
 import net.minecraft.entity.data.DataTracker
 import net.minecraft.entity.data.TrackedData
 import net.minecraft.entity.data.TrackedDataHandlerRegistry
+import net.minecraft.entity.mob.Monster
 import net.minecraft.entity.mob.PathAwareEntity
 import net.minecraft.entity.passive.VillagerEntity
 import net.minecraft.entity.player.PlayerEntity
@@ -37,7 +38,7 @@ import software.bernie.geckolib.util.GeckoLibUtil
 class BonecrusherEntity(
     type: EntityType<out BonecrusherEntity>,
     world: World,
-) : PathAwareEntity(type, world), GeoEntity, MeleeAttackMob, DisableAbleGoalsMob {
+) : PathAwareEntity(type, world), GeoEntity, MeleeAttackMob, DisableAbleGoalsMob, Monster {
     private val cache: AnimatableInstanceCache = GeckoLibUtil.createInstanceCache(this)
 
     private var attackCooldown = 0

@@ -22,15 +22,6 @@ object CustomEntities {
             .vehicleAttachment(-0.7f)
             .maxTrackingRange(8)
     )
-    val ELF_DUELIST = RegistryUtil.registerEntity(
-        "elf_duelist",
-        EntityType.Builder.create({ type, world -> ElfDuelistEntity(type, world) }, SpawnGroup.MONSTER)
-            .dimensions(0.45f, 1.99f)
-            .eyeHeight(1.8f)
-            .passengerAttachments(1.8125f)
-            .vehicleAttachment(-0.7f)
-            .maxTrackingRange(8)
-    )
     val ARACHNE = RegistryUtil.registerEntity(
         "arachne",
         EntityType.Builder.create({ type, world -> ArachneEntity(type, world) }, SpawnGroup.MONSTER)
@@ -55,6 +46,13 @@ object CustomEntities {
         EntityType.Builder.create({ type, world -> BonecrusherEntity(type, world) }, SpawnGroup.MONSTER)
             .dimensions(0.7f, 2.99f)
             .eyeHeight(2.85f)
+            .maxTrackingRange(8)
+    )
+    val ELF_DUELIST = RegistryUtil.registerEntity(
+        "elf_duelist",
+        EntityType.Builder.create({ type, world -> ElfDuelistEntity(type, world) }, SpawnGroup.MONSTER)
+            .dimensions(0.7f, 1.9f)
+            .eyeHeight(1.8f)
             .maxTrackingRange(8)
     )
 }
