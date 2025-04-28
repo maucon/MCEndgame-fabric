@@ -298,6 +298,110 @@
 					}
 				}
 			}
+		},
+		"attack.stab_left": {
+			"loop": "hold_on_last_frame",
+			"animation_length": 0.25,
+			"bones": {
+				"leftArm": {
+					"rotation": {
+						"0.0": {
+							"vector": [0, 0, 0]
+						},
+						"0.125": {
+							"vector": ["-12.5 - 15 * query.mcendgame_lean", "7 * query.mcendgame_lean", 0],
+							"easing": "easeInOutSine"
+						},
+						"0.25": {
+							"vector": ["-80 - 30 * query.mcendgame_lean", "7 + 15 * query.mcendgame_lean", -6],
+							"easing": "easeInOutSine"
+						}
+					}
+				},
+				"leftArmLower": {
+					"rotation": {
+						"0.0": {
+							"vector": [0, 0, 0]
+						},
+						"0.125": {
+							"vector": [-30, 0, 0],
+							"easing": "easeInOutSine"
+						},
+						"0.25": {
+							"vector": [0, 0, 0],
+							"easing": "easeInOutSine"
+						}
+					}
+				},
+				"leftSword": {
+					"rotation": {
+						"0.0": {
+							"vector": [0, 0, 0]
+						},
+						"0.125": {
+							"vector": [41.26, -0.32, -1.21],
+							"easing": "easeInOutSine"
+						},
+						"0.25": {
+							"vector": [82.51363, -0.64686, -2.41492],
+							"easing": "easeInOutSine"
+						}
+					}
+				}
+			}
+		},
+		"attack.stab_left_reset": {
+			"animation_length": 0.25,
+			"bones": {
+				"leftArm": {
+					"rotation": {
+						"0.0": {
+							"vector": ["-80 - 30 * query.mcendgame_lean", "7 + 15 * query.mcendgame_lean", -6],
+							"easing": "easeInOutSine"
+						},
+						"0.125": {
+							"vector": ["-12.5 - 15 * query.mcendgame_lean", "7 * query.mcendgame_lean", 0],
+							"easing": "easeInOutSine"
+						},
+						"0.25": {
+							"vector": [0, 0, 0],
+							"easing": "easeInOutSine"
+						}
+					}
+				},
+				"leftArmLower": {
+					"rotation": {
+						"0.0": {
+							"vector": [0, 0, 0],
+							"easing": "easeInOutSine"
+						},
+						"0.125": {
+							"vector": [-30, 0, 0],
+							"easing": "easeInOutSine"
+						},
+						"0.25": {
+							"vector": [0, 0, 0],
+							"easing": "easeInOutSine"
+						}
+					}
+				},
+				"leftSword": {
+					"rotation": {
+						"0.0": {
+							"vector": [82.51363, -0.64686, -2.41492],
+							"easing": "easeInOutSine"
+						},
+						"0.125": {
+							"vector": [41.26, -0.32, -1.21],
+							"easing": "easeInOutSine"
+						},
+						"0.25": {
+							"vector": [0, 0, 0],
+							"easing": "easeInOutSine"
+						}
+					}
+				}
+			}
 		}
 	},
 	"geckolib_format_version": 2
