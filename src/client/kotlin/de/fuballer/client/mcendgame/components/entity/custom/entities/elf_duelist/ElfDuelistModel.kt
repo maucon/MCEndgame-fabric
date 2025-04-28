@@ -22,9 +22,7 @@ class ElfDuelistModel : GeoModel<ElfDuelistEntity>() {
     override fun getAnimationResource(entity: ElfDuelistEntity) = ANIMATION_IDENTIFIER
 
     override fun setCustomAnimations(animationState: AnimationState<ElfDuelistEntity>) {
-        super.setCustomAnimations(animationState)
-
-        animationProcessor.getBone("head").let {
+        animationProcessor.getBone("head")?.let {
             var headPitch = animationState.getData(DataTickets.ENTITY_PITCH)
             if (headPitch != null) {
                 headPitch = Math.clamp(headPitch, -35F, 35F)

@@ -15,5 +15,8 @@ class EntityAnimationQueriesRegisterer {
 
         MolangQueries.setActorVariable<ElfDuelistEntity>("query.${MCEndgame.MOD_ID}_limb_swing_cycle")
         { actor -> actor.animatable.getLimbSwingCycle(actor.partialTick) }
+
+        MolangQueries.setActorVariable<ElfDuelistEntity>("query.${MCEndgame.MOD_ID}_lean")
+        { actor -> actor.animatable.getLean(actor.partialTick) }
     }
 }
