@@ -5,6 +5,7 @@ import de.fuballer.mcendgame.components.entity.custom.goals.*
 import de.fuballer.mcendgame.components.entity.custom.interfaces.CustomAttacksMob
 import de.fuballer.mcendgame.components.entity.custom.interfaces.DisableAbleGoalsMob
 import de.fuballer.mcendgame.components.entity.custom.util.BlockedMovementManager
+import de.fuballer.mcendgame.util.random.RandomOption
 import net.minecraft.entity.EntityType
 import net.minecraft.entity.ai.goal.ActiveTargetGoal
 import net.minecraft.entity.ai.goal.SwimGoal
@@ -46,6 +47,7 @@ class BonecrusherEntity(
             CustomAttackPose.DEFAULT,
             CustomAttackPose.DEFAULT,
             20,
+            0,
             3.0,
             Pair(4, HIT_ATTACK_DAMAGE),
             ATTACK_ANIM_CONTROLLER_ID,
@@ -62,7 +64,8 @@ class BonecrusherEntity(
             CustomAttackPose.DEFAULT,
             CustomAttackPose.DEFAULT,
             40,
-            3.0,
+            100,
+            4.0,
             Pair(17, SLAM_ATTACK_DAMAGE),
             ATTACK_ANIM_CONTROLLER_ID,
             SLAM_ID,
@@ -85,6 +88,7 @@ class BonecrusherEntity(
             CustomAttackPose.DEFAULT,
             CustomAttackPose.DEFAULT,
             50 + 13 * SPIN_ATTACK_ROTATIONS,
+            50 + 13 * SPIN_ATTACK_ROTATIONS + 200,
             3.0,
             getSpinAttackDamage(),
             SPIN_ANIM_CONTROLLER_ID,
@@ -118,11 +122,10 @@ class BonecrusherEntity(
         }
 
         private val ATTACKS = listOf(
-            HIT_ATTACK,
-            SLAM_ATTACK,
-            SPIN_ATTACK,
+            RandomOption(5, HIT_ATTACK),
+            RandomOption(2, SLAM_ATTACK),
+            RandomOption(1, SPIN_ATTACK),
         )
-        private val RESET_ATTACKS = listOf<CustomAttack>()
 
         fun createAttributes(): DefaultAttributeContainer.Builder {
             return createLivingAttributes()
@@ -160,7 +163,7 @@ class BonecrusherEntity(
     override var attackPose = CustomAttackPose.DEFAULT
     override var attackDuration = 0
     override val attacks = ATTACKS
-    override val resetAttacks = RESET_ATTACKS
+    override val attackCooldowns: MutableMap<CustomAttack, Int> = mutableMapOf()
     override val attackDamageInstances = mutableListOf<CustomAttackDamageInstance>()
 
     init {

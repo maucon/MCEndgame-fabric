@@ -7,6 +7,7 @@ import de.fuballer.mcendgame.components.entity.custom.attack.CustomBasicAttackDa
 import de.fuballer.mcendgame.components.entity.custom.goals.CustomAttacksGoal
 import de.fuballer.mcendgame.components.entity.custom.goals.StayInRangeGoal
 import de.fuballer.mcendgame.components.entity.custom.interfaces.CustomAttacksMob
+import de.fuballer.mcendgame.util.random.RandomOption
 import net.minecraft.entity.EntityType
 import net.minecraft.entity.ai.goal.*
 import net.minecraft.entity.attribute.DefaultAttributeContainer
@@ -37,24 +38,29 @@ class ElfDuelistEntity(
 
         private const val ATTACK_ANIM_CONTROLLER_ID = "Attack"
 
-        private val STAB_RIGHT_ANIM: RawAnimation = RawAnimation.begin().thenPlayAndHold("attack.stab_right")
-        private const val STAB_RIGHT_ID = "Stab Right"
-        private val STAB_RIGHT_RESET_ANIM: RawAnimation = RawAnimation.begin().thenPlayAndHold("attack.stab_right_reset")
-        private const val STAB_RIGHT_RESET_ID = "Stab Right Reset"
-        private val STAB_LEFT_ANIM: RawAnimation = RawAnimation.begin().thenPlayAndHold("attack.stab_left")
-        private const val STAB_LEFT_ID = "Stab Left"
-        private val STAB_LEFT_RESET_ANIM: RawAnimation = RawAnimation.begin().thenPlayAndHold("attack.stab_left_reset")
-        private const val STAB_LEFT_RESET_ID = "Stab Left Reset"
-
         private val STAB_ATTACK_DAMAGE = CustomBasicAttackDamage(1F, 1.0, 3.5)
 
+        private val STAB_RIGHT_ANIM: RawAnimation = RawAnimation.begin().thenPlayAndHold("attack.stab_right")
+        private const val STAB_RIGHT_ID = "Stab Right"
+        private val STAB_RIGHT_ATTACK = CustomAttack(CustomAttackPose.DEFAULT, CustomAttackPose.STAB_RIGHT, 5, 0, 3.0, Pair(4, STAB_ATTACK_DAMAGE), ATTACK_ANIM_CONTROLLER_ID, STAB_RIGHT_ID)
+
+        private val STAB_RIGHT_RESET_ANIM: RawAnimation = RawAnimation.begin().thenPlayAndHold("attack.stab_right_reset")
+        private const val STAB_RIGHT_RESET_ID = "Stab Right Reset"
+        private val STAB_RIGHT_RESET_ATTACK = CustomAttack(CustomAttackPose.STAB_RIGHT, CustomAttackPose.DEFAULT, 5, 0, -1.0, null, ATTACK_ANIM_CONTROLLER_ID, STAB_RIGHT_RESET_ID)
+
+        private val STAB_LEFT_ANIM: RawAnimation = RawAnimation.begin().thenPlayAndHold("attack.stab_left")
+        private const val STAB_LEFT_ID = "Stab Left"
+        private val STAB_LEFT_ATTACK = CustomAttack(CustomAttackPose.DEFAULT, CustomAttackPose.STAB_LEFT, 5, 0, 3.0, Pair(4, STAB_ATTACK_DAMAGE), ATTACK_ANIM_CONTROLLER_ID, STAB_LEFT_ID)
+
+        private val STAB_LEFT_RESET_ANIM: RawAnimation = RawAnimation.begin().thenPlayAndHold("attack.stab_left_reset")
+        private const val STAB_LEFT_RESET_ID = "Stab Left Reset"
+        private val STAB_LEFT_RESET_ATTACK = CustomAttack(CustomAttackPose.STAB_LEFT, CustomAttackPose.DEFAULT, 5, 0, -1.0, null, ATTACK_ANIM_CONTROLLER_ID, STAB_LEFT_RESET_ID)
+
         private val ATTACKS = listOf(
-            CustomAttack(CustomAttackPose.DEFAULT, CustomAttackPose.STAB_RIGHT, 5, 3.0, Pair(4, STAB_ATTACK_DAMAGE), ATTACK_ANIM_CONTROLLER_ID, STAB_RIGHT_ID),
-            CustomAttack(CustomAttackPose.DEFAULT, CustomAttackPose.STAB_LEFT, 5, 3.0, Pair(4, STAB_ATTACK_DAMAGE), ATTACK_ANIM_CONTROLLER_ID, STAB_LEFT_ID),
-        )
-        private val RESET_ATTACKS = listOf(
-            CustomAttack(CustomAttackPose.STAB_RIGHT, CustomAttackPose.DEFAULT, 5, -1.0, null, ATTACK_ANIM_CONTROLLER_ID, STAB_RIGHT_RESET_ID),
-            CustomAttack(CustomAttackPose.STAB_LEFT, CustomAttackPose.DEFAULT, 5, -1.0, null, ATTACK_ANIM_CONTROLLER_ID, STAB_LEFT_RESET_ID),
+            RandomOption(1, STAB_RIGHT_ATTACK),
+            RandomOption(1, STAB_RIGHT_RESET_ATTACK),
+            RandomOption(1, STAB_LEFT_ATTACK),
+            RandomOption(1, STAB_LEFT_RESET_ATTACK),
         )
 
         fun createAttributes(): DefaultAttributeContainer.Builder {
@@ -71,8 +77,8 @@ class ElfDuelistEntity(
 
     override var attackPose = CustomAttackPose.DEFAULT
     override var attackDuration = 0
-    override val attacks: List<CustomAttack> = ATTACKS
-    override val resetAttacks: List<CustomAttack> = RESET_ATTACKS
+    override val attacks = ATTACKS
+    override val attackCooldowns: MutableMap<CustomAttack, Int> = mutableMapOf()
     override val attackDamageInstances = mutableListOf<CustomAttackDamageInstance>()
 
     private val cache: AnimatableInstanceCache = GeckoLibUtil.createInstanceCache(this)

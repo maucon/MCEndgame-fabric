@@ -3,6 +3,8 @@ package de.fuballer.mcendgame.components.entity.custom.interfaces
 import de.fuballer.mcendgame.components.entity.custom.attack.CustomAttack
 import de.fuballer.mcendgame.components.entity.custom.attack.CustomAttackDamageInstance
 import de.fuballer.mcendgame.components.entity.custom.attack.CustomAttackPose
+import de.fuballer.mcendgame.util.random.RandomOption
+import de.fuballer.mcendgame.util.random.RandomUtil
 import net.minecraft.entity.mob.MobEntity
 import net.minecraft.server.world.ServerWorld
 import software.bernie.geckolib.animatable.GeoEntity
@@ -12,8 +14,9 @@ interface CustomAttacksMob<T> where T : MobEntity, T : GeoEntity {
     var attackPose: CustomAttackPose
     var attackDuration: Int
 
-    val attacks: List<CustomAttack>
-    val resetAttacks: List<CustomAttack>
+    val attacks: List<RandomOption<CustomAttack>>
+
+    val attackCooldowns: MutableMap<CustomAttack, Int>
 
     val attackDamageInstances: MutableList<CustomAttackDamageInstance>
 
@@ -21,6 +24,7 @@ interface CustomAttacksMob<T> where T : MobEntity, T : GeoEntity {
         world: ServerWorld,
         damager: T,
     ) {
+        tickCooldowns()
         tickAttackDamageInstances(world, damager)
 
         if (attackDuration > 0) {
@@ -44,6 +48,8 @@ interface CustomAttacksMob<T> where T : MobEntity, T : GeoEntity {
         attackDuration = attack.totalDuration
         attackPose = attack.endPose
 
+        attackCooldowns[attack] = attack.cooldown
+
         triggerAttackAnimation(damager, attack)
 
         val target = damager.target
@@ -61,6 +67,19 @@ interface CustomAttacksMob<T> where T : MobEntity, T : GeoEntity {
         attack: CustomAttack,
     ) {
         damager.triggerAnim(attack.animControllerName, attack.animName)
+    }
+
+    private fun tickCooldowns() {
+        val iterator = attackCooldowns.iterator()
+        while (iterator.hasNext()) {
+            val entry = iterator.next()
+            val decCD = entry.value - 1
+            if (decCD <= 0) {
+                iterator.remove()
+                continue
+            }
+            entry.setValue(decCD)
+        }
     }
 
     private fun tickAttackDamageInstances(
@@ -83,15 +102,19 @@ interface CustomAttacksMob<T> where T : MobEntity, T : GeoEntity {
 
         val squaredDistance = min(attacker.squaredDistanceTo(target), attacker.squaredDistanceTo(target.eyePos))
 
-        val possibleAttacks = attacks.filter { it.startPose == attackPose && (it.triggerRange < 0 || it.squaredTriggerRange >= squaredDistance) }
-        if (possibleAttacks.isNotEmpty()) return possibleAttacks.random()
-
-        return getResetAttack()
+        val possibleAttacks = attacks
+            .filter { it.option.startPose == attackPose }
+            .filter { (it.option.triggerRange < 0 || it.option.squaredTriggerRange >= squaredDistance) }
+            .filter { !attackCooldowns.containsKey(it.option) }
+        if (possibleAttacks.isNotEmpty()) return RandomUtil.pick(possibleAttacks).option
+        return null
     }
 
     private fun getResetAttack(): CustomAttack? {
-        val possibleAttacks = resetAttacks.filter { it.startPose == attackPose }
-        if (possibleAttacks.isNotEmpty()) return possibleAttacks.random()
+        val possibleAttacks = attacks
+            .filter { it.option.startPose == attackPose }
+            .filter { it.option.endPose == CustomAttackPose.DEFAULT }
+        if (possibleAttacks.isNotEmpty()) return RandomUtil.pick(possibleAttacks).option
         return null
     }
 }
