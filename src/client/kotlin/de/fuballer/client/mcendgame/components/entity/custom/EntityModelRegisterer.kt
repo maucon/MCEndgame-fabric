@@ -52,7 +52,7 @@ object EntityModelRegisterer {
             DefaultPortalEntityModel.PORTAL,
             DefaultPortalEntityModel::getTexturedModelData
         )
-         EntityModelLayerRegistry.registerModelLayer(
+        EntityModelLayerRegistry.registerModelLayer(
             LegacyPortalEntityModel.PORTAL,
             LegacyPortalEntityModel::getTexturedModelData
         )
