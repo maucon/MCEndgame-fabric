@@ -17,7 +17,7 @@ public abstract class ArmorFeatureRendererMixin<S extends BipedEntityRenderState
     /**
      * @author
      * @reason
-     */
+     *//*
     @Overwrite
     public void render(MatrixStack matrixStack, VertexConsumerProvider vertexConsumerProvider, int i, S bipedEntityRenderState, float f, float g) {
         var stateAccessor = (BipedEntityRenderStateAccessor) bipedEntityRenderState;
@@ -59,7 +59,7 @@ public abstract class ArmorFeatureRendererMixin<S extends BipedEntityRenderState
                 i,
                 invokeGetModel(bipedEntityRenderState, EquipmentSlot.HEAD)
         );
-    }
+    }*/
 
     @Invoker
     public abstract void invokeRenderArmor(

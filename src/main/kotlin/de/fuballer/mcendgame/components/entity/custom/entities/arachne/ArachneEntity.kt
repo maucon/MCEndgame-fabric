@@ -430,8 +430,7 @@ class ArachneEntity(
         val damageSource = damageSources.mobAttack(this)
         val damage = getAttributeValue(EntityAttributes.ATTACK_DAMAGE).toFloat()
         val knockBackDirection = getRotationVector(pitch, bodyYaw).horizontal.normalize()
-        val knockBackStrength =
-            getAttributeValue(EntityAttributes.ATTACK_KNOCKBACK) * getAttributeValue(EntityAttributes.SCALE)
+        val knockBackStrength = getAttributeValue(EntityAttributes.ATTACK_KNOCKBACK) * getAttributeValue(EntityAttributes.SCALE)
 
         targets.forEach {
             it.damage(serverWorld, damageSource, damage)
