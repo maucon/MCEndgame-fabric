@@ -8,7 +8,7 @@ import de.fuballer.client.mcendgame.components.entity.custom.entities.elf_duelis
 import de.fuballer.client.mcendgame.components.entity.custom.entities.elf_duelist.ElfDuelistRenderer
 import de.fuballer.client.mcendgame.components.entity.custom.entities.portal.PortalRenderer
 import de.fuballer.client.mcendgame.components.entity.custom.entities.portal.type.default_.DefaultPortalEntityModel
-import de.fuballer.client.mcendgame.components.entity.custom.entities.portal.type.test.TestPortalEntityModel
+import de.fuballer.client.mcendgame.components.entity.custom.entities.portal.type.legacy.LegacyPortalEntityModel
 import de.fuballer.client.mcendgame.components.entity.custom.entities.swamp_golem.SwampGolemEntityModel
 import de.fuballer.client.mcendgame.components.entity.custom.entities.swamp_golem.SwampGolemRenderer
 import de.fuballer.client.mcendgame.components.entity.custom.entities.webhook.WebhookRenderer
@@ -48,14 +48,13 @@ object EntityModelRegisterer {
         EntityRendererRegistry.register(CustomEntities.BONECRUSHER) { state -> BonecrusherRenderer<BonecrusherRenderState>(state) }
         EntityRendererRegistry.register(CustomEntities.ELF_DUELIST) { state -> ElfDuelistRenderer<ElfDuelistRenderState>(state) }
 
-        // portal
         EntityModelLayerRegistry.registerModelLayer(
             DefaultPortalEntityModel.PORTAL,
             DefaultPortalEntityModel::getTexturedModelData
         )
-        EntityModelLayerRegistry.registerModelLayer(
-            TestPortalEntityModel.PORTAL,
-            TestPortalEntityModel::getTexturedModelData
+         EntityModelLayerRegistry.registerModelLayer(
+            LegacyPortalEntityModel.PORTAL,
+            LegacyPortalEntityModel::getTexturedModelData
         )
         EntityRendererRegistry.register(Portals.ENTITY_TYPE, ::PortalRenderer)
     }

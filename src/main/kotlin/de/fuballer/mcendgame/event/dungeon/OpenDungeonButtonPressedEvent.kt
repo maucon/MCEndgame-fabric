@@ -1,13 +1,12 @@
-package de.fuballer.mcendgame.event
+package de.fuballer.mcendgame.event.dungeon
 
 import net.minecraft.block.entity.BlockEntity
 import net.minecraft.entity.player.PlayerEntity
 
-data class DungeonOpenEvent(
+/**
+ * only server-side
+ */
+data class OpenDungeonButtonPressedEvent(
     val blockEntity: BlockEntity,
     val player: PlayerEntity,
-) {
-    companion object {
-        val NOTIFIER = Notifier<DungeonOpenEvent>()
-    }
-}
+)

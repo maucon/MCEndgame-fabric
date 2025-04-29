@@ -4,7 +4,7 @@ import de.fuballer.mcendgame.components.portal.PortalEntity
 import net.minecraft.entity.AnimationState
 
 private val PORTAL_TYPES = mapOf(
-    TestPortalType.ID to { TestPortalType() }
+    LegacyPortalType.ID to { LegacyPortalType() }
 )
 
 abstract class PortalType {
