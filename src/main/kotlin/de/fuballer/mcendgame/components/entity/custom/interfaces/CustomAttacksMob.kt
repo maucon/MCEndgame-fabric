@@ -1,8 +1,8 @@
 package de.fuballer.mcendgame.components.entity.custom.interfaces
 
-import de.fuballer.mcendgame.components.entity.custom.util.AttackDamageInstance
-import de.fuballer.mcendgame.components.entity.custom.util.CustomAttack
-import de.fuballer.mcendgame.components.entity.custom.util.CustomAttackPose
+import de.fuballer.mcendgame.components.entity.custom.attack.CustomAttackDamageInstance
+import de.fuballer.mcendgame.components.entity.custom.attack.CustomAttack
+import de.fuballer.mcendgame.components.entity.custom.attack.CustomAttackPose
 import net.minecraft.entity.attribute.EntityAttributes
 import net.minecraft.entity.mob.MobEntity
 import net.minecraft.server.world.ServerWorld
@@ -16,7 +16,7 @@ interface CustomAttacksMob<T> where T : MobEntity, T : GeoEntity {
     val attacks: List<CustomAttack>
     val resetAttacks: List<CustomAttack>
 
-    val attackDamageInstances: MutableList<AttackDamageInstance>
+    val attackDamageInstances: MutableList<CustomAttackDamageInstance>
 
     fun tickAttacks(
         world: ServerWorld,
@@ -50,10 +50,8 @@ interface CustomAttacksMob<T> where T : MobEntity, T : GeoEntity {
         if (attack.damageDelay < 0) return
 
         val existingTarget = damager.target ?: return
-        val damage = damager.getAttributeValue(EntityAttributes.ATTACK_DAMAGE).toFloat() * attack.damageFactor
-        val knockback = damager.getAttributeValue(EntityAttributes.ATTACK_KNOCKBACK) * attack.knockbackFactor
 
-        val damageInstance = AttackDamageInstance(attack.damageDelay, existingTarget, attack.squaredHitRange, damage, knockback)
+        val damageInstance = CustomAttackDamageInstance(attack.damageDelay, existingTarget, attack)
         attackDamageInstances.add(damageInstance)
     }
 
@@ -68,7 +66,7 @@ interface CustomAttacksMob<T> where T : MobEntity, T : GeoEntity {
         world: ServerWorld,
         damager: MobEntity,
     ) {
-        val toRemove = mutableListOf<AttackDamageInstance>()
+        val toRemove = mutableListOf<CustomAttackDamageInstance>()
         for (attack in attackDamageInstances) {
             if (!attack.tick()) continue
             attack.apply(world, damager)

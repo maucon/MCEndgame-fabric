@@ -1,6 +1,5 @@
-package de.fuballer.mcendgame.components.entity.custom.entities.elf_duelist
+package de.fuballer.mcendgame.components.entity.custom.goals
 
-import de.fuballer.mcendgame.components.entity.custom.goals.DisableAbleGoal
 import de.fuballer.mcendgame.components.entity.custom.interfaces.CustomAttacksMob
 import net.minecraft.entity.mob.MobEntity
 import software.bernie.geckolib.animatable.GeoEntity

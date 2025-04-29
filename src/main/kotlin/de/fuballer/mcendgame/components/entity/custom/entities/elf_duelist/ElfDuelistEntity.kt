@@ -1,10 +1,12 @@
 package de.fuballer.mcendgame.components.entity.custom.entities.elf_duelist
 
+import de.fuballer.mcendgame.components.entity.custom.attack.CustomAttack
+import de.fuballer.mcendgame.components.entity.custom.attack.CustomAttackDamageInstance
+import de.fuballer.mcendgame.components.entity.custom.attack.CustomAttackPose
+import de.fuballer.mcendgame.components.entity.custom.attack.CustomBasicAttack
+import de.fuballer.mcendgame.components.entity.custom.goals.CustomAttacksGoal
 import de.fuballer.mcendgame.components.entity.custom.goals.StayInRangeGoal
 import de.fuballer.mcendgame.components.entity.custom.interfaces.CustomAttacksMob
-import de.fuballer.mcendgame.components.entity.custom.util.AttackDamageInstance
-import de.fuballer.mcendgame.components.entity.custom.util.CustomAttackPose
-import de.fuballer.mcendgame.components.entity.custom.util.CustomAttack
 import net.minecraft.entity.EntityType
 import net.minecraft.entity.ai.goal.*
 import net.minecraft.entity.attribute.DefaultAttributeContainer
@@ -45,12 +47,12 @@ class ElfDuelistEntity(
         private const val STAB_LEFT_RESET_ID = "Stab Left Reset"
 
         private val ATTACKS = listOf(
-            CustomAttack(CustomAttackPose.DEFAULT, CustomAttackPose.STAB_RIGHT, 4, 5, 3.0, 1F, 1.0, ATTACK_ANIM_CONTROLLER_ID, STAB_RIGHT_ID),
-            CustomAttack(CustomAttackPose.DEFAULT, CustomAttackPose.STAB_LEFT, 4, 5, 3.0, 1F, 1.0, ATTACK_ANIM_CONTROLLER_ID, STAB_LEFT_ID),
+            CustomBasicAttack(CustomAttackPose.DEFAULT, CustomAttackPose.STAB_RIGHT, 4, 5, 3.0, 1F, 1.0, ATTACK_ANIM_CONTROLLER_ID, STAB_RIGHT_ID),
+            CustomBasicAttack(CustomAttackPose.DEFAULT, CustomAttackPose.STAB_LEFT, 4, 5, 3.0, 1F, 1.0, ATTACK_ANIM_CONTROLLER_ID, STAB_LEFT_ID),
         )
         private val RESET_ATTACKS = listOf(
-            CustomAttack(CustomAttackPose.STAB_RIGHT, CustomAttackPose.DEFAULT, -1, 5, -1.0, 0F, 1.0, ATTACK_ANIM_CONTROLLER_ID, STAB_RIGHT_RESET_ID),
-            CustomAttack(CustomAttackPose.STAB_LEFT, CustomAttackPose.DEFAULT, -1, 5, -1.0, 0F, 1.0, ATTACK_ANIM_CONTROLLER_ID, STAB_LEFT_RESET_ID),
+            CustomBasicAttack(CustomAttackPose.STAB_RIGHT, CustomAttackPose.DEFAULT, -1, 5, -1.0, 0F, 1.0, ATTACK_ANIM_CONTROLLER_ID, STAB_RIGHT_RESET_ID),
+            CustomBasicAttack(CustomAttackPose.STAB_LEFT, CustomAttackPose.DEFAULT, -1, 5, -1.0, 0F, 1.0, ATTACK_ANIM_CONTROLLER_ID, STAB_LEFT_RESET_ID),
         )
 
         fun createAttributes(): DefaultAttributeContainer.Builder {
@@ -69,7 +71,7 @@ class ElfDuelistEntity(
     override var attackDuration = 0
     override val attacks: List<CustomAttack> = ATTACKS
     override val resetAttacks: List<CustomAttack> = RESET_ATTACKS
-    override val attackDamageInstances = mutableListOf<AttackDamageInstance>()
+    override val attackDamageInstances = mutableListOf<CustomAttackDamageInstance>()
 
     private val cache: AnimatableInstanceCache = GeckoLibUtil.createInstanceCache(this)
     override fun getAnimatableInstanceCache() = cache

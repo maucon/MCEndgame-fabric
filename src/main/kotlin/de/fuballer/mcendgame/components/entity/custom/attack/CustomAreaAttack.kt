@@ -1,7 +1,8 @@
-package de.fuballer.mcendgame.components.entity.custom.util
+package de.fuballer.mcendgame.components.entity.custom.attack
 
 import net.minecraft.entity.LivingEntity
 import net.minecraft.entity.attribute.EntityAttributes
+import net.minecraft.entity.mob.MobEntity
 import net.minecraft.particle.ParticleTypes
 import net.minecraft.particle.SimpleParticleType
 import net.minecraft.server.world.ServerWorld
@@ -13,16 +14,20 @@ import net.minecraft.util.math.Vec3d
 import kotlin.math.*
 import kotlin.random.Random
 
-class HorizontalRotationRelativeBoxAreaAttack(
-    private val forwardRange: Double, // only forward
-    private val sideRange: Double, // left & right -> 2* sideRange
-    private val heightRange: Double, // up & down -> 2* heightRange
-    private val forwardOffset: Double = 0.0, // positive -> forward
-    private val sideOffset: Double = 0.0, // positive -> right
-    private val heightOffset: Double = 0.0, // positive -> up
-    private val knockbackType: KnockbackType = KnockbackType.DAMAGER_CENTER,
+class CustomAreaAttack(
+    startPose: CustomAttackPose,
+    endPose: CustomAttackPose,
+    damageDelay: Int,
+    totalDuration: Int,
+    hitRange: Double,
+    damageFactor: Float,
+    knockbackFactor: Double,
+    animControllerName: String,
+    animName: String,
+    private val area: DamageArea,
     private val applyScale: Boolean = true,
-) {
+    private val knockbackType: KnockbackType = KnockbackType.DAMAGER_CENTER,
+) : CustomAttack(startPose, endPose, damageDelay, totalDuration, hitRange, damageFactor, knockbackFactor, animControllerName, animName) {
     private var createParticles: Boolean = false
     private var particleCount: Int = 0
     private var particleHeightOffset: Double = 0.0
@@ -35,28 +40,20 @@ class HorizontalRotationRelativeBoxAreaAttack(
     private var pitch: Float = 1F
     private var volume: Float = 1F
 
-    enum class KnockbackType {
-        FACING,
-        DAMAGER_CENTER,
-        BOX_CENTER,
-    }
-
-    fun dealDamage(damager: LivingEntity, damage: Float, knockback: Double) {
-        val world = damager.world as? ServerWorld ?: return
-
+    override fun apply(world: ServerWorld, damager: MobEntity, target: LivingEntity) {
         val forward = damager.getRotationVector(damager.pitch, damager.bodyYaw).horizontal.normalize()
         val sideways = forward.crossProduct(Vec3d(0.0, 1.0, 0.0))
 
-        val scale = if (applyScale) damager.getAttributeValue(EntityAttributes.SCALE) else 1.0
+        val scale = getScale(damager)
 
         val targets = getTargets(world, damager, scale).filter {
-            isInAttackArea(it.pos.subtract(damager.pos), forward, sideways, scale)
-                    || isInAttackArea(it.pos.add(0.0, it.height.toDouble(), 0.0).subtract(damager.pos), forward, sideways, scale)
+            area.contains(it.pos.subtract(damager.pos), forward, sideways, scale)
+                    || area.contains(it.pos.add(0.0, it.height.toDouble(), 0.0).subtract(damager.pos), forward, sideways, scale)
         }
 
-        val slamCenter = getAttackBoxCenter(damager, scale, forward, sideways)
+        val slamCenter = area.getCenter(damager, scale, forward, sideways)
 
-        dealDamage(world, targets, damager, damage, knockback, scale, forward, slamCenter)
+        dealDamage(world, targets, damager, scale, forward, slamCenter)
 
         if (createParticles) createParticles(world, slamCenter, forward, sideways, scale)
 
@@ -65,73 +62,28 @@ class HorizontalRotationRelativeBoxAreaAttack(
         playSound(world, slamCenter, scale)
     }
 
+    private fun getScale(damager: MobEntity) = if (applyScale) damager.getAttributeValue(EntityAttributes.SCALE) else 1.0
+
     private fun getTargets(
         world: ServerWorld,
         damager: LivingEntity,
         scale: Double,
     ): List<LivingEntity> {
-        val box = getBoundingBox(damager, scale)
-        println(box)
+        val box = area.getAxisAlignedBox(damager, scale)
         return world.getEntitiesByClass(LivingEntity::class.java, box) { it != damager }
-    }
-
-    // returns a Box for all possible targets in range without testing for direction
-    private fun getBoundingBox(
-        damager: LivingEntity,
-        scale: Double,
-    ): Box {
-        val hD = getMaxHorizontalDistance(scale)
-        val x = damager.x
-        val y = damager.y + heightOffset
-        val z = damager.z
-        return Box(x - hD, y - heightRange - 3, z - hD, x + hD, y + heightRange, z + hD) // -3 accounts for height of most mobs
-    }
-
-    private fun getMaxHorizontalDistance(scale: Double): Double {
-        val maxForward = max(forwardRange + forwardOffset, -forwardOffset)
-        val maxSideways = sideRange + abs(sideOffset)
-        val distance = sqrt(maxForward * maxForward + maxSideways * maxSideways)
-        return distance * if (applyScale) scale else 1.0
-    }
-
-    private fun isInAttackArea(
-        relativePos: Vec3d,
-        forward: Vec3d,
-        sideways: Vec3d,
-        scale: Double,
-    ): Boolean {
-        val forwardDistance = relativePos.dotProduct(forward)
-        val sidewaysDistance = relativePos.dotProduct(sideways)
-        val heightDistance = relativePos.y
-
-        val scaleFactor = if (applyScale) scale else 1.0
-
-        val maxForward = (forwardRange + forwardOffset) * scaleFactor
-        val minForward = (forwardOffset) * scaleFactor
-        if (forwardDistance > maxForward || forwardDistance < minForward) return false
-
-        val maxSide = (sideRange + sideOffset) * scaleFactor
-        val minSide = (-sideRange + sideOffset) * scaleFactor
-        if (sidewaysDistance > maxSide || sidewaysDistance < minSide) return false
-
-        val maxHeight = (heightRange + heightOffset) * scaleFactor
-        val minHeight = (-heightRange + heightOffset) * scaleFactor
-        if (heightDistance > maxHeight || heightDistance < minHeight) return false
-
-        return true
     }
 
     private fun dealDamage(
         world: ServerWorld,
         targets: List<LivingEntity>,
-        damager: LivingEntity,
-        damage: Float,
-        knockback: Double,
+        damager: MobEntity,
         scale: Double,
         forward: Vec3d,
         slamCenter: Vec3d,
     ) {
         val damageSource = damager.damageSources.mobAttack(damager)
+        val damage = getDamage(damager)
+        val knockback = getKnockback(damager)
         targets.forEach {
             it.damage(world, damageSource, damage)
             applyKnockback(it, damager, knockback, scale, forward, slamCenter)
@@ -152,7 +104,7 @@ class HorizontalRotationRelativeBoxAreaAttack(
         when (knockbackType) {
             KnockbackType.FACING -> target.takeKnockback(knockBackStrength, -forward.x, -forward.z)
 
-            KnockbackType.BOX_CENTER -> {
+            KnockbackType.AREA_CENTER -> {
                 val knockbackDirection = target.pos.subtract(slamCenter).normalize()
                 target.takeKnockback(knockBackStrength, -knockbackDirection.x, -knockbackDirection.z)
             }
@@ -164,29 +116,12 @@ class HorizontalRotationRelativeBoxAreaAttack(
         }
     }
 
-    private fun getAttackBoxCenter(
-        damager: LivingEntity,
-        scale: Double,
-        forward: Vec3d,
-        sideways: Vec3d,
-    ): Vec3d {
-        var center = damager.pos
-
-        val forwardCenter = (forwardOffset + forwardRange / 2) * scale
-        center = center.add(forward.multiply(forwardCenter))
-
-        val sidewaysCenter = sideOffset * scale
-        center = center.add(sideways.multiply(sidewaysCenter))
-
-        return center
-    }
-
     fun setParticles(
         count: Int,
         heightOffset: Double,
         type: SimpleParticleType,
         speed: Double,
-    ): HorizontalRotationRelativeBoxAreaAttack {
+    ): CustomAreaAttack {
         createParticles = true
         particleCount = count
         particleHeightOffset = heightOffset
@@ -214,8 +149,8 @@ class HorizontalRotationRelativeBoxAreaAttack(
         sideways: Vec3d,
         scale: Double,
     ) {
-        val forwardRandomOffset = (forwardRange / 2 * Random.nextDouble().pow(2) * if (Random.nextBoolean()) 1 else -1) * scale
-        val sidewaysRandomOffset = (sideRange * Random.nextDouble().pow(2) * if (Random.nextBoolean()) 1 else -1) * scale
+        val forwardRandomOffset = area.getRandomForwardPos(scale)
+        val sidewaysRandomOffset = area.getRandomSidewaysPos(scale)
 
         val particlePos = slamCenter.add(forward.multiply(forwardRandomOffset)).add(sideways.multiply(sidewaysRandomOffset))
         world.spawnParticles(particleType, particlePos.x, particlePos.y + particleHeightOffset, particlePos.z, 1, 0.0, 0.0, 0.0, particleSpeed)
@@ -226,7 +161,7 @@ class HorizontalRotationRelativeBoxAreaAttack(
         sound: SoundEvent,
         pitch: Float,
         volume: Float,
-    ): HorizontalRotationRelativeBoxAreaAttack {
+    ): CustomAreaAttack {
         playSound = true
         soundRequiresHit = requiresHit
         this.sound = sound
@@ -253,5 +188,84 @@ class HorizontalRotationRelativeBoxAreaAttack(
             scaledVolume,
             pitch
         )
+    }
+
+    class DamageArea(
+        private val forwardRange: Double, // only forward
+        private val sideRange: Double, // left & right -> 2* sideRange
+        private val heightRange: Double, // up & down -> 2* heightRange
+        private val forwardOffset: Double = 0.0, // positive -> forward
+        private val sideOffset: Double = 0.0, // positive -> right
+        private val heightOffset: Double = 0.0, // positive -> up
+    ) {
+        fun contains(
+            relativePos: Vec3d,
+            forward: Vec3d,
+            sideways: Vec3d,
+            scale: Double,
+        ): Boolean {
+            val forwardDistance = relativePos.dotProduct(forward)
+            val sidewaysDistance = relativePos.dotProduct(sideways)
+            val heightDistance = relativePos.y
+
+            val maxForward = (forwardRange + forwardOffset) * scale
+            val minForward = (forwardOffset) * scale
+            if (forwardDistance > maxForward || forwardDistance < minForward) return false
+
+            val maxSide = (sideRange + sideOffset) * scale
+            val minSide = (-sideRange + sideOffset) * scale
+            if (sidewaysDistance > maxSide || sidewaysDistance < minSide) return false
+
+            val maxHeight = (heightRange + heightOffset) * scale
+            val minHeight = (-heightRange + heightOffset) * scale
+            if (heightDistance > maxHeight || heightDistance < minHeight) return false
+
+            return true
+        }
+
+        fun getCenter(
+            damager: LivingEntity,
+            scale: Double,
+            forward: Vec3d,
+            sideways: Vec3d,
+        ): Vec3d {
+            var center = damager.pos
+
+            val forwardCenter = (forwardOffset + forwardRange / 2) * scale
+            center = center.add(forward.multiply(forwardCenter))
+
+            val sidewaysCenter = sideOffset * scale
+            center = center.add(sideways.multiply(sidewaysCenter))
+
+            return center
+        }
+
+        fun getAxisAlignedBox(
+            damager: LivingEntity,
+            scale: Double,
+        ): Box {
+            val hD = getMaxHorizontalDistance(scale)
+            val x = damager.x
+            val y = damager.y + heightOffset
+            val z = damager.z
+            return Box(x - hD, y - heightRange - 3, z - hD, x + hD, y + heightRange, z + hD) // -3 accounts for height of most mobs
+        }
+
+        private fun getMaxHorizontalDistance(scale: Double): Double {
+            val maxForward = max(forwardRange + forwardOffset, -forwardOffset)
+            val maxSideways = sideRange + abs(sideOffset)
+            val distance = sqrt(maxForward * maxForward + maxSideways * maxSideways)
+            return distance * scale
+        }
+
+        fun getRandomForwardPos(scale: Double) = (forwardRange / 2 * Random.nextDouble().pow(2) * if (Random.nextBoolean()) 1 else -1) * scale
+        fun getRandomSidewaysPos(scale: Double) = (sideRange * Random.nextDouble().pow(2) * if (Random.nextBoolean()) 1 else -1) * scale
+
+    }
+
+    enum class KnockbackType {
+        FACING,
+        DAMAGER_CENTER,
+        AREA_CENTER,
     }
 }
