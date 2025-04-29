@@ -1,9 +1,8 @@
 package de.fuballer.mcendgame.components.entity.custom.interfaces
 
-import de.fuballer.mcendgame.components.entity.custom.attack.CustomAttackDamageInstance
 import de.fuballer.mcendgame.components.entity.custom.attack.CustomAttack
+import de.fuballer.mcendgame.components.entity.custom.attack.CustomAttackDamageInstance
 import de.fuballer.mcendgame.components.entity.custom.attack.CustomAttackPose
-import net.minecraft.entity.attribute.EntityAttributes
 import net.minecraft.entity.mob.MobEntity
 import net.minecraft.server.world.ServerWorld
 import software.bernie.geckolib.animatable.GeoEntity
@@ -45,7 +44,7 @@ interface CustomAttacksMob<T> where T : MobEntity, T : GeoEntity {
         attackDuration = attack.totalDuration
         attackPose = attack.endPose
 
-        triggerAnimation(damager, attack)
+        triggerAttackAnimation(damager, attack)
 
         if (attack.damageDelay < 0) return
 
@@ -55,7 +54,7 @@ interface CustomAttacksMob<T> where T : MobEntity, T : GeoEntity {
         attackDamageInstances.add(damageInstance)
     }
 
-    private fun triggerAnimation(
+    private fun triggerAttackAnimation(
         damager: T,
         attack: CustomAttack,
     ) {

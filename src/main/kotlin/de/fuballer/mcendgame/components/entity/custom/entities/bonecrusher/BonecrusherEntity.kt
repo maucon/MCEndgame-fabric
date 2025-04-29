@@ -13,9 +13,6 @@ import net.minecraft.entity.ai.goal.ActiveTargetGoal
 import net.minecraft.entity.ai.goal.SwimGoal
 import net.minecraft.entity.attribute.DefaultAttributeContainer
 import net.minecraft.entity.attribute.EntityAttributes
-import net.minecraft.entity.data.DataTracker
-import net.minecraft.entity.data.TrackedData
-import net.minecraft.entity.data.TrackedDataHandlerRegistry
 import net.minecraft.entity.mob.Monster
 import net.minecraft.entity.mob.PathAwareEntity
 import net.minecraft.entity.passive.VillagerEntity
@@ -39,27 +36,9 @@ class BonecrusherEntity(
     world: World,
 ) : PathAwareEntity(type, world), GeoEntity, DisableAbleGoalsMob, Monster, CustomAttacksMob<BonecrusherEntity> {
     companion object {
-        const val SPIN_ATTACK_DURATION = 100
+        const val SPIN_ATTACK_ROTATIONS = 3
 
         val WALK_ANIM: RawAnimation = RawAnimation.begin().thenLoop("movement.walk")
-
-        /*val SPIN_START_ANIM: RawAnimation = RawAnimation.begin().thenPlay("attack.spin.start")
-        val SPIN_ANIM: RawAnimation = RawAnimation.begin().thenPlay("attack.spin")
-        val SPIN_END_ANIM: RawAnimation = RawAnimation.begin().thenPlay("attack.spin.end")
-        */
-
-        private val IS_SPIN_ATTACKING = DataTracker.registerData(BonecrusherEntity::class.java, TrackedDataHandlerRegistry.BOOLEAN)
-
-        fun createAttributes(): DefaultAttributeContainer.Builder {
-            return createLivingAttributes()
-                .add(EntityAttributes.FOLLOW_RANGE, 35.0)
-                .add(EntityAttributes.MOVEMENT_SPEED, 0.2)
-                .add(EntityAttributes.ATTACK_DAMAGE, 7.0)
-                .add(EntityAttributes.ATTACK_KNOCKBACK, 2.0)
-                .add(EntityAttributes.ARMOR, 0.0)
-                .add(EntityAttributes.KNOCKBACK_RESISTANCE, 0.8)
-                .add(EntityAttributes.MOVEMENT_EFFICIENCY, 0.85)
-        }
 
         /*
         val SPIN_AREA_ATTACK_FRONT = CustomAreaAttack(
@@ -80,6 +59,7 @@ class BonecrusherEntity(
         )*/
 
         private const val ATTACK_ANIM_CONTROLLER_ID = "Attack"
+        private const val SPIN_ANIM_CONTROLLER_ID = "Spin"
 
         private val HIT_ANIM: RawAnimation = RawAnimation.begin().thenPlay("attack.hit")
         private const val HIT_ID = "Hit"
@@ -99,7 +79,7 @@ class BonecrusherEntity(
             CustomAreaAttack.KnockbackType.FACING
         )
 
-        val SLAM_ANIM: RawAnimation = RawAnimation.begin().thenPlay("attack.slam")
+        private val SLAM_ANIM: RawAnimation = RawAnimation.begin().thenPlay("attack.slam")
         private const val SLAM_ID = "Slam"
         private val SLAM_AREA = CustomAreaAttack.DamageArea(5.0, 2.5, 1.5, 1.0, 0.0, 0.5)
         private val SLAM_ATTACK = CustomAreaAttack(
@@ -107,7 +87,7 @@ class BonecrusherEntity(
             CustomAttackPose.DEFAULT,
             17,
             40,
-            4.0,
+            3.0,
             1.0F,
             1.0,
             ATTACK_ANIM_CONTROLLER_ID,
@@ -118,11 +98,43 @@ class BonecrusherEntity(
         ).setParticles(100, 0.25, ParticleTypes.CRIT, 0.5)
             .setSound(false, SoundEvents.ENTITY_GENERIC_EXPLODE.value(), 1F, 1F)
 
+        private val SPIN_START_ANIM: RawAnimation = RawAnimation.begin().thenPlay("attack.spin.start")
+        private val SPIN_ANIM: RawAnimation = RawAnimation.begin().thenPlay("attack.spin")
+        private val SPIN_END_ANIM: RawAnimation = RawAnimation.begin().thenPlay("attack.spin.end")
+        private const val SPIN_START_ID = "Start Spin"
+        private val SPIN_AREA_ATTACK_FRONT = CustomAreaAttack.DamageArea(4.0, 3.0, 1.0, 0.0, 0.0, 0.5)
+        private val SPIN_ATTACK = CustomAreaAttack(
+            CustomAttackPose.DEFAULT,
+            CustomAttackPose.DEFAULT,
+            16,
+            50 + 13 * SPIN_ATTACK_ROTATIONS,
+            3.0,
+            1F,
+            0.25,
+            SPIN_ANIM_CONTROLLER_ID,
+            SPIN_START_ID,
+            SPIN_AREA_ATTACK_FRONT,
+            true,
+            CustomAreaAttack.KnockbackType.DAMAGER_CENTER
+        )
+
         private val ATTACKS = listOf(
             HIT_ATTACK,
             SLAM_ATTACK,
+            SPIN_ATTACK,
         )
         private val RESET_ATTACKS = listOf<CustomBasicAttack>()
+
+        fun createAttributes(): DefaultAttributeContainer.Builder {
+            return createLivingAttributes()
+                .add(EntityAttributes.FOLLOW_RANGE, 35.0)
+                .add(EntityAttributes.MOVEMENT_SPEED, 0.2)
+                .add(EntityAttributes.ATTACK_DAMAGE, 7.0)
+                .add(EntityAttributes.ATTACK_KNOCKBACK, 2.0)
+                .add(EntityAttributes.ARMOR, 0.0)
+                .add(EntityAttributes.KNOCKBACK_RESISTANCE, 0.8)
+                .add(EntityAttributes.MOVEMENT_EFFICIENCY, 0.85)
+        }
     }
 
     private val cache: AnimatableInstanceCache = GeckoLibUtil.createInstanceCache(this)
@@ -130,7 +142,6 @@ class BonecrusherEntity(
 
     private val attackGoal = CustomAttacksGoal(this)
     private val stayInMeleeRangeGoal = StayInRangeGoal(this, 1.0, 2.5)
-
     private val wanderGoal = DisableAbleWanderAroundFarGoal(this, 1.0)
     private val lookAtPlayerGoal = DisableAbleLookAtEntityGoal(this, PlayerEntity::class.java, 8F)
     private val lookAroundGoal = DisableAbleLookAroundGoal(this)
@@ -145,23 +156,13 @@ class BonecrusherEntity(
     }
 
     private var spinAttackState = SpinAttackState.NONE
-    private var spinAttackDuration = 0
+    private var spinRotationCount = 0
 
     override var attackPose = CustomAttackPose.DEFAULT
     override var attackDuration = 0
     override val attacks = ATTACKS
     override val resetAttacks = RESET_ATTACKS
     override val attackDamageInstances = mutableListOf<CustomAttackDamageInstance>()
-
-    override fun initDataTracker(builder: DataTracker.Builder) {
-        super.initDataTracker(builder)
-        builder.add(IS_SPIN_ATTACKING, false)
-    }
-
-    override fun onTrackedDataSet(data: TrackedData<*>) {
-        if (data == IS_SPIN_ATTACKING) startSpinAttackAnimation()
-        super.onTrackedDataSet(data)
-    }
 
     init {
         initDynamicGoals()
@@ -193,28 +194,20 @@ class BonecrusherEntity(
 
     override fun tick() {
         super.tick()
-        tickSpinAttack()
         blockedMovementManager.tick()
 
         val world = world as? ServerWorld ?: return
         tickAttacks(world, this)
     }
 
-    private fun tickSpinAttack() {
-        if (world.isClient) return
-
-        if (spinAttackDuration == 0) return
-        if (--spinAttackDuration > 0) return
-        dataTracker.set(IS_SPIN_ATTACKING, false)
-    }
-
     override fun registerControllers(controllers: AnimatableManager.ControllerRegistrar) {
         controllers.add(
             AnimationController("Movement", 5, ::movementAnimationController),
-            AnimationController<GeoAnimatable>(ATTACK_ANIM_CONTROLLER_ID) { _ -> PlayState.STOP }
+            AnimationController<GeoAnimatable>(ATTACK_ANIM_CONTROLLER_ID, 0) { _ -> PlayState.STOP }
                 .triggerableAnim(HIT_ID, HIT_ANIM)
                 .triggerableAnim(SLAM_ID, SLAM_ANIM),
-            //AnimationController("Spin", 0, ::spinAnimationController)
+            AnimationController(SPIN_ANIM_CONTROLLER_ID, 0, ::spinAnimationController)
+                .triggerableAnim(SPIN_START_ID, SPIN_START_ANIM)
         )
     }
 
@@ -224,15 +217,14 @@ class BonecrusherEntity(
         return PlayState.STOP
     }
 
-    private fun startSpinAttackAnimation() {
-        if (!dataTracker.get(IS_SPIN_ATTACKING)) return
-        if (spinAttackState != SpinAttackState.NONE) return
-        spinAttackState = SpinAttackState.START
-    }
-
-    /*
     private fun spinAnimationController(animTest: AnimationTest<BonecrusherEntity>): PlayState {
         val controller = animTest.controller
+
+        if (controller.currentRawAnimation == SPIN_START_ANIM && spinAttackState == SpinAttackState.NONE) {
+            spinAttackState = SpinAttackState.START
+            controller.stopTriggeredAnimation()
+        }
+
         when (spinAttackState) {
             SpinAttackState.START -> {
                 if (controller.currentRawAnimation == SPIN_START_ANIM && controller.hasAnimationFinished()) {
@@ -244,7 +236,8 @@ class BonecrusherEntity(
 
             SpinAttackState.SPIN -> {
                 if (controller.hasAnimationFinished()) {
-                    if (!dataTracker.get(IS_SPIN_ATTACKING)) {
+                    if (++spinRotationCount >= SPIN_ATTACK_ROTATIONS) {
+                        spinRotationCount = 0
                         spinAttackState = SpinAttackState.END
                         return animTest.setAndContinue(SPIN_END_ANIM)
                     }
@@ -263,28 +256,5 @@ class BonecrusherEntity(
 
             else -> return PlayState.STOP
         }
-    }*/
-
-    /*
-    private fun startSpinAttack() {
-        spinAttackDuration = SPIN_ATTACK_DURATION
-        attackCooldown = SPIN_ATTACK_DURATION + 50
-        dataTracker.set(IS_SPIN_ATTACKING, true)
-
-        addSpinAttackDamage(16, ::dealSpinAttackDamageFront)
-        addSpinAttackDamage(19, ::dealSpinAttackDamageLeft)
-        addSpinAttackDamage(22, ::dealSpinAttackDamageBack)
-        addSpinAttackDamage(26, ::dealSpinAttackDamageRight)
     }
-
-    private fun addSpinAttackDamage(
-        delay: Int,
-        damageFunction: () -> Unit,
-    ) {
-        val spinTime = (20 * 2 / 3.0)
-        for (i in 0 until ((SPIN_ATTACK_DURATION - delay) / spinTime).toInt()) {
-            val damageDelay = delay + (i * spinTime).toInt()
-            delayedAttackDamage.add(DelayedAttackDamage(damageDelay, damageFunction))
-        }
-    }*/
 }
