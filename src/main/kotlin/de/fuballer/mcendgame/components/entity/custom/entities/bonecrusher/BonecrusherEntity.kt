@@ -1,9 +1,6 @@
 package de.fuballer.mcendgame.components.entity.custom.entities.bonecrusher
 
-import de.fuballer.mcendgame.components.entity.custom.attack.CustomAreaAttack
-import de.fuballer.mcendgame.components.entity.custom.attack.CustomAttackDamageInstance
-import de.fuballer.mcendgame.components.entity.custom.attack.CustomAttackPose
-import de.fuballer.mcendgame.components.entity.custom.attack.CustomBasicAttack
+import de.fuballer.mcendgame.components.entity.custom.attack.*
 import de.fuballer.mcendgame.components.entity.custom.goals.*
 import de.fuballer.mcendgame.components.entity.custom.interfaces.CustomAttacksMob
 import de.fuballer.mcendgame.components.entity.custom.interfaces.DisableAbleGoalsMob
@@ -36,94 +33,83 @@ class BonecrusherEntity(
     world: World,
 ) : PathAwareEntity(type, world), GeoEntity, DisableAbleGoalsMob, Monster, CustomAttacksMob<BonecrusherEntity> {
     companion object {
-        const val SPIN_ATTACK_ROTATIONS = 3
-
         val WALK_ANIM: RawAnimation = RawAnimation.begin().thenLoop("movement.walk")
-
-        /*
-        val SPIN_AREA_ATTACK_FRONT = CustomAreaAttack(
-            4.0, 3.0, 1.0, 0.0, 0.0, 0.5,
-            knockbackType = CustomAreaAttack.KnockbackType.DAMAGER_CENTER
-        )
-        val SPIN_AREA_ATTACK_BACK = CustomAreaAttack(
-            4.0, 3.0, 1.0, -4.0, 0.0, 0.5,
-            knockbackType = CustomAreaAttack.KnockbackType.DAMAGER_CENTER
-        )
-        val SPIN_AREA_ATTACK_LEFT = CustomAreaAttack(
-            6.0, 2.0, 1.0, -3.0, -2.0, 0.5,
-            knockbackType = CustomAreaAttack.KnockbackType.DAMAGER_CENTER
-        )
-        val SPIN_AREA_ATTACK_RIGHT = CustomAreaAttack(
-            6.0, 2.0, 1.0, -3.0, 2.0, 0.5,
-            knockbackType = CustomAreaAttack.KnockbackType.DAMAGER_CENTER
-        )*/
 
         private const val ATTACK_ANIM_CONTROLLER_ID = "Attack"
         private const val SPIN_ANIM_CONTROLLER_ID = "Spin"
 
         private val HIT_ANIM: RawAnimation = RawAnimation.begin().thenPlay("attack.hit")
         private const val HIT_ID = "Hit"
-        private val HIT_AREA = CustomAreaAttack.DamageArea(3.0, 1.3, 1.5, 0.0, 0.5, 0.5)
-        private val HIT_ATTACK = CustomAreaAttack(
+        private val HIT_AREA = CustomAreaAttackDamage.DamageArea(3.0, 1.3, 1.5, 0.0, 0.5, 0.5)
+        private val HIT_ATTACK = CustomAttack(
             CustomAttackPose.DEFAULT,
             CustomAttackPose.DEFAULT,
-            4,
             20,
             3.0,
-            0.5F,
-            0.35,
+            Pair(4, CustomAreaAttackDamage(0.5F, 0.35, HIT_AREA, knockbackType = CustomAreaAttackDamage.KnockbackType.FACING)),
             ATTACK_ANIM_CONTROLLER_ID,
             HIT_ID,
-            HIT_AREA,
-            true,
-            CustomAreaAttack.KnockbackType.FACING
         )
 
         private val SLAM_ANIM: RawAnimation = RawAnimation.begin().thenPlay("attack.slam")
         private const val SLAM_ID = "Slam"
-        private val SLAM_AREA = CustomAreaAttack.DamageArea(5.0, 2.5, 1.5, 1.0, 0.0, 0.5)
-        private val SLAM_ATTACK = CustomAreaAttack(
+        private val SLAM_AREA = CustomAreaAttackDamage.DamageArea(5.0, 2.5, 1.5, 1.0, 0.0, 0.5)
+        private val SLAM_ATTACK_DAMAGE = CustomAreaAttackDamage(1F, 1.0, SLAM_AREA, knockbackType = CustomAreaAttackDamage.KnockbackType.AREA_CENTER)
+            .setParticles(100, 0.25, ParticleTypes.CRIT, 0.5)
+            .setSound(false, SoundEvents.ENTITY_GENERIC_EXPLODE.value(), 1F, 1F)
+        private val SLAM_ATTACK = CustomAttack(
             CustomAttackPose.DEFAULT,
             CustomAttackPose.DEFAULT,
-            17,
             40,
             3.0,
-            1.0F,
-            1.0,
+            Pair(17, SLAM_ATTACK_DAMAGE),
             ATTACK_ANIM_CONTROLLER_ID,
             SLAM_ID,
-            SLAM_AREA,
-            true,
-            CustomAreaAttack.KnockbackType.AREA_CENTER
-        ).setParticles(100, 0.25, ParticleTypes.CRIT, 0.5)
-            .setSound(false, SoundEvents.ENTITY_GENERIC_EXPLODE.value(), 1F, 1F)
+        )
 
+        const val SPIN_ATTACK_ROTATIONS = 3
         private val SPIN_START_ANIM: RawAnimation = RawAnimation.begin().thenPlay("attack.spin.start")
         private val SPIN_ANIM: RawAnimation = RawAnimation.begin().thenPlay("attack.spin")
         private val SPIN_END_ANIM: RawAnimation = RawAnimation.begin().thenPlay("attack.spin.end")
         private const val SPIN_START_ID = "Start Spin"
-        private val SPIN_AREA_ATTACK_FRONT = CustomAreaAttack.DamageArea(4.0, 3.0, 1.0, 0.0, 0.0, 0.5)
-        private val SPIN_ATTACK = CustomAreaAttack(
+        private val SPIN_FRONT_AREA = CustomAreaAttackDamage.DamageArea(4.0, 3.0, 1.0, 0.0, 0.0, 0.5)
+        private val SPIN_FRONT_DAMAGE = CustomAreaAttackDamage(1F, 0.25, SPIN_FRONT_AREA, knockbackType = CustomAreaAttackDamage.KnockbackType.DAMAGER_CENTER)
+        private val SPIN_BACK_AREA = CustomAreaAttackDamage.DamageArea(4.0, 3.0, 1.0, -4.0, 0.0, 0.5)
+        private val SPIN_BACK_DAMAGE = CustomAreaAttackDamage(1F, 0.25, SPIN_BACK_AREA, knockbackType = CustomAreaAttackDamage.KnockbackType.DAMAGER_CENTER)
+        private val SPIN_LEFT_AREA = CustomAreaAttackDamage.DamageArea(6.0, 2.0, 1.0, -3.0, -2.0, 0.5)
+        private val SPIN_LEFT_DAMAGE = CustomAreaAttackDamage(1F, 0.25, SPIN_LEFT_AREA, knockbackType = CustomAreaAttackDamage.KnockbackType.DAMAGER_CENTER)
+        private val SPIN_RIGHT_AREA = CustomAreaAttackDamage.DamageArea(6.0, 2.0, 1.0, -3.0, 2.0, 0.5)
+        private val SPIN_RIGHT_DAMAGE = CustomAreaAttackDamage(1F, 0.25, SPIN_RIGHT_AREA, knockbackType = CustomAreaAttackDamage.KnockbackType.DAMAGER_CENTER)
+        private val SPIN_ATTACK = CustomAttack(
             CustomAttackPose.DEFAULT,
             CustomAttackPose.DEFAULT,
-            16,
             50 + 13 * SPIN_ATTACK_ROTATIONS,
             3.0,
-            1F,
-            0.25,
+            getSpinAttackDamage(),
             SPIN_ANIM_CONTROLLER_ID,
             SPIN_START_ID,
-            SPIN_AREA_ATTACK_FRONT,
-            true,
-            CustomAreaAttack.KnockbackType.DAMAGER_CENTER
         )
+
+        private fun getSpinAttackDamage(): List<Pair<Int, CustomAttackDamage>> {
+            val damage = mutableListOf<Pair<Int, CustomAttackDamage>>()
+
+            for (rot in 0 until SPIN_ATTACK_ROTATIONS) {
+                val base = 16 + (rot * 20 * 3 / 2.0).toInt()
+                damage.add(Pair(base, SPIN_FRONT_DAMAGE))
+                damage.add(Pair(base + 3, SPIN_LEFT_DAMAGE))
+                damage.add(Pair(base + 6, SPIN_BACK_DAMAGE))
+                damage.add(Pair(base + 10, SPIN_RIGHT_DAMAGE))
+            }
+
+            return damage
+        }
 
         private val ATTACKS = listOf(
             HIT_ATTACK,
             SLAM_ATTACK,
             SPIN_ATTACK,
         )
-        private val RESET_ATTACKS = listOf<CustomBasicAttack>()
+        private val RESET_ATTACKS = listOf<CustomAttack>()
 
         fun createAttributes(): DefaultAttributeContainer.Builder {
             return createLivingAttributes()

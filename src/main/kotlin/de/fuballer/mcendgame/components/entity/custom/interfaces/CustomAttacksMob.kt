@@ -46,12 +46,14 @@ interface CustomAttacksMob<T> where T : MobEntity, T : GeoEntity {
 
         triggerAttackAnimation(damager, attack)
 
-        if (attack.damageDelay < 0) return
+        val target = damager.target
+        attack.damage.forEach {
+            val damage = it.second
+            if (damage.requiresTarget() && target == null) return@forEach
 
-        val existingTarget = damager.target ?: return
-
-        val damageInstance = CustomAttackDamageInstance(attack.damageDelay, existingTarget, attack)
-        attackDamageInstances.add(damageInstance)
+            val damageInstance = CustomAttackDamageInstance(it.first, target, damage)
+            attackDamageInstances.add(damageInstance)
+        }
     }
 
     private fun triggerAttackAnimation(
@@ -81,7 +83,7 @@ interface CustomAttacksMob<T> where T : MobEntity, T : GeoEntity {
 
         val squaredDistance = min(attacker.squaredDistanceTo(target), attacker.squaredDistanceTo(target.eyePos))
 
-        val possibleAttacks = attacks.filter { it.startPose == attackPose && (it.hitRange < 0 || it.squaredHitRange >= squaredDistance) }
+        val possibleAttacks = attacks.filter { it.startPose == attackPose && (it.triggerRange < 0 || it.squaredTriggerRange >= squaredDistance) }
         if (possibleAttacks.isNotEmpty()) return possibleAttacks.random()
 
         return getResetAttack()

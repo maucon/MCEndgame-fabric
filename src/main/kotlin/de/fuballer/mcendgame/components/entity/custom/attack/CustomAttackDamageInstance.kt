@@ -6,10 +6,10 @@ import net.minecraft.server.world.ServerWorld
 
 class CustomAttackDamageInstance(
     private var delay: Int,
-    private val target: LivingEntity,
-    private val attack: CustomAttack,
+    private val target: LivingEntity?,
+    private val damage: CustomAttackDamage,
 ) {
     fun tick() = --delay == 0
 
-    fun apply(world: ServerWorld, damager: MobEntity) = attack.apply(world, damager, target)
+    fun apply(world: ServerWorld, damager: MobEntity) = damage.apply(world, damager, target)
 }

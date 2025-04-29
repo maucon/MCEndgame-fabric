@@ -5,23 +5,18 @@ import net.minecraft.entity.mob.MobEntity
 import net.minecraft.server.world.ServerWorld
 import kotlin.math.min
 
-class CustomBasicAttack(
-    startPose: CustomAttackPose,
-    endPose: CustomAttackPose,
-    damageDelay: Int,
-    totalDuration: Int,
-    hitRange: Double,
+class CustomBasicAttackDamage(
     damageFactor: Float,
     knockbackFactor: Double,
-    animControllerName: String,
-    animName: String,
-) : CustomAttack(startPose, endPose, damageDelay, totalDuration, hitRange, damageFactor, knockbackFactor, animControllerName, animName) {
+    private val hitRange: Double,
+    private val squaredHitRange: Double = hitRange * hitRange
+) : CustomAttackDamage(damageFactor, knockbackFactor) {
     override fun apply(
         world: ServerWorld,
         damager: MobEntity,
-        target: LivingEntity
+        target: LivingEntity?
     ) {
-        if (!target.isAlive) return
+        if (target?.isAlive != true) return
         val squaredDistance = min(damager.squaredDistanceTo(target), damager.squaredDistanceTo(target.eyePos))
         if (squaredDistance > squaredHitRange) return
 

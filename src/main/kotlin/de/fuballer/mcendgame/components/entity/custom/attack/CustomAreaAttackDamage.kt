@@ -14,20 +14,13 @@ import net.minecraft.util.math.Vec3d
 import kotlin.math.*
 import kotlin.random.Random
 
-class CustomAreaAttack(
-    startPose: CustomAttackPose,
-    endPose: CustomAttackPose,
-    damageDelay: Int,
-    totalDuration: Int,
-    hitRange: Double,
+class CustomAreaAttackDamage(
     damageFactor: Float,
     knockbackFactor: Double,
-    animControllerName: String,
-    animName: String,
     private val area: DamageArea,
     private val applyScale: Boolean = true,
     private val knockbackType: KnockbackType = KnockbackType.DAMAGER_CENTER,
-) : CustomAttack(startPose, endPose, damageDelay, totalDuration, hitRange, damageFactor, knockbackFactor, animControllerName, animName) {
+) : CustomAttackDamage(damageFactor, knockbackFactor) {
     private var createParticles: Boolean = false
     private var particleCount: Int = 0
     private var particleHeightOffset: Double = 0.0
@@ -40,7 +33,7 @@ class CustomAreaAttack(
     private var pitch: Float = 1F
     private var volume: Float = 1F
 
-    override fun apply(world: ServerWorld, damager: MobEntity, target: LivingEntity) {
+    override fun apply(world: ServerWorld, damager: MobEntity, target: LivingEntity?) {
         val forward = damager.getRotationVector(damager.pitch, damager.bodyYaw).horizontal.normalize()
         val sideways = forward.crossProduct(Vec3d(0.0, 1.0, 0.0))
 
@@ -121,7 +114,7 @@ class CustomAreaAttack(
         heightOffset: Double,
         type: SimpleParticleType,
         speed: Double,
-    ): CustomAreaAttack {
+    ): CustomAreaAttackDamage {
         createParticles = true
         particleCount = count
         particleHeightOffset = heightOffset
@@ -161,7 +154,7 @@ class CustomAreaAttack(
         sound: SoundEvent,
         pitch: Float,
         volume: Float,
-    ): CustomAreaAttack {
+    ): CustomAreaAttackDamage {
         playSound = true
         soundRequiresHit = requiresHit
         this.sound = sound
@@ -189,6 +182,8 @@ class CustomAreaAttack(
             pitch
         )
     }
+
+    override fun requiresTarget() = false
 
     class DamageArea(
         private val forwardRange: Double, // only forward
