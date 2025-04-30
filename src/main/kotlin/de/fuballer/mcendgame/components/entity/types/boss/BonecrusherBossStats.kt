@@ -2,7 +2,6 @@ package de.fuballer.mcendgame.components.entity.types.boss
 
 import de.fuballer.mcendgame.components.entity.EntityTypeStats
 import de.fuballer.mcendgame.components.entity.custom.CustomEntities
-import de.fuballer.mcendgame.components.entity.custom.entities.arachne.ArachneEntity
 import de.fuballer.mcendgame.components.entity.custom.entities.bonecrusher.BonecrusherEntity
 import net.minecraft.entity.EntityType
 
