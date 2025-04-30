@@ -1,4 +1,4 @@
-package de.fuballer.mcendgame.event.server
+package de.fuballer.mcendgame.framework.event.server
 
 import net.minecraft.server.MinecraftServer
 

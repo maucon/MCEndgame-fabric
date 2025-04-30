@@ -1,7 +1,7 @@
 package de.fuballer.mcendgame.components.dungeon.device.networking
 
 import de.fuballer.mcendgame.configuration.RuntimeConfig
-import de.fuballer.mcendgame.event.dungeon.OpenDungeonButtonPressedEvent
+import de.fuballer.mcendgame.framework.event.dungeon.OpenDungeonButtonPressedEvent
 import de.maucon.mauconframework.di.annotation.Injectable
 import de.maucon.mauconframework.event.EventGateway
 import de.maucon.mauconframework.initializer.Initializer

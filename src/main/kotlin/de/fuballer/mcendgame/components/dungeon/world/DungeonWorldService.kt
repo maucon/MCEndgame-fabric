@@ -4,8 +4,8 @@ import de.fuballer.mcendgame.components.dungeon.world.db.DungeonWorldEntity
 import de.fuballer.mcendgame.components.dungeon.world.db.DungeonWorldRepository
 import de.fuballer.mcendgame.components.scheduler.Scheduler
 import de.fuballer.mcendgame.configuration.RuntimeConfig
-import de.fuballer.mcendgame.event.server.ServerStartedEvent
-import de.fuballer.mcendgame.event.server.ServerStoppingEvent
+import de.fuballer.mcendgame.framework.event.server.ServerStartedEvent
+import de.fuballer.mcendgame.framework.event.server.ServerStoppingEvent
 import de.maucon.mauconframework.di.annotation.Injectable
 import de.maucon.mauconframework.di.annotation.Logging
 import de.maucon.mauconframework.event.EventSubscriber

@@ -1,6 +1,6 @@
 package de.fuballer.mcendgame.mixin.event;
 
-import de.fuballer.mcendgame.event.LivingEntityDeathEvent;
+import de.fuballer.mcendgame.framework.event.LivingEntityDeathEvent;
 import de.maucon.mauconframework.event.EventGateway;
 import net.minecraft.entity.LivingEntity;
 import org.spongepowered.asm.mixin.Mixin;

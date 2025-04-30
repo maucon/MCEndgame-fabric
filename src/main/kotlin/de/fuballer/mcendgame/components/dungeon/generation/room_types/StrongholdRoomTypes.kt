@@ -1,7 +1,7 @@
 package de.fuballer.mcendgame.components.dungeon.generation.room_types
 
 import de.fuballer.mcendgame.components.dungeon.generation.data.RoomType
-import de.fuballer.mcendgame.event.server.ServerStartedEvent
+import de.fuballer.mcendgame.framework.event.server.ServerStartedEvent
 import de.fuballer.mcendgame.util.random.RandomOption
 import de.maucon.mauconframework.di.annotation.Injectable
 import de.maucon.mauconframework.event.EventSubscriber

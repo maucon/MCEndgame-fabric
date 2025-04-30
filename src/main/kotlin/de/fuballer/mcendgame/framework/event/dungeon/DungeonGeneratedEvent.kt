@@ -1,4 +1,4 @@
-package de.fuballer.mcendgame.event.dungeon
+package de.fuballer.mcendgame.framework.event.dungeon
 
 import de.fuballer.mcendgame.components.dungeon.generation.data.SpawnPosition
 import net.minecraft.server.world.ServerWorld

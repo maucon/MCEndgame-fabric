@@ -1,14 +1,11 @@
 package de.fuballer.client.mcendgame.components.corruption
 
+import de.fuballer.client.mcendgame.command.RenderItemTooltipCommand
 import de.fuballer.mcendgame.components.corruption.CorruptionExtensions.isCorrupted
+import de.maucon.mauconframework.command.CommandHandler
 import de.maucon.mauconframework.di.annotation.Injectable
-import de.maucon.mauconframework.initializer.Initializer
 import net.fabricmc.api.EnvType
 import net.fabricmc.api.Environment
-import net.fabricmc.fabric.api.client.item.v1.ItemTooltipCallback
-import net.minecraft.item.Item
-import net.minecraft.item.ItemStack
-import net.minecraft.item.tooltip.TooltipType
 import net.minecraft.text.Text
 import net.minecraft.util.Formatting
 
@@ -17,11 +14,12 @@ private val CORRUPTION_TEXT = Text.translatable("mcendgame.corrupted").formatted
 @Injectable
 @Environment(EnvType.CLIENT)
 class CorruptionRenderer {
-    @Initializer
-    fun on() = ItemTooltipCallback.EVENT.register { itemStack: ItemStack, _: Item.TooltipContext, tooltipType: TooltipType, texts: MutableList<Text> ->
-        if (!itemStack.isCorrupted()) return@register
+    @CommandHandler
+    fun on(cmd: RenderItemTooltipCommand) {
+        if (!cmd.itemStack.isCorrupted()) return
 
-        if (tooltipType.isAdvanced) {
+        val texts = cmd.texts
+        if (cmd.tooltipType.isAdvanced) {
             texts.add(texts.size - 2, CORRUPTION_TEXT)
         } else {
             texts.add(CORRUPTION_TEXT)

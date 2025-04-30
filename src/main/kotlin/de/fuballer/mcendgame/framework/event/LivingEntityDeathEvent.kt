@@ -1,4 +1,4 @@
-package de.fuballer.mcendgame.event
+package de.fuballer.mcendgame.framework.event
 
 import net.minecraft.entity.LivingEntity
 import net.minecraft.world.World

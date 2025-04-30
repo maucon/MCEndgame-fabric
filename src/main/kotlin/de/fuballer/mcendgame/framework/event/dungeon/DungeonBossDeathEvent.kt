@@ -1,4 +1,4 @@
-package de.fuballer.mcendgame.event.dungeon
+package de.fuballer.mcendgame.framework.event.dungeon
 
 import net.minecraft.entity.LivingEntity
 import net.minecraft.world.World

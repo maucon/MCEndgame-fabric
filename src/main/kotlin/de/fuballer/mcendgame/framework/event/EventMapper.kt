@@ -1,9 +1,9 @@
-package de.fuballer.mcendgame.event
+package de.fuballer.mcendgame.framework.event
 
 import de.fuballer.mcendgame.accessor.MobEntityBossAccessor
-import de.fuballer.mcendgame.event.dungeon.DungeonBossDeathEvent
-import de.fuballer.mcendgame.event.server.ServerStartedEvent
-import de.fuballer.mcendgame.event.server.ServerStoppingEvent
+import de.fuballer.mcendgame.framework.event.dungeon.DungeonBossDeathEvent
+import de.fuballer.mcendgame.framework.event.server.ServerStartedEvent
+import de.fuballer.mcendgame.framework.event.server.ServerStoppingEvent
 import de.maucon.mauconframework.di.annotation.Injectable
 import de.maucon.mauconframework.event.EventGateway
 import de.maucon.mauconframework.event.EventSubscriber
