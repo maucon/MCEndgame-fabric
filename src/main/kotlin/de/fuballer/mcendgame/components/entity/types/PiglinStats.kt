@@ -3,7 +3,6 @@ package de.fuballer.mcendgame.components.entity.types
 import de.fuballer.mcendgame.components.entity.EntityTypeStats
 import net.minecraft.entity.EntityType
 import net.minecraft.entity.mob.PiglinEntity
-import net.minecraft.entity.mob.ZombieEntity
 
 object PiglinStats : EntityTypeStats {
     override val type: EntityType<PiglinEntity> = EntityType.PIGLIN

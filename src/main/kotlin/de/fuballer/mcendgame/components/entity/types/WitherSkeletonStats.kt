@@ -3,7 +3,6 @@ package de.fuballer.mcendgame.components.entity.types
 import de.fuballer.mcendgame.components.entity.EntityTypeStats
 import net.minecraft.entity.EntityType
 import net.minecraft.entity.mob.WitherSkeletonEntity
-import net.minecraft.entity.mob.ZombieEntity
 
 object WitherSkeletonStats : EntityTypeStats {
     override val type: EntityType<WitherSkeletonEntity> = EntityType.WITHER_SKELETON
