@@ -3,9 +3,13 @@ package de.fuballer.mcendgame.components.dungeon.type
 import de.fuballer.mcendgame.components.dungeon.generation.layout.DungeonLayoutType
 import de.fuballer.mcendgame.components.dungeon.type.data.RolledDungeonType
 import de.fuballer.mcendgame.components.entity.EntityTypeStats
+import de.fuballer.mcendgame.components.entity.types.PiglinStats
 import de.fuballer.mcendgame.components.entity.types.SkeletonStats
+import de.fuballer.mcendgame.components.entity.types.WitherSkeletonStats
 import de.fuballer.mcendgame.components.entity.types.ZombieStats
 import de.fuballer.mcendgame.components.entity.types.boss.ArachneBossStats
+import de.fuballer.mcendgame.components.entity.types.boss.BonecrusherBossStats
+import de.fuballer.mcendgame.components.entity.types.boss.ElfDuelistBossStats
 import de.fuballer.mcendgame.util.random.RandomOption
 import de.fuballer.mcendgame.util.random.RandomUtil
 import kotlin.random.Random
@@ -26,6 +30,24 @@ enum class DungeonType(
         ),
         listOf(
             RandomOption(1, ArachneBossStats),
+            RandomOption(1, BonecrusherBossStats),
+            RandomOption(1, ElfDuelistBossStats),
+        ),
+        3
+    ),
+    NETHER(
+        listOf(
+            RandomOption(1, DungeonLayoutType.NETHER),
+        ),
+        listOf(
+            RandomOption(40, PiglinStats),
+            RandomOption(15, SkeletonStats),
+            RandomOption(5, WitherSkeletonStats),
+        ),
+        listOf(
+            RandomOption(1, ArachneBossStats),
+            RandomOption(1, BonecrusherBossStats),
+            RandomOption(1, ElfDuelistBossStats),
         ),
         3
     );
