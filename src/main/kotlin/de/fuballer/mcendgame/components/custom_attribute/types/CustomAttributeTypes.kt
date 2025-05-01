@@ -1,0 +1,34 @@
+package de.fuballer.mcendgame.components.custom_attribute.types
+
+import de.fuballer.mcendgame.components.custom_attribute.AttributeFormats
+import de.fuballer.mcendgame.components.custom_attribute.data.CustomAttributeType
+import kotlin.reflect.KVisibility
+import kotlin.reflect.full.memberProperties
+
+object CustomAttributeTypes {
+    private val ERROR = CustomAttributeType("error", AttributeFormats.EMPTY_ROLL, AttributeFormats.EMPTY_BOUNDS)
+
+    // DEFENSE
+    val WARD = CustomAttributeType("ward", AttributeFormats.SIGNED_DOUBLE_ROLL, AttributeFormats.DOUBLE_BOUNDS)
+    val DODGE = CustomAttributeType("dodge", AttributeFormats.PERCENT_ROLL, AttributeFormats.PERCENT_BOUNDS)
+    val LESS_DAMAGE_TAKEN = CustomAttributeType("less_damage_taken", AttributeFormats.PERCENT_ROLL, AttributeFormats.PERCENT_BOUNDS)
+
+    // OFFENSE
+    val ELEMENTAL_DAMAGE = CustomAttributeType("elemental_damage", AttributeFormats.SIGNED_DOUBLE_ROLL, AttributeFormats.DOUBLE_BOUNDS)
+    val INCREASED_DAMAGE = CustomAttributeType("increased_damage", AttributeFormats.SIGNED_PERCENT_ROLL, AttributeFormats.PERCENT_BOUNDS)
+    val INCREASED_ELEMENTAL_DAMAGE = CustomAttributeType("increased_elemental_damage", AttributeFormats.SIGNED_PERCENT_ROLL, AttributeFormats.PERCENT_BOUNDS)
+    val INCREASED_PROJECTILE_DAMAGE = CustomAttributeType("increased_projectile_damage", AttributeFormats.SIGNED_PERCENT_ROLL, AttributeFormats.PERCENT_BOUNDS)
+
+    val INCREASED_DAMAGE_AGAINST_FULL_LIFE = CustomAttributeType("increased_damage_against_full_life", AttributeFormats.SIGNED_PERCENT_ROLL, AttributeFormats.PERCENT_BOUNDS)
+
+    // region get by key
+    fun getByKey(key: String): CustomAttributeType {
+        return attributeTypes[key] ?: ERROR
+    }
+
+    private val attributeTypes = CustomAttributeTypes::class.memberProperties
+        .filter { it.visibility == KVisibility.PUBLIC }
+        .map { it(CustomAttributeTypes) as CustomAttributeType }
+        .associateBy { it.key }
+    // endregion
+}

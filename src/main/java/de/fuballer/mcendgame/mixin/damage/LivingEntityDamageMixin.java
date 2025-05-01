@@ -1,7 +1,7 @@
 package de.fuballer.mcendgame.mixin.damage;
 
-import de.fuballer.mcendgame.component.damage.ApplyDamageCalculationCommand;
-import de.fuballer.mcendgame.component.damage.ApplyDamageUtil;
+import de.fuballer.mcendgame.components.damage.ApplyDamageCalculationCommand;
+import de.fuballer.mcendgame.components.damage.ApplyDamageUtil;
 import de.maucon.mauconframework.command.CommandGateway;
 import net.minecraft.enchantment.EnchantmentHelper;
 import net.minecraft.entity.DamageUtil;

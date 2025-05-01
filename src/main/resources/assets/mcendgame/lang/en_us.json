@@ -46,9 +46,9 @@
 
   "block.mcendgame.decaying_cobweb": "Decaying Cobweb",
 
-  "itemGroup.custom_armor": "MCEndgame Armor",
-  "itemGroup.custom_tools": "MCEndgame Weapons & Tools",
-  "itemGroup.custom_blocks": "MCEndgame Blocks",
+  "item_group.mcendgame.armor": "MCEndgame Armor",
+  "item_group.mcendgame.tools": "MCEndgame Weapons & Tools",
+  "item_group.mcendgame.blocks": "MCEndgame Blocks",
 
   "error.mcendgame.teleport.failed": "Destination location invalid! Closing portal."
 }

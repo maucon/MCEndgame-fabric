@@ -1,6 +1,6 @@
 package de.fuballer.client.mcendgame.component.block
 
-import de.fuballer.mcendgame.component.block.CustomBlocks
+import de.fuballer.mcendgame.components.block.CustomBlocks
 import de.maucon.mauconframework.di.annotation.Injectable
 import de.maucon.mauconframework.initializer.Initializer
 import net.fabricmc.fabric.api.blockrenderlayer.v1.BlockRenderLayerMap

@@ -1,6 +1,6 @@
 package de.fuballer.mcendgame.util
 
-import de.fuballer.mcendgame.component.item.custom.armor.materials.CustomArmorMaterial
+import de.fuballer.mcendgame.components.item.custom.armor.materials.CustomArmorMaterial
 import net.fabricmc.fabric.api.`object`.builder.v1.block.entity.FabricBlockEntityTypeBuilder
 import net.minecraft.block.AbstractBlock
 import net.minecraft.block.Block

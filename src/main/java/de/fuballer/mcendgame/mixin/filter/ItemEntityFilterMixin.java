@@ -1,6 +1,6 @@
 package de.fuballer.mcendgame.mixin.filter;
 
-import de.fuballer.mcendgame.component.item_filter.PlayerItemPickupCommand;
+import de.fuballer.mcendgame.components.item_filter.PlayerItemPickupCommand;
 import de.maucon.mauconframework.command.CommandGateway;
 import net.minecraft.entity.ItemEntity;
 import net.minecraft.entity.player.PlayerEntity;
