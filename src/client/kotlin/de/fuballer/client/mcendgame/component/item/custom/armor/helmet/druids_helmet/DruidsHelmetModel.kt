@@ -1,7 +1,7 @@
 package de.fuballer.client.mcendgame.component.item.custom.armor.helmet.druids_helmet
 
 import de.fuballer.client.mcendgame.component.item.custom.ModelPartDataExtension.createEmptyChild
-import de.fuballer.mcendgame.util.IdentifierUtil
+import de.fuballer.mcendgame.util.minecraft.IdentifierUtil
 import net.minecraft.client.model.*
 import net.minecraft.client.render.entity.model.BipedEntityModel
 import net.minecraft.client.render.entity.model.EntityModelLayer

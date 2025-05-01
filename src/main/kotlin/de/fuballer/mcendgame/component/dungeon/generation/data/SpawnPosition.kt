@@ -2,7 +2,7 @@ package de.fuballer.mcendgame.component.dungeon.generation.data
 
 import com.mojang.serialization.Codec
 import com.mojang.serialization.codecs.RecordCodecBuilder
-import de.fuballer.mcendgame.util.Vec3iExtension.toBlockPos
+import de.fuballer.mcendgame.util.extension.Vec3iExtension.toBlockPos
 import net.minecraft.util.math.Vec3i
 
 data class SpawnPosition(

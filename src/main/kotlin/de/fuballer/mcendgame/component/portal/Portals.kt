@@ -3,7 +3,7 @@ package de.fuballer.mcendgame.component.portal
 import de.fuballer.mcendgame.component.portal.teleport.TeleportLocation
 import de.fuballer.mcendgame.component.portal.type.DefaultPortalType
 import de.fuballer.mcendgame.component.portal.type.PortalType
-import de.fuballer.mcendgame.util.RegistryUtil
+import de.fuballer.mcendgame.util.minecraft.RegistryUtil
 import de.maucon.mauconframework.di.annotation.Injectable
 import de.maucon.mauconframework.initializer.Initializer
 import net.fabricmc.fabric.api.`object`.builder.v1.entity.FabricDefaultAttributeRegistry

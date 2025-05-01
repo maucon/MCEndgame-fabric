@@ -1,6 +1,6 @@
 package de.fuballer.client.mcendgame.component.entity.custom.feature.webbed
 
-import de.fuballer.mcendgame.util.IdentifierUtil
+import de.fuballer.mcendgame.util.minecraft.IdentifierUtil
 import net.minecraft.client.model.*
 import net.minecraft.client.render.RenderLayer
 import net.minecraft.client.render.entity.model.EntityModelLayer

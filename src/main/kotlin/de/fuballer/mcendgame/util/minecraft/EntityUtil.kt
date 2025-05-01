@@ -1,4 +1,4 @@
-package de.fuballer.mcendgame.util
+package de.fuballer.mcendgame.util.minecraft
 
 import de.fuballer.mcendgame.component.dungeon.generation.data.SpawnPosition
 import de.fuballer.mcendgame.component.entity.EntityTypeStats

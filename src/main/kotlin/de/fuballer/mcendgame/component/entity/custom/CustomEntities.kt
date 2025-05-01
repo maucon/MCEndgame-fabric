@@ -6,7 +6,7 @@ import de.fuballer.mcendgame.component.entity.custom.entities.elf_duelist.ElfDue
 import de.fuballer.mcendgame.component.entity.custom.entities.swamp_golem.SwampGolemEntity
 import de.fuballer.mcendgame.component.entity.custom.entities.webhook.WebhookEntity
 import de.fuballer.mcendgame.component.entity.custom.entities.webshot.WebshotEntity
-import de.fuballer.mcendgame.util.RegistryUtil
+import de.fuballer.mcendgame.util.minecraft.RegistryUtil
 import de.maucon.mauconframework.di.annotation.Injectable
 import net.minecraft.entity.EntityType
 import net.minecraft.entity.SpawnGroup

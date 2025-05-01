@@ -1,7 +1,7 @@
 package de.fuballer.mcendgame.component.item.custom.armor
 
 import de.fuballer.mcendgame.component.item.custom.armor.materials.*
-import de.fuballer.mcendgame.util.RegistryUtil
+import de.fuballer.mcendgame.util.minecraft.RegistryUtil
 import de.maucon.mauconframework.di.annotation.Injectable
 import net.minecraft.item.equipment.EquipmentType
 

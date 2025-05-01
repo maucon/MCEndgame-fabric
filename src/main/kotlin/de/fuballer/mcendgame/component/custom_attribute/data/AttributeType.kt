@@ -4,7 +4,7 @@ import com.mojang.serialization.Codec
 import com.mojang.serialization.codecs.RecordCodecBuilder
 import de.fuballer.mcendgame.component.custom_attribute.types.CustomAttributeTypes
 import de.fuballer.mcendgame.component.custom_attribute.types.VanillaAttributeTypes
-import de.fuballer.mcendgame.util.CodecUtil
+import de.fuballer.mcendgame.util.minecraft.CodecUtil
 import net.minecraft.entity.attribute.EntityAttribute
 import net.minecraft.entity.attribute.EntityAttributeModifier
 import net.minecraft.registry.entry.RegistryEntry

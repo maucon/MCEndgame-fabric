@@ -2,7 +2,7 @@ package de.fuballer.mcendgame.component.dungeon.world
 
 import de.fuballer.mcendgame.component.dungeon.world.db.DungeonWorldEntity
 import de.fuballer.mcendgame.component.dungeon.world.db.DungeonWorldRepository
-import de.fuballer.mcendgame.component.scheduler.Scheduler
+import de.fuballer.mcendgame.functional.scheduler.Scheduler
 import de.fuballer.mcendgame.configuration.RuntimeConfig
 import de.fuballer.mcendgame.messaging.server.ServerStartedEvent
 import de.fuballer.mcendgame.messaging.server.ServerStoppingEvent

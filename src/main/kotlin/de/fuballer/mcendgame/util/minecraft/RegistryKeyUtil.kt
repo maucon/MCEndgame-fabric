@@ -1,4 +1,4 @@
-package de.fuballer.mcendgame.util
+package de.fuballer.mcendgame.util.minecraft
 
 import net.minecraft.block.Block
 import net.minecraft.component.ComponentType

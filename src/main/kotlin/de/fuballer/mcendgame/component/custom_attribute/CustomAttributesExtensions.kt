@@ -2,8 +2,8 @@ package de.fuballer.mcendgame.component.custom_attribute
 
 import de.fuballer.mcendgame.MCEndgame
 import de.fuballer.mcendgame.component.custom_attribute.data.*
-import de.fuballer.mcendgame.util.IdentifierUtil
-import de.fuballer.mcendgame.util.RegistryUtil
+import de.fuballer.mcendgame.util.minecraft.IdentifierUtil
+import de.fuballer.mcendgame.util.minecraft.RegistryUtil
 import de.maucon.mauconframework.di.annotation.Injectable
 import net.minecraft.component.ComponentType
 import net.minecraft.component.DataComponentTypes

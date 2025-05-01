@@ -2,6 +2,7 @@ package de.fuballer.mcendgame.messaging
 
 import de.fuballer.mcendgame.accessor.MobEntityBossAccessor
 import de.fuballer.mcendgame.messaging.dungeon.DungeonBossDeathEvent
+import de.fuballer.mcendgame.messaging.misc.LivingEntityDeathEvent
 import de.fuballer.mcendgame.messaging.server.ServerEndTickEvent
 import de.fuballer.mcendgame.messaging.server.ServerStartedEvent
 import de.fuballer.mcendgame.messaging.server.ServerStoppingEvent

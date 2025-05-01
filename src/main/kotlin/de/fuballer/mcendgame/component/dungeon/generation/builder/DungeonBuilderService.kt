@@ -3,8 +3,8 @@ package de.fuballer.mcendgame.component.dungeon.generation.builder
 import de.fuballer.mcendgame.component.dungeon.generation.data.PlaceableBlock
 import de.fuballer.mcendgame.component.dungeon.generation.data.PlaceableRoom
 import de.fuballer.mcendgame.util.RotationUtil
-import de.fuballer.mcendgame.util.Vec3iExtension.rotateY90
-import de.fuballer.mcendgame.util.Vec3iExtension.toBlockPos
+import de.fuballer.mcendgame.util.extension.Vec3iExtension.rotateY90
+import de.fuballer.mcendgame.util.extension.Vec3iExtension.toBlockPos
 import de.maucon.mauconframework.di.annotation.Injectable
 import net.minecraft.server.world.ServerWorld
 import net.minecraft.state.property.Properties

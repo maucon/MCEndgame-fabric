@@ -1,6 +1,6 @@
 package de.fuballer.mcendgame.component.damage.custom
 
-import de.fuballer.mcendgame.util.IdentifierUtil
+import de.fuballer.mcendgame.util.minecraft.IdentifierUtil
 import net.minecraft.entity.Entity
 import net.minecraft.entity.damage.DamageSource
 import net.minecraft.entity.damage.DamageType

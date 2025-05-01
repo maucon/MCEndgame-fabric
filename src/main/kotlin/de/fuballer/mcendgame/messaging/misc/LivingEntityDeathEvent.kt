@@ -1,4 +1,4 @@
-package de.fuballer.mcendgame.messaging
+package de.fuballer.mcendgame.messaging.misc
 
 import net.minecraft.entity.LivingEntity
 import net.minecraft.world.World

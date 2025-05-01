@@ -1,4 +1,4 @@
-package de.fuballer.mcendgame.component.potion_effect
+package de.fuballer.mcendgame.component.dungeon.enemy.potion_effect
 
 import net.minecraft.entity.effect.StatusEffect
 import net.minecraft.entity.effect.StatusEffectInstance

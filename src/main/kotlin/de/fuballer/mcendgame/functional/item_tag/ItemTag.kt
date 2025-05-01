@@ -1,6 +1,6 @@
 package de.fuballer.mcendgame.functional.item_tag
 
-import de.fuballer.mcendgame.util.CodecUtil
+import de.fuballer.mcendgame.util.minecraft.CodecUtil
 
 enum class ItemTag {
     CORRUPTED;

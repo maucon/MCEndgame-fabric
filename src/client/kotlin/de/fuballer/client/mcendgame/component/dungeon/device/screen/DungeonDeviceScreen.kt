@@ -3,7 +3,7 @@ package de.fuballer.client.mcendgame.component.dungeon.device.screen
 import com.mojang.logging.LogUtils
 import de.fuballer.mcendgame.component.dungeon.device.DungeonDevice
 import de.fuballer.mcendgame.component.dungeon.device.screen.DungeonDeviceScreenHandler
-import de.fuballer.mcendgame.util.IdentifierUtil
+import de.fuballer.mcendgame.util.minecraft.IdentifierUtil
 import net.fabricmc.api.EnvType
 import net.fabricmc.api.Environment
 import net.fabricmc.fabric.api.client.networking.v1.ClientPlayNetworking

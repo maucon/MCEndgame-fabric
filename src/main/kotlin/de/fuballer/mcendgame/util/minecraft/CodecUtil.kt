@@ -1,4 +1,4 @@
-package de.fuballer.mcendgame.util
+package de.fuballer.mcendgame.util.minecraft
 
 import com.mojang.datafixers.util.Either
 import com.mojang.serialization.Codec

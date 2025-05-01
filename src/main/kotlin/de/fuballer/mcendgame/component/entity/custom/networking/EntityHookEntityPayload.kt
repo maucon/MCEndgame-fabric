@@ -1,6 +1,6 @@
 package de.fuballer.mcendgame.component.entity.custom.networking
 
-import de.fuballer.mcendgame.util.IdentifierUtil
+import de.fuballer.mcendgame.util.minecraft.IdentifierUtil
 import net.minecraft.network.RegistryByteBuf
 import net.minecraft.network.codec.PacketCodec
 import net.minecraft.network.codec.PacketCodecs

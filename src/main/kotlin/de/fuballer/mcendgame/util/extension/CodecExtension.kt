@@ -1,4 +1,4 @@
-package de.fuballer.mcendgame.util
+package de.fuballer.mcendgame.util.extension
 
 import com.mojang.serialization.Codec
 

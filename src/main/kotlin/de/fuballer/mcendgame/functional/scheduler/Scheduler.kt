@@ -1,4 +1,4 @@
-package de.fuballer.mcendgame.component.scheduler
+package de.fuballer.mcendgame.functional.scheduler
 
 import de.fuballer.mcendgame.configuration.RuntimeConfig
 import de.fuballer.mcendgame.messaging.server.ServerEndTickEvent

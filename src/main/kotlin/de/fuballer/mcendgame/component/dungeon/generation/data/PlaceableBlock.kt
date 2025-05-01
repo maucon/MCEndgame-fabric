@@ -1,7 +1,7 @@
 package de.fuballer.mcendgame.component.dungeon.generation.data
 
-import de.fuballer.mcendgame.util.Vec3iExtension.rotateY90
-import de.fuballer.mcendgame.util.Vec3iExtension.toBlockPos
+import de.fuballer.mcendgame.util.extension.Vec3iExtension.rotateY90
+import de.fuballer.mcendgame.util.extension.Vec3iExtension.toBlockPos
 import net.minecraft.block.Block
 import net.minecraft.util.math.BlockPos
 import net.minecraft.util.math.Vec3i

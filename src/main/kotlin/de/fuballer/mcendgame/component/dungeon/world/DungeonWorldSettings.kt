@@ -1,7 +1,7 @@
 package de.fuballer.mcendgame.component.dungeon.world
 
 import de.fuballer.mcendgame.configuration.RuntimeConfig
-import de.fuballer.mcendgame.util.IdentifierUtil
+import de.fuballer.mcendgame.util.minecraft.IdentifierUtil
 import net.minecraft.world.Difficulty
 import net.minecraft.world.GameRules
 import net.minecraft.world.dimension.DimensionTypes

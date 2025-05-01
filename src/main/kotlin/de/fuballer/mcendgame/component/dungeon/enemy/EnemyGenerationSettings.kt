@@ -1,6 +1,6 @@
 package de.fuballer.mcendgame.component.dungeon.enemy
 
-import de.fuballer.mcendgame.component.potion_effect.PotionEffect
+import de.fuballer.mcendgame.component.dungeon.enemy.potion_effect.PotionEffect
 import de.fuballer.mcendgame.util.random.RandomOption
 import de.fuballer.mcendgame.util.random.SortableRandomOption
 import kotlin.math.pow

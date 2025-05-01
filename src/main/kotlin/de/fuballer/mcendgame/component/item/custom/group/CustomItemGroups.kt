@@ -4,8 +4,8 @@ import de.fuballer.mcendgame.component.block.CustomBlocks
 import de.fuballer.mcendgame.component.dungeon.device.DungeonDevice
 import de.fuballer.mcendgame.component.item.custom.armor.CustomArmorItems
 import de.fuballer.mcendgame.component.item.custom.tool.CustomToolItems
-import de.fuballer.mcendgame.util.IdentifierUtil
-import de.fuballer.mcendgame.util.RegistryUtil
+import de.fuballer.mcendgame.util.minecraft.IdentifierUtil
+import de.fuballer.mcendgame.util.minecraft.RegistryUtil
 import de.maucon.mauconframework.di.annotation.Injectable
 import de.maucon.mauconframework.initializer.Initializer
 import net.fabricmc.fabric.api.itemgroup.v1.FabricItemGroup

@@ -1,7 +1,7 @@
 package de.fuballer.client.mcendgame.component.entity.custom.entities.webshot
 
 import de.fuballer.mcendgame.component.entity.custom.entities.webshot.WebshotEntity
-import de.fuballer.mcendgame.util.IdentifierUtil
+import de.fuballer.mcendgame.util.minecraft.IdentifierUtil
 import net.minecraft.client.render.OverlayTexture
 import net.minecraft.client.render.VertexConsumerProvider
 import net.minecraft.client.render.entity.EntityRenderer

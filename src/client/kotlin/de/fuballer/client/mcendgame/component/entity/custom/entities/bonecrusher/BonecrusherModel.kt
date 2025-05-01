@@ -1,7 +1,7 @@
 package de.fuballer.client.mcendgame.component.entity.custom.entities.bonecrusher
 
 import de.fuballer.mcendgame.component.entity.custom.entities.bonecrusher.BonecrusherEntity
-import de.fuballer.mcendgame.util.IdentifierUtil
+import de.fuballer.mcendgame.util.minecraft.IdentifierUtil
 import software.bernie.geckolib.animatable.processing.AnimationState
 import software.bernie.geckolib.constant.DataTickets
 import software.bernie.geckolib.model.GeoModel

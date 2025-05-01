@@ -1,4 +1,4 @@
-package de.fuballer.mcendgame.component.scheduler
+package de.fuballer.mcendgame.functional.scheduler
 
 import de.maucon.mauconframework.di.annotation.Injectable
 import de.maucon.mauconframework.stereotype.extension.InMemoryMapRepository

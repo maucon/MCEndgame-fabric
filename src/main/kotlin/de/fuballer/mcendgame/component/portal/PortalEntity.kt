@@ -5,7 +5,7 @@ import de.fuballer.mcendgame.component.portal.teleport.TeleportExtensions.telepo
 import de.fuballer.mcendgame.component.portal.teleport.TeleportLocation
 import de.fuballer.mcendgame.component.portal.type.DefaultPortalType
 import de.fuballer.mcendgame.component.portal.type.PortalType
-import de.fuballer.mcendgame.util.NbtExtension.getSafe
+import de.fuballer.mcendgame.util.extension.NbtExtension.getSafe
 import net.minecraft.entity.EntityType
 import net.minecraft.entity.EquipmentSlot
 import net.minecraft.entity.LivingEntity
@@ -24,7 +24,6 @@ import net.minecraft.util.Hand
 import net.minecraft.util.math.Vec3d
 import net.minecraft.world.World
 import kotlin.jvm.optionals.getOrNull
-
 
 private const val TYPE_NBT = "Type"
 private const val TELEPORT_LOCATION_NBT = "TeleportLocation"

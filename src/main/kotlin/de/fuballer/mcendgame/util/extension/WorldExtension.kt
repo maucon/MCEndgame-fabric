@@ -1,4 +1,4 @@
-package de.fuballer.mcendgame.util
+package de.fuballer.mcendgame.util.extension
 
 import de.fuballer.mcendgame.MCEndgame
 import de.fuballer.mcendgame.component.dungeon.world.DungeonWorldSettings

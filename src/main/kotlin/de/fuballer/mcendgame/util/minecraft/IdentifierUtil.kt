@@ -1,4 +1,4 @@
-package de.fuballer.mcendgame.util
+package de.fuballer.mcendgame.util.minecraft
 
 import de.fuballer.mcendgame.MCEndgame
 import net.minecraft.util.Identifier

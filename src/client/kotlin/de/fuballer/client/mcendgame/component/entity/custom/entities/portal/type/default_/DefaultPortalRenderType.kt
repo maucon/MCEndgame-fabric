@@ -3,7 +3,7 @@ package de.fuballer.client.mcendgame.component.entity.custom.entities.portal.typ
 import de.fuballer.client.mcendgame.component.entity.custom.entities.portal.PortalRenderState
 import de.fuballer.client.mcendgame.component.entity.custom.entities.portal.PortalRenderer
 import de.fuballer.client.mcendgame.component.entity.custom.entities.portal.type.PortalRenderType
-import de.fuballer.mcendgame.util.IdentifierUtil
+import de.fuballer.mcendgame.util.minecraft.IdentifierUtil
 import net.minecraft.client.render.RenderLayer
 import net.minecraft.client.render.entity.EntityRendererFactory
 import net.minecraft.client.render.entity.model.EntityModel

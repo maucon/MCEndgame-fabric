@@ -9,9 +9,9 @@ import de.fuballer.mcendgame.component.portal.type.PortalType
 import de.fuballer.mcendgame.messaging.dungeon.DungeonBossDeathEvent
 import de.fuballer.mcendgame.messaging.dungeon.DungeonGeneratedEvent
 import de.fuballer.mcendgame.messaging.dungeon.OpenDungeonButtonPressedEvent
-import de.fuballer.mcendgame.util.BlockPosExtension.toVec3d
-import de.fuballer.mcendgame.util.Vec3iExtension.toCenter
-import de.fuballer.mcendgame.util.WorldExtension.isDungeonWorld
+import de.fuballer.mcendgame.util.extension.BlockPosExtension.toVec3d
+import de.fuballer.mcendgame.util.extension.Vec3iExtension.toCenter
+import de.fuballer.mcendgame.util.extension.WorldExtension.isDungeonWorld
 import de.maucon.mauconframework.di.annotation.Injectable
 import de.maucon.mauconframework.event.EventSubscriber
 import net.minecraft.server.world.ServerWorld

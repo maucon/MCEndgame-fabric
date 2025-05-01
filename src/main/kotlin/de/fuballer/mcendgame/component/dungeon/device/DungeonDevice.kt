@@ -2,7 +2,7 @@ package de.fuballer.mcendgame.component.dungeon.device
 
 import de.fuballer.mcendgame.component.dungeon.device.networking.OpenDungeonPayload
 import de.fuballer.mcendgame.component.dungeon.device.screen.DungeonDeviceScreenHandler
-import de.fuballer.mcendgame.util.RegistryUtil
+import de.fuballer.mcendgame.util.minecraft.RegistryUtil
 import de.maucon.mauconframework.di.annotation.Injectable
 import net.fabricmc.fabric.api.screenhandler.v1.ExtendedScreenHandlerType
 import net.minecraft.block.AbstractBlock.Settings

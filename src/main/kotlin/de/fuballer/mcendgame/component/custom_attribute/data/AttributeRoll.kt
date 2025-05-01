@@ -2,7 +2,7 @@ package de.fuballer.mcendgame.component.custom_attribute.data
 
 import com.mojang.serialization.Codec
 import com.mojang.serialization.codecs.RecordCodecBuilder
-import de.fuballer.mcendgame.util.CodecUtil
+import de.fuballer.mcendgame.util.minecraft.CodecUtil
 import kotlin.math.roundToInt
 
 sealed interface AttributeRoll<T> {

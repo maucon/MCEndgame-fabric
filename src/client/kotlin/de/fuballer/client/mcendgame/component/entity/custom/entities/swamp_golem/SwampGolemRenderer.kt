@@ -1,7 +1,7 @@
 package de.fuballer.client.mcendgame.component.entity.custom.entities.swamp_golem
 
 import de.fuballer.mcendgame.component.entity.custom.entities.swamp_golem.SwampGolemEntity
-import de.fuballer.mcendgame.util.IdentifierUtil
+import de.fuballer.mcendgame.util.minecraft.IdentifierUtil
 import net.minecraft.client.render.entity.EntityRendererFactory
 import net.minecraft.client.render.entity.MobEntityRenderer
 

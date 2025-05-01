@@ -10,7 +10,7 @@ import de.fuballer.client.mcendgame.component.item.custom.armor.leggings.druids_
 import de.fuballer.client.mcendgame.component.item.custom.armor.leggings.lamias_gift.LamiasGiftModel
 import de.fuballer.client.mcendgame.accessor.BipedEntityRenderStateAccessor
 import de.fuballer.mcendgame.component.item.custom.armor.CustomArmorItems
-import de.fuballer.mcendgame.util.IdentifierUtil
+import de.fuballer.mcendgame.util.minecraft.IdentifierUtil
 import net.minecraft.client.model.Model
 import net.minecraft.client.render.OverlayTexture
 import net.minecraft.client.render.RenderLayer

@@ -4,7 +4,7 @@ import de.fuballer.mcendgame.component.dungeon.generation.data.SpawnPosition
 import de.fuballer.mcendgame.component.dungeon.enemy.equipment.EquipmentGenerationService
 import de.fuballer.mcendgame.component.dungeon.enemy.potion_effect.PotionEffectService
 import de.fuballer.mcendgame.component.entity.EntityTypeStats
-import de.fuballer.mcendgame.util.EntityUtil
+import de.fuballer.mcendgame.util.minecraft.EntityUtil
 import de.fuballer.mcendgame.util.random.RandomOption
 import de.fuballer.mcendgame.util.random.RandomUtil
 import de.maucon.mauconframework.di.annotation.Injectable

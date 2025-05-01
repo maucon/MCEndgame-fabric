@@ -1,4 +1,4 @@
-package de.fuballer.mcendgame.util
+package de.fuballer.mcendgame.util.extension
 
 import net.minecraft.util.math.BlockPos
 import net.minecraft.util.math.Vec3d

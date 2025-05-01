@@ -1,6 +1,6 @@
 package de.fuballer.mcendgame.component.item_filter
 
-import de.fuballer.mcendgame.util.WorldExtension.isDungeonWorld
+import de.fuballer.mcendgame.util.extension.WorldExtension.isDungeonWorld
 import de.maucon.mauconframework.command.CommandHandler
 import de.maucon.mauconframework.di.annotation.Injectable
 import net.minecraft.entity.player.PlayerEntity

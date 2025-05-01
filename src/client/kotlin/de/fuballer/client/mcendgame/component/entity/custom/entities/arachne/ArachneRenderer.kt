@@ -2,7 +2,7 @@ package de.fuballer.client.mcendgame.component.entity.custom.entities.arachne
 
 import de.fuballer.mcendgame.component.entity.custom.entities.arachne.ArachneEntity
 import de.fuballer.mcendgame.component.entity.custom.entities.mount.MountEntity
-import de.fuballer.mcendgame.util.IdentifierUtil
+import de.fuballer.mcendgame.util.minecraft.IdentifierUtil
 import net.minecraft.client.render.*
 import net.minecraft.client.render.entity.EntityRendererFactory
 import net.minecraft.client.render.entity.MobEntityRenderer

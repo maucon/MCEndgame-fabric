@@ -3,7 +3,7 @@ package de.fuballer.mcendgame.component.dungeon.boss
 import de.fuballer.mcendgame.accessor.MobEntityBossAccessor
 import de.fuballer.mcendgame.component.dungeon.generation.data.SpawnPosition
 import de.fuballer.mcendgame.component.entity.EntityTypeStats
-import de.fuballer.mcendgame.util.EntityUtil
+import de.fuballer.mcendgame.util.minecraft.EntityUtil
 import de.maucon.mauconframework.di.annotation.Injectable
 import net.minecraft.entity.attribute.EntityAttributes
 import net.minecraft.entity.mob.MobEntity

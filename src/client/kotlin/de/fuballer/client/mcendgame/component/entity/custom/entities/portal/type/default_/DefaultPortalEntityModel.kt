@@ -1,7 +1,7 @@
 package de.fuballer.client.mcendgame.component.entity.custom.entities.portal.type.default_
 
 import de.fuballer.client.mcendgame.component.entity.custom.entities.portal.PortalRenderState
-import de.fuballer.mcendgame.util.IdentifierUtil
+import de.fuballer.mcendgame.util.minecraft.IdentifierUtil
 import net.minecraft.client.model.*
 import net.minecraft.client.render.entity.model.EntityModel
 import net.minecraft.client.render.entity.model.EntityModelLayer

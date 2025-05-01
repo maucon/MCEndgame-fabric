@@ -1,6 +1,6 @@
 package de.fuballer.mcendgame.component.item.custom.tool
 
-import de.fuballer.mcendgame.util.RegistryUtil
+import de.fuballer.mcendgame.util.minecraft.RegistryUtil
 import de.maucon.mauconframework.di.annotation.Injectable
 import net.minecraft.item.Item
 
