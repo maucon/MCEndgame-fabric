@@ -1,0 +1,27 @@
+package de.fuballer.mcendgame.component.item.custom.armor.materials
+
+import de.fuballer.mcendgame.util.RegistryKeyUtil
+import net.minecraft.item.equipment.ArmorMaterial
+import net.minecraft.item.equipment.EquipmentAsset
+import net.minecraft.item.equipment.EquipmentType
+import net.minecraft.registry.RegistryKey
+import net.minecraft.registry.tag.ItemTags
+import net.minecraft.sound.SoundEvents
+
+object BoundAbyssArmorMaterial : CustomArmorMaterial {
+    override val baseDurability = 15
+    override val registryKey: RegistryKey<EquipmentAsset> = RegistryKeyUtil.createEquipmentAssetKey("bound_abyss")
+
+    override val instance = ArmorMaterial(
+        baseDurability,
+        mapOf(
+            EquipmentType.CHESTPLATE to 7,
+        ),
+        15,
+        SoundEvents.ITEM_ARMOR_EQUIP_GENERIC,
+        3.0f,
+        0.1f,
+        ItemTags.REPAIRS_GOLD_ARMOR,
+        registryKey
+    )
+}

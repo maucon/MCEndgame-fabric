@@ -1,6 +1,6 @@
 package de.fuballer.mcendgame.accessor;
 
-import de.fuballer.mcendgame.components.dungeon.generation.data.SpawnPosition;
+import de.fuballer.mcendgame.component.dungeon.generation.data.SpawnPosition;
 import org.jetbrains.annotations.Nullable;
 
 public interface MobEntityBossAccessor {

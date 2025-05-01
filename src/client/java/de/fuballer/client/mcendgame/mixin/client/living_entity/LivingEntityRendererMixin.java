@@ -1,6 +1,7 @@
 package de.fuballer.client.mcendgame.mixin.client.living_entity;
 
-import de.fuballer.client.mcendgame.mixin.client.low_health_ticks.LivingEntityLowHealthTicksAccessor;
+import de.fuballer.client.mcendgame.accessor.LivingEntityLowHealthTicksAccessor;
+import de.fuballer.client.mcendgame.accessor.LivingEntityRenderStateAccessor;
 import net.minecraft.client.render.entity.LivingEntityRenderer;
 import net.minecraft.client.render.entity.state.LivingEntityRenderState;
 import net.minecraft.entity.LivingEntity;

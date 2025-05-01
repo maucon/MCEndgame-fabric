@@ -3,13 +3,13 @@
   "package": "de.fuballer.mcendgame.mixin",
   "compatibilityLevel": "JAVA_21",
   "mixins": [
-    "ItemEntityFilterMixin",
-    "LivingEntityBossMixin",
-    "LivingEntityDamageMixin",
+    "filter.ItemEntityFilterMixin",
+    "boss.LivingEntityBossMixin",
+    "damage.LivingEntityDamageMixin",
     "LivingEntityWebbedMixin",
-    "MobEntityBossMixin",
-    "PlayerEntityDamageMixin",
-    "PlayerEntitySweepingAttackMixin",
+    "boss.MobEntityBossMixin",
+    "damage.PlayerEntityDamageMixin",
+    "damage.PlayerEntitySweepingAttackMixin",
     "event.LivingEntityEventsMixin"
   ],
   "injectors": {

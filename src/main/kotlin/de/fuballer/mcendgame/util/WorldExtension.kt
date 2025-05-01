@@ -1,7 +1,7 @@
 package de.fuballer.mcendgame.util
 
 import de.fuballer.mcendgame.MCEndgame
-import de.fuballer.mcendgame.components.dungeon.world.DungeonWorldSettings
+import de.fuballer.mcendgame.component.dungeon.world.DungeonWorldSettings
 import net.minecraft.world.World
 
 object WorldExtension {

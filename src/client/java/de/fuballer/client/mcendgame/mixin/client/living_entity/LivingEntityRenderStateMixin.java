@@ -1,5 +1,6 @@
 package de.fuballer.client.mcendgame.mixin.client.living_entity;
 
+import de.fuballer.client.mcendgame.accessor.LivingEntityRenderStateAccessor;
 import net.minecraft.client.render.entity.state.LivingEntityRenderState;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.Unique;

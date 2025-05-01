@@ -1,5 +1,6 @@
 package de.fuballer.client.mcendgame.mixin.client.low_health_ticks;
 
+import de.fuballer.client.mcendgame.accessor.LivingEntityLowHealthTicksAccessor;
 import net.minecraft.entity.LivingEntity;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.Unique;
