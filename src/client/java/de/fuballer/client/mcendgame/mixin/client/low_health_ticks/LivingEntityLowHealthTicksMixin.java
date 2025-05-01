@@ -1,6 +1,5 @@
-package de.fuballer.client.mcendgame.mixin.client;
+package de.fuballer.client.mcendgame.mixin.client.low_health_ticks;
 
-import de.fuballer.client.mcendgame.accessor.LivingEntityAccessor;
 import net.minecraft.entity.LivingEntity;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.Unique;
@@ -9,9 +8,9 @@ import org.spongepowered.asm.mixin.injection.Inject;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 
 @Mixin(LivingEntity.class)
-public class LivingEntityMixin implements LivingEntityAccessor {
+public class LivingEntityLowHealthTicksMixin implements LivingEntityLowHealthTicksAccessor {
     @Unique
-    public int lowHealthTicks20 = 0; //capped at 20
+    public int lowHealthTicks20 = 0; // capped at 20
 
     @Inject(method = "baseTick", at = @At(value = "INVOKE", target = "Lnet/minecraft/util/profiler/Profiler;pop()V"))
     public void baseTick(

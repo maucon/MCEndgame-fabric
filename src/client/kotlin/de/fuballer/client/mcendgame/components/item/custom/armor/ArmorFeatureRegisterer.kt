@@ -1,6 +1,6 @@
 package de.fuballer.client.mcendgame.components.item.custom.armor
 
-import de.fuballer.client.mcendgame.command.RegisterLivingEntityFeatureRendererCommand
+import de.fuballer.client.mcendgame.messaging.RegisterLivingEntityFeatureRendererCommand
 import de.maucon.mauconframework.command.CommandHandler
 import de.maucon.mauconframework.di.annotation.Injectable
 import net.minecraft.client.render.entity.feature.FeatureRendererContext

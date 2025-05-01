@@ -1,6 +1,6 @@
 package de.fuballer.client.mcendgame.components.entity.custom.feature
 
-import de.fuballer.client.mcendgame.command.RegisterLivingEntityFeatureRendererCommand
+import de.fuballer.client.mcendgame.messaging.RegisterLivingEntityFeatureRendererCommand
 import de.fuballer.client.mcendgame.components.entity.custom.feature.webbed.WebbedFeatureRenderer
 import de.maucon.mauconframework.command.CommandHandler
 import de.maucon.mauconframework.di.annotation.Injectable

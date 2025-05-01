@@ -1,4 +1,4 @@
-package de.fuballer.client.mcendgame.command
+package de.fuballer.client.mcendgame.messaging
 
 import net.minecraft.item.Item
 import net.minecraft.item.ItemStack

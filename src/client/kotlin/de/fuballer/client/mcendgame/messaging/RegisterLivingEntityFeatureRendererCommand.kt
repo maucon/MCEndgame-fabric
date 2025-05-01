@@ -1,4 +1,4 @@
-package de.fuballer.client.mcendgame.command
+package de.fuballer.client.mcendgame.messaging
 
 import net.fabricmc.fabric.api.client.rendering.v1.LivingEntityFeatureRendererRegistrationCallback
 import net.minecraft.client.render.entity.EntityRendererFactory

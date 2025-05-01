@@ -1,6 +1,6 @@
 package de.fuballer.client.mcendgame.components.custom_attributes
 
-import de.fuballer.client.mcendgame.command.RenderItemTooltipCommand
+import de.fuballer.client.mcendgame.messaging.RenderItemTooltipCommand
 import de.fuballer.mcendgame.components.custom_attributes.CustomAttributesExtensions.getCustomAttributes
 import de.fuballer.mcendgame.components.custom_attributes.data.CustomAttribute
 import de.fuballer.mcendgame.util.NumberUtil

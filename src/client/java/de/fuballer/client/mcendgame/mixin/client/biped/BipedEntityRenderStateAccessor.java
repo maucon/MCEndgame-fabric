@@ -1,4 +1,4 @@
-package de.fuballer.client.mcendgame.accessor;
+package de.fuballer.client.mcendgame.mixin.client.biped;
 
 public interface BipedEntityRenderStateAccessor {
     void mcendgame$setHideLegs(boolean hide);

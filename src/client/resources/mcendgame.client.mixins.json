@@ -4,15 +4,15 @@
   "compatibilityLevel": "JAVA_21",
   "client": [
     "ArmorFeatureRendererMixin",
-    "BipedEntityModelMixin",
-    "BipedEntityRendererMixin",
-    "BipedEntityRenderStateMixin",
-    "ItemStackMixin",
-    "LivingEntityMixin",
-    "LivingEntityRendererMixin",
-    "LivingEntityRendererWebbedMixin",
-    "LivingEntityRenderStateMixin",
-    "LivingEntityRenderStateWebbedMixin"
+    "ItemStackAttributeRenderMixin",
+    "biped.BipedEntityModelMixin",
+    "biped.BipedEntityRendererMixin",
+    "biped.BipedEntityRenderStateMixin",
+    "living_entity.LivingEntityRendererMixin",
+    "living_entity.LivingEntityRendererWebbedMixin",
+    "living_entity.LivingEntityRenderStateMixin",
+    "living_entity.LivingEntityRenderStateWebbedMixin",
+    "low_health_ticks.LivingEntityLowHealthTicksMixin"
   ],
   "injectors": {
     "defaultRequire": 1

@@ -1,6 +1,6 @@
 package de.fuballer.client.mcendgame.components.corruption
 
-import de.fuballer.client.mcendgame.command.RenderItemTooltipCommand
+import de.fuballer.client.mcendgame.messaging.RenderItemTooltipCommand
 import de.fuballer.mcendgame.components.corruption.CorruptionExtensions.isCorrupted
 import de.maucon.mauconframework.command.CommandHandler
 import de.maucon.mauconframework.di.annotation.Injectable

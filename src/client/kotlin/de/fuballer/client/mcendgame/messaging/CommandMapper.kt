@@ -1,4 +1,4 @@
-package de.fuballer.client.mcendgame.command
+package de.fuballer.client.mcendgame.messaging
 
 import de.maucon.mauconframework.command.CommandGateway
 import de.maucon.mauconframework.di.annotation.Injectable
