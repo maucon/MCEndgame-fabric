@@ -1,6 +1,5 @@
 package de.fuballer.client.mcendgame.mixin.client;
 
-import de.fuballer.client.mcendgame.accessor.BipedEntityRenderStateAccessor;
 import net.minecraft.client.render.VertexConsumerProvider;
 import net.minecraft.client.render.entity.feature.ArmorFeatureRenderer;
 import net.minecraft.client.render.entity.model.BipedEntityModel;
@@ -9,7 +8,6 @@ import net.minecraft.client.util.math.MatrixStack;
 import net.minecraft.entity.EquipmentSlot;
 import net.minecraft.item.ItemStack;
 import org.spongepowered.asm.mixin.Mixin;
-import org.spongepowered.asm.mixin.Overwrite;
 import org.spongepowered.asm.mixin.gen.Invoker;
 
 @Mixin(ArmorFeatureRenderer.class)
