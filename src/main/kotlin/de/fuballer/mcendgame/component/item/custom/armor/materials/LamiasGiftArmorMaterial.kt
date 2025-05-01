@@ -9,7 +9,7 @@ import net.minecraft.registry.tag.ItemTags
 import net.minecraft.sound.SoundEvents
 
 object LamiasGiftArmorMaterial : CustomArmorMaterial {
-    override val baseDurability = 15
+    override val baseDurability = 500
     override val registryKey: RegistryKey<EquipmentAsset> = RegistryKeyUtil.createEquipmentAssetKey("lamias_gift")
 
     override val instance = ArmorMaterial(

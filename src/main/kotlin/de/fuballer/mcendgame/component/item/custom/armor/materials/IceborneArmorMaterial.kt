@@ -9,7 +9,7 @@ import net.minecraft.registry.tag.ItemTags
 import net.minecraft.sound.SoundEvents
 
 object IceborneArmorMaterial : CustomArmorMaterial {
-    override val baseDurability = 15
+    override val baseDurability = 500
     override val registryKey: RegistryKey<EquipmentAsset> = RegistryKeyUtil.createEquipmentAssetKey("iceborne")
 
     override val instance = ArmorMaterial(

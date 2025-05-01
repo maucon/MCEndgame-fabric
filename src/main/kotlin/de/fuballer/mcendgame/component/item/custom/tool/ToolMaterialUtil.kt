@@ -15,4 +15,3 @@ object ToolMaterialUtil {
         repairItems: TagKey<Item>
     ) = ToolMaterial(incorrectBlocksForDrops, durability, speed, attackDamageBonus, enchantmentValue, repairItems)
 }
-
