@@ -1,7 +1,7 @@
 package de.fuballer.client.mcendgame.component.entity.custom
 
 import de.fuballer.mcendgame.MCEndgame
-import de.fuballer.mcendgame.components.entity.custom.entities.elf_duelist.ElfDuelistEntity
+import de.fuballer.mcendgame.component.entity.custom.entities.elf_duelist.ElfDuelistEntity
 import de.maucon.mauconframework.di.annotation.Injectable
 import de.maucon.mauconframework.initializer.Initializer
 import software.bernie.geckolib.loading.math.MolangQueries

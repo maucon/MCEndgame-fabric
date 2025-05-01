@@ -1,6 +1,6 @@
 package de.fuballer.mcendgame.mixin.damage;
 
-import de.fuballer.mcendgame.components.damage.custom.CustomDamageTypes;
+import de.fuballer.mcendgame.component.damage.custom.CustomDamageTypes;
 import net.minecraft.entity.damage.DamageSource;
 import net.minecraft.entity.player.PlayerEntity;
 import org.spongepowered.asm.mixin.Mixin;

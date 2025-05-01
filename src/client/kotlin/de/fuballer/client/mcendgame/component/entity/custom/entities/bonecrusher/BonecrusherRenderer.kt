@@ -1,6 +1,6 @@
 package de.fuballer.client.mcendgame.component.entity.custom.entities.bonecrusher
 
-import de.fuballer.mcendgame.components.entity.custom.entities.bonecrusher.BonecrusherEntity
+import de.fuballer.mcendgame.component.entity.custom.entities.bonecrusher.BonecrusherEntity
 import net.minecraft.client.render.entity.EntityRendererFactory
 import net.minecraft.client.render.entity.state.LivingEntityRenderState
 import software.bernie.geckolib.renderer.GeoEntityRenderer

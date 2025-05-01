@@ -1,6 +1,6 @@
 package de.fuballer.client.mcendgame.component.dungeon.device.screen
 
-import de.fuballer.mcendgame.components.dungeon.device.DungeonDevice
+import de.fuballer.mcendgame.component.dungeon.device.DungeonDevice
 import de.maucon.mauconframework.di.annotation.Injectable
 import de.maucon.mauconframework.initializer.Initializer
 import net.minecraft.client.gui.screen.ingame.HandledScreens

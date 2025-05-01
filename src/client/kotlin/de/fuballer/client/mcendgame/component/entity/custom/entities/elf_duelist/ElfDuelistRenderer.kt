@@ -1,6 +1,6 @@
 package de.fuballer.client.mcendgame.component.entity.custom.entities.elf_duelist
 
-import de.fuballer.mcendgame.components.entity.custom.entities.elf_duelist.ElfDuelistEntity
+import de.fuballer.mcendgame.component.entity.custom.entities.elf_duelist.ElfDuelistEntity
 import net.minecraft.client.render.entity.EntityRendererFactory
 import net.minecraft.client.render.entity.state.LivingEntityRenderState
 import software.bernie.geckolib.renderer.GeoEntityRenderer

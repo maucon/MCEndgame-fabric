@@ -14,8 +14,8 @@ import de.fuballer.client.mcendgame.component.entity.custom.entities.swamp_golem
 import de.fuballer.client.mcendgame.component.entity.custom.entities.webhook.WebhookRenderer
 import de.fuballer.client.mcendgame.component.entity.custom.entities.webshot.WebshotEntityModel
 import de.fuballer.client.mcendgame.component.entity.custom.entities.webshot.WebshotRenderer
-import de.fuballer.mcendgame.components.entity.custom.CustomEntities
-import de.fuballer.mcendgame.components.portal.Portals
+import de.fuballer.mcendgame.component.entity.custom.CustomEntities
+import de.fuballer.mcendgame.component.portal.Portals
 import de.maucon.mauconframework.di.annotation.Injectable
 import de.maucon.mauconframework.initializer.Initializer
 import net.fabricmc.fabric.api.client.rendering.v1.EntityModelLayerRegistry

@@ -9,7 +9,7 @@ import de.fuballer.client.mcendgame.component.item.custom.armor.helmet.iceborne.
 import de.fuballer.client.mcendgame.component.item.custom.armor.leggings.druids_leggings.DruidsLeggingsModel
 import de.fuballer.client.mcendgame.component.item.custom.armor.leggings.lamias_gift.LamiasGiftModel
 import de.fuballer.client.mcendgame.accessor.BipedEntityRenderStateAccessor
-import de.fuballer.mcendgame.components.item.custom.armor.CustomArmorItems
+import de.fuballer.mcendgame.component.item.custom.armor.CustomArmorItems
 import de.fuballer.mcendgame.util.IdentifierUtil
 import net.minecraft.client.model.Model
 import net.minecraft.client.render.OverlayTexture

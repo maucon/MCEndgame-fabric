@@ -1,8 +1,8 @@
 package de.fuballer.client.mcendgame.component.custom_attribute
 
 import de.fuballer.client.mcendgame.messaging.RenderItemTooltipCommand
-import de.fuballer.mcendgame.components.custom_attribute.CustomAttributesExtensions.getCustomAttributes
-import de.fuballer.mcendgame.components.custom_attribute.data.CustomAttribute
+import de.fuballer.mcendgame.component.custom_attribute.CustomAttributesExtensions.getCustomAttributes
+import de.fuballer.mcendgame.component.custom_attribute.data.CustomAttribute
 import de.fuballer.mcendgame.util.NumberUtil
 import de.maucon.mauconframework.command.CommandHandler
 import de.maucon.mauconframework.di.annotation.Injectable

@@ -1,7 +1,7 @@
 package de.fuballer.mcendgame.util
 
-import de.fuballer.mcendgame.components.dungeon.generation.data.SpawnPosition
-import de.fuballer.mcendgame.components.entity.EntityTypeStats
+import de.fuballer.mcendgame.component.dungeon.generation.data.SpawnPosition
+import de.fuballer.mcendgame.component.entity.EntityTypeStats
 import net.minecraft.entity.SpawnReason
 import net.minecraft.entity.attribute.EntityAttributes
 import net.minecraft.entity.mob.MobEntity

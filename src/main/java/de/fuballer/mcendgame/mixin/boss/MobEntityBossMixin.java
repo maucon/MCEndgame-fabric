@@ -1,7 +1,7 @@
 package de.fuballer.mcendgame.mixin.boss;
 
 import de.fuballer.mcendgame.accessor.MobEntityBossAccessor;
-import de.fuballer.mcendgame.components.dungeon.generation.data.SpawnPosition;
+import de.fuballer.mcendgame.component.dungeon.generation.data.SpawnPosition;
 import net.minecraft.entity.mob.MobEntity;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.nbt.NbtCompound;

@@ -1,7 +1,7 @@
 package de.fuballer.client.mcendgame.component.entity.custom.networking
 
-import de.fuballer.mcendgame.components.entity.custom.interfaces.HookAttackMob
-import de.fuballer.mcendgame.components.entity.custom.networking.EntityHookEntityPayload
+import de.fuballer.mcendgame.component.entity.custom.interfaces.HookAttackMob
+import de.fuballer.mcendgame.component.entity.custom.networking.EntityHookEntityPayload
 import de.maucon.mauconframework.di.annotation.Injectable
 import de.maucon.mauconframework.initializer.Initializer
 import net.fabricmc.fabric.api.client.networking.v1.ClientPlayNetworking

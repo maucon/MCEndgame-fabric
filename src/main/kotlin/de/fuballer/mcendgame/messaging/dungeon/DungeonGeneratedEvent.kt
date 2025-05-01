@@ -1,6 +1,6 @@
 package de.fuballer.mcendgame.messaging.dungeon
 
-import de.fuballer.mcendgame.components.dungeon.generation.data.SpawnPosition
+import de.fuballer.mcendgame.component.dungeon.generation.data.SpawnPosition
 import net.minecraft.server.world.ServerWorld
 import net.minecraft.util.math.BlockPos
 

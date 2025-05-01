@@ -1,7 +1,7 @@
 package de.fuballer.client.mcendgame.component.entity.custom.entities.portal
 
 import de.fuballer.client.mcendgame.component.entity.custom.entities.portal.type.PortalRenderType
-import de.fuballer.mcendgame.components.portal.PortalEntity
+import de.fuballer.mcendgame.component.portal.PortalEntity
 import net.minecraft.client.render.RenderLayer
 import net.minecraft.client.render.VertexConsumerProvider
 import net.minecraft.client.render.entity.EntityRendererFactory
