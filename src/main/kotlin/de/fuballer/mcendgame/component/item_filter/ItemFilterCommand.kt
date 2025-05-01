@@ -9,7 +9,7 @@ import net.minecraft.server.command.ServerCommandSource
 class ItemFilterCommand(
     private val itemFilterService: ItemFilterService,
 ) : ChatCommand() {
-    override val name = "filter"
+    override val name = "dungeon-filter"
 
     override fun execute(context: CommandContext<ServerCommandSource>) {
         val player = context.source.player ?: return

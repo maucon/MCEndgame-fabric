@@ -27,6 +27,7 @@ object NetherRoomTypes {
             RandomOption(4, RoomTypeLoader.load(templateManager, "dungeon/nether/around-burning-soulsand_elevating_curve")),
             RandomOption(4, RoomTypeLoader.load(templateManager, "dungeon/nether/soulsand-basalt-arena_spiral_curve")),
             RandomOption(4, RoomTypeLoader.load(templateManager, "dungeon/nether/tunnel-path-around-lava")),
+            RandomOption(2, RoomTypeLoader.load(templateManager, "dungeon/nether/blackstone-isles-over-magma_curve")),
         )
     }
 }

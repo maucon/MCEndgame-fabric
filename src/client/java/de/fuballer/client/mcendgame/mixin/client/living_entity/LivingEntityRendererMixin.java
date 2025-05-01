@@ -12,7 +12,7 @@ import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 
 @Mixin(LivingEntityRenderer.class)
 public class LivingEntityRendererMixin {
-    @Inject(at = @At("TAIL"), method = "updateRenderState*")
+    @Inject(at = @At("TAIL"), method = "updateRenderState(Lnet/minecraft/entity/LivingEntity;Lnet/minecraft/client/render/entity/state/LivingEntityRenderState;F)V")
     public void updateRenderState(
             LivingEntity livingEntity,
             LivingEntityRenderState livingEntityRenderState,

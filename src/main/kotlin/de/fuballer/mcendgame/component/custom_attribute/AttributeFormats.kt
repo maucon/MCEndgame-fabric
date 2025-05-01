@@ -12,10 +12,10 @@ import de.fuballer.mcendgame.component.custom_attribute.data.AttributeRoll
 object AttributeFormats {
     val EMPTY_ROLL = { _: List<AttributeRoll<*>> -> listOf<String>() }
     val PERCENT_ROLL = { rolls: List<AttributeRoll<*>> ->
-        listOf(String.format("%.1f", rolls[0].asDoubleRoll().getActualRoll() * 100))
+        listOf(formatDouble(rolls[0].asDoubleRoll().getActualRoll() * 100))
     }
     val SIGNED_PERCENT_ROLL = { rolls: List<AttributeRoll<*>> ->
-        listOf(String.format("%+.1f", rolls[0].asDoubleRoll().getActualRoll() * 100))
+        listOf(formatDoubleSigned(rolls[0].asDoubleRoll().getActualRoll() * 100))
     }
     val STRING_ROLL = { rolls: List<AttributeRoll<*>> ->
         listOf(rolls[0].asStringRoll().getActualRoll())
@@ -30,13 +30,13 @@ object AttributeFormats {
         listOf(rolls[0].getActualRoll().toString(), rolls[1].getActualRoll().toString())
     }
     val SIGNED_DOUBLE_ROLL = { rolls: List<AttributeRoll<*>> ->
-        listOf(String.format("%+.1f", rolls[0].asDoubleRoll().getActualRoll()))
+        listOf(formatDoubleSigned(rolls[0].asDoubleRoll().getActualRoll()))
     }
 
     val EMPTY_BOUNDS = { _: List<AttributeBounds<*>> -> listOf<String>() }
     val PERCENT_BOUNDS = { bounds: List<AttributeBounds<*>> ->
         val bound = bounds[0].asDoubleBounds()
-        listOf(String.format("(%.1f-%.1f)", bound.min * 100, bound.max * 100))
+        listOf("(${formatDouble(bound.min * 100)}-${formatDouble(bound.max * 100)})")
     }
     val STRING_SHOW_ALL_OPTIONS = { bounds: List<AttributeBounds<*>> ->
         listOf(bounds[0].asStringBounds().options.joinToString(prefix = "(", postfix = ")"))
@@ -52,6 +52,22 @@ object AttributeFormats {
     }
     val DOUBLE_BOUNDS = { bounds: List<AttributeBounds<*>> ->
         val bound = bounds[0].asDoubleBounds()
-        listOf(String.format("(%.1f-%.1f)", bound.min, bound.max))
+        listOf("(${formatDouble(bound.min)}-${formatDouble(bound.max)})")
+    }
+
+    private fun formatDouble(value: Double): String {
+        val formatted = "%.1f".format(value)
+        if (formatted.endsWith("0")) {
+            return "%.0f".format(value)
+        }
+        return formatted
+    }
+
+    private fun formatDoubleSigned(value: Double): String {
+        val formatted = "%+.1f".format(value)
+        if (formatted.endsWith("0")) {
+            return "%+.0f".format(value)
+        }
+        return formatted
     }
 }
