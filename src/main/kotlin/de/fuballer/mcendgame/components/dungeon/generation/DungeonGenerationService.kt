@@ -31,7 +31,7 @@ class DungeonGenerationService(
         val seed = Random.nextInt() // TODO player seed
         val random = Random(seed)
 
-        val dungeonType = DungeonType.STRONGHOLD // TODO player dungeon type
+        val dungeonType = if (random.nextBoolean()) DungeonType.STRONGHOLD else DungeonType.NETHER // TODO player dungeon type
         val (mapType, enemyTypes, bossTypes) = dungeonType.roll(random)
         val layoutGenerator = mapType.layoutGeneratorProvider()
         val layout = layoutGenerator.generateDungeon(random, dungeonLevel, dungeonType.bossCount)
