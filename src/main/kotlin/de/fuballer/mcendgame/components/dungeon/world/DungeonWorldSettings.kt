@@ -10,8 +10,8 @@ import xyz.nucleoid.fantasy.util.VoidChunkGenerator
 import java.util.*
 
 object DungeonWorldSettings {
-    const val EMPTY_WORLD_CHECK_PERIOD = 3 * 60 * 20 // ticks
-    const val MAX_EMPTY_TIME = 5 * 60 // seconds
+    const val EMPTY_WORLD_CHECK_PERIOD = 10 * 60 * 20 // ticks
+    const val MAX_EMPTY_TIME = 8 * 60 // seconds
 
     val WORLD_CONFIG: RuntimeWorldConfig =
         RuntimeWorldConfig()

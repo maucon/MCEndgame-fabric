@@ -9,7 +9,7 @@
     "LivingEntityWebbedMixin",
     "MobEntityBossMixin",
     "PlayerEntityDamageMixin",
-    "PlayerEntityMixin",
+    "PlayerEntitySweepingAttackMixin",
     "event.LivingEntityEventsMixin"
   ],
   "injectors": {

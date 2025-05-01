@@ -68,7 +68,7 @@ public class MobEntityBossMixin implements MobEntityBossAccessor {
     }
 
     @Inject(method = "writeCustomDataToNbt", at = @At("TAIL"))
-    private void writeBossFlag(NbtCompound nbt, CallbackInfo ci) {
+    private void writeNBT(NbtCompound nbt, CallbackInfo ci) {
         nbt.putBoolean(DUNGEON_BOSS_NBT, isDungeonBoss);
         if (spawnPosition != null) {
             nbt.put(SPAWN_POSITION_NBT, SpawnPosition.Companion.getCODEC(), spawnPosition);
@@ -76,7 +76,7 @@ public class MobEntityBossMixin implements MobEntityBossAccessor {
     }
 
     @Inject(method = "readCustomDataFromNbt", at = @At("TAIL"))
-    private void readBossFlag(NbtCompound nbt, CallbackInfo ci) {
+    private void readNBT(NbtCompound nbt, CallbackInfo ci) {
         isDungeonBoss = nbt.getBoolean(DUNGEON_BOSS_NBT).orElse(false);
         spawnPosition = nbt.get(SPAWN_POSITION_NBT, SpawnPosition.Companion.getCODEC()).orElse(null);
     }
