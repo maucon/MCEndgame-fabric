@@ -36,13 +36,20 @@ class ElfDuelistEntity(
     companion object {
         private val LEAN_ANIM: RawAnimation = RawAnimation.begin().thenLoop("misc.lean")
 
+        private const val EAR_TWITCH_PROBABILITY = 0.005
+        private const val EAR_ANIM_CONTROLLED_ID = "Ear"
+        private val EAR_TWITCH_LEFT_ANIM: RawAnimation = RawAnimation.begin().thenPlay("misc.ear_twitch_left")
+        private const val EAR_TWITCH_LEFT_ID = "Ear Twitch Left"
+        private val EAR_TWITCH_RIGHT_ANIM: RawAnimation = RawAnimation.begin().thenPlay("misc.ear_twitch_right")
+        private const val EAR_TWITCH_RIGHT_ID = "Ear Twitch Right"
+
         private const val ATTACK_ANIM_CONTROLLER_ID = "Attack"
 
-        private val STAB_ATTACK_DAMAGE = CustomBasicAttackDamage(1F, 1.0, 3.5)
+        private val ATTACK_DAMAGE = CustomBasicAttackDamage(1F, 1.0, 3.5)
 
         private val STAB_RIGHT_ANIM: RawAnimation = RawAnimation.begin().thenPlayAndHold("attack.stab_right")
         private const val STAB_RIGHT_ID = "Stab Right"
-        private val STAB_RIGHT_ATTACK = CustomAttack(CustomAttackPose.DEFAULT, CustomAttackPose.STAB_RIGHT, 5, 0, 3.0, Pair(4, STAB_ATTACK_DAMAGE), ATTACK_ANIM_CONTROLLER_ID, STAB_RIGHT_ID)
+        private val STAB_RIGHT_ATTACK = CustomAttack(CustomAttackPose.DEFAULT, CustomAttackPose.STAB_RIGHT, 5, 0, 3.0, Pair(4, ATTACK_DAMAGE), ATTACK_ANIM_CONTROLLER_ID, STAB_RIGHT_ID)
 
         private val STAB_RIGHT_RESET_ANIM: RawAnimation = RawAnimation.begin().thenPlayAndHold("attack.stab_right_reset")
         private const val STAB_RIGHT_RESET_ID = "Stab Right Reset"
@@ -50,17 +57,77 @@ class ElfDuelistEntity(
 
         private val STAB_LEFT_ANIM: RawAnimation = RawAnimation.begin().thenPlayAndHold("attack.stab_left")
         private const val STAB_LEFT_ID = "Stab Left"
-        private val STAB_LEFT_ATTACK = CustomAttack(CustomAttackPose.DEFAULT, CustomAttackPose.STAB_LEFT, 5, 0, 3.0, Pair(4, STAB_ATTACK_DAMAGE), ATTACK_ANIM_CONTROLLER_ID, STAB_LEFT_ID)
+        private val STAB_LEFT_ATTACK = CustomAttack(CustomAttackPose.DEFAULT, CustomAttackPose.STAB_LEFT, 5, 0, 3.0, Pair(4, ATTACK_DAMAGE), ATTACK_ANIM_CONTROLLER_ID, STAB_LEFT_ID)
 
         private val STAB_LEFT_RESET_ANIM: RawAnimation = RawAnimation.begin().thenPlayAndHold("attack.stab_left_reset")
         private const val STAB_LEFT_RESET_ID = "Stab Left Reset"
         private val STAB_LEFT_RESET_ATTACK = CustomAttack(CustomAttackPose.STAB_LEFT, CustomAttackPose.DEFAULT, 5, 0, -1.0, null, ATTACK_ANIM_CONTROLLER_ID, STAB_LEFT_RESET_ID)
+
+        private val STAB_SWAP_LR_ANIM: RawAnimation = RawAnimation.begin().thenPlayAndHold("attack.stab_swap_left_right")
+        private const val STAB_SWAP_LR_ID = "Stab Swap Left Right"
+        private val STAB_SWAP_LR_ATTACK =
+            CustomAttack(CustomAttackPose.STAB_LEFT, CustomAttackPose.STAB_RIGHT, 5, 0, 3.0, Pair(4, ATTACK_DAMAGE), ATTACK_ANIM_CONTROLLER_ID, STAB_SWAP_LR_ID)
+
+        private val STAB_SWAP_RL_ANIM: RawAnimation = RawAnimation.begin().thenPlayAndHold("attack.stab_swap_right_left")
+        private const val STAB_SWAP_RL_ID = "Stab Swap Right Left"
+        private val STAB_SWAP_RL_ATTACK =
+            CustomAttack(CustomAttackPose.STAB_RIGHT, CustomAttackPose.STAB_LEFT, 5, 0, 3.0, Pair(4, ATTACK_DAMAGE), ATTACK_ANIM_CONTROLLER_ID, STAB_SWAP_RL_ID)
+
+        private val UPWARDS_SLICE_LEFT_ANIM: RawAnimation = RawAnimation.begin().thenPlayAndHold("attack.upwards_slice_left")
+        private const val UPWARDS_SLICE_LEFT_ID = "Upwards Slice Left"
+        private val UPWARDS_SLICE_LEFT_ATTACK =
+            CustomAttack(CustomAttackPose.DEFAULT, CustomAttackPose.UPWARDS_SLICE_LEFT, 5, 0, 3.0, Pair(4, ATTACK_DAMAGE), ATTACK_ANIM_CONTROLLER_ID, UPWARDS_SLICE_LEFT_ID)
+
+        private val UPWARDS_SLICE_LEFT_RESET_ANIM: RawAnimation = RawAnimation.begin().thenPlayAndHold("attack.upwards_slice_left_reset")
+        private const val UPWARDS_SLICE_LEFT_RESET_ID = "Upwards Slice Left Reset"
+        private val UPWARDS_SLICE_LEFT_RESET_ATTACK =
+            CustomAttack(CustomAttackPose.UPWARDS_SLICE_LEFT, CustomAttackPose.DEFAULT, 5, 0, -1.0, Pair(3, ATTACK_DAMAGE), ATTACK_ANIM_CONTROLLER_ID, UPWARDS_SLICE_LEFT_RESET_ID)
+
+        private val UPWARDS_SLICE_RIGHT_ANIM: RawAnimation = RawAnimation.begin().thenPlayAndHold("attack.upwards_slice_right")
+        private const val UPWARDS_SLICE_RIGHT_ID = "Upwards Slice Right"
+        private val UPWARDS_SLICE_RIGHT_ATTACK =
+            CustomAttack(CustomAttackPose.DEFAULT, CustomAttackPose.UPWARDS_SLICE_RIGHT, 5, 0, 3.0, Pair(4, ATTACK_DAMAGE), ATTACK_ANIM_CONTROLLER_ID, UPWARDS_SLICE_RIGHT_ID)
+
+        private val UPWARDS_SLICE_RIGHT_RESET_ANIM: RawAnimation = RawAnimation.begin().thenPlayAndHold("attack.upwards_slice_right_reset")
+        private const val UPWARDS_SLICE_RIGHT_RESET_ID = "Upwards Slice Right Reset"
+        private val UPWARDS_SLICE_RIGHT_RESET_ATTACK =
+            CustomAttack(CustomAttackPose.UPWARDS_SLICE_RIGHT, CustomAttackPose.DEFAULT, 5, 0, -1.0, Pair(3, ATTACK_DAMAGE), ATTACK_ANIM_CONTROLLER_ID, UPWARDS_SLICE_RIGHT_RESET_ID)
+
+        private val SWEEP_LEFT_ANIM: RawAnimation = RawAnimation.begin().thenPlayAndHold("attack.sweep_left")
+        private const val SWEEP_LEFT_ID = "Sweep Left"
+        private val SWEEP_LEFT_ATTACK =
+            CustomAttack(CustomAttackPose.UPWARDS_SLICE_LEFT, CustomAttackPose.SWEEP_LEFT, 5, 0, 3.0, Pair(2, ATTACK_DAMAGE), ATTACK_ANIM_CONTROLLER_ID, SWEEP_LEFT_ID)
+
+        private val SWEEP_LEFT_RESET_ANIM: RawAnimation = RawAnimation.begin().thenPlayAndHold("attack.sweep_left_reset")
+        private const val SWEEP_LEFT_RESET_ID = "Sweep Left Reset"
+        private val SWEEP_LEFT_RESET_ATTACK =
+            CustomAttack(CustomAttackPose.SWEEP_LEFT, CustomAttackPose.DEFAULT, 5, 0, -1.0, null, ATTACK_ANIM_CONTROLLER_ID, SWEEP_LEFT_RESET_ID)
+
+        private val SWEEP_RIGHT_ANIM: RawAnimation = RawAnimation.begin().thenPlayAndHold("attack.sweep_right")
+        private const val SWEEP_RIGHT_ID = "Sweep Right"
+        private val SWEEP_RIGHT_ATTACK =
+            CustomAttack(CustomAttackPose.UPWARDS_SLICE_RIGHT, CustomAttackPose.SWEEP_RIGHT, 5, 0, 3.0, Pair(2, ATTACK_DAMAGE), ATTACK_ANIM_CONTROLLER_ID, SWEEP_RIGHT_ID)
+
+        private val SWEEP_RIGHT_RESET_ANIM: RawAnimation = RawAnimation.begin().thenPlayAndHold("attack.sweep_right_reset")
+        private const val SWEEP_RIGHT_RESET_ID = "Sweep Right Reset"
+        private val SWEEP_RIGHT_RESET_ATTACK =
+            CustomAttack(CustomAttackPose.SWEEP_RIGHT, CustomAttackPose.DEFAULT, 5, 0, -1.0, null, ATTACK_ANIM_CONTROLLER_ID, SWEEP_RIGHT_RESET_ID)
 
         private val ATTACKS = listOf(
             RandomOption(1, STAB_RIGHT_ATTACK),
             RandomOption(1, STAB_RIGHT_RESET_ATTACK),
             RandomOption(1, STAB_LEFT_ATTACK),
             RandomOption(1, STAB_LEFT_RESET_ATTACK),
+            RandomOption(1, STAB_SWAP_LR_ATTACK),
+            RandomOption(1, STAB_SWAP_RL_ATTACK),
+            RandomOption(1, UPWARDS_SLICE_LEFT_ATTACK),
+            RandomOption(1, UPWARDS_SLICE_LEFT_RESET_ATTACK),
+            RandomOption(1, UPWARDS_SLICE_RIGHT_ATTACK),
+            RandomOption(1, UPWARDS_SLICE_RIGHT_RESET_ATTACK),
+            RandomOption(2, SWEEP_LEFT_ATTACK),
+            RandomOption(1, SWEEP_LEFT_RESET_ATTACK),
+            RandomOption(2, SWEEP_RIGHT_ATTACK),
+            RandomOption(1, SWEEP_RIGHT_RESET_ATTACK),
         )
 
         fun createAttributes(): DefaultAttributeContainer.Builder {
@@ -84,11 +151,25 @@ class ElfDuelistEntity(
     private val cache: AnimatableInstanceCache = GeckoLibUtil.createInstanceCache(this)
     override fun getAnimatableInstanceCache() = cache
 
+    private val earAnimationController = AnimationController<GeoAnimatable>(EAR_ANIM_CONTROLLED_ID) { _ -> PlayState.STOP }
+        .triggerableAnim(EAR_TWITCH_LEFT_ID, EAR_TWITCH_LEFT_ANIM)
+        .triggerableAnim(EAR_TWITCH_RIGHT_ID, EAR_TWITCH_RIGHT_ANIM)
+
     private val attackAnimationController = AnimationController<GeoAnimatable>(ATTACK_ANIM_CONTROLLER_ID) { _ -> PlayState.STOP }
         .triggerableAnim(STAB_RIGHT_ID, STAB_RIGHT_ANIM)
         .triggerableAnim(STAB_RIGHT_RESET_ID, STAB_RIGHT_RESET_ANIM)
         .triggerableAnim(STAB_LEFT_ID, STAB_LEFT_ANIM)
         .triggerableAnim(STAB_LEFT_RESET_ID, STAB_LEFT_RESET_ANIM)
+        .triggerableAnim(STAB_SWAP_LR_ID, STAB_SWAP_LR_ANIM)
+        .triggerableAnim(STAB_SWAP_RL_ID, STAB_SWAP_RL_ANIM)
+        .triggerableAnim(UPWARDS_SLICE_LEFT_ID, UPWARDS_SLICE_LEFT_ANIM)
+        .triggerableAnim(UPWARDS_SLICE_LEFT_RESET_ID, UPWARDS_SLICE_LEFT_RESET_ANIM)
+        .triggerableAnim(UPWARDS_SLICE_RIGHT_ID, UPWARDS_SLICE_RIGHT_ANIM)
+        .triggerableAnim(UPWARDS_SLICE_RIGHT_RESET_ID, UPWARDS_SLICE_RIGHT_RESET_ANIM)
+        .triggerableAnim(SWEEP_LEFT_ID, SWEEP_LEFT_ANIM)
+        .triggerableAnim(SWEEP_LEFT_RESET_ID, SWEEP_LEFT_RESET_ANIM)
+        .triggerableAnim(SWEEP_RIGHT_ID, SWEEP_RIGHT_ANIM)
+        .triggerableAnim(SWEEP_RIGHT_RESET_ID, SWEEP_RIGHT_RESET_ANIM)
 
     override fun registerControllers(controllers: AnimatableManager.ControllerRegistrar) {
         controllers.add(
@@ -98,6 +179,7 @@ class ElfDuelistEntity(
             AnimationController<ElfDuelistEntity>("Lean", 5)
             { test -> if (test.isMoving) test.setAndContinue(LEAN_ANIM) else PlayState.STOP },
 
+            earAnimationController,
             attackAnimationController,
         )
     }
@@ -124,5 +206,12 @@ class ElfDuelistEntity(
         super.tick()
         val world = world as? ServerWorld ?: return
         tickAttacks(world, this)
+        tickEars()
+    }
+
+    private fun tickEars() {
+        if (random.nextDouble() > EAR_TWITCH_PROBABILITY) return
+        if (random.nextBoolean()) triggerAnim(EAR_ANIM_CONTROLLED_ID, EAR_TWITCH_LEFT_ID)
+        else triggerAnim(EAR_ANIM_CONTROLLED_ID, EAR_TWITCH_RIGHT_ID)
     }
 }

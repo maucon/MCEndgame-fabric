@@ -4,6 +4,8 @@ enum class CustomAttackPose {
     DEFAULT,
     STAB_RIGHT,
     STAB_LEFT,
-    SLAM,
-    HIT,
+    UPWARDS_SLICE_LEFT,
+    UPWARDS_SLICE_RIGHT,
+    SWEEP_LEFT,
+    SWEEP_RIGHT,
 }
