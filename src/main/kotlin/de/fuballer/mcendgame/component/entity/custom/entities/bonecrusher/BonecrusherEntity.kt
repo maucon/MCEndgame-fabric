@@ -2,9 +2,9 @@ package de.fuballer.mcendgame.component.entity.custom.entities.bonecrusher
 
 import de.fuballer.mcendgame.component.entity.custom.attack.*
 import de.fuballer.mcendgame.component.entity.custom.goals.*
+import de.fuballer.mcendgame.component.entity.custom.interfaces.BlockAbleMovementMob
 import de.fuballer.mcendgame.component.entity.custom.interfaces.CustomAttacksMob
 import de.fuballer.mcendgame.component.entity.custom.interfaces.DisableAbleGoalsMob
-import de.fuballer.mcendgame.component.entity.custom.util.BlockedMovementManager
 import de.fuballer.mcendgame.util.random.RandomOption
 import net.minecraft.entity.EntityType
 import net.minecraft.entity.ai.goal.ActiveTargetGoal
@@ -32,7 +32,7 @@ import software.bernie.geckolib.util.GeckoLibUtil
 class BonecrusherEntity(
     type: EntityType<out BonecrusherEntity>,
     world: World,
-) : PathAwareEntity(type, world), GeoEntity, DisableAbleGoalsMob, Monster, CustomAttacksMob<BonecrusherEntity> {
+) : PathAwareEntity(type, world), GeoEntity, DisableAbleGoalsMob, BlockAbleMovementMob<BonecrusherEntity>, Monster, CustomAttacksMob<BonecrusherEntity> {
     companion object {
         val WALK_ANIM: RawAnimation = RawAnimation.begin().thenLoop("movement.walk")
 
@@ -43,12 +43,12 @@ class BonecrusherEntity(
         private const val HIT_ID = "Hit"
         private val HIT_AREA = CustomAreaAttackDamage.DamageArea(3.5, 1.4, 1.5, 0.0, 0.5, 0.5)
         private val HIT_ATTACK_DAMAGE = CustomAreaAttackDamage(0.5F, 0.35, HIT_AREA, knockbackType = CustomAreaAttackDamage.KnockbackType.FACING)
-        private val HIT_ATTACK = CustomAttack(
+        private val HIT_ATTACK = CustomAttack<BonecrusherEntity>(
             CustomAttackPose.DEFAULT,
             CustomAttackPose.DEFAULT,
             20,
             0,
-            3.0,
+            Pair(0.0, 3.0),
             Pair(4, HIT_ATTACK_DAMAGE),
             ATTACK_ANIM_CONTROLLER_ID,
             HIT_ID,
@@ -60,15 +60,16 @@ class BonecrusherEntity(
         private val SLAM_ATTACK_DAMAGE = CustomAreaAttackDamage(1F, 1.0, SLAM_AREA, knockbackType = CustomAreaAttackDamage.KnockbackType.AREA_CENTER)
             .setParticles(100, 0.25, ParticleTypes.CRIT, 0.5)
             .setSound(false, SoundEvents.ENTITY_GENERIC_EXPLODE.value(), 1F, 1F)
-        private val SLAM_ATTACK = CustomAttack(
+        private val SLAM_ATTACK = CustomAttack<BonecrusherEntity>(
             CustomAttackPose.DEFAULT,
             CustomAttackPose.DEFAULT,
             40,
-            100,
-            4.0,
+            150,
+            Pair(0.0, 4.0),
             Pair(17, SLAM_ATTACK_DAMAGE),
             ATTACK_ANIM_CONTROLLER_ID,
             SLAM_ID,
+            25,
         )
 
         const val SPIN_ATTACK_ROTATIONS = 3
@@ -84,12 +85,12 @@ class BonecrusherEntity(
         private val SPIN_LEFT_DAMAGE = CustomAreaAttackDamage(1F, 0.25, SPIN_LEFT_AREA, knockbackType = CustomAreaAttackDamage.KnockbackType.DAMAGER_CENTER)
         private val SPIN_RIGHT_AREA = CustomAreaAttackDamage.DamageArea(6.0, 2.0, 1.0, -3.0, 2.0, 0.5)
         private val SPIN_RIGHT_DAMAGE = CustomAreaAttackDamage(1F, 0.25, SPIN_RIGHT_AREA, knockbackType = CustomAreaAttackDamage.KnockbackType.DAMAGER_CENTER)
-        private val SPIN_ATTACK = CustomAttack(
+        private val SPIN_ATTACK = CustomAttack<BonecrusherEntity>(
             CustomAttackPose.DEFAULT,
             CustomAttackPose.DEFAULT,
             50 + 13 * SPIN_ATTACK_ROTATIONS,
             50 + 13 * SPIN_ATTACK_ROTATIONS + 200,
-            3.0,
+            Pair(0.0, 3.0),
             getSpinAttackDamage(),
             SPIN_ANIM_CONTROLLER_ID,
             SPIN_START_ID,
@@ -142,14 +143,6 @@ class BonecrusherEntity(
     private val cache: AnimatableInstanceCache = GeckoLibUtil.createInstanceCache(this)
     override fun getAnimatableInstanceCache() = cache
 
-    private val attackGoal = CustomAttacksGoal(this)
-    private val stayInMeleeRangeGoal = StayInRangeGoal(this, 1.0, 2.5)
-    private val wanderGoal = DisableAbleWanderAroundFarGoal(this, 1.0)
-    private val lookAtPlayerGoal = DisableAbleLookAtEntityGoal(this, PlayerEntity::class.java, 8F)
-    private val lookAroundGoal = DisableAbleLookAroundGoal(this)
-
-    private val blockedMovementManager = BlockedMovementManager(this)
-
     private enum class SpinAttackState {
         NONE,
         START,
@@ -163,8 +156,18 @@ class BonecrusherEntity(
     override var attackPose = CustomAttackPose.DEFAULT
     override var attackDuration = 0
     override val attacks = ATTACKS
-    override val attackCooldowns: MutableMap<CustomAttack, Int> = mutableMapOf()
+    override val attackCooldowns: MutableMap<CustomAttack<BonecrusherEntity>, Int> = mutableMapOf()
     override val attackDamageInstances = mutableListOf<CustomAttackDamageInstance>()
+
+    override var blockAbleMovementEntity = this
+    override var blockedMovementTicks = 0
+    override var blockedMovementAirborne = false
+
+    private val attackGoal = CustomAttacksGoal(this)
+    private val stayInMeleeRangeGoal = StayInRangeGoal(this, 1.0, 2.5)
+    private val wanderGoal = DisableAbleWanderAroundFarGoal(this, 1.0)
+    private val lookAtPlayerGoal = DisableAbleLookAtEntityGoal(this, PlayerEntity::class.java, 8F)
+    private val lookAroundGoal = DisableAbleLookAroundGoal(this)
 
     init {
         initDynamicGoals()
@@ -186,7 +189,7 @@ class BonecrusherEntity(
     }
 
     override fun updateGoals() {
-        val movementBlocked = blockedMovementManager.isBlocked()
+        val movementBlocked = isMovementBlocked()
         attackGoal.isDisabled = movementBlocked
         stayInMeleeRangeGoal.isDisabled = movementBlocked
         wanderGoal.isDisabled = movementBlocked
@@ -196,7 +199,7 @@ class BonecrusherEntity(
 
     override fun tick() {
         super.tick()
-        blockedMovementManager.tick()
+        tickBlockedMovement()
 
         val world = world as? ServerWorld ?: return
         tickAttacks(world, this)

@@ -8,15 +8,14 @@ import de.fuballer.mcendgame.util.random.RandomUtil
 import net.minecraft.entity.mob.MobEntity
 import net.minecraft.server.world.ServerWorld
 import software.bernie.geckolib.animatable.GeoEntity
-import kotlin.math.min
 
 interface CustomAttacksMob<T> where T : MobEntity, T : GeoEntity {
     var attackPose: CustomAttackPose
     var attackDuration: Int
 
-    val attacks: List<RandomOption<CustomAttack>>
+    val attacks: List<RandomOption<out CustomAttack<T>>>
 
-    val attackCooldowns: MutableMap<CustomAttack, Int>
+    val attackCooldowns: MutableMap<CustomAttack<T>, Int>
 
     val attackDamageInstances: MutableList<CustomAttackDamageInstance>
 
@@ -32,6 +31,7 @@ interface CustomAttacksMob<T> where T : MobEntity, T : GeoEntity {
             return
         }
 
+        if (!canAttack()) return
         if (damager.target?.isAlive == true) return
         if (attackPose == CustomAttackPose.DEFAULT) return
         val resetAttack = getResetAttack() ?: return
@@ -41,32 +41,17 @@ interface CustomAttacksMob<T> where T : MobEntity, T : GeoEntity {
     fun canAttack() = attackDuration == 0
 
     fun attack(
-        damager: T,
-        attack: CustomAttack,
+        attacker: T,
+        attack: CustomAttack<T>,
     ) {
-        if (!canAttack()) return
         attackDuration = attack.totalDuration
         attackPose = attack.endPose
 
         attackCooldowns[attack] = attack.cooldown
 
-        triggerAttackAnimation(damager, attack)
-
-        val target = damager.target
-        attack.damage.forEach {
-            val damage = it.second
-            if (damage.requiresTarget() && target == null) return@forEach
-
-            val damageInstance = CustomAttackDamageInstance(it.first, target, damage)
-            attackDamageInstances.add(damageInstance)
-        }
-    }
-
-    private fun triggerAttackAnimation(
-        damager: T,
-        attack: CustomAttack,
-    ) {
-        damager.triggerAnim(attack.animControllerName, attack.animName)
+        val target = attacker.target
+        attack.start(attacker, target)
+        attackDamageInstances.addAll(attack.getDamageInstances(target))
     }
 
     private fun tickCooldowns() {
@@ -97,20 +82,18 @@ interface CustomAttacksMob<T> where T : MobEntity, T : GeoEntity {
 
     fun getRandomAttack(
         attacker: MobEntity,
-    ): CustomAttack? {
+    ): CustomAttack<T>? {
         val target = attacker.target ?: return null
-
-        val squaredDistance = min(attacker.squaredDistanceTo(target), attacker.squaredDistanceTo(target.eyePos))
 
         val possibleAttacks = attacks
             .filter { it.option.startPose == attackPose }
-            .filter { (it.option.triggerRange < 0 || it.option.squaredTriggerRange >= squaredDistance) }
             .filter { !attackCooldowns.containsKey(it.option) }
+            .filter { it.option.canStart(attacker, target) }
         if (possibleAttacks.isNotEmpty()) return RandomUtil.pick(possibleAttacks).option
         return null
     }
 
-    private fun getResetAttack(): CustomAttack? {
+    private fun getResetAttack(): CustomAttack<T>? {
         val possibleAttacks = attacks
             .filter { it.option.startPose == attackPose }
             .filter { it.option.endPose == CustomAttackPose.DEFAULT }
