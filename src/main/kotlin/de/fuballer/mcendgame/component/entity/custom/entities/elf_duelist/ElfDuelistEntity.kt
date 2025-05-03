@@ -14,6 +14,7 @@ import de.fuballer.mcendgame.component.entity.custom.interfaces.CustomAttacksMob
 import de.fuballer.mcendgame.component.entity.custom.interfaces.DisableAbleGoalsMob
 import de.fuballer.mcendgame.util.random.RandomOption
 import net.minecraft.entity.EntityType
+import net.minecraft.entity.ProjectileDeflection
 import net.minecraft.entity.ai.goal.ActiveTargetGoal
 import net.minecraft.entity.ai.goal.RevengeGoal
 import net.minecraft.entity.ai.goal.SwimGoal
@@ -23,6 +24,7 @@ import net.minecraft.entity.mob.Monster
 import net.minecraft.entity.mob.PathAwareEntity
 import net.minecraft.entity.passive.VillagerEntity
 import net.minecraft.entity.player.PlayerEntity
+import net.minecraft.entity.projectile.ProjectileEntity
 import net.minecraft.server.world.ServerWorld
 import net.minecraft.world.World
 import software.bernie.geckolib.animatable.GeoAnimatable
@@ -404,4 +406,6 @@ class ElfDuelistEntity(
         if (random.nextBoolean()) triggerAnim(EAR_ANIM_CONTROLLED_ID, EAR_TWITCH_LEFT_ID)
         else triggerAnim(EAR_ANIM_CONTROLLED_ID, EAR_TWITCH_RIGHT_ID)
     }
+
+    override fun getProjectileDeflection(projectile: ProjectileEntity): ProjectileDeflection = if (random.nextBoolean()) ProjectileDeflection.NONE else ProjectileDeflection.SIMPLE
 }
