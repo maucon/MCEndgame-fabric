@@ -15,10 +15,10 @@ class CustomBasicAttackDamage(
         world: ServerWorld,
         damager: MobEntity,
         target: LivingEntity?
-    ) {
-        if (target?.isAlive != true) return
+    ): Boolean {
+        if (target?.isAlive != true) return false
         val squaredDistance = min(damager.squaredDistanceTo(target), damager.squaredDistanceTo(target.eyePos))
-        if (squaredDistance > squaredHitRange) return
+        if (squaredDistance > squaredHitRange) return false
 
         val damage = getDamage(damager)
         val damageSource = damager.damageSources.mobAttack(damager)
@@ -27,5 +27,7 @@ class CustomBasicAttackDamage(
         val knockback = getKnockback(damager)
         val knockbackDirection = target.pos.subtract(damager.pos).normalize()
         target.takeKnockback(knockback, -knockbackDirection.x, -knockbackDirection.z)
+
+        return true
     }
 }

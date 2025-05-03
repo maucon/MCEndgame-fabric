@@ -33,7 +33,7 @@ class CustomAreaAttackDamage(
     private var pitch: Float = 1F
     private var volume: Float = 1F
 
-    override fun apply(world: ServerWorld, damager: MobEntity, target: LivingEntity?) {
+    override fun apply(world: ServerWorld, damager: MobEntity, target: LivingEntity?): Boolean {
         val forward = damager.getRotationVector(damager.pitch, damager.bodyYaw).horizontal.normalize()
         val sideways = forward.crossProduct(Vec3d(0.0, 1.0, 0.0))
 
@@ -50,9 +50,11 @@ class CustomAreaAttackDamage(
 
         if (createParticles) createParticles(world, slamCenter, forward, sideways, scale)
 
-        if (!playSound) return
-        if (soundRequiresHit && targets.isEmpty()) return
+        if (!playSound) return true
+        if (soundRequiresHit && targets.isEmpty()) return true
         playSound(world, slamCenter, scale)
+
+        return true
     }
 
     private fun getScale(damager: MobEntity) = if (applyScale) damager.getAttributeValue(EntityAttributes.SCALE) else 1.0

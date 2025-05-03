@@ -12,7 +12,7 @@ open class CustomAttack<T>(
     val totalDuration: Int,
     val cooldown: Int,
     private val triggerDistance: Pair<Double, Double>,
-    val damage: List<Pair<Int, CustomAttackDamage>>,
+    val damage: List<Pair<Pair<Int, Int>, CustomAttackDamage>>,
     private val animControllerName: String,
     private val animName: String,
     private val blockMovementDuration: Int = 0,
@@ -24,7 +24,7 @@ open class CustomAttack<T>(
         totalDuration: Int,
         cooldown: Int,
         triggerDistance: Pair<Double, Double>,
-        damage: Pair<Int, CustomAttackDamage>?,
+        damage: Pair<Pair<Int, Int>, CustomAttackDamage>?,
         animControllerName: String,
         animName: String,
         blockMovementDuration: Int = 0,
@@ -60,7 +60,7 @@ open class CustomAttack<T>(
         blockAbleMovementMob.blockMovement(blockMovementDuration)
     }
 
-    fun getDamageInstances(
+    open fun getDamageInstances(
         target: LivingEntity?,
     ): List<CustomAttackDamageInstance> {
         val instances = mutableListOf<CustomAttackDamageInstance>()

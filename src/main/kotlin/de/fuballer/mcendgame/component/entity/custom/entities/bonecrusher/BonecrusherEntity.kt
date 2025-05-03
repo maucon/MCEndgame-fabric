@@ -49,7 +49,7 @@ class BonecrusherEntity(
             20,
             0,
             Pair(0.0, 3.0),
-            Pair(4, HIT_ATTACK_DAMAGE),
+            Pair(Pair(4, 4), HIT_ATTACK_DAMAGE),
             ATTACK_ANIM_CONTROLLER_ID,
             HIT_ID,
         )
@@ -66,7 +66,7 @@ class BonecrusherEntity(
             40,
             150,
             Pair(0.0, 4.0),
-            Pair(17, SLAM_ATTACK_DAMAGE),
+            Pair(Pair(17, 17), SLAM_ATTACK_DAMAGE),
             ATTACK_ANIM_CONTROLLER_ID,
             SLAM_ID,
             25,
@@ -96,28 +96,28 @@ class BonecrusherEntity(
             SPIN_START_ID,
         )
 
-        private fun getSpinAttackDamage(): List<Pair<Int, CustomAttackDamage>> {
-            val damage = mutableListOf<Pair<Int, CustomAttackDamage>>()
+        private fun getSpinAttackDamage(): List<Pair<Pair<Int, Int>, CustomAttackDamage>> {
+            val damage = mutableListOf<Pair<Pair<Int, Int>, CustomAttackDamage>>()
 
             // spin start
-            damage.add(Pair(5, SPIN_LEFT_DAMAGE))
-            damage.add(Pair(9, SPIN_BACK_DAMAGE))
-            damage.add(Pair(13, SPIN_RIGHT_DAMAGE))
+            damage.add(Pair(Pair(5, 5), SPIN_LEFT_DAMAGE))
+            damage.add(Pair(Pair(9, 9), SPIN_BACK_DAMAGE))
+            damage.add(Pair(Pair(13, 13), SPIN_RIGHT_DAMAGE))
 
             // main spin
             for (rot in 0 until SPIN_ATTACK_ROTATIONS) {
                 val base = 16 + (rot * 20 * 2 / 3.0).toInt()
-                damage.add(Pair(base, SPIN_FRONT_DAMAGE))
-                damage.add(Pair(base + 3, SPIN_LEFT_DAMAGE))
-                damage.add(Pair(base + 6, SPIN_BACK_DAMAGE))
-                damage.add(Pair(base + 10, SPIN_RIGHT_DAMAGE))
+                damage.add(Pair(Pair(base, base), SPIN_FRONT_DAMAGE))
+                damage.add(Pair(Pair(base + 3, base + 3), SPIN_LEFT_DAMAGE))
+                damage.add(Pair(Pair(base + 6, base + 6), SPIN_BACK_DAMAGE))
+                damage.add(Pair(Pair(base + 10, base + 10), SPIN_RIGHT_DAMAGE))
             }
 
             // spin end
             val base = 16 + (SPIN_ATTACK_ROTATIONS * 20 * 2 / 3.0).toInt()
-            damage.add(Pair(base, SPIN_FRONT_DAMAGE))
-            damage.add(Pair(base + 5, SPIN_LEFT_DAMAGE))
-            damage.add(Pair(base + 10, SPIN_BACK_DAMAGE))
+            damage.add(Pair(Pair(base, base), SPIN_FRONT_DAMAGE))
+            damage.add(Pair(Pair(base + 5, base + 5), SPIN_LEFT_DAMAGE))
+            damage.add(Pair(Pair(base + 10, base + 10), SPIN_BACK_DAMAGE))
 
             return damage
         }

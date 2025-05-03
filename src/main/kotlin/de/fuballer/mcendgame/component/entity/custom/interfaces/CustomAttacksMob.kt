@@ -73,8 +73,7 @@ interface CustomAttacksMob<T> where T : MobEntity, T : GeoEntity {
     ) {
         val toRemove = mutableListOf<CustomAttackDamageInstance>()
         for (attack in attackDamageInstances) {
-            if (!attack.tick()) continue
-            attack.apply(world, damager)
+            if (!attack.tick(world, damager)) continue
             toRemove.add(attack)
         }
         attackDamageInstances.removeAll(toRemove)

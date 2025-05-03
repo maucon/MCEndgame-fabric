@@ -9,7 +9,7 @@ abstract class CustomAttackDamage(
     private val damageFactor: Float,
     private val knockbackFactor: Double,
 ) {
-    abstract fun apply(world: ServerWorld, damager: MobEntity, target: LivingEntity?)
+    abstract fun apply(world: ServerWorld, damager: MobEntity, target: LivingEntity?): Boolean
 
     fun getDamage(damager: MobEntity) = damager.getAttributeValue(EntityAttributes.ATTACK_DAMAGE).toFloat() * damageFactor
     fun getKnockback(damager: MobEntity) = damager.getAttributeValue(EntityAttributes.ATTACK_KNOCKBACK).toFloat() * knockbackFactor

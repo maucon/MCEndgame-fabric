@@ -4,12 +4,26 @@ import net.minecraft.entity.LivingEntity
 import net.minecraft.entity.mob.MobEntity
 import net.minecraft.server.world.ServerWorld
 
-class CustomAttackDamageInstance(
-    private var delay: Int,
+open class CustomAttackDamageInstance(
+    private var timeRange: Pair<Int, Int>,
     private val target: LivingEntity?,
     private val damage: CustomAttackDamage,
 ) {
-    fun tick() = --delay == 0
+    var age = 0
 
-    fun apply(world: ServerWorld, damager: MobEntity) = damage.apply(world, damager, target)
+    // returns if the damage is applied, expired or cancelled
+    fun tick(
+        world: ServerWorld,
+        damager: MobEntity,
+    ): Boolean {
+        if (shouldCancel(damager)) return true
+
+        age++
+        if (age < timeRange.first) return false
+        if (age > timeRange.second) return true
+
+        return damage.apply(world, damager, target)
+    }
+
+    open fun shouldCancel(damager: MobEntity) = false
 }

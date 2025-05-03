@@ -12,7 +12,7 @@ class CustomLeapAttack<T>(
     endPose: CustomAttackPose,
     totalDuration: Int,
     cooldown: Int, triggerDistance: Pair<Double, Double>,
-    damage: List<Pair<Int, CustomAttackDamage>>,
+    damage: List<Pair<Pair<Int, Int>, CustomAttackDamage>>,
     animControllerName: String,
     animName: String,
     private val leapType: LeapType,
@@ -24,7 +24,7 @@ class CustomLeapAttack<T>(
         totalDuration: Int,
         cooldown: Int,
         triggerDistance: Pair<Double, Double>,
-        damage: Pair<Int, CustomAttackDamage>?,
+        damage: Pair<Pair<Int, Int>, CustomAttackDamage>?,
         animControllerName: String,
         animName: String,
         leapType: LeapType,
@@ -68,6 +68,20 @@ class CustomLeapAttack<T>(
 
         val blockAbleMovementMob = attacker as? BlockAbleMovementMob<*> ?: return
         blockAbleMovementMob.setAirborneBlocked()
+    }
+
+    override fun getDamageInstances(
+        target: LivingEntity?,
+    ): List<CustomAttackDamageInstance> {
+        val instances = mutableListOf<CustomLeapAttackDamageInstance>()
+        damage.forEach {
+            val damage = it.second
+            if (damage.requiresTarget() && target == null) return@forEach
+
+            val damageInstance = CustomLeapAttackDamageInstance(it.first, target, damage)
+            instances.add(damageInstance)
+        }
+        return instances
     }
 
     enum class LeapType(
