@@ -1,30 +1,31 @@
 package de.fuballer.mcendgame.component.entity.custom.attack
 
+import de.fuballer.mcendgame.component.entity.custom.attack.damage.AttackDamage
+import de.fuballer.mcendgame.component.entity.custom.attack.damage.instance.AttackDamageInstance
+import de.fuballer.mcendgame.component.entity.custom.attack.trigger_condition.TriggerCondition
 import de.fuballer.mcendgame.component.entity.custom.interfaces.BlockAbleMovementMob
 import net.minecraft.entity.LivingEntity
 import net.minecraft.entity.mob.MobEntity
 import software.bernie.geckolib.animatable.GeoEntity
-import kotlin.math.min
 
-open class CustomAttack<T>(
-    val startPose: CustomAttackPose,
-    val endPose: CustomAttackPose,
+open class Attack<T>(
+    val startPose: AttackPose,
+    val endPose: AttackPose,
     val totalDuration: Int,
     val cooldown: Int,
-    private val triggerDistance: Pair<Double, Double>,
-    val damage: List<Pair<Pair<Int, Int>, CustomAttackDamage>>,
+    private val trigger: TriggerCondition,
+    val damage: List<Pair<Pair<Int, Int>, AttackDamage>>,
     private val animControllerName: String,
     private val animName: String,
     private val blockMovementDuration: Int = 0,
-    private val squaredTriggerDistance: Pair<Double, Double> = Pair(triggerDistance.first * triggerDistance.first, triggerDistance.second * triggerDistance.second),
 ) where T : MobEntity, T : GeoEntity {
     constructor(
-        startPose: CustomAttackPose,
-        endPose: CustomAttackPose,
+        startPose: AttackPose,
+        endPose: AttackPose,
         totalDuration: Int,
         cooldown: Int,
-        triggerDistance: Pair<Double, Double>,
-        damage: Pair<Pair<Int, Int>, CustomAttackDamage>?,
+        trigger: TriggerCondition,
+        damage: Pair<Pair<Int, Int>, AttackDamage>?,
         animControllerName: String,
         animName: String,
         blockMovementDuration: Int = 0,
@@ -33,7 +34,7 @@ open class CustomAttack<T>(
         endPose,
         totalDuration,
         cooldown,
-        triggerDistance,
+        trigger,
         if (damage != null) listOf(damage) else listOf(),
         animControllerName,
         animName,
@@ -43,11 +44,7 @@ open class CustomAttack<T>(
     open fun canStart(
         attacker: MobEntity,
         target: LivingEntity,
-    ): Boolean {
-        if (triggerDistance.first < 0) return true
-        val squaredDistance = min(attacker.squaredDistanceTo(target), attacker.squaredDistanceTo(target.eyePos))
-        return squaredTriggerDistance.first <= squaredDistance && squaredTriggerDistance.second >= squaredDistance
-    }
+    ) = trigger.doesTrigger(attacker, target)
 
     open fun start(
         attacker: T,
@@ -62,13 +59,13 @@ open class CustomAttack<T>(
 
     open fun getDamageInstances(
         target: LivingEntity?,
-    ): List<CustomAttackDamageInstance> {
-        val instances = mutableListOf<CustomAttackDamageInstance>()
+    ): List<AttackDamageInstance> {
+        val instances = mutableListOf<AttackDamageInstance>()
         damage.forEach {
             val damage = it.second
             if (damage.requiresTarget() && target == null) return@forEach
 
-            val damageInstance = CustomAttackDamageInstance(it.first, target, damage)
+            val damageInstance = AttackDamageInstance(it.first, target, damage)
             instances.add(damageInstance)
         }
         return instances

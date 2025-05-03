@@ -1,13 +1,14 @@
-package de.fuballer.mcendgame.component.entity.custom.attack
+package de.fuballer.mcendgame.component.entity.custom.attack.damage.instance
 
+import de.fuballer.mcendgame.component.entity.custom.attack.damage.AttackDamage
 import net.minecraft.entity.LivingEntity
 import net.minecraft.entity.mob.MobEntity
 import net.minecraft.server.world.ServerWorld
 
-open class CustomAttackDamageInstance(
+open class AttackDamageInstance(
     private var timeRange: Pair<Int, Int>,
     private val target: LivingEntity?,
-    private val damage: CustomAttackDamage,
+    private val damage: AttackDamage,
 ) {
     var age = 0
 

@@ -1,5 +1,9 @@
 package de.fuballer.mcendgame.component.entity.custom.attack
 
+import de.fuballer.mcendgame.component.entity.custom.attack.damage.AttackDamage
+import de.fuballer.mcendgame.component.entity.custom.attack.damage.instance.AttackDamageInstance
+import de.fuballer.mcendgame.component.entity.custom.attack.damage.instance.LeapAttackDamageInstance
+import de.fuballer.mcendgame.component.entity.custom.attack.trigger_condition.TriggerCondition
 import de.fuballer.mcendgame.component.entity.custom.interfaces.BlockAbleMovementMob
 import net.minecraft.entity.LivingEntity
 import net.minecraft.entity.mob.MobEntity
@@ -7,24 +11,25 @@ import net.minecraft.util.math.Vec3d
 import software.bernie.geckolib.animatable.GeoEntity
 import kotlin.math.max
 
-class CustomLeapAttack<T>(
-    startPose: CustomAttackPose,
-    endPose: CustomAttackPose,
+class LeapAttack<T>(
+    startPose: AttackPose,
+    endPose: AttackPose,
     totalDuration: Int,
-    cooldown: Int, triggerDistance: Pair<Double, Double>,
-    damage: List<Pair<Pair<Int, Int>, CustomAttackDamage>>,
+    cooldown: Int,
+    trigger: TriggerCondition,
+    damage: List<Pair<Pair<Int, Int>, AttackDamage>>,
     animControllerName: String,
     animName: String,
     private val leapType: LeapType,
     blockMovementDuration: Int = 0,
-) : CustomAttack<T>(startPose, endPose, totalDuration, cooldown, triggerDistance, damage, animControllerName, animName, blockMovementDuration) where T : MobEntity, T : GeoEntity {
+) : Attack<T>(startPose, endPose, totalDuration, cooldown, trigger, damage, animControllerName, animName, blockMovementDuration) where T : MobEntity, T : GeoEntity {
     constructor(
-        startPose: CustomAttackPose,
-        endPose: CustomAttackPose,
+        startPose: AttackPose,
+        endPose: AttackPose,
         totalDuration: Int,
         cooldown: Int,
-        triggerDistance: Pair<Double, Double>,
-        damage: Pair<Pair<Int, Int>, CustomAttackDamage>?,
+        trigger: TriggerCondition,
+        damage: Pair<Pair<Int, Int>, AttackDamage>?,
         animControllerName: String,
         animName: String,
         leapType: LeapType,
@@ -34,21 +39,13 @@ class CustomLeapAttack<T>(
         endPose,
         totalDuration,
         cooldown,
-        triggerDistance,
+        trigger,
         if (damage != null) listOf(damage) else listOf(),
         animControllerName,
         animName,
         leapType,
         blockMovementDuration,
     )
-
-    override fun canStart(
-        attacker: MobEntity,
-        target: LivingEntity,
-    ): Boolean {
-        if (!super.canStart(attacker, target)) return false
-        return true
-    }
 
     override fun start(
         attacker: T,
@@ -72,13 +69,13 @@ class CustomLeapAttack<T>(
 
     override fun getDamageInstances(
         target: LivingEntity?,
-    ): List<CustomAttackDamageInstance> {
-        val instances = mutableListOf<CustomLeapAttackDamageInstance>()
+    ): List<AttackDamageInstance> {
+        val instances = mutableListOf<LeapAttackDamageInstance>()
         damage.forEach {
             val damage = it.second
             if (damage.requiresTarget() && target == null) return@forEach
 
-            val damageInstance = CustomLeapAttackDamageInstance(it.first, target, damage)
+            val damageInstance = LeapAttackDamageInstance(it.first, target, damage)
             instances.add(damageInstance)
         }
         return instances

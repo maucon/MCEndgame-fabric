@@ -39,5 +39,6 @@ interface BlockAbleMovementMob<T> where T : MobEntity, T : DisableAbleGoalsMob {
     fun setAirborneBlocked() {
         blockedMovementAirborne = true
         blockAbleMovementEntity.updateGoals()
+        blockAbleMovementEntity.navigation.stop()
     }
 }

@@ -1,8 +1,8 @@
 package de.fuballer.mcendgame.component.entity.custom.interfaces
 
-import de.fuballer.mcendgame.component.entity.custom.attack.CustomAttack
-import de.fuballer.mcendgame.component.entity.custom.attack.CustomAttackDamageInstance
-import de.fuballer.mcendgame.component.entity.custom.attack.CustomAttackPose
+import de.fuballer.mcendgame.component.entity.custom.attack.Attack
+import de.fuballer.mcendgame.component.entity.custom.attack.damage.instance.AttackDamageInstance
+import de.fuballer.mcendgame.component.entity.custom.attack.AttackPose
 import de.fuballer.mcendgame.util.random.RandomOption
 import de.fuballer.mcendgame.util.random.RandomUtil
 import net.minecraft.entity.mob.MobEntity
@@ -10,14 +10,14 @@ import net.minecraft.server.world.ServerWorld
 import software.bernie.geckolib.animatable.GeoEntity
 
 interface CustomAttacksMob<T> where T : MobEntity, T : GeoEntity {
-    var attackPose: CustomAttackPose
+    var attackPose: AttackPose
     var attackDuration: Int
 
-    val attacks: List<RandomOption<out CustomAttack<T>>>
+    val attacks: List<RandomOption<out Attack<T>>>
 
-    val attackCooldowns: MutableMap<CustomAttack<T>, Int>
+    val attackCooldowns: MutableMap<Attack<T>, Int>
 
-    val attackDamageInstances: MutableList<CustomAttackDamageInstance>
+    val attackDamageInstances: MutableList<AttackDamageInstance>
 
     fun tickAttacks(
         world: ServerWorld,
@@ -33,7 +33,7 @@ interface CustomAttacksMob<T> where T : MobEntity, T : GeoEntity {
 
         if (!canAttack()) return
         if (damager.target?.isAlive == true) return
-        if (attackPose == CustomAttackPose.DEFAULT) return
+        if (attackPose == AttackPose.DEFAULT) return
         val resetAttack = getResetAttack() ?: return
         attack(damager, resetAttack)
     }
@@ -42,7 +42,7 @@ interface CustomAttacksMob<T> where T : MobEntity, T : GeoEntity {
 
     fun attack(
         attacker: T,
-        attack: CustomAttack<T>,
+        attack: Attack<T>,
     ) {
         attackDuration = attack.totalDuration
         attackPose = attack.endPose
@@ -71,7 +71,7 @@ interface CustomAttacksMob<T> where T : MobEntity, T : GeoEntity {
         world: ServerWorld,
         damager: MobEntity,
     ) {
-        val toRemove = mutableListOf<CustomAttackDamageInstance>()
+        val toRemove = mutableListOf<AttackDamageInstance>()
         for (attack in attackDamageInstances) {
             if (!attack.tick(world, damager)) continue
             toRemove.add(attack)
@@ -81,7 +81,7 @@ interface CustomAttacksMob<T> where T : MobEntity, T : GeoEntity {
 
     fun getRandomAttack(
         attacker: MobEntity,
-    ): CustomAttack<T>? {
+    ): Attack<T>? {
         val target = attacker.target ?: return null
 
         val possibleAttacks = attacks
@@ -92,10 +92,10 @@ interface CustomAttacksMob<T> where T : MobEntity, T : GeoEntity {
         return null
     }
 
-    private fun getResetAttack(): CustomAttack<T>? {
+    private fun getResetAttack(): Attack<T>? {
         val possibleAttacks = attacks
             .filter { it.option.startPose == attackPose }
-            .filter { it.option.endPose == CustomAttackPose.DEFAULT }
+            .filter { it.option.endPose == AttackPose.DEFAULT }
         if (possibleAttacks.isNotEmpty()) return RandomUtil.pick(possibleAttacks).option
         return null
     }

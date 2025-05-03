@@ -1,6 +1,6 @@
 package de.fuballer.mcendgame.component.entity.custom.attack
 
-enum class CustomAttackPose {
+enum class AttackPose {
     DEFAULT,
     STAB_RIGHT,
     STAB_LEFT,

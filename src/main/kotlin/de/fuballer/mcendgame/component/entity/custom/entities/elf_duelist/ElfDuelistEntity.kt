@@ -1,6 +1,11 @@
 package de.fuballer.mcendgame.component.entity.custom.entities.elf_duelist
 
-import de.fuballer.mcendgame.component.entity.custom.attack.*
+import de.fuballer.mcendgame.component.entity.custom.attack.Attack
+import de.fuballer.mcendgame.component.entity.custom.attack.AttackPose
+import de.fuballer.mcendgame.component.entity.custom.attack.LeapAttack
+import de.fuballer.mcendgame.component.entity.custom.attack.damage.BasicAttackDamage
+import de.fuballer.mcendgame.component.entity.custom.attack.damage.instance.AttackDamageInstance
+import de.fuballer.mcendgame.component.entity.custom.attack.trigger_condition.*
 import de.fuballer.mcendgame.component.entity.custom.goals.*
 import de.fuballer.mcendgame.component.entity.custom.interfaces.BlockAbleMovementMob
 import de.fuballer.mcendgame.component.entity.custom.interfaces.CustomAttacksMob
@@ -45,17 +50,17 @@ class ElfDuelistEntity(
 
         private const val ATTACK_ANIM_CONTROLLER_ID = "Attack"
 
-        private val ATTACK_DAMAGE = CustomBasicAttackDamage(1F, 1.0, 3.5)
+        private val ATTACK_DAMAGE = BasicAttackDamage(1F, 1.0, 3.5)
 
         private val STAB_RIGHT_ANIM: RawAnimation = RawAnimation.begin().thenPlayAndHold("attack.stab_right")
         private const val STAB_RIGHT_ID = "Stab Right"
         private val STAB_RIGHT_ATTACK =
-            CustomAttack<ElfDuelistEntity>(
-                CustomAttackPose.DEFAULT,
-                CustomAttackPose.STAB_RIGHT,
+            Attack<ElfDuelistEntity>(
+                AttackPose.DEFAULT,
+                AttackPose.STAB_RIGHT,
                 5,
                 0,
-                Pair(0.0, 3.0),
+                DistanceTriggerCondition(3.0),
                 Pair(Pair(4, 4), ATTACK_DAMAGE),
                 ATTACK_ANIM_CONTROLLER_ID,
                 STAB_RIGHT_ID
@@ -64,17 +69,17 @@ class ElfDuelistEntity(
         private val STAB_RIGHT_RESET_ANIM: RawAnimation = RawAnimation.begin().thenPlayAndHold("attack.stab_right_reset")
         private const val STAB_RIGHT_RESET_ID = "Stab Right Reset"
         private val STAB_RIGHT_RESET_ATTACK =
-            CustomAttack<ElfDuelistEntity>(CustomAttackPose.STAB_RIGHT, CustomAttackPose.DEFAULT, 5, 0, Pair(-1.0, 3.0), null, ATTACK_ANIM_CONTROLLER_ID, STAB_RIGHT_RESET_ID)
+            Attack<ElfDuelistEntity>(AttackPose.STAB_RIGHT, AttackPose.DEFAULT, 5, 0, AlwaysTrueTriggerCondition(), null, ATTACK_ANIM_CONTROLLER_ID, STAB_RIGHT_RESET_ID)
 
         private val STAB_LEFT_ANIM: RawAnimation = RawAnimation.begin().thenPlayAndHold("attack.stab_left")
         private const val STAB_LEFT_ID = "Stab Left"
         private val STAB_LEFT_ATTACK =
-            CustomAttack<ElfDuelistEntity>(
-                CustomAttackPose.DEFAULT,
-                CustomAttackPose.STAB_LEFT,
+            Attack<ElfDuelistEntity>(
+                AttackPose.DEFAULT,
+                AttackPose.STAB_LEFT,
                 5,
                 0,
-                Pair(0.0, 3.0),
+                DistanceTriggerCondition(3.0),
                 Pair(Pair(4, 4), ATTACK_DAMAGE),
                 ATTACK_ANIM_CONTROLLER_ID,
                 STAB_LEFT_ID
@@ -83,17 +88,17 @@ class ElfDuelistEntity(
         private val STAB_LEFT_RESET_ANIM: RawAnimation = RawAnimation.begin().thenPlayAndHold("attack.stab_left_reset")
         private const val STAB_LEFT_RESET_ID = "Stab Left Reset"
         private val STAB_LEFT_RESET_ATTACK =
-            CustomAttack<ElfDuelistEntity>(CustomAttackPose.STAB_LEFT, CustomAttackPose.DEFAULT, 5, 0, Pair(-1.0, 3.0), null, ATTACK_ANIM_CONTROLLER_ID, STAB_LEFT_RESET_ID)
+            Attack<ElfDuelistEntity>(AttackPose.STAB_LEFT, AttackPose.DEFAULT, 5, 0, AlwaysTrueTriggerCondition(), null, ATTACK_ANIM_CONTROLLER_ID, STAB_LEFT_RESET_ID)
 
         private val STAB_SWAP_LR_ANIM: RawAnimation = RawAnimation.begin().thenPlayAndHold("attack.stab_swap_left_right")
         private const val STAB_SWAP_LR_ID = "Stab Swap Left Right"
         private val STAB_SWAP_LR_ATTACK =
-            CustomAttack<ElfDuelistEntity>(
-                CustomAttackPose.STAB_LEFT,
-                CustomAttackPose.STAB_RIGHT,
+            Attack<ElfDuelistEntity>(
+                AttackPose.STAB_LEFT,
+                AttackPose.STAB_RIGHT,
                 5,
                 0,
-                Pair(0.0, 3.0),
+                DistanceTriggerCondition(3.0),
                 Pair(Pair(4, 4), ATTACK_DAMAGE),
                 ATTACK_ANIM_CONTROLLER_ID,
                 STAB_SWAP_LR_ID
@@ -102,12 +107,12 @@ class ElfDuelistEntity(
         private val STAB_SWAP_RL_ANIM: RawAnimation = RawAnimation.begin().thenPlayAndHold("attack.stab_swap_right_left")
         private const val STAB_SWAP_RL_ID = "Stab Swap Right Left"
         private val STAB_SWAP_RL_ATTACK =
-            CustomAttack<ElfDuelistEntity>(
-                CustomAttackPose.STAB_RIGHT,
-                CustomAttackPose.STAB_LEFT,
+            Attack<ElfDuelistEntity>(
+                AttackPose.STAB_RIGHT,
+                AttackPose.STAB_LEFT,
                 5,
                 0,
-                Pair(0.0, 3.0),
+                DistanceTriggerCondition(3.0),
                 Pair(Pair(4, 4), ATTACK_DAMAGE),
                 ATTACK_ANIM_CONTROLLER_ID,
                 STAB_SWAP_RL_ID
@@ -116,12 +121,12 @@ class ElfDuelistEntity(
         private val UPWARDS_SLICE_LEFT_ANIM: RawAnimation = RawAnimation.begin().thenPlayAndHold("attack.upwards_slice_left")
         private const val UPWARDS_SLICE_LEFT_ID = "Upwards Slice Left"
         private val UPWARDS_SLICE_LEFT_ATTACK =
-            CustomAttack<ElfDuelistEntity>(
-                CustomAttackPose.DEFAULT,
-                CustomAttackPose.UPWARDS_SLICE_LEFT,
+            Attack<ElfDuelistEntity>(
+                AttackPose.DEFAULT,
+                AttackPose.UPWARDS_SLICE_LEFT,
                 5,
                 0,
-                Pair(0.0, 3.0),
+                DistanceTriggerCondition(3.0),
                 Pair(Pair(4, 4), ATTACK_DAMAGE),
                 ATTACK_ANIM_CONTROLLER_ID,
                 UPWARDS_SLICE_LEFT_ID
@@ -130,12 +135,12 @@ class ElfDuelistEntity(
         private val UPWARDS_SLICE_LEFT_RESET_ANIM: RawAnimation = RawAnimation.begin().thenPlayAndHold("attack.upwards_slice_left_reset")
         private const val UPWARDS_SLICE_LEFT_RESET_ID = "Upwards Slice Left Reset"
         private val UPWARDS_SLICE_LEFT_RESET_ATTACK =
-            CustomAttack<ElfDuelistEntity>(
-                CustomAttackPose.UPWARDS_SLICE_LEFT,
-                CustomAttackPose.DEFAULT,
+            Attack<ElfDuelistEntity>(
+                AttackPose.UPWARDS_SLICE_LEFT,
+                AttackPose.DEFAULT,
                 5,
                 0,
-                Pair(-1.0, 3.0),
+                AlwaysTrueTriggerCondition(),
                 Pair(Pair(3, 3), ATTACK_DAMAGE),
                 ATTACK_ANIM_CONTROLLER_ID,
                 UPWARDS_SLICE_LEFT_RESET_ID
@@ -144,12 +149,12 @@ class ElfDuelistEntity(
         private val UPWARDS_SLICE_RIGHT_ANIM: RawAnimation = RawAnimation.begin().thenPlayAndHold("attack.upwards_slice_right")
         private const val UPWARDS_SLICE_RIGHT_ID = "Upwards Slice Right"
         private val UPWARDS_SLICE_RIGHT_ATTACK =
-            CustomAttack<ElfDuelistEntity>(
-                CustomAttackPose.DEFAULT,
-                CustomAttackPose.UPWARDS_SLICE_RIGHT,
+            Attack<ElfDuelistEntity>(
+                AttackPose.DEFAULT,
+                AttackPose.UPWARDS_SLICE_RIGHT,
                 5,
                 0,
-                Pair(0.0, 3.0),
+                DistanceTriggerCondition(3.0),
                 Pair(Pair(4, 4), ATTACK_DAMAGE),
                 ATTACK_ANIM_CONTROLLER_ID,
                 UPWARDS_SLICE_RIGHT_ID
@@ -158,12 +163,12 @@ class ElfDuelistEntity(
         private val UPWARDS_SLICE_RIGHT_RESET_ANIM: RawAnimation = RawAnimation.begin().thenPlayAndHold("attack.upwards_slice_right_reset")
         private const val UPWARDS_SLICE_RIGHT_RESET_ID = "Upwards Slice Right Reset"
         private val UPWARDS_SLICE_RIGHT_RESET_ATTACK =
-            CustomAttack<ElfDuelistEntity>(
-                CustomAttackPose.UPWARDS_SLICE_RIGHT,
-                CustomAttackPose.DEFAULT,
+            Attack<ElfDuelistEntity>(
+                AttackPose.UPWARDS_SLICE_RIGHT,
+                AttackPose.DEFAULT,
                 5,
                 0,
-                Pair(-1.0, 3.0),
+                AlwaysTrueTriggerCondition(),
                 Pair(Pair(3, 3), ATTACK_DAMAGE),
                 ATTACK_ANIM_CONTROLLER_ID,
                 UPWARDS_SLICE_RIGHT_RESET_ID
@@ -172,12 +177,12 @@ class ElfDuelistEntity(
         private val SWEEP_LEFT_ANIM: RawAnimation = RawAnimation.begin().thenPlayAndHold("attack.sweep_left")
         private const val SWEEP_LEFT_ID = "Sweep Left"
         private val SWEEP_LEFT_ATTACK =
-            CustomAttack<ElfDuelistEntity>(
-                CustomAttackPose.UPWARDS_SLICE_LEFT,
-                CustomAttackPose.SWEEP_LEFT,
+            Attack<ElfDuelistEntity>(
+                AttackPose.UPWARDS_SLICE_LEFT,
+                AttackPose.SWEEP_LEFT,
                 5,
                 0,
-                Pair(0.0, 3.0),
+                DistanceTriggerCondition(3.0),
                 Pair(Pair(2, 2), ATTACK_DAMAGE),
                 ATTACK_ANIM_CONTROLLER_ID,
                 SWEEP_LEFT_ID
@@ -186,17 +191,17 @@ class ElfDuelistEntity(
         private val SWEEP_LEFT_RESET_ANIM: RawAnimation = RawAnimation.begin().thenPlayAndHold("attack.sweep_left_reset")
         private const val SWEEP_LEFT_RESET_ID = "Sweep Left Reset"
         private val SWEEP_LEFT_RESET_ATTACK =
-            CustomAttack<ElfDuelistEntity>(CustomAttackPose.SWEEP_LEFT, CustomAttackPose.DEFAULT, 5, 0, Pair(-1.0, 3.0), null, ATTACK_ANIM_CONTROLLER_ID, SWEEP_LEFT_RESET_ID)
+            Attack<ElfDuelistEntity>(AttackPose.SWEEP_LEFT, AttackPose.DEFAULT, 5, 0, AlwaysTrueTriggerCondition(), null, ATTACK_ANIM_CONTROLLER_ID, SWEEP_LEFT_RESET_ID)
 
         private val SWEEP_RIGHT_ANIM: RawAnimation = RawAnimation.begin().thenPlayAndHold("attack.sweep_right")
         private const val SWEEP_RIGHT_ID = "Sweep Right"
         private val SWEEP_RIGHT_ATTACK =
-            CustomAttack<ElfDuelistEntity>(
-                CustomAttackPose.UPWARDS_SLICE_RIGHT,
-                CustomAttackPose.SWEEP_RIGHT,
+            Attack<ElfDuelistEntity>(
+                AttackPose.UPWARDS_SLICE_RIGHT,
+                AttackPose.SWEEP_RIGHT,
                 5,
                 0,
-                Pair(0.0, 3.0),
+                DistanceTriggerCondition(3.0),
                 Pair(Pair(2, 2), ATTACK_DAMAGE),
                 ATTACK_ANIM_CONTROLLER_ID,
                 SWEEP_RIGHT_ID
@@ -205,21 +210,57 @@ class ElfDuelistEntity(
         private val SWEEP_RIGHT_RESET_ANIM: RawAnimation = RawAnimation.begin().thenPlayAndHold("attack.sweep_right_reset")
         private const val SWEEP_RIGHT_RESET_ID = "Sweep Right Reset"
         private val SWEEP_RIGHT_RESET_ATTACK =
-            CustomAttack<ElfDuelistEntity>(CustomAttackPose.SWEEP_RIGHT, CustomAttackPose.DEFAULT, 5, 0, Pair(-1.0, 3.0), null, ATTACK_ANIM_CONTROLLER_ID, SWEEP_RIGHT_RESET_ID)
+            Attack<ElfDuelistEntity>(AttackPose.SWEEP_RIGHT, AttackPose.DEFAULT, 5, 0, AlwaysTrueTriggerCondition(), null, ATTACK_ANIM_CONTROLLER_ID, SWEEP_RIGHT_RESET_ID)
+
+        private val LEAP_TRIGGER_CONDITION = TriggerConditionGroup(
+            TriggerConditionGroup.TriggerConditionJoinType.OR,
+            listOf(
+                TriggerConditionGroup(
+                    TriggerConditionGroup.TriggerConditionJoinType.AND,
+                    listOf(
+                        YDistanceTriggerCondition(-2.5, 2.5),
+                        DistanceTriggerCondition(5.0, 10.0),
+                    )
+                ),
+                TriggerConditionGroup(
+                    TriggerConditionGroup.TriggerConditionJoinType.AND,
+                    listOf(
+                        YDistanceTriggerCondition(2.5, 5.2),
+                        HorizontalDistanceTriggerCondition(3.0),
+                    )
+                )
+            )
+        )
 
         private val LEAP_RIGHT_ANIM: RawAnimation = RawAnimation.begin().thenPlayAndHold("attack.stab_right")
         private const val LEAP_RIGHT_ID = "Leap Right"
         private val LEAP_RIGHT_ATTACK =
-            CustomLeapAttack<ElfDuelistEntity>(
-                CustomAttackPose.DEFAULT,
-                CustomAttackPose.STAB_RIGHT,
+            LeapAttack<ElfDuelistEntity>(
+                AttackPose.DEFAULT,
+                AttackPose.STAB_RIGHT,
                 15,
                 0,
-                Pair(5.0, 10.0),
+                LEAP_TRIGGER_CONDITION,
                 Pair(Pair(4, 10), ATTACK_DAMAGE),
                 ATTACK_ANIM_CONTROLLER_ID,
                 LEAP_RIGHT_ID,
-                CustomLeapAttack.LeapType.BASIC,
+                LeapAttack.LeapType.BASIC,
+                10
+            )
+
+        private val LEAP_LEFT_ANIM: RawAnimation = RawAnimation.begin().thenPlayAndHold("attack.stab_left")
+        private const val LEAP_LEFT_ID = "Leap Left"
+        private val LEAP_LEFT_ATTACK =
+            LeapAttack<ElfDuelistEntity>(
+                AttackPose.DEFAULT,
+                AttackPose.STAB_LEFT,
+                15,
+                0,
+                LEAP_TRIGGER_CONDITION,
+                Pair(Pair(4, 10), ATTACK_DAMAGE),
+                ATTACK_ANIM_CONTROLLER_ID,
+                LEAP_LEFT_ID,
+                LeapAttack.LeapType.BASIC,
                 10
             )
 
@@ -239,6 +280,7 @@ class ElfDuelistEntity(
             RandomOption(2, SWEEP_RIGHT_ATTACK),
             RandomOption(1, SWEEP_RIGHT_RESET_ATTACK),
             RandomOption(1, LEAP_RIGHT_ATTACK),
+            RandomOption(1, LEAP_LEFT_ATTACK),
         )
 
         fun createAttributes(): DefaultAttributeContainer.Builder {
@@ -250,14 +292,16 @@ class ElfDuelistEntity(
                 .add(EntityAttributes.ARMOR, 0.0)
                 .add(EntityAttributes.KNOCKBACK_RESISTANCE, 0.8)
                 .add(EntityAttributes.MOVEMENT_EFFICIENCY, 0.85)
+                .add(EntityAttributes.SAFE_FALL_DISTANCE, 10.0)
+                .add(EntityAttributes.FALL_DAMAGE_MULTIPLIER, 0.1)
         }
     }
 
-    override var attackPose = CustomAttackPose.DEFAULT
+    override var attackPose = AttackPose.DEFAULT
     override var attackDuration = 0
     override val attacks = ATTACKS
-    override val attackCooldowns: MutableMap<CustomAttack<ElfDuelistEntity>, Int> = mutableMapOf()
-    override val attackDamageInstances = mutableListOf<CustomAttackDamageInstance>()
+    override val attackCooldowns: MutableMap<Attack<ElfDuelistEntity>, Int> = mutableMapOf()
+    override val attackDamageInstances = mutableListOf<AttackDamageInstance>()
 
     override var blockAbleMovementEntity = this
     override var blockedMovementTicks = 0
@@ -286,6 +330,7 @@ class ElfDuelistEntity(
         .triggerableAnim(SWEEP_RIGHT_ID, SWEEP_RIGHT_ANIM)
         .triggerableAnim(SWEEP_RIGHT_RESET_ID, SWEEP_RIGHT_RESET_ANIM)
         .triggerableAnim(LEAP_RIGHT_ID, LEAP_RIGHT_ANIM)
+        .triggerableAnim(LEAP_LEFT_ID, LEAP_LEFT_ANIM)
 
     override fun registerControllers(controllers: AnimatableManager.ControllerRegistrar) {
         controllers.add(

@@ -1,11 +1,11 @@
-package de.fuballer.mcendgame.component.entity.custom.attack
+package de.fuballer.mcendgame.component.entity.custom.attack.damage
 
 import net.minecraft.entity.LivingEntity
 import net.minecraft.entity.attribute.EntityAttributes
 import net.minecraft.entity.mob.MobEntity
 import net.minecraft.server.world.ServerWorld
 
-abstract class CustomAttackDamage(
+abstract class AttackDamage(
     private val damageFactor: Float,
     private val knockbackFactor: Double,
 ) {

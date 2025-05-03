@@ -1,0 +1,14 @@
+package de.fuballer.mcendgame.component.entity.custom.attack.trigger_condition
+
+import net.minecraft.entity.LivingEntity
+import net.minecraft.entity.mob.MobEntity
+
+class YDistanceTriggerCondition(
+    private val minYOffset: Double,
+    private val maxYOffset: Double,
+) : TriggerCondition() {
+    override fun doesTrigger(
+        attacker: MobEntity,
+        target: LivingEntity
+    ) = (target.pos.y - attacker.pos.y) in minYOffset..maxYOffset
+}

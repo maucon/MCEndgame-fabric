@@ -1,16 +1,16 @@
-package de.fuballer.mcendgame.component.entity.custom.attack
+package de.fuballer.mcendgame.component.entity.custom.attack.damage
 
 import net.minecraft.entity.LivingEntity
 import net.minecraft.entity.mob.MobEntity
 import net.minecraft.server.world.ServerWorld
 import kotlin.math.min
 
-class CustomBasicAttackDamage(
+class BasicAttackDamage(
     damageFactor: Float,
     knockbackFactor: Double,
     private val hitRange: Double,
     private val squaredHitRange: Double = hitRange * hitRange
-) : CustomAttackDamage(damageFactor, knockbackFactor) {
+) : AttackDamage(damageFactor, knockbackFactor) {
     override fun apply(
         world: ServerWorld,
         damager: MobEntity,
