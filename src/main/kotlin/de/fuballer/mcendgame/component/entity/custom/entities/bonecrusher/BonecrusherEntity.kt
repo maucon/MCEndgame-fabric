@@ -3,8 +3,9 @@ package de.fuballer.mcendgame.component.entity.custom.entities.bonecrusher
 import de.fuballer.mcendgame.component.entity.custom.attack.Attack
 import de.fuballer.mcendgame.component.entity.custom.attack.AttackPose
 import de.fuballer.mcendgame.component.entity.custom.attack.damage.AreaAttackDamage
-import de.fuballer.mcendgame.component.entity.custom.attack.damage.AttackDamage
+import de.fuballer.mcendgame.component.entity.custom.attack.damage.DelayedAttackDamage
 import de.fuballer.mcendgame.component.entity.custom.attack.damage.instance.AttackDamageInstance
+import de.fuballer.mcendgame.component.entity.custom.attack.data.AttackAnimationData
 import de.fuballer.mcendgame.component.entity.custom.attack.trigger_condition.DistanceTriggerCondition
 import de.fuballer.mcendgame.component.entity.custom.goals.*
 import de.fuballer.mcendgame.component.entity.custom.interfaces.BlockAbleMovementMob
@@ -48,15 +49,13 @@ class BonecrusherEntity(
         private const val HIT_ID = "Hit"
         private val HIT_AREA = AreaAttackDamage.DamageArea(3.5, 1.4, 1.5, 0.0, 0.5, 0.5)
         private val HIT_ATTACK_DAMAGE = AreaAttackDamage(0.5F, 0.35, HIT_AREA, knockbackType = AreaAttackDamage.KnockbackType.FACING)
+        private val HIT_ANIMATION_DATA = AttackAnimationData(AttackPose.DEFAULT, AttackPose.DEFAULT, ATTACK_ANIM_CONTROLLER_ID, HIT_ID)
         private val HIT_ATTACK = Attack<BonecrusherEntity>(
-            AttackPose.DEFAULT,
-            AttackPose.DEFAULT,
+            HIT_ANIMATION_DATA,
             20,
             0,
             DistanceTriggerCondition(3.0),
-            Pair(Pair(4, 4), HIT_ATTACK_DAMAGE),
-            ATTACK_ANIM_CONTROLLER_ID,
-            HIT_ID,
+            DelayedAttackDamage(HIT_ATTACK_DAMAGE, 4),
         )
 
         private val SLAM_ANIM: RawAnimation = RawAnimation.begin().thenPlay("attack.slam")
@@ -65,15 +64,13 @@ class BonecrusherEntity(
         private val SLAM_ATTACK_DAMAGE = AreaAttackDamage(1F, 1.0, SLAM_AREA, knockbackType = AreaAttackDamage.KnockbackType.AREA_CENTER)
             .setParticles(100, 0.25, ParticleTypes.CRIT, 0.5)
             .setSound(false, SoundEvents.ENTITY_GENERIC_EXPLODE.value(), 1F, 1F)
+        private val SLAM_ANIMATION_DATA = AttackAnimationData(AttackPose.DEFAULT, AttackPose.DEFAULT, ATTACK_ANIM_CONTROLLER_ID, SLAM_ID)
         private val SLAM_ATTACK = Attack<BonecrusherEntity>(
-            AttackPose.DEFAULT,
-            AttackPose.DEFAULT,
+            SLAM_ANIMATION_DATA,
             40,
             150,
             DistanceTriggerCondition(1.5, 4.0),
-            Pair(Pair(17, 17), SLAM_ATTACK_DAMAGE),
-            ATTACK_ANIM_CONTROLLER_ID,
-            SLAM_ID,
+            DelayedAttackDamage(SLAM_ATTACK_DAMAGE, 17),
             25,
         )
 
@@ -90,39 +87,37 @@ class BonecrusherEntity(
         private val SPIN_LEFT_DAMAGE = AreaAttackDamage(1F, 0.25, SPIN_LEFT_AREA, knockbackType = AreaAttackDamage.KnockbackType.DAMAGER_CENTER)
         private val SPIN_RIGHT_AREA = AreaAttackDamage.DamageArea(6.0, 2.0, 1.0, -3.0, 2.0, 0.5)
         private val SPIN_RIGHT_DAMAGE = AreaAttackDamage(1F, 0.25, SPIN_RIGHT_AREA, knockbackType = AreaAttackDamage.KnockbackType.DAMAGER_CENTER)
+        private val SPIN_ANIMATION_DATA = AttackAnimationData(AttackPose.DEFAULT, AttackPose.DEFAULT, ATTACK_ANIM_CONTROLLER_ID, SPIN_START_ID)
         private val SPIN_ATTACK = Attack<BonecrusherEntity>(
-            AttackPose.DEFAULT,
-            AttackPose.DEFAULT,
+            SPIN_ANIMATION_DATA,
             50 + 13 * SPIN_ATTACK_ROTATIONS,
             50 + 13 * SPIN_ATTACK_ROTATIONS + 200,
             DistanceTriggerCondition(3.0),
             getSpinAttackDamage(),
-            SPIN_ANIM_CONTROLLER_ID,
-            SPIN_START_ID,
         )
 
-        private fun getSpinAttackDamage(): List<Pair<Pair<Int, Int>, AttackDamage>> {
-            val damage = mutableListOf<Pair<Pair<Int, Int>, AttackDamage>>()
+        private fun getSpinAttackDamage(): List<DelayedAttackDamage> {
+            val damage = mutableListOf<DelayedAttackDamage>()
 
             // spin start
-            damage.add(Pair(Pair(5, 5), SPIN_LEFT_DAMAGE))
-            damage.add(Pair(Pair(9, 9), SPIN_BACK_DAMAGE))
-            damage.add(Pair(Pair(13, 13), SPIN_RIGHT_DAMAGE))
+            damage.add(DelayedAttackDamage(SPIN_LEFT_DAMAGE, 5))
+            damage.add(DelayedAttackDamage(SPIN_BACK_DAMAGE, 9))
+            damage.add(DelayedAttackDamage(SPIN_RIGHT_DAMAGE, 13))
 
             // main spin
             for (rot in 0 until SPIN_ATTACK_ROTATIONS) {
                 val base = 16 + (rot * 20 * 2 / 3.0).toInt()
-                damage.add(Pair(Pair(base, base), SPIN_FRONT_DAMAGE))
-                damage.add(Pair(Pair(base + 3, base + 3), SPIN_LEFT_DAMAGE))
-                damage.add(Pair(Pair(base + 6, base + 6), SPIN_BACK_DAMAGE))
-                damage.add(Pair(Pair(base + 10, base + 10), SPIN_RIGHT_DAMAGE))
+                damage.add(DelayedAttackDamage(SPIN_FRONT_DAMAGE, base))
+                damage.add(DelayedAttackDamage(SPIN_LEFT_DAMAGE, base + 3))
+                damage.add(DelayedAttackDamage(SPIN_BACK_DAMAGE, base + 6))
+                damage.add(DelayedAttackDamage(SPIN_RIGHT_DAMAGE, base + 10))
             }
 
             // spin end
             val base = 16 + (SPIN_ATTACK_ROTATIONS * 20 * 2 / 3.0).toInt()
-            damage.add(Pair(Pair(base, base), SPIN_FRONT_DAMAGE))
-            damage.add(Pair(Pair(base + 5, base + 5), SPIN_LEFT_DAMAGE))
-            damage.add(Pair(Pair(base + 10, base + 10), SPIN_BACK_DAMAGE))
+            damage.add(DelayedAttackDamage(SPIN_FRONT_DAMAGE, base))
+            damage.add(DelayedAttackDamage(SPIN_LEFT_DAMAGE, base + 5))
+            damage.add(DelayedAttackDamage(SPIN_BACK_DAMAGE, base + 10))
 
             return damage
         }

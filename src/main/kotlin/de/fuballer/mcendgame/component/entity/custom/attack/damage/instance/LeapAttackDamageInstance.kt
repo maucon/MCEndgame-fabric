@@ -5,9 +5,10 @@ import net.minecraft.entity.LivingEntity
 import net.minecraft.entity.mob.MobEntity
 
 class LeapAttackDamageInstance(
-    timeRange: Pair<Int, Int>,
+    minDelay: Int,
+    maxDelay: Int,
     target: LivingEntity?,
     damage: AttackDamage,
-) : AttackDamageInstance(timeRange, target, damage) {
+) : AttackDamageInstance(minDelay, maxDelay, target, damage) {
     override fun shouldCancel(damager: MobEntity) = damager.isOnGround
 }

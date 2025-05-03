@@ -1,8 +1,8 @@
 package de.fuballer.mcendgame.component.entity.custom.interfaces
 
 import de.fuballer.mcendgame.component.entity.custom.attack.Attack
-import de.fuballer.mcendgame.component.entity.custom.attack.damage.instance.AttackDamageInstance
 import de.fuballer.mcendgame.component.entity.custom.attack.AttackPose
+import de.fuballer.mcendgame.component.entity.custom.attack.damage.instance.AttackDamageInstance
 import de.fuballer.mcendgame.util.random.RandomOption
 import de.fuballer.mcendgame.util.random.RandomUtil
 import net.minecraft.entity.mob.MobEntity
@@ -45,7 +45,7 @@ interface CustomAttacksMob<T> where T : MobEntity, T : GeoEntity {
         attack: Attack<T>,
     ) {
         attackDuration = attack.totalDuration
-        attackPose = attack.endPose
+        attackPose = attack.animationData.endPose
 
         attackCooldowns[attack] = attack.cooldown
 
@@ -85,7 +85,7 @@ interface CustomAttacksMob<T> where T : MobEntity, T : GeoEntity {
         val target = attacker.target ?: return null
 
         val possibleAttacks = attacks
-            .filter { it.option.startPose == attackPose }
+            .filter { it.option.animationData.startPose == attackPose }
             .filter { !attackCooldowns.containsKey(it.option) }
             .filter { it.option.canStart(attacker, target) }
         if (possibleAttacks.isNotEmpty()) return RandomUtil.pick(possibleAttacks).option
@@ -94,8 +94,8 @@ interface CustomAttacksMob<T> where T : MobEntity, T : GeoEntity {
 
     private fun getResetAttack(): Attack<T>? {
         val possibleAttacks = attacks
-            .filter { it.option.startPose == attackPose }
-            .filter { it.option.endPose == AttackPose.DEFAULT }
+            .filter { it.option.animationData.startPose == attackPose }
+            .filter { it.option.animationData.endPose == AttackPose.DEFAULT }
         if (possibleAttacks.isNotEmpty()) return RandomUtil.pick(possibleAttacks).option
         return null
     }

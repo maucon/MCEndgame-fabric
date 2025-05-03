@@ -6,7 +6,8 @@ import net.minecraft.entity.mob.MobEntity
 import net.minecraft.server.world.ServerWorld
 
 open class AttackDamageInstance(
-    private var timeRange: Pair<Int, Int>,
+    private var minDelay: Int,
+    private val maxDelay: Int,
     private val target: LivingEntity?,
     private val damage: AttackDamage,
 ) {
@@ -20,8 +21,8 @@ open class AttackDamageInstance(
         if (shouldCancel(damager)) return true
 
         age++
-        if (age < timeRange.first) return false
-        if (age > timeRange.second) return true
+        if (age < minDelay) return false
+        if (age > maxDelay) return true
 
         return damage.apply(world, damager, target)
     }

@@ -1,7 +1,8 @@
 package de.fuballer.mcendgame.component.entity.custom.attack
 
-import de.fuballer.mcendgame.component.entity.custom.attack.damage.AttackDamage
+import de.fuballer.mcendgame.component.entity.custom.attack.damage.DelayedAttackDamage
 import de.fuballer.mcendgame.component.entity.custom.attack.damage.instance.AttackDamageInstance
+import de.fuballer.mcendgame.component.entity.custom.attack.data.AttackAnimationData
 import de.fuballer.mcendgame.component.entity.custom.attack.trigger_condition.TriggerCondition
 import de.fuballer.mcendgame.component.entity.custom.interfaces.BlockAbleMovementMob
 import net.minecraft.entity.LivingEntity
@@ -9,35 +10,26 @@ import net.minecraft.entity.mob.MobEntity
 import software.bernie.geckolib.animatable.GeoEntity
 
 open class Attack<T>(
-    val startPose: AttackPose,
-    val endPose: AttackPose,
+    val animationData: AttackAnimationData,
     val totalDuration: Int,
     val cooldown: Int,
     private val trigger: TriggerCondition,
-    val damage: List<Pair<Pair<Int, Int>, AttackDamage>>,
-    private val animControllerName: String,
-    private val animName: String,
+    private val damage: List<DelayedAttackDamage>,
     private val blockMovementDuration: Int = 0,
 ) where T : MobEntity, T : GeoEntity {
     constructor(
-        startPose: AttackPose,
-        endPose: AttackPose,
+        animationData: AttackAnimationData,
         totalDuration: Int,
         cooldown: Int,
         trigger: TriggerCondition,
-        damage: Pair<Pair<Int, Int>, AttackDamage>?,
-        animControllerName: String,
-        animName: String,
+        damage: DelayedAttackDamage?,
         blockMovementDuration: Int = 0,
     ) : this(
-        startPose,
-        endPose,
+        animationData,
         totalDuration,
         cooldown,
         trigger,
         if (damage != null) listOf(damage) else listOf(),
-        animControllerName,
-        animName,
         blockMovementDuration,
     )
 
@@ -50,7 +42,7 @@ open class Attack<T>(
         attacker: T,
         target: LivingEntity?,
     ) {
-        attacker.triggerAnim(animControllerName, animName)
+        animationData.triggerAnimation(attacker)
 
         if (blockMovementDuration == 0) return
         val blockAbleMovementMob = attacker as? BlockAbleMovementMob<*> ?: return
@@ -62,12 +54,16 @@ open class Attack<T>(
     ): List<AttackDamageInstance> {
         val instances = mutableListOf<AttackDamageInstance>()
         damage.forEach {
-            val damage = it.second
-            if (damage.requiresTarget() && target == null) return@forEach
+            if (it.damage.requiresTarget() && target == null) return@forEach
 
-            val damageInstance = AttackDamageInstance(it.first, target, damage)
+            val damageInstance = getDamageInstance(target, it)
             instances.add(damageInstance)
         }
         return instances
     }
+
+    open fun getDamageInstance(
+        target: LivingEntity?,
+        delayedDamage: DelayedAttackDamage,
+    ) = AttackDamageInstance(delayedDamage.minDelay, delayedDamage.maxDelay, target, delayedDamage.damage)
 }
