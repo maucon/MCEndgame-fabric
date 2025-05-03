@@ -9,7 +9,9 @@ import net.minecraft.entity.LivingEntity
 import net.minecraft.entity.mob.MobEntity
 import net.minecraft.util.math.Vec3d
 import software.bernie.geckolib.animatable.GeoEntity
+import kotlin.math.abs
 import kotlin.math.max
+import kotlin.math.sqrt
 
 class LeapAttack<T>(
     animationData: AttackAnimationData,
@@ -69,8 +71,8 @@ class LeapAttack<T>(
         private val additionalYVelocity: Double,
     ) {
         BASIC(
-            { distance -> kotlin.math.abs(distance * 0.2) },
-            { distance -> kotlin.math.abs(distance * 0.2) },
+            { distance -> abs(distance * 0.2) },
+            { distance -> sqrt(abs(0.16 * distance)) },
             0.3,
         );
 
