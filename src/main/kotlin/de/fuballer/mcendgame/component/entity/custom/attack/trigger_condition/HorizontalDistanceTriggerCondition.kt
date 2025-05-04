@@ -13,6 +13,9 @@ class HorizontalDistanceTriggerCondition(
 
     override fun doesTrigger(
         attacker: MobEntity,
-        target: LivingEntity
-    ) = target.pos.subtract(attacker.pos).horizontalLengthSquared() in squaredMinHorizontalDistance..squaredMaxHorizontalDistance
+        target: LivingEntity?,
+    ): Boolean {
+        if (target == null) return false
+        return target.pos.subtract(attacker.pos).horizontalLengthSquared() in squaredMinHorizontalDistance..squaredMaxHorizontalDistance
+    }
 }

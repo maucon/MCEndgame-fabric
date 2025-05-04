@@ -35,7 +35,7 @@ open class Attack<T>(
 
     open fun canStart(
         attacker: MobEntity,
-        target: LivingEntity,
+        target: LivingEntity?,
     ) = trigger.doesTrigger(attacker, target)
 
     open fun start(

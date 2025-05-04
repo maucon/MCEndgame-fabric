@@ -9,6 +9,9 @@ class YDistanceTriggerCondition(
 ) : TriggerCondition() {
     override fun doesTrigger(
         attacker: MobEntity,
-        target: LivingEntity
-    ) = (target.pos.y - attacker.pos.y) in minYOffset..maxYOffset
+        target: LivingEntity?,
+    ): Boolean {
+        if (target == null) return false
+        return (target.pos.y - attacker.pos.y) in minYOffset..maxYOffset
+    }
 }

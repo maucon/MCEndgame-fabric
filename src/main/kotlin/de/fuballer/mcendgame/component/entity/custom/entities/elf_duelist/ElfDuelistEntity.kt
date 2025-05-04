@@ -12,6 +12,7 @@ import de.fuballer.mcendgame.component.entity.custom.goals.*
 import de.fuballer.mcendgame.component.entity.custom.interfaces.BlockAbleMovementMob
 import de.fuballer.mcendgame.component.entity.custom.interfaces.CustomAttacksMob
 import de.fuballer.mcendgame.component.entity.custom.interfaces.DisableAbleGoalsMob
+import de.fuballer.mcendgame.util.extension.Vec3dExtension.getYaw
 import de.fuballer.mcendgame.util.random.RandomOption
 import net.minecraft.entity.EntityType
 import net.minecraft.entity.ProjectileDeflection
@@ -36,6 +37,7 @@ import software.bernie.geckolib.animation.PlayState
 import software.bernie.geckolib.animation.RawAnimation
 import software.bernie.geckolib.constant.DefaultAnimations
 import software.bernie.geckolib.util.GeckoLibUtil
+import kotlin.math.abs
 import kotlin.math.sin
 
 class ElfDuelistEntity(
@@ -43,6 +45,9 @@ class ElfDuelistEntity(
     world: World,
 ) : PathAwareEntity(type, world), GeoEntity, DisableAbleGoalsMob, BlockAbleMovementMob<ElfDuelistEntity>, Monster, CustomAttacksMob<ElfDuelistEntity> {
     companion object {
+        private const val ARROW_DEFLECT_ANGLE = 100.0
+        private const val ARROW_DEFLECT_PROBABILITY = 0.5
+
         private val LEAN_ANIM: RawAnimation = RawAnimation.begin().thenLoop("misc.lean")
 
         private const val EAR_TWITCH_PROBABILITY = 0.005
@@ -407,5 +412,20 @@ class ElfDuelistEntity(
         else triggerAnim(EAR_ANIM_CONTROLLED_ID, EAR_TWITCH_RIGHT_ID)
     }
 
-    override fun getProjectileDeflection(projectile: ProjectileEntity): ProjectileDeflection = if (random.nextBoolean()) ProjectileDeflection.NONE else ProjectileDeflection.SIMPLE
+    override fun getProjectileDeflection(
+        projectile: ProjectileEntity
+    ): ProjectileDeflection {
+        if (!canAttack()) return ProjectileDeflection.NONE
+
+        val distanceVector = projectile.pos.subtract(pos)
+        val angle = abs(bodyYaw - distanceVector.getYaw())
+        if (angle > ARROW_DEFLECT_ANGLE) return ProjectileDeflection.NONE
+
+        if (random.nextDouble() > ARROW_DEFLECT_PROBABILITY) return ProjectileDeflection.NONE
+
+        val attack = getRandomAttack(this, true) ?: return ProjectileDeflection.NONE
+        attack(this, attack)
+
+        return ProjectileDeflection.SIMPLE
+    }
 }

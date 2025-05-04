@@ -9,7 +9,7 @@ class TriggerConditionGroup(
 ) : TriggerCondition() {
     override fun doesTrigger(
         attacker: MobEntity,
-        target: LivingEntity,
+        target: LivingEntity?,
     ) = when (joinType) {
         TriggerConditionJoinType.OR -> trigger.any { it.doesTrigger(attacker, target) }
         TriggerConditionJoinType.AND -> trigger.all { it.doesTrigger(attacker, target) }

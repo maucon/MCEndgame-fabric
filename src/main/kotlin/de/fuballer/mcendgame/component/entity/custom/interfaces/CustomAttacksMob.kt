@@ -81,13 +81,14 @@ interface CustomAttacksMob<T> where T : MobEntity, T : GeoEntity {
 
     fun getRandomAttack(
         attacker: MobEntity,
+        ignoreTriggerConditions: Boolean = false,
     ): Attack<T>? {
-        val target = attacker.target ?: return null
-
+        val target = attacker.target
         val possibleAttacks = attacks
             .filter { it.option.animationData.startPose == attackPose }
             .filter { !attackCooldowns.containsKey(it.option) }
-            .filter { it.option.canStart(attacker, target) }
+            .filter { ignoreTriggerConditions || it.option.canStart(attacker, target) }
+
         if (possibleAttacks.isNotEmpty()) return RandomUtil.pick(possibleAttacks).option
         return null
     }

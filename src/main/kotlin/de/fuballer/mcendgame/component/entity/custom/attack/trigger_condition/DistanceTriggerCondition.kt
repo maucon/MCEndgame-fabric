@@ -13,6 +13,9 @@ class DistanceTriggerCondition(
 
     override fun doesTrigger(
         attacker: MobEntity,
-        target: LivingEntity
-    ) = attacker.squaredDistanceTo(target) in squaredMinDistance..squaredMaxDistance
+        target: LivingEntity?,
+    ): Boolean {
+        if (target == null) return false
+        return attacker.squaredDistanceTo(target) in squaredMinDistance..squaredMaxDistance
+    }
 }
