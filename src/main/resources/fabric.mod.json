@@ -1,7 +1,7 @@
 {
   "schemaVersion": 1,
   "id": "mcendgame",
-  "version": "${version}",
+  "version": "0.0.1",
   "name": "MCEndgame",
   "description": "This is the right outer channel!",
   "authors": [
@@ -48,7 +48,7 @@
     "java": ">=21",
     "fabric-api": "*",
     "fabric-language-kotlin": "*",
-    "fantasy": ">=0.6.6",
+    "fantasy": ">=0.6.7",
     "geckolib": ">=5.0"
   }
 }
