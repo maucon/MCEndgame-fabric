@@ -24,13 +24,13 @@
     ],
     "client": [
       {
-        "value": "de.fuballer.client.mcendgame.MCEndgameClient",
+        "value": "de.fuballer.mcendgame.client.MCEndgameClient",
         "adapter": "kotlin"
       }
     ],
     "fabric-datagen": [
       {
-        "value": "de.fuballer.client.mcendgame.MCEndgameDataGenerator",
+        "value": "de.fuballer.mcendgame.client.MCEndgameDataGenerator",
         "adapter": "kotlin"
       }
     ]
