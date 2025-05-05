@@ -62,7 +62,7 @@ class LeapAttack<T>(
 
     override fun getDamageInstance(
         target: LivingEntity?,
-        delayedDamage: DelayedAttackDamage
+        delayedDamage: DelayedAttackDamage,
     ) = LeapAttackDamageInstance(delayedDamage.minDelay, delayedDamage.maxDelay, target, delayedDamage.damage)
 
     enum class LeapType(
@@ -78,7 +78,7 @@ class LeapAttack<T>(
         JUMP_BACK(
             { _ -> -1.0 },
             { _ -> 0.0 },
-            1.0,
+            0.6,
         );
 
         fun calculateVelocity(distanceVector: Vec3d): Vec3d {

@@ -38,6 +38,7 @@ import software.bernie.geckolib.animation.RawAnimation
 import software.bernie.geckolib.constant.DefaultAnimations
 import software.bernie.geckolib.util.GeckoLibUtil
 import kotlin.math.abs
+import kotlin.math.min
 import kotlin.math.sin
 
 class ElfDuelistEntity(
@@ -285,7 +286,7 @@ class ElfDuelistEntity(
             )
         )
 
-        private val BACKFLIP_ANIM: RawAnimation = RawAnimation.begin().thenPlayAndHold("misc.backflip")
+        private val BACKFLIP_ANIM: RawAnimation = RawAnimation.begin().thenPlay("misc.backflip")
         private const val BACKFLIP_ID = "Backflip"
         private val BACKFLIP_ANIM_DATA = AttackAnimationData(AttackPose.DEFAULT, AttackPose.DEFAULT, ATTACK_ANIM_CONTROLLER_ID, BACKFLIP_ID)
         private val BACKFLIP_ATTACK =
@@ -442,7 +443,9 @@ class ElfDuelistEntity(
         if (!canAttack()) return ProjectileDeflection.NONE
 
         val distanceVector = projectile.pos.subtract(pos)
-        val angle = abs(bodyYaw - distanceVector.getYaw())
+        val yawToProj = distanceVector.getYaw()
+        val yawDifference = abs(bodyYaw - yawToProj) % 360
+        val angle = min(yawDifference, 360 - yawDifference)
         if (angle > ARROW_DEFLECT_ANGLE) return ProjectileDeflection.NONE
 
         if (random.nextDouble() > ARROW_DEFLECT_PROBABILITY) return ProjectileDeflection.NONE

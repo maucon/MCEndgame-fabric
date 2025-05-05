@@ -5,7 +5,7 @@ import kotlin.math.PI
 import kotlin.math.acos
 
 object Vec3dExtension {
-    fun Vec3d.horizontalAngleDeg(to: Vec3d): Double {
+    private fun Vec3d.horizontalAngleDeg(to: Vec3d): Double {
         val horizontal = horizontal
         val toHorizontal = to.horizontal
 
@@ -18,5 +18,8 @@ object Vec3dExtension {
         return rad * 180 / PI
     }
 
-    fun Vec3d.getYaw() = horizontalAngleDeg(Vec3d(0.0, 0.0, 1.0))
+    fun Vec3d.getYaw(): Double {
+        val angle = horizontalAngleDeg(Vec3d(0.0, 0.0, 1.0))
+        return if (x > 0) -angle else angle
+    }
 }
