@@ -1,4 +1,4 @@
-package de.fuballer.mcendgame.component.entity.custom.attack
+package de.fuballer.mcendgame.component.entity.custom.attack.damage
 
 import net.minecraft.entity.LivingEntity
 import net.minecraft.entity.attribute.EntityAttributes
@@ -14,13 +14,13 @@ import net.minecraft.util.math.Vec3d
 import kotlin.math.*
 import kotlin.random.Random
 
-class CustomAreaAttackDamage(
+class AreaAttackDamage(
     damageFactor: Float,
     knockbackFactor: Double,
     private val area: DamageArea,
     private val applyScale: Boolean = true,
     private val knockbackType: KnockbackType = KnockbackType.DAMAGER_CENTER,
-) : CustomAttackDamage(damageFactor, knockbackFactor) {
+) : AttackDamage(damageFactor, knockbackFactor) {
     private var createParticles: Boolean = false
     private var particleCount: Int = 0
     private var particleHeightOffset: Double = 0.0
@@ -33,7 +33,7 @@ class CustomAreaAttackDamage(
     private var pitch: Float = 1F
     private var volume: Float = 1F
 
-    override fun apply(world: ServerWorld, damager: MobEntity, target: LivingEntity?) {
+    override fun apply(world: ServerWorld, damager: MobEntity, target: LivingEntity?): Boolean {
         val forward = damager.getRotationVector(damager.pitch, damager.bodyYaw).horizontal.normalize()
         val sideways = forward.crossProduct(Vec3d(0.0, 1.0, 0.0))
 
@@ -50,9 +50,11 @@ class CustomAreaAttackDamage(
 
         if (createParticles) createParticles(world, slamCenter, forward, sideways, scale)
 
-        if (!playSound) return
-        if (soundRequiresHit && targets.isEmpty()) return
+        if (!playSound) return true
+        if (soundRequiresHit && targets.isEmpty()) return true
         playSound(world, slamCenter, scale)
+
+        return true
     }
 
     private fun getScale(damager: MobEntity) = if (applyScale) damager.getAttributeValue(EntityAttributes.SCALE) else 1.0
@@ -114,7 +116,7 @@ class CustomAreaAttackDamage(
         heightOffset: Double,
         type: SimpleParticleType,
         speed: Double,
-    ): CustomAreaAttackDamage {
+    ): AreaAttackDamage {
         createParticles = true
         particleCount = count
         particleHeightOffset = heightOffset
@@ -154,7 +156,7 @@ class CustomAreaAttackDamage(
         sound: SoundEvent,
         pitch: Float,
         volume: Float,
-    ): CustomAreaAttackDamage {
+    ): AreaAttackDamage {
         playSound = true
         soundRequiresHit = requiresHit
         this.sound = sound

@@ -60,7 +60,7 @@ dependencies {
     modImplementation "net.fabricmc.fabric-api:fabric-api:${fabric_version}"
     modImplementation "net.fabricmc:fabric-language-kotlin:${fabric_kotlin_version}"
 
-    modImplementation "xyz.nucleoid:fantasy:0.6.6+1.21.4"
+    modImplementation "xyz.nucleoid:fantasy:0.6.7+1.21.5"
     modImplementation "software.bernie.geckolib:geckolib-fabric-${minecraft_version}:5.0"
     implementation "de.maucon:maucon-framework:1.8.0"
 
