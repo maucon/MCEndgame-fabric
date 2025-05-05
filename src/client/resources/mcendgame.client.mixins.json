@@ -1,6 +1,6 @@
 {
   "required": true,
-  "package": "de.fuballer.mcendgame.client.mixin",
+  "package": "de.fuballer.client.mcendgame.mixin.client",
   "compatibilityLevel": "JAVA_21",
   "client": [
     "ArmorFeatureRendererMixin",
