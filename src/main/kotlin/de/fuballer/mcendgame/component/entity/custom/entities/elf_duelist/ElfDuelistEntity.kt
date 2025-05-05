@@ -277,6 +277,28 @@ class ElfDuelistEntity(
                 10
             )
 
+        private val BACKFLIP_TRIGGER_CONDITION = TriggerConditionGroup(
+            TriggerConditionGroup.TriggerConditionJoinType.AND,
+            listOf(
+                HorizontalDistanceTriggerCondition(3.0),
+                YDistanceTriggerCondition(-1.2, 1.2),
+            )
+        )
+
+        private val BACKFLIP_ANIM: RawAnimation = RawAnimation.begin().thenPlayAndHold("misc.backflip")
+        private const val BACKFLIP_ID = "Backflip"
+        private val BACKFLIP_ANIM_DATA = AttackAnimationData(AttackPose.DEFAULT, AttackPose.DEFAULT, ATTACK_ANIM_CONTROLLER_ID, BACKFLIP_ID)
+        private val BACKFLIP_ATTACK =
+            LeapAttack<ElfDuelistEntity>(
+                BACKFLIP_ANIM_DATA,
+                25,
+                200,
+                BACKFLIP_TRIGGER_CONDITION,
+                null,
+                LeapAttack.LeapType.JUMP_BACK,
+                10
+            )
+
         private val ATTACKS = listOf(
             RandomOption(1, STAB_RIGHT_ATTACK),
             RandomOption(1, STAB_RIGHT_RESET_ATTACK),
@@ -294,6 +316,7 @@ class ElfDuelistEntity(
             RandomOption(1, SWEEP_RIGHT_RESET_ATTACK),
             RandomOption(1, LEAP_RIGHT_ATTACK),
             RandomOption(1, LEAP_LEFT_ATTACK),
+            RandomOption(1, BACKFLIP_ATTACK),
         )
 
         fun createAttributes(): DefaultAttributeContainer.Builder {
@@ -344,6 +367,7 @@ class ElfDuelistEntity(
         .triggerableAnim(SWEEP_RIGHT_RESET_ID, SWEEP_RIGHT_RESET_ANIM)
         .triggerableAnim(LEAP_RIGHT_ID, LEAP_RIGHT_ANIM)
         .triggerableAnim(LEAP_LEFT_ID, LEAP_LEFT_ANIM)
+        .triggerableAnim(BACKFLIP_ID, BACKFLIP_ANIM)
 
     override fun registerControllers(controllers: AnimatableManager.ControllerRegistrar) {
         controllers.add(
