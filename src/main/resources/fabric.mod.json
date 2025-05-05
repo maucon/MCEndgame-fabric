@@ -18,19 +18,19 @@
   "entrypoints": {
     "main": [
       {
-        "value": "de.fuballer.mcendgame.MCEndgame",
+        "value": "de.fuballer.mcendgame.main.MCEndgame",
         "adapter": "kotlin"
       }
     ],
     "client": [
       {
-        "value": "de.fuballer.client.mcendgame.MCEndgameClient",
+        "value": "de.fuballer.mcendgame.client.MCEndgameClient",
         "adapter": "kotlin"
       }
     ],
     "fabric-datagen": [
       {
-        "value": "de.fuballer.client.mcendgame.MCEndgameDataGenerator",
+        "value": "de.fuballer.mcendgame.client.MCEndgameDataGenerator",
         "adapter": "kotlin"
       }
     ]
