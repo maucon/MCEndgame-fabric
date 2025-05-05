@@ -1,0 +1,117 @@
+package de.fuballer.mcendgame.main.component.entity.custom.interfaces
+
+import net.minecraft.entity.LivingEntity
+import net.minecraft.entity.attribute.EntityAttributes
+import net.minecraft.entity.mob.MobEntity
+import net.minecraft.particle.ParticleTypes
+import net.minecraft.server.world.ServerWorld
+import net.minecraft.sound.SoundCategory
+import net.minecraft.sound.SoundEvents
+import net.minecraft.util.math.Box
+import net.minecraft.util.math.Vec3d
+import kotlin.math.max
+import kotlin.math.min
+
+interface SlamAttacker : CustomPosesEntity {
+    val slamAttacker: MobEntity
+    val slamRadius: Double
+    val minSlamStrength: Double
+    val slamCenterFacingOffset: Double
+    val applyScale: Boolean
+    val knockbackStrength: Double
+
+    fun shouldDamage(target: LivingEntity): Boolean
+
+    fun slam() {
+        val world = slamAttacker.world as? ServerWorld ?: return
+
+        val scale = if (applyScale) slamAttacker.getAttributeValue(EntityAttributes.SCALE) else 1.0
+        val scaledRadius = slamRadius * scale
+        val scaledKnockbackStrength = knockbackStrength * scale
+        val scaledOffset = slamCenterFacingOffset * scale
+
+        val offset = slamAttacker.rotationVector.normalize().multiply(scaledOffset)
+        val damageCenter = slamAttacker.pos.add(offset)
+
+        val box = Box(damageCenter, Vec3d.ZERO).expand(scaledRadius) //TODO is this box even used
+        val targets = world.getEntitiesByClass(LivingEntity::class.java, box) { it != slamAttacker && shouldDamage(it) }
+            .filter { damageCenter.distanceTo(it.pos) <= scaledRadius }
+
+        damageTargets(
+            targets,
+            world,
+            damageCenter,
+            scaledRadius,
+            scaledKnockbackStrength
+        )
+
+        createParticles(world, damageCenter, scaledRadius)
+        playSound(world, damageCenter, scaledRadius)
+    }
+
+    private fun damageTargets(
+        targets: List<LivingEntity>,
+        world: ServerWorld,
+        damageCenter: Vec3d,
+        scaledRadius: Double,
+        scaledKnockbackStrength: Double,
+    ) {
+        val attackDamage = slamAttacker.getAttributeValue(EntityAttributes.ATTACK_DAMAGE).toFloat()
+
+        for (target in targets) {
+            val distanceVector = target.pos.subtract(damageCenter)
+            val distancePercent = max(1 - (distanceVector.length() / scaledRadius), 0.0)
+
+            val damage = getDistanceScaled(attackDamage.toDouble(), distancePercent).toFloat()
+            target.damage(world, world.damageSources.mobAttack(slamAttacker), damage)
+
+            val effectiveKnockbackStrength = getDistanceScaled(scaledKnockbackStrength, distancePercent)
+            target.takeKnockback(effectiveKnockbackStrength, -distanceVector.x, -distanceVector.z)
+        }
+    }
+
+    private fun getDistanceScaled(
+        value: Double,
+        distancePercent: Double,
+    ): Double {
+        val min = value * minSlamStrength
+        val range = value * (1 - minSlamStrength)
+        return (min + range * distancePercent)
+    }
+
+    private fun createParticles(
+        world: ServerWorld,
+        center: Vec3d,
+        scaledRadius: Double,
+    ) {
+        world.spawnParticles(
+            ParticleTypes.CLOUD,
+            center.x,
+            center.y + 0.2,
+            center.z,
+            (15 * scaledRadius).toInt(),
+            scaledRadius * 0.5,
+            0.1,
+            scaledRadius * 0.5,
+            0.01
+        )
+    }
+
+    private fun playSound(
+        world: ServerWorld,
+        slamCenter: Vec3d,
+        slamRadius: Double,
+    ) {
+        val volume = min(slamRadius / 3, 2.0).toFloat()
+        world.playSound(
+            null,
+            slamCenter.x,
+            slamCenter.y,
+            slamCenter.z,
+            SoundEvents.ENTITY_GENERIC_EXPLODE,
+            SoundCategory.HOSTILE,
+            volume,
+            1F
+        )
+    }
+}
