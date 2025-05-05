@@ -55,7 +55,7 @@ class DungeonPortalService(
         val world = event.world as ServerWorld
         if (!event.world.isDungeonWorld()) return
 
-        val spawnPosition = (event.entity as de.fuballer.mcendgame.main.accessor.MobEntityBossAccessor).`mcendgame$getSpawnLocation`()!!
+        val spawnPosition = (event.entity as MobEntityBossAccessor).`mcendgame$getSpawnLocation`()!!
         val dungeonPortalEntity = dungeonPortalRepo.findByDungeonWorld(world) ?: return
 
         Portals.spawn(world, spawnPosition.pos.toCenter(), dungeonPortalEntity.leaveLocation, rotation = spawnPosition.rot.toFloat())

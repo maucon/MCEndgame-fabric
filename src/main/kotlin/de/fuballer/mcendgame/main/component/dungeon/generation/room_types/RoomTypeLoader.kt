@@ -85,7 +85,7 @@ object RoomTypeLoader {
         val doorPosMarkerInfos = template.getInfosForBlock(BlockPos(0, 0, 0), StructurePlacementData(), DungeonGenerationSettings.DOOR_MARKER)
         val doorPos =
             doorPosMarkerInfos.stream()
-                .map { de.fuballer.mcendgame.main.component.dungeon.generation.room_types.RoomTypeLoader.getDoor(it.pos.add(offset), size ?: template.size) }
+                .map { getDoor(it.pos.add(offset), size ?: template.size) }
                 .toList()
 
         return RoomMarkerPoints(startPos, monsterPos.toMutableList(), bossPos.toMutableList(), doorPos.toMutableList())
@@ -93,7 +93,7 @@ object RoomTypeLoader {
 
     private fun getDoor(pos: Vec3i, size: Vec3i) = Door(
         pos.clone(),
-        de.fuballer.mcendgame.main.component.dungeon.generation.room_types.RoomTypeLoader.getDoorDirection(pos.x, pos.z, size)
+        RoomTypeLoader.getDoorDirection(pos.x, pos.z, size)
     )
 
     private fun getDoorDirection(x: Int, z: Int, size: Vec3i) =
