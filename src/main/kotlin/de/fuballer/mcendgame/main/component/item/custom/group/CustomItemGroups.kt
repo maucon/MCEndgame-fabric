@@ -49,6 +49,10 @@ object CustomItemGroups {
             itemGroup.add(CustomArmorItems.DRUIDS_BOOTS)
             itemGroup.add(CustomArmorItems.EMBERCHANT)
             itemGroup.add(CustomArmorItems.LAMIAS_GIFT)
+            itemGroup.add(CustomArmorItems.WITHER_ROSE_HELMET)
+            itemGroup.add(CustomArmorItems.WITHER_ROSE_CHESTPLATE)
+            itemGroup.add(CustomArmorItems.WITHER_ROSE_LEGGINGS)
+            itemGroup.add(CustomArmorItems.WITHER_ROSE_BOOTS)
         }
         ItemGroupEvents.modifyEntriesEvent(CUSTOM_TOOLS_KEY).register { itemGroup ->
             itemGroup.add(CustomToolItems.BLOODHARVEST)
