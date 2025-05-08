@@ -18,6 +18,11 @@
 				{
 					"name": "armorHead",
 					"parent": "bipedHead",
+					"pivot": [0, 24, 0]
+				},
+				{
+					"name": "crown",
+					"parent": "armorHead",
 					"pivot": [0, 29.65, -4.6],
 					"rotation": [-1, 0, 0],
 					"cubes": [

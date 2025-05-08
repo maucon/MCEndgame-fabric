@@ -6,7 +6,7 @@
 				"identifier": "geometry.witherrose_male",
 				"texture_width": 128,
 				"texture_height": 128,
-				"visible_bounds_width": 3,
+				"visible_bounds_width": 2,
 				"visible_bounds_height": 3.5,
 				"visible_bounds_offset": [0, 1.25, 0]
 			},
@@ -18,8 +18,7 @@
 				{
 					"name": "armorHead",
 					"parent": "bipedHead",
-					"pivot": [0, 29.65, -4.6],
-					"rotation": [-1, 0, 0]
+					"pivot": [0, 24, 0]
 				},
 				{
 					"name": "bipedBody",
@@ -32,7 +31,7 @@
 				},
 				{
 					"name": "armorWaist",
-					"parent": "bipedBody",
+					"parent": "armorBody",
 					"pivot": [0, 24, 0],
 					"cubes": [
 						{"origin": [-4, 12, -2], "size": [8, 4, 4], "inflate": 0.05, "uv": [9, 92]}
@@ -122,15 +121,6 @@
 					"rotation": [-2.49762, 0.10901, 2.49762],
 					"cubes": [
 						{"origin": [-2.5, 8.65, -3.85], "size": [3, 8, 1], "inflate": -0.5, "uv": [24, 76]}
-					]
-				},
-				{
-					"name": "beltBack",
-					"parent": "skirt",
-					"pivot": [-1.5, 16.4, 3.45],
-					"rotation": [4.99763, 0.10881, 0.00713],
-					"cubes": [
-						{"origin": [-3, 12.9, 1.95], "size": [4, 4, 2], "inflate": -0.5, "pivot": [-1, 14.9, 2.95], "rotation": [0, 0, 2.5], "uv": [18, 66]}
 					]
 				},
 				{
