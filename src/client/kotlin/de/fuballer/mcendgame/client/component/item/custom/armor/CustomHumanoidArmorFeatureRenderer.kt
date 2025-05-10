@@ -1,5 +1,6 @@
 package de.fuballer.mcendgame.client.component.item.custom.armor
 
+import de.fuballer.mcendgame.client.accessor.BipedEntityRenderStateAccessor
 import de.fuballer.mcendgame.client.component.item.custom.armor.boots.druids_boots.DruidsBootsModel
 import de.fuballer.mcendgame.client.component.item.custom.armor.chestplate.bound_abyss.BoundAbyssModel
 import de.fuballer.mcendgame.client.component.item.custom.armor.chestplate.druids_chestplate.DruidsChestplateModel
@@ -8,7 +9,6 @@ import de.fuballer.mcendgame.client.component.item.custom.armor.helmet.emberchan
 import de.fuballer.mcendgame.client.component.item.custom.armor.helmet.iceborne.IceborneModel
 import de.fuballer.mcendgame.client.component.item.custom.armor.leggings.druids_leggings.DruidsLeggingsModel
 import de.fuballer.mcendgame.client.component.item.custom.armor.leggings.lamias_gift.LamiasGiftModel
-import de.fuballer.mcendgame.client.accessor.BipedEntityRenderStateAccessor
 import de.fuballer.mcendgame.main.component.item.custom.armor.CustomArmorItems
 import de.fuballer.mcendgame.main.util.minecraft.IdentifierUtil
 import net.minecraft.client.model.Model
@@ -95,7 +95,7 @@ class CustomHumanoidArmorFeatureRenderer<S : BipedEntityRenderState, M : BipedEn
             bipedEntityRenderState.equippedLegsStack,
             light
         )
-        if (!stateAccessor.`mcendgame$getHideBoots`()) {
+        if (stateAccessor.`mcendgame$getHiddenParts`()[BipedEntityRenderStateAccessor.HideAblePart.BOOTS] != true) {
             renderArmor(
                 bipedEntityRenderState,
                 matrixStack,

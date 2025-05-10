@@ -1,9 +1,14 @@
 package de.fuballer.mcendgame.client.accessor;
 
-public interface BipedEntityRenderStateAccessor {
-    void mcendgame$setHideLegs(boolean hide);
-    boolean mcendgame$getHideLegs();
+import java.util.Map;
 
-    void mcendgame$setHideBoots(boolean hide);
-    boolean mcendgame$getHideBoots();
+public interface BipedEntityRenderStateAccessor {
+    void mcendgame$setHiddenPart(HideAblePart part, boolean hidden);
+
+    Map<HideAblePart, Boolean> mcendgame$getHiddenParts();
+
+    enum HideAblePart {
+        LEGS,
+        BOOTS,
+    }
 }

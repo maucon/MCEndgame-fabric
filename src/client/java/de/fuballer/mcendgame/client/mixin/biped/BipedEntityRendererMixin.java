@@ -23,8 +23,14 @@ public class BipedEntityRendererMixin {
             CallbackInfo ci
     ) {
         var accessor = (BipedEntityRenderStateAccessor) state;
-        var wearsLamiasGift = entity.getEquippedStack(EquipmentSlot.LEGS).isOf(CustomArmorItems.INSTANCE.getLAMIAS_GIFT());
-        accessor.mcendgame$setHideLegs(wearsLamiasGift);
-        accessor.mcendgame$setHideBoots(wearsLamiasGift);
+
+        var leggings = entity.getEquippedStack(EquipmentSlot.LEGS);
+        var wearLamiasGift = leggings.isOf(CustomArmorItems.INSTANCE.getLAMIAS_GIFT());
+        
+        var hideLegs = wearLamiasGift;
+        accessor.mcendgame$setHiddenPart(BipedEntityRenderStateAccessor.HideAblePart.LEGS, hideLegs);
+
+        var hideBoots = wearLamiasGift;
+        accessor.mcendgame$setHiddenPart(BipedEntityRenderStateAccessor.HideAblePart.BOOTS, hideBoots);
     }
 }
