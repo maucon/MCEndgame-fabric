@@ -10,5 +10,7 @@ public interface BipedEntityRenderStateAccessor {
     enum HideAblePart {
         LEGS,
         BOOTS,
+        ARMS,
+        BODY,
     }
 }

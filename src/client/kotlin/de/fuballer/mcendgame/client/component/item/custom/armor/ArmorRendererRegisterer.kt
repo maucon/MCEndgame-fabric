@@ -1,5 +1,6 @@
 package de.fuballer.mcendgame.client.component.item.custom.armor
 
+import de.fuballer.mcendgame.client.component.item.custom.armor.forest_queen.ForestQueenRenderer
 import de.fuballer.mcendgame.client.component.item.custom.armor.wither_rose.WitherRoseRenderer
 import de.fuballer.mcendgame.client.helper.BipedEntityGeoRenderState
 import de.fuballer.mcendgame.main.client.ClientInstances
@@ -24,6 +25,7 @@ object ArmorRendererRegisterer {
         CustomArmorItems.WITHER_ROSE_CHESTPLATE to { WitherRoseRenderer.Chestplate() },
         CustomArmorItems.WITHER_ROSE_LEGGINGS to { WitherRoseRenderer.Leggings() },
         CustomArmorItems.WITHER_ROSE_BOOTS to { WitherRoseRenderer.Boots() },
+        CustomArmorItems.FOREST_QUEEN_CHESTPLATE to { ForestQueenRenderer.Chestplate() },
     )
 
     @Initializer

@@ -1,5 +1,6 @@
 package de.fuballer.mcendgame.main.component.item.custom.armor
 
+import de.fuballer.mcendgame.main.component.item.custom.armor.forest_queen.ForestQueenChestplate
 import de.fuballer.mcendgame.main.component.item.custom.armor.materials.*
 import de.fuballer.mcendgame.main.component.item.custom.armor.witherrose.WitherRoseBoots
 import de.fuballer.mcendgame.main.component.item.custom.armor.witherrose.WitherRoseChestplate
@@ -24,4 +25,6 @@ object CustomArmorItems {
     val WITHER_ROSE_CHESTPLATE = RegistryUtil.registerArmorItem(::WitherRoseChestplate, LamiasGiftArmorMaterial, EquipmentType.CHESTPLATE, "wither_rose_chestplate")
     val WITHER_ROSE_LEGGINGS = RegistryUtil.registerArmorItem(::WitherRoseLeggings, LamiasGiftArmorMaterial, EquipmentType.LEGGINGS, "wither_rose_leggings")
     val WITHER_ROSE_BOOTS = RegistryUtil.registerArmorItem(::WitherRoseBoots, LamiasGiftArmorMaterial, EquipmentType.BOOTS, "wither_rose_boots")
+
+    val FOREST_QUEEN_CHESTPLATE = RegistryUtil.registerArmorItem(::ForestQueenChestplate, LamiasGiftArmorMaterial, EquipmentType.CHESTPLATE, "forest_queen_chestplate")
 }
