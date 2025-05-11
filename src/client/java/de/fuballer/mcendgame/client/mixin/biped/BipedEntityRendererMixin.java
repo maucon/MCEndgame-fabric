@@ -24,17 +24,8 @@ public class BipedEntityRendererMixin {
     ) {
         var accessor = (BipedEntityRenderStateAccessor) state;
 
-        var chestplate = entity.getEquippedStack(EquipmentSlot.CHEST);
-        var wearsForestQueenChestplate = chestplate.isOf(CustomArmorItems.INSTANCE.getFOREST_QUEEN_CHESTPLATE());
-
         var leggings = entity.getEquippedStack(EquipmentSlot.LEGS);
         var wearsLamiasGift = leggings.isOf(CustomArmorItems.INSTANCE.getLAMIAS_GIFT());
-
-        var hideBody = wearsForestQueenChestplate;
-        accessor.mcendgame$setHiddenPart(BipedEntityRenderStateAccessor.HideAblePart.BODY, hideBody);
-
-        var hideArms = wearsForestQueenChestplate;
-        accessor.mcendgame$setHiddenPart(BipedEntityRenderStateAccessor.HideAblePart.ARMS, hideArms);
 
         var hideLegs = wearsLamiasGift;
         accessor.mcendgame$setHiddenPart(BipedEntityRenderStateAccessor.HideAblePart.LEGS, hideLegs);

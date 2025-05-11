@@ -1,4 +1,4 @@
-package de.fuballer.mcendgame.client.component.item.custom.armor.leggings.lamias_gift
+package de.fuballer.mcendgame.client.component.item.custom.armor.lamias_gift
 
 import de.fuballer.mcendgame.client.component.item.custom.ModelPartDataExtension.createEmptyChild
 import de.fuballer.mcendgame.main.util.minecraft.IdentifierUtil

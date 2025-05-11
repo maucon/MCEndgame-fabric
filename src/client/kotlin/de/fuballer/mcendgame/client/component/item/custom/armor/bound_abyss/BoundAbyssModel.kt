@@ -1,4 +1,4 @@
-package de.fuballer.mcendgame.client.component.item.custom.armor.chestplate.bound_abyss
+package de.fuballer.mcendgame.client.component.item.custom.armor.bound_abyss
 
 import de.fuballer.mcendgame.client.accessor.LivingEntityRenderStateAccessor
 import de.fuballer.mcendgame.client.component.item.custom.ModelPartDataExtension.createEmptyChild

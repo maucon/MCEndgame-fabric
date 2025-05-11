@@ -1,11 +1,6 @@
 package de.fuballer.mcendgame.main.component.item.custom.armor
 
-import de.fuballer.mcendgame.main.component.item.custom.armor.forest_queen.ForestQueenChestplate
 import de.fuballer.mcendgame.main.component.item.custom.armor.materials.*
-import de.fuballer.mcendgame.main.component.item.custom.armor.witherrose.WitherRoseBoots
-import de.fuballer.mcendgame.main.component.item.custom.armor.witherrose.WitherRoseChestplate
-import de.fuballer.mcendgame.main.component.item.custom.armor.witherrose.WitherRoseHelmet
-import de.fuballer.mcendgame.main.component.item.custom.armor.witherrose.WitherRoseLeggings
 import de.fuballer.mcendgame.main.util.minecraft.RegistryUtil
 import de.maucon.mauconframework.di.annotation.Injectable
 import net.minecraft.item.equipment.EquipmentType
@@ -20,11 +15,8 @@ object CustomArmorItems {
     val DRUIDS_BOOTS = RegistryUtil.registerArmorItem(DruidsArmorMaterial, EquipmentType.BOOTS, "druids_boots")
     val EMBERCHANT = RegistryUtil.registerArmorItem(EmberchantArmorMaterial, EquipmentType.HELMET, "emberchant")
     val LAMIAS_GIFT = RegistryUtil.registerArmorItem(LamiasGiftArmorMaterial, EquipmentType.LEGGINGS, "lamias_gift")
-
-    val WITHER_ROSE_HELMET = RegistryUtil.registerArmorItem(::WitherRoseHelmet, LamiasGiftArmorMaterial, EquipmentType.HELMET, "wither_rose_helmet")
-    val WITHER_ROSE_CHESTPLATE = RegistryUtil.registerArmorItem(::WitherRoseChestplate, LamiasGiftArmorMaterial, EquipmentType.CHESTPLATE, "wither_rose_chestplate")
-    val WITHER_ROSE_LEGGINGS = RegistryUtil.registerArmorItem(::WitherRoseLeggings, LamiasGiftArmorMaterial, EquipmentType.LEGGINGS, "wither_rose_leggings")
-    val WITHER_ROSE_BOOTS = RegistryUtil.registerArmorItem(::WitherRoseBoots, LamiasGiftArmorMaterial, EquipmentType.BOOTS, "wither_rose_boots")
-
-    val FOREST_QUEEN_CHESTPLATE = RegistryUtil.registerArmorItem(::ForestQueenChestplate, LamiasGiftArmorMaterial, EquipmentType.CHESTPLATE, "forest_queen_chestplate")
+    val WITHER_ROSE_HELMET = RegistryUtil.registerArmorItem(WitherRoseArmorMaterial, EquipmentType.HELMET, "wither_rose_helmet")
+    val WITHER_ROSE_CHESTPLATE = RegistryUtil.registerArmorItem(WitherRoseArmorMaterial, EquipmentType.CHESTPLATE, "wither_rose_chestplate")
+    val WITHER_ROSE_LEGGINGS = RegistryUtil.registerArmorItem(WitherRoseArmorMaterial, EquipmentType.LEGGINGS, "wither_rose_leggings")
+    val WITHER_ROSE_BOOTS = RegistryUtil.registerArmorItem(WitherRoseArmorMaterial, EquipmentType.BOOTS, "wither_rose_boots")
 }

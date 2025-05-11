@@ -1,14 +1,18 @@
 package de.fuballer.mcendgame.client.component.item.custom.armor
 
 import de.fuballer.mcendgame.client.accessor.BipedEntityRenderStateAccessor
-import de.fuballer.mcendgame.client.component.item.custom.armor.boots.druids_boots.DruidsBootsModel
-import de.fuballer.mcendgame.client.component.item.custom.armor.chestplate.bound_abyss.BoundAbyssModel
-import de.fuballer.mcendgame.client.component.item.custom.armor.chestplate.druids_chestplate.DruidsChestplateModel
-import de.fuballer.mcendgame.client.component.item.custom.armor.helmet.druids_helmet.DruidsHelmetModel
-import de.fuballer.mcendgame.client.component.item.custom.armor.helmet.emberchant.EmberchantModel
-import de.fuballer.mcendgame.client.component.item.custom.armor.helmet.iceborne.IceborneModel
-import de.fuballer.mcendgame.client.component.item.custom.armor.leggings.druids_leggings.DruidsLeggingsModel
-import de.fuballer.mcendgame.client.component.item.custom.armor.leggings.lamias_gift.LamiasGiftModel
+import de.fuballer.mcendgame.client.component.item.custom.armor.druids.DruidsBootsModel
+import de.fuballer.mcendgame.client.component.item.custom.armor.bound_abyss.BoundAbyssModel
+import de.fuballer.mcendgame.client.component.item.custom.armor.druids.DruidsChestplateModel
+import de.fuballer.mcendgame.client.component.item.custom.armor.druids.DruidsHelmetModel
+import de.fuballer.mcendgame.client.component.item.custom.armor.emberchant.EmberchantModel
+import de.fuballer.mcendgame.client.component.item.custom.armor.iceborne.IceborneModel
+import de.fuballer.mcendgame.client.component.item.custom.armor.druids.DruidsLeggingsModel
+import de.fuballer.mcendgame.client.component.item.custom.armor.lamias_gift.LamiasGiftModel
+import de.fuballer.mcendgame.client.component.item.custom.armor.wither_rose.WitherRoseBootsModel
+import de.fuballer.mcendgame.client.component.item.custom.armor.wither_rose.WitherRoseChestplateModel
+import de.fuballer.mcendgame.client.component.item.custom.armor.wither_rose.WitherRoseHelmetModel
+import de.fuballer.mcendgame.client.component.item.custom.armor.wither_rose.WitherRoseLeggingsModel
 import de.fuballer.mcendgame.main.component.item.custom.armor.CustomArmorItems
 import de.fuballer.mcendgame.main.util.minecraft.IdentifierUtil
 import net.minecraft.client.model.Model
@@ -68,6 +72,22 @@ class CustomHumanoidArmorFeatureRenderer<S : BipedEntityRenderState, M : BipedEn
         texturedArmorModels[CustomArmorItems.LAMIAS_GIFT] = TexturedArmorModel(
             IdentifierUtil.default("textures/entity/equipment/custom_humanoid/lamias_gift.png"),
             LamiasGiftModel(ctx.getPart(LamiasGiftModel.MODEL_LAYER))
+        )
+        texturedArmorModels[CustomArmorItems.WITHER_ROSE_HELMET] = TexturedArmorModel(
+            IdentifierUtil.default("textures/entity/equipment/custom_humanoid/wither_rose.png"),
+            WitherRoseHelmetModel(ctx.getPart(WitherRoseHelmetModel.MODEL_LAYER))
+        )
+        texturedArmorModels[CustomArmorItems.WITHER_ROSE_CHESTPLATE] = TexturedArmorModel(
+            IdentifierUtil.default("textures/entity/equipment/custom_humanoid/wither_rose.png"),
+            WitherRoseChestplateModel(ctx.getPart(WitherRoseChestplateModel.MODEL_LAYER))
+        )
+        texturedArmorModels[CustomArmorItems.WITHER_ROSE_LEGGINGS] = TexturedArmorModel(
+            IdentifierUtil.default("textures/entity/equipment/custom_humanoid/wither_rose.png"),
+            WitherRoseLeggingsModel(ctx.getPart(WitherRoseLeggingsModel.MODEL_LAYER))
+        )
+        texturedArmorModels[CustomArmorItems.WITHER_ROSE_BOOTS] = TexturedArmorModel(
+            IdentifierUtil.default("textures/entity/equipment/custom_humanoid/wither_rose.png"),
+            WitherRoseBootsModel(ctx.getPart(WitherRoseBootsModel.MODEL_LAYER))
         )
     }
 

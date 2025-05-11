@@ -8,14 +8,17 @@ import net.minecraft.registry.RegistryKey
 import net.minecraft.registry.tag.ItemTags
 import net.minecraft.sound.SoundEvents
 
-object LamiasGiftArmorMaterial : CustomArmorMaterial {
+object WitherRoseArmorMaterial : CustomArmorMaterial {
     override val baseDurability = 37
-    override val registryKey: RegistryKey<EquipmentAsset> = RegistryKeyUtil.createEquipmentAssetKey("lamias_gift")
+    override val registryKey: RegistryKey<EquipmentAsset> = RegistryKeyUtil.createEquipmentAssetKey("wither_rose")
 
     override val instance = ArmorMaterial(
         baseDurability,
         mapOf(
+            EquipmentType.BOOTS to 3,
             EquipmentType.LEGGINGS to 6,
+            EquipmentType.CHESTPLATE to 8,
+            EquipmentType.HELMET to 3,
         ),
         15,
         SoundEvents.ITEM_ARMOR_EQUIP_GENERIC,

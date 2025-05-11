@@ -45,17 +45,15 @@ object RegistryUtil {
     fun registerArmorItem(material: CustomArmorMaterial, type: EquipmentType, name: String) =
         registerItem(
             ::Item,
-            Item.Settings().armor(material.instance, type)
-                .maxDamage(material.baseDurability),
-            name
+            Item.Settings().armor(material.instance, type),
+            name,
         )
 
     fun registerArmorItem(factory: (Item.Settings) -> Item, material: CustomArmorMaterial, type: EquipmentType, name: String) =
         registerItem(
             factory,
-            Item.Settings().armor(material.instance, type)
-                .maxDamage(material.baseDurability),
-            name
+            Item.Settings().armor(material.instance, type),
+            name,
         )
 
     fun <T : ScreenHandler> registerScreenHandler(name: String, screenHandlerType: ScreenHandlerType<T>): ScreenHandlerType<T> =

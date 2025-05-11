@@ -1,4 +1,4 @@
-package de.fuballer.mcendgame.client.component.item.custom.armor.leggings.druids_leggings
+package de.fuballer.mcendgame.client.component.item.custom.armor.druids
 
 import de.fuballer.mcendgame.client.component.item.custom.ModelPartDataExtension.createEmptyChild
 import de.fuballer.mcendgame.main.util.minecraft.IdentifierUtil

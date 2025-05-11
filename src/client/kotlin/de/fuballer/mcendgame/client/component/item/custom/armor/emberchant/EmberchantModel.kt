@@ -1,4 +1,4 @@
-package de.fuballer.mcendgame.client.component.item.custom.armor.helmet.emberchant
+package de.fuballer.mcendgame.client.component.item.custom.armor.emberchant
 
 import de.fuballer.mcendgame.client.component.item.custom.ModelPartDataExtension.createEmptyChild
 import de.fuballer.mcendgame.main.util.minecraft.IdentifierUtil
