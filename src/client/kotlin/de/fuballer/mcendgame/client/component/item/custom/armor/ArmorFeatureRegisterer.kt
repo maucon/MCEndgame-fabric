@@ -5,7 +5,6 @@ import de.maucon.mauconframework.command.CommandHandler
 import de.maucon.mauconframework.di.annotation.Injectable
 import net.minecraft.client.render.entity.feature.FeatureRendererContext
 import net.minecraft.client.render.entity.model.BipedEntityModel
-import net.minecraft.client.render.entity.model.PlayerEntityModel
 import net.minecraft.client.render.entity.state.BipedEntityRenderState
 
 @Injectable
