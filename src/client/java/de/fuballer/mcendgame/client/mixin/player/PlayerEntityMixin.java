@@ -1,13 +1,16 @@
 package de.fuballer.mcendgame.client.mixin.player;
 
-import de.fuballer.mcendgame.main.component.item.custom.armor.CustomArmorItems;
+import de.fuballer.mcendgame.main.component.item.custom.armor.interfaces.HidePlayerModelPartArmor;
 import net.minecraft.entity.EquipmentSlot;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.entity.player.PlayerModelPart;
+import net.minecraft.item.Item;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.Inject;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfoReturnable;
+
+import java.util.List;
 
 @Mixin(PlayerEntity.class)
 public class PlayerEntityMixin {
@@ -15,14 +18,19 @@ public class PlayerEntityMixin {
     public void isPartVisible(PlayerModelPart modelPart, CallbackInfoReturnable<Boolean> cir) {
         var playerEntity = (PlayerEntity) (Object) this;
 
-        if (modelPart == PlayerModelPart.LEFT_PANTS_LEG || modelPart == PlayerModelPart.RIGHT_PANTS_LEG) {
-            var leggings = playerEntity.getEquippedStack(EquipmentSlot.LEGS);
-            var hidePants = leggings.isOf(CustomArmorItems.INSTANCE.getWITHER_ROSE_LEGGINGS());
+        var armorItems = List.of(
+                playerEntity.getEquippedStack(EquipmentSlot.HEAD).getItem(),
+                playerEntity.getEquippedStack(EquipmentSlot.CHEST).getItem(),
+                playerEntity.getEquippedStack(EquipmentSlot.LEGS).getItem(),
+                playerEntity.getEquippedStack(EquipmentSlot.FEET).getItem()
+        );
 
-            if (hidePants) {
-                cir.setReturnValue(false);
-                return;
-            }
+        for (Item item : armorItems) {
+            if (!(item instanceof HidePlayerModelPartArmor armor)) continue;
+
+            if (!armor.hidesModelPart(modelPart)) continue;
+            cir.setReturnValue(false);
+            return;
         }
     }
 }

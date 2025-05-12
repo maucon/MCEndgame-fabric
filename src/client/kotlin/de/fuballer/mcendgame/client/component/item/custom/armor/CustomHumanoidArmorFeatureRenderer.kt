@@ -1,13 +1,13 @@
 package de.fuballer.mcendgame.client.component.item.custom.armor
 
 import de.fuballer.mcendgame.client.accessor.BipedEntityRenderStateAccessor
-import de.fuballer.mcendgame.client.component.item.custom.armor.druids.DruidsBootsModel
 import de.fuballer.mcendgame.client.component.item.custom.armor.bound_abyss.BoundAbyssModel
+import de.fuballer.mcendgame.client.component.item.custom.armor.druids.DruidsBootsModel
 import de.fuballer.mcendgame.client.component.item.custom.armor.druids.DruidsChestplateModel
 import de.fuballer.mcendgame.client.component.item.custom.armor.druids.DruidsHelmetModel
+import de.fuballer.mcendgame.client.component.item.custom.armor.druids.DruidsLeggingsModel
 import de.fuballer.mcendgame.client.component.item.custom.armor.emberchant.EmberchantModel
 import de.fuballer.mcendgame.client.component.item.custom.armor.iceborne.IceborneModel
-import de.fuballer.mcendgame.client.component.item.custom.armor.druids.DruidsLeggingsModel
 import de.fuballer.mcendgame.client.component.item.custom.armor.lamias_gift.LamiasGiftModel
 import de.fuballer.mcendgame.client.component.item.custom.armor.wither_rose.WitherRoseBootsModel
 import de.fuballer.mcendgame.client.component.item.custom.armor.wither_rose.WitherRoseChestplateModel
@@ -27,6 +27,7 @@ import net.minecraft.client.render.entity.state.ArmorStandEntityRenderState
 import net.minecraft.client.render.entity.state.BipedEntityRenderState
 import net.minecraft.client.render.item.ItemRenderer
 import net.minecraft.client.util.math.MatrixStack
+import net.minecraft.entity.EquipmentSlot
 import net.minecraft.item.Item
 import net.minecraft.item.ItemStack
 import net.minecraft.util.Identifier
@@ -100,22 +101,36 @@ class CustomHumanoidArmorFeatureRenderer<S : BipedEntityRenderState, M : BipedEn
         limbDistance: Float
     ) {
         val stateAccessor = bipedEntityRenderState as BipedEntityRenderStateAccessor
+        val hiddenArmor = stateAccessor.`mcendgame$getHiddenArmor`()
 
-        renderArmor(
-            bipedEntityRenderState,
-            matrixStack,
-            vertexConsumerProvider,
-            bipedEntityRenderState.equippedChestStack,
-            light
-        )
-        renderArmor(
-            bipedEntityRenderState,
-            matrixStack,
-            vertexConsumerProvider,
-            bipedEntityRenderState.equippedLegsStack,
-            light
-        )
-        if (stateAccessor.`mcendgame$getHiddenParts`()[BipedEntityRenderStateAccessor.HideAblePart.BOOTS] != true) {
+        if (!hiddenArmor.contains(EquipmentSlot.HEAD)) {
+            renderArmor(
+                bipedEntityRenderState,
+                matrixStack,
+                vertexConsumerProvider,
+                bipedEntityRenderState.equippedHeadStack,
+                light
+            )
+        }
+        if (!hiddenArmor.contains(EquipmentSlot.CHEST)) {
+            renderArmor(
+                bipedEntityRenderState,
+                matrixStack,
+                vertexConsumerProvider,
+                bipedEntityRenderState.equippedChestStack,
+                light
+            )
+        }
+        if (!hiddenArmor.contains(EquipmentSlot.LEGS)) {
+            renderArmor(
+                bipedEntityRenderState,
+                matrixStack,
+                vertexConsumerProvider,
+                bipedEntityRenderState.equippedLegsStack,
+                light
+            )
+        }
+        if (!hiddenArmor.contains(EquipmentSlot.FEET)) {
             renderArmor(
                 bipedEntityRenderState,
                 matrixStack,
@@ -124,13 +139,6 @@ class CustomHumanoidArmorFeatureRenderer<S : BipedEntityRenderState, M : BipedEn
                 light
             )
         }
-        renderArmor(
-            bipedEntityRenderState,
-            matrixStack,
-            vertexConsumerProvider,
-            bipedEntityRenderState.equippedHeadStack,
-            light
-        )
     }
 
     private fun renderArmor(

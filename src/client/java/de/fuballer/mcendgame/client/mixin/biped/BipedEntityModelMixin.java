@@ -1,6 +1,7 @@
 package de.fuballer.mcendgame.client.mixin.biped;
 
 import de.fuballer.mcendgame.client.accessor.BipedEntityRenderStateAccessor;
+import de.fuballer.mcendgame.main.component.item.custom.armor.interfaces.HideBipedBoneArmor;
 import net.minecraft.client.render.entity.model.BipedEntityModel;
 import net.minecraft.client.render.entity.state.BipedEntityRenderState;
 import net.minecraft.client.render.entity.state.PlayerEntityRenderState;
@@ -18,8 +19,14 @@ public abstract class BipedEntityModelMixin<T extends BipedEntityRenderState> {
         var accessor = (BipedEntityRenderStateAccessor) bipedEntityRenderState;
         var model = (BipedEntityModel<?>) (Object) this;
 
-        var hiddenParts = accessor.mcendgame$getHiddenParts();
-        var legsVisible = !Boolean.TRUE.equals(hiddenParts.get(BipedEntityRenderStateAccessor.HideAblePart.LEGS));
+        var hiddenBones = accessor.mcendgame$getHiddenBones();
+
+        model.head.visible = !hiddenBones.contains(HideBipedBoneArmor.BipedBone.HEAD);
+        model.body.visible = !hiddenBones.contains(HideBipedBoneArmor.BipedBone.BODY);
+        var armsVisible = !hiddenBones.contains(HideBipedBoneArmor.BipedBone.ARMS);
+        model.leftArm.visible = armsVisible;
+        model.rightArm.visible = armsVisible;
+        var legsVisible = !hiddenBones.contains(HideBipedBoneArmor.BipedBone.LEGS);
         model.leftLeg.visible = legsVisible;
         model.rightLeg.visible = legsVisible;
     }

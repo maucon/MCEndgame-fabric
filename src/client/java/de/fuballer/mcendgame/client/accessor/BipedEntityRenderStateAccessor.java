@@ -1,16 +1,16 @@
 package de.fuballer.mcendgame.client.accessor;
 
-import java.util.Map;
+import de.fuballer.mcendgame.main.component.item.custom.armor.interfaces.HideBipedBoneArmor;
+import net.minecraft.entity.EquipmentSlot;
+
+import java.util.Set;
 
 public interface BipedEntityRenderStateAccessor {
-    void mcendgame$setHiddenPart(HideAblePart part, boolean hidden);
+    void mcendgame$setHiddenBones(Set<HideBipedBoneArmor.BipedBone> bones);
 
-    Map<HideAblePart, Boolean> mcendgame$getHiddenParts();
+    Set<HideBipedBoneArmor.BipedBone> mcendgame$getHiddenBones();
 
-    enum HideAblePart {
-        LEGS,
-        BOOTS,
-        ARMS,
-        BODY,
-    }
+    void mcendgame$setHiddenArmor(Set<EquipmentSlot> armorSlots);
+
+    Set<EquipmentSlot> mcendgame$getHiddenArmor();
 }
