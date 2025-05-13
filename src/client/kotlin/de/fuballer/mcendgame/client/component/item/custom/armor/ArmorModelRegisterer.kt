@@ -1,12 +1,12 @@
 package de.fuballer.mcendgame.client.component.item.custom.armor
 
-import de.fuballer.mcendgame.client.component.item.custom.armor.druids.DruidsBootsModel
 import de.fuballer.mcendgame.client.component.item.custom.armor.bound_abyss.BoundAbyssModel
+import de.fuballer.mcendgame.client.component.item.custom.armor.druids.DruidsBootsModel
 import de.fuballer.mcendgame.client.component.item.custom.armor.druids.DruidsChestplateModel
 import de.fuballer.mcendgame.client.component.item.custom.armor.druids.DruidsHelmetModel
+import de.fuballer.mcendgame.client.component.item.custom.armor.druids.DruidsLeggingsModel
 import de.fuballer.mcendgame.client.component.item.custom.armor.emberchant.EmberchantModel
 import de.fuballer.mcendgame.client.component.item.custom.armor.iceborne.IceborneModel
-import de.fuballer.mcendgame.client.component.item.custom.armor.druids.DruidsLeggingsModel
 import de.fuballer.mcendgame.client.component.item.custom.armor.lamias_gift.LamiasGiftModel
 import de.fuballer.mcendgame.client.component.item.custom.armor.wither_rose.WitherRoseBootsModel
 import de.fuballer.mcendgame.client.component.item.custom.armor.wither_rose.WitherRoseChestplateModel

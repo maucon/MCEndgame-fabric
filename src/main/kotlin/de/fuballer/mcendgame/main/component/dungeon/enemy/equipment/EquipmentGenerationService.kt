@@ -78,7 +78,9 @@ class EquipmentGenerationService(
         val equipment = EquipmentGenerationSettings.UNIQUE_EQUIPMENT[slot]?.random(random) ?: return null
         val itemStack = ItemStack(equipment.item)
 
+        attributeService.applyUniqueAttributes(itemStack, random, equipment.slot)
         enchantmentService.enchantItem(itemStack, equipment.rollableEnchants, level, server, random)
+
         return itemStack
     }
 

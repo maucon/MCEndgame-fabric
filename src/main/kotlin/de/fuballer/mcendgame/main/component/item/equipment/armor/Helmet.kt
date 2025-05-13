@@ -39,6 +39,9 @@ enum class Helmet(
     DRUIDS_HELMET(
         CustomArmorItems.DRUIDS_HELMET,
     ),
+    WITHER_ROSE_HELMET(
+        CustomArmorItems.WITHER_ROSE_HELMET,
+    ),
     EMBERCHANT(
         CustomArmorItems.EMBERCHANT,
     ),
