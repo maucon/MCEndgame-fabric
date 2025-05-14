@@ -5,14 +5,16 @@ import de.fuballer.mcendgame.main.component.custom_attribute.data.RollableCustom
 import de.fuballer.mcendgame.main.component.custom_attribute.types.CustomAttributeTypes
 import de.fuballer.mcendgame.main.component.custom_attribute.types.VanillaAttributeTypes
 import de.fuballer.mcendgame.main.component.item.custom.armor.interfaces.UniqueAttributesItem
-import net.minecraft.item.Item
+import net.minecraft.component.type.AttributeModifierSlot
 
 class BoundAbyss(
     settings: Settings,
-) : Item(settings), UniqueAttributesItem {
+) : UniqueAttributesItem(settings) {
     override fun getCustomAttributes() = listOf(
         RollableCustomAttribute(VanillaAttributeTypes.MAX_HEALTH, 1, DoubleBounds(4.0, 5.0)),
         RollableCustomAttribute(CustomAttributeTypes.INCREASED_DAMAGE_WHILE_LOW_HEALTH, 1, DoubleBounds(.15, .25)),
         RollableCustomAttribute(CustomAttributeTypes.LESS_DAMAGE_TAKEN_WHILE_HIGH_HEALTH, 1, DoubleBounds(.05, 0.1)),
     )
+
+    override fun getAttributeModifierSlot() = AttributeModifierSlot.CHEST
 }

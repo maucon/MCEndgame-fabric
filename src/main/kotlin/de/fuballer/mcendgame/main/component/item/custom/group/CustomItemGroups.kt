@@ -41,22 +41,22 @@ object CustomItemGroups {
     @Initializer
     fun init() {
         ItemGroupEvents.modifyEntriesEvent(CUSTOM_ARMOR_KEY).register { itemGroup ->
-            itemGroup.add(CustomArmorItems.ICEBORNE)
-            itemGroup.add(CustomArmorItems.BOUND_ABYSS)
-            itemGroup.add(CustomArmorItems.DRUIDS_HELMET)
-            itemGroup.add(CustomArmorItems.DRUIDS_CHESTPLATE)
-            itemGroup.add(CustomArmorItems.DRUIDS_LEGGINGS)
-            itemGroup.add(CustomArmorItems.DRUIDS_BOOTS)
-            itemGroup.add(CustomArmorItems.EMBERCHANT)
-            itemGroup.add(CustomArmorItems.LAMIAS_GIFT)
-            itemGroup.add(CustomArmorItems.WITHER_ROSE_HELMET)
-            itemGroup.add(CustomArmorItems.WITHER_ROSE_CHESTPLATE)
-            itemGroup.add(CustomArmorItems.WITHER_ROSE_LEGGINGS)
-            itemGroup.add(CustomArmorItems.WITHER_ROSE_BOOTS)
+            itemGroup.add(CustomArmorItems.ICEBORNE.defaultStack)
+            itemGroup.add(CustomArmorItems.BOUND_ABYSS.defaultStack)
+            itemGroup.add(CustomArmorItems.DRUIDS_HELMET.defaultStack)
+            itemGroup.add(CustomArmorItems.DRUIDS_CHESTPLATE.defaultStack)
+            itemGroup.add(CustomArmorItems.DRUIDS_LEGGINGS.defaultStack)
+            itemGroup.add(CustomArmorItems.DRUIDS_BOOTS.defaultStack)
+            itemGroup.add(CustomArmorItems.EMBERCHANT.defaultStack)
+            itemGroup.add(CustomArmorItems.LAMIAS_GIFT.defaultStack)
+            itemGroup.add(CustomArmorItems.WITHER_ROSE_HELMET.defaultStack)
+            itemGroup.add(CustomArmorItems.WITHER_ROSE_CHESTPLATE.defaultStack)
+            itemGroup.add(CustomArmorItems.WITHER_ROSE_LEGGINGS.defaultStack)
+            itemGroup.add(CustomArmorItems.WITHER_ROSE_BOOTS.defaultStack)
         }
         ItemGroupEvents.modifyEntriesEvent(CUSTOM_TOOLS_KEY).register { itemGroup ->
-            itemGroup.add(CustomToolItems.BLOODHARVEST)
-            itemGroup.add(CustomToolItems.TWINFIRE)
+            itemGroup.add(CustomToolItems.BLOODHARVEST.defaultStack)
+            itemGroup.add(CustomToolItems.TWINFIRE.defaultStack)
         }
         ItemGroupEvents.modifyEntriesEvent(CUSTOM_BLOCKS_KEY).register { itemGroup ->
             itemGroup.add(DungeonDevice.BLOCK)

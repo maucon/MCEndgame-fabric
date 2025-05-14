@@ -3,7 +3,6 @@ package de.fuballer.mcendgame.main.component.dungeon.enemy.equipment.attributes
 import de.fuballer.mcendgame.main.component.custom_attribute.CustomAttributesExtensions.setCustomAttributes
 import de.fuballer.mcendgame.main.component.custom_attribute.data.CustomAttribute
 import de.fuballer.mcendgame.main.component.custom_attribute.data.RollableCustomAttribute
-import de.fuballer.mcendgame.main.component.item.custom.armor.interfaces.UniqueAttributesItem
 import de.fuballer.mcendgame.main.util.random.RandomOption
 import de.fuballer.mcendgame.main.util.random.RandomUtil
 import de.maucon.mauconframework.di.annotation.Injectable
@@ -48,14 +47,4 @@ class AttributeService {
             }
             it.roll(percentageRolls)
         }
-
-    fun applyUniqueAttributes(
-        itemStack: ItemStack,
-        random: Random,
-        slot: AttributeModifierSlot,
-    ) {
-        val uniqueItem = itemStack.item as? UniqueAttributesItem ?: return
-        val attributes = rollAttributes(uniqueItem.getCustomAttributes(), random)
-        itemStack.setCustomAttributes(attributes, slot)
-    }
 }
