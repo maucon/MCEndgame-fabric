@@ -20,9 +20,13 @@ import de.maucon.mauconframework.di.annotation.Injectable
 import de.maucon.mauconframework.initializer.Initializer
 import net.fabricmc.fabric.api.client.rendering.v1.EntityModelLayerRegistry
 import net.fabricmc.fabric.api.client.rendering.v1.EntityRendererRegistry
+import net.minecraft.client.render.entity.state.BipedEntityRenderState
+import software.bernie.geckolib.renderer.base.GeoRenderState
 
 @Injectable
 object EntityModelRegisterer {
+    private abstract class Help<R> where  R : BipedEntityRenderState, R : GeoRenderState
+
     @Initializer
     fun register() {
         EntityModelLayerRegistry.registerModelLayer(

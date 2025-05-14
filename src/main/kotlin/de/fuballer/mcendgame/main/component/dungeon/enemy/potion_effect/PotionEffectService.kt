@@ -25,7 +25,7 @@ class PotionEffectService {
             effects.add(RandomUtil.pick(EnemyGenerationSettings.INVISIBILITY_EFFECT, random).option)
         }
 
-        val effectInstances = effects.filterNotNull().map { it.getEffectInstance() }
+        val effectInstances = effects.filterNotNull().map { it.getEffectInstance(false) }
         effectInstances.forEach { entity.addStatusEffect(it) }
     }
 }

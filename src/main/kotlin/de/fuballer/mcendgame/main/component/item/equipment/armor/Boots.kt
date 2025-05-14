@@ -35,6 +35,9 @@ enum class Boots(
     ),
     DRUIDS_BOOTS(
         CustomArmorItems.DRUIDS_BOOTS,
+    ),
+    WITHER_ROSE_BOOTS(
+        CustomArmorItems.WITHER_ROSE_BOOTS,
     );
 
     override val slot = AttributeModifierSlot.FEET

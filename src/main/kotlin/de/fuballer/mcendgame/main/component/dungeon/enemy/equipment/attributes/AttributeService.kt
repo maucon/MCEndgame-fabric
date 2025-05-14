@@ -31,15 +31,20 @@ class AttributeService {
         val statAmount = RandomUtil.pick(AttributeSettings.ATTRIBUTE_COUNT, level, random).option
 
         val pickedAttributes = RandomUtil.pick(attributes, random, statAmount) // TODO check for duplicates
-        val rolledAttributes = pickedAttributes
-            .map {
-                val percentageRolls = mutableListOf<Double>()
-                repeat(it.bounds.size) {
-                    percentageRolls.add(random.nextDouble())
-                }
-                it.roll(percentageRolls)
-            }
+        val rolledAttributes = rollAttributes(pickedAttributes, random)
 
         return rolledAttributes
     }
+
+    private fun rollAttributes(
+        attributes: List<RollableCustomAttribute>,
+        random: Random,
+    ) = attributes
+        .map {
+            val percentageRolls = mutableListOf<Double>()
+            repeat(it.bounds.size) {
+                percentageRolls.add(random.nextDouble())
+            }
+            it.roll(percentageRolls)
+        }
 }

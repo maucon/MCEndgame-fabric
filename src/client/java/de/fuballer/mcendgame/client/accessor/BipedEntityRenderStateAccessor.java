@@ -1,9 +1,16 @@
 package de.fuballer.mcendgame.client.accessor;
 
-public interface BipedEntityRenderStateAccessor {
-    void mcendgame$setHideLegs(boolean hide);
-    boolean mcendgame$getHideLegs();
+import de.fuballer.mcendgame.main.component.item.custom.armor.interfaces.HideBipedBoneArmor;
+import net.minecraft.entity.EquipmentSlot;
 
-    void mcendgame$setHideBoots(boolean hide);
-    boolean mcendgame$getHideBoots();
+import java.util.Set;
+
+public interface BipedEntityRenderStateAccessor {
+    void mcendgame$setHiddenBones(Set<HideBipedBoneArmor.BipedBone> bones);
+
+    Set<HideBipedBoneArmor.BipedBone> mcendgame$getHiddenBones();
+
+    void mcendgame$setHiddenArmor(Set<EquipmentSlot> armorSlots);
+
+    Set<EquipmentSlot> mcendgame$getHiddenArmor();
 }

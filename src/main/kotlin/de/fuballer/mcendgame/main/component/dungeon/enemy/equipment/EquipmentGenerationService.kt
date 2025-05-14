@@ -2,6 +2,7 @@ package de.fuballer.mcendgame.main.component.dungeon.enemy.equipment
 
 import de.fuballer.mcendgame.main.component.dungeon.enemy.equipment.attributes.AttributeService
 import de.fuballer.mcendgame.main.component.dungeon.enemy.equipment.enchantment.EnchantmentService
+import de.fuballer.mcendgame.main.component.item.custom.armor.interfaces.UniqueAttributesItem
 import de.fuballer.mcendgame.main.component.item.equipment.Equipment
 import de.fuballer.mcendgame.main.util.random.RandomOption
 import de.fuballer.mcendgame.main.util.random.RandomUtil
@@ -76,9 +77,11 @@ class EquipmentGenerationService(
         random: Random,
     ): ItemStack? {
         val equipment = EquipmentGenerationSettings.UNIQUE_EQUIPMENT[slot]?.random(random) ?: return null
-        val itemStack = ItemStack(equipment.item)
+        val item = equipment.item
+        val itemStack = if (item is UniqueAttributesItem) item.getRolledStack() else ItemStack(item)
 
         enchantmentService.enchantItem(itemStack, equipment.rollableEnchants, level, server, random)
+
         return itemStack
     }
 

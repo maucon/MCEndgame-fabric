@@ -9,7 +9,7 @@ import net.minecraft.registry.tag.ItemTags
 import net.minecraft.sound.SoundEvents
 
 object BoundAbyssArmorMaterial : CustomArmorMaterial {
-    override val baseDurability = 500
+    override val baseDurability = 37
     override val registryKey: RegistryKey<EquipmentAsset> = RegistryKeyUtil.createEquipmentAssetKey("bound_abyss")
 
     override val instance = ArmorMaterial(
@@ -19,7 +19,7 @@ object BoundAbyssArmorMaterial : CustomArmorMaterial {
         ),
         15,
         SoundEvents.ITEM_ARMOR_EQUIP_GENERIC,
-        3.0f,
+        1.0f,
         0.1f,
         ItemTags.REPAIRS_GOLD_ARMOR,
         registryKey

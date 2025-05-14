@@ -1,34 +1,39 @@
 package de.fuballer.mcendgame.client.mixin.biped;
 
 import de.fuballer.mcendgame.client.accessor.BipedEntityRenderStateAccessor;
+import de.fuballer.mcendgame.main.component.item.custom.armor.interfaces.HideBipedBoneArmor;
 import net.minecraft.client.render.entity.state.BipedEntityRenderState;
+import net.minecraft.entity.EquipmentSlot;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.Unique;
+
+import java.util.HashSet;
+import java.util.Set;
 
 @Mixin(BipedEntityRenderState.class)
 public class BipedEntityRenderStateMixin implements BipedEntityRenderStateAccessor {
     @Unique
-    private boolean hideLegs = false;
+    private Set<HideBipedBoneArmor.BipedBone> hiddenBones = new HashSet<>();
     @Unique
-    private boolean hideBoots = false;
+    private Set<EquipmentSlot> hiddenArmor = new HashSet<>();
 
     @Override
-    public void mcendgame$setHideLegs(boolean hide) {
-        hideLegs = hide;
+    public void mcendgame$setHiddenBones(Set<HideBipedBoneArmor.BipedBone> bones) {
+        hiddenBones = bones;
     }
 
     @Override
-    public boolean mcendgame$getHideLegs() {
-        return hideLegs;
+    public Set<HideBipedBoneArmor.BipedBone> mcendgame$getHiddenBones() {
+        return hiddenBones;
     }
 
     @Override
-    public void mcendgame$setHideBoots(boolean hide) {
-        hideBoots = hide;
+    public void mcendgame$setHiddenArmor(Set<EquipmentSlot> armorSlots) {
+        hiddenArmor = armorSlots;
     }
 
     @Override
-    public boolean mcendgame$getHideBoots() {
-        return hideBoots;
+    public Set<EquipmentSlot> mcendgame$getHiddenArmor() {
+        return hiddenArmor;
     }
 }

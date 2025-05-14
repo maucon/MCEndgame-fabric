@@ -36,6 +36,9 @@ enum class Chestplate(
     DRUIDS_CHESTPLATE(
         CustomArmorItems.DRUIDS_CHESTPLATE,
     ),
+    WITHER_ROSE_CHESTPLATE(
+        CustomArmorItems.WITHER_ROSE_CHESTPLATE,
+    ),
     BOUND_ABYSS(
         CustomArmorItems.BOUND_ABYSS,
     );

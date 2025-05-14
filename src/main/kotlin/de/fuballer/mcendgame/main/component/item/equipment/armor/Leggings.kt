@@ -36,6 +36,9 @@ enum class Leggings(
     DRUIDS_LEGGINGS(
         CustomArmorItems.DRUIDS_LEGGINGS,
     ),
+    WITHER_ROSE_LEGGINGS(
+        CustomArmorItems.WITHER_ROSE_LEGGINGS,
+    ),
     LAMIAS_GIFT(
         CustomArmorItems.LAMIAS_GIFT,
     );

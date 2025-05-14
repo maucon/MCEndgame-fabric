@@ -12,7 +12,8 @@
     "living_entity.LivingEntityRendererWebbedMixin",
     "living_entity.LivingEntityRenderStateMixin",
     "living_entity.LivingEntityRenderStateWebbedMixin",
-    "low_health_ticks.LivingEntityLowHealthTicksMixin"
+    "low_health_ticks.LivingEntityLowHealthTicksMixin",
+    "player.PlayerEntityMixin"
   ],
   "injectors": {
     "defaultRequire": 1

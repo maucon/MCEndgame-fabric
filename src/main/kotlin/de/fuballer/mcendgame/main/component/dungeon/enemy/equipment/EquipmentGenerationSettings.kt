@@ -29,17 +29,21 @@ object EquipmentGenerationSettings {
             Helmet.ICEBORNE,
             Helmet.EMBERCHANT,
             Helmet.DRUIDS_HELMET,
+            Helmet.WITHER_ROSE_HELMET,
         ),
         EquipmentSlot.CHEST to listOf(
             Chestplate.BOUND_ABYSS,
             Chestplate.DRUIDS_CHESTPLATE,
+            Chestplate.WITHER_ROSE_CHESTPLATE,
         ),
         EquipmentSlot.LEGS to listOf(
             Leggings.LAMIAS_GIFT,
             Leggings.DRUIDS_LEGGINGS,
+            Leggings.WITHER_ROSE_LEGGINGS,
         ),
         EquipmentSlot.FEET to listOf(
             Boots.DRUIDS_BOOTS,
+            Boots.WITHER_ROSE_BOOTS,
         ),
     )
 
