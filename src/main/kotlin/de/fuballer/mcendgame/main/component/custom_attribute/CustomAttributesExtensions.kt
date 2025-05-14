@@ -52,7 +52,7 @@ object CustomAttributesExtensions {
         customAttributes.addAll(feetItem.getCustomAttributes())
         val legsItem = this.getEquippedStack(EquipmentSlot.LEGS)
         customAttributes.addAll(legsItem.getCustomAttributes())
-        val bodyItem = this.getEquippedStack(EquipmentSlot.BODY)
+        val bodyItem = this.getEquippedStack(EquipmentSlot.CHEST)
         customAttributes.addAll(bodyItem.getCustomAttributes())
         val headItem = this.getEquippedStack(EquipmentSlot.HEAD)
         customAttributes.addAll(headItem.getCustomAttributes())

@@ -20,6 +20,7 @@ object CustomAttributeTypes {
     val INCREASED_PROJECTILE_DAMAGE = CustomAttributeType("increased_projectile_damage", AttributeFormats.SIGNED_PERCENT_ROLL, AttributeFormats.PERCENT_BOUNDS)
 
     val INCREASED_DAMAGE_AGAINST_FULL_LIFE = CustomAttributeType("increased_damage_against_full_life", AttributeFormats.SIGNED_PERCENT_ROLL, AttributeFormats.PERCENT_BOUNDS)
+    val INCREASED_DAMAGE_WHILE_LOW_LIFE = CustomAttributeType("increased_damage_while_low_life", AttributeFormats.SIGNED_PERCENT_ROLL, AttributeFormats.PERCENT_BOUNDS)
 
     // region get by key
     fun getByKey(key: String): CustomAttributeType {

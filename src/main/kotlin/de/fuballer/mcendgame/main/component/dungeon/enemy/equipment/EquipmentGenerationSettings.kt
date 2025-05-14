@@ -14,7 +14,7 @@ object EquipmentGenerationSettings {
     private const val EQUIPMENT_ROLL_TRIES_PER_TIER = 0.25
     fun calculateEquipmentRollTries(mapTier: Int) = 1 + (mapTier * EQUIPMENT_ROLL_TRIES_PER_TIER).toInt()
 
-    const val UNIQUE_EQUIPMENT_PROBABILITY = 0.01
+    const val UNIQUE_EQUIPMENT_PROBABILITY = 0.01 * 100
 
     val UNIQUE_EQUIPMENT = mapOf<EquipmentSlot, List<Equipment>>(
         EquipmentSlot.MAINHAND to listOf(
