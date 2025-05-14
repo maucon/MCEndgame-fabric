@@ -72,7 +72,6 @@ object ApplyDamageUtil {
     ): Float {
         val reducedDamage = 1 + cmd.reducedDamage.sum()
         val lessDamageFactor = cmd.lessDamage.fold(1.0) { a, b -> a * (1 - b) }
-        println("base: $damageAmount, reduced: $reducedDamage, less: $lessDamageFactor")
         return (damageAmount / reducedDamage * lessDamageFactor).toFloat()
     }
 
