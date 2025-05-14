@@ -38,8 +38,9 @@
   "attribute.mcendgame.increased_damage": "%s%% increased Damage",
   "attribute.mcendgame.increased_elemental_damage": "%s%% increased Elemental Damage",
   "attribute.mcendgame.increased_projectile_damage": "%s%% increased Projectile Damage",
-  "attribute.mcendgame.increased_damage_against_full_life": " %s%% increased Damage against Full Life Enemies",
-  "attribute.mcendgame.increased_damage_while_low_life": " %s%% increased Damage while Low Life",
+  "attribute.mcendgame.increased_damage_against_full_health": "%s%% increased Damage against Full Health Enemies",
+  "attribute.mcendgame.increased_damage_while_low_health": "%s%% increased Damage while Low Health",
+  "attribute.mcendgame.less_damage_taken_while_high_health": " %s%% less Damage taken while High Health",
 
   "entity.mcendgame.swamp_golem": "Swamp Golem",
   "entity.mcendgame.elf_duelist": "Elf Duelist",

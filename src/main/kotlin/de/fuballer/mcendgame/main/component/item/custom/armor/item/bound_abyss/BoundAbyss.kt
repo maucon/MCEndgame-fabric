@@ -12,6 +12,7 @@ class BoundAbyss(
 ) : Item(settings), UniqueAttributesItem {
     override fun getCustomAttributes() = listOf(
         RollableCustomAttribute(VanillaAttributeTypes.MAX_HEALTH, 1, DoubleBounds(4.0, 5.0)),
-        RollableCustomAttribute(CustomAttributeTypes.INCREASED_DAMAGE_WHILE_LOW_LIFE, 1, DoubleBounds(.15, .25)),
+        RollableCustomAttribute(CustomAttributeTypes.INCREASED_DAMAGE_WHILE_LOW_HEALTH, 1, DoubleBounds(.15, .25)),
+        RollableCustomAttribute(CustomAttributeTypes.LESS_DAMAGE_TAKEN_WHILE_HIGH_HEALTH, 1, DoubleBounds(.05, 0.1)),
     )
 }
