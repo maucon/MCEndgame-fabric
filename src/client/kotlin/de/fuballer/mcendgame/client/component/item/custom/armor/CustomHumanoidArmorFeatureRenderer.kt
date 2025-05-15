@@ -7,7 +7,6 @@ import de.fuballer.mcendgame.client.component.item.custom.armor.druids.DruidsChe
 import de.fuballer.mcendgame.client.component.item.custom.armor.druids.DruidsHelmetModel
 import de.fuballer.mcendgame.client.component.item.custom.armor.druids.DruidsLeggingsModel
 import de.fuballer.mcendgame.client.component.item.custom.armor.emberchant.EmberchantModel
-import de.fuballer.mcendgame.client.component.item.custom.armor.fae.FaeLeggingsModel
 import de.fuballer.mcendgame.client.component.item.custom.armor.iceborne.IceborneModel
 import de.fuballer.mcendgame.client.component.item.custom.armor.lamias_gift.LamiasGiftModel
 import de.fuballer.mcendgame.client.component.item.custom.armor.wither_rose.WitherRoseBootsModel
@@ -90,11 +89,6 @@ class CustomHumanoidArmorFeatureRenderer<S : BipedEntityRenderState, M : BipedEn
         texturedArmorModels[CustomArmorItems.WITHER_ROSE_BOOTS] = TexturedArmorModel(
             WitherRoseBootsModel(ctx.getPart(WitherRoseBootsModel.MODEL_LAYER)),
             IdentifierUtil.default("textures/entity/equipment/custom_humanoid/wither_rose.png"),
-        )
-        texturedArmorModels[CustomArmorItems.FAE_LEGGINGS] = TexturedArmorModel(
-            FaeLeggingsModel(ctx.getPart(FaeLeggingsModel.MODEL_LAYER)),
-            IdentifierUtil.default("textures/entity/equipment/custom_humanoid/fae.png"),
-            IdentifierUtil.default("textures/entity/equipment/custom_humanoid/fae_translucent.png"),
         )
     }
 

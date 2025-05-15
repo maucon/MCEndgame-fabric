@@ -6,7 +6,6 @@ import de.fuballer.mcendgame.client.component.item.custom.armor.druids.DruidsChe
 import de.fuballer.mcendgame.client.component.item.custom.armor.druids.DruidsHelmetModel
 import de.fuballer.mcendgame.client.component.item.custom.armor.druids.DruidsLeggingsModel
 import de.fuballer.mcendgame.client.component.item.custom.armor.emberchant.EmberchantModel
-import de.fuballer.mcendgame.client.component.item.custom.armor.fae.FaeLeggingsModel
 import de.fuballer.mcendgame.client.component.item.custom.armor.iceborne.IceborneModel
 import de.fuballer.mcendgame.client.component.item.custom.armor.lamias_gift.LamiasGiftModel
 import de.fuballer.mcendgame.client.component.item.custom.armor.wither_rose.WitherRoseBootsModel
@@ -68,10 +67,6 @@ object ArmorModelRegisterer {
         EntityModelLayerRegistry.registerModelLayer(
             WitherRoseBootsModel.MODEL_LAYER,
             WitherRoseBootsModel.Companion::getTexturedModelData
-        )
-        EntityModelLayerRegistry.registerModelLayer(
-            FaeLeggingsModel.MODEL_LAYER,
-            FaeLeggingsModel.Companion::getTexturedModelData
         )
     }
 }
