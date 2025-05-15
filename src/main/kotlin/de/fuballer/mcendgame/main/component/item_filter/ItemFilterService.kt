@@ -8,7 +8,6 @@ import de.maucon.mauconframework.di.annotation.Injectable
 import net.minecraft.entity.player.PlayerEntity
 import net.minecraft.inventory.Inventory
 import net.minecraft.item.Item
-import net.minecraft.registry.Registries
 import net.minecraft.screen.SimpleNamedScreenHandlerFactory
 import net.minecraft.text.Text
 import java.util.*
@@ -38,12 +37,9 @@ class ItemFilterService(
     }
 
     private fun getFilterOrCreate(uuid: UUID): Set<Item> {
-        if (itemFilterRepo.exists(uuid)) {
-            return itemFilterRepo.findById(uuid)!!.items
-        }
+        val entity = itemFilterRepo.findById(uuid)
+            ?: return setOf()
 
-        val entity = ItemFilterEntity(uuid)
-        itemFilterRepo.save(entity)
         return entity.items
     }
 

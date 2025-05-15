@@ -13,8 +13,10 @@ private const val folderName = "repository"
 object PersistentRepositoryConfig {
     @Injectable
     fun repositoryFolder(fabricLoader: FabricLoader): Path {
-        var path = fabricLoader.configDir.resolve(MCEndgame.MOD_ID)
-        path = path.resolve(folderName)
+        val path = fabricLoader.configDir
+            .resolve(MCEndgame.MOD_ID)
+            .resolve(folderName)
+
         return Files.createDirectories(path)
     }
 }

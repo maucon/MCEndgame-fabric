@@ -34,7 +34,6 @@ data class ItemFilterEntity(
                         .filter { it != Items.AIR }
                         .toMutableSet()
 
-                    println(items)
                     ItemFilterEntity(id, items)
                 }
             }
