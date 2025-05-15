@@ -6,6 +6,7 @@ import de.fuballer.mcendgame.main.component.item.custom.armor.item.druids.Druids
 import de.fuballer.mcendgame.main.component.item.custom.armor.item.druids.DruidsHelmet
 import de.fuballer.mcendgame.main.component.item.custom.armor.item.druids.DruidsLeggings
 import de.fuballer.mcendgame.main.component.item.custom.armor.item.emberchant.Emberchant
+import de.fuballer.mcendgame.main.component.item.custom.armor.item.fae.FaeLeggings
 import de.fuballer.mcendgame.main.component.item.custom.armor.item.iceborne.Iceborne
 import de.fuballer.mcendgame.main.component.item.custom.armor.item.lamias_gift.LamiasGift
 import de.fuballer.mcendgame.main.component.item.custom.armor.item.wither_rose.WitherRoseBoots
@@ -31,4 +32,5 @@ object CustomArmorItems {
     val WITHER_ROSE_CHESTPLATE = RegistryUtil.registerArmorItem(::WitherRoseChestplate, WitherRoseArmorMaterial, EquipmentType.CHESTPLATE, "wither_rose_chestplate")
     val WITHER_ROSE_LEGGINGS = RegistryUtil.registerArmorItem(::WitherRoseLeggings, WitherRoseArmorMaterial, EquipmentType.LEGGINGS, "wither_rose_leggings")
     val WITHER_ROSE_BOOTS = RegistryUtil.registerArmorItem(::WitherRoseBoots, WitherRoseArmorMaterial, EquipmentType.BOOTS, "wither_rose_boots")
+    val FAE_LEGGINGS = RegistryUtil.registerArmorItem(::FaeLeggings, FaeArmorMaterial, EquipmentType.LEGGINGS, "fae_leggings")
 }
