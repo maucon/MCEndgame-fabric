@@ -524,99 +524,73 @@ class FaeLeggingsModel<S : BipedEntityRenderState>(
     private fun setSkirtAngles(
         state: S,
     ) {
-        val age = state.age
-        val slowedAge = age / 8F
+        val slowedAge = state.age / 8F
         val speed = state.limbSwingAmplitude // 0.0 to 1.0
 
-        setFrontStrandsRotation(slowedAge)
-        setSideStrandsRotation(slowedAge)
-        setBackStrandsRotation(slowedAge)
+        setFrontStrandsRotation(slowedAge, speed)
+        setSideStrandsRotation(slowedAge, speed)
+        setBackStrandsRotation(slowedAge, speed)
     }
 
     private fun setFrontStrandsRotation(
         slowedAge: Float,
+        speed: Float,
     ) {
-        for ((partIndex, part) in skirtFrontCenterStrand.withIndex()) {
-            val pitch = sin(slowedAge - partIndex) * 0.02F * partIndex
-            part.pitch -= pitch + 0.1F
-        }
-        setFrontStrandsRotation(skirtFrontLeftStrands, slowedAge, true)
-        setFrontStrandsRotation(skirtFrontRightStrands, slowedAge, false)
-    }
-
-    private fun setFrontStrandsRotation(
-        strands: List<List<ModelPart>>,
-        slowedAge: Float,
-        left: Boolean,
-    ) {
-        for ((strandIndex, strand) in strands.withIndex()) {
-            val strandOffsetAge = slowedAge - (strandIndex + 1) * 0.7F
-
-            for ((partIndex, part) in strand.withIndex()) {
-                val pitch = sin(strandOffsetAge - partIndex) * 0.02F * partIndex
-                part.pitch -= pitch + 0.1F
-
-                if (partIndex > 0) continue
-                val yaw = (strandIndex + 1) * 0.25F
-                part.yaw -= if (left) yaw else -yaw
-            }
+        setStrandRotation(skirtFrontCenterStrand, slowedAge, speed, 0F, 0F, true)
+        for (index in skirtFrontLeftStrands.indices) {
+            val offsetAge = slowedAge - (index + 1) * 0.7F
+            val yaw = 0.25F * (index + 1)
+            setStrandRotation(skirtFrontLeftStrands[index], offsetAge, speed, -yaw, -yaw, true)
+            setStrandRotation(skirtFrontRightStrands[index], offsetAge, speed, yaw, yaw, true)
         }
     }
 
     private fun setSideStrandsRotation(
         slowedAge: Float,
+        speed: Float,
     ) {
-        setSideStrandsRotation(skirtLeftStrands, slowedAge, true)
-        setSideStrandsRotation(skirtRightStrands, slowedAge, false)
-    }
-
-    private fun setSideStrandsRotation(
-        strands: List<List<ModelPart>>,
-        slowedAge: Float,
-        left: Boolean,
-    ) {
-        for ((strandIndex, strand) in strands.withIndex()) {
-            val strandOffsetAge = slowedAge - (strandIndex + 4) * 0.7F
-
-            for ((partIndex, part) in strand.withIndex()) {
-                val pitch = sin(strandOffsetAge - partIndex) * 0.02F * partIndex
-                part.pitch += pitch + 0.1F
-
-                if (partIndex > 0) continue
-                val yaw = strandIndex * (PI.toFloat() * 0.1F) - (PI.toFloat() * 0.15F)
-                part.yaw += if (left) -yaw else yaw
-            }
+        for (index in skirtLeftStrands.indices) {
+            val offsetAge = slowedAge - (index + 4) * 0.7F
+            val yaw = PI.toFloat() * 0.15F - index * PI.toFloat() * 0.1F
+            setStrandRotation(skirtLeftStrands[index], offsetAge, speed, yaw, yaw)
+            setStrandRotation(skirtRightStrands[index], offsetAge, speed, -yaw, -yaw)
         }
     }
 
     private fun setBackStrandsRotation(
         slowedAge: Float,
+        speed: Float,
     ) {
-        for ((partIndex, part) in skirtBackCenterStrand.withIndex()) {
-            val strandOffsetAge = slowedAge - 11 * 0.7F
-            val pitch = sin(strandOffsetAge - partIndex) * 0.02F * partIndex
-            part.pitch += pitch + 0.1F
+        setStrandRotation(skirtBackCenterStrand, slowedAge - 11 * 0.7F, speed, 0F, 0F)
+        for (index in skirtBackLeftStrands.indices) {
+            val offsetAge = slowedAge - (10 - index) * 0.7F
+            val yaw = 0.25F * (index + 1)
+            setStrandRotation(skirtBackLeftStrands[index], offsetAge, speed, yaw, yaw)
+            setStrandRotation(skirtBackRightStrands[index], offsetAge, speed, -yaw, -yaw)
         }
-        setBackStrandsRotation(skirtBackLeftStrands, slowedAge, true)
-        setBackStrandsRotation(skirtBackRightStrands, slowedAge, false)
     }
 
-    private fun setBackStrandsRotation(
-        strands: List<List<ModelPart>>,
-        slowedAge: Float,
-        left: Boolean,
+    private fun setStrandRotation(
+        strand: List<ModelPart>,
+        slowedOffsetAge: Float,
+        speed: Float,
+        baseYaw: Float,
+        speedYaw: Float,
+        isFront: Boolean = false,
     ) {
-        for ((strandIndex, strand) in strands.withIndex()) {
-            val strandOffsetAge = slowedAge - ((2 - strandIndex) + 8) * 0.7F
+        val speedFlowAmp = 1F + (speed * 2)
 
-            for ((partIndex, part) in strand.withIndex()) {
-                val pitch = sin(strandOffsetAge - partIndex) * 0.02F * partIndex
-                part.pitch += pitch + 0.1F
+        for ((partIndex, part) in strand.withIndex()) {
+            val defaultCurvePitch = 0.1F * (1F - speed)
+            val speedPitch = if (partIndex == 0) speed * 1.5F else 0F
+            val flowPitch = sin(slowedOffsetAge - partIndex) * 0.03F * partIndex * speedFlowAmp
 
-                if (partIndex > 0) continue
-                val yaw = (strandIndex + 1) * 0.25F
-                part.yaw += if (left) yaw else -yaw
-            }
+            val pitch = defaultCurvePitch + speedPitch + flowPitch
+            part.pitch += if (!isFront) pitch else -pitch
+
+            if (partIndex > 0) continue
+            val yaw = baseYaw + (speedYaw - baseYaw) * speed
+            part.yaw += yaw
         }
     }
 }
