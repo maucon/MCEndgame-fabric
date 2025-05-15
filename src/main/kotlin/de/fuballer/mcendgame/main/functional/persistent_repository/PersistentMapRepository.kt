@@ -1,5 +1,6 @@
 package de.fuballer.mcendgame.main.functional.persistent_repository
 
+import com.google.gson.GsonBuilder
 import com.google.gson.JsonArray
 import com.google.gson.JsonParser
 import com.mojang.serialization.Codec
@@ -21,20 +22,22 @@ open class PersistentMapRepository<ID, ENTITY : Entity<ID>>(
     private val name: String,
     private val codec: Codec<ENTITY>
 ) : InMemoryMapRepository<ID, ENTITY>() {
+    private val gson = GsonBuilder().setPrettyPrinting().create()
+
     private lateinit var filePath: Path
 
     @Initializer
-    private fun initFilePath(folderPath: Path) {
+    fun initFilePath(folderPath: Path) {
         filePath = folderPath.resolve("$name.json")
     }
 
     @EventSubscriber
-    private fun on(event: ServerStartedEvent) {
+    fun on(event: ServerStartedEvent) {
         loadFromFile()
     }
 
     @EventSubscriber
-    private fun on(event: ServerStoppingEvent) {
+    fun on(event: ServerStoppingEvent) {
         writeToFile()
     }
 
@@ -65,7 +68,9 @@ open class PersistentMapRepository<ID, ENTITY : Entity<ID>>(
             .mapNotNull { it.getOrNull() }
             .forEach { jsonArray.add(it) }
 
-        Files.writeString(filePath, jsonArray.toString(), StandardCharsets.UTF_8)
+        val prettyJson = gson.toJson(jsonArray)
+
+        Files.writeString(filePath, prettyJson, StandardCharsets.UTF_8)
         log.info("Saved ${jsonArray.size()} entities for persistent repository '$name'")
     }
 }
