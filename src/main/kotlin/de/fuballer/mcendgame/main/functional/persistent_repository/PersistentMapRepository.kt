@@ -42,35 +42,45 @@ open class PersistentMapRepository<ID, ENTITY : Entity<ID>>(
     }
 
     private fun loadFromFile() {
-        if (!Files.exists(filePath)) {
-            log.warn("No file for persistent repository '$name' found")
-            return
+        try {
+            if (!Files.exists(filePath)) {
+                log.warn("No file for persistent repository '$name' found")
+                return
+            }
+
+            val content = Files.readString(filePath, StandardCharsets.UTF_8)
+            val jsonArray = JsonParser.parseString(content).asJsonArray
+
+            val entities = jsonArray
+                .map { codec.parse(JsonOps.INSTANCE, it) }
+                .map { it.result() }
+                .mapNotNull { it.getOrNull() }
+
+            saveAll(entities)
+            log.info("Loaded ${entities.size} entities for persistent repository '$name'")
+
+        } catch (e: Exception) {
+            log.error("Failed to read file for persistent repository '$name': ${e.message}", e)
         }
-
-        val content = Files.readString(filePath, StandardCharsets.UTF_8)
-        val jsonArray = JsonParser.parseString(content).asJsonArray
-
-        val entities = jsonArray
-            .map { codec.parse(JsonOps.INSTANCE, it) }
-            .map { it.result() }
-            .mapNotNull { it.getOrNull() }
-
-        saveAll(entities)
-        log.info("Loaded ${entities.size} entities for persistent repository '$name'")
     }
 
     fun writeToFile() {
-        val jsonArray = JsonArray()
+        try {
+            val jsonArray = JsonArray()
 
-        findAll()
-            .map { codec.encodeStart(JsonOps.INSTANCE, it) }
-            .map { it.result() }
-            .mapNotNull { it.getOrNull() }
-            .forEach { jsonArray.add(it) }
+            findAll()
+                .map { codec.encodeStart(JsonOps.INSTANCE, it) }
+                .map { it.result() }
+                .mapNotNull { it.getOrNull() }
+                .forEach { jsonArray.add(it) }
 
-        val prettyJson = gson.toJson(jsonArray)
+            val prettyJson = gson.toJson(jsonArray)
 
-        Files.writeString(filePath, prettyJson, StandardCharsets.UTF_8)
-        log.info("Saved ${jsonArray.size()} entities for persistent repository '$name'")
+            Files.writeString(filePath, prettyJson, StandardCharsets.UTF_8)
+            log.info("Saved ${jsonArray.size()} entities for persistent repository '$name'")
+
+        } catch (e: Exception) {
+            log.error("Failed to write file for persistent repository '$name': ${e.message}", e)
+        }
     }
 }
