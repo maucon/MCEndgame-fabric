@@ -1,5 +1,7 @@
 package de.fuballer.mcendgame.main.component.item_filter
 
+import de.fuballer.mcendgame.main.component.item_filter.db.ItemFilterEntity
+import de.fuballer.mcendgame.main.component.item_filter.db.ItemFilterRepository
 import de.fuballer.mcendgame.main.util.extension.WorldExtension.isDungeonWorld
 import de.maucon.mauconframework.command.CommandHandler
 import de.maucon.mauconframework.di.annotation.Injectable
@@ -11,16 +13,16 @@ import net.minecraft.text.Text
 import java.util.*
 
 @Injectable
-class ItemFilterService {
-    private val playerFilter = mutableMapOf<UUID, Set<Item>>()
-
+class ItemFilterService(
+    private val itemFilterRepo: ItemFilterRepository,
+) {
     @CommandHandler
     fun on(cmd: PlayerItemPickupCommand) {
         val player = cmd.player
         if (!player.world.isDungeonWorld()) return
 
         val uuid = player.uuid
-        val filter = playerFilter[uuid] ?: return
+        val filter = itemFilterRepo.findById(uuid)?.items ?: return
         if (filter.contains(cmd.item)) cmd.cancel()
     }
 
@@ -35,8 +37,10 @@ class ItemFilterService {
     }
 
     private fun getFilterOrCreate(uuid: UUID): Set<Item> {
-        if (!playerFilter.containsKey(uuid)) playerFilter[uuid] = setOf()
-        return playerFilter[uuid]!!
+        val entity = itemFilterRepo.findById(uuid)
+            ?: return setOf()
+
+        return entity.items
     }
 
     fun saveItemFilter(player: PlayerEntity, inventory: Inventory) {
@@ -45,9 +49,11 @@ class ItemFilterService {
         for (i in 0 until inventory.size()) {
             val stack = inventory.getStack(i)
             if (stack.isEmpty) continue
+
             newFilter.add(stack.item)
         }
 
-        playerFilter[player.uuid] = newFilter
+        val entity = ItemFilterEntity(player.uuid, newFilter)
+        itemFilterRepo.save(entity)
     }
 }
