@@ -4,6 +4,7 @@ import net.minecraft.client.model.Model
 import net.minecraft.util.Identifier
 
 data class TexturedArmorModel<T : Model>(
-    val texture: Identifier,
     val model: T,
+    val texture: Identifier,
+    val translucentTexture: Identifier? = null,
 )

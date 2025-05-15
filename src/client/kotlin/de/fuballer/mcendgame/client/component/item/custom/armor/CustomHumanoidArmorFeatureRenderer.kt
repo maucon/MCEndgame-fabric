@@ -44,56 +44,57 @@ class CustomHumanoidArmorFeatureRenderer<S : BipedEntityRenderState, M : BipedEn
 
     init {
         texturedArmorModels[CustomArmorItems.ICEBORNE] = TexturedArmorModel(
+            IceborneModel(ctx.getPart(IceborneModel.MODEL_LAYER)),
             IdentifierUtil.default("textures/entity/equipment/custom_humanoid/iceborne.png"),
-            IceborneModel(ctx.getPart(IceborneModel.MODEL_LAYER))
         )
         texturedArmorModels[CustomArmorItems.BOUND_ABYSS] = TexturedArmorModel(
+            BoundAbyssModel(ctx.getPart(BoundAbyssModel.MODEL_LAYER)),
             IdentifierUtil.default("textures/entity/equipment/custom_humanoid/bound_abyss.png"),
-            BoundAbyssModel(ctx.getPart(BoundAbyssModel.MODEL_LAYER))
         )
         texturedArmorModels[CustomArmorItems.DRUIDS_HELMET] = TexturedArmorModel(
+            DruidsHelmetModel(ctx.getPart(DruidsHelmetModel.MODEL_LAYER)),
             IdentifierUtil.default("textures/entity/equipment/custom_humanoid/druids.png"),
-            DruidsHelmetModel(ctx.getPart(DruidsHelmetModel.MODEL_LAYER))
         )
         texturedArmorModels[CustomArmorItems.DRUIDS_CHESTPLATE] = TexturedArmorModel(
+            DruidsChestplateModel(ctx.getPart(DruidsChestplateModel.MODEL_LAYER)),
             IdentifierUtil.default("textures/entity/equipment/custom_humanoid/druids.png"),
-            DruidsChestplateModel(ctx.getPart(DruidsChestplateModel.MODEL_LAYER))
         )
         texturedArmorModels[CustomArmorItems.DRUIDS_LEGGINGS] = TexturedArmorModel(
+            DruidsLeggingsModel(ctx.getPart(DruidsLeggingsModel.MODEL_LAYER)),
             IdentifierUtil.default("textures/entity/equipment/custom_humanoid/druids.png"),
-            DruidsLeggingsModel(ctx.getPart(DruidsLeggingsModel.MODEL_LAYER))
         )
         texturedArmorModels[CustomArmorItems.DRUIDS_BOOTS] = TexturedArmorModel(
+            DruidsBootsModel(ctx.getPart(DruidsBootsModel.MODEL_LAYER)),
             IdentifierUtil.default("textures/entity/equipment/custom_humanoid/druids.png"),
-            DruidsBootsModel(ctx.getPart(DruidsBootsModel.MODEL_LAYER))
         )
         texturedArmorModels[CustomArmorItems.EMBERCHANT] = TexturedArmorModel(
+            EmberchantModel(ctx.getPart(EmberchantModel.MODEL_LAYER)),
             IdentifierUtil.default("textures/entity/equipment/custom_humanoid/emberchant.png"),
-            EmberchantModel(ctx.getPart(EmberchantModel.MODEL_LAYER))
         )
         texturedArmorModels[CustomArmorItems.LAMIAS_GIFT] = TexturedArmorModel(
+            LamiasGiftModel(ctx.getPart(LamiasGiftModel.MODEL_LAYER)),
             IdentifierUtil.default("textures/entity/equipment/custom_humanoid/lamias_gift.png"),
-            LamiasGiftModel(ctx.getPart(LamiasGiftModel.MODEL_LAYER))
         )
         texturedArmorModels[CustomArmorItems.WITHER_ROSE_HELMET] = TexturedArmorModel(
+            WitherRoseHelmetModel(ctx.getPart(WitherRoseHelmetModel.MODEL_LAYER)),
             IdentifierUtil.default("textures/entity/equipment/custom_humanoid/wither_rose.png"),
-            WitherRoseHelmetModel(ctx.getPart(WitherRoseHelmetModel.MODEL_LAYER))
         )
         texturedArmorModels[CustomArmorItems.WITHER_ROSE_CHESTPLATE] = TexturedArmorModel(
+            WitherRoseChestplateModel(ctx.getPart(WitherRoseChestplateModel.MODEL_LAYER)),
             IdentifierUtil.default("textures/entity/equipment/custom_humanoid/wither_rose.png"),
-            WitherRoseChestplateModel(ctx.getPart(WitherRoseChestplateModel.MODEL_LAYER))
         )
         texturedArmorModels[CustomArmorItems.WITHER_ROSE_LEGGINGS] = TexturedArmorModel(
+            WitherRoseLeggingsModel(ctx.getPart(WitherRoseLeggingsModel.MODEL_LAYER)),
             IdentifierUtil.default("textures/entity/equipment/custom_humanoid/wither_rose.png"),
-            WitherRoseLeggingsModel(ctx.getPart(WitherRoseLeggingsModel.MODEL_LAYER))
         )
         texturedArmorModels[CustomArmorItems.WITHER_ROSE_BOOTS] = TexturedArmorModel(
+            WitherRoseBootsModel(ctx.getPart(WitherRoseBootsModel.MODEL_LAYER)),
             IdentifierUtil.default("textures/entity/equipment/custom_humanoid/wither_rose.png"),
-            WitherRoseBootsModel(ctx.getPart(WitherRoseBootsModel.MODEL_LAYER))
         )
         texturedArmorModels[CustomArmorItems.FAE_LEGGINGS] = TexturedArmorModel(
+            FaeLeggingsModel(ctx.getPart(FaeLeggingsModel.MODEL_LAYER)),
             IdentifierUtil.default("textures/entity/equipment/custom_humanoid/fae.png"),
-            FaeLeggingsModel(ctx.getPart(FaeLeggingsModel.MODEL_LAYER))
+            IdentifierUtil.default("textures/entity/equipment/custom_humanoid/fae_translucent.png"),
         )
     }
 
@@ -174,6 +175,18 @@ class CustomHumanoidArmorFeatureRenderer<S : BipedEntityRenderState, M : BipedEn
             light,
             itemStack.hasGlint(),
         )
+
+        val translucentTexture = texturedArmorModel.translucentTexture ?: return
+        renderModel(
+            bipedEntityRenderState,
+            model,
+            translucentTexture,
+            matrices,
+            vertexConsumerProvider,
+            light,
+            itemStack.hasGlint(),
+            true,
+        )
     }
 
     private fun renderModel(
@@ -184,9 +197,14 @@ class CustomHumanoidArmorFeatureRenderer<S : BipedEntityRenderState, M : BipedEn
         vertexConsumerProvider: VertexConsumerProvider,
         light: Int,
         glint: Boolean,
+        translucent: Boolean = false,
     ) {
-        var vertexConsumer =
-            ItemRenderer.getArmorGlintConsumer(vertexConsumerProvider, RenderLayer.getArmorCutoutNoCull(texture), glint) // RenderLayer.getEntityTranslucent
+        var vertexConsumer = ItemRenderer.getArmorGlintConsumer(
+            vertexConsumerProvider,
+            if (translucent) RenderLayer.getEntityTranslucent(texture) else RenderLayer.getArmorCutoutNoCull(texture),
+            glint
+        )
+
         if (model is CustomVertexConsumer) {
             vertexConsumer = model.getVertexConsumer(bipedEntityRenderState, vertexConsumerProvider, vertexConsumer)
         }
