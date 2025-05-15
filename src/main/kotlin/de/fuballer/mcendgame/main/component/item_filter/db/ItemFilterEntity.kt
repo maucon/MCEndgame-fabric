@@ -4,6 +4,7 @@ import com.mojang.serialization.Codec
 import com.mojang.serialization.codecs.RecordCodecBuilder
 import de.maucon.mauconframework.stereotype.Entity
 import net.minecraft.item.Item
+import net.minecraft.item.Items
 import net.minecraft.registry.Registries
 import net.minecraft.util.Identifier
 import net.minecraft.util.Uuids
@@ -21,12 +22,19 @@ data class ItemFilterEntity(
             RecordCodecBuilder.create { instance ->
                 instance.group(
                     Uuids.CODEC.fieldOf("id").forGetter(ItemFilterEntity::id),
-                    Identifier.CODEC.listOf().fieldOf("items").forGetter { entity -> entity.items.map { Registries.ITEM.getId(it) } }
+                    Identifier.CODEC.listOf().fieldOf("items")
+                        .forGetter { entity ->
+                            entity.items
+                                .filter { it != Items.AIR }
+                                .map { Registries.ITEM.getId(it) }
+                        }
                 ).apply(instance) { id, itemIds ->
                     val items = itemIds
                         .map { Registries.ITEM.get(it) }
+                        .filter { it != Items.AIR }
                         .toMutableSet()
 
+                    println(items)
                     ItemFilterEntity(id, items)
                 }
             }
