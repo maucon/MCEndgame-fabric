@@ -9,6 +9,10 @@ object IdentifierUtil {
         return Identifier.of(MCEndgame.MOD_ID, id)
     }
 
+    fun defaultJava(id: String): Identifier {
+        return Identifier.of(MCEndgame.MOD_ID, id)
+    }
+
     fun defaultRandom(): Identifier {
         return Identifier.of(MCEndgame.MOD_ID, UUID.randomUUID().toString())
     }

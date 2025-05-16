@@ -41,6 +41,8 @@
   "attribute.mcendgame.increased_damage_against_full_health": "%s%% increased Damage against Full Health Enemies",
   "attribute.mcendgame.increased_damage_while_low_health": "%s%% increased Damage while Low Health",
   "attribute.mcendgame.less_damage_taken_while_high_health": " %s%% less Damage taken while High Health",
+  "attribute.mcendgame.increased_movement_speed_while_poisoned": "%s%% increased Movement Speed while Poisoned",
+  "attribute.mcendgame.poison_damage_immunity": " Poison Immunity",
 
   "entity.mcendgame.swamp_golem": "Swamp Golem",
   "entity.mcendgame.elf_duelist": "Elf Duelist",
