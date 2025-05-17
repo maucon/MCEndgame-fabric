@@ -10,7 +10,7 @@
     "damage.PlayerEntitySweepingAttackMixin",
     "event.LivingEntityEventsMixin",
     "filter.ItemEntityFilterMixin",
-    "living_entity.LivingEntityMovementSpeedWhilePoisonedMixin",
+    "living_entity.LivingEntityAttributeWhilePoisonedMixin",
     "living_entity.LivingEntityPoisonDamageImmunityMixin",
     "living_entity.LivingEntityWebbedMixin",
     "status_effect.PoisonStatusEffectMixin"

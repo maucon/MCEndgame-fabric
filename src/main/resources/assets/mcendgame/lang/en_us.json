@@ -42,6 +42,12 @@
   "attribute.mcendgame.increased_damage_while_low_health": "%s%% increased Damage while Low Health",
   "attribute.mcendgame.less_damage_taken_while_high_health": " %s%% less Damage taken while High Health",
   "attribute.mcendgame.increased_movement_speed_while_poisoned": "%s%% increased Movement Speed while Poisoned",
+  "attribute.mcendgame.increased_damage_while_poisoned": "%s%% increased Damage while Poisoned",
+  "attribute.mcendgame.increased_attack_damage_while_poisoned": "%s%% increased Attack Damage while Poisoned",
+  "attribute.mcendgame.increased_elemental_damage_while_poisoned": "%s%% increased Elemental Damage while Poisoned",
+  "attribute.mcendgame.reduced_damage_taken_while_poisoned": "%s%% reduced Damage taken while Poisoned",
+  "attribute.mcendgame.dodge_while_poisoned": " %s%% Dodge while Poisoned",
+  "attribute.mcendgame.magic_find_while_poisoned": "%s Magic Find while Poisoned",
   "attribute.mcendgame.poison_damage_immunity": " Poison Immunity",
 
   "entity.mcendgame.swamp_golem": "Swamp Golem",
