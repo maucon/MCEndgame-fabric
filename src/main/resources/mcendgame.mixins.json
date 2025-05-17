@@ -11,9 +11,12 @@
     "event.LivingEntityEventsMixin",
     "filter.ItemEntityFilterMixin",
     "living_entity.LivingEntityAttributeWhilePoisonedMixin",
+    "living_entity.LivingEntityAttributeWhileWitheredMixin",
     "living_entity.LivingEntityPoisonDamageImmunityMixin",
     "living_entity.LivingEntityWebbedMixin",
-    "status_effect.PoisonStatusEffectMixin"
+    "living_entity.LivingEntityWitherDamageImmunityMixin",
+    "status_effect.PoisonStatusEffectMixin",
+    "status_effect.WitherStatusEffectMixin"
   ],
   "injectors": {
     "defaultRequire": 1

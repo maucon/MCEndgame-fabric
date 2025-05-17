@@ -10,7 +10,7 @@ import net.minecraft.entity.effect.StatusEffects
 import kotlin.random.Random
 
 @Injectable
-class IncreasedWhilePoisonedService {
+class AttributesWhilePoisonedService {
     @CommandHandler
     fun on(cmd: ApplyDamageCalculationCommand) {
         offensive(cmd)

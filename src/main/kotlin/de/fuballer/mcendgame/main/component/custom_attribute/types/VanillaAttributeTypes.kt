@@ -21,6 +21,7 @@ object VanillaAttributeTypes {
     // MISC
     val INCREASED_MOVEMENT_SPEED = VanillaAttributeType(EntityAttributes.MOVEMENT_SPEED, EntityAttributeModifier.Operation.ADD_MULTIPLIED_BASE, "increased_movement_speed", AttributeFormats.SIGNED_PERCENT_ROLL, AttributeFormats.PERCENT_BOUNDS)
     val LUCK = VanillaAttributeType(EntityAttributes.LUCK, EntityAttributeModifier.Operation.ADD_VALUE, "luck", AttributeFormats.SIGNED_DOUBLE_ROLL, AttributeFormats.DOUBLE_BOUNDS)
+    val INCREASED_SCALE = VanillaAttributeType(EntityAttributes.SCALE, EntityAttributeModifier.Operation.ADD_MULTIPLIED_BASE, "increased_scale", AttributeFormats.SIGNED_PERCENT_ROLL, AttributeFormats.PERCENT_BOUNDS)
 
     // region get by key
     fun getByKey(key: String): VanillaAttributeType {
