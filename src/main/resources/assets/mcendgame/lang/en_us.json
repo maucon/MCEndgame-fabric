@@ -54,6 +54,7 @@
   "attribute.mcendgame.increased_attack_damage_while_withered": "%s%% increased Attack Damage while Withered",
   "attribute.mcendgame.armor_while_withered": "%s Armor while Withered",
   "attribute.mcendgame.wither_damage_immunity": " Immune to Wither Damage",
+  "attribute.mcendgame.shoot_wither_skull_when_hit_by_projectile": " %s%% chance to shoot a Wither Skull when hit by a Projectile",
 
   "entity.mcendgame.swamp_golem": "Swamp Golem",
   "entity.mcendgame.elf_duelist": "Elf Duelist",
