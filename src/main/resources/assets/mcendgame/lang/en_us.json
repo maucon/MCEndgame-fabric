@@ -48,7 +48,7 @@
   "attribute.mcendgame.reduced_damage_taken_while_poisoned": "%s%% reduced Damage taken while Poisoned",
   "attribute.mcendgame.dodge_while_poisoned": " %s%% Dodge while Poisoned",
   "attribute.mcendgame.magic_find_while_poisoned": "%s Magic Find while Poisoned",
-  "attribute.mcendgame.poison_damage_immunity": " Poison Immunity",
+  "attribute.mcendgame.poison_damage_immunity": " Immune to Poison Damage",
 
   "entity.mcendgame.swamp_golem": "Swamp Golem",
   "entity.mcendgame.elf_duelist": "Elf Duelist",
