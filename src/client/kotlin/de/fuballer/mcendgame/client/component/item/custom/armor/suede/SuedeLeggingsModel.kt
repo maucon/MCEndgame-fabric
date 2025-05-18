@@ -26,7 +26,8 @@ class SuedeLeggingsModel<S : BipedEntityRenderState>(
 
             val body = modelPartData.addChild(EntityModelPartNames.BODY, ModelPartBuilder.create(), ModelTransform.origin(0.0f, 0.0f, 0.0f))
 
-            val leggings_waist = body.addChild("leggings_waist", ModelPartBuilder.create(), ModelTransform.origin(0.0f, 0.0f, 0.0f))
+            val leggings_waist =
+                body.addChild("leggings_waist", ModelPartBuilder.create().uv(21, 82).cuboid(-4.0f, 9.0f, -2.0f, 8.0f, 3.0f, 4.0f, Dilation(0.05f)), ModelTransform.origin(0.0f, 0.0f, 0.0f))
 
             val left_belt = leggings_waist.addChild(
                 "left_belt",
