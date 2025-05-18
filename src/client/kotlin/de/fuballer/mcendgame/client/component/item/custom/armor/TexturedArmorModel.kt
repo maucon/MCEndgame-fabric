@@ -5,6 +5,8 @@ import net.minecraft.util.Identifier
 
 data class TexturedArmorModel<T : Model>(
     val model: T,
-    val texture: Identifier,
+    val texture: Identifier? = null,
+    val colorAbleTexture: Identifier? = null,
+    val defaultColor: Int = -1,
     val translucentTexture: Identifier? = null,
 )

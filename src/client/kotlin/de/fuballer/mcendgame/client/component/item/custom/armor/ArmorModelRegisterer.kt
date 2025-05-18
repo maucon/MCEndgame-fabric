@@ -8,6 +8,10 @@ import de.fuballer.mcendgame.client.component.item.custom.armor.druids.DruidsLeg
 import de.fuballer.mcendgame.client.component.item.custom.armor.emberchant.EmberchantModel
 import de.fuballer.mcendgame.client.component.item.custom.armor.iceborne.IceborneModel
 import de.fuballer.mcendgame.client.component.item.custom.armor.lamias_gift.LamiasGiftModel
+import de.fuballer.mcendgame.client.component.item.custom.armor.suede.SuedeBootsModel
+import de.fuballer.mcendgame.client.component.item.custom.armor.suede.SuedeChestplateModel
+import de.fuballer.mcendgame.client.component.item.custom.armor.suede.SuedeHelmetModel
+import de.fuballer.mcendgame.client.component.item.custom.armor.suede.SuedeLeggingsModel
 import de.fuballer.mcendgame.client.component.item.custom.armor.wither_rose.WitherRoseBootsModel
 import de.fuballer.mcendgame.client.component.item.custom.armor.wither_rose.WitherRoseChestplateModel
 import de.fuballer.mcendgame.client.component.item.custom.armor.wither_rose.WitherRoseHelmetModel
@@ -67,6 +71,22 @@ object ArmorModelRegisterer {
         EntityModelLayerRegistry.registerModelLayer(
             WitherRoseBootsModel.MODEL_LAYER,
             WitherRoseBootsModel.Companion::getTexturedModelData
+        )
+        EntityModelLayerRegistry.registerModelLayer(
+            SuedeHelmetModel.MODEL_LAYER,
+            SuedeHelmetModel.Companion::getTexturedModelData
+        )
+        EntityModelLayerRegistry.registerModelLayer(
+            SuedeChestplateModel.MODEL_LAYER,
+            SuedeChestplateModel.Companion::getTexturedModelData
+        )
+        EntityModelLayerRegistry.registerModelLayer(
+            SuedeLeggingsModel.MODEL_LAYER,
+            SuedeLeggingsModel.Companion::getTexturedModelData
+        )
+        EntityModelLayerRegistry.registerModelLayer(
+            SuedeBootsModel.MODEL_LAYER,
+            SuedeBootsModel.Companion::getTexturedModelData
         )
     }
 }
