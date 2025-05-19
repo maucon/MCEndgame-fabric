@@ -1,6 +1,8 @@
 {
   "replace": false,
   "values": [
-    "mcendgame:druids_boots"
+    "mcendgame:druids_boots",
+    "mcendgame:wither_rose_boots",
+    "mcendgame:suede_boots"
   ]
 }
