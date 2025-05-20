@@ -12,6 +12,7 @@
     "damage.PlayerEntitySweepingAttackMixin",
     "event.LivingEntityEventsMixin",
     "filter.ItemEntityFilterMixin",
+    "item.ImmuneItemEntityMixin",
     "living_entity.LivingEntityAttributeWhilePoisonedMixin",
     "living_entity.LivingEntityAttributeWhileWitheredMixin",
     "living_entity.LivingEntityOnDamageEventMixin",
