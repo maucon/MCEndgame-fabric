@@ -1,6 +1,6 @@
 package de.fuballer.mcendgame.main.mixin.boss;
 
-import de.fuballer.mcendgame.main.accessor.MobEntityBossAccessor;
+import de.fuballer.mcendgame.main.util.extension.EntityExtension;
 import net.minecraft.entity.LivingEntity;
 import net.minecraft.entity.damage.DamageSource;
 import net.minecraft.entity.mob.MobEntity;
@@ -12,7 +12,7 @@ import org.spongepowered.asm.mixin.injection.Inject;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfoReturnable;
 
 @Mixin(LivingEntity.class)
-public abstract class LivingEntityBossMixin {
+public abstract class LivingEntityDungeonBossMixin {
     @Inject(method = "damage", at = @At("HEAD"))
     void damage(
             ServerWorld world,
@@ -25,8 +25,7 @@ public abstract class LivingEntityBossMixin {
         if (!(livingEntity instanceof MobEntity mobEntity)) return;
         if (!mobEntity.isAiDisabled()) return;
 
-        if (!(mobEntity instanceof MobEntityBossAccessor bossAccessor)) return;
-        if (!bossAccessor.mcendgame$isDungeonBoss()) return;
+        if (!EntityExtension.INSTANCE.isDungeonBoss(mobEntity)) return;
 
         mobEntity.setAiDisabled(false);
 

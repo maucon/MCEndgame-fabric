@@ -3,8 +3,8 @@
   "package": "de.fuballer.mcendgame.main.mixin",
   "compatibilityLevel": "JAVA_21",
   "mixins": [
-    "boss.LivingEntityBossMixin",
-    "boss.MobEntityBossMixin",
+    "boss.LivingEntityDungeonBossMixin",
+    "boss.MobEntityDungeonBossMixin",
     "conversion.SkeletonConversionMixin",
     "conversion.ZombieConversionMixin",
     "damage.LivingEntityDamageMixin",
@@ -15,10 +15,12 @@
     "item.ImmuneItemEntityMixin",
     "living_entity.LivingEntityAttributeWhilePoisonedMixin",
     "living_entity.LivingEntityAttributeWhileWitheredMixin",
+    "living_entity.LivingEntityDungeonEnemyMixin",
     "living_entity.LivingEntityOnDamageEventMixin",
     "living_entity.LivingEntityPoisonDamageImmunityMixin",
     "living_entity.LivingEntityWebbedMixin",
     "living_entity.LivingEntityWitherDamageImmunityMixin",
+    "mob_entity.MobEntityTargetMixin",
     "status_effect.PoisonStatusEffectMixin",
     "status_effect.WitherStatusEffectMixin"
   ],

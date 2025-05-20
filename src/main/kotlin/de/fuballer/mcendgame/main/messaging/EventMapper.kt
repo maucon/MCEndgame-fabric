@@ -1,11 +1,11 @@
 package de.fuballer.mcendgame.main.messaging
 
-import de.fuballer.mcendgame.main.accessor.MobEntityBossAccessor
 import de.fuballer.mcendgame.main.messaging.dungeon.DungeonBossDeathEvent
 import de.fuballer.mcendgame.main.messaging.misc.LivingEntityDeathEvent
 import de.fuballer.mcendgame.main.messaging.server.ServerEndTickEvent
 import de.fuballer.mcendgame.main.messaging.server.ServerStartedEvent
 import de.fuballer.mcendgame.main.messaging.server.ServerStoppingEvent
+import de.fuballer.mcendgame.main.util.extension.EntityExtension.isDungeonBoss
 import de.maucon.mauconframework.di.annotation.Injectable
 import de.maucon.mauconframework.event.EventGateway
 import de.maucon.mauconframework.event.EventSubscriber
@@ -19,8 +19,7 @@ object EventMapper {
     fun on(event: LivingEntityDeathEvent) {
         val entity = event.entity
 
-        val accessor = entity as? MobEntityBossAccessor ?: return
-        if (!accessor.`mcendgame$isDungeonBoss`()) return
+        if (!entity.isDungeonBoss()) return
 
         val dungeonBossDeathEvent = DungeonBossDeathEvent(event.isClient, event.world, event.entity, event.killer)
         EventGateway.launchPublish(dungeonBossDeathEvent)
