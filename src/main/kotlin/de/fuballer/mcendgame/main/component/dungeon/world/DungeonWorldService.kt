@@ -2,8 +2,8 @@ package de.fuballer.mcendgame.main.component.dungeon.world
 
 import de.fuballer.mcendgame.main.component.dungeon.world.db.DungeonWorldEntity
 import de.fuballer.mcendgame.main.component.dungeon.world.db.DungeonWorldRepository
-import de.fuballer.mcendgame.main.functional.scheduler.Scheduler
 import de.fuballer.mcendgame.main.configuration.RuntimeConfig
+import de.fuballer.mcendgame.main.functional.scheduler.Scheduler
 import de.fuballer.mcendgame.main.messaging.server.ServerStartedEvent
 import de.fuballer.mcendgame.main.messaging.server.ServerStoppingEvent
 import de.maucon.mauconframework.di.annotation.Injectable

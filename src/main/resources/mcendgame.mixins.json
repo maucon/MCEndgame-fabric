@@ -5,6 +5,8 @@
   "mixins": [
     "boss.LivingEntityBossMixin",
     "boss.MobEntityBossMixin",
+    "conversion.SkeletonConversionMixin",
+    "conversion.ZombieConversionMixin",
     "damage.LivingEntityDamageMixin",
     "damage.PlayerEntityDamageMixin",
     "damage.PlayerEntitySweepingAttackMixin",

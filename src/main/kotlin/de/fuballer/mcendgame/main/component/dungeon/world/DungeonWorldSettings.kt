@@ -1,10 +1,10 @@
 package de.fuballer.mcendgame.main.component.dungeon.world
 
+import de.fuballer.mcendgame.main.component.dimension.CustomDimensions
 import de.fuballer.mcendgame.main.configuration.RuntimeConfig
 import de.fuballer.mcendgame.main.util.minecraft.IdentifierUtil
 import net.minecraft.world.Difficulty
 import net.minecraft.world.GameRules
-import net.minecraft.world.dimension.DimensionTypes
 import xyz.nucleoid.fantasy.RuntimeWorldConfig
 import xyz.nucleoid.fantasy.util.VoidChunkGenerator
 import java.util.*
@@ -15,7 +15,7 @@ object DungeonWorldSettings {
 
     val WORLD_CONFIG: RuntimeWorldConfig =
         RuntimeWorldConfig()
-            .setDimensionType(DimensionTypes.OVERWORLD)
+            .setDimensionType(CustomDimensions.DUNGEON)
             .setDifficulty(Difficulty.HARD)
             .setGenerator(VoidChunkGenerator(RuntimeConfig.SERVER))
             .setTimeOfDay(18000L)
