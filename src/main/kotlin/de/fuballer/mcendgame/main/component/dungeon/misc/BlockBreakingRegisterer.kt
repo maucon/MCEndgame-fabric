@@ -7,7 +7,7 @@ import de.maucon.mauconframework.initializer.Initializer
 import net.fabricmc.fabric.api.event.player.PlayerBlockBreakEvents
 
 @Injectable
-class DungeonBlockBreakingRegisterer {
+class BlockBreakingRegisterer {
     @Initializer
     fun init() {
         PlayerBlockBreakEvents.BEFORE.register { world, player, _, blockState, _ ->
