@@ -10,7 +10,7 @@ import org.spongepowered.asm.mixin.injection.Inject;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 
 @Mixin(MobEntity.class)
-public class MobEntityTargetMixin {
+public class MobEntityTargetCommandMixin {
     @Inject(method = "setTarget", at = @At("HEAD"), cancellable = true)
     void setTarget(LivingEntity target, CallbackInfo ci) {
         var entity = (MobEntity) (Object) this;

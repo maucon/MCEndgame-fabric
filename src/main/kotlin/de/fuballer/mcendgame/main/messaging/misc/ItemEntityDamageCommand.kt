@@ -4,13 +4,13 @@ import net.minecraft.entity.ItemEntity
 import net.minecraft.entity.damage.DamageSource
 import net.minecraft.world.World
 
-data class ItemEntityDamagedCommand(
+data class ItemEntityDamageCommand(
     val world: World,
     val entity: ItemEntity,
     val source: DamageSource,
     var ignoresDamage: Boolean = false,
 ) {
     companion object {
-        fun of(entity: ItemEntity, source: DamageSource) = ItemEntityDamagedCommand(entity.world, entity, source)
+        fun of(entity: ItemEntity, source: DamageSource) = ItemEntityDamageCommand(entity.world, entity, source)
     }
 }
