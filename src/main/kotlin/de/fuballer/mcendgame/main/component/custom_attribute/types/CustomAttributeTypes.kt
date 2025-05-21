@@ -34,10 +34,12 @@ object CustomAttributeTypes {
 
     val INCREASED_DAMAGE_WHILE_WITHERED = CustomAttributeType("increased_damage_while_withered", AttributeFormats.SIGNED_PERCENT_ROLL, AttributeFormats.PERCENT_BOUNDS)
     val INCREASED_ATTACK_DAMAGE_WHILE_WITHERED = CustomAttributeType("increased_attack_damage_while_withered", AttributeFormats.SIGNED_PERCENT_ROLL, AttributeFormats.PERCENT_BOUNDS)
-    val ARMOR_WHILE_WITHERED= CustomAttributeType("armor_while_withered", AttributeFormats.SIGNED_DOUBLE_ROLL, AttributeFormats.DOUBLE_BOUNDS)
+    val ARMOR_WHILE_WITHERED = CustomAttributeType("armor_while_withered", AttributeFormats.SIGNED_DOUBLE_ROLL, AttributeFormats.DOUBLE_BOUNDS)
     val WITHER_DAMAGE_IMMUNITY = CustomAttributeType("wither_damage_immunity", AttributeFormats.EMPTY_ROLL, AttributeFormats.EMPTY_BOUNDS)
 
     val SHOOT_WITHER_SKULL_WHEN_HIT_BY_PROJECTILE = CustomAttributeType("shoot_wither_skull_when_hit_by_projectile", AttributeFormats.SIGNED_PERCENT_ROLL, AttributeFormats.PERCENT_BOUNDS)
+
+    val BURNING_ENEMIES_EXPLODE_WHEN_KILLED = CustomAttributeType("burning_enemies_explode_when_killed", AttributeFormats.PERCENT_ROLL, AttributeFormats.PERCENT_BOUNDS)
 
     // region get by key
     fun getByKey(key: String): CustomAttributeType {
