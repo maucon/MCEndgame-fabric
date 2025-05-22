@@ -6,6 +6,8 @@ import de.fuballer.mcendgame.main.configuration.RuntimeConfig
 import de.fuballer.mcendgame.main.messaging.dungeon.DungeonEntityDeathEvent
 import de.fuballer.mcendgame.main.messaging.misc.LivingEntityDropCommand
 import de.fuballer.mcendgame.main.messaging.misc.MagicFindCommand
+import de.fuballer.mcendgame.main.util.extension.EntityExtension.isDungeonBoss
+import de.fuballer.mcendgame.main.util.extension.EntityExtension.isDungeonEnemy
 import de.fuballer.mcendgame.main.util.extension.WorldExtension.isDungeonWorld
 import de.maucon.mauconframework.command.CommandGateway
 import de.maucon.mauconframework.command.CommandHandler
@@ -36,11 +38,13 @@ class LootService {
         if (event.isClient) return
         val serverWorld = event.world as? ServerWorld ?: return
 
-        // TODO check if enemy
-        // TODO check if boss
-        // TODO check if minion
-
         val entity = event.entity
+        if (!entity.isDungeonEnemy()) return
+
+        if (entity.isDungeonBoss()) {
+            // TODO drop dungeon loot
+            return
+        }
 
         EquipmentSlot.VALUES
             .map { entity.getEquippedStack(it) }
