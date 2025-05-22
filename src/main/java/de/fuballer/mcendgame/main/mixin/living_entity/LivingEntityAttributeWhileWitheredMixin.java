@@ -52,7 +52,7 @@ public abstract class LivingEntityAttributeWhileWitheredMixin {
 
     @Unique
     private void tickAttributeWhileWithered(
-            boolean isPoisoned,
+            boolean isWithered,
             RegistryEntry<EntityAttribute> vanillaAttribute,
             CustomAttributeType customAttribute,
             LivingEntity entity,
@@ -62,7 +62,7 @@ public abstract class LivingEntityAttributeWhileWitheredMixin {
         var attributeInstance = entity.getAttributeInstance(vanillaAttribute);
         if (attributeInstance == null) return;
 
-        if (!isPoisoned) {
+        if (!isWithered) {
             attributeInstance.removeModifier(identifier);
             return;
         }
