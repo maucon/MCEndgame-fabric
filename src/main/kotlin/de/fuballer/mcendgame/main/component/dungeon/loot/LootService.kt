@@ -1,5 +1,6 @@
 package de.fuballer.mcendgame.main.component.dungeon.loot
 
+import de.fuballer.mcendgame.main.component.item.custom.armor.interfaces.UniqueAttributesItem
 import de.fuballer.mcendgame.main.component.tags.CustomTags
 import de.fuballer.mcendgame.main.configuration.RuntimeConfig
 import de.fuballer.mcendgame.main.messaging.dungeon.DungeonEntityDeathEvent
@@ -74,6 +75,10 @@ class LootService {
     }
 
     private fun getDropProbability(stack: ItemStack, lootingLevel: Int): Double {
+        if (stack.item is UniqueAttributesItem) {
+            return 1.0 // uniques should always drop
+        }
+
         if (stack.isIn(CustomTags.DIAMOND_GEAR)) {
             return LootSettings.ITEMS_DROP_PROBABILITY_DIAMOND + LootSettings.ITEMS_DROP_PROBABILITY_DIAMOND_PER_LOOTING * lootingLevel
         }
