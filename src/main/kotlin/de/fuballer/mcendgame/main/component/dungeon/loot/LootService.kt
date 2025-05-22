@@ -51,7 +51,7 @@ class LootService {
             .filter {
                 val lootingLevel = getLootingLevel(event.killer)
                 val baseDropProbability = getDropProbability(it, lootingLevel)
-                val dropProbability = baseDropProbability * getMagicFindFactor(event.killer).also { println("COCK AND BALL TORTURE: $it") }
+                val dropProbability = baseDropProbability * getMagicFindFactor(event.killer)
 
                 Random.nextDouble() <= dropProbability
             }
