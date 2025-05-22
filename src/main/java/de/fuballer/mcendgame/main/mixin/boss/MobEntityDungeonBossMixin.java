@@ -1,6 +1,6 @@
 package de.fuballer.mcendgame.main.mixin.boss;
 
-import de.fuballer.mcendgame.main.accessor.MobEntityBossAccessor;
+import de.fuballer.mcendgame.main.accessor.MobEntityDungeonBossAccessor;
 import de.fuballer.mcendgame.main.component.dungeon.generation.data.SpawnPosition;
 import net.minecraft.entity.mob.MobEntity;
 import net.minecraft.entity.player.PlayerEntity;
@@ -14,7 +14,7 @@ import org.spongepowered.asm.mixin.injection.Inject;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 
 @Mixin(MobEntity.class)
-public class MobEntityBossMixin implements MobEntityBossAccessor {
+public class MobEntityDungeonBossMixin implements MobEntityDungeonBossAccessor {
     @Unique
     private static final String DUNGEON_BOSS_NBT = "isDungeonBoss";
     @Unique
@@ -69,7 +69,7 @@ public class MobEntityBossMixin implements MobEntityBossAccessor {
 
     @Inject(method = "writeCustomDataToNbt", at = @At("TAIL"))
     private void writeNBT(NbtCompound nbt, CallbackInfo ci) {
-        nbt.putBoolean(DUNGEON_BOSS_NBT, isDungeonBoss);
+        if (isDungeonBoss) nbt.putBoolean(DUNGEON_BOSS_NBT, true);
         if (spawnPosition != null) {
             nbt.put(SPAWN_POSITION_NBT, SpawnPosition.Companion.getCODEC(), spawnPosition);
         }

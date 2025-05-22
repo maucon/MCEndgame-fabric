@@ -13,8 +13,8 @@ class IncreasedDamageService {
         val attributes = cmd.damagerAttributes[CustomAttributeTypes.INCREASED_DAMAGE] ?: return
 
         attributes.forEach { attribute ->
-            val increaseDamage = attribute.rolls[0].asDoubleRoll().getActualRoll()
-            cmd.increasedDamage.add(increaseDamage)
+            val increasedDamage = attribute.rolls[0].asDoubleRoll().getActualRoll()
+            cmd.increasedDamage.add(increasedDamage)
         }
     }
 }

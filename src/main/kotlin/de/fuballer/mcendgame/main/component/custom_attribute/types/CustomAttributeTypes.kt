@@ -23,6 +23,24 @@ object CustomAttributeTypes {
     val INCREASED_DAMAGE_WHILE_LOW_HEALTH = CustomAttributeType("increased_damage_while_low_health", AttributeFormats.SIGNED_PERCENT_ROLL, AttributeFormats.PERCENT_BOUNDS)
     val LESS_DAMAGE_TAKEN_WHILE_HIGH_HEALTH = CustomAttributeType("less_damage_taken_while_high_health", AttributeFormats.PERCENT_ROLL, AttributeFormats.PERCENT_BOUNDS)
 
+    val INCREASED_DAMAGE_WHILE_POISONED = CustomAttributeType("increased_damage_while_poisoned", AttributeFormats.SIGNED_PERCENT_ROLL, AttributeFormats.PERCENT_BOUNDS)
+    val INCREASED_ATTACK_DAMAGE_WHILE_POISONED = CustomAttributeType("increased_attack_damage_while_poisoned", AttributeFormats.SIGNED_PERCENT_ROLL, AttributeFormats.PERCENT_BOUNDS)
+    val INCREASED_ELEMENTAL_DAMAGE_WHILE_POISONED = CustomAttributeType("increased_elemental_damage_while_poisoned", AttributeFormats.SIGNED_PERCENT_ROLL, AttributeFormats.PERCENT_BOUNDS)
+    val REDUCED_DAMAGE_TAKEN_WHILE_POISONED = CustomAttributeType("reduced_damage_taken_while_poisoned", AttributeFormats.SIGNED_PERCENT_ROLL, AttributeFormats.PERCENT_BOUNDS)
+    val DODGE_WHILE_POISONED = CustomAttributeType("dodge_while_poisoned", AttributeFormats.PERCENT_ROLL, AttributeFormats.PERCENT_BOUNDS)
+    val INCREASED_MOVEMENT_SPEED_WHILE_POISONED = CustomAttributeType("increased_movement_speed_while_poisoned", AttributeFormats.SIGNED_PERCENT_ROLL, AttributeFormats.PERCENT_BOUNDS)
+    val MAGIC_FIND_WHILE_POISONED = CustomAttributeType("magic_find_while_poisoned", AttributeFormats.SIGNED_INT_ROLL, AttributeFormats.INT_BOUNDS) //TODO implementation of effects
+    val POISON_DAMAGE_IMMUNITY = CustomAttributeType("poison_damage_immunity", AttributeFormats.EMPTY_ROLL, AttributeFormats.EMPTY_BOUNDS)
+
+    val INCREASED_DAMAGE_WHILE_WITHERED = CustomAttributeType("increased_damage_while_withered", AttributeFormats.SIGNED_PERCENT_ROLL, AttributeFormats.PERCENT_BOUNDS)
+    val INCREASED_ATTACK_DAMAGE_WHILE_WITHERED = CustomAttributeType("increased_attack_damage_while_withered", AttributeFormats.SIGNED_PERCENT_ROLL, AttributeFormats.PERCENT_BOUNDS)
+    val ARMOR_WHILE_WITHERED = CustomAttributeType("armor_while_withered", AttributeFormats.SIGNED_DOUBLE_ROLL, AttributeFormats.DOUBLE_BOUNDS)
+    val WITHER_DAMAGE_IMMUNITY = CustomAttributeType("wither_damage_immunity", AttributeFormats.EMPTY_ROLL, AttributeFormats.EMPTY_BOUNDS)
+
+    val SHOOT_WITHER_SKULL_WHEN_HIT_BY_PROJECTILE = CustomAttributeType("shoot_wither_skull_when_hit_by_projectile", AttributeFormats.SIGNED_PERCENT_ROLL, AttributeFormats.PERCENT_BOUNDS)
+
+    val BURNING_ENEMIES_EXPLODE_WHEN_KILLED = CustomAttributeType("burning_enemies_explode_when_killed", AttributeFormats.PERCENT_ROLL, AttributeFormats.PERCENT_BOUNDS)
+
     // region get by key
     fun getByKey(key: String): CustomAttributeType {
         return attributeTypes[key] ?: ERROR

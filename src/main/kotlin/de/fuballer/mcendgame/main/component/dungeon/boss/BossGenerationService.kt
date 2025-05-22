@@ -1,8 +1,10 @@
 package de.fuballer.mcendgame.main.component.dungeon.boss
 
-import de.fuballer.mcendgame.main.accessor.MobEntityBossAccessor
 import de.fuballer.mcendgame.main.component.dungeon.generation.data.SpawnPosition
 import de.fuballer.mcendgame.main.component.entity.EntityTypeStats
+import de.fuballer.mcendgame.main.util.extension.EntityExtension.setDungeonBoss
+import de.fuballer.mcendgame.main.util.extension.EntityExtension.setDungeonBossSpawnLocation
+import de.fuballer.mcendgame.main.util.extension.EntityExtension.setDungeonEnemy
 import de.fuballer.mcendgame.main.util.minecraft.EntityUtil
 import de.maucon.mauconframework.di.annotation.Injectable
 import net.minecraft.entity.attribute.EntityAttributes
@@ -37,9 +39,9 @@ class BossGenerationService {
 
         entity.isAiDisabled = true
 
-        val accessor = entity as MobEntityBossAccessor
-        accessor.`mcendgame$setDungeonBoss`()
-        accessor.`mcendgame$setSpawnLocation`(location)
+        entity.setDungeonBoss()
+        entity.setDungeonBossSpawnLocation(location)
+        entity.setDungeonEnemy()
 
         return entity
     }

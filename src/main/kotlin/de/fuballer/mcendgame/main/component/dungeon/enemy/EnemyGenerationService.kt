@@ -1,9 +1,10 @@
 package de.fuballer.mcendgame.main.component.dungeon.enemy
 
-import de.fuballer.mcendgame.main.component.dungeon.generation.data.SpawnPosition
 import de.fuballer.mcendgame.main.component.dungeon.enemy.equipment.EquipmentGenerationService
 import de.fuballer.mcendgame.main.component.dungeon.enemy.potion_effect.PotionEffectService
+import de.fuballer.mcendgame.main.component.dungeon.generation.data.SpawnPosition
 import de.fuballer.mcendgame.main.component.entity.EntityTypeStats
+import de.fuballer.mcendgame.main.util.extension.EntityExtension.setDungeonEnemy
 import de.fuballer.mcendgame.main.util.minecraft.EntityUtil
 import de.fuballer.mcendgame.main.util.random.RandomOption
 import de.fuballer.mcendgame.main.util.random.RandomUtil
@@ -53,6 +54,8 @@ class EnemyGenerationService(
 
         entity.setPersistent()
         setScale(entity, random)
+
+        entity.setDungeonEnemy()
 
         return entity
     }

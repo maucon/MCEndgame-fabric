@@ -1,0 +1,6 @@
+{
+  "parent": "minecraft:item/generated",
+  "textures": {
+    "layer0": "mcendgame:item/suede_boots_color_able"
+  }
+}

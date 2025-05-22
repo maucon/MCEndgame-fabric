@@ -7,7 +7,7 @@ import de.maucon.mauconframework.command.CommandHandler
 import de.maucon.mauconframework.di.annotation.Injectable
 
 @Injectable
-class WardEffectService {
+class WardService {
     @CommandHandler
     fun on(cmd: ApplyDamageCalculationCommand) {
         val attributes = cmd.damagedAttributes[CustomAttributeTypes.WARD] ?: return

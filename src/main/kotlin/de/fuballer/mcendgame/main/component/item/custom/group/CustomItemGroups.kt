@@ -53,6 +53,10 @@ object CustomItemGroups {
             itemGroup.add(CustomArmorItems.WITHER_ROSE_CHESTPLATE.defaultStack)
             itemGroup.add(CustomArmorItems.WITHER_ROSE_LEGGINGS.defaultStack)
             itemGroup.add(CustomArmorItems.WITHER_ROSE_BOOTS.defaultStack)
+            itemGroup.add(CustomArmorItems.SUEDE_HELMET.defaultStack)
+            itemGroup.add(CustomArmorItems.SUEDE_CHESTPLATE.defaultStack)
+            itemGroup.add(CustomArmorItems.SUEDE_LEGGINGS.defaultStack)
+            itemGroup.add(CustomArmorItems.SUEDE_BOOTS.defaultStack)
         }
         ItemGroupEvents.modifyEntriesEvent(CUSTOM_TOOLS_KEY).register { itemGroup ->
             itemGroup.add(CustomToolItems.BLOODHARVEST.defaultStack)

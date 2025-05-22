@@ -1,0 +1,9 @@
+{
+  "replace": false,
+  "values": [
+    "mcendgame:suede_helmet",
+    "mcendgame:suede_chestplate",
+    "mcendgame:suede_leggings",
+    "mcendgame:suede_boots"
+  ]
+}

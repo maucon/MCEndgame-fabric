@@ -5,7 +5,6 @@ import net.minecraft.client.model.*
 import net.minecraft.client.render.entity.model.EntityModel
 import net.minecraft.client.render.entity.model.EntityModelLayer
 
-
 class SwampGolemEntityModel(
     modelPart: ModelPart,
 ) : EntityModel<SwampGolemRenderState>(modelPart) {

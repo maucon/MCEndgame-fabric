@@ -8,6 +8,10 @@ import de.fuballer.mcendgame.main.component.item.custom.armor.item.druids.Druids
 import de.fuballer.mcendgame.main.component.item.custom.armor.item.emberchant.Emberchant
 import de.fuballer.mcendgame.main.component.item.custom.armor.item.iceborne.Iceborne
 import de.fuballer.mcendgame.main.component.item.custom.armor.item.lamias_gift.LamiasGift
+import de.fuballer.mcendgame.main.component.item.custom.armor.item.suede.SuedeBoots
+import de.fuballer.mcendgame.main.component.item.custom.armor.item.suede.SuedeChestplate
+import de.fuballer.mcendgame.main.component.item.custom.armor.item.suede.SuedeHelmet
+import de.fuballer.mcendgame.main.component.item.custom.armor.item.suede.SuedeLeggings
 import de.fuballer.mcendgame.main.component.item.custom.armor.item.wither_rose.WitherRoseBoots
 import de.fuballer.mcendgame.main.component.item.custom.armor.item.wither_rose.WitherRoseChestplate
 import de.fuballer.mcendgame.main.component.item.custom.armor.item.wither_rose.WitherRoseHelmet
@@ -31,4 +35,8 @@ object CustomArmorItems {
     val WITHER_ROSE_CHESTPLATE = RegistryUtil.registerArmorItem(::WitherRoseChestplate, WitherRoseArmorMaterial, EquipmentType.CHESTPLATE, "wither_rose_chestplate")
     val WITHER_ROSE_LEGGINGS = RegistryUtil.registerArmorItem(::WitherRoseLeggings, WitherRoseArmorMaterial, EquipmentType.LEGGINGS, "wither_rose_leggings")
     val WITHER_ROSE_BOOTS = RegistryUtil.registerArmorItem(::WitherRoseBoots, WitherRoseArmorMaterial, EquipmentType.BOOTS, "wither_rose_boots")
+    val SUEDE_HELMET = RegistryUtil.registerArmorItem(::SuedeHelmet, SuedeArmorMaterial, EquipmentType.HELMET, "suede_helmet")
+    val SUEDE_CHESTPLATE = RegistryUtil.registerArmorItem(::SuedeChestplate, SuedeArmorMaterial, EquipmentType.CHESTPLATE, "suede_chestplate")
+    val SUEDE_LEGGINGS = RegistryUtil.registerArmorItem(::SuedeLeggings, SuedeArmorMaterial, EquipmentType.LEGGINGS, "suede_leggings")
+    val SUEDE_BOOTS = RegistryUtil.registerArmorItem(::SuedeBoots, SuedeArmorMaterial, EquipmentType.BOOTS, "suede_boots")
 }

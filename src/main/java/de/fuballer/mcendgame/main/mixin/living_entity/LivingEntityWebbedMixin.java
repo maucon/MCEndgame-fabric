@@ -1,4 +1,4 @@
-package de.fuballer.mcendgame.main.mixin;
+package de.fuballer.mcendgame.main.mixin.living_entity;
 
 import de.fuballer.mcendgame.main.accessor.LivingEntityWebbedAccessor;
 import net.minecraft.entity.LivingEntity;
