@@ -10,8 +10,11 @@ import net.minecraft.registry.tag.TagKey
 @Injectable
 object CustomTags {
     val DUNGEON_DISABLED: TagKey<Item> = createItemTag("dungeon_disabled")
+    val DIAMOND_GEAR: TagKey<Item> = createItemTag("diamond_gear")
+    val NETHERITE_GEAR: TagKey<Item> = createItemTag("netherite_gear")
+    val DUNGEON_DROP_DISABLED: TagKey<Item> = createItemTag("dungeon_drop_disabled")
 
-    val DUNGEON_BREAKABLE: TagKey<Block> = createBlockTag("dungeon_break_able")
+    val DUNGEON_BREAKABLE: TagKey<Block> = createBlockTag("dungeon_breakable")
 
     private fun createItemTag(id: String) = TagKey.of(RegistryKeys.ITEM, IdentifierUtil.default(id))
     private fun createBlockTag(id: String) = TagKey.of(RegistryKeys.BLOCK, IdentifierUtil.default(id))

@@ -1,11 +1,13 @@
 package de.fuballer.mcendgame.main.messaging
 
 import de.fuballer.mcendgame.main.messaging.dungeon.DungeonBossDeathEvent
+import de.fuballer.mcendgame.main.messaging.dungeon.DungeonEntityDeathEvent
 import de.fuballer.mcendgame.main.messaging.misc.LivingEntityDeathEvent
 import de.fuballer.mcendgame.main.messaging.server.ServerEndTickEvent
 import de.fuballer.mcendgame.main.messaging.server.ServerStartedEvent
 import de.fuballer.mcendgame.main.messaging.server.ServerStoppingEvent
 import de.fuballer.mcendgame.main.util.extension.EntityExtension.isDungeonBoss
+import de.fuballer.mcendgame.main.util.extension.WorldExtension.isDungeonWorld
 import de.maucon.mauconframework.di.annotation.Injectable
 import de.maucon.mauconframework.event.EventGateway
 import de.maucon.mauconframework.event.EventSubscriber
@@ -17,6 +19,15 @@ import net.fabricmc.fabric.api.event.lifecycle.v1.ServerTickEvents
 object EventMapper {
     @EventSubscriber
     fun on(event: LivingEntityDeathEvent) {
+        val entity = event.entity
+        if (!entity.world.isDungeonWorld()) return
+
+        val dungeonEntityDeathEvent = DungeonEntityDeathEvent(event.isClient, event.world, event.entity, event.killer)
+        EventGateway.launchPublish(dungeonEntityDeathEvent)
+    }
+
+    @EventSubscriber
+    fun on(event: DungeonEntityDeathEvent) {
         val entity = event.entity
 
         if (!entity.isDungeonBoss()) return
