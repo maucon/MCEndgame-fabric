@@ -11,6 +11,9 @@ object CustomAttributeTypes {
     // DEFENSE
     val WARD = CustomAttributeType("ward", AttributeFormats.SIGNED_DOUBLE_ROLL, AttributeFormats.DOUBLE_BOUNDS)
     val DODGE = CustomAttributeType("dodge", AttributeFormats.PERCENT_ROLL, AttributeFormats.PERCENT_BOUNDS)
+    val DODGE_PER_MAX_HEART_BELOW_TEN = CustomAttributeType("dodge_per_max_heart_below_ten", AttributeFormats.PERCENT_ROLL, AttributeFormats.PERCENT_BOUNDS)
+    val DODGE_IF_NOT_DODGED_IN_LAST_SECONDS = CustomAttributeType("dodge_if_not_dodged_in_last_seconds", AttributeFormats.PERCENT_AND_INT_ROLL, AttributeFormats.PERCENT_AND_INT_BOUNDS)
+    val PROJECTILE_DODGE = CustomAttributeType("projectile_dodge", AttributeFormats.PERCENT_ROLL, AttributeFormats.PERCENT_BOUNDS)
     val LESS_DAMAGE_TAKEN = CustomAttributeType("less_damage_taken", AttributeFormats.PERCENT_ROLL, AttributeFormats.PERCENT_BOUNDS)
 
     // OFFENSE
@@ -23,6 +26,7 @@ object CustomAttributeTypes {
     val INCREASED_DAMAGE_WHILE_LOW_HEALTH = CustomAttributeType("increased_damage_while_low_health", AttributeFormats.SIGNED_PERCENT_ROLL, AttributeFormats.PERCENT_BOUNDS)
     val LESS_DAMAGE_TAKEN_WHILE_HIGH_HEALTH = CustomAttributeType("less_damage_taken_while_high_health", AttributeFormats.PERCENT_ROLL, AttributeFormats.PERCENT_BOUNDS)
 
+    // POISON
     val INCREASED_DAMAGE_WHILE_POISONED = CustomAttributeType("increased_damage_while_poisoned", AttributeFormats.SIGNED_PERCENT_ROLL, AttributeFormats.PERCENT_BOUNDS)
     val INCREASED_ATTACK_DAMAGE_WHILE_POISONED = CustomAttributeType("increased_attack_damage_while_poisoned", AttributeFormats.SIGNED_PERCENT_ROLL, AttributeFormats.PERCENT_BOUNDS)
     val INCREASED_ELEMENTAL_DAMAGE_WHILE_POISONED = CustomAttributeType("increased_elemental_damage_while_poisoned", AttributeFormats.SIGNED_PERCENT_ROLL, AttributeFormats.PERCENT_BOUNDS)
@@ -32,10 +36,17 @@ object CustomAttributeTypes {
     val MAGIC_FIND_WHILE_POISONED = CustomAttributeType("magic_find_while_poisoned", AttributeFormats.SIGNED_INT_ROLL, AttributeFormats.INT_BOUNDS)
     val POISON_DAMAGE_IMMUNITY = CustomAttributeType("poison_damage_immunity", AttributeFormats.EMPTY_ROLL, AttributeFormats.EMPTY_BOUNDS)
 
+    // WITHER
     val INCREASED_DAMAGE_WHILE_WITHERED = CustomAttributeType("increased_damage_while_withered", AttributeFormats.SIGNED_PERCENT_ROLL, AttributeFormats.PERCENT_BOUNDS)
     val INCREASED_ATTACK_DAMAGE_WHILE_WITHERED = CustomAttributeType("increased_attack_damage_while_withered", AttributeFormats.SIGNED_PERCENT_ROLL, AttributeFormats.PERCENT_BOUNDS)
     val ARMOR_WHILE_WITHERED = CustomAttributeType("armor_while_withered", AttributeFormats.SIGNED_DOUBLE_ROLL, AttributeFormats.DOUBLE_BOUNDS)
     val WITHER_DAMAGE_IMMUNITY = CustomAttributeType("wither_damage_immunity", AttributeFormats.EMPTY_ROLL, AttributeFormats.EMPTY_BOUNDS)
+
+    // MISC
+    val MAGIC_FIND = CustomAttributeType("magic_find", AttributeFormats.SIGNED_INT_ROLL, AttributeFormats.INT_BOUNDS)
+    val MAGIC_FIND_PER_MAX_HEART = CustomAttributeType("magic_find_per_max_heart", AttributeFormats.SIGNED_INT_ROLL, AttributeFormats.INT_BOUNDS)
+    val INCREASED_MOVEMENT_SPEED_AFTER_DODGING =
+        CustomAttributeType("increased_movement_speed_after_dodging", AttributeFormats.SIGNED_PERCENT_AND_INT_ROLL, AttributeFormats.PERCENT_AND_INT_BOUNDS)
 
     val SHOOT_WITHER_SKULL_WHEN_HIT_BY_PROJECTILE = CustomAttributeType("shoot_wither_skull_when_hit_by_projectile", AttributeFormats.SIGNED_PERCENT_ROLL, AttributeFormats.PERCENT_BOUNDS)
 
