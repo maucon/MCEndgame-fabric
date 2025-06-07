@@ -32,6 +32,12 @@ object AttributeFormats {
     val SIGNED_DOUBLE_ROLL = { rolls: List<AttributeRoll<*>> ->
         listOf(formatDoubleSigned(rolls[0].asDoubleRoll().getActualRoll()))
     }
+    val PERCENT_AND_INT_ROLL = { rolls: List<AttributeRoll<*>> ->
+        listOf(formatDouble(rolls[0].asDoubleRoll().getActualRoll() * 100), rolls[1].getActualRoll().toString())
+    }
+    val SIGNED_PERCENT_AND_INT_ROLL = { rolls: List<AttributeRoll<*>> ->
+        listOf(formatDoubleSigned(rolls[0].asDoubleRoll().getActualRoll() * 100), rolls[1].getActualRoll().toString())
+    }
 
     val EMPTY_BOUNDS = { _: List<AttributeBounds<*>> -> listOf<String>() }
     val PERCENT_BOUNDS = { bounds: List<AttributeBounds<*>> ->
@@ -53,6 +59,11 @@ object AttributeFormats {
     val DOUBLE_BOUNDS = { bounds: List<AttributeBounds<*>> ->
         val bound = bounds[0].asDoubleBounds()
         listOf("(${formatDouble(bound.min)}-${formatDouble(bound.max)})")
+    }
+    val PERCENT_AND_INT_BOUNDS = { bounds: List<AttributeBounds<*>> ->
+        val bound1 = bounds[0].asDoubleBounds()
+        val bound2 = bounds[1].asIntBounds()
+        listOf("(${formatDouble(bound1.min * 100)}-${formatDouble(bound1.max * 100)})", String.format("(%d-%d)", bound2.min, bound2.max))
     }
 
     private fun formatDouble(value: Double): String {

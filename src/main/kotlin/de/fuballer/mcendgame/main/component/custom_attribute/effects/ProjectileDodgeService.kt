@@ -5,17 +5,21 @@ import de.fuballer.mcendgame.main.component.custom_attribute.types.CustomAttribu
 import de.fuballer.mcendgame.main.component.damage.ApplyDamageCalculationCommand
 import de.maucon.mauconframework.command.CommandHandler
 import de.maucon.mauconframework.di.annotation.Injectable
+import kotlin.random.Random
 
 @Injectable
-class IncreasedProjectileDamageService {
+class ProjectileDodgeService {
     @CommandHandler
     fun on(cmd: ApplyDamageCalculationCommand) {
         if (!cmd.isProjectile) return
-        val attributes = cmd.damagerAttributes[CustomAttributeTypes.INCREASED_PROJECTILE_DAMAGE] ?: return
+        val attributes = cmd.damagedAttributes[CustomAttributeTypes.PROJECTILE_DODGE] ?: return
 
-        attributes.forEach { attribute ->
-            val increaseProjectileDamage = attribute.rolls[0].asDoubleRoll().getActualRoll()
-            cmd.increasedProjectileDamage.add(increaseProjectileDamage)
+        for (attribute in attributes) {
+            val dodge = attribute.rolls[0].asDoubleRoll().getActualRoll()
+            if (Random.nextDouble() > dodge) continue
+
+            cmd.dodge = true
+            return
         }
     }
 }
