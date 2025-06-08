@@ -52,6 +52,9 @@ object CustomAttributeTypes {
 
     val BURNING_ENEMIES_EXPLODE_WHEN_KILLED = CustomAttributeType("burning_enemies_explode_when_killed", AttributeFormats.PERCENT_ROLL, AttributeFormats.PERCENT_BOUNDS)
 
+    val INCREASED_HEALING_RECEIVED = CustomAttributeType("increased_healing_received", AttributeFormats.SIGNED_PERCENT_ROLL, AttributeFormats.PERCENT_BOUNDS)
+    val MORE_HEALING_RECEIVED = CustomAttributeType("more_healing_received", AttributeFormats.PERCENT_ROLL, AttributeFormats.PERCENT_BOUNDS)
+
     // region get by key
     fun getByKey(key: String): CustomAttributeType {
         return attributeTypes[key] ?: ERROR
