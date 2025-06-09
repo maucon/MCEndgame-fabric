@@ -68,6 +68,11 @@
   "attribute.mcendgame.burning_enemies_explode_when_killed": " Burning Enemies you kill explode, dealing %s%% Elemental Damage",
   "attribute.mcendgame.increased_healing_received": "%s%% increased Healing received",
   "attribute.mcendgame.more_healing_received": " %s%% more Healing received",
+  "attribute.mcendgame.fury_on_kill": " Gain a stack of Fury on Kill",
+  "attribute.mcendgame.resilience_on_damage_taken": " Gain a stack of Resilience when taking Damage",
+
+  "effect.mcendgame.fury":  "Fury",
+  "effect.mcendgame.resilience":  "Resilience",
 
   "entity.mcendgame.swamp_golem": "Swamp Golem",
   "entity.mcendgame.elf_duelist": "Elf Duelist",
