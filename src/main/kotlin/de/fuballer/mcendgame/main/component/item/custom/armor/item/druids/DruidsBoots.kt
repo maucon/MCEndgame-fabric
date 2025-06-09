@@ -10,8 +10,8 @@ class DruidsBoots(
     settings: Settings,
 ) : UniqueAttributesItem(settings) {
     override fun getCustomAttributes() = listOf(
-        RollableCustomAttribute(VanillaAttributeTypes.MAX_HEALTH, 0, DoubleBounds(1.0, 3.0)),
         RollableCustomAttribute(VanillaAttributeTypes.INCREASED_MOVEMENT_SPEED, 0, DoubleBounds(0.1, 0.2)),
+        RollableCustomAttribute(VanillaAttributeTypes.MAX_HEALTH, 0, DoubleBounds(1.0, 3.0)),
     )
 
     override fun getAttributeModifierSlot() = AttributeModifierSlot.FEET

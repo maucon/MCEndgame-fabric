@@ -11,6 +11,7 @@ import net.minecraft.block.entity.BlockEntityType
 import net.minecraft.component.ComponentType
 import net.minecraft.entity.Entity
 import net.minecraft.entity.EntityType
+import net.minecraft.entity.effect.StatusEffect
 import net.minecraft.item.Item
 import net.minecraft.item.ItemGroup
 import net.minecraft.item.Items
@@ -18,6 +19,7 @@ import net.minecraft.item.equipment.EquipmentType
 import net.minecraft.registry.Registries
 import net.minecraft.registry.Registry
 import net.minecraft.registry.RegistryKey
+import net.minecraft.registry.entry.RegistryEntry
 import net.minecraft.screen.ScreenHandler
 import net.minecraft.screen.ScreenHandlerType
 import net.minecraft.util.math.BlockPos
@@ -61,4 +63,7 @@ object RegistryUtil {
 
     fun registerItemGroup(key: RegistryKey<ItemGroup>, type: ItemGroup.Builder): ItemGroup =
         Registry.register(Registries.ITEM_GROUP, key, type.build())
+
+    fun registerStatusEffect(name: String, effect: StatusEffect): RegistryEntry<StatusEffect> =
+        Registry.registerReference(Registries.STATUS_EFFECT, IdentifierUtil.default(name), effect)
 }
