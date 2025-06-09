@@ -183,10 +183,6 @@ class CustomHumanoidArmorFeatureRenderer<S : BipedEntityRenderState, M : BipedEn
 
         model.setAngles(bipedEntityRenderState)
 
-        if (bipedEntityRenderState is ArmorStandEntityRenderState) {
-            model.head.yaw += bipedEntityRenderState.yaw * PI.toFloat() / 180F
-        }
-
         if (texturedArmorModel.texture != null) {
             renderModel(
                 bipedEntityRenderState,
