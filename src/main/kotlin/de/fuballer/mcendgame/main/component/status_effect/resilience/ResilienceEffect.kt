@@ -18,6 +18,8 @@ class ResilienceEffect : StatusEffect(StatusEffectCategory.BENEFICIAL, 1349140) 
     }
 
     override fun applyUpdateEffect(world: ServerWorld?, entity: LivingEntity, amplifier: Int): Boolean {
+        if (entity.age % 20 != 0) return true
+
         if (entity.health < entity.maxHealth) {
             entity.heal(0.1F * (amplifier + 1))
         }
@@ -25,5 +27,5 @@ class ResilienceEffect : StatusEffect(StatusEffectCategory.BENEFICIAL, 1349140) 
         return true
     }
 
-    override fun canApplyUpdateEffect(duration: Int, amplifier: Int) = duration % 20 == 0
+    override fun canApplyUpdateEffect(duration: Int, amplifier: Int) = true
 }
