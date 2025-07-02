@@ -29,7 +29,8 @@
     "server_player_entity.ServerPlayerEntityTeleportEventMixin",
     "status_effect.PoisonStatusEffectMixin",
     "status_effect.WitherStatusEffectMixin",
-    "wolf_entity.WolfEntityColorAndVariantMixin"
+    "wolf_entity.WolfEntityColorAndVariantMixin",
+    "wolf_entity.WolfEntityCompanionInteractMixin"
   ],
   "injectors": {
     "defaultRequire": 1
