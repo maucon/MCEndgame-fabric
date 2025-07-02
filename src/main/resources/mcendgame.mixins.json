@@ -16,6 +16,7 @@
     "item.ImmuneItemEntityMixin",
     "living_entity.LivingEntityAttributeWhilePoisonedMixin",
     "living_entity.LivingEntityAttributeWhileWitheredMixin",
+    "living_entity.LivingEntityCompanionMixin",
     "living_entity.LivingEntityDamageCommandMixin",
     "living_entity.LivingEntityDelayedRemoveAttributeModifierMixin",
     "living_entity.LivingEntityDodgedRecentlyMixin",
@@ -25,8 +26,10 @@
     "living_entity.LivingEntityWebbedMixin",
     "living_entity.LivingEntityWitherDamageImmunityMixin",
     "mob_entity.MobEntityTargetCommandMixin",
+    "server_player_entity.ServerPlayerEntityTeleportEventMixin",
     "status_effect.PoisonStatusEffectMixin",
-    "status_effect.WitherStatusEffectMixin"
+    "status_effect.WitherStatusEffectMixin",
+    "wolf_entity.WolfEntityColorAndVariantMixin"
   ],
   "injectors": {
     "defaultRequire": 1

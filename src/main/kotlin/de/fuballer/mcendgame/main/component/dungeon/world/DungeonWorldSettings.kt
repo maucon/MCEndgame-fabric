@@ -20,7 +20,7 @@ object DungeonWorldSettings {
             .setGenerator(VoidChunkGenerator(RuntimeConfig.SERVER))
             .setTimeOfDay(18000L)
             .setGameRule(GameRules.KEEP_INVENTORY, true)
-            .setGameRule(GameRules.DO_MOB_GRIEFING, true)
+            .setGameRule(GameRules.DO_MOB_GRIEFING, false)
             .setGameRule(GameRules.DO_MOB_SPAWNING, false)
             .setGameRule(GameRules.DO_DAYLIGHT_CYCLE, false)
             .setGameRule(GameRules.DO_WEATHER_CYCLE, false)
