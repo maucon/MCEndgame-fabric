@@ -47,6 +47,24 @@ object EntityExtension {
         bossAccessor.`mcendgame$setSpawnLocation`(location)
     }
 
+    fun LivingEntity.isAlly(entity: Entity): Boolean {
+        if (this == entity) return true
+
+        if (this.isOrIsTameableOf(PlayerEntity::class.java) && entity.isOrIsTameableOf(PlayerEntity::class.java)) return true
+        if (this.isOrIsTameableOf(Monster::class.java) && entity.isOrIsTameableOf(Monster::class.java)) return true
+
+        return false
+    }
+
+    fun LivingEntity.isEnemy(entity: Entity): Boolean {
+        if (this == entity) return false
+
+        if (this.isOrIsTameableOf(PlayerEntity::class.java) && entity.isOrIsTameableOf(Monster::class.java)) return true
+        if (this.isOrIsTameableOf(Monster::class.java) && entity.isOrIsTameableOf(PlayerEntity::class.java)) return true
+
+        return false
+    }
+
     fun Entity.isValidSecondaryTarget(primaryTarget: Entity, attacker: Entity): Boolean {
         if (this == attacker || this == primaryTarget) return false
 
