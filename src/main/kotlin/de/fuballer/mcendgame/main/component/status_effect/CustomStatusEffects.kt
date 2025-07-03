@@ -8,4 +8,5 @@ import de.maucon.mauconframework.di.annotation.Injectable
 object CustomStatusEffects {
     val FURY = RegistryUtil.registerStatusEffect("fury", FuryEffect())
     val RESILIENCE = RegistryUtil.registerStatusEffect("resilience", ResilienceEffect())
+    val SCORCH = RegistryUtil.registerStatusEffect("scorch", ScorchEffect())
 }
