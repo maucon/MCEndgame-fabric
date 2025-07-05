@@ -1,5 +1,6 @@
 package de.fuballer.mcendgame.main.component.item.custom.armor
 
+import de.fuballer.mcendgame.main.component.item.custom.UniqueItemRegistry
 import de.fuballer.mcendgame.main.component.item.custom.armor.item.bound_abyss.BoundAbyss
 import de.fuballer.mcendgame.main.component.item.custom.armor.item.druids.DruidsBoots
 import de.fuballer.mcendgame.main.component.item.custom.armor.item.druids.DruidsChestplate
@@ -17,26 +18,34 @@ import de.fuballer.mcendgame.main.component.item.custom.armor.item.wither_rose.W
 import de.fuballer.mcendgame.main.component.item.custom.armor.item.wither_rose.WitherRoseHelmet
 import de.fuballer.mcendgame.main.component.item.custom.armor.item.wither_rose.WitherRoseLeggings
 import de.fuballer.mcendgame.main.component.item.custom.armor.materials.*
-import de.fuballer.mcendgame.main.util.minecraft.RegistryUtil
 import de.maucon.mauconframework.di.annotation.Injectable
 import net.minecraft.item.equipment.EquipmentType
 
 @Injectable
 object CustomArmorItems {
-    val ICEBORNE = RegistryUtil.registerArmorItem(::Iceborne, IceborneArmorMaterial, EquipmentType.HELMET, "iceborne")
-    val BOUND_ABYSS = RegistryUtil.registerArmorItem(::BoundAbyss, BoundAbyssArmorMaterial, EquipmentType.CHESTPLATE, "bound_abyss")
-    val DRUIDS_HELMET = RegistryUtil.registerArmorItem(::DruidsHelmet, DruidsArmorMaterial, EquipmentType.HELMET, "druids_helmet")
-    val DRUIDS_CHESTPLATE = RegistryUtil.registerArmorItem(::DruidsChestplate, DruidsArmorMaterial, EquipmentType.CHESTPLATE, "druids_chestplate")
-    val DRUIDS_LEGGINGS = RegistryUtil.registerArmorItem(::DruidsLeggings, DruidsArmorMaterial, EquipmentType.LEGGINGS, "druids_leggings")
-    val DRUIDS_BOOTS = RegistryUtil.registerArmorItem(::DruidsBoots, DruidsArmorMaterial, EquipmentType.BOOTS, "druids_boots")
-    val EMBERCHANT = RegistryUtil.registerArmorItem(::Emberchant, EmberchantArmorMaterial, EquipmentType.HELMET, "emberchant")
-    val LAMIAS_GIFT = RegistryUtil.registerArmorItem(::LamiasGift, LamiasGiftArmorMaterial, EquipmentType.LEGGINGS, "lamias_gift")
-    val WITHER_ROSE_HELMET = RegistryUtil.registerArmorItem(::WitherRoseHelmet, WitherRoseArmorMaterial, EquipmentType.HELMET, "wither_rose_helmet")
-    val WITHER_ROSE_CHESTPLATE = RegistryUtil.registerArmorItem(::WitherRoseChestplate, WitherRoseArmorMaterial, EquipmentType.CHESTPLATE, "wither_rose_chestplate")
-    val WITHER_ROSE_LEGGINGS = RegistryUtil.registerArmorItem(::WitherRoseLeggings, WitherRoseArmorMaterial, EquipmentType.LEGGINGS, "wither_rose_leggings")
-    val WITHER_ROSE_BOOTS = RegistryUtil.registerArmorItem(::WitherRoseBoots, WitherRoseArmorMaterial, EquipmentType.BOOTS, "wither_rose_boots")
-    val SUEDE_HELMET = RegistryUtil.registerArmorItem(::SuedeHelmet, SuedeArmorMaterial, EquipmentType.HELMET, "suede_helmet")
-    val SUEDE_CHESTPLATE = RegistryUtil.registerArmorItem(::SuedeChestplate, SuedeArmorMaterial, EquipmentType.CHESTPLATE, "suede_chestplate")
-    val SUEDE_LEGGINGS = RegistryUtil.registerArmorItem(::SuedeLeggings, SuedeArmorMaterial, EquipmentType.LEGGINGS, "suede_leggings")
-    val SUEDE_BOOTS = RegistryUtil.registerArmorItem(::SuedeBoots, SuedeArmorMaterial, EquipmentType.BOOTS, "suede_boots")
+    val ICEBORNE = UniqueItemRegistry.registerArmorItem(::Iceborne, IceborneArmorMaterial, EquipmentType.HELMET, "iceborne")
+    val BOUND_ABYSS = UniqueItemRegistry.registerArmorItem(::BoundAbyss, BoundAbyssArmorMaterial, EquipmentType.CHESTPLATE, "bound_abyss")
+    val DRUIDS_HELMET = UniqueItemRegistry.registerArmorItem(::DruidsHelmet, DruidsArmorMaterial, EquipmentType.HELMET, "druids_helmet")
+    val DRUIDS_CHESTPLATE = UniqueItemRegistry.registerArmorItem(::DruidsChestplate, DruidsArmorMaterial, EquipmentType.CHESTPLATE, "druids_chestplate")
+    val DRUIDS_LEGGINGS = UniqueItemRegistry.registerArmorItem(::DruidsLeggings, DruidsArmorMaterial, EquipmentType.LEGGINGS, "druids_leggings")
+    val DRUIDS_BOOTS = UniqueItemRegistry.registerArmorItem(::DruidsBoots, DruidsArmorMaterial, EquipmentType.BOOTS, "druids_boots")
+    val EMBERCHANT = UniqueItemRegistry.registerArmorItem(::Emberchant, EmberchantArmorMaterial, EquipmentType.HELMET, "emberchant")
+    val LAMIAS_GIFT = UniqueItemRegistry.registerArmorItem(::LamiasGift, LamiasGiftArmorMaterial, EquipmentType.LEGGINGS, "lamias_gift")
+    val WITHER_ROSE_HELMET = UniqueItemRegistry.registerArmorItem(::WitherRoseHelmet, WitherRoseArmorMaterial, EquipmentType.HELMET, "wither_rose_helmet")
+    val WITHER_ROSE_CHESTPLATE = UniqueItemRegistry.registerArmorItem(::WitherRoseChestplate, WitherRoseArmorMaterial, EquipmentType.CHESTPLATE, "wither_rose_chestplate")
+    val WITHER_ROSE_LEGGINGS = UniqueItemRegistry.registerArmorItem(::WitherRoseLeggings, WitherRoseArmorMaterial, EquipmentType.LEGGINGS, "wither_rose_leggings")
+    val WITHER_ROSE_BOOTS = UniqueItemRegistry.registerArmorItem(::WitherRoseBoots, WitherRoseArmorMaterial, EquipmentType.BOOTS, "wither_rose_boots")
+    val SUEDE_HELMET = UniqueItemRegistry.registerArmorItem(::SuedeHelmet, SuedeArmorMaterial, EquipmentType.HELMET, "suede_helmet")
+    val SUEDE_CHESTPLATE = UniqueItemRegistry.registerArmorItem(::SuedeChestplate, SuedeArmorMaterial, EquipmentType.CHESTPLATE, "suede_chestplate")
+    val SUEDE_LEGGINGS = UniqueItemRegistry.registerArmorItem(::SuedeLeggings, SuedeArmorMaterial, EquipmentType.LEGGINGS, "suede_leggings")
+    val SUEDE_BOOTS = UniqueItemRegistry.registerArmorItem(::SuedeBoots, SuedeArmorMaterial, EquipmentType.BOOTS, "suede_boots")
+
+    val STRING_MAP = mapOf(
+        "iceborne" to ICEBORNE,
+        "bound_abyss" to BOUND_ABYSS,
+        "druids_helmet" to DRUIDS_HELMET,
+        "druids_chestplate" to DRUIDS_CHESTPLATE,
+        "druids_leggings" to DRUIDS_LEGGINGS,
+        "druids_boots" to DRUIDS_BOOTS,
+    )
 }

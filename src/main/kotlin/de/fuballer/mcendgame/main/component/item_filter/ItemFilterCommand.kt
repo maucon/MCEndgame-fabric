@@ -1,14 +1,14 @@
 package de.fuballer.mcendgame.main.component.item_filter
 
 import com.mojang.brigadier.context.CommandContext
-import de.fuballer.mcendgame.main.functional.command.ChatCommand
+import de.fuballer.mcendgame.main.functional.command.SimpleChatCommand
 import de.maucon.mauconframework.di.annotation.Injectable
 import net.minecraft.server.command.ServerCommandSource
 
 @Injectable
 class ItemFilterCommand(
     private val itemFilterService: ItemFilterService,
-) : ChatCommand() {
+) : SimpleChatCommand() {
     override val name = "dungeon-filter"
 
     override fun execute(context: CommandContext<ServerCommandSource>) {

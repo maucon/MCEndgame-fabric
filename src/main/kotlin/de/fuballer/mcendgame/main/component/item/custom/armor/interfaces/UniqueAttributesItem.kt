@@ -1,6 +1,7 @@
 package de.fuballer.mcendgame.main.component.item.custom.armor.interfaces
 
 import de.fuballer.mcendgame.main.component.custom_attribute.CustomAttributesExtensions.setCustomAttributes
+import de.fuballer.mcendgame.main.component.custom_attribute.data.CustomAttribute
 import de.fuballer.mcendgame.main.component.custom_attribute.data.RollableCustomAttribute
 import net.minecraft.component.type.AttributeModifierSlot
 import net.minecraft.item.Item
@@ -15,24 +16,38 @@ abstract class UniqueAttributesItem(
     abstract fun getAttributeModifierSlot(): AttributeModifierSlot
 
     private fun getRolledAttributes(
-        maxRoll: Boolean = false,
-    ) = getCustomAttributes().map {
-        if (maxRoll) it.roll(List(it.bounds.size) { 1.0 })
-        else {
+        rolls: List<Double>,
+    ): List<CustomAttribute> {
+        val iterator = rolls.iterator()
+        val lastRoll = rolls.lastOrNull()
+
+        return getCustomAttributes().map { attribute ->
             val percentageRolls = mutableListOf<Double>()
-            repeat(it.bounds.size) {
-                percentageRolls.add(Random.nextDouble())
+
+            repeat(attribute.bounds.size) {
+                if (iterator.hasNext()) {
+                    percentageRolls.add(iterator.next())
+                } else {
+                    percentageRolls.add(lastRoll ?: Random.nextDouble())
+                }
             }
-            it.roll(percentageRolls)
+
+            attribute.roll(percentageRolls)
         }
     }
 
     fun getRolledStack(
         maxRoll: Boolean = false,
     ): ItemStack {
+        return getRolledStack(if (maxRoll) listOf(1.0) else listOf())
+    }
+
+    fun getRolledStack(
+        rolls: List<Double>,
+    ): ItemStack {
         val stack = ItemStack(this)
 
-        val attributes = getRolledAttributes(maxRoll)
+        val attributes = getRolledAttributes(rolls)
         stack.setCustomAttributes(attributes, getAttributeModifierSlot())
 
         return stack

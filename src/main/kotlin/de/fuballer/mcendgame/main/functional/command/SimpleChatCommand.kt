@@ -7,7 +7,7 @@ import net.fabricmc.fabric.api.command.v2.CommandRegistrationCallback
 import net.minecraft.server.command.CommandManager
 import net.minecraft.server.command.ServerCommandSource
 
-abstract class ChatCommand {
+abstract class SimpleChatCommand {
     abstract val name: String
     abstract fun execute(context: CommandContext<ServerCommandSource>)
 
