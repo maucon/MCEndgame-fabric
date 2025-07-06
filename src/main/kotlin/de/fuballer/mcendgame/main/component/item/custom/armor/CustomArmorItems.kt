@@ -39,13 +39,4 @@ object CustomArmorItems {
     val SUEDE_CHESTPLATE = UniqueItemRegistry.registerArmorItem(::SuedeChestplate, SuedeArmorMaterial, EquipmentType.CHESTPLATE, "suede_chestplate")
     val SUEDE_LEGGINGS = UniqueItemRegistry.registerArmorItem(::SuedeLeggings, SuedeArmorMaterial, EquipmentType.LEGGINGS, "suede_leggings")
     val SUEDE_BOOTS = UniqueItemRegistry.registerArmorItem(::SuedeBoots, SuedeArmorMaterial, EquipmentType.BOOTS, "suede_boots")
-
-    val STRING_MAP = mapOf(
-        "iceborne" to ICEBORNE,
-        "bound_abyss" to BOUND_ABYSS,
-        "druids_helmet" to DRUIDS_HELMET,
-        "druids_chestplate" to DRUIDS_CHESTPLATE,
-        "druids_leggings" to DRUIDS_LEGGINGS,
-        "druids_boots" to DRUIDS_BOOTS,
-    )
 }
