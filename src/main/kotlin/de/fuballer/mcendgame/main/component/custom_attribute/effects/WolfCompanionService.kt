@@ -201,6 +201,9 @@ class WolfCompanionService {
 
         println("remove ${wolfs.size} wolf companions")
 
-        wolfs.forEach { it.remove(Entity.RemovalReason.UNLOADED_WITH_PLAYER) }
+        wolfs.forEach {
+            if (it == null || !it.isAlive) return@forEach
+            it.remove(Entity.RemovalReason.UNLOADED_WITH_PLAYER)
+        }
     }
 }
