@@ -13,4 +13,10 @@ object UniqueItemRegistry {
         NAME_MAP[name] = item
         return item
     }
+
+    fun registerToolItem(factory: (Item.Settings) -> Item, settings: Item.Settings, name: String): Item {
+        val item = RegistryUtil.registerItem(factory, settings, name)
+        NAME_MAP[name] = item
+        return item
+    }
 }
