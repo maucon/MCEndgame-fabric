@@ -3,7 +3,7 @@ package de.fuballer.mcendgame.main.component.item.custom.armor.item.druids
 import de.fuballer.mcendgame.main.component.custom_attribute.data.DoubleBounds
 import de.fuballer.mcendgame.main.component.custom_attribute.data.RollableCustomAttribute
 import de.fuballer.mcendgame.main.component.custom_attribute.data.StringBounds
-import de.fuballer.mcendgame.main.component.custom_attribute.effects.WolfCompanionService
+import de.fuballer.mcendgame.main.component.custom_attribute.effects.wolf_companion.WolfCompanionType
 import de.fuballer.mcendgame.main.component.custom_attribute.types.CustomAttributeTypes
 import de.fuballer.mcendgame.main.component.custom_attribute.types.VanillaAttributeTypes
 import de.fuballer.mcendgame.main.component.item.custom.armor.interfaces.UniqueAttributesItem
@@ -13,7 +13,7 @@ class DruidsBoots(
     settings: Settings,
 ) : UniqueAttributesItem(settings) {
     override fun getCustomAttributes() = listOf(
-        RollableCustomAttribute(CustomAttributeTypes.WOLF_COMPANION, 0, StringBounds(WolfCompanionService.getNames())),
+        RollableCustomAttribute(CustomAttributeTypes.WOLF_COMPANION, 0, StringBounds(WolfCompanionType.getNames())),
         RollableCustomAttribute(VanillaAttributeTypes.INCREASED_MOVEMENT_SPEED, 0, DoubleBounds(0.1, 0.2)),
         RollableCustomAttribute(VanillaAttributeTypes.MAX_HEALTH, 0, DoubleBounds(1.0, 3.0)),
     )

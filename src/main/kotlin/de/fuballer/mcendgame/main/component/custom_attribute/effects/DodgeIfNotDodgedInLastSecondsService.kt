@@ -12,7 +12,7 @@ import de.maucon.mauconframework.event.EventSubscriber
 import kotlin.random.Random
 
 @Injectable
-class DodgeIfNotDodgedRecentlyService {
+class DodgeIfNotDodgedInLastSecondsService {
     @CommandHandler
     fun on(cmd: ApplyDamageCalculationCommand) {
         val attributes = cmd.damagedAttributes[CustomAttributeTypes.DODGE_IF_NOT_DODGED_IN_LAST_SECONDS] ?: return
@@ -26,7 +26,7 @@ class DodgeIfNotDodgedRecentlyService {
             val dodge = attribute.rolls[0].asDoubleRoll().getActualRoll()
             if (Random.nextDouble() > dodge) continue
 
-            cmd.dodge = true
+            cmd.isDodging = true
             return
         }
     }

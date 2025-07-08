@@ -19,7 +19,7 @@
     "living_entity.LivingEntityAuraMixin",
     "living_entity.LivingEntityCompanionMixin",
     "living_entity.LivingEntityDamageCommandMixin",
-    "living_entity.LivingEntityDelayedRemoveAttributeModifierMixin",
+    "living_entity.LivingEntityTemporaryAttributeModifierMixin",
     "living_entity.LivingEntityDodgedRecentlyMixin",
     "living_entity.LivingEntityDungeonEnemyMixin",
     "living_entity.LivingEntityEliteMixin",

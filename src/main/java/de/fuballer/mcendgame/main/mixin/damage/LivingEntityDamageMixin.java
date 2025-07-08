@@ -39,7 +39,7 @@ public abstract class LivingEntityDamageMixin {
         var applyDamageCalculationCommand = ApplyDamageCalculationCommand.Companion.of(entity, world, source);
         var cmd = CommandGateway.INSTANCE.apply(applyDamageCalculationCommand);
 
-        if (cmd.getDodge()) {
+        if (cmd.isDodging()) {
             var dodgeEvent = new LivingEntityDodgedEvent(entity, source.getAttacker());
             EventGateway.INSTANCE.launchPublish(dodgeEvent);
 

@@ -1,11 +1,8 @@
 package de.fuballer.mcendgame.main.component.custom_attribute.effects
 
 import de.fuballer.mcendgame.main.component.custom_attribute.CustomAttributesExtensions.asDoubleRoll
-import de.fuballer.mcendgame.main.component.custom_attribute.CustomAttributesExtensions.asIntRoll
-import de.fuballer.mcendgame.main.component.custom_attribute.CustomAttributesExtensions.getAllCustomAttributes
 import de.fuballer.mcendgame.main.component.custom_attribute.types.CustomAttributeTypes
 import de.fuballer.mcendgame.main.component.damage.ApplyDamageCalculationCommand
-import de.fuballer.mcendgame.main.messaging.misc.MagicFindCommand
 import de.maucon.mauconframework.command.CommandHandler
 import de.maucon.mauconframework.di.annotation.Injectable
 import kotlin.random.Random
@@ -22,7 +19,7 @@ class DodgePerMaxHeartBelowTenService {
             val dodge = attribute.rolls[0].asDoubleRoll().getActualRoll() * missingHearts
             if (Random.nextDouble() > dodge) continue
 
-            cmd.dodge = true
+            cmd.isDodging = true
             return
         }
     }

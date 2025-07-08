@@ -1,10 +1,10 @@
 package de.fuballer.mcendgame.main.mixin.living_entity;
 
-import de.fuballer.mcendgame.main.accessor.LivingEntityDelayedRemoveAttributeModifierAccessor;
+import de.fuballer.mcendgame.main.accessor.LivingEntityTemporaryAttributeModifierAccessor;
 import kotlin.Pair;
 import net.minecraft.entity.LivingEntity;
 import net.minecraft.entity.attribute.EntityAttribute;
-import net.minecraft.entity.player.PlayerEntity;
+import net.minecraft.entity.attribute.EntityAttributeModifier;
 import net.minecraft.registry.entry.RegistryEntry;
 import net.minecraft.util.Identifier;
 import org.spongepowered.asm.mixin.Mixin;
@@ -17,7 +17,7 @@ import java.util.HashMap;
 import java.util.Map;
 
 @Mixin(LivingEntity.class)
-public class LivingEntityDelayedRemoveAttributeModifierMixin implements LivingEntityDelayedRemoveAttributeModifierAccessor {
+public class LivingEntityTemporaryAttributeModifierMixin implements LivingEntityTemporaryAttributeModifierAccessor {
     @Unique
     private static final int checkInterval = 4;
     @Unique
@@ -46,9 +46,27 @@ public class LivingEntityDelayedRemoveAttributeModifierMixin implements LivingEn
     }
 
     @Override
-    public void mcendgame$addAttributeModifierToRemove(RegistryEntry<EntityAttribute> type, Identifier identifier, int ticks) {
+    public void mcendgame$addTemporaryAttributeModifier(
+            RegistryEntry<EntityAttribute> type,
+            Identifier identifier,
+            int ticks,
+            double value,
+            EntityAttributeModifier.Operation operation
+    ) {
+        var entity = (LivingEntity) (Object) this;
+        var attributeInstance = entity.getAttributeInstance(type);
+        if (attributeInstance == null) return;
+
         var key = new Pair<>(type, identifier);
         if (toRemoveModifiers.getOrDefault(key, -1) > ticks) return;
         toRemoveModifiers.put(key, ticks);
+
+        var existingModifier = attributeInstance.getModifier(identifier);
+        if (existingModifier != null && Math.abs(existingModifier.value() - value) < 0.001) return;
+
+        var modifier = new EntityAttributeModifier(identifier, value, operation);
+
+        attributeInstance.removeModifier(identifier);
+        attributeInstance.addTemporaryModifier(modifier);
     }
 }
