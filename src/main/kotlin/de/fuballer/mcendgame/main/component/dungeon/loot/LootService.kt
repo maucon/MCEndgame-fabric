@@ -8,6 +8,7 @@ import de.fuballer.mcendgame.main.messaging.misc.LivingEntityDropCommand
 import de.fuballer.mcendgame.main.messaging.misc.MagicFindCommand
 import de.fuballer.mcendgame.main.util.extension.EntityExtension.isDungeonBoss
 import de.fuballer.mcendgame.main.util.extension.EntityExtension.isDungeonEnemy
+import de.fuballer.mcendgame.main.util.extension.EntityExtension.isLootGoblin
 import de.fuballer.mcendgame.main.util.extension.WorldExtension.isDungeonWorld
 import de.maucon.mauconframework.command.CommandGateway
 import de.maucon.mauconframework.command.CommandHandler
@@ -50,7 +51,7 @@ class LootService {
             .map { entity.getEquippedStack(it) }
             .filter {
                 val lootingLevel = getLootingLevel(event.killer)
-                val baseDropProbability = getDropProbability(it, lootingLevel)
+                val baseDropProbability = if (entity.isLootGoblin()) 1.0 else getDropProbability(it, lootingLevel)
                 val dropProbability = baseDropProbability * getMagicFindFactor(event.killer)
 
                 Random.nextDouble() <= dropProbability

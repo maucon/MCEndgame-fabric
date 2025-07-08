@@ -1,9 +1,8 @@
 package de.fuballer.mcendgame.main.messaging
 
 import de.fuballer.mcendgame.main.messaging.dungeon.DungeonBossDeathEvent
-import de.fuballer.mcendgame.main.messaging.misc.*
 import de.fuballer.mcendgame.main.messaging.dungeon.DungeonEntityDeathEvent
-import de.fuballer.mcendgame.main.messaging.misc.LivingEntityDeathEvent
+import de.fuballer.mcendgame.main.messaging.misc.*
 import de.fuballer.mcendgame.main.messaging.server.ServerEndTickEvent
 import de.fuballer.mcendgame.main.messaging.server.ServerStartedEvent
 import de.fuballer.mcendgame.main.messaging.server.ServerStoppingEvent
@@ -24,7 +23,14 @@ import net.minecraft.entity.player.PlayerEntity
 @Injectable
 object EventMapper {
     @EventSubscriber
-    fun on(event: LivingEntityDeathEvent) {
+    fun onPlayerDeath(event: LivingEntityDeathEvent) {
+        val player = event.entity as? PlayerEntity ?: return
+        val playerDeathEvent = PlayerEntityDeathEvent(event.isClient, event.world, player, event.killer)
+        EventGateway.launchPublish(playerDeathEvent)
+    }
+
+    @EventSubscriber
+    fun onDungeonEntityDeath(event: LivingEntityDeathEvent) {
         val entity = event.entity
         if (!entity.world.isDungeonWorld()) return
 
@@ -33,14 +39,7 @@ object EventMapper {
     }
 
     @EventSubscriber
-    fun onPlayerDeath(event: LivingEntityDeathEvent) {
-        val player = event.entity as? PlayerEntity ?: return
-        val playerDeathEvent = PlayerEntityDeathEvent(event.isClient, event.world, player, event.killer)
-        EventGateway.launchPublish(playerDeathEvent)
-    }
-
-    @EventSubscriber
-    fun onDungeonBossDeath(event: LivingEntityDeathEvent) {
+    fun onDungeonBossDeath(event: DungeonEntityDeathEvent) {
         val entity = event.entity
 
         if (!entity.isDungeonBoss()) return
