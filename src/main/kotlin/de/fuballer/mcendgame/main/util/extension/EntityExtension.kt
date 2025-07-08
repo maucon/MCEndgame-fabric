@@ -1,6 +1,7 @@
 package de.fuballer.mcendgame.main.util.extension
 
 import de.fuballer.mcendgame.main.accessor.LivingEntityDungeonEnemyAccessor
+import de.fuballer.mcendgame.main.accessor.LivingEntityEliteAccessor
 import de.fuballer.mcendgame.main.accessor.LivingEntityLootGoblinAccessor
 import de.fuballer.mcendgame.main.accessor.MobEntityDungeonBossAccessor
 import de.fuballer.mcendgame.main.component.dungeon.generation.data.SpawnPosition
@@ -39,13 +40,23 @@ object EntityExtension {
     }
 
     fun Entity.isLootGoblin(): Boolean {
-        val enemyAccessor = this as? LivingEntityLootGoblinAccessor ?: return false
-        return enemyAccessor.`mcendgame$isLootGoblin`()
+        val lootGoblinAccessor = this as? LivingEntityLootGoblinAccessor ?: return false
+        return lootGoblinAccessor.`mcendgame$isLootGoblin`()
     }
 
     fun LivingEntity.setLootGoblin() {
-        val enemyAccessor = this as LivingEntityLootGoblinAccessor
-        enemyAccessor.`mcendgame$setLootGoblin`()
+        val lootGoblinAccessor = this as LivingEntityLootGoblinAccessor
+        lootGoblinAccessor.`mcendgame$setLootGoblin`()
+    }
+
+    fun Entity.isElite(): Boolean {
+        val eliteAccessor = this as? LivingEntityEliteAccessor ?: return false
+        return eliteAccessor.`mcendgame$isElite`()
+    }
+
+    fun LivingEntity.setElite() {
+        val eliteAccessor = this as LivingEntityEliteAccessor
+        eliteAccessor.`mcendgame$setElite`()
     }
 
     fun Entity.getDungeonBossSpawnLocation(): SpawnPosition? {
