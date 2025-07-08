@@ -47,5 +47,7 @@ object EnemyGenerationSettings {
         RandomOption(1, PotionEffect.INVISIBILITY),
     )
 
+    const val LOOT_GOBLIN_CHANCE = 0.003
+
     fun getRandomScale(random: Random) = 1.0 + 0.2 * random.nextDouble().pow(3) * if (random.nextBoolean()) 1 else -1
 }
