@@ -8,6 +8,7 @@ import de.fuballer.mcendgame.main.messaging.misc.LivingEntityDropCommand
 import de.fuballer.mcendgame.main.messaging.misc.MagicFindCommand
 import de.fuballer.mcendgame.main.util.extension.EntityExtension.isDungeonBoss
 import de.fuballer.mcendgame.main.util.extension.EntityExtension.isDungeonEnemy
+import de.fuballer.mcendgame.main.util.extension.EntityExtension.isLootGoblin
 import de.fuballer.mcendgame.main.util.extension.WorldExtension.isDungeonWorld
 import de.maucon.mauconframework.command.CommandGateway
 import de.maucon.mauconframework.command.CommandHandler
@@ -50,7 +51,7 @@ class LootService {
             .map { entity.getEquippedStack(it) }
             .filter {
                 val lootingLevel = getLootingLevel(event.killer)
-                val baseDropProbability = getDropProbability(it, lootingLevel)
+                val baseDropProbability = getDropProbability(it, lootingLevel, entity.isLootGoblin())
                 val dropProbability = baseDropProbability * getMagicFindFactor(event.killer)
 
                 Random.nextDouble() <= dropProbability
@@ -78,20 +79,16 @@ class LootService {
         return LootSettings.calculateMagicFindDropProbabilityFactor(cmd.magicFind)
     }
 
-    private fun getDropProbability(stack: ItemStack, lootingLevel: Int): Double {
-        if (stack.item is UniqueAttributesItem) {
-            return 1.0 // uniques should always drop
-        }
+    private fun getDropProbability(stack: ItemStack, lootingLevel: Int, isLootGoblin: Boolean): Double {
+        if (stack.isIn(CustomTags.DUNGEON_DROP_DISABLED)) return 0.0
+        if (isLootGoblin) return 1.0 // loot goblins should always drop all equipment
+        if (stack.item is UniqueAttributesItem) return 1.0 // uniques should always drop
 
         if (stack.isIn(CustomTags.DIAMOND_GEAR)) {
             return LootSettings.ITEMS_DROP_PROBABILITY_DIAMOND + LootSettings.ITEMS_DROP_PROBABILITY_DIAMOND_PER_LOOTING * lootingLevel
         }
         if (stack.isIn(CustomTags.NETHERITE_GEAR)) {
             return LootSettings.ITEMS_DROP_PROBABILITY_NETHERITE + LootSettings.ITEMS_DROP_PROBABILITY_NETHERITE_PER_LOOTING * lootingLevel
-        }
-
-        if (stack.isIn(CustomTags.DUNGEON_DROP_DISABLED)) {
-            return 0.0
         }
 
         return LootSettings.ITEMS_DROP_PROBABILITY + LootSettings.ITEMS_DROP_PROBABILITY_PER_LOOTING * lootingLevel

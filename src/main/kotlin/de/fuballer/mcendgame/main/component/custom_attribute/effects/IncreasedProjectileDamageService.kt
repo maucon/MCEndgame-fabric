@@ -10,6 +10,7 @@ import de.maucon.mauconframework.di.annotation.Injectable
 class IncreasedProjectileDamageService {
     @CommandHandler
     fun on(cmd: ApplyDamageCalculationCommand) {
+        if (!cmd.isProjectile) return
         val attributes = cmd.damagerAttributes[CustomAttributeTypes.INCREASED_PROJECTILE_DAMAGE] ?: return
 
         attributes.forEach { attribute ->

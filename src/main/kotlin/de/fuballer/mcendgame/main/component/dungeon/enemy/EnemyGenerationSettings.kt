@@ -3,6 +3,8 @@ package de.fuballer.mcendgame.main.component.dungeon.enemy
 import de.fuballer.mcendgame.main.component.dungeon.enemy.potion_effect.PotionEffect
 import de.fuballer.mcendgame.main.util.random.RandomOption
 import de.fuballer.mcendgame.main.util.random.SortableRandomOption
+import net.minecraft.entity.effect.StatusEffectInstance
+import net.minecraft.entity.effect.StatusEffects
 import kotlin.math.pow
 import kotlin.random.Random
 
@@ -46,6 +48,13 @@ object EnemyGenerationSettings {
         RandomOption(10, null),
         RandomOption(1, PotionEffect.INVISIBILITY),
     )
+
+    const val LOOT_GOBLIN_CHANCE = 0.003
+
+    const val ELITE_CHANCE = 0.00133
+    const val ELITE_SCALE = 1.35
+    const val ELITE_HEALTH_FACTOR = 2.5
+    fun getEliteStatusEffect() = StatusEffectInstance(StatusEffects.RAID_OMEN, StatusEffectInstance.INFINITE, 0, false, true)
 
     fun getRandomScale(random: Random) = 1.0 + 0.2 * random.nextDouble().pow(3) * if (random.nextBoolean()) 1 else -1
 }

@@ -19,6 +19,7 @@ data class ApplyDamageCalculationCommand(
 
     val type: DamageType,
     val world: ServerWorld,
+    val isProjectile: Boolean,
 //    val isDamageBlocked: Boolean,
     val isDamageCritical: Boolean,
 
@@ -38,7 +39,7 @@ data class ApplyDamageCalculationCommand(
     val reducedDamage: MutableList<Double> = mutableListOf(),
     val lessDamage: MutableList<Double> = mutableListOf(),
     val ward: MutableList<Double> = mutableListOf(),
-    var dodge: Boolean = false,
+    var isDodging: Boolean = false,
 
     var isExecute: Boolean = false,
 ) {
@@ -53,10 +54,11 @@ data class ApplyDamageCalculationCommand(
             val damagedAttributes = damaged.getAllCustomAttributes()
             val damageType = source.type
 
-            val isProjectileCritical = (source.source as? PersistentProjectileEntity)?.isCritical ?: false
+            val isProjectile = source.source is PersistentProjectileEntity
+            val isProjectileCritical = if (!isProjectile) false else (source.source as PersistentProjectileEntity).isCritical
             val isCritical = PlayerAccessUtil.getIsCritical(damager) || isProjectileCritical
 
-            return ApplyDamageCalculationCommand(damager, damagerAttributes, damaged, damagedAttributes, damageType, world, isCritical)
+            return ApplyDamageCalculationCommand(damager, damagerAttributes, damaged, damagedAttributes, damageType, world, isProjectile, isCritical)
         }
     }
 }

@@ -6,7 +6,6 @@ import net.minecraft.entity.LivingEntity
 import net.minecraft.entity.attribute.EntityAttributes
 import net.minecraft.entity.damage.DamageSource
 import net.minecraft.entity.projectile.PersistentProjectileEntity
-import net.minecraft.entity.projectile.ProjectileEntity
 import net.minecraft.server.world.ServerWorld
 import net.minecraft.util.math.MathHelper
 
@@ -59,7 +58,7 @@ object ApplyDamageUtil {
 
         val baseDamage = calculateBaseAttackDamage(attacker, source)
         val enchantmentDamage = calculateEnchantmentDamage(attacker, attacked, source)
-        val damageMulti = calculateAttackDamageMultiplier(source, event)
+        val damageMulti = calculateAttackDamageMultiplier(event)
         val critMulti = calculateCriticalMultiplier(event)
         val otherMulti = calculateOtherMultiplier(source)
 
@@ -82,7 +81,7 @@ object ApplyDamageUtil {
         if (source.attacker !is LivingEntity) return 0.0F
 
         val baseDamage = calculateBaseElementalDamage(event)
-        val damageMulti = calculateElementalDamageMultiplier(source, event)
+        val damageMulti = calculateElementalDamageMultiplier(event)
         val critMulti = calculateCriticalMultiplier(event) // TODO can elemental damage crit?
         val otherMulti = calculateOtherMultiplier(source)
 
@@ -120,12 +119,11 @@ object ApplyDamageUtil {
     }
 
     private fun calculateAttackDamageMultiplier(
-        source: DamageSource,
         event: ApplyDamageCalculationCommand
     ): Double {
         var damageIncrease = 1 + event.increasedDamage.sum()
         damageIncrease *= 1 + event.increasedAttackDamage.sum()
-        if (source.source is ProjectileEntity) {
+        if (event.isProjectile) {
             damageIncrease *= 1 + event.increasedProjectileDamage.sum()
         }
 
@@ -136,12 +134,11 @@ object ApplyDamageUtil {
     }
 
     private fun calculateElementalDamageMultiplier(
-        source: DamageSource,
         event: ApplyDamageCalculationCommand
     ): Double {
         var damageIncrease = 1 + event.increasedDamage.sum()
         damageIncrease *= 1 + event.increasedElementalDamage.sum()
-        if (source.source is ProjectileEntity) {
+        if (event.isProjectile) {
             damageIncrease *= 1 + event.increasedProjectileDamage.sum()
         }
 

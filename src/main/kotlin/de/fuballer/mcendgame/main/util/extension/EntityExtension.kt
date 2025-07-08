@@ -1,6 +1,8 @@
 package de.fuballer.mcendgame.main.util.extension
 
 import de.fuballer.mcendgame.main.accessor.LivingEntityDungeonEnemyAccessor
+import de.fuballer.mcendgame.main.accessor.LivingEntityEliteAccessor
+import de.fuballer.mcendgame.main.accessor.LivingEntityLootGoblinAccessor
 import de.fuballer.mcendgame.main.accessor.MobEntityDungeonBossAccessor
 import de.fuballer.mcendgame.main.component.dungeon.generation.data.SpawnPosition
 import de.fuballer.mcendgame.main.util.extension.WorldExtension.isDungeonWorld
@@ -37,6 +39,26 @@ object EntityExtension {
         bossAccessor.`mcendgame$setDungeonBoss`()
     }
 
+    fun Entity.isLootGoblin(): Boolean {
+        val lootGoblinAccessor = this as? LivingEntityLootGoblinAccessor ?: return false
+        return lootGoblinAccessor.`mcendgame$isLootGoblin`()
+    }
+
+    fun LivingEntity.setLootGoblin() {
+        val lootGoblinAccessor = this as LivingEntityLootGoblinAccessor
+        lootGoblinAccessor.`mcendgame$setLootGoblin`()
+    }
+
+    fun Entity.isElite(): Boolean {
+        val eliteAccessor = this as? LivingEntityEliteAccessor ?: return false
+        return eliteAccessor.`mcendgame$isElite`()
+    }
+
+    fun LivingEntity.setElite() {
+        val eliteAccessor = this as LivingEntityEliteAccessor
+        eliteAccessor.`mcendgame$setElite`()
+    }
+
     fun Entity.getDungeonBossSpawnLocation(): SpawnPosition? {
         val bossAccessor = this as? MobEntityDungeonBossAccessor ?: return null
         return bossAccessor.`mcendgame$getSpawnLocation`()
@@ -45,6 +67,24 @@ object EntityExtension {
     fun MobEntity.setDungeonBossSpawnLocation(location: SpawnPosition) {
         val bossAccessor = this as MobEntityDungeonBossAccessor
         bossAccessor.`mcendgame$setSpawnLocation`(location)
+    }
+
+    fun LivingEntity.isAlly(entity: Entity): Boolean {
+        if (this == entity) return true
+
+        if (this.isOrIsTameableOf(PlayerEntity::class.java) && entity.isOrIsTameableOf(PlayerEntity::class.java)) return true
+        if (this.isOrIsTameableOf(Monster::class.java) && entity.isOrIsTameableOf(Monster::class.java)) return true
+
+        return false
+    }
+
+    fun LivingEntity.isEnemy(entity: Entity): Boolean {
+        if (this == entity) return false
+
+        if (this.isOrIsTameableOf(PlayerEntity::class.java) && entity.isOrIsTameableOf(Monster::class.java)) return true
+        if (this.isOrIsTameableOf(Monster::class.java) && entity.isOrIsTameableOf(PlayerEntity::class.java)) return true
+
+        return false
     }
 
     fun Entity.isValidSecondaryTarget(primaryTarget: Entity, attacker: Entity): Boolean {

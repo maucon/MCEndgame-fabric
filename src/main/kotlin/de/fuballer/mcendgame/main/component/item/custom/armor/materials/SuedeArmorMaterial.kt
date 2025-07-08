@@ -9,21 +9,21 @@ import net.minecraft.registry.tag.ItemTags
 import net.minecraft.sound.SoundEvents
 
 object SuedeArmorMaterial : CustomArmorMaterial {
-    override val baseDurability = 37
+    override val baseDurability = 25
     override val registryKey: RegistryKey<EquipmentAsset> = RegistryKeyUtil.createEquipmentAssetKey("suede")
 
     override val instance = ArmorMaterial(
         baseDurability,
         mapOf(
-            EquipmentType.BOOTS to 3,
-            EquipmentType.LEGGINGS to 6,
-            EquipmentType.CHESTPLATE to 8,
-            EquipmentType.HELMET to 3,
+            EquipmentType.BOOTS to 2,
+            EquipmentType.LEGGINGS to 5,
+            EquipmentType.CHESTPLATE to 6,
+            EquipmentType.HELMET to 2,
         ),
         15,
         SoundEvents.ITEM_ARMOR_EQUIP_GENERIC,
-        3.0f,
-        0.1f,
+        1.0f,
+        0.0f,
         ItemTags.REPAIRS_LEATHER_ARMOR,
         registryKey
     )
