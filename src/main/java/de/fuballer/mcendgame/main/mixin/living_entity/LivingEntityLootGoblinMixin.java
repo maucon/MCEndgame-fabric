@@ -1,6 +1,6 @@
-package de.fuballer.mcendgame.main.mixin.enemy;
+package de.fuballer.mcendgame.main.mixin.living_entity;
 
-import de.fuballer.mcendgame.main.accessor.LivingEntityDungeonEnemyAccessor;
+import de.fuballer.mcendgame.main.accessor.LivingEntityLootGoblinAccessor;
 import net.minecraft.entity.LivingEntity;
 import net.minecraft.nbt.NbtCompound;
 import org.spongepowered.asm.mixin.Mixin;
@@ -10,30 +10,30 @@ import org.spongepowered.asm.mixin.injection.Inject;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 
 @Mixin(LivingEntity.class)
-public class LivingEntityDungeonEnemyMixin implements LivingEntityDungeonEnemyAccessor {
+public class LivingEntityLootGoblinMixin implements LivingEntityLootGoblinAccessor {
     @Unique
-    private static final String DUNGEON_ENEMY_NBT = "isDungeonEnemy";
+    private static final String LOOT_GOBLIN_NBT = "isLootGoblin";
     @Unique
-    private boolean isDungeonEnemy = false;
+    private boolean isLootGoblin = false;
 
     @Override
-    public boolean mcendgame$isDungeonEnemy() {
-        return isDungeonEnemy;
+    public boolean mcendgame$isLootGoblin() {
+        return isLootGoblin;
     }
 
     @Override
-    public void mcendgame$setDungeonEnemy() {
-        isDungeonEnemy = true;
+    public void mcendgame$setLootGoblin() {
+        isLootGoblin = true;
     }
 
     @Inject(method = "writeCustomDataToNbt", at = @At("TAIL"))
     private void writeNBT(NbtCompound nbt, CallbackInfo ci) {
-        if (!isDungeonEnemy) return;
-        nbt.putBoolean(DUNGEON_ENEMY_NBT, true);
+        if (!isLootGoblin) return;
+        nbt.putBoolean(LOOT_GOBLIN_NBT, true);
     }
 
     @Inject(method = "readCustomDataFromNbt", at = @At("TAIL"))
     private void readNBT(NbtCompound nbt, CallbackInfo ci) {
-        isDungeonEnemy = nbt.getBoolean(DUNGEON_ENEMY_NBT).orElse(false);
+        isLootGoblin = nbt.getBoolean(LOOT_GOBLIN_NBT).orElse(false);
     }
 }

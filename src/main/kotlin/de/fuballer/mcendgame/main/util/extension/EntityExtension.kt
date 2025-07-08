@@ -1,6 +1,7 @@
 package de.fuballer.mcendgame.main.util.extension
 
 import de.fuballer.mcendgame.main.accessor.LivingEntityDungeonEnemyAccessor
+import de.fuballer.mcendgame.main.accessor.LivingEntityLootGoblinAccessor
 import de.fuballer.mcendgame.main.accessor.MobEntityDungeonBossAccessor
 import de.fuballer.mcendgame.main.component.dungeon.generation.data.SpawnPosition
 import de.fuballer.mcendgame.main.util.extension.WorldExtension.isDungeonWorld
@@ -35,6 +36,16 @@ object EntityExtension {
     fun MobEntity.setDungeonBoss() {
         val bossAccessor = this as MobEntityDungeonBossAccessor
         bossAccessor.`mcendgame$setDungeonBoss`()
+    }
+
+    fun Entity.isLootGoblin(): Boolean {
+        val enemyAccessor = this as? LivingEntityLootGoblinAccessor ?: return false
+        return enemyAccessor.`mcendgame$isLootGoblin`()
+    }
+
+    fun LivingEntity.setLootGoblin() {
+        val enemyAccessor = this as LivingEntityLootGoblinAccessor
+        enemyAccessor.`mcendgame$setLootGoblin`()
     }
 
     fun Entity.getDungeonBossSpawnLocation(): SpawnPosition? {
