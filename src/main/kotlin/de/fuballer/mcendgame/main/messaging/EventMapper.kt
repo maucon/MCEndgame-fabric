@@ -7,6 +7,7 @@ import de.fuballer.mcendgame.main.messaging.server.ServerEndTickEvent
 import de.fuballer.mcendgame.main.messaging.server.ServerStartedEvent
 import de.fuballer.mcendgame.main.messaging.server.ServerStoppingEvent
 import de.fuballer.mcendgame.main.util.extension.EntityExtension.isDungeonBoss
+import de.fuballer.mcendgame.main.util.extension.ItemStackExtension.isSameIgnoringDurability
 import de.fuballer.mcendgame.main.util.extension.WorldExtension.isDungeonWorld
 import de.maucon.mauconframework.di.annotation.Injectable
 import de.maucon.mauconframework.event.EventGateway
@@ -92,6 +93,8 @@ object EventMapper {
 
     @Initializer
     fun onEquipmentChange() = ServerEntityEvents.EQUIPMENT_CHANGE.register { entity, slot, oldStack, newStack ->
+        if (oldStack.isSameIgnoringDurability(newStack)) return@register
+
         val event = EquipmentChangeEvent(entity, slot, oldStack, newStack)
         EventGateway.launchPublish(event)
     }
