@@ -4,7 +4,7 @@ import de.fuballer.mcendgame.main.accessor.LivingEntityDodgedRecentlyAccessor
 import de.fuballer.mcendgame.main.component.custom_attribute.CustomAttributesExtensions.asDoubleRoll
 import de.fuballer.mcendgame.main.component.custom_attribute.CustomAttributesExtensions.asIntRoll
 import de.fuballer.mcendgame.main.component.custom_attribute.types.CustomAttributeTypes
-import de.fuballer.mcendgame.main.component.damage.ApplyDamageCalculationCommand
+import de.fuballer.mcendgame.main.component.damage.DodgeCalculationCommand
 import de.fuballer.mcendgame.main.messaging.misc.LivingEntityDodgedEvent
 import de.maucon.mauconframework.command.CommandHandler
 import de.maucon.mauconframework.di.annotation.Injectable
@@ -14,7 +14,7 @@ import kotlin.random.Random
 @Injectable
 class DodgeIfNotDodgedInLastSecondsService {
     @CommandHandler
-    fun on(cmd: ApplyDamageCalculationCommand) {
+    fun on(cmd: DodgeCalculationCommand) {
         val attributes = cmd.damagedAttributes[CustomAttributeTypes.DODGE_IF_NOT_DODGED_IN_LAST_SECONDS] ?: return
 
         val accessor = cmd.damaged as LivingEntityDodgedRecentlyAccessor

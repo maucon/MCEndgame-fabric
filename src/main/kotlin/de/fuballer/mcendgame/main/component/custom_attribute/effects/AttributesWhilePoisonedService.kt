@@ -3,6 +3,7 @@ package de.fuballer.mcendgame.main.component.custom_attribute.effects
 import de.fuballer.mcendgame.main.component.custom_attribute.CustomAttributesExtensions.asDoubleRoll
 import de.fuballer.mcendgame.main.component.custom_attribute.types.CustomAttributeTypes
 import de.fuballer.mcendgame.main.component.damage.ApplyDamageCalculationCommand
+import de.fuballer.mcendgame.main.component.damage.DodgeCalculationCommand
 import de.maucon.mauconframework.command.CommandHandler
 import de.maucon.mauconframework.di.annotation.Injectable
 import net.minecraft.entity.LivingEntity
@@ -37,13 +38,17 @@ class AttributesWhilePoisonedService {
     private fun defensive(cmd: ApplyDamageCalculationCommand) {
         if (!cmd.damaged.hasStatusEffect(StatusEffects.POISON)) return
 
-        var attributes = cmd.damagerAttributes[CustomAttributeTypes.REDUCED_DAMAGE_TAKEN_WHILE_POISONED] ?: return
+        val attributes = cmd.damagedAttributes[CustomAttributeTypes.REDUCED_DAMAGE_TAKEN_WHILE_POISONED] ?: return
         attributes.forEach { attribute ->
             val reducedDamage = attribute.rolls[0].asDoubleRoll().getActualRoll()
             cmd.reducedDamage.add(reducedDamage)
         }
+    }
 
-        attributes = cmd.damagerAttributes[CustomAttributeTypes.DODGE_WHILE_POISONED] ?: return
+    private fun dodge(cmd: DodgeCalculationCommand) {
+        if (!cmd.damaged.hasStatusEffect(StatusEffects.POISON)) return
+
+        val attributes = cmd.damagedAttributes[CustomAttributeTypes.DODGE_WHILE_POISONED] ?: return
         for (attribute in attributes) {
             val dodge = attribute.rolls[0].asDoubleRoll().getActualRoll()
             if (Random.nextDouble() > dodge) continue

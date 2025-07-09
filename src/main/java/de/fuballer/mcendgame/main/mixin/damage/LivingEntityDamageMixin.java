@@ -2,9 +2,7 @@ package de.fuballer.mcendgame.main.mixin.damage;
 
 import de.fuballer.mcendgame.main.component.damage.ApplyDamageCalculationCommand;
 import de.fuballer.mcendgame.main.component.damage.ApplyDamageUtil;
-import de.fuballer.mcendgame.main.messaging.misc.LivingEntityDodgedEvent;
 import de.maucon.mauconframework.command.CommandGateway;
-import de.maucon.mauconframework.event.EventGateway;
 import net.minecraft.enchantment.EnchantmentHelper;
 import net.minecraft.entity.DamageUtil;
 import net.minecraft.entity.LivingEntity;
@@ -38,14 +36,6 @@ public abstract class LivingEntityDamageMixin {
 
         var applyDamageCalculationCommand = ApplyDamageCalculationCommand.Companion.of(entity, world, source);
         var cmd = CommandGateway.INSTANCE.apply(applyDamageCalculationCommand);
-
-        if (cmd.isDodging()) {
-            var dodgeEvent = new LivingEntityDodgedEvent(entity, source.getAttacker());
-            EventGateway.INSTANCE.launchPublish(dodgeEvent);
-
-            ci.cancel();
-            return;
-        }
 
         if (entity.isInvulnerableTo(world, source)) { // TODO maybe before command?
             ci.cancel();
