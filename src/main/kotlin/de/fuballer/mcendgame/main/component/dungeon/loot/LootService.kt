@@ -1,6 +1,6 @@
 package de.fuballer.mcendgame.main.component.dungeon.loot
 
-import de.fuballer.mcendgame.main.component.item.custom.armor.interfaces.UniqueAttributesItem
+import de.fuballer.mcendgame.main.component.item.custom.UniqueAttributesItem
 import de.fuballer.mcendgame.main.component.tags.CustomTags
 import de.fuballer.mcendgame.main.configuration.RuntimeConfig
 import de.fuballer.mcendgame.main.messaging.dungeon.DungeonEntityDeathEvent

@@ -3,7 +3,7 @@ package de.fuballer.mcendgame.main.component.item.custom.tool.item
 import de.fuballer.mcendgame.main.component.custom_attribute.data.DoubleBounds
 import de.fuballer.mcendgame.main.component.custom_attribute.data.RollableCustomAttribute
 import de.fuballer.mcendgame.main.component.custom_attribute.types.VanillaAttributeTypes
-import de.fuballer.mcendgame.main.component.item.custom.armor.interfaces.UniqueAttributesItem
+import de.fuballer.mcendgame.main.component.item.custom.UniqueAttributesItem
 import net.minecraft.component.type.AttributeModifierSlot
 
 class Bloodharvest(

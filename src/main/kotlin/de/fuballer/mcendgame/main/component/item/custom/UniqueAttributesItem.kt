@@ -1,4 +1,4 @@
-package de.fuballer.mcendgame.main.component.item.custom.armor.interfaces
+package de.fuballer.mcendgame.main.component.item.custom
 
 import de.fuballer.mcendgame.main.component.custom_attribute.CustomAttributesExtensions.setCustomAttributes
 import de.fuballer.mcendgame.main.component.custom_attribute.data.CustomAttribute
@@ -28,7 +28,7 @@ abstract class UniqueAttributesItem(
                 if (iterator.hasNext()) {
                     percentageRolls.add(iterator.next())
                 } else {
-                    percentageRolls.add(lastRoll ?: Random.nextDouble())
+                    percentageRolls.add(lastRoll ?: Random.Default.nextDouble())
                 }
             }
 

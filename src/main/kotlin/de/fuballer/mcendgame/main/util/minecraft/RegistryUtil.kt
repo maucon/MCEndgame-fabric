@@ -1,6 +1,7 @@
 package de.fuballer.mcendgame.main.util.minecraft
 
 import de.fuballer.mcendgame.main.component.item.custom.armor.materials.CustomArmorMaterial
+import de.fuballer.mcendgame.main.component.item.custom.aspect.AspectItem
 import net.fabricmc.fabric.api.`object`.builder.v1.block.entity.FabricBlockEntityTypeBuilder
 import net.minecraft.block.AbstractBlock
 import net.minecraft.block.Block
@@ -22,6 +23,7 @@ import net.minecraft.registry.RegistryKey
 import net.minecraft.registry.entry.RegistryEntry
 import net.minecraft.screen.ScreenHandler
 import net.minecraft.screen.ScreenHandlerType
+import net.minecraft.util.Rarity
 import net.minecraft.util.math.BlockPos
 
 object RegistryUtil {
@@ -66,4 +68,6 @@ object RegistryUtil {
 
     fun registerStatusEffect(name: String, effect: StatusEffect): RegistryEntry<StatusEffect> =
         Registry.registerReference(Registries.STATUS_EFFECT, IdentifierUtil.default(name), effect)
+
+    fun registerAspectItem(name: String, rarity: Rarity) = registerItem(::AspectItem, Item.Settings().rarity(rarity), name)
 }

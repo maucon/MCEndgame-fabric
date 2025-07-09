@@ -2,7 +2,7 @@ package de.fuballer.mcendgame.main.component.dungeon.enemy.equipment
 
 import de.fuballer.mcendgame.main.component.dungeon.enemy.equipment.attributes.AttributeService
 import de.fuballer.mcendgame.main.component.dungeon.enemy.equipment.enchantment.EnchantmentService
-import de.fuballer.mcendgame.main.component.item.custom.armor.interfaces.UniqueAttributesItem
+import de.fuballer.mcendgame.main.component.item.custom.UniqueAttributesItem
 import de.fuballer.mcendgame.main.component.item.equipment.Equipment
 import de.fuballer.mcendgame.main.util.random.RandomOption
 import de.fuballer.mcendgame.main.util.random.RandomUtil

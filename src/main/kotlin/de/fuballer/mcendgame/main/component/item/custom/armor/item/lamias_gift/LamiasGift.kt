@@ -6,7 +6,7 @@ import de.fuballer.mcendgame.main.component.custom_attribute.data.RollableCustom
 import de.fuballer.mcendgame.main.component.custom_attribute.types.CustomAttributeTypes
 import de.fuballer.mcendgame.main.component.item.custom.armor.interfaces.HideBipedBoneArmor
 import de.fuballer.mcendgame.main.component.item.custom.armor.interfaces.HideOtherArmorArmor
-import de.fuballer.mcendgame.main.component.item.custom.armor.interfaces.UniqueAttributesItem
+import de.fuballer.mcendgame.main.component.item.custom.UniqueAttributesItem
 import net.minecraft.component.type.AttributeModifierSlot
 import net.minecraft.entity.EquipmentSlot
 

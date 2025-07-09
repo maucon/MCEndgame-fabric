@@ -3,6 +3,7 @@ package de.fuballer.mcendgame.main.component.item.custom.group
 import de.fuballer.mcendgame.main.component.block.CustomBlocks
 import de.fuballer.mcendgame.main.component.dungeon.device.DungeonDevice
 import de.fuballer.mcendgame.main.component.item.custom.armor.CustomArmorItems
+import de.fuballer.mcendgame.main.component.item.custom.aspect.AspectItems
 import de.fuballer.mcendgame.main.component.item.custom.tool.CustomToolItems
 import de.fuballer.mcendgame.main.util.minecraft.IdentifierUtil
 import de.fuballer.mcendgame.main.util.minecraft.RegistryUtil
@@ -29,6 +30,13 @@ object CustomItemGroups {
         CUSTOM_TOOLS_KEY, FabricItemGroup.builder()
             .icon { ItemStack(CustomToolItems.BLOODHARVEST) }
             .displayName(Text.translatable("item_group.mcendgame.tools"))
+    )
+
+    val ASPECTS_KEY = RegistryKey.of(Registries.ITEM_GROUP.key, IdentifierUtil.default("aspects"))
+    val ASPECTS = RegistryUtil.registerItemGroup(
+        ASPECTS_KEY, FabricItemGroup.builder()
+            .icon { ItemStack(AspectItems.ASPECT_OF_TYRANNY) }
+            .displayName(Text.translatable("item_group.mcendgame.aspects"))
     )
 
     val CUSTOM_BLOCKS_KEY = RegistryKey.of(Registries.ITEM_GROUP.key, IdentifierUtil.default("blocks"))
@@ -61,6 +69,9 @@ object CustomItemGroups {
         ItemGroupEvents.modifyEntriesEvent(CUSTOM_TOOLS_KEY).register { itemGroup ->
             itemGroup.add(CustomToolItems.BLOODHARVEST.defaultStack)
             itemGroup.add(CustomToolItems.TWINFIRE.defaultStack)
+        }
+        ItemGroupEvents.modifyEntriesEvent(ASPECTS_KEY).register { itemGroup ->
+            itemGroup.add(AspectItems.ASPECT_OF_TYRANNY.defaultStack)
         }
         ItemGroupEvents.modifyEntriesEvent(CUSTOM_BLOCKS_KEY).register { itemGroup ->
             itemGroup.add(DungeonDevice.BLOCK)
