@@ -19,6 +19,6 @@ class ResilienceOnDamageTakenService {
         val currentResilience = damaged.getStatusEffect(CustomStatusEffects.RESILIENCE)?.amplifier ?: -1
         val newResilience = min(currentResilience + attributes.size, 9)
 
-        damaged.addStatusEffect(StatusEffectInstance(CustomStatusEffects.RESILIENCE, 200, newResilience, false, true, true))
+        damaged.addStatusEffect(StatusEffectInstance(CustomStatusEffects.RESILIENCE, 199, newResilience, false, true, true))
     }
 }

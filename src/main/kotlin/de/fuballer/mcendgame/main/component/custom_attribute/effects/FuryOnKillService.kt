@@ -19,6 +19,6 @@ class FuryOnKillService {
         val currentFury = killer.getStatusEffect(CustomStatusEffects.FURY)?.amplifier ?: -1
         val newFury = min(currentFury + attributes.size, 9)
 
-        killer.addStatusEffect(StatusEffectInstance(CustomStatusEffects.FURY, 200, newFury, false, true, true))
+        killer.addStatusEffect(StatusEffectInstance(CustomStatusEffects.FURY, 199, newFury, false, true, true))
     }
 }
