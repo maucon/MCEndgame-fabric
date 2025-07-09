@@ -1,5 +1,6 @@
 package de.fuballer.mcendgame.client.mixin;
 
+import de.fuballer.mcendgame.client.accessor.BipedEntityRenderStateAccessor;
 import net.minecraft.client.render.VertexConsumerProvider;
 import net.minecraft.client.render.entity.feature.ArmorFeatureRenderer;
 import net.minecraft.client.render.entity.model.BipedEntityModel;
@@ -9,36 +10,42 @@ import net.minecraft.entity.EquipmentSlot;
 import net.minecraft.item.ItemStack;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.gen.Invoker;
+import org.spongepowered.asm.mixin.injection.At;
+import org.spongepowered.asm.mixin.injection.Inject;
+import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 
 @Mixin(ArmorFeatureRenderer.class)
 public abstract class ArmorFeatureRendererMixin<S extends BipedEntityRenderState, M extends BipedEntityModel<S>, A extends BipedEntityModel<S>> {
-    /**
-     * @author
-     * @reason
-     *//*
-    @Overwrite
-    public void render(MatrixStack matrixStack, VertexConsumerProvider vertexConsumerProvider, int i, S bipedEntityRenderState, float f, float g) {
+    @Inject(method = "render(Lnet/minecraft/client/util/math/MatrixStack;Lnet/minecraft/client/render/VertexConsumerProvider;ILnet/minecraft/client/render/entity/state/BipedEntityRenderState;FF)V",
+            at = @At(value = "INVOKE",
+                    target = "Lnet/minecraft/client/render/entity/feature/ArmorFeatureRenderer;renderArmor(Lnet/minecraft/client/util/math/MatrixStack;Lnet/minecraft/client/render/VertexConsumerProvider;Lnet/minecraft/item/ItemStack;Lnet/minecraft/entity/EquipmentSlot;ILnet/minecraft/client/render/entity/model/BipedEntityModel;)V"
+            ), cancellable = true)
+    public void render(MatrixStack matrixStack, VertexConsumerProvider vertexConsumerProvider, int i, S bipedEntityRenderState, float f, float g, CallbackInfo ci) {
         var stateAccessor = (BipedEntityRenderStateAccessor) bipedEntityRenderState;
 
-        invokeRenderArmor(
-                matrixStack,
-                vertexConsumerProvider,
-                bipedEntityRenderState.equippedChestStack,
-                EquipmentSlot.CHEST,
-                i,
-                invokeGetModel(bipedEntityRenderState, EquipmentSlot.CHEST)
-        );
+        if (!stateAccessor.mcendgame$getHiddenArmor().contains(EquipmentSlot.CHEST)) {
+            invokeRenderArmor(
+                    matrixStack,
+                    vertexConsumerProvider,
+                    bipedEntityRenderState.equippedChestStack,
+                    EquipmentSlot.CHEST,
+                    i,
+                    invokeGetModel(bipedEntityRenderState, EquipmentSlot.CHEST)
+            );
+        }
 
-        invokeRenderArmor(
-                matrixStack,
-                vertexConsumerProvider,
-                bipedEntityRenderState.equippedLegsStack,
-                EquipmentSlot.LEGS,
-                i,
-                invokeGetModel(bipedEntityRenderState, EquipmentSlot.LEGS)
-        );
+        if (!stateAccessor.mcendgame$getHiddenArmor().contains(EquipmentSlot.LEGS)) {
+            invokeRenderArmor(
+                    matrixStack,
+                    vertexConsumerProvider,
+                    bipedEntityRenderState.equippedLegsStack,
+                    EquipmentSlot.LEGS,
+                    i,
+                    invokeGetModel(bipedEntityRenderState, EquipmentSlot.LEGS)
+            );
+        }
 
-        if (!stateAccessor.mcendgame$getHideBoots()) {
+        if (!stateAccessor.mcendgame$getHiddenArmor().contains(EquipmentSlot.FEET)) {
             invokeRenderArmor(
                     matrixStack,
                     vertexConsumerProvider,
@@ -49,15 +56,19 @@ public abstract class ArmorFeatureRendererMixin<S extends BipedEntityRenderState
             );
         }
 
-        invokeRenderArmor(
-                matrixStack,
-                vertexConsumerProvider,
-                bipedEntityRenderState.equippedHeadStack,
-                EquipmentSlot.HEAD,
-                i,
-                invokeGetModel(bipedEntityRenderState, EquipmentSlot.HEAD)
-        );
-    }*/
+        if (!stateAccessor.mcendgame$getHiddenArmor().contains(EquipmentSlot.HEAD)) {
+            invokeRenderArmor(
+                    matrixStack,
+                    vertexConsumerProvider,
+                    bipedEntityRenderState.equippedHeadStack,
+                    EquipmentSlot.HEAD,
+                    i,
+                    invokeGetModel(bipedEntityRenderState, EquipmentSlot.HEAD)
+            );
+        }
+
+        ci.cancel();
+    }
 
     @Invoker
     public abstract void invokeRenderArmor(
