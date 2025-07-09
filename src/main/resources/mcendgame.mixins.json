@@ -11,6 +11,7 @@
     "damage.LivingEntityDodgeMixin",
     "damage.PlayerEntityDamageMixin",
     "damage.PlayerEntitySweepingAttackMixin",
+    "entity.EntityCompanionPortalMixin",
     "entity.EntityVisualFireMixin",
     "event.LivingEntityEventsMixin",
     "filter.ItemEntityFilterMixin",

@@ -106,7 +106,15 @@ class WolfCompanionService {
             auraAccessor.`mcendgame$addEnemyAuraStatusEffect`(effect)
         }
         for (effectType in type.selfEffects.keys) {
-            wolf.addStatusEffect(StatusEffectInstance(effectType, StatusEffectInstance.INFINITE, type.selfEffects[effectType] ?: 0, true, true))
+            wolf.addStatusEffect(
+                StatusEffectInstance(
+                    effectType,
+                    StatusEffectInstance.INFINITE,
+                    type.selfEffects[effectType] ?: 0,
+                    true,
+                    true
+                )
+            )
         }
         type.applyExtras(wolf)
 
