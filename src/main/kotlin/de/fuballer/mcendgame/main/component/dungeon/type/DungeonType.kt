@@ -3,7 +3,6 @@ package de.fuballer.mcendgame.main.component.dungeon.type
 import de.fuballer.mcendgame.main.component.dungeon.generation.layout.DungeonLayoutType
 import de.fuballer.mcendgame.main.component.dungeon.type.data.RolledDungeonType
 import de.fuballer.mcendgame.main.component.entity.EntityTypeStats
-import de.fuballer.mcendgame.main.component.entity.types.PiglinStats
 import de.fuballer.mcendgame.main.component.entity.types.SkeletonStats
 import de.fuballer.mcendgame.main.component.entity.types.WitherSkeletonStats
 import de.fuballer.mcendgame.main.component.entity.types.ZombieStats
@@ -27,6 +26,7 @@ enum class DungeonType(
         listOf(
             RandomOption(40, ZombieStats),
             RandomOption(15, SkeletonStats),
+            RandomOption(3, WitherSkeletonStats),
         ),
         listOf(
             RandomOption(1, ArachneBossStats),
@@ -40,7 +40,7 @@ enum class DungeonType(
             RandomOption(1, DungeonLayoutType.NETHER),
         ),
         listOf(
-            RandomOption(40, PiglinStats),
+            RandomOption(25, ZombieStats),
             RandomOption(15, SkeletonStats),
             RandomOption(5, WitherSkeletonStats),
         ),
