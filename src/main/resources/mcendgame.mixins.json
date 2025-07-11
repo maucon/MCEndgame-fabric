@@ -19,7 +19,6 @@
     "living_entity.LivingEntityAuraMixin",
     "living_entity.LivingEntityCompanionMixin",
     "living_entity.LivingEntityDamageCommandMixin",
-    "living_entity.LivingEntityTemporaryAttributeModifierMixin",
     "living_entity.LivingEntityDodgedRecentlyMixin",
     "living_entity.LivingEntityDungeonEnemyMixin",
     "living_entity.LivingEntityEliteMixin",
@@ -27,15 +26,18 @@
     "living_entity.LivingEntityLootGoblinMixin",
     "living_entity.LivingEntityOnDamageEventMixin",
     "living_entity.LivingEntityPoisonDamageImmunityMixin",
+    "living_entity.LivingEntityTemporaryAttributeModifierMixin",
     "living_entity.LivingEntityVisualFireMixin",
     "living_entity.LivingEntityWebbedMixin",
     "living_entity.LivingEntityWitherDamageImmunityMixin",
     "mob_entity.MobEntityTargetCommandMixin",
+    "player.PlayerEntityDungeonLevelMixin",
     "server_player_entity.ServerPlayerEntityTeleportEventMixin",
     "status_effect.PoisonStatusEffectMixin",
     "status_effect.WitherStatusEffectMixin",
     "wolf_entity.WolfEntityColorAndVariantMixin",
-    "wolf_entity.WolfEntityCompanionInteractMixin"
+    "wolf_entity.WolfEntityCompanionInteractMixin",
+    "world.DungeonWorldMixin"
   ],
   "injectors": {
     "defaultRequire": 1
