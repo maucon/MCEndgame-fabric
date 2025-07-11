@@ -26,6 +26,7 @@
   "container.mcendgame.dungeon_device.open": "Open",
 
   "mcendgame.corrupted": "Corrupted",
+
   "attribute.mcendgame.error": "Could not load attribute type",
   "attribute.mcendgame.armor": "%s Armor",
   "attribute.mcendgame.armor_toughness": "%s Armor Toughness",
@@ -89,6 +90,15 @@
   "item_group.mcendgame.armor": "MCEndgame Armor",
   "item_group.mcendgame.tools": "MCEndgame Weapons & Tools",
   "item_group.mcendgame.blocks": "MCEndgame Blocks",
+
+  "text.mcendgame.dungeon_level.dungeon_completed": "Dungeon completed!",
+  "text.mcendgame.dungeon_level.dungeon_death": "You died!",
+  "text.mcendgame.dungeon_level.no_progress": " Dungeon level is too low to grant progress!",
+  "text.mcendgame.dungeon_level.progress": " You are now Level: %s, Progress %s/%s",
+  "text.mcendgame.dungeon_level.regress": " You are now Level: %s",
+
+  "text.mcendgame.dungeon.device.level": "Level: %s",
+  "text.mcendgame.dungeon.device.progress": "Progress: %s/%s",
 
   "error.mcendgame.teleport.failed": "Destination location invalid! Closing portal."
 }

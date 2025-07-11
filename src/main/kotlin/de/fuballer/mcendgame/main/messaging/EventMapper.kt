@@ -2,6 +2,7 @@ package de.fuballer.mcendgame.main.messaging
 
 import de.fuballer.mcendgame.main.messaging.dungeon.DungeonBossDeathEvent
 import de.fuballer.mcendgame.main.messaging.dungeon.DungeonEntityDeathEvent
+import de.fuballer.mcendgame.main.messaging.dungeon.DungeonPlayerDeathEvent
 import de.fuballer.mcendgame.main.messaging.misc.*
 import de.fuballer.mcendgame.main.messaging.server.ServerEndTickEvent
 import de.fuballer.mcendgame.main.messaging.server.ServerStartedEvent
@@ -31,6 +32,13 @@ object EventMapper {
     }
 
     @EventSubscriber
+    fun onDungeonPlayerDeath(event: PlayerEntityDeathEvent) {
+        if (!event.player.world.isDungeonWorld()) return
+        val dungeonPlayerDeathEvent = DungeonPlayerDeathEvent(event.isClient, event.player, event.killer)
+        EventGateway.launchPublish(dungeonPlayerDeathEvent)
+    }
+
+    @EventSubscriber
     fun onDungeonEntityDeath(event: LivingEntityDeathEvent) {
         val entity = event.entity
         if (!entity.world.isDungeonWorld()) return
@@ -42,7 +50,6 @@ object EventMapper {
     @EventSubscriber
     fun onDungeonBossDeath(event: DungeonEntityDeathEvent) {
         val entity = event.entity
-
         if (!entity.isDungeonBoss()) return
 
         val dungeonBossDeathEvent = DungeonBossDeathEvent(event.isClient, event.world, event.entity, event.killer)

@@ -33,11 +33,13 @@
     "living_entity.LivingEntityWebbedMixin",
     "living_entity.LivingEntityWitherDamageImmunityMixin",
     "mob_entity.MobEntityTargetCommandMixin",
+    "player.PlayerEntityDungeonLevelMixin",
     "server_player_entity.ServerPlayerEntityTeleportEventMixin",
     "status_effect.PoisonStatusEffectMixin",
     "status_effect.WitherStatusEffectMixin",
     "wolf_entity.WolfEntityColorAndVariantMixin",
-    "wolf_entity.WolfEntityCompanionInteractMixin"
+    "wolf_entity.WolfEntityCompanionInteractMixin",
+    "world.DungeonWorldMixin"
   ],
   "injectors": {
     "defaultRequire": 1

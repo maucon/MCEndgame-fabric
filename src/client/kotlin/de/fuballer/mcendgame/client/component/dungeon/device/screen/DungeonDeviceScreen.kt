@@ -3,6 +3,7 @@ package de.fuballer.mcendgame.client.component.dungeon.device.screen
 import com.mojang.logging.LogUtils
 import de.fuballer.mcendgame.main.component.dungeon.device.DungeonDevice
 import de.fuballer.mcendgame.main.component.dungeon.device.screen.DungeonDeviceScreenHandler
+import de.fuballer.mcendgame.main.component.dungeon.level.DungeonLevelSettings
 import de.fuballer.mcendgame.main.util.minecraft.IdentifierUtil
 import net.fabricmc.api.EnvType
 import net.fabricmc.api.Environment
@@ -10,6 +11,7 @@ import net.fabricmc.fabric.api.client.networking.v1.ClientPlayNetworking
 import net.minecraft.client.gui.DrawContext
 import net.minecraft.client.gui.screen.ingame.HandledScreen
 import net.minecraft.client.gui.widget.ButtonWidget
+import net.minecraft.client.gui.widget.TextWidget
 import net.minecraft.client.render.RenderLayer
 import net.minecraft.entity.player.PlayerInventory
 import net.minecraft.text.Text
@@ -36,6 +38,29 @@ class DungeonDeviceScreen(
         titleX = (backgroundWidth - textRenderer.getWidth(title)) / 2
 
         createDungeonButton.setPosition((width - backgroundWidth) / 2 + 69, (height - backgroundHeight) / 2 + 62)
+
+        val playerDungeonLevel = handler.payload.playerDungeonLevel
+        addDrawableChild(
+            TextWidget(
+                (width - backgroundWidth) / 2 - 20,
+                (height - backgroundHeight) / 2 + 42,
+                100,
+                10,
+                Text.translatable("text.mcendgame.dungeon.device.level", playerDungeonLevel.level),
+                textRenderer
+            )
+        )
+        addDrawableChild(
+            TextWidget(
+                (width - backgroundWidth) / 2 - 20,
+                (height - backgroundHeight) / 2 + 51,
+                100,
+                10,
+                Text.translatable("text.mcendgame.dungeon.device.progress", playerDungeonLevel.levelProgress, DungeonLevelSettings.LEVEL_INCREASE_THRESHOLD),
+                textRenderer
+            )
+        )
+
         addDrawableChild(createDungeonButton)
     }
 

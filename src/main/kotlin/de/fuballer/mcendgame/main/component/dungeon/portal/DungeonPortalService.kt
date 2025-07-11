@@ -1,6 +1,5 @@
 package de.fuballer.mcendgame.main.component.dungeon.portal
 
-import de.fuballer.mcendgame.main.accessor.MobEntityDungeonBossAccessor
 import de.fuballer.mcendgame.main.component.portal.PortalEntity
 import de.fuballer.mcendgame.main.component.portal.Portals
 import de.fuballer.mcendgame.main.component.portal.teleport.TeleportLocation

@@ -2,7 +2,7 @@ package de.fuballer.mcendgame.main.component.dungeon.device.screen
 
 import de.fuballer.mcendgame.main.component.dungeon.device.DungeonDevice
 import de.fuballer.mcendgame.main.component.dungeon.device.DungeonDeviceSettings
-import de.fuballer.mcendgame.main.component.dungeon.device.networking.OpenDungeonPayload
+import de.fuballer.mcendgame.main.component.dungeon.device.networking.DungeonDevicePayload
 import net.minecraft.entity.player.PlayerEntity
 import net.minecraft.entity.player.PlayerInventory
 import net.minecraft.inventory.Inventory
@@ -11,11 +11,12 @@ import net.minecraft.item.ItemStack
 import net.minecraft.screen.ScreenHandler
 import net.minecraft.screen.slot.Slot
 
+
 class DungeonDeviceScreenHandler(
     syncId: Int,
     playerInventory: PlayerInventory,
     private val inventory: Inventory = SimpleInventory(DungeonDeviceSettings.INVENTORY_SIZE),
-    val payload: OpenDungeonPayload = OpenDungeonPayload.EMPTY
+    val payload: DungeonDevicePayload = DungeonDevicePayload.EMPTY
 ) : ScreenHandler(DungeonDevice.EXTENDED_SCREEN_HANDLER, syncId) {
 
     init {

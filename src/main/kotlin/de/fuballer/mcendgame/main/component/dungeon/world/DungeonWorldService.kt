@@ -1,5 +1,6 @@
 package de.fuballer.mcendgame.main.component.dungeon.world
 
+import de.fuballer.mcendgame.main.accessor.DungeonWorldAccessor
 import de.fuballer.mcendgame.main.component.dungeon.world.db.DungeonWorldEntity
 import de.fuballer.mcendgame.main.component.dungeon.world.db.DungeonWorldRepository
 import de.fuballer.mcendgame.main.configuration.RuntimeConfig
@@ -33,10 +34,13 @@ class DungeonWorldService(
             .forEach { deleteWorld(it) }
     }
 
-    fun create(player: PlayerEntity): ServerWorld {
+    fun create(player: PlayerEntity, dungeonLevel: Int): ServerWorld {
         val world = RuntimeConfig.FANTASY
             .openTemporaryWorld(DungeonWorldSettings.generateIdentifier(), DungeonWorldSettings.WORLD_CONFIG)
             .asWorld()
+
+        val dungeonWorld = world as DungeonWorldAccessor
+        dungeonWorld.`mcendgame$setLevel`(dungeonLevel)
 
         val entity = DungeonWorldEntity(player, world)
         dungeonWorldRepo.save(entity)

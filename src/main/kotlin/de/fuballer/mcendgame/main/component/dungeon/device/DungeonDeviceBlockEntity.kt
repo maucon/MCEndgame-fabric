@@ -1,6 +1,7 @@
 package de.fuballer.mcendgame.main.component.dungeon.device
 
-import de.fuballer.mcendgame.main.component.dungeon.device.networking.OpenDungeonPayload
+import de.fuballer.mcendgame.main.accessor.PlayerEntityDungeonLevelAccessor
+import de.fuballer.mcendgame.main.component.dungeon.device.networking.DungeonDevicePayload
 import de.fuballer.mcendgame.main.component.dungeon.device.screen.DungeonDeviceScreenHandler
 import de.fuballer.mcendgame.main.functional.inventory.ImplementedInventory
 import net.fabricmc.fabric.api.screenhandler.v1.ExtendedScreenHandlerFactory
@@ -22,7 +23,7 @@ private val TITLE = Text.translatable("container.mcendgame.dungeon_device.title"
 class DungeonDeviceBlockEntity(
     blockPos: BlockPos,
     blockState: BlockState,
-) : BlockEntity(DungeonDevice.BLOCK_ENTITY_TYPE, blockPos, blockState), ExtendedScreenHandlerFactory<OpenDungeonPayload>, ImplementedInventory {
+) : BlockEntity(DungeonDevice.BLOCK_ENTITY_TYPE, blockPos, blockState), ExtendedScreenHandlerFactory<DungeonDevicePayload>, ImplementedInventory {
     private val inventory = DefaultedList.ofSize(DungeonDeviceSettings.INVENTORY_SIZE, ItemStack.EMPTY)
 
     override fun getItems(): DefaultedList<ItemStack> = inventory
@@ -31,7 +32,11 @@ class DungeonDeviceBlockEntity(
 
     override fun getDisplayName(): Text = TITLE
 
-    override fun getScreenOpeningData(player: ServerPlayerEntity) = OpenDungeonPayload(pos, world!!.registryKey, player.uuid)
+    override fun getScreenOpeningData(player: ServerPlayerEntity): DungeonDevicePayload {
+        val playerAccessor = player as PlayerEntityDungeonLevelAccessor
+        val playerDungeonLevel = player.`mcendgame$getDungeonLevel`()
+        return DungeonDevicePayload(pos, world!!.registryKey, player.uuid, playerDungeonLevel)
+    }
 
     override fun markDirty() = super<ImplementedInventory>.markDirty(world, pos)
 
