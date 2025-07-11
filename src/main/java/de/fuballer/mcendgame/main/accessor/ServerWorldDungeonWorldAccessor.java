@@ -7,5 +7,5 @@ import java.util.HashMap;
 public interface ServerWorldDungeonWorldAccessor {
     void mcendgame$setAspects(HashMap<AspectItem, Integer> aspects);
 
-    int mcendgame$getAdditionalElitesCount();
+    HashMap<AspectItem, Integer> mcendgame$getAspects();
 }

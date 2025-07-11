@@ -1,6 +1,6 @@
 package de.fuballer.mcendgame.main.component.item.custom.aspect
 
-import de.fuballer.mcendgame.main.component.item.custom.aspect.item.AspectOfTyranny
+import de.fuballer.mcendgame.main.component.item.custom.aspect.item.aspect_of_tyranny.AspectOfTyranny
 import de.fuballer.mcendgame.main.util.minecraft.RegistryUtil
 import de.maucon.mauconframework.di.annotation.Injectable
 import net.minecraft.util.Rarity

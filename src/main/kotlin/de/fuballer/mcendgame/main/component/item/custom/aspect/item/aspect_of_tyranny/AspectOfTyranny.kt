@@ -1,4 +1,4 @@
-package de.fuballer.mcendgame.main.component.item.custom.aspect.item
+package de.fuballer.mcendgame.main.component.item.custom.aspect.item.aspect_of_tyranny
 
 import de.fuballer.mcendgame.main.component.item.custom.aspect.AspectItem
 import net.minecraft.text.MutableText
