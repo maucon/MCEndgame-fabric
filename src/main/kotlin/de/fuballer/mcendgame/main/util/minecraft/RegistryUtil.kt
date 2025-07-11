@@ -69,5 +69,5 @@ object RegistryUtil {
     fun registerStatusEffect(name: String, effect: StatusEffect): RegistryEntry<StatusEffect> =
         Registry.registerReference(Registries.STATUS_EFFECT, IdentifierUtil.default(name), effect)
 
-    fun registerAspectItem(name: String, rarity: Rarity) = registerItem(::AspectItem, Item.Settings().rarity(rarity), name)
+    fun registerAspectItem(factory: (Item.Settings) -> Item, name: String, rarity: Rarity) = registerItem(factory, Item.Settings().rarity(rarity), name) as AspectItem
 }

@@ -30,14 +30,15 @@ class DungeonPortalService(
         val deviceCenterPos = event.dungeonDevicePos.toVec3d().add(0.5, 0.0, 0.5)
 
         val dungeonWorld = event.dungeonWorld
+        val serverWorld = dungeonWorld.world
         val leaveLocation = TeleportLocation(event.originWorld, deviceCenterPos.add(0.0, 1.0, 0.0))
-        spawnLeavePortal(leaveLocation, centeredSpawnPos, portalType, dungeonWorld)
+        spawnLeavePortal(leaveLocation, centeredSpawnPos, portalType, serverWorld)
 
         val deviceId = event.dungeonDevicePos.hashCode()
-        val dungeonTeleportLocation = TeleportLocation(dungeonWorld, centeredSpawnPos, 0f, startPos.rot.toFloat())
+        val dungeonTeleportLocation = TeleportLocation(serverWorld, centeredSpawnPos, 0f, startPos.rot.toFloat())
         val portals = createEntryPortals(deviceCenterPos, portalType, event.originWorld, dungeonTeleportLocation)
 
-        val entity = DungeonPortalEntity(deviceId, dungeonWorld, leaveLocation, portals)
+        val entity = DungeonPortalEntity(deviceId, serverWorld, leaveLocation, portals)
         dungeonPortalRepo.save(entity)
     }
 

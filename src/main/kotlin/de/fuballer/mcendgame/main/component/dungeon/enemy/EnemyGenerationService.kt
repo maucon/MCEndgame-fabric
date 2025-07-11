@@ -3,6 +3,7 @@ package de.fuballer.mcendgame.main.component.dungeon.enemy
 import de.fuballer.mcendgame.main.component.dungeon.enemy.equipment.EquipmentGenerationService
 import de.fuballer.mcendgame.main.component.dungeon.enemy.potion_effect.PotionEffectService
 import de.fuballer.mcendgame.main.component.dungeon.generation.data.SpawnPosition
+import de.fuballer.mcendgame.main.component.dungeon.world.DungeonWorld
 import de.fuballer.mcendgame.main.component.entity.EntityTypeStats
 import de.fuballer.mcendgame.main.util.extension.EntityExtension.setDungeonEnemy
 import de.fuballer.mcendgame.main.util.extension.EntityExtension.setElite
@@ -13,7 +14,6 @@ import de.fuballer.mcendgame.main.util.random.RandomUtil
 import de.maucon.mauconframework.di.annotation.Injectable
 import net.minecraft.entity.attribute.EntityAttributes
 import net.minecraft.entity.mob.MobEntity
-import net.minecraft.server.world.ServerWorld
 import kotlin.random.Random
 
 @Injectable
@@ -22,25 +22,34 @@ class EnemyGenerationService(
     private val potionEffectService: PotionEffectService,
 ) {
     fun generate(
-        world: ServerWorld,
+        dungeonWorld: DungeonWorld,
         level: Int,
         types: List<RandomOption<EntityTypeStats>>,
         locations: List<SpawnPosition>,
         random: Random,
     ) {
-        val entities = locations.map { spawnEnemy(world, level, types, it, random) }
+        val additionalElitesCount = dungeonWorld.dungeon.`mcendgame$getAdditionalElitesCount`()
+        val additionalElitesIndices = (1..locations.size - 1).shuffled().take(additionalElitesCount)
+
+        val entities = mutableListOf<MobEntity>()
+        for (location in locations.withIndex()) {
+            val isElite = additionalElitesIndices.contains(location.index) || EnemyGenerationSettings.isElite(random)
+            entities.add(spawnEnemy(dungeonWorld, level, types, location.value, random, isElite))
+        }
+
         //TODO create event
     }
 
     private fun spawnEnemy(
-        world: ServerWorld,
+        dungeonWorld: DungeonWorld,
         level: Int,
         types: List<RandomOption<EntityTypeStats>>,
         location: SpawnPosition,
         random: Random,
+        isElite: Boolean
     ): MobEntity {
         val type = RandomUtil.pick(types, random).option
-        val entity = EntityUtil.spawnEntityWithStats(world, type, location, level)
+        val entity = EntityUtil.spawnEntityWithStats(dungeonWorld.world, type, location, level)
 
         val isLootGoblin = isLootGoblin(entity, type, random)
 
@@ -50,7 +59,7 @@ class EnemyGenerationService(
             type.canHaveWeapons,
             type.isRanged,
             type.canHaveArmor,
-            world.server,
+            dungeonWorld.world.server,
             isLootGoblin,
             random,
         )
@@ -59,7 +68,7 @@ class EnemyGenerationService(
 
         entity.setPersistent()
 
-        val isElite = isElite(entity, random)
+        if (isElite) setElite(entity)
         setScale(entity, isElite, random)
 
         entity.setDungeonEnemy()
@@ -77,8 +86,7 @@ class EnemyGenerationService(
         return true
     }
 
-    private fun isElite(entity: MobEntity, random: Random): Boolean {
-        if (random.nextDouble() > EnemyGenerationSettings.ELITE_CHANCE) return false
+    private fun setElite(entity: MobEntity): Boolean {
         entity.setElite()
 
         val healthAttributeInstance = entity.getAttributeInstance(EntityAttributes.MAX_HEALTH)

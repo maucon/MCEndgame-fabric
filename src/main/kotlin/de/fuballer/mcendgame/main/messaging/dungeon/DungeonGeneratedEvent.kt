@@ -1,6 +1,7 @@
 package de.fuballer.mcendgame.main.messaging.dungeon
 
 import de.fuballer.mcendgame.main.component.dungeon.generation.data.SpawnPosition
+import de.fuballer.mcendgame.main.component.dungeon.world.DungeonWorld
 import net.minecraft.server.world.ServerWorld
 import net.minecraft.util.math.BlockPos
 
@@ -9,7 +10,7 @@ import net.minecraft.util.math.BlockPos
  */
 data class DungeonGeneratedEvent(
     val originWorld: ServerWorld,
-    val dungeonWorld: ServerWorld,
+    val dungeonWorld: DungeonWorld,
     val startPos: SpawnPosition,
     val dungeonDevicePos: BlockPos
 )

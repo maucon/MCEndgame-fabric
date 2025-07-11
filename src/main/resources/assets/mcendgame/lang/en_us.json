@@ -21,6 +21,9 @@
 
   "item.mcendgame.aspect_of_tyranny": "Aspect of Tyranny",
 
+  "item.mcendgame.aspect.limit": "Limit: %s",
+  "item.mcendgame.aspect.description.tyranny": "Dungeon contains %s additional Elites",
+
   "container.mcendgame.filter.title": "Dungeon Filter (Blacklist)",
 
   "block.mcendgame.dungeon_device": "Dungeon Device",

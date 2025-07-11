@@ -6,13 +6,16 @@ import de.fuballer.mcendgame.main.component.dungeon.generation.builder.DungeonBu
 import de.fuballer.mcendgame.main.component.dungeon.level.DungeonLevelService
 import de.fuballer.mcendgame.main.component.dungeon.type.DungeonType
 import de.fuballer.mcendgame.main.component.dungeon.world.DungeonWorldService
+import de.fuballer.mcendgame.main.component.item.custom.aspect.AspectItem
 import de.fuballer.mcendgame.main.configuration.RuntimeConfig
 import de.fuballer.mcendgame.main.messaging.dungeon.DungeonGeneratedEvent
 import de.fuballer.mcendgame.main.messaging.dungeon.OpenDungeonButtonPressedEvent
 import de.maucon.mauconframework.di.annotation.Injectable
 import de.maucon.mauconframework.event.EventGateway
 import de.maucon.mauconframework.event.EventSubscriber
+import net.minecraft.item.ItemStack
 import net.minecraft.server.world.ServerWorld
+import net.minecraft.util.collection.DefaultedList
 import kotlin.random.Random
 
 @Injectable
@@ -40,7 +43,9 @@ class DungeonGenerationService(
 
         RuntimeConfig.SERVER.execute {
             val dungeonWorld = dungeonWorldService.create(player, dungeonLevel)
-            dungeonBuilderService.build(dungeonWorld, layout.rooms)
+            dungeonWorld.dungeon.`mcendgame$setAspects`(getAffectingAspectItems(event.affectingItems))
+
+            dungeonBuilderService.build(dungeonWorld.world, layout.rooms)
 
             enemyGenerationService.generate(dungeonWorld, dungeonLevel, enemyTypes, layout.enemySpawnPos, random)
             bossGenerationService.generate(dungeonWorld, dungeonLevel, bossTypes, layout.bossSpawnPos, random)
@@ -48,5 +53,25 @@ class DungeonGenerationService(
             val dungeonGeneratedEvent = DungeonGeneratedEvent(originWorld, dungeonWorld, layout.spawnPos, dungeonDevicePos)
             EventGateway.launchPublish(dungeonGeneratedEvent)
         }
+    }
+
+    private fun getAffectingAspectItems(
+        affectingItemStacks: DefaultedList<ItemStack>,
+    ): HashMap<AspectItem, Int> {
+        val aspectItemStacks = affectingItemStacks.filter { it.item is AspectItem }.sortedBy { (it.item as AspectItem).tier }
+
+        val affectingAspects = HashMap<AspectItem, Int>()
+        val disabledAspects = mutableSetOf<AspectItem>()
+        aspectItemStacks.forEach {
+            val item = it.item as AspectItem
+            if (disabledAspects.contains(item)) return@forEach
+            if ((affectingAspects[item] ?: 0) >= item.limit) return@forEach
+
+            disabledAspects.addAll(item.disabledAspects)
+
+            affectingAspects[item] = (affectingAspects[item] ?: 0) + 1
+        }
+
+        return affectingAspects
     }
 }

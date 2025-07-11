@@ -34,7 +34,7 @@ class DungeonWorldService(
             .forEach { deleteWorld(it) }
     }
 
-    fun create(player: PlayerEntity, dungeonLevel: Int): ServerWorld {
+    fun create(player: PlayerEntity, dungeonLevel: Int): DungeonWorld {
         val world = RuntimeConfig.FANTASY
             .openTemporaryWorld(DungeonWorldSettings.generateIdentifier(), DungeonWorldSettings.WORLD_CONFIG)
             .asWorld()
@@ -45,7 +45,7 @@ class DungeonWorldService(
         val entity = DungeonWorldEntity(player, world)
         dungeonWorldRepo.save(entity)
 
-        return world
+        return DungeonWorld(world)
     }
 
     private fun deleteEmptyWorlds() {

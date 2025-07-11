@@ -2,6 +2,8 @@ package de.fuballer.mcendgame.main.messaging.dungeon
 
 import net.minecraft.block.entity.BlockEntity
 import net.minecraft.entity.player.PlayerEntity
+import net.minecraft.item.ItemStack
+import net.minecraft.util.collection.DefaultedList
 
 /**
  * only server-side
@@ -9,4 +11,5 @@ import net.minecraft.entity.player.PlayerEntity
 data class OpenDungeonButtonPressedEvent(
     val blockEntity: BlockEntity,
     val player: PlayerEntity,
+    val affectingItems: DefaultedList<ItemStack>,
 )

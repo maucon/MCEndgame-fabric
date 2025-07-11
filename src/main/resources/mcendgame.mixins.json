@@ -39,6 +39,7 @@
     "status_effect.WitherStatusEffectMixin",
     "wolf_entity.WolfEntityColorAndVariantMixin",
     "wolf_entity.WolfEntityCompanionInteractMixin",
+    "world.ServerWorldDungeonWorldMixin",
     "world.DungeonWorldMixin"
   ],
   "injectors": {
