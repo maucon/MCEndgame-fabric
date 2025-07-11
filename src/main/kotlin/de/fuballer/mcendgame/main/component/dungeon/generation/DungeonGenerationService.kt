@@ -67,6 +67,8 @@ class DungeonGenerationService(
             if (disabledAspects.contains(item)) return@forEach
             if ((affectingAspects[item] ?: 0) >= item.limit) return@forEach
 
+            it.decrement(1)
+
             disabledAspects.addAll(item.disabledAspects)
 
             affectingAspects[item] = (affectingAspects[item] ?: 0) + 1
