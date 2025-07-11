@@ -46,7 +46,7 @@ class DungeonDeviceScreen(
                 (height - backgroundHeight) / 2 + 42,
                 100,
                 10,
-                Text.literal("Level: ${playerDungeonLevel.level}"),
+                Text.translatable("text.mcendgame.dungeon.device.level", playerDungeonLevel.level),
                 textRenderer
             )
         )
@@ -56,12 +56,10 @@ class DungeonDeviceScreen(
                 (height - backgroundHeight) / 2 + 51,
                 100,
                 10,
-                Text.literal("Progress: ${playerDungeonLevel.levelProgress}/${DungeonLevelSettings.LEVEL_INCREASE_THRESHOLD}"),
+                Text.translatable("text.mcendgame.dungeon.device.progress", playerDungeonLevel.levelProgress, DungeonLevelSettings.LEVEL_INCREASE_THRESHOLD),
                 textRenderer
             )
         )
-
-        println(handler.payload)
 
         addDrawableChild(createDungeonButton)
     }
