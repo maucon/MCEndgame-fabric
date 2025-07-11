@@ -1,6 +1,6 @@
 package de.fuballer.mcendgame.main.component.dungeon.device
 
-import de.fuballer.mcendgame.main.component.dungeon.device.networking.OpenDungeonPayload
+import de.fuballer.mcendgame.main.component.dungeon.device.networking.DungeonDevicePayload
 import de.fuballer.mcendgame.main.component.dungeon.device.screen.DungeonDeviceScreenHandler
 import de.fuballer.mcendgame.main.util.minecraft.RegistryUtil
 import de.maucon.mauconframework.di.annotation.Injectable
@@ -22,6 +22,6 @@ object DungeonDevice {
 
     val EXTENDED_SCREEN_HANDLER = ExtendedScreenHandlerType(
         { syncId, inventory, payload -> DungeonDeviceScreenHandler(syncId, inventory, payload = payload) },
-        OpenDungeonPayload.CODEC
+        DungeonDevicePayload.CODEC
     ).also { RegistryUtil.registerScreenHandler(NAME, it) }
 }
