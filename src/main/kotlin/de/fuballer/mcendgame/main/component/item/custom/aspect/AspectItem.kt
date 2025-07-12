@@ -23,8 +23,6 @@ abstract class AspectItem(
 
     abstract val disabledAspects: List<AspectItem>
 
-    override fun hasGlint(stack: ItemStack) = true
-
     override fun getDefaultStack(): ItemStack {
         val stack = super.getDefaultStack()
 

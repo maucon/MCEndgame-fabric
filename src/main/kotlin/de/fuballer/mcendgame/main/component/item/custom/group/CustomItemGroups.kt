@@ -72,6 +72,7 @@ object CustomItemGroups {
         }
         ItemGroupEvents.modifyEntriesEvent(ASPECTS_KEY).register { itemGroup ->
             itemGroup.add(AspectItems.ASPECT_OF_TYRANNY.defaultStack)
+            itemGroup.add(AspectItems.ASPECT_OF_GREED.defaultStack)
         }
         ItemGroupEvents.modifyEntriesEvent(CUSTOM_BLOCKS_KEY).register { itemGroup ->
             itemGroup.add(DungeonDevice.BLOCK)

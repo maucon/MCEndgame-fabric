@@ -20,9 +20,11 @@
   "item.mcendgame.twinfire": "Twinfire",
 
   "item.mcendgame.aspect_of_tyranny": "Aspect of Tyranny",
+  "item.mcendgame.aspect_of_greed": "Aspect of Greed",
 
   "item.mcendgame.aspect.limit": "Limit: %s",
   "item.mcendgame.aspect.description.tyranny": "Dungeon contains %s additional Elites",
+  "item.mcendgame.aspect.description.greed": "Dungeon contains %s additional Loot Goblins",
 
   "container.mcendgame.filter.title": "Dungeon Filter (Blacklist)",
 
