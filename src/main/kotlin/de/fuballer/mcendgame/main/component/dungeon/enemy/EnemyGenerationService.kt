@@ -33,9 +33,9 @@ class EnemyGenerationService(
         val generateDungeonEnemiesCommand = DungeonGenerateEnemiesCommand.of(dungeonWorld, spawnPositions.toMutableList())
         var cmd = CommandGateway.apply(generateDungeonEnemiesCommand)
 
-        val entities = cmd.spawnPositions.map { spawnEnemy(dungeonWorld, level, types, it, random) }.toMutableList()
-        entities.addAll(cmd.eliteSpawnPositions.map { spawnEnemy(dungeonWorld, level, types, it, random, isForcedElite = true) })
-        entities.addAll(cmd.lootGoblinSpawnPositions.map { spawnEnemy(dungeonWorld, level, types, it, random, isForcedLootGoblin = true) })
+        val entities = cmd.spawnPositions.map { spawnEnemy(dungeonWorld, level, types, it, random, cmd.uniqueEquipmentChance) }.toMutableList()
+        entities.addAll(cmd.eliteSpawnPositions.map { spawnEnemy(dungeonWorld, level, types, it, random, cmd.uniqueEquipmentChance, isForcedElite = true) })
+        entities.addAll(cmd.lootGoblinSpawnPositions.map { spawnEnemy(dungeonWorld, level, types, it, random, cmd.uniqueEquipmentChance, isForcedLootGoblin = true) })
 
         //TODO create event
     }
@@ -46,6 +46,7 @@ class EnemyGenerationService(
         types: List<RandomOption<EntityTypeStats>>,
         location: SpawnPosition,
         random: Random,
+        uniqueEquipmentProbability: Double,
         isForcedElite: Boolean = false,
         isForcedLootGoblin: Boolean = false,
     ): MobEntity {
@@ -72,6 +73,7 @@ class EnemyGenerationService(
             dungeonWorld.world.server,
             isLootGoblin,
             random,
+            uniqueEquipmentProbability,
         )
 
         potionEffectService.addEffects(entity, level, type.canBeInvisible, random)

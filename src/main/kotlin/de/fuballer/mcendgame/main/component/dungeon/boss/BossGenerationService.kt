@@ -21,7 +21,11 @@ class BossGenerationService {
         locations: List<SpawnPosition>,
         random: Random,
     ) {
-        val bosses = locations.mapIndexed { index, pos -> spawnBoss(dungeonWorld, level, types[index], pos, random) }
+        val shuffledTypes = types.shuffled(random)
+        val bosses = locations.mapIndexed { index, pos ->
+            val type = shuffledTypes[index % shuffledTypes.size]
+            spawnBoss(dungeonWorld, level, type, pos, random)
+        }
         //TODO create event
     }
 

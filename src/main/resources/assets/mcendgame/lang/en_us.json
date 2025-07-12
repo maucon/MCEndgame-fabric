@@ -21,10 +21,18 @@
 
   "item.mcendgame.aspect_of_tyranny": "Aspect of Tyranny",
   "item.mcendgame.aspect_of_greed": "Aspect of Greed",
+  "item.mcendgame.aspect_of_dominion": "Aspect of Dominion",
+  "item.mcendgame.aspect_of_impatience": "Aspect of Impatience",
+  "item.mcendgame.aspect_of_hordes": "Aspect of Hordes",
+  "item.mcendgame.aspect_of_curio": "Aspect of Curio",
 
   "item.mcendgame.aspect.limit": "Limit: %s",
   "item.mcendgame.aspect.description.tyranny": "Dungeon contains %s additional Elites",
   "item.mcendgame.aspect.description.greed": "Dungeon contains %s additional Loot Goblins",
+  "item.mcendgame.aspect.description.dominion": "Dungeon contains an additional Boss",
+  "item.mcendgame.aspect.description.impatience": "Dungeon is %s Level higher",
+  "item.mcendgame.aspect.description.hordes": "Dungeon contains %s%% increased Enemies",
+  "item.mcendgame.aspect.description.curio": "Enemies spawn with %s%% increased Unique Items",
 
   "container.mcendgame.filter.title": "Dungeon Filter (Blacklist)",
 

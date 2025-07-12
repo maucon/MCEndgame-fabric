@@ -31,12 +31,13 @@ class EquipmentGenerationService(
         server: MinecraftServer,
         isLootGoblin: Boolean,
         random: Random,
+        uniqueEquipmentProbability: Double,
     ) {
         if (weapons) {
-            createEquipment(level, EquipmentSlot.MAINHAND, server, random, ranged)?.also {
+            createEquipment(level, EquipmentSlot.MAINHAND, server, random, uniqueEquipmentProbability, isRanged = ranged)?.also {
                 entity.equipStack(EquipmentSlot.MAINHAND, it)
             }
-            createEquipment(level, EquipmentSlot.OFFHAND, server, random)?.also {
+            createEquipment(level, EquipmentSlot.OFFHAND, server, random, uniqueEquipmentProbability)?.also {
                 entity.equipStack(EquipmentSlot.OFFHAND, it)
             }
         }
@@ -45,16 +46,16 @@ class EquipmentGenerationService(
 
         val armorTrim = if (isLootGoblin) getArmorTrim(server, random) else null
 
-        createEquipment(level, EquipmentSlot.HEAD, server, random, armorTrim = armorTrim)?.also {
+        createEquipment(level, EquipmentSlot.HEAD, server, random, uniqueEquipmentProbability, armorTrim = armorTrim)?.also {
             entity.equipStack(EquipmentSlot.HEAD, it)
         }
-        createEquipment(level, EquipmentSlot.CHEST, server, random, armorTrim = armorTrim)?.also {
+        createEquipment(level, EquipmentSlot.CHEST, server, random, uniqueEquipmentProbability, armorTrim = armorTrim)?.also {
             entity.equipStack(EquipmentSlot.CHEST, it)
         }
-        createEquipment(level, EquipmentSlot.LEGS, server, random, armorTrim = armorTrim)?.also {
+        createEquipment(level, EquipmentSlot.LEGS, server, random, uniqueEquipmentProbability, armorTrim = armorTrim)?.also {
             entity.equipStack(EquipmentSlot.LEGS, it)
         }
-        createEquipment(level, EquipmentSlot.FEET, server, random, armorTrim = armorTrim)?.also {
+        createEquipment(level, EquipmentSlot.FEET, server, random, uniqueEquipmentProbability, armorTrim = armorTrim)?.also {
             entity.equipStack(EquipmentSlot.FEET, it)
         }
     }
@@ -64,10 +65,11 @@ class EquipmentGenerationService(
         slot: EquipmentSlot,
         server: MinecraftServer,
         random: Random,
+        uniqueEquipmentProbability: Double,
         isRanged: Boolean = false,
         armorTrim: ArmorTrim? = null,
     ): ItemStack? {
-        if (random.nextDouble() <= EquipmentGenerationSettings.UNIQUE_EQUIPMENT_PROBABILITY) {
+        if (random.nextDouble() <= uniqueEquipmentProbability) {
             return createUniqueEquipment(level, slot, server, random)
         }
 
