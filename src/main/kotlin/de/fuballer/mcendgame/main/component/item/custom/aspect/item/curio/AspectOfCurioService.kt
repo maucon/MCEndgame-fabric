@@ -11,6 +11,6 @@ object AspectOfCurioService {
     fun onGenerateEnemies(cmd: DungeonGenerateEnemiesCommand) {
         val count = cmd.aspects[AspectItems.ASPECT_OF_CURIO] ?: return
         val increasedUniques = count * AspectOfCurio.INCREASED_UNIQUES
-        cmd.uniqueEquipmentChance *= 1 + increasedUniques
+        cmd.uniqueEquipmentProbability *= 1 + increasedUniques
     }
 }

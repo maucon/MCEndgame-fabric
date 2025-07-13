@@ -11,7 +11,7 @@ data class DungeonGenerateEnemiesCommand(
     val spawnPositions: MutableList<SpawnPosition>,
     val eliteSpawnPositions: MutableList<SpawnPosition> = mutableListOf(),
     val lootGoblinSpawnPositions: MutableList<SpawnPosition> = mutableListOf(),
-    var uniqueEquipmentChance: Double = EquipmentGenerationSettings.UNIQUE_EQUIPMENT_PROBABILITY,
+    var uniqueEquipmentProbability: Double = EquipmentGenerationSettings.UNIQUE_EQUIPMENT_PROBABILITY,
     var lootGoblinLuckyAttributes: Boolean = false,
 ) {
     companion object {

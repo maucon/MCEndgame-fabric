@@ -2,8 +2,10 @@ package de.fuballer.mcendgame.main.component.dungeon.enemy.equipment
 
 import de.fuballer.mcendgame.main.component.dungeon.enemy.equipment.attributes.AttributeService
 import de.fuballer.mcendgame.main.component.dungeon.enemy.equipment.enchantment.EnchantmentService
+import de.fuballer.mcendgame.main.component.entity.EntityTypeStats
 import de.fuballer.mcendgame.main.component.item.custom.UniqueAttributesItem
 import de.fuballer.mcendgame.main.component.item.equipment.Equipment
+import de.fuballer.mcendgame.main.messaging.dungeon.DungeonGenerateEnemiesCommand
 import de.fuballer.mcendgame.main.util.random.RandomOption
 import de.fuballer.mcendgame.main.util.random.RandomUtil
 import de.fuballer.mcendgame.main.util.random.SortableRandomOption
@@ -24,18 +26,18 @@ class EquipmentGenerationService(
 ) {
     fun generate(
         entity: LivingEntity,
+        type: EntityTypeStats,
         level: Int,
-        weapons: Boolean,
-        ranged: Boolean,
-        armor: Boolean,
         server: MinecraftServer,
         isLootGoblin: Boolean,
         random: Random,
-        uniqueEquipmentProbability: Double,
-        luckyAttributes: Boolean,
+        generateEnemiesCommand: DungeonGenerateEnemiesCommand,
     ) {
-        if (weapons) {
-            createEquipment(level, EquipmentSlot.MAINHAND, server, random, uniqueEquipmentProbability, luckyAttributes, isRanged = ranged)?.also {
+        val uniqueEquipmentProbability = generateEnemiesCommand.uniqueEquipmentProbability
+        val luckyAttributes = isLootGoblin && generateEnemiesCommand.lootGoblinLuckyAttributes
+
+        if (type.canHaveWeapons) {
+            createEquipment(level, EquipmentSlot.MAINHAND, server, random, uniqueEquipmentProbability, luckyAttributes, isRanged = type.isRanged)?.also {
                 entity.equipStack(EquipmentSlot.MAINHAND, it)
             }
             createEquipment(level, EquipmentSlot.OFFHAND, server, random, uniqueEquipmentProbability, luckyAttributes)?.also {
@@ -43,7 +45,7 @@ class EquipmentGenerationService(
             }
         }
 
-        if (!armor) return
+        if (!type.canHaveArmor) return
 
         val armorTrim = if (isLootGoblin) getArmorTrim(server, random) else null
 

@@ -1,16 +1,22 @@
 package de.fuballer.mcendgame.main.mixin.world;
 
 import de.fuballer.mcendgame.main.accessor.DungeonWorldAccessor;
-import net.minecraft.world.World;
+import de.fuballer.mcendgame.main.component.item.custom.aspect.AspectItem;
+import net.minecraft.server.world.ServerWorld;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.Unique;
 
-@Mixin(World.class)
+import java.util.HashMap;
+
+@Mixin(ServerWorld.class)
 public class DungeonWorldMixin implements DungeonWorldAccessor {
     @Unique
     private boolean isCompleted = false;
     @Unique
     private int level = 0;
+
+    @Unique
+    private HashMap<AspectItem, Integer> aspects = new HashMap<>();
 
     @Override
     public boolean mcendgame$isCompleted() {
@@ -30,5 +36,15 @@ public class DungeonWorldMixin implements DungeonWorldAccessor {
     @Override
     public void mcendgame$setLevel(int level) {
         this.level = level;
+    }
+
+    @Override
+    public void mcendgame$setAspects(HashMap<AspectItem, Integer> aspects) {
+        this.aspects = aspects;
+    }
+
+    @Override
+    public HashMap<AspectItem, Integer> mcendgame$getAspects() {
+        return aspects;
     }
 }

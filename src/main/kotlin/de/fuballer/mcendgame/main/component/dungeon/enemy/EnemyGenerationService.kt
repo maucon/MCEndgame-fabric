@@ -40,8 +40,7 @@ class EnemyGenerationService(
                 types,
                 it,
                 random,
-                cmd.uniqueEquipmentChance,
-                cmd.lootGoblinLuckyAttributes,
+                cmd,
             )
         }.toMutableList()
         entities.addAll(cmd.eliteSpawnPositions.map {
@@ -51,8 +50,7 @@ class EnemyGenerationService(
                 types,
                 it,
                 random,
-                cmd.uniqueEquipmentChance,
-                cmd.lootGoblinLuckyAttributes,
+                cmd,
                 isForcedElite = true,
             )
         })
@@ -63,8 +61,7 @@ class EnemyGenerationService(
                 types,
                 it,
                 random,
-                cmd.uniqueEquipmentChance,
-                cmd.lootGoblinLuckyAttributes,
+                cmd,
                 isForcedLootGoblin = true,
             )
         })
@@ -78,8 +75,7 @@ class EnemyGenerationService(
         types: List<RandomOption<EntityTypeStats>>,
         location: SpawnPosition,
         random: Random,
-        uniqueEquipmentProbability: Double,
-        lootGoblinLuckyAttributes: Boolean,
+        generateEnemiesCommand: DungeonGenerateEnemiesCommand,
         isForcedElite: Boolean = false,
         isForcedLootGoblin: Boolean = false,
     ): MobEntity {
@@ -97,18 +93,14 @@ class EnemyGenerationService(
         if (isElite) setElite(entity)
         setScale(entity, isElite, random)
 
-        val luckyAttributes = isLootGoblin && lootGoblinLuckyAttributes
         equipmentGenerationService.generate(
             entity,
+            type,
             level,
-            type.canHaveWeapons,
-            type.isRanged,
-            type.canHaveArmor,
             dungeonWorld.world.server,
             isLootGoblin,
             random,
-            uniqueEquipmentProbability,
-            luckyAttributes,
+            generateEnemiesCommand,
         )
 
         potionEffectService.addEffects(entity, level, type.canBeInvisible, random)
