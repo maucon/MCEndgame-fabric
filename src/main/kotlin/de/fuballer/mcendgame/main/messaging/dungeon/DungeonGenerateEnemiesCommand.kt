@@ -9,9 +9,10 @@ data class DungeonGenerateEnemiesCommand(
     val dungeonWorld: DungeonWorld,
     val aspects: HashMap<AspectItem, Int>,
     val spawnPositions: MutableList<SpawnPosition>,
-    val eliteSpawnPositions: MutableList<SpawnPosition>,
-    val lootGoblinSpawnPositions: MutableList<SpawnPosition>,
-    var uniqueEquipmentChance: Double,
+    val eliteSpawnPositions: MutableList<SpawnPosition> = mutableListOf(),
+    val lootGoblinSpawnPositions: MutableList<SpawnPosition> = mutableListOf(),
+    var uniqueEquipmentChance: Double = EquipmentGenerationSettings.UNIQUE_EQUIPMENT_PROBABILITY,
+    var lootGoblinLuckyAttributes: Boolean = false,
 ) {
     companion object {
         fun of(
@@ -21,9 +22,6 @@ data class DungeonGenerateEnemiesCommand(
             dungeonWorld,
             dungeonWorld.dungeon.`mcendgame$getAspects`(),
             spawnPositions,
-            mutableListOf(),
-            mutableListOf(),
-            EquipmentGenerationSettings.UNIQUE_EQUIPMENT_PROBABILITY
         )
     }
 }

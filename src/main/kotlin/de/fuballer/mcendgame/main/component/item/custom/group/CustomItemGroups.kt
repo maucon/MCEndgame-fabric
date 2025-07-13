@@ -77,6 +77,7 @@ object CustomItemGroups {
             itemGroup.add(AspectItems.ASPECT_OF_IMPATIENCE.defaultStack)
             itemGroup.add(AspectItems.ASPECT_OF_HORDES.defaultStack)
             itemGroup.add(AspectItems.ASPECT_OF_CURIO.defaultStack)
+            itemGroup.add(AspectItems.ASPECT_OF_FORTUNE.defaultStack)
         }
         ItemGroupEvents.modifyEntriesEvent(CUSTOM_BLOCKS_KEY).register { itemGroup ->
             itemGroup.add(DungeonDevice.BLOCK)

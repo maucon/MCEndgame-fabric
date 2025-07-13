@@ -33,9 +33,41 @@ class EnemyGenerationService(
         val generateDungeonEnemiesCommand = DungeonGenerateEnemiesCommand.of(dungeonWorld, spawnPositions.toMutableList())
         var cmd = CommandGateway.apply(generateDungeonEnemiesCommand)
 
-        val entities = cmd.spawnPositions.map { spawnEnemy(dungeonWorld, level, types, it, random, cmd.uniqueEquipmentChance) }.toMutableList()
-        entities.addAll(cmd.eliteSpawnPositions.map { spawnEnemy(dungeonWorld, level, types, it, random, cmd.uniqueEquipmentChance, isForcedElite = true) })
-        entities.addAll(cmd.lootGoblinSpawnPositions.map { spawnEnemy(dungeonWorld, level, types, it, random, cmd.uniqueEquipmentChance, isForcedLootGoblin = true) })
+        val entities = cmd.spawnPositions.map {
+            spawnEnemy(
+                dungeonWorld,
+                level,
+                types,
+                it,
+                random,
+                cmd.uniqueEquipmentChance,
+                cmd.lootGoblinLuckyAttributes,
+            )
+        }.toMutableList()
+        entities.addAll(cmd.eliteSpawnPositions.map {
+            spawnEnemy(
+                dungeonWorld,
+                level,
+                types,
+                it,
+                random,
+                cmd.uniqueEquipmentChance,
+                cmd.lootGoblinLuckyAttributes,
+                isForcedElite = true,
+            )
+        })
+        entities.addAll(cmd.lootGoblinSpawnPositions.map {
+            spawnEnemy(
+                dungeonWorld,
+                level,
+                types,
+                it,
+                random,
+                cmd.uniqueEquipmentChance,
+                cmd.lootGoblinLuckyAttributes,
+                isForcedLootGoblin = true,
+            )
+        })
 
         //TODO create event
     }
@@ -47,6 +79,7 @@ class EnemyGenerationService(
         location: SpawnPosition,
         random: Random,
         uniqueEquipmentProbability: Double,
+        lootGoblinLuckyAttributes: Boolean,
         isForcedElite: Boolean = false,
         isForcedLootGoblin: Boolean = false,
     ): MobEntity {
@@ -64,6 +97,7 @@ class EnemyGenerationService(
         if (isElite) setElite(entity)
         setScale(entity, isElite, random)
 
+        val luckyAttributes = isLootGoblin && lootGoblinLuckyAttributes
         equipmentGenerationService.generate(
             entity,
             level,
@@ -74,6 +108,7 @@ class EnemyGenerationService(
             isLootGoblin,
             random,
             uniqueEquipmentProbability,
+            luckyAttributes,
         )
 
         potionEffectService.addEffects(entity, level, type.canBeInvisible, random)
