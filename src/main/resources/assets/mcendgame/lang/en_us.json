@@ -26,6 +26,7 @@
   "item.mcendgame.aspect_of_hordes": "Aspect of Hordes",
   "item.mcendgame.aspect_of_curio": "Aspect of Curio",
   "item.mcendgame.aspect_of_fortune": "Aspect of Fortune",
+  "item.mcendgame.aspect_of_zeal": "Aspect of Zeal",
 
   "item.mcendgame.aspect.limit": "Limit: %s",
   "item.mcendgame.aspect.description.tyranny": "Dungeon contains %s additional Elites",
@@ -35,6 +36,7 @@
   "item.mcendgame.aspect.description.hordes": "Dungeon contains %s%% increased Enemies",
   "item.mcendgame.aspect.description.curio": "Enemies spawn with %s%% increased Unique Items",
   "item.mcendgame.aspect.description.fortune": "Loot Goblins Equipment has Lucky Attributes",
+  "item.mcendgame.aspect.description.zeal": "Dungeon Completion grants %s additional Progress",
 
   "container.mcendgame.filter.title": "Dungeon Filter (Blacklist)",
 

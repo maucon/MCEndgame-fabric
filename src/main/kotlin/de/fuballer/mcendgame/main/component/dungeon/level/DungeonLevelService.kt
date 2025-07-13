@@ -2,10 +2,14 @@ package de.fuballer.mcendgame.main.component.dungeon.level
 
 import de.fuballer.mcendgame.main.accessor.PlayerEntityDungeonLevelAccessor
 import de.fuballer.mcendgame.main.component.dungeon.completion.DungeonCompletedEvent
+import de.fuballer.mcendgame.main.component.dungeon.world.DungeonWorld
 import de.fuballer.mcendgame.main.messaging.dungeon.DungeonPlayerDeathEvent
+import de.fuballer.mcendgame.main.messaging.dungeon.DungeonPlayerIncreaseProgressCommand
+import de.maucon.mauconframework.command.CommandGateway
 import de.maucon.mauconframework.di.annotation.Injectable
 import de.maucon.mauconframework.event.EventSubscriber
 import net.minecraft.entity.player.PlayerEntity
+import net.minecraft.server.world.ServerWorld
 import kotlin.math.max
 
 @Injectable
@@ -36,7 +40,11 @@ class DungeonLevelService {
 
     @EventSubscriber
     fun on(event: DungeonCompletedEvent) {
-        if (event.isClient) return
+        val serverWorld = event.world as? ServerWorld ?: return
+        val dungeonWorld = DungeonWorld(serverWorld)
+
+        val dungeonPlayerIncreaseProgressCommand = DungeonPlayerIncreaseProgressCommand(dungeonWorld.dungeon.`mcendgame$getAspects`())
+        val cmd = CommandGateway.apply(dungeonPlayerIncreaseProgressCommand)
 
         event.players.forEach { player ->
             val playerLevelAccessor = player as? PlayerEntityDungeonLevelAccessor ?: return@forEach
@@ -48,10 +56,9 @@ class DungeonLevelService {
                 return@forEach
             }
 
-            if (++playerLevel.levelProgress >= DungeonLevelSettings.LEVEL_INCREASE_THRESHOLD) {
-                playerLevel.levelProgress = 0
-                playerLevel.level++
-            }
+            val helpLevelProgress = (playerLevel.levelProgress + cmd.progressGranted)
+            playerLevel.level += helpLevelProgress / DungeonLevelSettings.LEVEL_INCREASE_THRESHOLD
+            playerLevel.levelProgress = helpLevelProgress % DungeonLevelSettings.LEVEL_INCREASE_THRESHOLD
 
             playerLevelAccessor.`mcendgame$setDungeonLevel`(playerLevel)
 

@@ -7,6 +7,7 @@ import de.fuballer.mcendgame.main.component.item.custom.aspect.item.greed.Aspect
 import de.fuballer.mcendgame.main.component.item.custom.aspect.item.hordes.AspectOfHordes
 import de.fuballer.mcendgame.main.component.item.custom.aspect.item.impatience.AspectOfImpatience
 import de.fuballer.mcendgame.main.component.item.custom.aspect.item.tyranny.AspectOfTyranny
+import de.fuballer.mcendgame.main.component.item.custom.aspect.item.zeal.AspectOfZeal
 import de.fuballer.mcendgame.main.util.minecraft.RegistryUtil
 import de.maucon.mauconframework.di.annotation.Injectable
 import net.minecraft.util.Rarity
@@ -20,4 +21,5 @@ object AspectItems {
     val ASPECT_OF_HORDES = RegistryUtil.registerAspectItem(::AspectOfHordes, "aspect_of_hordes", Rarity.UNCOMMON)
     val ASPECT_OF_CURIO = RegistryUtil.registerAspectItem(::AspectOfCurio, "aspect_of_curio", Rarity.UNCOMMON)
     val ASPECT_OF_FORTUNE = RegistryUtil.registerAspectItem(::AspectOfFortune, "aspect_of_fortune", Rarity.UNCOMMON)
+    val ASPECT_OF_ZEAL = RegistryUtil.registerAspectItem(::AspectOfZeal, "aspect_of_zeal", Rarity.UNCOMMON)
 }
