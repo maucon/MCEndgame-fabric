@@ -7,7 +7,7 @@ import de.fuballer.mcendgame.main.component.item.custom.aspect.AspectItem
 
 data class DungeonGenerateEnemiesCommand(
     val dungeonWorld: DungeonWorld,
-    val aspects: HashMap<AspectItem, Int>,
+    val aspects: Map<AspectItem, Int>,
     val spawnPositions: MutableList<SpawnPosition>,
     val eliteSpawnPositions: MutableList<SpawnPosition> = mutableListOf(),
     val lootGoblinSpawnPositions: MutableList<SpawnPosition> = mutableListOf(),
