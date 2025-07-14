@@ -17,7 +17,7 @@ class DungeonWorld(
 
     var isCompleted: Boolean
         get() = accessor.`mcendgame$isCompleted`()
-        set(value) = accessor.`mcendgame$setCompleted`() // TODO use value
+        set(value) = accessor.`mcendgame$setCompleted`(value)
 
     var level: Int
         get() = accessor.`mcendgame$getLevel`()

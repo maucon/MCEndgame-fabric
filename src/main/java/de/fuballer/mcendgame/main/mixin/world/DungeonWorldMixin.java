@@ -25,8 +25,8 @@ public class DungeonWorldMixin implements DungeonWorldAccessor {
     }
 
     @Override
-    public void mcendgame$setCompleted() {
-        this.isCompleted = true;
+    public void mcendgame$setCompleted(boolean completed) {
+        this.isCompleted = completed;
     }
 
     @Override
