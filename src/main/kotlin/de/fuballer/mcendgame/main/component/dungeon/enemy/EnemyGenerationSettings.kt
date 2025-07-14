@@ -50,10 +50,12 @@ object EnemyGenerationSettings {
     )
 
     const val LOOT_GOBLIN_CHANCE = 0.003
+    fun randomLootGoblin(random: Random) = random.nextDouble() < LOOT_GOBLIN_CHANCE
 
     const val ELITE_CHANCE = 0.00133
     const val ELITE_SCALE = 1.35
     const val ELITE_HEALTH_FACTOR = 2.5
+    fun randomElite(random: Random) = random.nextDouble() < ELITE_CHANCE
     fun getEliteStatusEffect() = StatusEffectInstance(StatusEffects.RAID_OMEN, StatusEffectInstance.INFINITE, 0, false, true)
 
     fun getRandomScale(random: Random) = 1.0 + 0.2 * random.nextDouble().pow(3) * if (random.nextBoolean()) 1 else -1

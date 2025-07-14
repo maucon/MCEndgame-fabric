@@ -1,0 +1,6 @@
+{
+  "parent": "minecraft:item/generated",
+  "textures": {
+    "layer0": "mcendgame:item/aspect/aspect_of_zeal"
+  }
+}

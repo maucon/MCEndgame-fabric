@@ -1,5 +1,6 @@
 package de.fuballer.mcendgame.main.component.dungeon.device.networking
 
+import de.fuballer.mcendgame.main.component.dungeon.device.DungeonDeviceBlockEntity
 import de.fuballer.mcendgame.main.configuration.RuntimeConfig
 import de.fuballer.mcendgame.main.messaging.dungeon.OpenDungeonButtonPressedEvent
 import de.maucon.mauconframework.di.annotation.Injectable
@@ -18,7 +19,10 @@ class OpenDungeonPayloadRegisterer {
             val blockEntity = RuntimeConfig.SERVER.getWorld(openDungeonPayload.worldKey)?.getBlockEntity(openDungeonPayload.pos) ?: return@registerGlobalReceiver
             val playerEntity = RuntimeConfig.SERVER.playerManager.getPlayer(openDungeonPayload.playerId) ?: return@registerGlobalReceiver
 
-            EventGateway.launchPublish(OpenDungeonButtonPressedEvent(blockEntity, playerEntity))
+            val dungeonDeviceEntity = blockEntity as DungeonDeviceBlockEntity
+            val affectingItems = dungeonDeviceEntity.getItems()
+
+            EventGateway.launchPublish(OpenDungeonButtonPressedEvent(blockEntity, playerEntity, affectingItems))
         }
     }
 }

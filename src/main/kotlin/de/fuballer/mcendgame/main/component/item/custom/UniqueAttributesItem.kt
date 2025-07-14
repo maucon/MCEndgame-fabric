@@ -1,4 +1,4 @@
-package de.fuballer.mcendgame.main.component.item.custom.armor.interfaces
+package de.fuballer.mcendgame.main.component.item.custom
 
 import de.fuballer.mcendgame.main.component.custom_attribute.CustomAttributesExtensions.setCustomAttributes
 import de.fuballer.mcendgame.main.component.custom_attribute.data.CustomAttribute

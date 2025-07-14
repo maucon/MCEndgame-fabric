@@ -19,6 +19,25 @@
   "item.mcendgame.bloodharvest": "Bloodharvest",
   "item.mcendgame.twinfire": "Twinfire",
 
+  "item.mcendgame.aspect_of_tyranny": "Aspect of Tyranny",
+  "item.mcendgame.aspect_of_greed": "Aspect of Greed",
+  "item.mcendgame.aspect_of_dominion": "Aspect of Dominion",
+  "item.mcendgame.aspect_of_impatience": "Aspect of Impatience",
+  "item.mcendgame.aspect_of_hordes": "Aspect of Hordes",
+  "item.mcendgame.aspect_of_curio": "Aspect of Curio",
+  "item.mcendgame.aspect_of_fortune": "Aspect of Fortune",
+  "item.mcendgame.aspect_of_zeal": "Aspect of Zeal",
+
+  "item.mcendgame.aspect.limit": "Limit: %s",
+  "item.mcendgame.aspect.description.tyranny": "Dungeon contains %s additional Elites",
+  "item.mcendgame.aspect.description.greed": "Dungeon contains %s additional Loot Goblins",
+  "item.mcendgame.aspect.description.dominion": "Dungeon contains an additional Boss",
+  "item.mcendgame.aspect.description.impatience": "Dungeon is %s Level higher",
+  "item.mcendgame.aspect.description.hordes": "Dungeon contains %s%% increased Enemies",
+  "item.mcendgame.aspect.description.curio": "Enemies spawn with %s%% increased Unique Items",
+  "item.mcendgame.aspect.description.fortune": "Loot Goblins Equipment has Lucky Attributes",
+  "item.mcendgame.aspect.description.zeal": "Dungeon Completion grants %s additional Progress",
+
   "container.mcendgame.filter.title": "Dungeon Filter (Blacklist)",
 
   "block.mcendgame.dungeon_device": "Dungeon Device",
@@ -89,6 +108,7 @@
 
   "item_group.mcendgame.armor": "MCEndgame Armor",
   "item_group.mcendgame.tools": "MCEndgame Weapons & Tools",
+  "item_group.mcendgame.aspects": "MCEndgame Aspects",
   "item_group.mcendgame.blocks": "MCEndgame Blocks",
 
   "text.mcendgame.dungeon_level.dungeon_completed": "Dungeon completed!",

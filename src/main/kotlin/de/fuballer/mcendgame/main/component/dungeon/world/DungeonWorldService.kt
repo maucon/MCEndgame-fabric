@@ -1,6 +1,5 @@
 package de.fuballer.mcendgame.main.component.dungeon.world
 
-import de.fuballer.mcendgame.main.accessor.DungeonWorldAccessor
 import de.fuballer.mcendgame.main.component.dungeon.world.db.DungeonWorldEntity
 import de.fuballer.mcendgame.main.component.dungeon.world.db.DungeonWorldRepository
 import de.fuballer.mcendgame.main.configuration.RuntimeConfig
@@ -14,7 +13,6 @@ import kotlinx.datetime.Clock
 import kotlinx.datetime.DateTimeUnit
 import kotlinx.datetime.plus
 import net.minecraft.entity.player.PlayerEntity
-import net.minecraft.server.world.ServerWorld
 import org.slf4j.Logger
 
 @Injectable
@@ -34,18 +32,19 @@ class DungeonWorldService(
             .forEach { deleteWorld(it) }
     }
 
-    fun create(player: PlayerEntity, dungeonLevel: Int): ServerWorld {
+    fun create(player: PlayerEntity, dungeonLevel: Int): DungeonWorld {
         val world = RuntimeConfig.FANTASY
             .openTemporaryWorld(DungeonWorldSettings.generateIdentifier(), DungeonWorldSettings.WORLD_CONFIG)
             .asWorld()
 
-        val dungeonWorld = world as DungeonWorldAccessor
-        dungeonWorld.`mcendgame$setLevel`(dungeonLevel)
 
-        val entity = DungeonWorldEntity(player, world)
+        val dungeonWorld = DungeonWorld(world)
+        dungeonWorld.dungeon.`mcendgame$setLevel`(dungeonLevel)
+
+        val entity = DungeonWorldEntity(player, world) //TODO maybe change to dungeonWorld?
         dungeonWorldRepo.save(entity)
 
-        return world
+        return dungeonWorld
     }
 
     private fun deleteEmptyWorlds() {

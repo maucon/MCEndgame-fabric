@@ -3,17 +3,19 @@ package de.fuballer.mcendgame.main.component.dungeon.enemy
 import de.fuballer.mcendgame.main.component.dungeon.enemy.equipment.EquipmentGenerationService
 import de.fuballer.mcendgame.main.component.dungeon.enemy.potion_effect.PotionEffectService
 import de.fuballer.mcendgame.main.component.dungeon.generation.data.SpawnPosition
+import de.fuballer.mcendgame.main.component.dungeon.world.DungeonWorld
 import de.fuballer.mcendgame.main.component.entity.EntityTypeStats
+import de.fuballer.mcendgame.main.messaging.dungeon.DungeonGenerateEnemiesCommand
 import de.fuballer.mcendgame.main.util.extension.EntityExtension.setDungeonEnemy
 import de.fuballer.mcendgame.main.util.extension.EntityExtension.setElite
 import de.fuballer.mcendgame.main.util.extension.EntityExtension.setLootGoblin
 import de.fuballer.mcendgame.main.util.minecraft.EntityUtil
 import de.fuballer.mcendgame.main.util.random.RandomOption
 import de.fuballer.mcendgame.main.util.random.RandomUtil
+import de.maucon.mauconframework.command.CommandGateway
 import de.maucon.mauconframework.di.annotation.Injectable
 import net.minecraft.entity.attribute.EntityAttributes
 import net.minecraft.entity.mob.MobEntity
-import net.minecraft.server.world.ServerWorld
 import kotlin.random.Random
 
 @Injectable
@@ -22,63 +24,92 @@ class EnemyGenerationService(
     private val potionEffectService: PotionEffectService,
 ) {
     fun generate(
-        world: ServerWorld,
+        dungeonWorld: DungeonWorld,
         level: Int,
         types: List<RandomOption<EntityTypeStats>>,
-        locations: List<SpawnPosition>,
+        spawnPositions: List<SpawnPosition>,
         random: Random,
     ) {
-        val entities = locations.map { spawnEnemy(world, level, types, it, random) }
+        val generateDungeonEnemiesCommand = DungeonGenerateEnemiesCommand.of(dungeonWorld, spawnPositions.toMutableList())
+        var cmd = CommandGateway.apply(generateDungeonEnemiesCommand)
+
+        val entities = cmd.spawnPositions.map {
+            spawnEnemy(
+                dungeonWorld,
+                level,
+                types,
+                it,
+                random,
+                cmd,
+            )
+        }.toMutableList()
+        entities.addAll(cmd.eliteSpawnPositions.map {
+            spawnEnemy(
+                dungeonWorld,
+                level,
+                types,
+                it,
+                random,
+                cmd,
+                isForcedElite = true,
+            )
+        })
+        entities.addAll(cmd.lootGoblinSpawnPositions.map {
+            spawnEnemy(
+                dungeonWorld,
+                level,
+                types,
+                it,
+                random,
+                cmd,
+                isForcedLootGoblin = true,
+            )
+        })
+
         //TODO create event
     }
 
     private fun spawnEnemy(
-        world: ServerWorld,
+        dungeonWorld: DungeonWorld,
         level: Int,
         types: List<RandomOption<EntityTypeStats>>,
         location: SpawnPosition,
         random: Random,
+        generateEnemiesCommand: DungeonGenerateEnemiesCommand,
+        isForcedElite: Boolean = false,
+        isForcedLootGoblin: Boolean = false,
     ): MobEntity {
-        val type = RandomUtil.pick(types, random).option
-        val entity = EntityUtil.spawnEntityWithStats(world, type, location, level)
+        val isLootGoblin = isForcedLootGoblin || EnemyGenerationSettings.randomLootGoblin(random)
 
-        val isLootGoblin = isLootGoblin(entity, type, random)
+        val validTypes = if (!isLootGoblin) types else types.filter { it.option.canHaveArmor }
+        val type = RandomUtil.pick(validTypes, random).option
+        val entity = EntityUtil.spawnEntityWithStats(dungeonWorld.world, type, location, level)
+
+        entity.setPersistent()
+        entity.setDungeonEnemy()
+        if (isLootGoblin) entity.setLootGoblin()
+
+        val isElite = isForcedElite || EnemyGenerationSettings.randomElite(random)
+        if (isElite) setElite(entity)
+        setScale(entity, isElite, random)
 
         equipmentGenerationService.generate(
             entity,
+            type,
             level,
-            type.canHaveWeapons,
-            type.isRanged,
-            type.canHaveArmor,
-            world.server,
+            dungeonWorld.world.server,
             isLootGoblin,
             random,
+            generateEnemiesCommand,
         )
 
         potionEffectService.addEffects(entity, level, type.canBeInvisible, random)
 
-        entity.setPersistent()
-
-        val isElite = isElite(entity, random)
-        setScale(entity, isElite, random)
-
-        entity.setDungeonEnemy()
-
         entity.heal(1000F)
-
         return entity
     }
 
-    private fun isLootGoblin(entity: MobEntity, type: EntityTypeStats, random: Random): Boolean {
-        if (!type.canHaveArmor) return false
-        if (random.nextDouble() > EnemyGenerationSettings.LOOT_GOBLIN_CHANCE) return false
-
-        entity.setLootGoblin()
-        return true
-    }
-
-    private fun isElite(entity: MobEntity, random: Random): Boolean {
-        if (random.nextDouble() > EnemyGenerationSettings.ELITE_CHANCE) return false
+    private fun setElite(entity: MobEntity): Boolean {
         entity.setElite()
 
         val healthAttributeInstance = entity.getAttributeInstance(EntityAttributes.MAX_HEALTH)
