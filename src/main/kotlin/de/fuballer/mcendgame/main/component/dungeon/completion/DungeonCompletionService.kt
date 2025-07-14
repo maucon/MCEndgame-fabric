@@ -1,7 +1,6 @@
 package de.fuballer.mcendgame.main.component.dungeon.completion
 
 import de.fuballer.mcendgame.main.component.dungeon.world.DungeonWorld.Companion.toDungeonWorld
-import de.fuballer.mcendgame.main.accessor.DungeonWorldAccessor
 import de.fuballer.mcendgame.main.messaging.dungeon.DungeonBossDeathEvent
 import de.maucon.mauconframework.di.annotation.Injectable
 import de.maucon.mauconframework.event.EventGateway

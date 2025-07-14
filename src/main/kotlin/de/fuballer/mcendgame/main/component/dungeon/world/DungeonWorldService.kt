@@ -1,6 +1,5 @@
 package de.fuballer.mcendgame.main.component.dungeon.world
 
-import de.fuballer.mcendgame.main.component.dungeon.world.DungeonWorld
 import de.fuballer.mcendgame.main.component.dungeon.world.DungeonWorld.Companion.toDungeonWorld
 import de.fuballer.mcendgame.main.component.dungeon.world.db.DungeonWorldEntity
 import de.fuballer.mcendgame.main.component.dungeon.world.db.DungeonWorldRepository
@@ -42,7 +41,7 @@ class DungeonWorldService(
         val dungeonWorld = world.toDungeonWorld()
         dungeonWorld.level = dungeonLevel
 
-        val entity = DungeonWorldEntity(player, world) //TODO maybe change to dungeonWorld?
+        val entity = DungeonWorldEntity(world)
         dungeonWorldRepo.save(entity)
 
         return dungeonWorld
