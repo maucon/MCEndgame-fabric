@@ -2,7 +2,7 @@ package de.fuballer.mcendgame.main.accessor;
 
 import de.fuballer.mcendgame.main.component.item.custom.aspect.AspectItem;
 
-import java.util.HashMap;
+import java.util.Map;
 
 public interface DungeonWorldAccessor {
     boolean mcendgame$isCompleted();
@@ -13,7 +13,7 @@ public interface DungeonWorldAccessor {
 
     void mcendgame$setLevel(int level);
 
-    void mcendgame$setAspects(HashMap<AspectItem, Integer> aspects);
+    void mcendgame$setAspects(Map<AspectItem, Integer> aspects);
 
-    HashMap<AspectItem, Integer> mcendgame$getAspects();
+    Map<AspectItem, Integer> mcendgame$getAspects();
 }

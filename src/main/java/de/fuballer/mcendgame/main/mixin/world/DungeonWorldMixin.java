@@ -7,6 +7,7 @@ import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.Unique;
 
 import java.util.HashMap;
+import java.util.Map;
 
 @Mixin(ServerWorld.class)
 public class DungeonWorldMixin implements DungeonWorldAccessor {
@@ -16,7 +17,7 @@ public class DungeonWorldMixin implements DungeonWorldAccessor {
     private int level = 0;
 
     @Unique
-    private HashMap<AspectItem, Integer> aspects = new HashMap<>();
+    private Map<AspectItem, Integer> aspects = new HashMap<>();
 
     @Override
     public boolean mcendgame$isCompleted() {
@@ -39,12 +40,12 @@ public class DungeonWorldMixin implements DungeonWorldAccessor {
     }
 
     @Override
-    public void mcendgame$setAspects(HashMap<AspectItem, Integer> aspects) {
+    public void mcendgame$setAspects(Map<AspectItem, Integer> aspects) {
         this.aspects = aspects;
     }
 
     @Override
-    public HashMap<AspectItem, Integer> mcendgame$getAspects() {
+    public Map<AspectItem, Integer> mcendgame$getAspects() {
         return aspects;
     }
 }

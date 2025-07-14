@@ -1,6 +1,5 @@
 package de.fuballer.mcendgame.main.messaging
 
-import de.fuballer.mcendgame.main.component.dungeon.world.DungeonWorld
 import de.fuballer.mcendgame.main.messaging.dungeon.DungeonBossDeathEvent
 import de.fuballer.mcendgame.main.messaging.dungeon.DungeonEntityDeathEvent
 import de.fuballer.mcendgame.main.messaging.dungeon.DungeonPlayerDeathEvent

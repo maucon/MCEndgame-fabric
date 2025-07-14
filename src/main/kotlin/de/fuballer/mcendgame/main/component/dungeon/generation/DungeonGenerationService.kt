@@ -64,7 +64,7 @@ class DungeonGenerationService(
 
     private fun getAffectingAspectItems(
         affectingItemStacks: DefaultedList<ItemStack>,
-    ): HashMap<AspectItem, Int> {
+    ): Map<AspectItem, Int> {
         val aspectItemStacks = affectingItemStacks.filter { it.item is AspectItem }.sortedBy { (it.item as AspectItem).tier }
 
         val affectingAspects = HashMap<AspectItem, Int>()
