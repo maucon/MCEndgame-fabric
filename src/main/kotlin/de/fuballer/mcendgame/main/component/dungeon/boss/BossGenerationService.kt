@@ -1,7 +1,7 @@
 package de.fuballer.mcendgame.main.component.dungeon.boss
 
-import de.fuballer.mcendgame.main.component.dungeon.generation.data.SpawnPosition
 import de.fuballer.mcendgame.main.component.dungeon.world.DungeonWorld
+import de.fuballer.mcendgame.main.component.dungeon.generation.data.SpawnPosition
 import de.fuballer.mcendgame.main.component.entity.EntityTypeStats
 import de.fuballer.mcendgame.main.util.extension.EntityExtension.setDungeonBoss
 import de.fuballer.mcendgame.main.util.extension.EntityExtension.setDungeonBossSpawnLocation

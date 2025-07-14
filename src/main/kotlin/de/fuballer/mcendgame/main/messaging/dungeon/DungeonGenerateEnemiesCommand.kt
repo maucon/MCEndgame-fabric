@@ -1,8 +1,8 @@
 package de.fuballer.mcendgame.main.messaging.dungeon
 
+import de.fuballer.mcendgame.main.component.dungeon.world.DungeonWorld
 import de.fuballer.mcendgame.main.component.dungeon.enemy.equipment.EquipmentGenerationSettings
 import de.fuballer.mcendgame.main.component.dungeon.generation.data.SpawnPosition
-import de.fuballer.mcendgame.main.component.dungeon.world.DungeonWorld
 import de.fuballer.mcendgame.main.component.item.custom.aspect.AspectItem
 
 data class DungeonGenerateEnemiesCommand(
@@ -20,7 +20,7 @@ data class DungeonGenerateEnemiesCommand(
             spawnPositions: MutableList<SpawnPosition>,
         ) = DungeonGenerateEnemiesCommand(
             dungeonWorld,
-            dungeonWorld.dungeon.`mcendgame$getAspects`(),
+            dungeonWorld.aspects,
             spawnPositions,
         )
     }

@@ -1,25 +1,27 @@
 package de.fuballer.mcendgame.main.component.dungeon.completion
 
+import de.fuballer.mcendgame.main.component.dungeon.world.DungeonWorld.Companion.toDungeonWorld
 import de.fuballer.mcendgame.main.accessor.DungeonWorldAccessor
 import de.fuballer.mcendgame.main.messaging.dungeon.DungeonBossDeathEvent
 import de.maucon.mauconframework.di.annotation.Injectable
 import de.maucon.mauconframework.event.EventGateway
 import de.maucon.mauconframework.event.EventSubscriber
+import net.minecraft.server.world.ServerWorld
 
 @Injectable
 class DungeonCompletionService {
     @EventSubscriber
     fun on(event: DungeonBossDeathEvent) {
         val world = event.world
+        if (world !is ServerWorld) return
+
+        val dungeonWorld = world.toDungeonWorld()
         val players = world.players.toList()
 
-        val dungeonWorld = world as? DungeonWorldAccessor ?: return
-        if (dungeonWorld.`mcendgame$isCompleted`()) return
+        if (dungeonWorld.isCompleted) return
+        dungeonWorld.setCompleted()
 
-        val dungeonLevel = dungeonWorld.`mcendgame$getLevel`()
-        dungeonWorld.`mcendgame$setCompleted`()
-
-        val dungeonCompletedEvent = DungeonCompletedEvent(event.isClient, world, players, dungeonLevel)
+        val dungeonCompletedEvent = DungeonCompletedEvent(event.isClient, dungeonWorld, players)
         EventGateway.launchPublish(dungeonCompletedEvent)
     }
 }

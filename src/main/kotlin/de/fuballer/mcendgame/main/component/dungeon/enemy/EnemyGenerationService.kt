@@ -1,9 +1,9 @@
 package de.fuballer.mcendgame.main.component.dungeon.enemy
 
+import de.fuballer.mcendgame.main.component.dungeon.world.DungeonWorld
 import de.fuballer.mcendgame.main.component.dungeon.enemy.equipment.EquipmentGenerationService
 import de.fuballer.mcendgame.main.component.dungeon.enemy.potion_effect.PotionEffectService
 import de.fuballer.mcendgame.main.component.dungeon.generation.data.SpawnPosition
-import de.fuballer.mcendgame.main.component.dungeon.world.DungeonWorld
 import de.fuballer.mcendgame.main.component.entity.EntityTypeStats
 import de.fuballer.mcendgame.main.messaging.dungeon.DungeonGenerateEnemiesCommand
 import de.fuballer.mcendgame.main.util.extension.EntityExtension.setDungeonEnemy
@@ -31,7 +31,7 @@ class EnemyGenerationService(
         random: Random,
     ) {
         val generateDungeonEnemiesCommand = DungeonGenerateEnemiesCommand.of(dungeonWorld, spawnPositions.toMutableList())
-        var cmd = CommandGateway.apply(generateDungeonEnemiesCommand)
+        val cmd = CommandGateway.apply(generateDungeonEnemiesCommand)
 
         val entities = cmd.spawnPositions.map {
             spawnEnemy(
@@ -43,6 +43,7 @@ class EnemyGenerationService(
                 cmd,
             )
         }.toMutableList()
+
         entities.addAll(cmd.eliteSpawnPositions.map {
             spawnEnemy(
                 dungeonWorld,
@@ -54,6 +55,7 @@ class EnemyGenerationService(
                 isForcedElite = true,
             )
         })
+
         entities.addAll(cmd.lootGoblinSpawnPositions.map {
             spawnEnemy(
                 dungeonWorld,

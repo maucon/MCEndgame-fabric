@@ -50,7 +50,7 @@ class DungeonGenerationService(
 
         RuntimeConfig.SERVER.execute {
             val dungeonWorld = dungeonWorldService.create(player, dungeonLevel)
-            dungeonWorld.dungeon.`mcendgame$setAspects`(affectingAspects)
+            dungeonWorld.aspects = affectingAspects
 
             dungeonBuilderService.build(dungeonWorld.world, layout.rooms)
 

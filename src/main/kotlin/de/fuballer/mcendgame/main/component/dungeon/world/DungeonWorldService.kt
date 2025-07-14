@@ -1,5 +1,7 @@
 package de.fuballer.mcendgame.main.component.dungeon.world
 
+import de.fuballer.mcendgame.main.component.dungeon.world.DungeonWorld
+import de.fuballer.mcendgame.main.component.dungeon.world.DungeonWorld.Companion.toDungeonWorld
 import de.fuballer.mcendgame.main.component.dungeon.world.db.DungeonWorldEntity
 import de.fuballer.mcendgame.main.component.dungeon.world.db.DungeonWorldRepository
 import de.fuballer.mcendgame.main.configuration.RuntimeConfig
@@ -37,9 +39,8 @@ class DungeonWorldService(
             .openTemporaryWorld(DungeonWorldSettings.generateIdentifier(), DungeonWorldSettings.WORLD_CONFIG)
             .asWorld()
 
-
-        val dungeonWorld = DungeonWorld(world)
-        dungeonWorld.dungeon.`mcendgame$setLevel`(dungeonLevel)
+        val dungeonWorld = world.toDungeonWorld()
+        dungeonWorld.level = dungeonLevel
 
         val entity = DungeonWorldEntity(player, world) //TODO maybe change to dungeonWorld?
         dungeonWorldRepo.save(entity)

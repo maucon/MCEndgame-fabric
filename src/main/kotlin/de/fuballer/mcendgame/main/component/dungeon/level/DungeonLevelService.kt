@@ -2,14 +2,12 @@ package de.fuballer.mcendgame.main.component.dungeon.level
 
 import de.fuballer.mcendgame.main.accessor.PlayerEntityDungeonLevelAccessor
 import de.fuballer.mcendgame.main.component.dungeon.completion.DungeonCompletedEvent
-import de.fuballer.mcendgame.main.component.dungeon.world.DungeonWorld
 import de.fuballer.mcendgame.main.messaging.dungeon.DungeonPlayerDeathEvent
 import de.fuballer.mcendgame.main.messaging.dungeon.DungeonPlayerIncreaseProgressCommand
 import de.maucon.mauconframework.command.CommandGateway
 import de.maucon.mauconframework.di.annotation.Injectable
 import de.maucon.mauconframework.event.EventSubscriber
 import net.minecraft.entity.player.PlayerEntity
-import net.minecraft.server.world.ServerWorld
 import kotlin.math.max
 
 @Injectable
@@ -40,17 +38,16 @@ class DungeonLevelService {
 
     @EventSubscriber
     fun on(event: DungeonCompletedEvent) {
-        val serverWorld = event.world as? ServerWorld ?: return
-        val dungeonWorld = DungeonWorld(serverWorld)
+        val dungeonWorld = event.dungeonWorld
 
-        val dungeonPlayerIncreaseProgressCommand = DungeonPlayerIncreaseProgressCommand(dungeonWorld.dungeon.`mcendgame$getAspects`())
+        val dungeonPlayerIncreaseProgressCommand = DungeonPlayerIncreaseProgressCommand(dungeonWorld.aspects)
         val cmd = CommandGateway.apply(dungeonPlayerIncreaseProgressCommand)
 
         event.players.forEach { player ->
             val playerLevelAccessor = player as? PlayerEntityDungeonLevelAccessor ?: return@forEach
             val playerLevel = playerLevelAccessor.`mcendgame$getDungeonLevel`()
 
-            if (playerLevel.level > event.dungeonLevel) {
+            if (playerLevel.level > dungeonWorld.level) {
                 player.sendMessage(DungeonLevelSettings.NO_PROGRESS_MESSAGE, false)
 
                 return@forEach
