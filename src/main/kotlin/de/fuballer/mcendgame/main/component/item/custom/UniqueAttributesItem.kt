@@ -28,7 +28,7 @@ abstract class UniqueAttributesItem(
                 if (iterator.hasNext()) {
                     percentageRolls.add(iterator.next())
                 } else {
-                    percentageRolls.add(lastRoll ?: Random.Default.nextDouble())
+                    percentageRolls.add(lastRoll ?: Random.nextDouble())
                 }
             }
 
