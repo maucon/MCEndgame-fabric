@@ -8,8 +8,10 @@ import de.fuballer.mcendgame.main.messaging.misc.LivingEntityDropCommand
 import de.fuballer.mcendgame.main.messaging.misc.MagicFindCommand
 import de.fuballer.mcendgame.main.util.extension.EntityExtension.isDungeonBoss
 import de.fuballer.mcendgame.main.util.extension.EntityExtension.isDungeonEnemy
+import de.fuballer.mcendgame.main.util.extension.EntityExtension.isElite
 import de.fuballer.mcendgame.main.util.extension.EntityExtension.isLootGoblin
 import de.fuballer.mcendgame.main.util.extension.WorldExtension.isDungeonWorld
+import de.fuballer.mcendgame.main.util.random.RandomUtil
 import de.maucon.mauconframework.command.CommandGateway
 import de.maucon.mauconframework.command.CommandHandler
 import de.maucon.mauconframework.di.annotation.Injectable
@@ -46,6 +48,8 @@ class LootService {
             // TODO drop dungeon loot
             return
         }
+
+        if (entity.isElite()) dropEliteLoot(serverWorld, entity)
 
         EquipmentSlot.VALUES
             .map { entity.getEquippedStack(it) }
@@ -96,5 +100,10 @@ class LootService {
 
     private fun setRandomDurability(itemStack: ItemStack) {
         itemStack.damage = (itemStack.maxDamage * Random.nextDouble()).toInt()
+    }
+
+    private fun dropEliteLoot(serverWorld: ServerWorld, entity: LivingEntity) {
+        val aspect = RandomUtil.pick(LootSettings.ASPECTS).option
+        entity.dropStack(serverWorld, aspect.defaultStack)
     }
 }
