@@ -1,4 +1,4 @@
-package de.fuballer.mcendgame.main.mixin.living_entity;
+package de.fuballer.mcendgame.main.mixin.enemy;
 
 import de.fuballer.mcendgame.main.accessor.LivingEntityDungeonEnemyAccessor;
 import net.minecraft.entity.LivingEntity;

@@ -1,4 +1,4 @@
-package de.fuballer.mcendgame.main.mixin.boss;
+package de.fuballer.mcendgame.main.mixin.enemy.boss;
 
 import de.fuballer.mcendgame.main.util.extension.EntityExtension;
 import net.minecraft.entity.LivingEntity;

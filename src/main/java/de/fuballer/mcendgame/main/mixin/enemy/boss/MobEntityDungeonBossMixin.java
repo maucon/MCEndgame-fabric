@@ -1,4 +1,4 @@
-package de.fuballer.mcendgame.main.mixin.boss;
+package de.fuballer.mcendgame.main.mixin.enemy.boss;
 
 import de.fuballer.mcendgame.main.accessor.MobEntityDungeonBossAccessor;
 import de.fuballer.mcendgame.main.component.dungeon.generation.data.SpawnPosition;
@@ -32,18 +32,18 @@ public class MobEntityDungeonBossMixin implements MobEntityDungeonBossAccessor {
     }
 
     @Override
-    public void mcendgame$setDungeonBoss() {
-        isDungeonBoss = true;
+    public void mcendgame$setDungeonBoss(boolean isBoss) {
+        isDungeonBoss = isBoss;
     }
 
     @Nullable
     @Override
-    public SpawnPosition mcendgame$getSpawnLocation() {
+    public SpawnPosition mcendgame$getSpawnPosition() {
         return spawnPosition;
     }
 
     @Override
-    public void mcendgame$setSpawnLocation(SpawnPosition location) {
+    public void mcendgame$setSpawnPosition(SpawnPosition location) {
         spawnPosition = location;
     }
 

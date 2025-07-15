@@ -1,14 +1,13 @@
 package de.fuballer.mcendgame.main.component.dungeon.enemy
 
-import de.fuballer.mcendgame.main.component.dungeon.world.DungeonWorld
+import de.fuballer.mcendgame.main.component.dungeon.enemy.DungeonEnemyEntity.Companion.toDungeonEnemyEntity
 import de.fuballer.mcendgame.main.component.dungeon.enemy.equipment.EquipmentGenerationService
 import de.fuballer.mcendgame.main.component.dungeon.enemy.potion_effect.PotionEffectService
 import de.fuballer.mcendgame.main.component.dungeon.generation.data.SpawnPosition
+import de.fuballer.mcendgame.main.component.dungeon.world.DungeonWorld
 import de.fuballer.mcendgame.main.component.entity.EntityTypeStats
 import de.fuballer.mcendgame.main.messaging.dungeon.DungeonGenerateEnemiesCommand
 import de.fuballer.mcendgame.main.util.extension.EntityExtension.setDungeonEnemy
-import de.fuballer.mcendgame.main.util.extension.EntityExtension.setElite
-import de.fuballer.mcendgame.main.util.extension.EntityExtension.setLootGoblin
 import de.fuballer.mcendgame.main.util.minecraft.EntityUtil
 import de.fuballer.mcendgame.main.util.random.RandomOption
 import de.fuballer.mcendgame.main.util.random.RandomUtil
@@ -80,19 +79,25 @@ class EnemyGenerationService(
         generateEnemiesCommand: DungeonGenerateEnemiesCommand,
         isForcedElite: Boolean = false,
         isForcedLootGoblin: Boolean = false,
-    ): MobEntity {
+    ): DungeonEnemyEntity {
         val isLootGoblin = isForcedLootGoblin || EnemyGenerationSettings.randomLootGoblin(random)
 
         val validTypes = if (!isLootGoblin) types else types.filter { it.option.canHaveArmor }
         val type = RandomUtil.pick(validTypes, random).option
         val entity = EntityUtil.spawnEntityWithStats(dungeonWorld.world, type, location, level)
 
-        entity.setPersistent()
         entity.setDungeonEnemy()
-        if (isLootGoblin) entity.setLootGoblin()
+        val enemyEntity = entity.toDungeonEnemyEntity()
+
+        entity.setPersistent()
+        if (isLootGoblin) enemyEntity.setLootGoblin()
 
         val isElite = isForcedElite || EnemyGenerationSettings.randomElite(random)
-        if (isElite) setElite(entity)
+        if (isElite) {
+            enemyEntity.setElite()
+            applyEliteEffects(entity)
+        }
+
         setScale(entity, isElite, random)
 
         equipmentGenerationService.generate(
@@ -108,12 +113,11 @@ class EnemyGenerationService(
         potionEffectService.addEffects(entity, level, type.canBeInvisible, random)
 
         entity.heal(1000F)
-        return entity
+
+        return enemyEntity
     }
 
-    private fun setElite(entity: MobEntity): Boolean {
-        entity.setElite()
-
+    private fun applyEliteEffects(entity: MobEntity): Boolean {
         val healthAttributeInstance = entity.getAttributeInstance(EntityAttributes.MAX_HEALTH)
         val newMaxHealth = healthAttributeInstance?.baseValue!! * EnemyGenerationSettings.ELITE_HEALTH_FACTOR
         healthAttributeInstance.baseValue = newMaxHealth

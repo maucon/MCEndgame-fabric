@@ -3,13 +3,9 @@ package de.fuballer.mcendgame.main.component.dungeon.loot
 import de.fuballer.mcendgame.main.component.item.custom.UniqueAttributesItem
 import de.fuballer.mcendgame.main.component.tags.CustomTags
 import de.fuballer.mcendgame.main.configuration.RuntimeConfig
-import de.fuballer.mcendgame.main.messaging.dungeon.DungeonEntityDeathEvent
+import de.fuballer.mcendgame.main.messaging.dungeon.DungeonEnemyDeathEvent
 import de.fuballer.mcendgame.main.messaging.misc.LivingEntityDropCommand
 import de.fuballer.mcendgame.main.messaging.misc.MagicFindCommand
-import de.fuballer.mcendgame.main.util.extension.EntityExtension.isDungeonBoss
-import de.fuballer.mcendgame.main.util.extension.EntityExtension.isDungeonEnemy
-import de.fuballer.mcendgame.main.util.extension.EntityExtension.isElite
-import de.fuballer.mcendgame.main.util.extension.EntityExtension.isLootGoblin
 import de.fuballer.mcendgame.main.util.extension.WorldExtension.isDungeonWorld
 import de.fuballer.mcendgame.main.util.random.RandomUtil
 import de.maucon.mauconframework.command.CommandGateway
@@ -37,31 +33,31 @@ class LootService {
     }
 
     @EventSubscriber
-    fun on(event: DungeonEntityDeathEvent) {
+    fun on(event: DungeonEnemyDeathEvent) {
         if (event.isClient) return
         val serverWorld = event.world as? ServerWorld ?: return
 
-        val entity = event.entity
-        if (!entity.isDungeonEnemy()) return
+        val enemyEntity = event.enemyEntity
+        val livingEntity = enemyEntity.livingEntity
 
-        if (entity.isDungeonBoss()) {
+        if (enemyEntity.isDungeonBoss) {
             // TODO drop dungeon loot
             return
         }
 
-        if (entity.isElite()) dropEliteLoot(serverWorld, entity)
+        if (enemyEntity.isElite) dropEliteLoot(serverWorld, livingEntity)
 
         EquipmentSlot.VALUES
-            .map { entity.getEquippedStack(it) }
+            .map { livingEntity.getEquippedStack(it) }
             .filter {
                 val lootingLevel = getLootingLevel(event.killer)
-                val baseDropProbability = getDropProbability(it, lootingLevel, entity.isLootGoblin())
+                val baseDropProbability = getDropProbability(it, lootingLevel, enemyEntity.isLootGoblin)
                 val dropProbability = baseDropProbability * getMagicFindFactor(event.killer)
 
                 Random.nextDouble() <= dropProbability
             }
             .onEach { setRandomDurability(it) }
-            .forEach { entity.dropStack(serverWorld, it) }
+            .forEach { livingEntity.dropStack(serverWorld, it) }
     }
 
     private fun getLootingLevel(entity: LivingEntity?): Int {

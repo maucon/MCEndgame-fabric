@@ -1,6 +1,6 @@
 package de.fuballer.mcendgame.main.component.dungeon.generation
 
-import de.fuballer.mcendgame.main.component.dungeon.boss.BossGenerationService
+import de.fuballer.mcendgame.main.component.dungeon.enemy.boss.BossGenerationService
 import de.fuballer.mcendgame.main.component.dungeon.enemy.EnemyGenerationService
 import de.fuballer.mcendgame.main.component.dungeon.generation.builder.DungeonBuilderService
 import de.fuballer.mcendgame.main.component.dungeon.level.DungeonLevelService

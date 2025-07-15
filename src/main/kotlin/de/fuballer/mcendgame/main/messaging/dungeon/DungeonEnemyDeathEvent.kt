@@ -1,15 +1,12 @@
 package de.fuballer.mcendgame.main.messaging.dungeon
 
-import de.fuballer.mcendgame.main.component.dungeon.enemy.boss.DungeonBossEntity
+import de.fuballer.mcendgame.main.component.dungeon.enemy.DungeonEnemyEntity
 import net.minecraft.entity.LivingEntity
 import net.minecraft.world.World
 
-/**
- * FIXME currently only thrown server-side
- */
-data class DungeonBossDeathEvent(
+data class DungeonEnemyDeathEvent(
     val isClient: Boolean,
     val world: World,
-    val bossEntity: DungeonBossEntity,
+    val enemyEntity: DungeonEnemyEntity,
     val killer: LivingEntity?,
 )

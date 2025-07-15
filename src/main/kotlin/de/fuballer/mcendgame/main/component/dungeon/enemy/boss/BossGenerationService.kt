@@ -1,10 +1,10 @@
-package de.fuballer.mcendgame.main.component.dungeon.boss
+package de.fuballer.mcendgame.main.component.dungeon.enemy.boss
 
-import de.fuballer.mcendgame.main.component.dungeon.world.DungeonWorld
+import de.fuballer.mcendgame.main.component.dungeon.enemy.boss.DungeonBossEntity.Companion.toDungeonBossEntity
 import de.fuballer.mcendgame.main.component.dungeon.generation.data.SpawnPosition
+import de.fuballer.mcendgame.main.component.dungeon.world.DungeonWorld
 import de.fuballer.mcendgame.main.component.entity.EntityTypeStats
 import de.fuballer.mcendgame.main.util.extension.EntityExtension.setDungeonBoss
-import de.fuballer.mcendgame.main.util.extension.EntityExtension.setDungeonBossSpawnLocation
 import de.fuballer.mcendgame.main.util.extension.EntityExtension.setDungeonEnemy
 import de.fuballer.mcendgame.main.util.minecraft.EntityUtil
 import de.maucon.mauconframework.di.annotation.Injectable
@@ -35,7 +35,7 @@ class BossGenerationService {
         type: EntityTypeStats,
         location: SpawnPosition,
         random: Random,
-    ): MobEntity {
+    ): DungeonBossEntity {
         val entity = EntityUtil.spawnEntityWithStats(dungeonWorld.world, type, location, level)
 
         entity.setPersistent()
@@ -43,11 +43,12 @@ class BossGenerationService {
 
         entity.isAiDisabled = true
 
-        entity.setDungeonBoss()
-        entity.setDungeonBossSpawnLocation(location)
         entity.setDungeonEnemy()
+        entity.setDungeonBoss()
+        val bossEntity = entity.toDungeonBossEntity()
+        bossEntity.spawnPosition = location
 
-        return entity
+        return bossEntity
     }
 
     private fun setScale(

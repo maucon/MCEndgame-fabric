@@ -19,6 +19,10 @@ class DungeonWorld(
         get() = accessor.`mcendgame$isCompleted`()
         set(value) = accessor.`mcendgame$setCompleted`(value)
 
+    fun setCompleted() {
+        isCompleted = true
+    }
+
     var level: Int
         get() = accessor.`mcendgame$getLevel`()
         set(value) = accessor.`mcendgame$setLevel`(value)
@@ -26,8 +30,4 @@ class DungeonWorld(
     var aspects: Map<AspectItem, Int>
         get() = accessor.`mcendgame$getAspects`()
         set(value) = accessor.`mcendgame$setAspects`(value)
-
-    fun setCompleted() {
-        isCompleted = true
-    }
 }
