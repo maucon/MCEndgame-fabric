@@ -1,9 +1,10 @@
 package de.fuballer.mcendgame.main.component.dungeon.generation
 
-import de.fuballer.mcendgame.main.component.dungeon.enemy.boss.BossGenerationService
 import de.fuballer.mcendgame.main.component.dungeon.enemy.EnemyGenerationService
+import de.fuballer.mcendgame.main.component.dungeon.enemy.boss.BossGenerationService
 import de.fuballer.mcendgame.main.component.dungeon.generation.builder.DungeonBuilderService
 import de.fuballer.mcendgame.main.component.dungeon.level.DungeonLevelService
+import de.fuballer.mcendgame.main.component.dungeon.player.DungeonPlayerEntity.Companion.toDungeonPlayerEntity
 import de.fuballer.mcendgame.main.component.dungeon.type.DungeonType
 import de.fuballer.mcendgame.main.component.dungeon.world.DungeonWorldService
 import de.fuballer.mcendgame.main.component.item.custom.aspect.AspectItem
@@ -35,7 +36,8 @@ class DungeonGenerationService(
         val dungeonDevicePos = event.blockEntity.pos
         val affectingAspects = getAffectingAspectItems(event.affectingItems)
 
-        val dungeonLevel = dungeonLevelService.getLevel(player)
+        val dungeonPlayer = player.toDungeonPlayerEntity()
+        val dungeonLevel = dungeonPlayer.dungeonLevel.level
         val seed = Random.nextInt() // TODO player seed
         val random = Random(seed)
 
