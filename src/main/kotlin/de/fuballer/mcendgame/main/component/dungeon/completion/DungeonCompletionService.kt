@@ -1,6 +1,5 @@
 package de.fuballer.mcendgame.main.component.dungeon.completion
 
-import de.fuballer.mcendgame.main.component.dungeon.player.DungeonPlayerEntity.Companion.toDungeonPlayerEntity
 import de.fuballer.mcendgame.main.component.dungeon.world.DungeonWorld.Companion.toDungeonWorld
 import de.fuballer.mcendgame.main.messaging.dungeon.DungeonBossDeathEvent
 import de.maucon.mauconframework.di.annotation.Injectable
@@ -16,14 +15,12 @@ class DungeonCompletionService {
         if (world !is ServerWorld) return
 
         val dungeonWorld = world.toDungeonWorld()
-        val dungeonPlayers = world.players
-            .map { it.toDungeonPlayerEntity() }
-            .toList()
+        val players = world.players.toList()
 
         if (dungeonWorld.isCompleted) return
         dungeonWorld.setCompleted()
 
-        val dungeonCompletedEvent = DungeonCompletedEvent(event.isClient, dungeonWorld, dungeonPlayers)
+        val dungeonCompletedEvent = DungeonCompletedEvent(event.isClient, dungeonWorld, players)
         EventGateway.launchPublish(dungeonCompletedEvent)
     }
 }

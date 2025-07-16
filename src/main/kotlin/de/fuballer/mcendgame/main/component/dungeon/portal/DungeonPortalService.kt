@@ -13,6 +13,7 @@ import de.fuballer.mcendgame.main.util.extension.Vec3iExtension.toCenter
 import de.fuballer.mcendgame.main.util.extension.WorldExtension.isDungeonWorld
 import de.maucon.mauconframework.di.annotation.Injectable
 import de.maucon.mauconframework.event.EventSubscriber
+import net.minecraft.entity.mob.MobEntity
 import net.minecraft.server.world.ServerWorld
 import net.minecraft.util.math.Vec3d
 

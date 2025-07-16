@@ -2,7 +2,7 @@ package de.fuballer.mcendgame.main.component.dungeon.device
 
 import de.fuballer.mcendgame.main.component.dungeon.device.networking.DungeonDevicePayload
 import de.fuballer.mcendgame.main.component.dungeon.device.screen.DungeonDeviceScreenHandler
-import de.fuballer.mcendgame.main.component.dungeon.player.DungeonPlayerEntity.Companion.toDungeonPlayerEntity
+import de.fuballer.mcendgame.main.util.extension.mixin.PlayerEntityMixinExtension.getDungeonLevel
 import de.fuballer.mcendgame.main.functional.inventory.ImplementedInventory
 import net.fabricmc.fabric.api.screenhandler.v1.ExtendedScreenHandlerFactory
 import net.minecraft.block.BlockState
@@ -33,8 +33,8 @@ class DungeonDeviceBlockEntity(
     override fun getDisplayName(): Text = TITLE
 
     override fun getScreenOpeningData(player: ServerPlayerEntity): DungeonDevicePayload {
-        val dungeonPlayer = player.toDungeonPlayerEntity()
-        return DungeonDevicePayload(pos, world!!.registryKey, player.uuid, dungeonPlayer.dungeonLevel)
+        val playerDungeonLevel = player.getDungeonLevel()
+        return DungeonDevicePayload(pos, world!!.registryKey, player.uuid, playerDungeonLevel)
     }
 
     override fun markDirty() = super<ImplementedInventory>.markDirty(world, pos)

@@ -2,7 +2,6 @@ package de.fuballer.mcendgame.main.messaging
 
 import de.fuballer.mcendgame.main.component.dungeon.enemy.DungeonEnemyEntity.Companion.toDungeonEnemyEntity
 import de.fuballer.mcendgame.main.component.dungeon.enemy.boss.DungeonBossEntity.Companion.toDungeonBossEntity
-import de.fuballer.mcendgame.main.component.dungeon.player.DungeonPlayerEntity.Companion.toDungeonPlayerEntity
 import de.fuballer.mcendgame.main.messaging.dungeon.DungeonBossDeathEvent
 import de.fuballer.mcendgame.main.messaging.dungeon.DungeonEnemyDeathEvent
 import de.fuballer.mcendgame.main.messaging.dungeon.DungeonEntityDeathEvent
@@ -40,8 +39,7 @@ object EventMapper {
         val player = event.player
         if (!player.world.isDungeonWorld()) return
 
-        val dungeonPlayer = player.toDungeonPlayerEntity()
-        val dungeonPlayerDeathEvent = DungeonPlayerDeathEvent(event.isClient, dungeonPlayer, event.killer)
+        val dungeonPlayerDeathEvent = DungeonPlayerDeathEvent(event.isClient, player, event.killer)
         EventGateway.launchPublish(dungeonPlayerDeathEvent)
     }
 

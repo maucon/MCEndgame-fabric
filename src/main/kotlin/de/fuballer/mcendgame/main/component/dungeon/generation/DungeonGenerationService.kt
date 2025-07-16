@@ -4,10 +4,10 @@ import de.fuballer.mcendgame.main.component.dungeon.enemy.EnemyGenerationService
 import de.fuballer.mcendgame.main.component.dungeon.enemy.boss.BossGenerationService
 import de.fuballer.mcendgame.main.component.dungeon.generation.builder.DungeonBuilderService
 import de.fuballer.mcendgame.main.component.dungeon.level.DungeonLevelService
-import de.fuballer.mcendgame.main.component.dungeon.player.DungeonPlayerEntity.Companion.toDungeonPlayerEntity
 import de.fuballer.mcendgame.main.component.dungeon.type.DungeonType
 import de.fuballer.mcendgame.main.component.dungeon.world.DungeonWorldService
 import de.fuballer.mcendgame.main.component.item.custom.aspect.AspectItem
+import de.fuballer.mcendgame.main.util.extension.mixin.PlayerEntityMixinExtension.getDungeonLevel
 import de.fuballer.mcendgame.main.configuration.RuntimeConfig
 import de.fuballer.mcendgame.main.messaging.dungeon.DungeonGenerateCommand
 import de.fuballer.mcendgame.main.messaging.dungeon.DungeonGeneratedEvent
@@ -26,8 +26,7 @@ class DungeonGenerationService(
     private val dungeonWorldService: DungeonWorldService,
     private val dungeonBuilderService: DungeonBuilderService,
     private val enemyGenerationService: EnemyGenerationService,
-    private val bossGenerationService: BossGenerationService,
-    private val dungeonLevelService: DungeonLevelService
+    private val bossGenerationService: BossGenerationService
 ) {
     @EventSubscriber
     fun on(event: OpenDungeonButtonPressedEvent) {
@@ -36,8 +35,7 @@ class DungeonGenerationService(
         val dungeonDevicePos = event.blockEntity.pos
         val affectingAspects = getAffectingAspectItems(event.affectingItems)
 
-        val dungeonPlayer = player.toDungeonPlayerEntity()
-        val dungeonLevel = dungeonPlayer.dungeonLevel.level
+        val dungeonLevel = player.getDungeonLevel().level
         val seed = Random.nextInt() // TODO player seed
         val random = Random(seed)
 

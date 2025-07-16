@@ -1,17 +1,22 @@
 package de.fuballer.mcendgame.main.util.extension
 
+import de.fuballer.mcendgame.main.accessor.LivingEntityDodgedRecentlyAccessor
 import de.fuballer.mcendgame.main.accessor.LivingEntityDungeonEnemyAccessor
 import de.fuballer.mcendgame.main.accessor.MobEntityDungeonBossAccessor
 import de.fuballer.mcendgame.main.util.extension.WorldExtension.isDungeonWorld
 import net.minecraft.entity.Entity
 import net.minecraft.entity.LivingEntity
 import net.minecraft.entity.Tameable
+import net.minecraft.entity.attribute.EntityAttribute
+import net.minecraft.entity.attribute.EntityAttributeModifier
 import net.minecraft.entity.decoration.ArmorStandEntity
 import net.minecraft.entity.mob.Monster
 import net.minecraft.entity.passive.AnimalEntity
 import net.minecraft.entity.passive.IronGolemEntity
 import net.minecraft.entity.passive.VillagerEntity
 import net.minecraft.entity.player.PlayerEntity
+import net.minecraft.registry.entry.RegistryEntry
+import net.minecraft.util.Identifier
 import net.minecraft.util.math.Vec3d
 
 object EntityExtension {

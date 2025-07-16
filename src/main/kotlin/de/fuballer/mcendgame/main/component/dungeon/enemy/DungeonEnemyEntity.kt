@@ -7,7 +7,7 @@ import de.fuballer.mcendgame.main.accessor.MobEntityDungeonBossAccessor
 import net.minecraft.entity.LivingEntity
 
 open class DungeonEnemyEntity(
-    open val livingEntity: LivingEntity,
+    val livingEntity: LivingEntity,
 ) {
     init {
         val enemyAccessor = livingEntity as LivingEntityDungeonEnemyAccessor

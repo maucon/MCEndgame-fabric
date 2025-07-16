@@ -3,6 +3,8 @@ package de.fuballer.mcendgame.main.component.dungeon.level
 import de.fuballer.mcendgame.main.component.dungeon.completion.DungeonCompletedEvent
 import de.fuballer.mcendgame.main.messaging.dungeon.DungeonPlayerDeathEvent
 import de.fuballer.mcendgame.main.messaging.dungeon.DungeonPlayerIncreaseProgressCommand
+import de.fuballer.mcendgame.main.util.extension.mixin.PlayerEntityMixinExtension.getDungeonLevel
+import de.fuballer.mcendgame.main.util.extension.mixin.PlayerEntityMixinExtension.setDungeonLevel
 import de.maucon.mauconframework.command.CommandGateway
 import de.maucon.mauconframework.di.annotation.Injectable
 import de.maucon.mauconframework.event.EventSubscriber
@@ -14,16 +16,15 @@ class DungeonLevelService {
     fun on(event: DungeonPlayerDeathEvent) {
         if (event.isClient) return
 
-        val dungeonPlayer = event.dungeonPlayer
-        val player = dungeonPlayer.playerEntity
+        val player = event.player
 
-        val playerLevel = dungeonPlayer.dungeonLevel
+        val playerDungeonLevel = player.getDungeonLevel()
 
-        playerLevel.level = max(playerLevel.level - 1, 1)
-        playerLevel.levelProgress = 0
+        playerDungeonLevel.level = max(playerDungeonLevel.level - 1, 1)
+        playerDungeonLevel.levelProgress = 0
 
-        dungeonPlayer.dungeonLevel = playerLevel
-        player.sendMessage(DungeonLevelSettings.getRegressMessage(playerLevel.level, playerLevel.levelProgress), false)
+        player.setDungeonLevel(playerDungeonLevel)
+        player.sendMessage(DungeonLevelSettings.getRegressMessage(playerDungeonLevel.level, playerDungeonLevel.levelProgress), false)
     }
 
     @EventSubscriber
@@ -33,21 +34,21 @@ class DungeonLevelService {
         val dungeonPlayerIncreaseProgressCommand = DungeonPlayerIncreaseProgressCommand(dungeonWorld.aspects)
         val cmd = CommandGateway.apply(dungeonPlayerIncreaseProgressCommand)
 
-        event.dungeonPlayers.forEach { dungeonPlayer ->
-            val playerLevel = dungeonPlayer.dungeonLevel
+        event.players.forEach { player ->
+            val playerDungeonLevel = player.getDungeonLevel()
 
-            if (playerLevel.level > dungeonWorld.level) {
-                dungeonPlayer.playerEntity.sendMessage(DungeonLevelSettings.NO_PROGRESS_MESSAGE, false)
+            if (playerDungeonLevel.level > dungeonWorld.level) {
+                player.sendMessage(DungeonLevelSettings.NO_PROGRESS_MESSAGE, false)
 
                 return@forEach
             }
 
-            val helpLevelProgress = (playerLevel.levelProgress + cmd.progressGranted)
-            playerLevel.level += helpLevelProgress / DungeonLevelSettings.LEVEL_INCREASE_THRESHOLD
-            playerLevel.levelProgress = helpLevelProgress % DungeonLevelSettings.LEVEL_INCREASE_THRESHOLD
+            val helpLevelProgress = (playerDungeonLevel.levelProgress + cmd.progressGranted)
+            playerDungeonLevel.level += helpLevelProgress / DungeonLevelSettings.LEVEL_INCREASE_THRESHOLD
+            playerDungeonLevel.levelProgress = helpLevelProgress % DungeonLevelSettings.LEVEL_INCREASE_THRESHOLD
 
-            dungeonPlayer.dungeonLevel = playerLevel
-            dungeonPlayer.playerEntity.sendMessage(DungeonLevelSettings.getProgressMessage(playerLevel.level, playerLevel.levelProgress), false)
+            player.setDungeonLevel(playerDungeonLevel)
+            player.sendMessage(DungeonLevelSettings.getProgressMessage(playerDungeonLevel.level, playerDungeonLevel.levelProgress), false)
         }
     }
 }
