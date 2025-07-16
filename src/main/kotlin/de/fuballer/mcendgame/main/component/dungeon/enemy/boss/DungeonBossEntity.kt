@@ -9,10 +9,18 @@ import net.minecraft.util.math.Vec3i
 class DungeonBossEntity(
     val mobEntity: MobEntity,
 ) : DungeonEnemyEntity(mobEntity) {
+    init {
+        val bossAccessor = mobEntity as MobEntityDungeonBossAccessor
+        bossAccessor.`mcendgame$setDungeonBoss`(true)
+    }
+
     companion object {
         fun MobEntity.toDungeonBossEntity() = DungeonBossEntity(this)
+
         fun DungeonEnemyEntity.toDungeonBossEntity(): DungeonBossEntity {
-            val mobEntity = this.livingEntity as? MobEntity ?: throw ClassCastException("Dungeon boss has to be of type MobEntity")
+            val mobEntity = this.livingEntity as? MobEntity
+                ?: throw ClassCastException("Dungeon boss has to be of type MobEntity")
+
             return mobEntity.toDungeonBossEntity()
         }
     }

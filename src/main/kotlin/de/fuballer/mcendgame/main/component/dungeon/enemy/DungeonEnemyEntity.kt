@@ -9,6 +9,11 @@ import net.minecraft.entity.LivingEntity
 open class DungeonEnemyEntity(
     open val livingEntity: LivingEntity,
 ) {
+    init {
+        val enemyAccessor = livingEntity as LivingEntityDungeonEnemyAccessor
+        enemyAccessor.`mcendgame$setDungeonEnemy`()
+    }
+
     companion object {
         fun LivingEntity.toDungeonEnemyEntity() = DungeonEnemyEntity(this)
     }

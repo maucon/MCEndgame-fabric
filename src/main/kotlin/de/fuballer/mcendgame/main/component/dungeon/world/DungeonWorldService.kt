@@ -13,7 +13,6 @@ import de.maucon.mauconframework.event.EventSubscriber
 import kotlinx.datetime.Clock
 import kotlinx.datetime.DateTimeUnit
 import kotlinx.datetime.plus
-import net.minecraft.entity.player.PlayerEntity
 import org.slf4j.Logger
 
 @Injectable
@@ -33,7 +32,7 @@ class DungeonWorldService(
             .forEach { deleteWorld(it) }
     }
 
-    fun create(player: PlayerEntity, dungeonLevel: Int): DungeonWorld {
+    fun create(dungeonLevel: Int): DungeonWorld {
         val world = RuntimeConfig.FANTASY
             .openTemporaryWorld(DungeonWorldSettings.generateIdentifier(), DungeonWorldSettings.WORLD_CONFIG)
             .asWorld()
