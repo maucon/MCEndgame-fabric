@@ -396,7 +396,7 @@ class ArachneEntity(
         val entity = world.getEntity(hookedUuid) ?: return
 
         if (entity !is LivingEntity) return
-        entity.setWebbed()
+        entity.setWebbed(false)
     }
 
     override fun meleeAttack(target: LivingEntity) {
