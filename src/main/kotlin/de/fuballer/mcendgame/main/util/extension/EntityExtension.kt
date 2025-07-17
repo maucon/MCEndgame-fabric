@@ -1,16 +1,11 @@
 package de.fuballer.mcendgame.main.util.extension
 
-import de.fuballer.mcendgame.main.accessor.LivingEntityDungeonEnemyAccessor
-import de.fuballer.mcendgame.main.accessor.LivingEntityEliteAccessor
-import de.fuballer.mcendgame.main.accessor.LivingEntityLootGoblinAccessor
-import de.fuballer.mcendgame.main.accessor.MobEntityDungeonBossAccessor
-import de.fuballer.mcendgame.main.component.dungeon.generation.data.SpawnPosition
 import de.fuballer.mcendgame.main.util.extension.WorldExtension.isDungeonWorld
+import de.fuballer.mcendgame.main.util.extension.mixin.EntityMixinExtension.isDungeonEnemy
 import net.minecraft.entity.Entity
 import net.minecraft.entity.LivingEntity
 import net.minecraft.entity.Tameable
 import net.minecraft.entity.decoration.ArmorStandEntity
-import net.minecraft.entity.mob.MobEntity
 import net.minecraft.entity.mob.Monster
 import net.minecraft.entity.passive.AnimalEntity
 import net.minecraft.entity.passive.IronGolemEntity
@@ -19,56 +14,6 @@ import net.minecraft.entity.player.PlayerEntity
 import net.minecraft.util.math.Vec3d
 
 object EntityExtension {
-    fun Entity.isDungeonEnemy(): Boolean {
-        val enemyAccessor = this as? LivingEntityDungeonEnemyAccessor ?: return false
-        return enemyAccessor.`mcendgame$isDungeonEnemy`()
-    }
-
-    fun LivingEntity.setDungeonEnemy() {
-        val enemyAccessor = this as LivingEntityDungeonEnemyAccessor
-        enemyAccessor.`mcendgame$setDungeonEnemy`()
-    }
-
-    fun Entity.isDungeonBoss(): Boolean {
-        val bossAccessor = this as? MobEntityDungeonBossAccessor ?: return false
-        return bossAccessor.`mcendgame$isDungeonBoss`()
-    }
-
-    fun MobEntity.setDungeonBoss() {
-        val bossAccessor = this as MobEntityDungeonBossAccessor
-        bossAccessor.`mcendgame$setDungeonBoss`()
-    }
-
-    fun Entity.isLootGoblin(): Boolean {
-        val lootGoblinAccessor = this as? LivingEntityLootGoblinAccessor ?: return false
-        return lootGoblinAccessor.`mcendgame$isLootGoblin`()
-    }
-
-    fun LivingEntity.setLootGoblin() {
-        val lootGoblinAccessor = this as LivingEntityLootGoblinAccessor
-        lootGoblinAccessor.`mcendgame$setLootGoblin`()
-    }
-
-    fun Entity.isElite(): Boolean {
-        val eliteAccessor = this as? LivingEntityEliteAccessor ?: return false
-        return eliteAccessor.`mcendgame$isElite`()
-    }
-
-    fun LivingEntity.setElite() {
-        val eliteAccessor = this as LivingEntityEliteAccessor
-        eliteAccessor.`mcendgame$setElite`()
-    }
-
-    fun Entity.getDungeonBossSpawnLocation(): SpawnPosition? {
-        val bossAccessor = this as? MobEntityDungeonBossAccessor ?: return null
-        return bossAccessor.`mcendgame$getSpawnLocation`()
-    }
-
-    fun MobEntity.setDungeonBossSpawnLocation(location: SpawnPosition) {
-        val bossAccessor = this as MobEntityDungeonBossAccessor
-        bossAccessor.`mcendgame$setSpawnLocation`(location)
-    }
-
     fun LivingEntity.isAlly(entity: Entity): Boolean {
         if (this == entity) return true
 
@@ -90,12 +35,16 @@ object EntityExtension {
     fun Entity.isValidSecondaryTarget(primaryTarget: Entity, attacker: Entity): Boolean {
         if (this == attacker || this == primaryTarget) return false
 
-        if (world.isDungeonWorld())
+        if (world.isDungeonWorld()) {
             return isValidSecondaryTargetInDungeon(primaryTarget)
+        }
         return isValidSecondaryTargetOutsideDungeon(primaryTarget, attacker)
     }
 
-    private fun Entity.isValidSecondaryTargetInDungeon(primaryTarget: Entity) = isDungeonEnemy() == primaryTarget.isDungeonEnemy()
+    private fun Entity.isValidSecondaryTargetInDungeon(primaryTarget: Entity): Boolean {
+        if (this !is LivingEntity || primaryTarget !is LivingEntity) return false
+        return this.isDungeonEnemy() == primaryTarget.isDungeonEnemy()
+    }
 
     private fun Entity.isValidSecondaryTargetOutsideDungeon(primaryTarget: Entity, attacker: Entity): Boolean {
         if (this.type == primaryTarget.type) return true

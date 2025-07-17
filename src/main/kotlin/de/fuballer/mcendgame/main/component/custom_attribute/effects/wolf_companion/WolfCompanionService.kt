@@ -1,13 +1,16 @@
 package de.fuballer.mcendgame.main.component.custom_attribute.effects.wolf_companion
 
-import de.fuballer.mcendgame.main.accessor.LivingEntityAuraAccessor
-import de.fuballer.mcendgame.main.accessor.LivingEntityCompanionAccessor
-import de.fuballer.mcendgame.main.accessor.WolfEntityColorAndVariantAccessor
 import de.fuballer.mcendgame.main.component.custom_attribute.CustomAttributesExtensions.asStringRoll
 import de.fuballer.mcendgame.main.component.custom_attribute.CustomAttributesExtensions.getAllCustomAttributes
 import de.fuballer.mcendgame.main.component.custom_attribute.CustomAttributesExtensions.getCustomAttributes
 import de.fuballer.mcendgame.main.component.custom_attribute.types.CustomAttributeTypes
 import de.fuballer.mcendgame.main.messaging.misc.*
+import de.fuballer.mcendgame.main.util.extension.mixin.EntityMixinExtension.addAllyAuraStatusEffect
+import de.fuballer.mcendgame.main.util.extension.mixin.EntityMixinExtension.addEnemyAuraStatusEffect
+import de.fuballer.mcendgame.main.util.extension.mixin.EntityMixinExtension.isCompanion
+import de.fuballer.mcendgame.main.util.extension.mixin.EntityMixinExtension.setCompanion
+import de.fuballer.mcendgame.main.util.extension.mixin.WolfMixinExtension.setCollarColor
+import de.fuballer.mcendgame.main.util.extension.mixin.WolfMixinExtension.setVariant
 import de.maucon.mauconframework.di.annotation.Injectable
 import de.maucon.mauconframework.event.EventSubscriber
 import net.minecraft.entity.Entity
@@ -96,14 +99,13 @@ class WolfCompanionService {
         wolf.setPosition(player.pos)
 
         wolf.setTamedBy(player)
-        (wolf as LivingEntityCompanionAccessor).`mcendgame$setCompanion`()
+        wolf.setCompanion()
 
-        val auraAccessor = wolf as LivingEntityAuraAccessor
         for (effect in type.allyAuraStatusEffects) {
-            auraAccessor.`mcendgame$addAllyAuraStatusEffect`(effect)
+            wolf.addAllyAuraStatusEffect(effect)
         }
         for (effect in type.enemyAuraStatusEffects) {
-            auraAccessor.`mcendgame$addEnemyAuraStatusEffect`(effect)
+            wolf.addEnemyAuraStatusEffect(effect)
         }
         for (effectType in type.selfEffects.keys) {
             wolf.addStatusEffect(
@@ -118,10 +120,9 @@ class WolfCompanionService {
         }
         type.applyExtras(wolf)
 
-        val colorAndVariantAccessor = wolf as? WolfEntityColorAndVariantAccessor ?: return
         val variantEntry = registry.getOrThrow(type.variant)
-        colorAndVariantAccessor.`mcendgame$callSetVariant`(variantEntry)
-        colorAndVariantAccessor.`mcendgame$callSetCollarColor`(type.color)
+        wolf.setVariant(variantEntry)
+        wolf.setCollarColor(type.color)
 
         wolf.getAttributeInstance(EntityAttributes.SCALE)?.baseValue = type.scale
 
@@ -142,8 +143,7 @@ class WolfCompanionService {
         world: ServerWorld,
     ) {
         val wolfs = world.getEntitiesByType(TypeFilter.instanceOf(WolfEntity::class.java)) { wolf ->
-            (wolf as LivingEntityCompanionAccessor).`mcendgame$isCompanion`()
-                    && wolf.owner == player
+            wolf.isCompanion() && wolf.owner == player
         }
 
         wolfs.forEach {

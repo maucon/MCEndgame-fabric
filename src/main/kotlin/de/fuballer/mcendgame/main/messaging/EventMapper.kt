@@ -1,15 +1,17 @@
 package de.fuballer.mcendgame.main.messaging
 
 import de.fuballer.mcendgame.main.messaging.dungeon.DungeonBossDeathEvent
+import de.fuballer.mcendgame.main.messaging.dungeon.DungeonEnemyDeathEvent
 import de.fuballer.mcendgame.main.messaging.dungeon.DungeonEntityDeathEvent
 import de.fuballer.mcendgame.main.messaging.dungeon.DungeonPlayerDeathEvent
 import de.fuballer.mcendgame.main.messaging.misc.*
 import de.fuballer.mcendgame.main.messaging.server.ServerEndTickEvent
 import de.fuballer.mcendgame.main.messaging.server.ServerStartedEvent
 import de.fuballer.mcendgame.main.messaging.server.ServerStoppingEvent
-import de.fuballer.mcendgame.main.util.extension.EntityExtension.isDungeonBoss
 import de.fuballer.mcendgame.main.util.extension.ItemStackExtension.isSameIgnoringDurability
 import de.fuballer.mcendgame.main.util.extension.WorldExtension.isDungeonWorld
+import de.fuballer.mcendgame.main.util.extension.mixin.EntityMixinExtension.isDungeonBoss
+import de.fuballer.mcendgame.main.util.extension.mixin.EntityMixinExtension.isDungeonEnemy
 import de.maucon.mauconframework.di.annotation.Injectable
 import de.maucon.mauconframework.event.EventGateway
 import de.maucon.mauconframework.event.EventSubscriber
@@ -20,6 +22,7 @@ import net.fabricmc.fabric.api.event.lifecycle.v1.ServerEntityEvents
 import net.fabricmc.fabric.api.event.lifecycle.v1.ServerLifecycleEvents
 import net.fabricmc.fabric.api.event.lifecycle.v1.ServerTickEvents
 import net.fabricmc.fabric.api.networking.v1.ServerPlayConnectionEvents
+import net.minecraft.entity.mob.MobEntity
 import net.minecraft.entity.player.PlayerEntity
 
 @Injectable
@@ -33,8 +36,10 @@ object EventMapper {
 
     @EventSubscriber
     fun onDungeonPlayerDeath(event: PlayerEntityDeathEvent) {
-        if (!event.player.world.isDungeonWorld()) return
-        val dungeonPlayerDeathEvent = DungeonPlayerDeathEvent(event.isClient, event.player, event.killer)
+        val player = event.player
+        if (!player.world.isDungeonWorld()) return
+
+        val dungeonPlayerDeathEvent = DungeonPlayerDeathEvent(event.isClient, player, event.killer)
         EventGateway.launchPublish(dungeonPlayerDeathEvent)
     }
 
@@ -48,11 +53,20 @@ object EventMapper {
     }
 
     @EventSubscriber
-    fun onDungeonBossDeath(event: DungeonEntityDeathEvent) {
-        val entity = event.entity
-        if (!entity.isDungeonBoss()) return
+    fun onDungeonEnemyDeath(event: DungeonEntityDeathEvent) {
+        val enemyEntity = event.entity
+        if (!enemyEntity.isDungeonEnemy()) return
 
-        val dungeonBossDeathEvent = DungeonBossDeathEvent(event.isClient, event.world, event.entity, event.killer)
+        val dungeonEnemyDeathEvent = DungeonEnemyDeathEvent(event.isClient, event.world, enemyEntity, event.killer)
+        EventGateway.launchPublish(dungeonEnemyDeathEvent)
+    }
+
+    @EventSubscriber
+    fun onDungeonBossDeath(event: DungeonEnemyDeathEvent) {
+        val bossEntity = event.enemyEntity as? MobEntity ?: return
+        if (!bossEntity.isDungeonBoss()) return
+
+        val dungeonBossDeathEvent = DungeonBossDeathEvent(event.isClient, event.world, bossEntity, event.killer)
         EventGateway.launchPublish(dungeonBossDeathEvent)
     }
 

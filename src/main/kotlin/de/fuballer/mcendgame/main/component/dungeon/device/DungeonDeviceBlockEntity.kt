@@ -1,8 +1,8 @@
 package de.fuballer.mcendgame.main.component.dungeon.device
 
-import de.fuballer.mcendgame.main.accessor.PlayerEntityDungeonLevelAccessor
 import de.fuballer.mcendgame.main.component.dungeon.device.networking.DungeonDevicePayload
 import de.fuballer.mcendgame.main.component.dungeon.device.screen.DungeonDeviceScreenHandler
+import de.fuballer.mcendgame.main.util.extension.mixin.PlayerEntityMixinExtension.getDungeonLevel
 import de.fuballer.mcendgame.main.functional.inventory.ImplementedInventory
 import net.fabricmc.fabric.api.screenhandler.v1.ExtendedScreenHandlerFactory
 import net.minecraft.block.BlockState
@@ -33,8 +33,7 @@ class DungeonDeviceBlockEntity(
     override fun getDisplayName(): Text = TITLE
 
     override fun getScreenOpeningData(player: ServerPlayerEntity): DungeonDevicePayload {
-        val playerAccessor = player as PlayerEntityDungeonLevelAccessor
-        val playerDungeonLevel = player.`mcendgame$getDungeonLevel`()
+        val playerDungeonLevel = player.getDungeonLevel()
         return DungeonDevicePayload(pos, world!!.registryKey, player.uuid, playerDungeonLevel)
     }
 

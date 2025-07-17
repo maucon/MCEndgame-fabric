@@ -1,10 +1,10 @@
 package de.fuballer.mcendgame.main.component.custom_attribute.effects
 
-import de.fuballer.mcendgame.main.accessor.LivingEntityTemporaryAttributeModifierAccessor
 import de.fuballer.mcendgame.main.component.custom_attribute.CustomAttributesExtensions.asDoubleRoll
 import de.fuballer.mcendgame.main.component.custom_attribute.CustomAttributesExtensions.asIntRoll
 import de.fuballer.mcendgame.main.component.custom_attribute.CustomAttributesExtensions.getAllCustomAttributes
 import de.fuballer.mcendgame.main.component.custom_attribute.types.CustomAttributeTypes
+import de.fuballer.mcendgame.main.util.extension.mixin.EntityMixinExtension.addTemporaryAttributeModifier
 import de.fuballer.mcendgame.main.messaging.misc.LivingEntityDodgedEvent
 import de.fuballer.mcendgame.main.util.minecraft.IdentifierUtil.defaultJava
 import de.maucon.mauconframework.di.annotation.Injectable
@@ -25,8 +25,7 @@ class IncreasedMovementSpeedAfterDodgingService {
         val movementSpeed = customAttributes.sumOf { it.rolls[0].asDoubleRoll().getActualRoll() }
         val duration = customAttributes.maxOf { it.rolls[1].asIntRoll().getActualRoll() } * 20
 
-        val accessor = entity as LivingEntityTemporaryAttributeModifierAccessor
-        accessor.`mcendgame$addTemporaryAttributeModifier`(
+        entity.addTemporaryAttributeModifier(
             EntityAttributes.MOVEMENT_SPEED,
             attributeModifierIdentifier,
             duration,

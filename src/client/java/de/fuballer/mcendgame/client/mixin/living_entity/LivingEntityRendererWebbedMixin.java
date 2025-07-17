@@ -16,6 +16,7 @@ public class LivingEntityRendererWebbedMixin<T extends LivingEntity, S extends L
     void updateRenderState(T livingEntity, S livingEntityRenderState, float f, CallbackInfo ci) {
         if (!(livingEntity instanceof LivingEntityWebbedAccessor entityAccessor)) return;
         if (!(livingEntityRenderState instanceof LivingEntityRenderStateWebbedAccessor renderStateAccessor)) return;
+
         renderStateAccessor.mcendgame$setWebbed(entityAccessor.mcendgame$isWebbed());
     }
 }

@@ -1,6 +1,5 @@
 package de.fuballer.mcendgame.client.component.item.custom.armor
 
-import de.fuballer.mcendgame.client.accessor.BipedEntityRenderStateAccessor
 import de.fuballer.mcendgame.client.component.item.custom.armor.bound_abyss.BoundAbyssModel
 import de.fuballer.mcendgame.client.component.item.custom.armor.druids.DruidsBootsModel
 import de.fuballer.mcendgame.client.component.item.custom.armor.druids.DruidsChestplateModel
@@ -17,6 +16,7 @@ import de.fuballer.mcendgame.client.component.item.custom.armor.wither_rose.With
 import de.fuballer.mcendgame.client.component.item.custom.armor.wither_rose.WitherRoseChestplateModel
 import de.fuballer.mcendgame.client.component.item.custom.armor.wither_rose.WitherRoseHelmetModel
 import de.fuballer.mcendgame.client.component.item.custom.armor.wither_rose.WitherRoseLeggingsModel
+import de.fuballer.mcendgame.client.util.BipedEntityRenderStateMixinExtension.getHiddenArmor
 import de.fuballer.mcendgame.main.component.item.custom.armor.CustomArmorItems
 import de.fuballer.mcendgame.main.util.minecraft.IdentifierUtil
 import net.minecraft.client.model.Model
@@ -27,7 +27,6 @@ import net.minecraft.client.render.entity.EntityRendererFactory
 import net.minecraft.client.render.entity.feature.FeatureRenderer
 import net.minecraft.client.render.entity.feature.FeatureRendererContext
 import net.minecraft.client.render.entity.model.BipedEntityModel
-import net.minecraft.client.render.entity.state.ArmorStandEntityRenderState
 import net.minecraft.client.render.entity.state.BipedEntityRenderState
 import net.minecraft.client.render.item.ItemRenderer
 import net.minecraft.client.util.math.MatrixStack
@@ -36,7 +35,6 @@ import net.minecraft.entity.EquipmentSlot
 import net.minecraft.item.Item
 import net.minecraft.item.ItemStack
 import net.minecraft.util.Identifier
-import kotlin.math.PI
 
 class CustomHumanoidArmorFeatureRenderer<S : BipedEntityRenderState, M : BipedEntityModel<S>>(
     featureContext: FeatureRendererContext<S, M>,
@@ -127,8 +125,7 @@ class CustomHumanoidArmorFeatureRenderer<S : BipedEntityRenderState, M : BipedEn
         limbAngle: Float,
         limbDistance: Float
     ) {
-        val stateAccessor = bipedEntityRenderState as BipedEntityRenderStateAccessor
-        val hiddenArmor = stateAccessor.`mcendgame$getHiddenArmor`()
+        val hiddenArmor = bipedEntityRenderState.getHiddenArmor()
 
         if (!hiddenArmor.contains(EquipmentSlot.HEAD)) {
             renderArmor(

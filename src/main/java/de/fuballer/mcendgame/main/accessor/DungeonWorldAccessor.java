@@ -7,7 +7,7 @@ import java.util.Map;
 public interface DungeonWorldAccessor {
     boolean mcendgame$isCompleted();
 
-    void mcendgame$setCompleted();
+    void mcendgame$setCompleted(boolean completed);
 
     int mcendgame$getLevel();
 

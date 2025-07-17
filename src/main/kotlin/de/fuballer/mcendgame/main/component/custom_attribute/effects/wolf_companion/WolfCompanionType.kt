@@ -1,8 +1,8 @@
 package de.fuballer.mcendgame.main.component.custom_attribute.effects.wolf_companion
 
-import de.fuballer.mcendgame.main.accessor.LivingEntityVisualFireAccessor
 import de.fuballer.mcendgame.main.component.custom_attribute.effects.data.AuraStatusEffect
 import de.fuballer.mcendgame.main.component.status_effect.CustomStatusEffects
+import de.fuballer.mcendgame.main.util.extension.mixin.EntityMixinExtension.setVisualFire
 import net.minecraft.entity.effect.StatusEffect
 import net.minecraft.entity.effect.StatusEffects
 import net.minecraft.entity.passive.WolfEntity
@@ -50,7 +50,7 @@ enum class WolfCompanionType(
         "Scorching", WolfVariants.RUSTY, DyeColor.ORANGE, 0.95,
         allyAuraStatusEffects = listOf(AuraStatusEffect(StatusEffects.FIRE_RESISTANCE, 0, 59, 15)),
         selfEffects = mapOf(CustomStatusEffects.SCORCH to 0),
-        applyExtras = { wolf -> (wolf as LivingEntityVisualFireAccessor).`mcendgame$setVisualFire`(true) }
+        applyExtras = { wolf -> wolf.setVisualFire() }
     );
 
     companion object {

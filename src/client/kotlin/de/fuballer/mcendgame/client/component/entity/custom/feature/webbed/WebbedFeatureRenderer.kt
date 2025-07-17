@@ -1,6 +1,6 @@
 package de.fuballer.mcendgame.client.component.entity.custom.feature.webbed
 
-import de.fuballer.mcendgame.client.accessor.LivingEntityRenderStateWebbedAccessor
+import de.fuballer.mcendgame.client.util.EntityRenderStateMixinExtension.isWebbed
 import de.fuballer.mcendgame.main.util.minecraft.IdentifierUtil
 import net.minecraft.client.render.OverlayTexture
 import net.minecraft.client.render.RenderLayer
@@ -32,7 +32,7 @@ class WebbedFeatureRenderer<T : LivingEntityRenderState, M : EntityModel<T>>(
         limbAngle: Float,
         limbDistance: Float
     ) {
-        if (!isWebbed(state)) return
+        if (!state.isWebbed()) return
 
         matrices.push()
 
@@ -64,10 +64,5 @@ class WebbedFeatureRenderer<T : LivingEntityRenderState, M : EntityModel<T>>(
         //val zAxis = Vector3f(modelMatrix.m20(), modelMatrix.m21(), modelMatrix.m22())
 
         return yAxis.length()
-    }
-
-    private fun isWebbed(state: T): Boolean {
-        val accessor = state as? LivingEntityRenderStateWebbedAccessor ?: return false
-        return accessor.`mcendgame$isWebbed`()
     }
 }

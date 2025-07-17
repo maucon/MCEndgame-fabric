@@ -1,10 +1,12 @@
 package de.fuballer.mcendgame.main.component.damage
 
 import de.fuballer.mcendgame.main.component.damage.custom.CustomDamageTypes
+import de.fuballer.mcendgame.main.util.extension.mixin.PlayerEntityMixinExtension.getAttackCooldownMultiplier
 import net.minecraft.enchantment.EnchantmentHelper
 import net.minecraft.entity.LivingEntity
 import net.minecraft.entity.attribute.EntityAttributes
 import net.minecraft.entity.damage.DamageSource
+import net.minecraft.entity.player.PlayerEntity
 import net.minecraft.entity.projectile.PersistentProjectileEntity
 import net.minecraft.server.world.ServerWorld
 import net.minecraft.util.math.MathHelper
@@ -156,11 +158,12 @@ object ApplyDamageUtil {
      * Refers to attack cooldown on melee and projectile velocity on projectile
      */
     private fun calculateOtherMultiplier(source: DamageSource): Double {
-        val projectile = source.source as? PersistentProjectileEntity
-        if (projectile != null) {
-            return projectile.velocity.length()
+        val sourceEntity = source.source
+        if (sourceEntity is PersistentProjectileEntity) {
+            return sourceEntity.velocity.length()
         }
 
-        return PlayerAccessUtil.getAttackCooldownMultiplier(source.source).toDouble()
+        if (sourceEntity !is PlayerEntity) return 1.0
+        return sourceEntity.getAttackCooldownMultiplier().toDouble()
     }
 }

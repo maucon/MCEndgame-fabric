@@ -6,10 +6,10 @@ import org.jetbrains.annotations.Nullable;
 public interface MobEntityDungeonBossAccessor {
     boolean mcendgame$isDungeonBoss();
 
-    void mcendgame$setDungeonBoss();
+    void mcendgame$setDungeonBoss(boolean isBoss);
 
     @Nullable
-    SpawnPosition mcendgame$getSpawnLocation();
+    SpawnPosition mcendgame$getSpawnPosition();
 
-    void mcendgame$setSpawnLocation(SpawnPosition location);
+    void mcendgame$setSpawnPosition(SpawnPosition location);
 }

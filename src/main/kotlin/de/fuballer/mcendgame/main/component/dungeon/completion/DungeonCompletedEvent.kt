@@ -1,11 +1,10 @@
 package de.fuballer.mcendgame.main.component.dungeon.completion
 
 import net.minecraft.entity.player.PlayerEntity
-import net.minecraft.world.World
+import net.minecraft.server.world.ServerWorld
 
 data class DungeonCompletedEvent(
     val isClient: Boolean,
-    val world: World,
+    val dungeonWorld: ServerWorld,
     val players: List<PlayerEntity>,
-    val dungeonLevel: Int,
 )

@@ -1,4 +1,4 @@
-package de.fuballer.mcendgame.main.component.dungeon.boss
+package de.fuballer.mcendgame.main.component.dungeon.enemy.boss
 
 import kotlin.math.pow
 import kotlin.random.Random
