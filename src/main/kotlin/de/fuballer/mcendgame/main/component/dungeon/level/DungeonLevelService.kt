@@ -5,6 +5,8 @@ import de.fuballer.mcendgame.main.messaging.dungeon.DungeonPlayerDeathEvent
 import de.fuballer.mcendgame.main.messaging.dungeon.DungeonPlayerIncreaseProgressCommand
 import de.fuballer.mcendgame.main.util.extension.mixin.PlayerEntityMixinExtension.getDungeonLevel
 import de.fuballer.mcendgame.main.util.extension.mixin.PlayerEntityMixinExtension.setDungeonLevel
+import de.fuballer.mcendgame.main.util.extension.mixin.WorldMixinExtension.getDungeonAspects
+import de.fuballer.mcendgame.main.util.extension.mixin.WorldMixinExtension.getDungeonLevel
 import de.maucon.mauconframework.command.CommandGateway
 import de.maucon.mauconframework.di.annotation.Injectable
 import de.maucon.mauconframework.event.EventSubscriber
@@ -30,14 +32,16 @@ class DungeonLevelService {
     @EventSubscriber
     fun on(event: DungeonCompletedEvent) {
         val dungeonWorld = event.dungeonWorld
+        val aspects = dungeonWorld.getDungeonAspects()
+        val dungeonLevel = dungeonWorld.getDungeonLevel()
 
-        val dungeonPlayerIncreaseProgressCommand = DungeonPlayerIncreaseProgressCommand(dungeonWorld.aspects)
+        val dungeonPlayerIncreaseProgressCommand = DungeonPlayerIncreaseProgressCommand(aspects)
         val cmd = CommandGateway.apply(dungeonPlayerIncreaseProgressCommand)
 
         event.players.forEach { player ->
             val playerDungeonLevel = player.getDungeonLevel()
 
-            if (playerDungeonLevel.level > dungeonWorld.level) {
+            if (playerDungeonLevel.level > dungeonLevel) {
                 player.sendMessage(DungeonLevelSettings.NO_PROGRESS_MESSAGE, false)
 
                 return@forEach

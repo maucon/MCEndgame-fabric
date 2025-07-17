@@ -1,7 +1,6 @@
 package de.fuballer.mcendgame.main.component.dungeon.enemy.boss
 
 import de.fuballer.mcendgame.main.component.dungeon.generation.data.SpawnPosition
-import de.fuballer.mcendgame.main.component.dungeon.world.DungeonWorld
 import de.fuballer.mcendgame.main.component.entity.EntityTypeStats
 import de.fuballer.mcendgame.main.util.extension.mixin.EntityMixinExtension.setDungeonBoss
 import de.fuballer.mcendgame.main.util.extension.mixin.EntityMixinExtension.setDungeonBossSpawnPosition
@@ -10,12 +9,13 @@ import de.fuballer.mcendgame.main.util.minecraft.EntityUtil
 import de.maucon.mauconframework.di.annotation.Injectable
 import net.minecraft.entity.attribute.EntityAttributes
 import net.minecraft.entity.mob.MobEntity
+import net.minecraft.server.world.ServerWorld
 import kotlin.random.Random
 
 @Injectable
 class BossGenerationService {
     fun generate(
-        dungeonWorld: DungeonWorld,
+        dungeonWorld: ServerWorld,
         level: Int,
         types: List<EntityTypeStats>,
         locations: List<SpawnPosition>,
@@ -30,13 +30,13 @@ class BossGenerationService {
     }
 
     private fun spawnBoss(
-        dungeonWorld: DungeonWorld,
+        dungeonWorld: ServerWorld,
         level: Int,
         type: EntityTypeStats,
         spawnPosition: SpawnPosition,
         random: Random,
     ): MobEntity {
-        val bossEntity = EntityUtil.spawnEntityWithStats(dungeonWorld.world, type, spawnPosition, level)
+        val bossEntity = EntityUtil.spawnEntityWithStats(dungeonWorld, type, spawnPosition, level)
 
         bossEntity.setPersistent()
         setScale(bossEntity, random)

@@ -1,18 +1,19 @@
 package de.fuballer.mcendgame.main.component.dungeon.world
 
-import de.fuballer.mcendgame.main.component.dungeon.world.DungeonWorld.Companion.toDungeonWorld
 import de.fuballer.mcendgame.main.component.dungeon.world.db.DungeonWorldEntity
 import de.fuballer.mcendgame.main.component.dungeon.world.db.DungeonWorldRepository
 import de.fuballer.mcendgame.main.configuration.RuntimeConfig
 import de.fuballer.mcendgame.main.functional.scheduler.Scheduler
 import de.fuballer.mcendgame.main.messaging.server.ServerStartedEvent
 import de.fuballer.mcendgame.main.messaging.server.ServerStoppingEvent
+import de.fuballer.mcendgame.main.util.extension.mixin.WorldMixinExtension.setDungeonLevel
 import de.maucon.mauconframework.di.annotation.Injectable
 import de.maucon.mauconframework.di.annotation.Logging
 import de.maucon.mauconframework.event.EventSubscriber
 import kotlinx.datetime.Clock
 import kotlinx.datetime.DateTimeUnit
 import kotlinx.datetime.plus
+import net.minecraft.server.world.ServerWorld
 import org.slf4j.Logger
 
 @Injectable
@@ -32,15 +33,14 @@ class DungeonWorldService(
             .forEach { deleteWorld(it) }
     }
 
-    fun create(dungeonLevel: Int): DungeonWorld {
-        val world = RuntimeConfig.FANTASY
+    fun create(dungeonLevel: Int): ServerWorld {
+        val dungeonWorld = RuntimeConfig.FANTASY
             .openTemporaryWorld(DungeonWorldSettings.generateIdentifier(), DungeonWorldSettings.WORLD_CONFIG)
             .asWorld()
 
-        val dungeonWorld = world.toDungeonWorld()
-        dungeonWorld.level = dungeonLevel
+        dungeonWorld.setDungeonLevel(dungeonLevel)
 
-        val entity = DungeonWorldEntity(world)
+        val entity = DungeonWorldEntity(dungeonWorld)
         dungeonWorldRepo.save(entity)
 
         return dungeonWorld

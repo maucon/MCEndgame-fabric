@@ -1,12 +1,13 @@
 package de.fuballer.mcendgame.main.messaging.dungeon
 
-import de.fuballer.mcendgame.main.component.dungeon.world.DungeonWorld
 import de.fuballer.mcendgame.main.component.dungeon.enemy.equipment.EquipmentGenerationSettings
 import de.fuballer.mcendgame.main.component.dungeon.generation.data.SpawnPosition
 import de.fuballer.mcendgame.main.component.item.custom.aspect.AspectItem
+import de.fuballer.mcendgame.main.util.extension.mixin.WorldMixinExtension.getDungeonAspects
+import net.minecraft.server.world.ServerWorld
 
 data class DungeonGenerateEnemiesCommand(
-    val dungeonWorld: DungeonWorld,
+    val dungeonWorld: ServerWorld,
     val aspects: Map<AspectItem, Int>,
     val spawnPositions: MutableList<SpawnPosition>,
     val eliteSpawnPositions: MutableList<SpawnPosition> = mutableListOf(),
@@ -16,11 +17,11 @@ data class DungeonGenerateEnemiesCommand(
 ) {
     companion object {
         fun of(
-            dungeonWorld: DungeonWorld,
+            dungeonWorld: ServerWorld,
             spawnPositions: MutableList<SpawnPosition>,
         ) = DungeonGenerateEnemiesCommand(
             dungeonWorld,
-            dungeonWorld.aspects,
+            dungeonWorld.getDungeonAspects(),
             spawnPositions,
         )
     }

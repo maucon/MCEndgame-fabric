@@ -14,7 +14,6 @@ import de.fuballer.mcendgame.main.util.extension.WorldExtension.isDungeonWorld
 import de.fuballer.mcendgame.main.util.extension.mixin.EntityMixinExtension.getDungeonBossSpawnPosition
 import de.maucon.mauconframework.di.annotation.Injectable
 import de.maucon.mauconframework.event.EventSubscriber
-import net.minecraft.entity.mob.MobEntity
 import net.minecraft.server.world.ServerWorld
 import net.minecraft.util.math.Vec3d
 
@@ -31,15 +30,14 @@ class DungeonPortalService(
         val deviceCenterPos = event.dungeonDevicePos.toVec3d().add(0.5, 0.0, 0.5)
 
         val dungeonWorld = event.dungeonWorld
-        val serverWorld = dungeonWorld.world
         val leaveLocation = TeleportLocation(event.originWorld, deviceCenterPos.add(0.0, 1.0, 0.0))
-        spawnLeavePortal(leaveLocation, centeredSpawnPos, portalType, serverWorld)
+        spawnLeavePortal(leaveLocation, centeredSpawnPos, portalType, dungeonWorld)
 
         val deviceId = event.dungeonDevicePos.hashCode()
-        val dungeonTeleportLocation = TeleportLocation(serverWorld, centeredSpawnPos, 0f, startPos.rot.toFloat())
+        val dungeonTeleportLocation = TeleportLocation(dungeonWorld, centeredSpawnPos, 0f, startPos.rot.toFloat())
         val portals = createEntryPortals(deviceCenterPos, portalType, event.originWorld, dungeonTeleportLocation)
 
-        val entity = DungeonPortalEntity(deviceId, serverWorld, leaveLocation, portals)
+        val entity = DungeonPortalEntity(deviceId, dungeonWorld, leaveLocation, portals)
         dungeonPortalRepo.save(entity)
     }
 

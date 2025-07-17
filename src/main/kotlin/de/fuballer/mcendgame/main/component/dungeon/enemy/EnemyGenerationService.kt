@@ -3,7 +3,6 @@ package de.fuballer.mcendgame.main.component.dungeon.enemy
 import de.fuballer.mcendgame.main.component.dungeon.enemy.equipment.EquipmentGenerationService
 import de.fuballer.mcendgame.main.component.dungeon.enemy.potion_effect.PotionEffectService
 import de.fuballer.mcendgame.main.component.dungeon.generation.data.SpawnPosition
-import de.fuballer.mcendgame.main.component.dungeon.world.DungeonWorld
 import de.fuballer.mcendgame.main.component.entity.EntityTypeStats
 import de.fuballer.mcendgame.main.messaging.dungeon.DungeonGenerateEnemiesCommand
 import de.fuballer.mcendgame.main.util.extension.mixin.EntityMixinExtension.setDungeonEnemy
@@ -17,6 +16,7 @@ import de.maucon.mauconframework.di.annotation.Injectable
 import net.minecraft.entity.LivingEntity
 import net.minecraft.entity.attribute.EntityAttributes
 import net.minecraft.entity.mob.MobEntity
+import net.minecraft.server.world.ServerWorld
 import kotlin.random.Random
 
 @Injectable
@@ -25,7 +25,7 @@ class EnemyGenerationService(
     private val potionEffectService: PotionEffectService,
 ) {
     fun generate(
-        dungeonWorld: DungeonWorld,
+        dungeonWorld: ServerWorld,
         level: Int,
         types: List<RandomOption<EntityTypeStats>>,
         spawnPositions: List<SpawnPosition>,
@@ -73,7 +73,7 @@ class EnemyGenerationService(
     }
 
     private fun spawnEnemy(
-        dungeonWorld: DungeonWorld,
+        dungeonWorld: ServerWorld,
         level: Int,
         types: List<RandomOption<EntityTypeStats>>,
         location: SpawnPosition,
@@ -86,7 +86,7 @@ class EnemyGenerationService(
 
         val validTypes = if (!isLootGoblin) types else types.filter { it.option.canHaveArmor }
         val type = RandomUtil.pick(validTypes, random).option
-        val enemyEntity = EntityUtil.spawnEntityWithStats(dungeonWorld.world, type, location, level)
+        val enemyEntity = EntityUtil.spawnEntityWithStats(dungeonWorld, type, location, level)
 
         enemyEntity.setDungeonEnemy()
         enemyEntity.setPersistent()
@@ -105,7 +105,7 @@ class EnemyGenerationService(
             enemyEntity,
             type,
             level,
-            dungeonWorld.world.server,
+            dungeonWorld.server,
             isLootGoblin,
             random,
             generateEnemiesCommand,
