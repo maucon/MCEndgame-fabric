@@ -33,12 +33,22 @@ object EntityMixinExtension {
         return accessor.`mcendgame$hasDodged`(ticks)
     }
 
-    fun Entity.isDungeonEnemy(): Boolean {
+    fun LivingEntity.setDungeonEnemy(enemy: Boolean = true) {
+        val accessor = this as LivingEntityDungeonEnemyAccessor
+        return accessor.`mcendgame$setDungeonEnemy`(enemy)
+    }
+
+    fun LivingEntity.isDungeonEnemy(): Boolean {
         val enemyAccessor = this as? LivingEntityDungeonEnemyAccessor ?: return false
         return enemyAccessor.`mcendgame$isDungeonEnemy`()
     }
 
-    fun Entity.isDungeonBoss(): Boolean {
+    fun LivingEntity.setDungeonBoss(dungeonBoss: Boolean = true) {
+        val accessor = this as MobEntityDungeonBossAccessor
+        return accessor.`mcendgame$setDungeonBoss`(dungeonBoss)
+    }
+
+    fun LivingEntity.isDungeonBoss(): Boolean {
         val bossAccessor = this as? MobEntityDungeonBossAccessor ?: return false
         return bossAccessor.`mcendgame$isDungeonBoss`()
     }
@@ -101,26 +111,6 @@ object EntityMixinExtension {
     fun LivingEntity.isLootGoblin(): Boolean {
         val accessor = this as LivingEntityLootGoblinAccessor
         return accessor.`mcendgame$isLootGoblin`()
-    }
-
-    fun LivingEntity.setDungeonBoss(dungeonBoss: Boolean = true) {
-        val accessor = this as MobEntityDungeonBossAccessor
-        return accessor.`mcendgame$setDungeonBoss`(dungeonBoss)
-    }
-
-    fun LivingEntity.isDungeonBoss(): Boolean {
-        val accessor = this as MobEntityDungeonBossAccessor
-        return accessor.`mcendgame$isDungeonBoss`()
-    }
-
-    fun LivingEntity.setDungeonEnemy(enemy: Boolean = true) {
-        val accessor = this as LivingEntityDungeonEnemyAccessor
-        return accessor.`mcendgame$setDungeonEnemy`(enemy)
-    }
-
-    fun LivingEntity.isDungeonEnemy(): Boolean {
-        val accessor = this as LivingEntityDungeonEnemyAccessor
-        return accessor.`mcendgame$isDungeonEnemy`()
     }
 
     fun LivingEntity.setDungeonBossSpawnPosition(spawnPosition: SpawnPosition) {

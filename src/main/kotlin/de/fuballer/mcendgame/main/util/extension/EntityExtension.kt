@@ -41,7 +41,10 @@ object EntityExtension {
         return isValidSecondaryTargetOutsideDungeon(primaryTarget, attacker)
     }
 
-    private fun Entity.isValidSecondaryTargetInDungeon(primaryTarget: Entity) = this.isDungeonEnemy() == primaryTarget.isDungeonEnemy()
+    private fun Entity.isValidSecondaryTargetInDungeon(primaryTarget: Entity): Boolean {
+        if (this !is LivingEntity || primaryTarget !is LivingEntity) return false
+        return this.isDungeonEnemy() == primaryTarget.isDungeonEnemy()
+    }
 
     private fun Entity.isValidSecondaryTargetOutsideDungeon(primaryTarget: Entity, attacker: Entity): Boolean {
         if (this.type == primaryTarget.type) return true
