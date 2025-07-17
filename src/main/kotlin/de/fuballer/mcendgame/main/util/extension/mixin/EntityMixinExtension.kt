@@ -2,12 +2,14 @@ package de.fuballer.mcendgame.main.util.extension.mixin
 
 import de.fuballer.mcendgame.main.accessor.*
 import de.fuballer.mcendgame.main.component.custom_attribute.effects.data.AuraStatusEffect
+import de.fuballer.mcendgame.main.component.dungeon.generation.data.SpawnPosition
 import net.minecraft.entity.Entity
 import net.minecraft.entity.LivingEntity
 import net.minecraft.entity.attribute.EntityAttribute
 import net.minecraft.entity.attribute.EntityAttributeModifier
 import net.minecraft.registry.entry.RegistryEntry
 import net.minecraft.util.Identifier
+import net.minecraft.util.math.Vec3i
 
 object EntityMixinExtension {
     fun LivingEntity.addTemporaryAttributeModifier(
@@ -71,7 +73,7 @@ object EntityMixinExtension {
         return accessor.`mcendgame$hasVisualFire`()
     }
 
-     fun LivingEntity.setWebbed(webbed: Boolean = true) {
+    fun LivingEntity.setWebbed(webbed: Boolean = true) {
         val accessor = this as LivingEntityWebbedAccessor
         return accessor.`mcendgame$setWebbed`(webbed)
     }
@@ -79,5 +81,55 @@ object EntityMixinExtension {
     fun LivingEntity.isWebbed(): Boolean {
         val accessor = this as LivingEntityWebbedAccessor
         return accessor.`mcendgame$isWebbed`()
+    }
+
+    fun LivingEntity.setElite(elite: Boolean = true) {
+        val accessor = this as LivingEntityEliteAccessor
+        return accessor.`mcendgame$setElite`(elite)
+    }
+
+    fun LivingEntity.isElite(): Boolean {
+        val accessor = this as LivingEntityEliteAccessor
+        return accessor.`mcendgame$isElite`()
+    }
+
+    fun LivingEntity.setLootGoblin(lootGoblin: Boolean = true) {
+        val accessor = this as LivingEntityLootGoblinAccessor
+        return accessor.`mcendgame$setLootGoblin`(lootGoblin)
+    }
+
+    fun LivingEntity.isLootGoblin(): Boolean {
+        val accessor = this as LivingEntityLootGoblinAccessor
+        return accessor.`mcendgame$isLootGoblin`()
+    }
+
+    fun LivingEntity.setDungeonBoss(dungeonBoss: Boolean = true) {
+        val accessor = this as MobEntityDungeonBossAccessor
+        return accessor.`mcendgame$setDungeonBoss`(dungeonBoss)
+    }
+
+    fun LivingEntity.isDungeonBoss(): Boolean {
+        val accessor = this as MobEntityDungeonBossAccessor
+        return accessor.`mcendgame$isDungeonBoss`()
+    }
+
+    fun LivingEntity.setDungeonEnemy(enemy: Boolean = true) {
+        val accessor = this as LivingEntityDungeonEnemyAccessor
+        return accessor.`mcendgame$setDungeonEnemy`(enemy)
+    }
+
+    fun LivingEntity.isDungeonEnemy(): Boolean {
+        val accessor = this as LivingEntityDungeonEnemyAccessor
+        return accessor.`mcendgame$isDungeonEnemy`()
+    }
+
+    fun LivingEntity.setDungeonBossSpawnPosition(spawnPosition: SpawnPosition) {
+        val accessor = this as MobEntityDungeonBossAccessor
+        return accessor.`mcendgame$setSpawnPosition`(spawnPosition)
+    }
+
+    fun LivingEntity.getDungeonBossSpawnPosition(): SpawnPosition {
+        val accessor = this as MobEntityDungeonBossAccessor
+        return accessor.`mcendgame$getSpawnPosition`() ?: SpawnPosition(Vec3i.ZERO)
     }
 }

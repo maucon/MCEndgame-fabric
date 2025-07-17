@@ -11,6 +11,7 @@ import de.fuballer.mcendgame.main.messaging.dungeon.OpenDungeonButtonPressedEven
 import de.fuballer.mcendgame.main.util.extension.BlockPosExtension.toVec3d
 import de.fuballer.mcendgame.main.util.extension.Vec3iExtension.toCenter
 import de.fuballer.mcendgame.main.util.extension.WorldExtension.isDungeonWorld
+import de.fuballer.mcendgame.main.util.extension.mixin.EntityMixinExtension.getDungeonBossSpawnPosition
 import de.maucon.mauconframework.di.annotation.Injectable
 import de.maucon.mauconframework.event.EventSubscriber
 import net.minecraft.entity.mob.MobEntity
@@ -56,7 +57,7 @@ class DungeonPortalService(
         val world = event.world as ServerWorld
         if (!event.world.isDungeonWorld()) return
 
-        val spawnPosition = event.bossEntity.spawnPosition
+        val spawnPosition = event.bossEntity.getDungeonBossSpawnPosition()
         val dungeonPortalEntity = dungeonPortalRepo.findByDungeonWorld(world) ?: return
 
         Portals.spawn(world, spawnPosition.pos.toCenter(), dungeonPortalEntity.leaveLocation, rotation = spawnPosition.rot.toFloat())

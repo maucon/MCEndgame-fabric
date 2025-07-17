@@ -22,8 +22,8 @@ public class LivingEntityDungeonEnemyMixin implements LivingEntityDungeonEnemyAc
     }
 
     @Override
-    public void mcendgame$setDungeonEnemy() {
-        isDungeonEnemy = true;
+    public void mcendgame$setDungeonEnemy(boolean enemy) {
+        isDungeonEnemy = enemy;
     }
 
     @Inject(method = "writeCustomDataToNbt", at = @At("TAIL"))

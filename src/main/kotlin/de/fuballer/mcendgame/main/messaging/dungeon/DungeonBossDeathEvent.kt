@@ -1,7 +1,7 @@
 package de.fuballer.mcendgame.main.messaging.dungeon
 
-import de.fuballer.mcendgame.main.component.dungeon.enemy.boss.DungeonBossEntity
 import net.minecraft.entity.LivingEntity
+import net.minecraft.entity.mob.MobEntity
 import net.minecraft.world.World
 
 /**
@@ -10,6 +10,6 @@ import net.minecraft.world.World
 data class DungeonBossDeathEvent(
     val isClient: Boolean,
     val world: World,
-    val bossEntity: DungeonBossEntity,
+    val bossEntity: MobEntity,
     val killer: LivingEntity?,
 )

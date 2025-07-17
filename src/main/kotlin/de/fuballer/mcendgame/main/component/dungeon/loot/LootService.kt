@@ -7,6 +7,9 @@ import de.fuballer.mcendgame.main.messaging.dungeon.DungeonEnemyDeathEvent
 import de.fuballer.mcendgame.main.messaging.misc.LivingEntityDropCommand
 import de.fuballer.mcendgame.main.messaging.misc.MagicFindCommand
 import de.fuballer.mcendgame.main.util.extension.WorldExtension.isDungeonWorld
+import de.fuballer.mcendgame.main.util.extension.mixin.EntityMixinExtension.isDungeonBoss
+import de.fuballer.mcendgame.main.util.extension.mixin.EntityMixinExtension.isElite
+import de.fuballer.mcendgame.main.util.extension.mixin.EntityMixinExtension.isLootGoblin
 import de.fuballer.mcendgame.main.util.random.RandomUtil
 import de.maucon.mauconframework.command.CommandGateway
 import de.maucon.mauconframework.command.CommandHandler
@@ -36,28 +39,26 @@ class LootService {
     fun on(event: DungeonEnemyDeathEvent) {
         if (event.isClient) return
         val serverWorld = event.world as? ServerWorld ?: return
-
         val enemyEntity = event.enemyEntity
-        val livingEntity = enemyEntity.livingEntity
 
-        if (enemyEntity.isDungeonBoss) {
+        if (enemyEntity.isDungeonBoss()) {
             // TODO drop dungeon loot
             return
         }
 
-        if (enemyEntity.isElite) dropEliteLoot(serverWorld, livingEntity)
+        if (enemyEntity.isElite()) dropEliteLoot(serverWorld, enemyEntity)
 
         EquipmentSlot.VALUES
-            .map { livingEntity.getEquippedStack(it) }
+            .map { enemyEntity.getEquippedStack(it) }
             .filter {
                 val lootingLevel = getLootingLevel(event.killer)
-                val baseDropProbability = getDropProbability(it, lootingLevel, enemyEntity.isLootGoblin)
+                val baseDropProbability = getDropProbability(it, lootingLevel, enemyEntity.isLootGoblin())
                 val dropProbability = baseDropProbability * getMagicFindFactor(event.killer)
 
                 Random.nextDouble() <= dropProbability
             }
             .onEach { setRandomDurability(it) }
-            .forEach { livingEntity.dropStack(serverWorld, it) }
+            .forEach { enemyEntity.dropStack(serverWorld, it) }
     }
 
     private fun getLootingLevel(entity: LivingEntity?): Int {
