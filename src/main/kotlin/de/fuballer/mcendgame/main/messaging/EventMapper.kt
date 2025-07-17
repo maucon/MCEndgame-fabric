@@ -10,9 +10,9 @@ import de.fuballer.mcendgame.main.messaging.misc.*
 import de.fuballer.mcendgame.main.messaging.server.ServerEndTickEvent
 import de.fuballer.mcendgame.main.messaging.server.ServerStartedEvent
 import de.fuballer.mcendgame.main.messaging.server.ServerStoppingEvent
-import de.fuballer.mcendgame.main.util.extension.EntityExtension.isDungeonEnemy
 import de.fuballer.mcendgame.main.util.extension.ItemStackExtension.isSameIgnoringDurability
 import de.fuballer.mcendgame.main.util.extension.WorldExtension.isDungeonWorld
+import de.fuballer.mcendgame.main.util.extension.mixin.EntityMixinExtension.isDungeonEnemy
 import de.maucon.mauconframework.di.annotation.Injectable
 import de.maucon.mauconframework.event.EventGateway
 import de.maucon.mauconframework.event.EventSubscriber

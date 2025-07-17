@@ -1,8 +1,8 @@
 package de.fuballer.mcendgame.main.component.dungeon.misc
 
 import de.fuballer.mcendgame.main.messaging.misc.LivingEntityDamageCommand
-import de.fuballer.mcendgame.main.util.extension.EntityExtension.isDungeonEnemy
 import de.fuballer.mcendgame.main.util.extension.WorldExtension.isDungeonWorld
+import de.fuballer.mcendgame.main.util.extension.mixin.EntityMixinExtension.isDungeonEnemy
 import de.maucon.mauconframework.command.CommandHandler
 import de.maucon.mauconframework.di.annotation.Injectable
 

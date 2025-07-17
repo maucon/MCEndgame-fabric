@@ -1,0 +1,83 @@
+package de.fuballer.mcendgame.main.util.extension.mixin
+
+import de.fuballer.mcendgame.main.accessor.*
+import de.fuballer.mcendgame.main.component.custom_attribute.effects.data.AuraStatusEffect
+import net.minecraft.entity.Entity
+import net.minecraft.entity.LivingEntity
+import net.minecraft.entity.attribute.EntityAttribute
+import net.minecraft.entity.attribute.EntityAttributeModifier
+import net.minecraft.registry.entry.RegistryEntry
+import net.minecraft.util.Identifier
+
+object EntityMixinExtension {
+    fun LivingEntity.addTemporaryAttributeModifier(
+        type: RegistryEntry<EntityAttribute?>?,
+        identifier: Identifier?,
+        ticks: Int,
+        value: Double,
+        operation: EntityAttributeModifier.Operation?
+    ) {
+        val accessor = this as LivingEntityTemporaryAttributeModifierAccessor
+        accessor.`mcendgame$addTemporaryAttributeModifier`(type, identifier, ticks, value, operation)
+    }
+
+    fun LivingEntity.updateDodged() {
+        val accessor = this as LivingEntityDodgedRecentlyAccessor
+        return accessor.`mcendgame$updateDodge`()
+    }
+
+    fun LivingEntity.hasDodged(ticks: Int): Boolean {
+        val accessor = this as LivingEntityDodgedRecentlyAccessor
+        return accessor.`mcendgame$hasDodged`(ticks)
+    }
+
+    fun Entity.isDungeonEnemy(): Boolean {
+        val enemyAccessor = this as? LivingEntityDungeonEnemyAccessor ?: return false
+        return enemyAccessor.`mcendgame$isDungeonEnemy`()
+    }
+
+    fun Entity.isDungeonBoss(): Boolean {
+        val bossAccessor = this as? MobEntityDungeonBossAccessor ?: return false
+        return bossAccessor.`mcendgame$isDungeonBoss`()
+    }
+
+    fun LivingEntity.setCompanion() {
+        val accessor = this as LivingEntityCompanionAccessor
+        accessor.`mcendgame$setCompanion`()
+    }
+
+    fun LivingEntity.isCompanion(): Boolean {
+        val accessor = this as LivingEntityCompanionAccessor
+        return accessor.`mcendgame$isCompanion`()
+    }
+
+    fun LivingEntity.addEnemyAuraStatusEffect(effect: AuraStatusEffect) {
+        val accessor = this as LivingEntityAuraAccessor
+        accessor.`mcendgame$addEnemyAuraStatusEffect`(effect)
+    }
+
+    fun LivingEntity.addAllyAuraStatusEffect(effect: AuraStatusEffect) {
+        val accessor = this as LivingEntityAuraAccessor
+        accessor.`mcendgame$addAllyAuraStatusEffect`(effect)
+    }
+
+    fun LivingEntity.setVisualFire(visualFire: Boolean = true) {
+        val accessor = this as LivingEntityVisualFireAccessor
+        return accessor.`mcendgame$setVisualFire`(visualFire)
+    }
+
+    fun LivingEntity.hasVisualFire(): Boolean {
+        val accessor = this as LivingEntityVisualFireAccessor
+        return accessor.`mcendgame$hasVisualFire`()
+    }
+
+     fun LivingEntity.setWebbed(webbed: Boolean = true) {
+        val accessor = this as LivingEntityWebbedAccessor
+        return accessor.`mcendgame$setWebbed`(webbed)
+    }
+
+    fun LivingEntity.isWebbed(): Boolean {
+        val accessor = this as LivingEntityWebbedAccessor
+        return accessor.`mcendgame$isWebbed`()
+    }
+}

@@ -1,35 +1,19 @@
 package de.fuballer.mcendgame.main.util.extension
 
-import de.fuballer.mcendgame.main.accessor.LivingEntityDodgedRecentlyAccessor
-import de.fuballer.mcendgame.main.accessor.LivingEntityDungeonEnemyAccessor
-import de.fuballer.mcendgame.main.accessor.MobEntityDungeonBossAccessor
 import de.fuballer.mcendgame.main.util.extension.WorldExtension.isDungeonWorld
+import de.fuballer.mcendgame.main.util.extension.mixin.EntityMixinExtension.isDungeonEnemy
 import net.minecraft.entity.Entity
 import net.minecraft.entity.LivingEntity
 import net.minecraft.entity.Tameable
-import net.minecraft.entity.attribute.EntityAttribute
-import net.minecraft.entity.attribute.EntityAttributeModifier
 import net.minecraft.entity.decoration.ArmorStandEntity
 import net.minecraft.entity.mob.Monster
 import net.minecraft.entity.passive.AnimalEntity
 import net.minecraft.entity.passive.IronGolemEntity
 import net.minecraft.entity.passive.VillagerEntity
 import net.minecraft.entity.player.PlayerEntity
-import net.minecraft.registry.entry.RegistryEntry
-import net.minecraft.util.Identifier
 import net.minecraft.util.math.Vec3d
 
 object EntityExtension {
-    fun Entity.isDungeonEnemy(): Boolean {
-        val enemyAccessor = this as? LivingEntityDungeonEnemyAccessor ?: return false
-        return enemyAccessor.`mcendgame$isDungeonEnemy`()
-    }
-
-    fun Entity.isDungeonBoss(): Boolean {
-        val bossAccessor = this as? MobEntityDungeonBossAccessor ?: return false
-        return bossAccessor.`mcendgame$isDungeonBoss`()
-    }
-
     fun LivingEntity.isAlly(entity: Entity): Boolean {
         if (this == entity) return true
 
@@ -51,12 +35,13 @@ object EntityExtension {
     fun Entity.isValidSecondaryTarget(primaryTarget: Entity, attacker: Entity): Boolean {
         if (this == attacker || this == primaryTarget) return false
 
-        if (world.isDungeonWorld())
+        if (world.isDungeonWorld()) {
             return isValidSecondaryTargetInDungeon(primaryTarget)
+        }
         return isValidSecondaryTargetOutsideDungeon(primaryTarget, attacker)
     }
 
-    private fun Entity.isValidSecondaryTargetInDungeon(primaryTarget: Entity) = isDungeonEnemy() == primaryTarget.isDungeonEnemy()
+    private fun Entity.isValidSecondaryTargetInDungeon(primaryTarget: Entity) = this.isDungeonEnemy() == primaryTarget.isDungeonEnemy()
 
     private fun Entity.isValidSecondaryTargetOutsideDungeon(primaryTarget: Entity, attacker: Entity): Boolean {
         if (this.type == primaryTarget.type) return true

@@ -3,10 +3,12 @@ package de.fuballer.mcendgame.main.component.damage
 import de.fuballer.mcendgame.main.component.custom_attribute.CustomAttributesExtensions.getAllCustomAttributes
 import de.fuballer.mcendgame.main.component.custom_attribute.data.CustomAttribute
 import de.fuballer.mcendgame.main.component.custom_attribute.data.CustomAttributeType
+import de.fuballer.mcendgame.main.util.extension.mixin.PlayerEntityMixinExtension.wasLastAttackCritical
 import net.minecraft.entity.Entity
 import net.minecraft.entity.LivingEntity
 import net.minecraft.entity.damage.DamageSource
 import net.minecraft.entity.damage.DamageType
+import net.minecraft.entity.player.PlayerEntity
 import net.minecraft.entity.projectile.PersistentProjectileEntity
 import net.minecraft.server.world.ServerWorld
 
@@ -55,7 +57,8 @@ data class ApplyDamageCalculationCommand(
 
             val isProjectile = source.source is PersistentProjectileEntity
             val isProjectileCritical = if (!isProjectile) false else (source.source as PersistentProjectileEntity).isCritical
-            val isCritical = PlayerAccessUtil.getIsCritical(damager) || isProjectileCritical
+            val playerCriticalAttack = (damager as? PlayerEntity)?.wasLastAttackCritical() ?: false
+            val isCritical = playerCriticalAttack || isProjectileCritical
 
             return ApplyDamageCalculationCommand(damager, damagerAttributes, damaged, damagedAttributes, damageType, world, isProjectile, isCritical)
         }

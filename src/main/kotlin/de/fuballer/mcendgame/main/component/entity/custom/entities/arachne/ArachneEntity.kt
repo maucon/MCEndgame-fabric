@@ -1,6 +1,5 @@
 package de.fuballer.mcendgame.main.component.entity.custom.entities.arachne
 
-import de.fuballer.mcendgame.main.accessor.LivingEntityWebbedAccessor
 import de.fuballer.mcendgame.main.component.block.CustomBlocks
 import de.fuballer.mcendgame.main.component.entity.custom.CustomEntities
 import de.fuballer.mcendgame.main.component.entity.custom.entities.mount.MountEntity
@@ -10,6 +9,7 @@ import de.fuballer.mcendgame.main.component.entity.custom.goals.*
 import de.fuballer.mcendgame.main.component.entity.custom.interfaces.CustomPosesEntity
 import de.fuballer.mcendgame.main.component.entity.custom.interfaces.HookAttackMob
 import de.fuballer.mcendgame.main.component.entity.custom.interfaces.MeleeAttackMob
+import de.fuballer.mcendgame.main.util.extension.mixin.EntityMixinExtension.setWebbed
 import net.minecraft.block.BlockState
 import net.minecraft.block.Blocks
 import net.minecraft.entity.AnimationState
@@ -377,8 +377,7 @@ class ArachneEntity(
 
         triggerMeleeOnHook(entity)
 
-        val accessor = entity as? LivingEntityWebbedAccessor ?: return
-        accessor.`mcendgame$setWebbed`(true)
+        entity.setWebbed()
     }
 
     private fun triggerMeleeOnHook(hookedEntity: LivingEntity) {
@@ -396,8 +395,8 @@ class ArachneEntity(
         val world = world as? ServerWorld ?: return
         val entity = world.getEntity(hookedUuid) ?: return
 
-        val accessor = entity as? LivingEntityWebbedAccessor ?: return
-        accessor.`mcendgame$setWebbed`(false)
+        if (entity !is LivingEntity) return
+        entity.setWebbed()
     }
 
     override fun meleeAttack(target: LivingEntity) {

@@ -1,6 +1,6 @@
 package de.fuballer.mcendgame.main.mixin.enemy.boss;
 
-import de.fuballer.mcendgame.main.util.extension.EntityExtension;
+import de.fuballer.mcendgame.main.util.extension.mixin.EntityMixinExtension;
 import net.minecraft.entity.LivingEntity;
 import net.minecraft.entity.damage.DamageSource;
 import net.minecraft.entity.mob.MobEntity;
@@ -25,7 +25,7 @@ public abstract class LivingEntityDungeonBossMixin {
         if (!(livingEntity instanceof MobEntity mobEntity)) return;
         if (!mobEntity.isAiDisabled()) return;
 
-        if (!EntityExtension.INSTANCE.isDungeonBoss(mobEntity)) return;
+        if (!EntityMixinExtension.INSTANCE.isDungeonBoss(mobEntity)) return;
 
         mobEntity.setAiDisabled(false);
 

@@ -1,8 +1,8 @@
 package de.fuballer.mcendgame.client.component.item.custom.armor.bound_abyss
 
-import de.fuballer.mcendgame.client.accessor.LivingEntityRenderStateAccessor
 import de.fuballer.mcendgame.client.component.item.custom.ModelPartDataExtension.createEmptyChild
 import de.fuballer.mcendgame.client.component.item.custom.armor.CustomVertexConsumer
+import de.fuballer.mcendgame.client.util.EntityRenderStateMixinExtension.getLowHealthTicks
 import de.fuballer.mcendgame.main.util.minecraft.IdentifierUtil
 import net.minecraft.client.model.*
 import net.minecraft.client.render.VertexConsumer
@@ -12,6 +12,7 @@ import net.minecraft.client.render.entity.model.EntityModelLayer
 import net.minecraft.client.render.entity.model.EntityModelPartNames
 import net.minecraft.client.render.entity.state.BipedEntityRenderState
 import net.minecraft.client.render.entity.state.EntityRenderState
+import net.minecraft.client.render.entity.state.LivingEntityRenderState
 import org.joml.Vector3f
 
 class BoundAbyssModel<S : BipedEntityRenderState>(
@@ -39,9 +40,9 @@ class BoundAbyssModel<S : BipedEntityRenderState>(
         provider: VertexConsumerProvider,
         default: VertexConsumer,
     ): VertexConsumer {
-        if (renderState !is LivingEntityRenderStateAccessor) return default
+        if (renderState !is LivingEntityRenderState) return default
 
-        val effectStrength = renderState.`mcendgame$getLowHealthTicks20`() / 20.0
+        val effectStrength = renderState.getLowHealthTicks() / 20.0
         return BoundAbyssVertexConsumer(default, effectStrength)
     }
 
@@ -143,8 +144,7 @@ class BoundAbyssModel<S : BipedEntityRenderState>(
     }
 
     private fun setLowHealthAngles(renderState: S) {
-        val accessor = renderState as? LivingEntityRenderStateAccessor ?: return
-        val lowHealthTicks20 = accessor.`mcendgame$getLowHealthTicks20`()
+        val lowHealthTicks20 = renderState.getLowHealthTicks()
         val openPercent = lowHealthTicks20 / 20F
 
         shoulderPadLeft.moveOrigin(Vector3f(openPercent * 1.5F, openPercent * -0.8F, 0F))
