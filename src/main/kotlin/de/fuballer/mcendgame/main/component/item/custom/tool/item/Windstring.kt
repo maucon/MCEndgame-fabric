@@ -1,17 +1,17 @@
-package de.fuballer.mcendgame.main.component.item.custom.armor.item.iceborne
+package de.fuballer.mcendgame.main.component.item.custom.tool.item
 
 import de.fuballer.mcendgame.main.component.custom_attribute.data.DoubleBounds
 import de.fuballer.mcendgame.main.component.custom_attribute.data.RollableCustomAttribute
 import de.fuballer.mcendgame.main.component.custom_attribute.types.CustomAttributeTypes
-import de.fuballer.mcendgame.main.component.item.custom.UniqueAttributesItem
+import de.fuballer.mcendgame.main.component.item.custom.UniqueAttributesBowItem
 import net.minecraft.component.type.AttributeModifierSlot
 
-class Iceborne(
+class Windstring(
     settings: Settings,
-) : UniqueAttributesItem(settings) {
+) : UniqueAttributesBowItem(settings) {
     override fun getCustomAttributes() = listOf(
-        RollableCustomAttribute(CustomAttributeTypes.ELEMENTAL_DAMAGE, 0, DoubleBounds(0.05, 0.15))
+        RollableCustomAttribute(CustomAttributeTypes.INCREASED_DAMAGE, 0, DoubleBounds(0.1, 0.2)),
     )
 
-    override fun getAttributeModifierSlot() = AttributeModifierSlot.HEAD
+    override fun getAttributeModifierSlot() = AttributeModifierSlot.HAND
 }
