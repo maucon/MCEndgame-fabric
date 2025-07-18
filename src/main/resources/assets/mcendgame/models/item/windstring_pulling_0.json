@@ -1,0 +1,6 @@
+{
+  "parent": "mcendgame:item/windstring",
+  "textures": {
+    "layer0": "mcendgame:item/windstring_pulling_0"
+  }
+}
