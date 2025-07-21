@@ -15,7 +15,9 @@ object DungeonDevice {
     val BLOCK = RegistryUtil.registerBlock(
         ::DungeonDeviceBlock,
         Settings.create()
-            .resistance(Blocks.BEDROCK.blastResistance),
+            .resistance(1200F)
+            .hardness(10F)
+            .requiresTool(),
         NAME
     )
     val BLOCK_ENTITY_TYPE = RegistryUtil.registerBlockEntityType(::DungeonDeviceBlockEntity, BLOCK, NAME)

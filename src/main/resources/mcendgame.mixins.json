@@ -18,6 +18,7 @@
     "goal.BowAttackGoalAccessor",
     "goal.BowAttackGoalMixin",
     "item.ImmuneItemEntityMixin",
+    "item.bow.BowItemDrawSpeedMixin",
     "living_entity.LivingEntityAttributeWhilePoisonedMixin",
     "living_entity.LivingEntityAttributeWhileWitheredMixin",
     "living_entity.LivingEntityAuraMixin",
