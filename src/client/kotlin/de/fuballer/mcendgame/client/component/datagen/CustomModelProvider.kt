@@ -1,5 +1,6 @@
 package de.fuballer.mcendgame.client.component.datagen
 
+import de.fuballer.mcendgame.client.component.datagen.property.BowPullDurationProperty
 import de.fuballer.mcendgame.main.component.block.CustomBlocks
 import de.fuballer.mcendgame.main.component.dungeon.device.DungeonDevice
 import de.fuballer.mcendgame.main.component.item.custom.armor.CustomArmorItems
@@ -22,6 +23,7 @@ class CustomModelProvider(
 
     override fun generateItemModels(generator: ItemModelGenerator) {
         generator.register(CustomToolItems.TWINFIRE, Models.HANDHELD)
+        registerCustomBow(generator, CustomToolItems.WINDSTRING)
 
         generator.register(CustomArmorItems.BOUND_ABYSS, Models.GENERATED)
         generator.register(CustomArmorItems.DRUIDS_BOOTS, Models.GENERATED)
@@ -59,7 +61,7 @@ class CustomModelProvider(
         .put(TextureKey.SOUTH, TextureMap.getSubId(block, "_side"))
         .put(TextureKey.WEST, TextureMap.getSubId(block, "_side"))
 
-    private fun generateDyeable(
+    fun generateDyeable(
         generator: ItemModelGenerator,
         item: Item,
         defaultColor: Int = -6265536,
@@ -76,5 +78,30 @@ class CustomModelProvider(
         }
 
         generator.output.accept(item, ItemModels.tinted(modelId, DyeTintSource(defaultColor)))
+    }
+
+    fun registerCustomBow(
+        generator: ItemModelGenerator,
+        item: Item
+    ) {
+        val unbaked = ItemModels.basic(generator.registerSubModel(item, "", Models.BOW))
+        val unbaked2 = ItemModels.basic(generator.registerSubModel(item, "_pulling_0", Models.BOW))
+        val unbaked3 = ItemModels.basic(generator.registerSubModel(item, "_pulling_1", Models.BOW))
+        val unbaked4 = ItemModels.basic(generator.registerSubModel(item, "_pulling_2", Models.BOW))
+
+        generator.output.accept(
+            item,
+            ItemModels.condition(
+                ItemModels.usingItemProperty(),
+                ItemModels.rangeDispatch(
+                    BowPullDurationProperty(),
+                    1F,
+                    unbaked2,
+                    ItemModels.rangeDispatchEntry(unbaked3, 0.65f),
+                    ItemModels.rangeDispatchEntry(unbaked4, 0.9f)
+                ),
+                unbaked
+            )
+        )
     }
 }

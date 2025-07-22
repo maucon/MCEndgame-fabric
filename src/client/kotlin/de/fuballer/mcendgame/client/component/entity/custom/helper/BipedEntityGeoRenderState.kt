@@ -1,4 +1,4 @@
-package de.fuballer.mcendgame.client.helper
+package de.fuballer.mcendgame.client.component.entity.custom.helper
 
 import net.minecraft.client.render.entity.state.BipedEntityRenderState
 import software.bernie.geckolib.renderer.base.GeoRenderState
