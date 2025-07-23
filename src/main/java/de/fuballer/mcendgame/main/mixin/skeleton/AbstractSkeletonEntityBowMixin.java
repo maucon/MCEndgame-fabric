@@ -1,7 +1,6 @@
 package de.fuballer.mcendgame.main.mixin.skeleton;
 
-import de.fuballer.mcendgame.main.component.custom_attribute.CustomAttributesExtensions;
-import de.fuballer.mcendgame.main.component.custom_attribute.types.CustomAttributeTypes;
+import de.fuballer.mcendgame.main.util.extension.EntityExtension;
 import net.minecraft.entity.LivingEntity;
 import net.minecraft.entity.mob.AbstractSkeletonEntity;
 import net.minecraft.item.BowItem;
@@ -43,20 +42,17 @@ public class AbstractSkeletonEntityBowMixin {
 
     @Inject(method = "getRegularAttackInterval", at = @At("HEAD"), cancellable = true)
     void getRegularAttackInterval(CallbackInfoReturnable<Integer> cir) {
-        cir.setReturnValue(40 + getAdditionalBowPullTicks() * 2);
+        cir.setReturnValue(40 + getAdditionalAttackIntervalTicks() * 2);
     }
 
     @Inject(method = "getHardAttackInterval", at = @At("HEAD"), cancellable = true)
     void getHardAttackInterval(CallbackInfoReturnable<Integer> cir) {
-        cir.setReturnValue(20 + getAdditionalBowPullTicks());
+        cir.setReturnValue(20 + getAdditionalAttackIntervalTicks());
     }
 
     @Unique
-    private int getAdditionalBowPullTicks() {
+    private int getAdditionalAttackIntervalTicks() {
         var entity = (AbstractSkeletonEntity) (Object) this;
-        var attributes = CustomAttributesExtensions.INSTANCE.getAllCustomAttributes(entity).get(CustomAttributeTypes.INSTANCE.getBOW_PULL_TICKS());
-        return attributes == null ? 0 : attributes.stream()
-                .mapToInt(it -> CustomAttributesExtensions.INSTANCE.asIntRoll(it.getRolls().getFirst()).getActualRoll())
-                .sum();
+        return EntityExtension.INSTANCE.getAdditionalBowPullTicks(entity);
     }
 }

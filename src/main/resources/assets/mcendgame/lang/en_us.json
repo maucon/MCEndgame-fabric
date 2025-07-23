@@ -92,7 +92,7 @@
   "attribute.mcendgame.fury_on_kill": " Gain a stack of Fury on Kill",
   "attribute.mcendgame.resilience_on_damage_taken": " Gain a stack of Resilience when taking Damage",
   "attribute.mcendgame.wolf_companion": " %s Wolf Companion",
-  "attribute.mcendgame.bow_pull_ticks": "%s Bow Pull Ticks",
+  "attribute.mcendgame.bow_pull_ticks": "%s Bow Draw Ticks",
 
   "effect.mcendgame.fury": "Fury",
   "effect.mcendgame.resilience": "Resilience",

@@ -1,9 +1,7 @@
 package de.fuballer.mcendgame.client.component.datagen.property
 
 import com.mojang.serialization.MapCodec
-import de.fuballer.mcendgame.main.component.custom_attribute.CustomAttributesExtensions.asIntRoll
-import de.fuballer.mcendgame.main.component.custom_attribute.CustomAttributesExtensions.getAllCustomAttributes
-import de.fuballer.mcendgame.main.component.custom_attribute.types.CustomAttributeTypes
+import de.fuballer.mcendgame.main.util.extension.EntityExtension.getBowFullPullTicks
 import net.minecraft.client.render.item.property.numeric.NumericProperty
 import net.minecraft.client.render.item.property.numeric.UseDurationProperty
 import net.minecraft.client.world.ClientWorld
@@ -22,13 +20,7 @@ class BowPullDurationProperty() : NumericProperty {
     override fun getValue(stack: ItemStack, world: ClientWorld?, holder: LivingEntity?, seed: Int): Float {
         if (holder == null || holder.activeItem != stack) return 0F
         val ticksUsed = UseDurationProperty.getTicksUsedSoFar(stack, holder)
-        val maxTicks = getMaxPullTicks(holder)
+        val maxTicks = holder.getBowFullPullTicks()
         return min(ticksUsed.toFloat() / maxTicks, 1F)
-    }
-
-    fun getMaxPullTicks(holder: LivingEntity): Int {
-        val attributes = holder.getAllCustomAttributes()[CustomAttributeTypes.BOW_PULL_TICKS] ?: return BASE_MAX_PULL_DURATION
-        val sum = attributes.sumOf { it.rolls[0].asIntRoll().getActualRoll() }
-        return BASE_MAX_PULL_DURATION + sum
     }
 }
