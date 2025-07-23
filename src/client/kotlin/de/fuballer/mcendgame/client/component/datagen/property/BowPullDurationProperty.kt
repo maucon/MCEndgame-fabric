@@ -26,7 +26,7 @@ class BowPullDurationProperty() : NumericProperty {
         return min(ticksUsed.toFloat() / maxTicks, 1F)
     }
 
-    private fun getMaxPullTicks(holder: LivingEntity): Int {
+    fun getMaxPullTicks(holder: LivingEntity): Int {
         val attributes = holder.getAllCustomAttributes()[CustomAttributeTypes.BOW_PULL_TICKS] ?: return BASE_MAX_PULL_DURATION
         val sum = attributes.sumOf { it.rolls[0].asIntRoll().getActualRoll() }
         return BASE_MAX_PULL_DURATION + sum
