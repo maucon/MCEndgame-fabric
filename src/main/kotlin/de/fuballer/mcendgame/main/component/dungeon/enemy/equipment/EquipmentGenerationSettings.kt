@@ -19,7 +19,7 @@ object EquipmentGenerationSettings {
     private const val EQUIPMENT_ROLL_TRIES_PER_TIER = 0.25
     fun calculateEquipmentRollTries(mapTier: Int) = 1 + (mapTier * EQUIPMENT_ROLL_TRIES_PER_TIER).toInt()
 
-    const val UNIQUE_EQUIPMENT_PROBABILITY = 0.01
+    const val UNIQUE_EQUIPMENT_PROBABILITY = 0.01 * 100
 
     val UNIQUE_EQUIPMENT = mapOf<EquipmentSlot, List<Equipment>>(
         EquipmentSlot.MAINHAND to listOf(
@@ -50,6 +50,10 @@ object EquipmentGenerationSettings {
             Boots.DRUIDS_BOOTS,
             Boots.WITHER_ROSE_BOOTS,
         ),
+    )
+
+    val UNIQUE_RANGED_EQUIPMENT = listOf(
+        Bow.WINDSTRING
     )
 
     val HELMETS = listOf(
@@ -138,7 +142,7 @@ object EquipmentGenerationSettings {
         SortableRandomOption(500, 6, Hoe.NETHERITE),
     )
     private val BOWS = listOf(
-        SortableRandomOption(100, 0, Miscellaneous.BOW)
+        SortableRandomOption(100, 0, Bow.BOW)
     )
     private val SPECIAL_WEAPONS = listOf(
         SortableRandomOption(100, 0, Miscellaneous.TRIDENT),

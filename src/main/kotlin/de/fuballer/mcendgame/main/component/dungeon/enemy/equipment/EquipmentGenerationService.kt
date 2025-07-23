@@ -74,7 +74,7 @@ class EquipmentGenerationService(
         armorTrim: ArmorTrim? = null,
     ): ItemStack? {
         if (random.nextDouble() <= uniqueEquipmentProbability) {
-            return createUniqueEquipment(level, slot, server, random)
+            return createUniqueEquipment(level, slot, server, random, isRanged)
         }
 
         return when (slot) {
@@ -89,8 +89,10 @@ class EquipmentGenerationService(
         slot: EquipmentSlot,
         server: MinecraftServer,
         random: Random,
+        isRanged: Boolean,
     ): ItemStack? {
-        val equipment = EquipmentGenerationSettings.UNIQUE_EQUIPMENT[slot]?.random(random) ?: return null
+        val equipment = if (isRanged && slot == EquipmentSlot.MAINHAND) EquipmentGenerationSettings.UNIQUE_RANGED_EQUIPMENT.random(random)
+        else EquipmentGenerationSettings.UNIQUE_EQUIPMENT[slot]?.random(random) ?: return null
         val item = equipment.item
         val itemStack = if (item is UniqueAttributesItemInterface) item.getRolledStack(item) else ItemStack(item)
 
