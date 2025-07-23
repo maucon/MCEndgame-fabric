@@ -46,6 +46,9 @@ class CustomItemTagProvider(
         getOrCreateTagBuilder(ItemTags.BOW_ENCHANTABLE)
             .add(CustomToolItems.WINDSTRING)
 
+        getOrCreateTagBuilder(ItemTags.DURABILITY_ENCHANTABLE)
+            .add(CustomToolItems.WINDSTRING)
+
         getOrCreateTagBuilder(ItemTags.DYEABLE)
             .add(CustomArmorItems.SUEDE_HELMET)
             .add(CustomArmorItems.SUEDE_CHESTPLATE)
