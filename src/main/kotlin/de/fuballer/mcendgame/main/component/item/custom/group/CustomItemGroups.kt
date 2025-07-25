@@ -70,6 +70,7 @@ object CustomItemGroups {
             itemGroup.add(CustomToolItems.BLOODHARVEST.defaultStack)
             itemGroup.add(CustomToolItems.TWINFIRE.defaultStack)
             itemGroup.add(CustomToolItems.WINDSTRING.defaultStack)
+            itemGroup.add(CustomToolItems.HAILSTORM.defaultStack)
         }
         ItemGroupEvents.modifyEntriesEvent(ASPECTS_KEY).register { itemGroup ->
             itemGroup.add(AspectItems.ASPECT_OF_TYRANNY.defaultStack)
