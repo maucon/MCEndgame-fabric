@@ -47,6 +47,9 @@ enum class Helmet(
     ),
     ICEBORNE(
         CustomArmorItems.ICEBORNE,
+    ),
+    SUEDE_HELMET(
+        CustomArmorItems.SUEDE_HELMET,
     );
 
     override val slot = AttributeModifierSlot.HEAD

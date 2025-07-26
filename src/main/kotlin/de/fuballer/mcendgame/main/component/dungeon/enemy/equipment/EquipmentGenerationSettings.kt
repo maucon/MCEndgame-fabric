@@ -35,25 +35,30 @@ object EquipmentGenerationSettings {
             Helmet.EMBERCHANT,
             Helmet.DRUIDS_HELMET,
             Helmet.WITHER_ROSE_HELMET,
+            Helmet.SUEDE_HELMET,
         ),
         EquipmentSlot.CHEST to listOf(
             Chestplate.BOUND_ABYSS,
             Chestplate.DRUIDS_CHESTPLATE,
             Chestplate.WITHER_ROSE_CHESTPLATE,
+            Chestplate.SUEDE_CHESTPLATE,
         ),
         EquipmentSlot.LEGS to listOf(
             Leggings.LAMIAS_GIFT,
             Leggings.DRUIDS_LEGGINGS,
             Leggings.WITHER_ROSE_LEGGINGS,
+            Leggings.SUEDE_LEGGINGS,
         ),
         EquipmentSlot.FEET to listOf(
             Boots.DRUIDS_BOOTS,
             Boots.WITHER_ROSE_BOOTS,
+            Boots.SUEDE_BOOTS,
         ),
     )
 
     val UNIQUE_RANGED_EQUIPMENT = listOf(
-        Bow.WINDSTRING
+        Bow.WINDSTRING,
+        Bow.HAILSTORM,
     )
 
     val HELMETS = listOf(

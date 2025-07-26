@@ -24,36 +24,39 @@ class AttributeService {
         slot: AttributeModifierSlot,
         lucky: Boolean,
     ) {
-        val customAttributes = selectAttributes(level, possibleAttributes, random, lucky)
+        val customAttributes = selectAttributes(level, possibleAttributes, slot, random, lucky)
         itemStack.setCustomAttributes(customAttributes, slot)
     }
 
     private fun selectAttributes(
         level: Int,
         possibleAttributes: List<RandomOption<RollableCustomAttribute>>,
+        slot: AttributeModifierSlot,
         random: Random,
         lucky: Boolean,
     ): List<CustomAttribute> {
-        val rolledAttributes = getDistinctRolledAttributes(level, possibleAttributes, random)
+        val rolledAttributes = getDistinctRolledAttributes(level, possibleAttributes, slot, random)
         if (!lucky) return rolledAttributes
 
-        val rolledAttributesB = getDistinctRolledAttributes(level, possibleAttributes, random)
+        val rolledAttributesB = getDistinctRolledAttributes(level, possibleAttributes, slot, random)
         return getBetterRolls(rolledAttributes, rolledAttributesB)
     }
 
     private fun getDistinctRolledAttributes(
         level: Int,
         possibleAttributes: List<RandomOption<RollableCustomAttribute>>,
+        slot: AttributeModifierSlot,
         random: Random,
     ): List<CustomAttribute> {
         val statAmount = RandomUtil.pick(AttributeSettings.ATTRIBUTE_COUNT, level, random).option
         val pickedAttributes = RandomUtil.pick(possibleAttributes, random, statAmount)
             .groupBy { it.type }.mapNotNull { (_, group) -> group.minByOrNull { it.tier } }
-        return rollAttributes(pickedAttributes, random)
+        return rollAttributes(pickedAttributes, slot, random)
     }
 
     private fun rollAttributes(
         attributes: List<RollableCustomAttribute>,
+        slot: AttributeModifierSlot,
         random: Random,
     ) = attributes
         .map {
@@ -61,7 +64,7 @@ class AttributeService {
             repeat(it.bounds.size) {
                 percentageRolls.add(random.nextDouble())
             }
-            it.roll(percentageRolls)
+            it.roll(percentageRolls, slot)
         }
 
     private fun getBetterRolls(

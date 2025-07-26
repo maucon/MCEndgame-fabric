@@ -2,6 +2,7 @@ package de.fuballer.mcendgame.main.component.custom_attribute
 
 import de.fuballer.mcendgame.main.MCEndgame
 import de.fuballer.mcendgame.main.component.custom_attribute.data.*
+import de.fuballer.mcendgame.main.util.extension.SlotExtension.isOrIsChildOf
 import de.fuballer.mcendgame.main.util.minecraft.IdentifierUtil
 import de.fuballer.mcendgame.main.util.minecraft.RegistryUtil
 import de.maucon.mauconframework.di.annotation.Injectable
@@ -49,18 +50,24 @@ object CustomAttributesExtensions {
         val customAttributes = mutableListOf<CustomAttribute>()
 
         val feetItem = this.getEquippedStack(EquipmentSlot.FEET)
-        customAttributes.addAll(feetItem.getCustomAttributes())
+        val feetAttributes = feetItem.getCustomAttributes().filter { AttributeModifierSlot.FEET.isOrIsChildOf(it.slot) }
+        customAttributes.addAll(feetAttributes)
         val legsItem = this.getEquippedStack(EquipmentSlot.LEGS)
-        customAttributes.addAll(legsItem.getCustomAttributes())
-        val bodyItem = this.getEquippedStack(EquipmentSlot.CHEST)
-        customAttributes.addAll(bodyItem.getCustomAttributes())
+        val legsAttributes = legsItem.getCustomAttributes().filter { AttributeModifierSlot.LEGS.isOrIsChildOf(it.slot) }
+        customAttributes.addAll(legsAttributes)
+        val chestItem = this.getEquippedStack(EquipmentSlot.CHEST)
+        val chestAttributes = chestItem.getCustomAttributes().filter { AttributeModifierSlot.CHEST.isOrIsChildOf(it.slot) }
+        customAttributes.addAll(chestAttributes)
         val headItem = this.getEquippedStack(EquipmentSlot.HEAD)
-        customAttributes.addAll(headItem.getCustomAttributes())
+        val headAttributes = headItem.getCustomAttributes().filter { AttributeModifierSlot.HEAD.isOrIsChildOf(it.slot) }
+        customAttributes.addAll(headAttributes)
 
         val mainHandItem = this.getEquippedStack(EquipmentSlot.MAINHAND)
-        customAttributes.addAll(mainHandItem.getCustomAttributes())
+        val mainHandAttributes = mainHandItem.getCustomAttributes().filter { AttributeModifierSlot.MAINHAND.isOrIsChildOf(it.slot) }
+        customAttributes.addAll(mainHandAttributes)
         val offHandItem = this.getEquippedStack(EquipmentSlot.OFFHAND)
-        customAttributes.addAll(offHandItem.getCustomAttributes())
+        val offHandAttributes = offHandItem.getCustomAttributes().filter { AttributeModifierSlot.OFFHAND.isOrIsChildOf(it.slot) }
+        customAttributes.addAll(offHandAttributes)
 
         return customAttributes
             .filter { it.type is CustomAttributeType }
