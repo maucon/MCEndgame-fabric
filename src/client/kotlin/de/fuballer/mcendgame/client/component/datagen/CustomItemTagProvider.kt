@@ -43,11 +43,16 @@ class CustomItemTagProvider(
             .add(CustomArmorItems.SUEDE_BOOTS)
             .add(CustomArmorItems.WITHER_ROSE_BOOTS)
 
-        getOrCreateTagBuilder(ItemTags.BOW_ENCHANTABLE)
+        getOrCreateTagBuilder(CustomTags.BOW)
+            .add(Items.BOW)
             .add(CustomToolItems.WINDSTRING)
+            .add(CustomToolItems.HAILSTORM)
+
+        getOrCreateTagBuilder(ItemTags.BOW_ENCHANTABLE)
+            .forceAddTag(CustomTags.BOW)
 
         getOrCreateTagBuilder(ItemTags.DURABILITY_ENCHANTABLE)
-            .add(CustomToolItems.WINDSTRING)
+            .forceAddTag(CustomTags.BOW)
 
         getOrCreateTagBuilder(ItemTags.DYEABLE)
             .add(CustomArmorItems.SUEDE_HELMET)

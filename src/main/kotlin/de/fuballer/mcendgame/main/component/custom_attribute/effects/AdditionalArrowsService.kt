@@ -5,8 +5,10 @@ import de.fuballer.mcendgame.main.component.custom_attribute.CustomAttributesExt
 import de.fuballer.mcendgame.main.component.custom_attribute.types.CustomAttributeTypes
 import de.fuballer.mcendgame.main.configuration.RuntimeConfig
 import de.fuballer.mcendgame.main.messaging.misc.EntityShotArrowEvent
+import de.fuballer.mcendgame.main.util.extension.mixin.PersistentProjectileEntityMixinExtension.hasLoadBeenProcessed
 import de.fuballer.mcendgame.main.util.extension.mixin.PersistentProjectileEntityMixinExtension.isAdditional
 import de.fuballer.mcendgame.main.util.extension.mixin.PersistentProjectileEntityMixinExtension.setIsAdditional
+import de.fuballer.mcendgame.main.util.extension.mixin.PersistentProjectileEntityMixinExtension.setLoadProcessed
 import de.maucon.mauconframework.di.annotation.Injectable
 import de.maucon.mauconframework.event.EventSubscriber
 import net.minecraft.entity.EntityType
@@ -19,12 +21,17 @@ import kotlin.math.abs
 import kotlin.math.cos
 import kotlin.math.sin
 
+private const val ROTATION_PER_ARROW = 5.0
+private const val DEFAULT_ROTATION_PITCH_THRESHOLD = 85
+
 @Injectable
 object AdditionalArrowsService {
     @EventSubscriber
     fun on(event: EntityShotArrowEvent) {
         val originalArrow = event.arrow
+        if (originalArrow.hasLoadBeenProcessed()) return
         if (originalArrow.isAdditional()) return
+        originalArrow.setLoadProcessed()
 
         val attributes = event.owner.getAllCustomAttributes()[CustomAttributeTypes.ADDITIONAL_ARROWS] ?: return
         val additionalArrows = attributes.sumOf { it.rolls[0].asIntRoll().getActualRoll() }
@@ -44,18 +51,19 @@ object AdditionalArrowsService {
         val rotationVector = getRotationVector(originalVelocity, owner.pitch, owner.yaw)
 
         val newArrows = mutableListOf<ArrowEntity>()
-        for (i in 1..count) {
+        for (index in 1..count) {
             val arrow = ArrowEntity(EntityType.ARROW, world)
 
             arrow.owner = owner
             arrow.setPosition(original.pos)
             arrow.yaw = original.yaw
             arrow.pitch = original.pitch
-            val degree = ((i + 1) / 2) * 5.0 * if (i % 2 == 0) 1 else -1
+            val degree = getArrowRotationDegree(index)
             arrow.velocity = getRotatedAroundAxis(originalVelocity, rotationVector, degree)
             arrow.velocityDirty = true
             arrow.isCritical = original.isCritical
             arrow.isOnFire = original.isOnFire
+            arrow.fireTicks = original.fireTicks
             arrow.pickupType = PersistentProjectileEntity.PickupPermission.CREATIVE_ONLY
             arrow.setIsAdditional()
 
@@ -67,8 +75,14 @@ object AdditionalArrowsService {
         }
     }
 
+    private fun getArrowRotationDegree(arrowIndex: Int): Double {
+        val degree = ((arrowIndex + 1) / 2) * ROTATION_PER_ARROW
+        val direction = if (arrowIndex % 2 == 0) 1 else -1
+        return degree * direction
+    }
+
     private fun getRotationVector(velocity: Vec3d, shooterPitch: Float, shooterYaw: Float): Vec3d {
-        if (abs(shooterPitch) > 85) return getHorizontalVectorFromYaw(shooterYaw)
+        if (abs(shooterPitch) > DEFAULT_ROTATION_PITCH_THRESHOLD) return getHorizontalVectorFromYaw(shooterYaw)
         if (velocity.y == 0.0) return Vec3d(0.0, 1.0, 0.0)
 
         val newY = -(velocity.x * velocity.x + velocity.z * velocity.z) / velocity.y
