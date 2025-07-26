@@ -30,7 +30,7 @@ interface UniqueAttributesItemInterface {
                 }
             }
 
-            attribute.roll(percentageRolls)
+            attribute.roll(percentageRolls, getAttributeModifierSlot())
         }
     }
 
