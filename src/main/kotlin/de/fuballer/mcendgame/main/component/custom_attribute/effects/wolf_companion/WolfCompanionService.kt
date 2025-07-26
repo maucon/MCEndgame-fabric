@@ -6,7 +6,6 @@ import de.fuballer.mcendgame.main.component.custom_attribute.CustomAttributesExt
 import de.fuballer.mcendgame.main.component.custom_attribute.types.CustomAttributeTypes
 import de.fuballer.mcendgame.main.messaging.misc.*
 import de.fuballer.mcendgame.main.util.extension.SlotExtension.isOrIsChildOf
-import de.fuballer.mcendgame.main.util.extension.SlotExtension.toAttributeModifierSlot
 import de.fuballer.mcendgame.main.util.extension.mixin.EntityMixinExtension.addAllyAuraStatusEffect
 import de.fuballer.mcendgame.main.util.extension.mixin.EntityMixinExtension.addEnemyAuraStatusEffect
 import de.fuballer.mcendgame.main.util.extension.mixin.EntityMixinExtension.isCompanion
@@ -66,7 +65,7 @@ class WolfCompanionService {
     @EventSubscriber
     fun on(event: EquipmentChangeEvent) {
         val player = event.entity as? PlayerEntity ?: return
-        val attributeSlot = event.slot.toAttributeModifierSlot()
+        val attributeSlot = AttributeModifierSlot.forEquipmentSlot(event.slot)
         if (!hasApplicableAttribute(event.oldStack, attributeSlot) && !hasApplicableAttribute(event.newStack, attributeSlot)) return
 
         removeWolfCompanions(player)
