@@ -13,11 +13,11 @@ class CustomDamageTypeProvider(
     override fun getName() = "${MCEndgame.MOD_ID} Damage Type Provider"
 
     override fun run(writer: DataWriter): CompletableFuture<*>? {
-        val sweepingJson = generateDimensionTypeJSON("sweeping")
+        val sweepingJson = generateDamageTypeJSON("sweeping")
         return DataProvider.writeToPath(writer, sweepingJson, getPath("sweeping"))
     }
 
-    private fun generateDimensionTypeJSON(
+    private fun generateDamageTypeJSON(
         messageId: String,
         exhaustion: Double = 0.1,
         scaleWithDifficulty: String = "when_caused_by_living_non_player",
