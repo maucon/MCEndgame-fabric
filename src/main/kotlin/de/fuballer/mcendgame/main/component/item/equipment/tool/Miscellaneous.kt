@@ -20,7 +20,7 @@ enum class Miscellaneous(
 ) : Equipment {
     TRIDENT(
         Items.TRIDENT,
-        AttributeModifierSlot.MAINHAND,
+        AttributeModifierSlot.HAND,
         listOf(
             RandomOption(5, RollableCustomAttribute(VanillaAttributeTypes.ATTACK_DAMAGE, 1, DoubleBounds(3.0, 4.0))),
             RandomOption(10, RollableCustomAttribute(VanillaAttributeTypes.ATTACK_DAMAGE, 2, DoubleBounds(2.0, 3.0))),
@@ -63,7 +63,7 @@ enum class Miscellaneous(
     ),
     MACE(
         Items.MACE,
-        AttributeModifierSlot.MAINHAND,
+        AttributeModifierSlot.HAND,
         listOf(
             RandomOption(5, RollableCustomAttribute(VanillaAttributeTypes.ATTACK_DAMAGE, 1, DoubleBounds(3.0, 4.0))),
             RandomOption(10, RollableCustomAttribute(VanillaAttributeTypes.ATTACK_DAMAGE, 2, DoubleBounds(2.0, 3.0))),
@@ -186,7 +186,7 @@ enum class Miscellaneous(
     ),
     CROSSBOW(
         Items.CROSSBOW,
-        AttributeModifierSlot.MAINHAND,
+        AttributeModifierSlot.HAND,
         listOf(
             RandomOption(5, RollableCustomAttribute(CustomAttributeTypes.INCREASED_DAMAGE, 1, DoubleBounds(0.09, 0.12))),
             RandomOption(10, RollableCustomAttribute(CustomAttributeTypes.INCREASED_DAMAGE, 2, DoubleBounds(0.06, 0.09))),

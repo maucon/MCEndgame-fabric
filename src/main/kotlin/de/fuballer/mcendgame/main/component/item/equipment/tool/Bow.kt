@@ -25,7 +25,7 @@ enum class Bow(
         CustomToolItems.HAILSTORM,
     );
 
-    override val slot = AttributeModifierSlot.MAINHAND
+    override val slot = AttributeModifierSlot.HAND
 
     override val rollableCustomAttributes = listOf(
         RandomOption(5, RollableCustomAttribute(CustomAttributeTypes.INCREASED_DAMAGE, 1, DoubleBounds(0.09, 0.12))),
