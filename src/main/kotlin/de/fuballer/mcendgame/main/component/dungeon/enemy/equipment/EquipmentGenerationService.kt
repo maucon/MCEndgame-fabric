@@ -3,7 +3,7 @@ package de.fuballer.mcendgame.main.component.dungeon.enemy.equipment
 import de.fuballer.mcendgame.main.component.dungeon.enemy.equipment.attributes.AttributeService
 import de.fuballer.mcendgame.main.component.dungeon.enemy.equipment.enchantment.EnchantmentService
 import de.fuballer.mcendgame.main.component.entity.EntityTypeStats
-import de.fuballer.mcendgame.main.component.item.custom.UniqueAttributesItem
+import de.fuballer.mcendgame.main.component.item.custom.UniqueAttributesItemInterface
 import de.fuballer.mcendgame.main.component.item.equipment.Equipment
 import de.fuballer.mcendgame.main.messaging.dungeon.DungeonGenerateEnemiesCommand
 import de.fuballer.mcendgame.main.util.random.RandomOption
@@ -74,7 +74,7 @@ class EquipmentGenerationService(
         armorTrim: ArmorTrim? = null,
     ): ItemStack? {
         if (random.nextDouble() <= uniqueEquipmentProbability) {
-            return createUniqueEquipment(level, slot, server, random)
+            return createUniqueEquipment(level, slot, server, random, isRanged)
         }
 
         return when (slot) {
@@ -89,10 +89,12 @@ class EquipmentGenerationService(
         slot: EquipmentSlot,
         server: MinecraftServer,
         random: Random,
+        isRanged: Boolean,
     ): ItemStack? {
-        val equipment = EquipmentGenerationSettings.UNIQUE_EQUIPMENT[slot]?.random(random) ?: return null
+        val equipment = if (isRanged && slot == EquipmentSlot.MAINHAND) EquipmentGenerationSettings.UNIQUE_RANGED_EQUIPMENT.random(random)
+        else EquipmentGenerationSettings.UNIQUE_EQUIPMENT[slot]?.random(random) ?: return null
         val item = equipment.item
-        val itemStack = if (item is UniqueAttributesItem) item.getRolledStack() else ItemStack(item)
+        val itemStack = if (item is UniqueAttributesItemInterface) item.getRolledStack(item) else ItemStack(item)
 
         enchantmentService.enchantItem(itemStack, equipment.rollableEnchants, level, server, random)
 

@@ -3,7 +3,7 @@ package de.fuballer.mcendgame.main.component.item.custom.command
 import com.mojang.brigadier.Command
 import com.mojang.brigadier.arguments.StringArgumentType
 import com.mojang.brigadier.context.CommandContext
-import de.fuballer.mcendgame.main.component.item.custom.UniqueAttributesItem
+import de.fuballer.mcendgame.main.component.item.custom.UniqueAttributesItemInterface
 import de.maucon.mauconframework.di.annotation.Injectable
 import de.maucon.mauconframework.initializer.Initializer
 import net.fabricmc.fabric.api.command.v2.CommandRegistrationCallback
@@ -40,11 +40,13 @@ class GiveUniqueItemCommand {
         hasRolls: Boolean
     ): Int {
         val player = context.source.player ?: return 0
-        val uniqueItem = context.getArgument(UNIQUE_ITEM_ARGUMENT, Item::class.java) as? UniqueAttributesItem ?: return 0
+        val uniqueItem = context.getArgument(UNIQUE_ITEM_ARGUMENT, Item::class.java)
+        if (uniqueItem !is UniqueAttributesItemInterface) return 0
+
         val rolls = if (!hasRolls) listOf()
         else context.getArgument(DOUBLE_ROLLS_ARGUMENT, String::class.java).split(" ").mapNotNull { it.toDoubleOrNull() }
 
-        player.giveItemStack(uniqueItem.getRolledStack(rolls))
+        player.giveItemStack(uniqueItem.getRolledStack(uniqueItem, rolls))
 
         return Command.SINGLE_SUCCESS
     }

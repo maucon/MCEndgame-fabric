@@ -52,6 +52,10 @@ object EquipmentGenerationSettings {
         ),
     )
 
+    val UNIQUE_RANGED_EQUIPMENT = listOf(
+        Bow.WINDSTRING
+    )
+
     val HELMETS = listOf(
         SortableRandomOption(500, 0, null),
         SortableRandomOption(500, 1, Helmet.LEATHER),
@@ -138,7 +142,7 @@ object EquipmentGenerationSettings {
         SortableRandomOption(500, 6, Hoe.NETHERITE),
     )
     private val BOWS = listOf(
-        SortableRandomOption(100, 0, Miscellaneous.BOW)
+        SortableRandomOption(100, 0, Bow.BOW)
     )
     private val SPECIAL_WEAPONS = listOf(
         SortableRandomOption(100, 0, Miscellaneous.TRIDENT),

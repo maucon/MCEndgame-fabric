@@ -22,8 +22,11 @@ import net.fabricmc.fabric.api.event.lifecycle.v1.ServerEntityEvents
 import net.fabricmc.fabric.api.event.lifecycle.v1.ServerLifecycleEvents
 import net.fabricmc.fabric.api.event.lifecycle.v1.ServerTickEvents
 import net.fabricmc.fabric.api.networking.v1.ServerPlayConnectionEvents
+import net.minecraft.entity.LivingEntity
 import net.minecraft.entity.mob.MobEntity
 import net.minecraft.entity.player.PlayerEntity
+import net.minecraft.entity.projectile.ArrowEntity
+import net.minecraft.entity.projectile.SpectralArrowEntity
 
 @Injectable
 object EventMapper {
@@ -117,6 +120,15 @@ object EventMapper {
         if (oldStack.isSameIgnoringDurability(newStack)) return@register
 
         val event = EquipmentChangeEvent(entity, slot, oldStack, newStack)
+        EventGateway.launchPublish(event)
+    }
+
+    @Initializer
+    fun onArrowShotByLivingEntity() = ServerEntityEvents.ENTITY_LOAD.register { entity, world ->
+        if (entity !is ArrowEntity && entity !is SpectralArrowEntity) return@register
+        val owner = entity.owner as? LivingEntity ?: return@register
+
+        val event = EntityShotArrowEvent.of(entity, owner)
         EventGateway.launchPublish(event)
     }
 }

@@ -1,9 +1,18 @@
 package de.fuballer.mcendgame.client
 
+import de.fuballer.mcendgame.client.component.datagen.*
 import net.fabricmc.fabric.api.datagen.v1.DataGeneratorEntrypoint
 import net.fabricmc.fabric.api.datagen.v1.FabricDataGenerator
 
 object MCEndgameDataGenerator : DataGeneratorEntrypoint {
-	override fun onInitializeDataGenerator(fabricDataGenerator: FabricDataGenerator) {
-	}
+    override fun onInitializeDataGenerator(fabricDataGenerator: FabricDataGenerator) {
+        val pack = fabricDataGenerator.createPack()
+
+        pack.addProvider { dataOutput, registryLookup -> CustomBlockTagProvider(dataOutput, registryLookup) }
+        pack.addProvider { dataOutput, registryLookup -> CustomItemTagProvider(dataOutput, registryLookup) }
+        pack.addProvider { dataOutput, registryLookup -> CustomLootTableProvider(dataOutput, registryLookup) }
+        pack.addProvider { dataOutput, _ -> CustomModelProvider(dataOutput) }
+        pack.addProvider { dataOutput, _ -> CustomDimensionTypeProvider(dataOutput) }
+        pack.addProvider { dataOutput, _ -> CustomDamageTypeProvider(dataOutput) }
+    }
 }
