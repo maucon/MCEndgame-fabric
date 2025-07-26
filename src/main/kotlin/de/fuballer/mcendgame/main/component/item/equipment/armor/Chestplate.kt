@@ -41,6 +41,9 @@ enum class Chestplate(
     ),
     BOUND_ABYSS(
         CustomArmorItems.BOUND_ABYSS,
+    ),
+    SUEDE_CHESTPLATE(
+        CustomArmorItems.SUEDE_CHESTPLATE,
     );
 
     override val slot = AttributeModifierSlot.CHEST
