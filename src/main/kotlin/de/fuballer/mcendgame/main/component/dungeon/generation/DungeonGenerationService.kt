@@ -3,7 +3,7 @@ package de.fuballer.mcendgame.main.component.dungeon.generation
 import de.fuballer.mcendgame.main.component.dungeon.enemy.EnemyGenerationService
 import de.fuballer.mcendgame.main.component.dungeon.enemy.boss.BossGenerationService
 import de.fuballer.mcendgame.main.component.dungeon.generation.builder.DungeonBuilderService
-import de.fuballer.mcendgame.main.component.dungeon.type.DungeonType
+import de.fuballer.mcendgame.main.component.dungeon.seed.DungeonSeedService
 import de.fuballer.mcendgame.main.component.dungeon.world.DungeonWorldService
 import de.fuballer.mcendgame.main.component.item.custom.aspect.AspectItem
 import de.fuballer.mcendgame.main.configuration.RuntimeConfig
@@ -26,7 +26,8 @@ class DungeonGenerationService(
     private val dungeonWorldService: DungeonWorldService,
     private val dungeonBuilderService: DungeonBuilderService,
     private val enemyGenerationService: EnemyGenerationService,
-    private val bossGenerationService: BossGenerationService
+    private val bossGenerationService: BossGenerationService,
+    private val dungeonSeedService: DungeonSeedService,
 ) {
     @EventSubscriber
     fun on(event: OpenDungeonButtonPressedEvent) {
@@ -34,12 +35,14 @@ class DungeonGenerationService(
         val originWorld = player.world as ServerWorld
         val dungeonDevicePos = event.blockEntity.pos
         val affectingAspects = getAffectingAspectItems(event.affectingItems)
+        val playerSeed = dungeonSeedService.rollSeed(player)
 
         val dungeonLevel = player.getDungeonLevel().level
-        val seed = Random.nextInt() // TODO player seed
+        val seed = playerSeed.seed
+        val dungeonType = playerSeed.type
+
         val random = Random(seed)
 
-        val dungeonType = if (random.nextBoolean()) DungeonType.STRONGHOLD else DungeonType.NETHER // TODO player dungeon type
         val (mapType, enemyTypes, bossTypes) = dungeonType.roll(random)
 
         val generateLayoutCommand = DungeonGenerateCommand(dungeonLevel, dungeonType.bossCount, affectingAspects)
@@ -49,7 +52,7 @@ class DungeonGenerationService(
         val layout = layoutGenerator.generateDungeon(random, cmd.dungeonLevel, cmd.bossCount)
 
         RuntimeConfig.SERVER.execute {
-            val dungeonWorld = dungeonWorldService.create(dungeonLevel)
+            val dungeonWorld = dungeonWorldService.create(dungeonLevel, player)
             dungeonWorld.setDungeonAspects(affectingAspects)
 
             dungeonBuilderService.build(dungeonWorld, layout.rooms)

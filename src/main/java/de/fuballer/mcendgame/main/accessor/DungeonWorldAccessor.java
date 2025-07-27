@@ -1,6 +1,7 @@
 package de.fuballer.mcendgame.main.accessor;
 
 import de.fuballer.mcendgame.main.component.item.custom.aspect.AspectItem;
+import net.minecraft.entity.player.PlayerEntity;
 
 import java.util.Map;
 
@@ -12,6 +13,10 @@ public interface DungeonWorldAccessor {
     int mcendgame$getLevel();
 
     void mcendgame$setLevel(int level);
+
+    void mcendgame$setOpener(PlayerEntity opener);
+
+    PlayerEntity mcendgame$getOpener();
 
     void mcendgame$setAspects(Map<AspectItem, Integer> aspects);
 

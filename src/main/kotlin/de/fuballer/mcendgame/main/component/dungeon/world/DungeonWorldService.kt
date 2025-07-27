@@ -7,12 +7,14 @@ import de.fuballer.mcendgame.main.functional.scheduler.Scheduler
 import de.fuballer.mcendgame.main.messaging.server.ServerStartedEvent
 import de.fuballer.mcendgame.main.messaging.server.ServerStoppingEvent
 import de.fuballer.mcendgame.main.util.extension.mixin.WorldMixinExtension.setDungeonLevel
+import de.fuballer.mcendgame.main.util.extension.mixin.WorldMixinExtension.setOpener
 import de.maucon.mauconframework.di.annotation.Injectable
 import de.maucon.mauconframework.di.annotation.Logging
 import de.maucon.mauconframework.event.EventSubscriber
 import kotlinx.datetime.Clock
 import kotlinx.datetime.DateTimeUnit
 import kotlinx.datetime.plus
+import net.minecraft.entity.player.PlayerEntity
 import net.minecraft.server.world.ServerWorld
 import org.slf4j.Logger
 
@@ -33,12 +35,16 @@ class DungeonWorldService(
             .forEach { deleteWorld(it) }
     }
 
-    fun create(dungeonLevel: Int): ServerWorld {
+    fun create(
+        dungeonLevel: Int,
+        opener: PlayerEntity
+    ): ServerWorld {
         val dungeonWorld = RuntimeConfig.FANTASY
             .openTemporaryWorld(DungeonWorldSettings.generateIdentifier(), DungeonWorldSettings.WORLD_CONFIG)
             .asWorld()
 
         dungeonWorld.setDungeonLevel(dungeonLevel)
+        dungeonWorld.setOpener(opener)
 
         val entity = DungeonWorldEntity(dungeonWorld)
         dungeonWorldRepo.save(entity)
