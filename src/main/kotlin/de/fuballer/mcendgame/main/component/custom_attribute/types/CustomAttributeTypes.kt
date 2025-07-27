@@ -21,6 +21,8 @@ object CustomAttributeTypes {
     val INCREASED_DAMAGE = CustomAttributeType("increased_damage", AttributeFormats.SIGNED_PERCENT_ROLL, AttributeFormats.PERCENT_BOUNDS)
     val INCREASED_ELEMENTAL_DAMAGE = CustomAttributeType("increased_elemental_damage", AttributeFormats.SIGNED_PERCENT_ROLL, AttributeFormats.PERCENT_BOUNDS)
     val INCREASED_PROJECTILE_DAMAGE = CustomAttributeType("increased_projectile_damage", AttributeFormats.SIGNED_PERCENT_ROLL, AttributeFormats.PERCENT_BOUNDS)
+    val BOW_PULL_TICKS = CustomAttributeType("bow_pull_ticks", AttributeFormats.SIGNED_INT_ROLL, AttributeFormats.INT_BOUNDS)
+    val ADDITIONAL_ARROWS = CustomAttributeType("additional_arrows", AttributeFormats.SIGNED_INT_ROLL, AttributeFormats.INT_BOUNDS)
 
     val INCREASED_DAMAGE_AGAINST_FULL_HEALTH = CustomAttributeType("increased_damage_against_full_health", AttributeFormats.SIGNED_PERCENT_ROLL, AttributeFormats.PERCENT_BOUNDS)
     val INCREASED_DAMAGE_WHILE_LOW_HEALTH = CustomAttributeType("increased_damage_while_low_health", AttributeFormats.SIGNED_PERCENT_ROLL, AttributeFormats.PERCENT_BOUNDS)

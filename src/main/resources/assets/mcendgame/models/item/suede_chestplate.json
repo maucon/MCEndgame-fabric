@@ -1,7 +1,0 @@
-{
-  "parent": "minecraft:item/generated",
-  "textures": {
-    "layer0": "mcendgame:item/suede_chestplate_color_able",
-    "layer1": "mcendgame:item/suede_chestplate"
-  }
-}

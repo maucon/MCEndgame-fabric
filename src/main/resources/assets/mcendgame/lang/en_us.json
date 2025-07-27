@@ -18,6 +18,8 @@
 
   "item.mcendgame.bloodharvest": "Bloodharvest",
   "item.mcendgame.twinfire": "Twinfire",
+  "item.mcendgame.windstring": "Windstring",
+  "item.mcendgame.hailstorm": "Hailstorm",
 
   "item.mcendgame.aspect_of_tyranny": "Aspect of Tyranny",
   "item.mcendgame.aspect_of_greed": "Aspect of Greed",
@@ -91,6 +93,8 @@
   "attribute.mcendgame.fury_on_kill": " Gain a stack of Fury on Kill",
   "attribute.mcendgame.resilience_on_damage_taken": " Gain a stack of Resilience when taking Damage",
   "attribute.mcendgame.wolf_companion": " %s Wolf Companion",
+  "attribute.mcendgame.bow_pull_ticks": "%s Bow Draw Ticks",
+  "attribute.mcendgame.additional_arrows": "%s additional Arrows",
 
   "effect.mcendgame.fury": "Fury",
   "effect.mcendgame.resilience": "Resilience",

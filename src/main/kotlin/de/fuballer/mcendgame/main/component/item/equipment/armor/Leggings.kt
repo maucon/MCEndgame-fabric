@@ -41,6 +41,9 @@ enum class Leggings(
     ),
     LAMIAS_GIFT(
         CustomArmorItems.LAMIAS_GIFT,
+    ),
+    SUEDE_LEGGINGS(
+        CustomArmorItems.SUEDE_LEGGINGS,
     );
 
     override val slot = AttributeModifierSlot.LEGS

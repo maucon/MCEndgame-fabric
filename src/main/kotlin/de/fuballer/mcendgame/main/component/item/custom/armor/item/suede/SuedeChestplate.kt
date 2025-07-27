@@ -5,8 +5,8 @@ import de.fuballer.mcendgame.main.component.custom_attribute.data.IntBounds
 import de.fuballer.mcendgame.main.component.custom_attribute.data.RollableCustomAttribute
 import de.fuballer.mcendgame.main.component.custom_attribute.types.CustomAttributeTypes
 import de.fuballer.mcendgame.main.component.custom_attribute.types.VanillaAttributeTypes
-import de.fuballer.mcendgame.main.component.item.custom.armor.interfaces.HidePlayerModelPartArmor
 import de.fuballer.mcendgame.main.component.item.custom.UniqueAttributesItem
+import de.fuballer.mcendgame.main.component.item.custom.armor.interfaces.HidePlayerModelPartArmor
 import net.minecraft.component.type.AttributeModifierSlot
 import net.minecraft.entity.player.PlayerModelPart
 

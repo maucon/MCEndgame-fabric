@@ -1,5 +1,8 @@
 package de.fuballer.mcendgame.main.util.extension
 
+import de.fuballer.mcendgame.main.component.custom_attribute.CustomAttributesExtensions.asIntRoll
+import de.fuballer.mcendgame.main.component.custom_attribute.CustomAttributesExtensions.getAllCustomAttributes
+import de.fuballer.mcendgame.main.component.custom_attribute.types.CustomAttributeTypes
 import de.fuballer.mcendgame.main.util.extension.WorldExtension.isDungeonWorld
 import de.fuballer.mcendgame.main.util.extension.mixin.EntityMixinExtension.isDungeonEnemy
 import net.minecraft.entity.Entity
@@ -71,4 +74,14 @@ object EntityExtension {
     }
 
     fun Entity.centerPos(): Vec3d = pos.add(0.0, height.toDouble(), 0.0)
+
+    const val DEFAULT_BOW_FULL_PULL_TICKS = 20
+    fun LivingEntity.getBowFullPullTicks(): Int {
+        return getAdditionalBowPullTicks() + DEFAULT_BOW_FULL_PULL_TICKS
+    }
+
+    fun LivingEntity.getAdditionalBowPullTicks(): Int {
+        val attributes = getAllCustomAttributes()[CustomAttributeTypes.BOW_PULL_TICKS] ?: return 0
+        return attributes.sumOf { it.rolls[0].asIntRoll().getActualRoll() }
+    }
 }
