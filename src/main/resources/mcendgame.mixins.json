@@ -38,6 +38,8 @@
     "mob_entity.MobEntityTargetCommandMixin",
     "player.PlayerEntityDungeonLevelMixin",
     "projectile.PersistentProjectileEntityIsAdditionalMixin",
+    "player.PlayerEntityDungeonSeedMixin",
+    "server_player_entity.ServerPlayerEntityDeathNBTCopyMixin",
     "server_player_entity.ServerPlayerEntityTeleportEventMixin",
     "skeleton.AbstractSkeletonEntityBowMixin",
     "status_effect.PoisonStatusEffectMixin",

@@ -1,8 +1,10 @@
 package de.fuballer.mcendgame.main.util.extension.mixin
 
 import de.fuballer.mcendgame.main.accessor.PlayerEntityDungeonLevelAccessor
+import de.fuballer.mcendgame.main.accessor.PlayerEntityDungeonSeedAccessor
 import de.fuballer.mcendgame.main.accessor.PlayerEntityMixinAccessor
 import de.fuballer.mcendgame.main.component.dungeon.level.PlayerDungeonLevel
+import de.fuballer.mcendgame.main.component.dungeon.seed.PlayerDungeonSeed
 import net.minecraft.entity.player.PlayerEntity
 
 object PlayerEntityMixinExtension {
@@ -14,6 +16,21 @@ object PlayerEntityMixinExtension {
     fun PlayerEntity.setDungeonLevel(dungeonLevel: PlayerDungeonLevel) {
         val accessor = this as PlayerEntityDungeonLevelAccessor
         return accessor.`mcendgame$setDungeonLevel`(dungeonLevel)
+    }
+
+    fun PlayerEntity.getDungeonSeed(): PlayerDungeonSeed? {
+        val accessor = this as PlayerEntityDungeonSeedAccessor
+        return accessor.`mcendgame$getDungeonSeed`()
+    }
+
+    fun PlayerEntity.setDungeonSeed(dungeonSeed: PlayerDungeonSeed?) {
+        val accessor = this as PlayerEntityDungeonSeedAccessor
+        return accessor.`mcendgame$setDungeonSeed`(dungeonSeed)
+    }
+
+    fun PlayerEntity.clearDungeonSeed() {
+        val accessor = this as PlayerEntityDungeonSeedAccessor
+        return accessor.`mcendgame$setDungeonSeed`(null)
     }
 
     fun PlayerEntity.getAttackCooldownMultiplier(): Float {

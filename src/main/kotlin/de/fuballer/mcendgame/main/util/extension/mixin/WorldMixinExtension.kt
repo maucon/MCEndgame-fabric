@@ -2,6 +2,7 @@ package de.fuballer.mcendgame.main.util.extension.mixin
 
 import de.fuballer.mcendgame.main.accessor.DungeonWorldAccessor
 import de.fuballer.mcendgame.main.component.item.custom.aspect.AspectItem
+import net.minecraft.entity.player.PlayerEntity
 import net.minecraft.server.world.ServerWorld
 
 object WorldMixinExtension {
@@ -23,6 +24,16 @@ object WorldMixinExtension {
     fun ServerWorld.getDungeonLevel(): Int {
         val accessor = this as DungeonWorldAccessor
         return accessor.`mcendgame$getLevel`()
+    }
+
+    fun ServerWorld.setOpener(opener: PlayerEntity) {
+        val accessor = this as DungeonWorldAccessor
+        accessor.`mcendgame$setOpener`(opener)
+    }
+
+    fun ServerWorld.getOpener(): PlayerEntity {
+        val accessor = this as DungeonWorldAccessor
+        return accessor.`mcendgame$getOpener`()
     }
 
     fun ServerWorld.setDungeonAspects(aspects: Map<AspectItem, Int>) {
