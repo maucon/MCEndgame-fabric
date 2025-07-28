@@ -10,16 +10,15 @@ import de.fuballer.mcendgame.main.component.item.custom.aspect.item.tyranny.Aspe
 import de.fuballer.mcendgame.main.component.item.custom.aspect.item.zeal.AspectOfZeal
 import de.fuballer.mcendgame.main.util.minecraft.RegistryUtil
 import de.maucon.mauconframework.di.annotation.Injectable
-import net.minecraft.util.Rarity
 
 @Injectable
 object AspectItems {
-    val ASPECT_OF_TYRANNY = RegistryUtil.registerAspectItem(::AspectOfTyranny, "aspect_of_tyranny", Rarity.UNCOMMON)
-    val ASPECT_OF_GREED = RegistryUtil.registerAspectItem(::AspectOfGreed, "aspect_of_greed", Rarity.UNCOMMON)
-    val ASPECT_OF_DOMINION = RegistryUtil.registerAspectItem(::AspectOfDominion, "aspect_of_dominion", Rarity.UNCOMMON)
-    val ASPECT_OF_IMPATIENCE = RegistryUtil.registerAspectItem(::AspectOfImpatience, "aspect_of_impatience", Rarity.UNCOMMON)
-    val ASPECT_OF_HORDES = RegistryUtil.registerAspectItem(::AspectOfHordes, "aspect_of_hordes", Rarity.UNCOMMON)
-    val ASPECT_OF_CURIO = RegistryUtil.registerAspectItem(::AspectOfCurio, "aspect_of_curio", Rarity.UNCOMMON)
-    val ASPECT_OF_FORTUNE = RegistryUtil.registerAspectItem(::AspectOfFortune, "aspect_of_fortune", Rarity.UNCOMMON)
-    val ASPECT_OF_ZEAL = RegistryUtil.registerAspectItem(::AspectOfZeal, "aspect_of_zeal", Rarity.UNCOMMON)
+    val ASPECT_OF_TYRANNY = RegistryUtil.registerAspectItem(::AspectOfTyranny, "aspect_of_tyranny")
+    val ASPECT_OF_GREED = RegistryUtil.registerAspectItem(::AspectOfGreed, "aspect_of_greed")
+    val ASPECT_OF_DOMINION = RegistryUtil.registerAspectItem(::AspectOfDominion, "aspect_of_dominion")
+    val ASPECT_OF_IMPATIENCE = RegistryUtil.registerAspectItem(::AspectOfImpatience, "aspect_of_impatience")
+    val ASPECT_OF_HORDES = RegistryUtil.registerAspectItem(::AspectOfHordes, "aspect_of_hordes")
+    val ASPECT_OF_CURIO = RegistryUtil.registerAspectItem(::AspectOfCurio, "aspect_of_curio")
+    val ASPECT_OF_FORTUNE = RegistryUtil.registerAspectItem(::AspectOfFortune, "aspect_of_fortune")
+    val ASPECT_OF_ZEAL = RegistryUtil.registerAspectItem(::AspectOfZeal, "aspect_of_zeal")
 }
