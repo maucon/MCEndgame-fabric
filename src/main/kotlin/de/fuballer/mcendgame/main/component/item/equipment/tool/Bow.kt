@@ -20,6 +20,12 @@ enum class Bow(
     ),
     WINDSTRING(
         CustomToolItems.WINDSTRING,
+    ),
+    HAILSTORM(
+        CustomToolItems.HAILSTORM,
+    ),
+    LIGHT_PIERCER(
+        CustomToolItems.DUSK_PIERCER,
     );
 
     override val slot = AttributeModifierSlot.MAINHAND

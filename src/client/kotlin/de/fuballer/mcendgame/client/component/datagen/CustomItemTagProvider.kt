@@ -47,6 +47,7 @@ class CustomItemTagProvider(
             .add(Items.BOW)
             .add(CustomToolItems.WINDSTRING)
             .add(CustomToolItems.HAILSTORM)
+            .add(CustomToolItems.DUSK_PIERCER)
 
         getOrCreateTagBuilder(ItemTags.BOW_ENCHANTABLE)
             .forceAddTag(CustomTags.BOW)

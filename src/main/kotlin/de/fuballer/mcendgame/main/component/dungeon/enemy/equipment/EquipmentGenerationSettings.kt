@@ -53,7 +53,9 @@ object EquipmentGenerationSettings {
     )
 
     val UNIQUE_RANGED_EQUIPMENT = listOf(
-        Bow.WINDSTRING
+        Bow.WINDSTRING,
+        Bow.HAILSTORM,
+        Bow.LIGHT_PIERCER,
     )
 
     val HELMETS = listOf(

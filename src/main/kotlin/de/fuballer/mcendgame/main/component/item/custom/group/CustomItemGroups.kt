@@ -71,6 +71,7 @@ object CustomItemGroups {
             itemGroup.add(CustomToolItems.TWINFIRE.defaultStack)
             itemGroup.add(CustomToolItems.WINDSTRING.defaultStack)
             itemGroup.add(CustomToolItems.HAILSTORM.defaultStack)
+            itemGroup.add(CustomToolItems.DUSK_PIERCER.defaultStack)
         }
         ItemGroupEvents.modifyEntriesEvent(ASPECTS_KEY).register { itemGroup ->
             itemGroup.add(AspectItems.ASPECT_OF_TYRANNY.defaultStack)

@@ -1,10 +1,7 @@
 package de.fuballer.mcendgame.main.component.item.custom.tool
 
 import de.fuballer.mcendgame.main.component.item.custom.UniqueItemRegistry
-import de.fuballer.mcendgame.main.component.item.custom.tool.item.Bloodharvest
-import de.fuballer.mcendgame.main.component.item.custom.tool.item.Hailstorm
-import de.fuballer.mcendgame.main.component.item.custom.tool.item.Twinfire
-import de.fuballer.mcendgame.main.component.item.custom.tool.item.Windstring
+import de.fuballer.mcendgame.main.component.item.custom.tool.item.*
 import de.maucon.mauconframework.di.annotation.Injectable
 import net.minecraft.item.Item
 
@@ -29,5 +26,10 @@ object CustomToolItems {
         ::Hailstorm,
         Item.Settings().maxDamage(500),
         "hailstorm"
+    )
+    val DUSK_PIERCER = UniqueItemRegistry.registerToolItem(
+        ::DuskPiercer,
+        Item.Settings().maxDamage(500),
+        "dusk_piercer"
     )
 }
