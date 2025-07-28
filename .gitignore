@@ -44,3 +44,4 @@ replay_*.log
 /.kotlin
 /.idea
 /logs
+/src/main/generated
