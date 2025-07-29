@@ -5,6 +5,7 @@ import de.fuballer.mcendgame.main.component.custom_attribute.CustomAttributesExt
 import de.fuballer.mcendgame.main.component.custom_attribute.CustomAttributesExtensions.getCustomAttributes
 import de.fuballer.mcendgame.main.component.custom_attribute.types.CustomAttributeTypes
 import de.fuballer.mcendgame.main.messaging.misc.*
+import de.fuballer.mcendgame.main.util.extension.SlotExtension.isOrIsChildOf
 import de.fuballer.mcendgame.main.util.extension.mixin.EntityMixinExtension.addAllyAuraStatusEffect
 import de.fuballer.mcendgame.main.util.extension.mixin.EntityMixinExtension.addEnemyAuraStatusEffect
 import de.fuballer.mcendgame.main.util.extension.mixin.EntityMixinExtension.isCompanion
@@ -13,6 +14,7 @@ import de.fuballer.mcendgame.main.util.extension.mixin.WolfMixinExtension.setCol
 import de.fuballer.mcendgame.main.util.extension.mixin.WolfMixinExtension.setVariant
 import de.maucon.mauconframework.di.annotation.Injectable
 import de.maucon.mauconframework.event.EventSubscriber
+import net.minecraft.component.type.AttributeModifierSlot
 import net.minecraft.entity.Entity
 import net.minecraft.entity.EntityType
 import net.minecraft.entity.attribute.EntityAttributes
@@ -20,6 +22,7 @@ import net.minecraft.entity.effect.StatusEffectInstance
 import net.minecraft.entity.passive.WolfEntity
 import net.minecraft.entity.passive.WolfVariant
 import net.minecraft.entity.player.PlayerEntity
+import net.minecraft.item.ItemStack
 import net.minecraft.registry.Registry
 import net.minecraft.registry.RegistryKeys
 import net.minecraft.server.world.ServerWorld
@@ -62,12 +65,15 @@ class WolfCompanionService {
     @EventSubscriber
     fun on(event: EquipmentChangeEvent) {
         val player = event.entity as? PlayerEntity ?: return
-        if (event.oldStack.getCustomAttributes().none { it.type == CustomAttributeTypes.WOLF_COMPANION }
-            && event.newStack.getCustomAttributes().none { it.type == CustomAttributeTypes.WOLF_COMPANION }) return
+        val attributeSlot = AttributeModifierSlot.forEquipmentSlot(event.slot)
+        if (!hasApplicableAttribute(event.oldStack, attributeSlot) && !hasApplicableAttribute(event.newStack, attributeSlot)) return
 
         removeWolfCompanions(player)
         summonWolfCompanions(player)
     }
+
+    private fun hasApplicableAttribute(stack: ItemStack, slot: AttributeModifierSlot) =
+        stack.getCustomAttributes().filter { slot.isOrIsChildOf(it.slot) }.any { it.type == CustomAttributeTypes.WOLF_COMPANION }
 
     private fun summonWolfCompanions(
         player: PlayerEntity,

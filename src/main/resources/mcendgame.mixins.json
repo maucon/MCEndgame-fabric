@@ -39,6 +39,8 @@
     "player.PlayerEntityDungeonLevelMixin",
     "projectile.PersistentProjectileEntityIsAdditionalMixin",
     "projectile.PersistentProjectileEntityPierceLevelMixin",
+    "player.PlayerEntityDungeonSeedMixin",
+    "server_player_entity.ServerPlayerEntityDeathNBTCopyMixin",
     "server_player_entity.ServerPlayerEntityTeleportEventMixin",
     "skeleton.AbstractSkeletonEntityBowMixin",
     "status_effect.PoisonStatusEffectMixin",

@@ -35,11 +35,13 @@ object EquipmentGenerationSettings {
             Helmet.EMBERCHANT,
             Helmet.DRUIDS_HELMET,
             Helmet.WITHER_ROSE_HELMET,
+            Helmet.SUEDE_HELMET,
         ),
         EquipmentSlot.CHEST to listOf(
             Chestplate.BOUND_ABYSS,
             Chestplate.DRUIDS_CHESTPLATE,
             Chestplate.WITHER_ROSE_CHESTPLATE,
+            Chestplate.SUEDE_CHESTPLATE,
         ),
         EquipmentSlot.LEGS to listOf(
             Leggings.LAMIAS_GIFT,
@@ -49,6 +51,7 @@ object EquipmentGenerationSettings {
         EquipmentSlot.FEET to listOf(
             Boots.DRUIDS_BOOTS,
             Boots.WITHER_ROSE_BOOTS,
+            Boots.SUEDE_BOOTS,
         ),
     )
 
