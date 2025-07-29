@@ -24,7 +24,7 @@ enum class Bow(
     HAILSTORM(
         CustomToolItems.HAILSTORM,
     ),
-    LIGHT_PIERCER(
+    DUSK_PIERCER(
         CustomToolItems.DUSK_PIERCER,
     );
 
