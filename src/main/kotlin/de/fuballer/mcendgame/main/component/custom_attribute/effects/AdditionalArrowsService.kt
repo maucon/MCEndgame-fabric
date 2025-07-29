@@ -9,6 +9,7 @@ import de.fuballer.mcendgame.main.util.extension.mixin.PersistentProjectileEntit
 import de.fuballer.mcendgame.main.util.extension.mixin.PersistentProjectileEntityMixinExtension.isAdditional
 import de.fuballer.mcendgame.main.util.extension.mixin.PersistentProjectileEntityMixinExtension.setIsAdditional
 import de.fuballer.mcendgame.main.util.extension.mixin.PersistentProjectileEntityMixinExtension.setLoadProcessed
+import de.fuballer.mcendgame.main.util.extension.mixin.PersistentProjectileEntityMixinExtension.setPierceLevel
 import de.maucon.mauconframework.di.annotation.Injectable
 import de.maucon.mauconframework.event.EventSubscriber
 import net.minecraft.entity.EntityType
@@ -25,7 +26,7 @@ private const val ROTATION_PER_ARROW = 5.0
 private const val DEFAULT_ROTATION_PITCH_THRESHOLD = 85
 
 @Injectable
-object AdditionalArrowsService {
+class AdditionalArrowsService {
     @EventSubscriber
     fun on(event: EntityShotArrowEvent) {
         val originalArrow = event.arrow
@@ -65,6 +66,7 @@ object AdditionalArrowsService {
             arrow.isOnFire = original.isOnFire
             arrow.fireTicks = original.fireTicks
             arrow.pickupType = PersistentProjectileEntity.PickupPermission.CREATIVE_ONLY
+            arrow.setPierceLevel(original.pierceLevel)
             arrow.setIsAdditional()
 
             newArrows.add(arrow)

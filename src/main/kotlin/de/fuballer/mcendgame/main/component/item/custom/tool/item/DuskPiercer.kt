@@ -1,5 +1,6 @@
 package de.fuballer.mcendgame.main.component.item.custom.tool.item
 
+import de.fuballer.mcendgame.main.component.custom_attribute.data.DoubleBounds
 import de.fuballer.mcendgame.main.component.custom_attribute.data.IntBounds
 import de.fuballer.mcendgame.main.component.custom_attribute.data.RollableCustomAttribute
 import de.fuballer.mcendgame.main.component.custom_attribute.types.CustomAttributeTypes
@@ -10,7 +11,9 @@ class DuskPiercer(
     settings: Settings,
 ) : UniqueAttributesBowItem(settings) {
     override fun getCustomAttributes() = listOf(
+        RollableCustomAttribute(CustomAttributeTypes.PIERCE_ALL, 0),
         RollableCustomAttribute(CustomAttributeTypes.BOW_PULL_TICKS, 0, IntBounds(3, 5)),
+        RollableCustomAttribute(CustomAttributeTypes.MORE_PROJECTILE_DAMAGE, 0, DoubleBounds(-0.5, -0.5)),
     )
 
     override fun getAttributeModifierSlot() = AttributeModifierSlot.HAND

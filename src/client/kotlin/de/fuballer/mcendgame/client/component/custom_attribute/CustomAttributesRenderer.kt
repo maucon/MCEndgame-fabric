@@ -26,6 +26,7 @@ class CustomAttributesRenderer {
         if (customAttributes.isEmpty()) return
 
         customAttributes
+            .reversed()
             .map { attribute ->
                 if (Screen.hasShiftDown()) buildDetailedAttributeLine(attribute)
                 else buildAttributeLine(attribute)

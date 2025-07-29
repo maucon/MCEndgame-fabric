@@ -131,6 +131,9 @@ object ApplyDamageUtil {
 
         var moreDamage = event.moreDamage.fold(1.0) { a, b -> a * (b + 1) }
         moreDamage *= event.moreAttackDamage.fold(1.0) { a, b -> a * (b + 1) }
+        if (event.isProjectile) {
+            moreDamage *= event.moreProjectileDamage.fold(1.0) { a, b -> a * (b + 1) }
+        }
 
         return damageIncrease * moreDamage
     }
@@ -146,6 +149,9 @@ object ApplyDamageUtil {
 
         var moreDamage = event.moreDamage.fold(1.0) { a, b -> a * (b + 1) }
         moreDamage *= event.moreElementalDamage.fold(1.0) { a, b -> a * (b + 1) }
+        if (event.isProjectile) {
+            moreDamage *= event.moreProjectileDamage.fold(1.0) { a, b -> a * (b + 1) }
+        }
 
         return damageIncrease * moreDamage
     }

@@ -11,8 +11,8 @@ class DruidsLeggings(
     settings: Settings,
 ) : UniqueAttributesItem(settings) {
     override fun getCustomAttributes() = listOf(
-        RollableCustomAttribute(CustomAttributeTypes.INCREASED_HEALING_RECEIVED, 0, DoubleBounds(0.5, 0.75)),
         RollableCustomAttribute(VanillaAttributeTypes.MAX_HEALTH, 0, DoubleBounds(1.0, 3.0)),
+        RollableCustomAttribute(CustomAttributeTypes.INCREASED_HEALING_RECEIVED, 0, DoubleBounds(0.5, 0.75)),
     )
 
     override fun getAttributeModifierSlot() = AttributeModifierSlot.LEGS

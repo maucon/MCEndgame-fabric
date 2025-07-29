@@ -12,10 +12,10 @@ class SuedeBoots(
     settings: Settings,
 ) : UniqueAttributesItem(settings) {
     override fun getCustomAttributes() = listOf(
-        RollableCustomAttribute(CustomAttributeTypes.INCREASED_MOVEMENT_SPEED_AFTER_DODGING, 0, DoubleBounds(0.15, 0.25), IntBounds(3, 5)),
-        RollableCustomAttribute(VanillaAttributeTypes.INCREASED_MOVEMENT_SPEED, 0, DoubleBounds(0.1, 0.2)),
-        RollableCustomAttribute(CustomAttributeTypes.MAGIC_FIND, 0, IntBounds(3, 5)),
         RollableCustomAttribute(CustomAttributeTypes.DODGE, 0, DoubleBounds(0.1, 0.15)),
+        RollableCustomAttribute(CustomAttributeTypes.MAGIC_FIND, 0, IntBounds(3, 5)),
+        RollableCustomAttribute(VanillaAttributeTypes.INCREASED_MOVEMENT_SPEED, 0, DoubleBounds(0.1, 0.2)),
+        RollableCustomAttribute(CustomAttributeTypes.INCREASED_MOVEMENT_SPEED_AFTER_DODGING, 0, DoubleBounds(0.15, 0.25), IntBounds(3, 5)),
     )
 
     override fun getAttributeModifierSlot() = AttributeModifierSlot.FEET

@@ -38,6 +38,7 @@
     "mob_entity.MobEntityTargetCommandMixin",
     "player.PlayerEntityDungeonLevelMixin",
     "projectile.PersistentProjectileEntityIsAdditionalMixin",
+    "projectile.PersistentProjectileEntityPierceLevelMixin",
     "server_player_entity.ServerPlayerEntityTeleportEventMixin",
     "skeleton.AbstractSkeletonEntityBowMixin",
     "status_effect.PoisonStatusEffectMixin",

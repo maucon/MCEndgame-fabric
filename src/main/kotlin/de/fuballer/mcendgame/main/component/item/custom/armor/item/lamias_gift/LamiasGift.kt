@@ -23,10 +23,10 @@ class LamiasGift(
     override fun getAttributeModifierSlot() = AttributeModifierSlot.LEGS
 
     override fun getCustomAttributes() = listOf(
-        getMiscAttribute(),
-        getDefensiveAttribute(),
-        getOffensiveAttribute(),
         RollableCustomAttribute(CustomAttributeTypes.POISON_DAMAGE_IMMUNITY, 0),
+        getOffensiveAttribute(),
+        getDefensiveAttribute(),
+        getMiscAttribute(),
     )
 
     private fun getOffensiveAttribute() = listOf(

@@ -14,10 +14,10 @@ class SuedeChestplate(
     settings: Settings,
 ) : UniqueAttributesItem(settings), HidePlayerModelPartArmor {
     override fun getCustomAttributes() = listOf(
-        RollableCustomAttribute(VanillaAttributeTypes.INCREASED_SCALE, 0, DoubleBounds(-0.12, -0.06)),
-        RollableCustomAttribute(CustomAttributeTypes.MAGIC_FIND, 0, IntBounds(3, 5)),
-        RollableCustomAttribute(VanillaAttributeTypes.MAX_HEALTH, 0, DoubleBounds(-6.0, -3.0)),
         RollableCustomAttribute(CustomAttributeTypes.DODGE_PER_MAX_HEART_BELOW_TEN, 0, DoubleBounds(0.04, 0.06)),
+        RollableCustomAttribute(VanillaAttributeTypes.MAX_HEALTH, 0, DoubleBounds(-6.0, -3.0)),
+        RollableCustomAttribute(CustomAttributeTypes.MAGIC_FIND, 0, IntBounds(3, 5)),
+        RollableCustomAttribute(VanillaAttributeTypes.INCREASED_SCALE, 0, DoubleBounds(-0.12, -0.06)),
     )
 
     override fun getAttributeModifierSlot() = AttributeModifierSlot.CHEST

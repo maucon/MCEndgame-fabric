@@ -12,10 +12,10 @@ class SuedeHelmet(
     settings: Settings,
 ) : UniqueAttributesItem(settings) {
     override fun getCustomAttributes() = listOf(
-        RollableCustomAttribute(CustomAttributeTypes.MAGIC_FIND, 0, IntBounds(3, 5)),
-        RollableCustomAttribute(VanillaAttributeTypes.MAX_HEALTH, 0, DoubleBounds(-4.0, -2.0)),
-        RollableCustomAttribute(CustomAttributeTypes.DODGE_IF_NOT_DODGED_IN_LAST_SECONDS, 0, DoubleBounds(0.3, 0.4), IntBounds(5, 8)),
         RollableCustomAttribute(CustomAttributeTypes.PROJECTILE_DODGE, 0, DoubleBounds(0.15, 0.25)),
+        RollableCustomAttribute(CustomAttributeTypes.DODGE_IF_NOT_DODGED_IN_LAST_SECONDS, 0, DoubleBounds(0.3, 0.4), IntBounds(5, 8)),
+        RollableCustomAttribute(VanillaAttributeTypes.MAX_HEALTH, 0, DoubleBounds(-4.0, -2.0)),
+        RollableCustomAttribute(CustomAttributeTypes.MAGIC_FIND, 0, IntBounds(3, 5)),
     )
 
     override fun getAttributeModifierSlot() = AttributeModifierSlot.HEAD

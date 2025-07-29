@@ -12,10 +12,10 @@ class SuedeLeggings(
     settings: Settings,
 ) : UniqueAttributesItem(settings) {
     override fun getCustomAttributes() = listOf(
-        RollableCustomAttribute(CustomAttributeTypes.MAGIC_FIND_PER_MAX_HEART, 0, IntBounds(-1, -1)),
-        RollableCustomAttribute(CustomAttributeTypes.MAGIC_FIND, 0, IntBounds(10, 15)),
-        RollableCustomAttribute(VanillaAttributeTypes.MAX_HEALTH, 0, DoubleBounds(-4.0, -2.0)),
         RollableCustomAttribute(CustomAttributeTypes.DODGE, 0, DoubleBounds(0.1, 0.15)),
+        RollableCustomAttribute(VanillaAttributeTypes.MAX_HEALTH, 0, DoubleBounds(-4.0, -2.0)),
+        RollableCustomAttribute(CustomAttributeTypes.MAGIC_FIND, 0, IntBounds(10, 15)),
+        RollableCustomAttribute(CustomAttributeTypes.MAGIC_FIND_PER_MAX_HEART, 0, IntBounds(-1, -1)),
     )
 
     override fun getAttributeModifierSlot() = AttributeModifierSlot.LEGS

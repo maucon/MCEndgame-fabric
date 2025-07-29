@@ -12,9 +12,9 @@ class DruidsChestplate(
     settings: Settings,
 ) : UniqueAttributesItem(settings) {
     override fun getCustomAttributes() = listOf(
-        RollableCustomAttribute(CustomAttributeTypes.RESILIENCE_ON_DAMAGE_TAKEN, 0, IntBounds(0, 0)),
-        RollableCustomAttribute(CustomAttributeTypes.FURY_ON_KILL, 0, IntBounds(0, 0)),
         RollableCustomAttribute(VanillaAttributeTypes.MAX_HEALTH, 0, DoubleBounds(1.0, 3.0)),
+        RollableCustomAttribute(CustomAttributeTypes.FURY_ON_KILL, 0, IntBounds(0, 0)),
+        RollableCustomAttribute(CustomAttributeTypes.RESILIENCE_ON_DAMAGE_TAKEN, 0, IntBounds(0, 0)),
     )
 
     override fun getAttributeModifierSlot() = AttributeModifierSlot.CHEST
