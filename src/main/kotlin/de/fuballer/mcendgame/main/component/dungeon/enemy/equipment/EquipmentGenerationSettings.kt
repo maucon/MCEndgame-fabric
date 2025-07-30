@@ -25,6 +25,7 @@ object EquipmentGenerationSettings {
         EquipmentSlot.MAINHAND to listOf(
             Sword.TWINFIRE,
             Sword.BLOODHARVEST,
+            Axe.FATESPLITTER,
         ),
         EquipmentSlot.OFFHAND to listOf(
             Sword.TWINFIRE,

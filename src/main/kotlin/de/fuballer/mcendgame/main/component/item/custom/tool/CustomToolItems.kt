@@ -17,6 +17,16 @@ object CustomToolItems {
         Item.Settings().sword(CustomToolMaterials.TWINFIRE, 7F, -2.4F),
         "twinfire"
     )
+    val FATESPLITTER = UniqueItemRegistry.registerToolItem(
+        ::Fatesplitter,
+        Item.Settings().axe(CustomToolMaterials.FATESPLITTER, 9F, -3F),
+        "fatesplitter"
+    )
+    val SERPENTS_FANG = UniqueItemRegistry.registerToolItem(
+        ::SerpentsFang,
+        Item.Settings().sword(CustomToolMaterials.SERPENTS_FANG, 7F, -2.4F),
+        "serpents_fang"
+    )
     val WINDSTRING = UniqueItemRegistry.registerToolItem(
         ::Windstring,
         Item.Settings().maxDamage(500),

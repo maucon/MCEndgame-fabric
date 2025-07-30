@@ -18,6 +18,8 @@
 
   "item.mcendgame.bloodharvest": "Bloodharvest",
   "item.mcendgame.twinfire": "Twinfire",
+  "item.mcendgame.fatesplitter": "Fatesplitter",
+  "item.mcendgame.serpents_fang": "Serpent's Fang",
   "item.mcendgame.windstring": "Windstring",
   "item.mcendgame.hailstorm": "Hailstorm",
   "item.mcendgame.dusk_piercer": "Dusk Piercer",
@@ -67,6 +69,7 @@
   "attribute.mcendgame.less_damage_taken": " %s%% less Damage taken",
   "attribute.mcendgame.elemental_damage": "%s Elemental Damage",
   "attribute.mcendgame.increased_damage": "%s%% increased Damage",
+  "attribute.mcendgame.more_damage": "%s%% more Damage",
   "attribute.mcendgame.increased_elemental_damage": "%s%% increased Elemental Damage",
   "attribute.mcendgame.increased_projectile_damage": "%s%% increased Projectile Damage",
   "attribute.mcendgame.more_projectile_damage": "%s%% more Projectile Damage",

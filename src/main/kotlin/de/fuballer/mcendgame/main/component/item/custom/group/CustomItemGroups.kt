@@ -69,6 +69,8 @@ object CustomItemGroups {
         ItemGroupEvents.modifyEntriesEvent(CUSTOM_TOOLS_KEY).register { itemGroup ->
             itemGroup.add(CustomToolItems.BLOODHARVEST.defaultStack)
             itemGroup.add(CustomToolItems.TWINFIRE.defaultStack)
+            itemGroup.add(CustomToolItems.FATESPLITTER.defaultStack)
+            itemGroup.add(CustomToolItems.SERPENTS_FANG.defaultStack)
             itemGroup.add(CustomToolItems.WINDSTRING.defaultStack)
             itemGroup.add(CustomToolItems.HAILSTORM.defaultStack)
             itemGroup.add(CustomToolItems.DUSK_PIERCER.defaultStack)
