@@ -19,10 +19,11 @@ object CustomAttributeTypes {
     // OFFENSE
     val ELEMENTAL_DAMAGE = CustomAttributeType("elemental_damage", AttributeFormats.SIGNED_DOUBLE_ROLL, AttributeFormats.DOUBLE_BOUNDS)
     val INCREASED_DAMAGE = CustomAttributeType("increased_damage", AttributeFormats.SIGNED_PERCENT_ROLL, AttributeFormats.PERCENT_BOUNDS)
-    val MORE_DAMAGE = CustomAttributeType("more_damage", AttributeFormats.SIGNED_PERCENT_ROLL, AttributeFormats.PERCENT_BOUNDS)
+    val MORE_DAMAGE = CustomAttributeType("more_damage", AttributeFormats.PERCENT_ROLL, AttributeFormats.PERCENT_BOUNDS)
+    val MORE_DAMAGE_PER_MISSING_HEART = CustomAttributeType("more_damage_per_missing_heart", AttributeFormats.PERCENT_ROLL, AttributeFormats.PERCENT_BOUNDS)
     val INCREASED_ELEMENTAL_DAMAGE = CustomAttributeType("increased_elemental_damage", AttributeFormats.SIGNED_PERCENT_ROLL, AttributeFormats.PERCENT_BOUNDS)
     val INCREASED_PROJECTILE_DAMAGE = CustomAttributeType("increased_projectile_damage", AttributeFormats.SIGNED_PERCENT_ROLL, AttributeFormats.PERCENT_BOUNDS)
-    val MORE_PROJECTILE_DAMAGE = CustomAttributeType("more_projectile_damage", AttributeFormats.SIGNED_PERCENT_ROLL, AttributeFormats.PERCENT_BOUNDS)
+    val MORE_PROJECTILE_DAMAGE = CustomAttributeType("more_projectile_damage", AttributeFormats.PERCENT_ROLL, AttributeFormats.PERCENT_BOUNDS)
 
     // BOW
     val BOW_PULL_TICKS = CustomAttributeType("bow_pull_ticks", AttributeFormats.SIGNED_INT_ROLL, AttributeFormats.INT_BOUNDS)
