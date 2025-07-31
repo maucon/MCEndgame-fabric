@@ -56,6 +56,8 @@ object CustomAttributeTypes {
     val INCREASED_MOVEMENT_SPEED_AFTER_DODGING =
         CustomAttributeType("increased_movement_speed_after_dodging", AttributeFormats.SIGNED_PERCENT_AND_INT_ROLL, AttributeFormats.PERCENT_AND_INT_BOUNDS)
 
+    val MORE_ATTACK_KNOCKBACK = CustomAttributeType("more_attack_knockback", AttributeFormats.PERCENT_ROLL, AttributeFormats.PERCENT_BOUNDS)
+
     val SHOOT_WITHER_SKULL_WHEN_HIT_BY_PROJECTILE = CustomAttributeType("shoot_wither_skull_when_hit_by_projectile", AttributeFormats.SIGNED_PERCENT_ROLL, AttributeFormats.PERCENT_BOUNDS)
 
     val BURNING_ENEMIES_EXPLODE_WHEN_KILLED = CustomAttributeType("burning_enemies_explode_when_killed", AttributeFormats.PERCENT_ROLL, AttributeFormats.PERCENT_BOUNDS)

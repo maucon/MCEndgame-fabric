@@ -1,5 +1,6 @@
 package de.fuballer.mcendgame.main.component.entity.custom.attack.damage
 
+import de.fuballer.mcendgame.main.component.custom_attribute.effects.knockback.AttackKnockbackUtil.takeKnockbackFrom
 import net.minecraft.entity.LivingEntity
 import net.minecraft.entity.attribute.EntityAttributes
 import net.minecraft.entity.mob.MobEntity
@@ -97,16 +98,16 @@ class AreaAttackDamage(
         target.velocityModified = true
 
         when (knockbackType) {
-            KnockbackType.FACING -> target.takeKnockback(knockBackStrength, -forward.x, -forward.z)
+            KnockbackType.FACING -> target.takeKnockbackFrom(damager, knockBackStrength, -forward.x, -forward.z)
 
             KnockbackType.AREA_CENTER -> {
                 val knockbackDirection = target.pos.subtract(slamCenter).normalize()
-                target.takeKnockback(knockBackStrength, -knockbackDirection.x, -knockbackDirection.z)
+                target.takeKnockbackFrom(damager, knockBackStrength, -knockbackDirection.x, -knockbackDirection.z)
             }
 
             KnockbackType.DAMAGER_CENTER -> {
                 val knockbackDirection = target.pos.subtract(damager.pos).normalize()
-                target.takeKnockback(knockBackStrength, -knockbackDirection.x, -knockbackDirection.z)
+                target.takeKnockbackFrom(damager, knockBackStrength, -knockbackDirection.x, -knockbackDirection.z)
             }
         }
     }
