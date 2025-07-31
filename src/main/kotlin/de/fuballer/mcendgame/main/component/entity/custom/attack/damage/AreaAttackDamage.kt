@@ -135,7 +135,7 @@ class AreaAttackDamage(
         scale: Double,
     ) {
         val scaledParticleCount = (particleCount * scale).toInt()
-        repeat(scaledParticleCount) { createParticle(world, slamCenter, forward, sideways, scale) }
+        for (i in 0 until scaledParticleCount) createParticle(world, slamCenter, forward, sideways, scale)
     }
 
     private fun createParticle(
