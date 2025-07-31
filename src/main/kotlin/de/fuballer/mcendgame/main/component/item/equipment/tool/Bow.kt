@@ -23,6 +23,9 @@ enum class Bow(
     ),
     HAILSTORM(
         CustomToolItems.HAILSTORM,
+    ),
+    DUSK_PIERCER(
+        CustomToolItems.DUSK_PIERCER,
     );
 
     override val slot = AttributeModifierSlot.HAND

@@ -19,10 +19,16 @@ object CustomAttributeTypes {
     // OFFENSE
     val ELEMENTAL_DAMAGE = CustomAttributeType("elemental_damage", AttributeFormats.SIGNED_DOUBLE_ROLL, AttributeFormats.DOUBLE_BOUNDS)
     val INCREASED_DAMAGE = CustomAttributeType("increased_damage", AttributeFormats.SIGNED_PERCENT_ROLL, AttributeFormats.PERCENT_BOUNDS)
+    val MORE_DAMAGE = CustomAttributeType("more_damage", AttributeFormats.PERCENT_ROLL, AttributeFormats.PERCENT_BOUNDS)
+    val MORE_DAMAGE_PER_MISSING_HEART = CustomAttributeType("more_damage_per_missing_heart", AttributeFormats.PERCENT_ROLL, AttributeFormats.PERCENT_BOUNDS)
     val INCREASED_ELEMENTAL_DAMAGE = CustomAttributeType("increased_elemental_damage", AttributeFormats.SIGNED_PERCENT_ROLL, AttributeFormats.PERCENT_BOUNDS)
     val INCREASED_PROJECTILE_DAMAGE = CustomAttributeType("increased_projectile_damage", AttributeFormats.SIGNED_PERCENT_ROLL, AttributeFormats.PERCENT_BOUNDS)
+    val MORE_PROJECTILE_DAMAGE = CustomAttributeType("more_projectile_damage", AttributeFormats.PERCENT_ROLL, AttributeFormats.PERCENT_BOUNDS)
+
+    // BOW
     val BOW_PULL_TICKS = CustomAttributeType("bow_pull_ticks", AttributeFormats.SIGNED_INT_ROLL, AttributeFormats.INT_BOUNDS)
     val ADDITIONAL_ARROWS = CustomAttributeType("additional_arrows", AttributeFormats.SIGNED_INT_ROLL, AttributeFormats.INT_BOUNDS)
+    val PIERCE_ALL = CustomAttributeType("pierce_all", AttributeFormats.EMPTY_ROLL, AttributeFormats.EMPTY_BOUNDS)
 
     val INCREASED_DAMAGE_AGAINST_FULL_HEALTH = CustomAttributeType("increased_damage_against_full_health", AttributeFormats.SIGNED_PERCENT_ROLL, AttributeFormats.PERCENT_BOUNDS)
     val INCREASED_DAMAGE_WHILE_LOW_HEALTH = CustomAttributeType("increased_damage_while_low_health", AttributeFormats.SIGNED_PERCENT_ROLL, AttributeFormats.PERCENT_BOUNDS)
@@ -49,6 +55,8 @@ object CustomAttributeTypes {
     val MAGIC_FIND_PER_MAX_HEART = CustomAttributeType("magic_find_per_max_heart", AttributeFormats.SIGNED_INT_ROLL, AttributeFormats.INT_BOUNDS)
     val INCREASED_MOVEMENT_SPEED_AFTER_DODGING =
         CustomAttributeType("increased_movement_speed_after_dodging", AttributeFormats.SIGNED_PERCENT_AND_INT_ROLL, AttributeFormats.PERCENT_AND_INT_BOUNDS)
+
+    val MORE_ATTACK_KNOCKBACK = CustomAttributeType("more_attack_knockback", AttributeFormats.PERCENT_ROLL, AttributeFormats.PERCENT_BOUNDS)
 
     val SHOOT_WITHER_SKULL_WHEN_HIT_BY_PROJECTILE = CustomAttributeType("shoot_wither_skull_when_hit_by_projectile", AttributeFormats.SIGNED_PERCENT_ROLL, AttributeFormats.PERCENT_BOUNDS)
 

@@ -4,6 +4,7 @@ import de.fuballer.mcendgame.main.component.custom_attribute.data.DoubleBounds
 import de.fuballer.mcendgame.main.component.custom_attribute.data.RollableCustomAttribute
 import de.fuballer.mcendgame.main.component.custom_attribute.types.CustomAttributeTypes
 import de.fuballer.mcendgame.main.component.custom_attribute.types.VanillaAttributeTypes
+import de.fuballer.mcendgame.main.component.item.custom.tool.CustomToolItems
 import de.fuballer.mcendgame.main.component.item.equipment.Equipment
 import de.fuballer.mcendgame.main.component.item.equipment.enchantment.EquipmentEnchantment
 import de.fuballer.mcendgame.main.util.random.RandomOption
@@ -31,6 +32,9 @@ enum class Axe(
     ),
     NETHERITE(
         Items.NETHERITE_AXE,
+    ),
+    FATESPLITTER(
+        CustomToolItems.FATESPLITTER,
     );
 
     override val slot = AttributeModifierSlot.HAND

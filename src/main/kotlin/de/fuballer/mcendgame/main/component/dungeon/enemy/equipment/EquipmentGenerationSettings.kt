@@ -25,6 +25,8 @@ object EquipmentGenerationSettings {
         EquipmentSlot.MAINHAND to listOf(
             Sword.TWINFIRE,
             Sword.BLOODHARVEST,
+            Sword.SERPENTS_FANG,
+            Axe.FATESPLITTER,
         ),
         EquipmentSlot.OFFHAND to listOf(
             Sword.TWINFIRE,
@@ -47,7 +49,6 @@ object EquipmentGenerationSettings {
             Leggings.LAMIAS_GIFT,
             Leggings.DRUIDS_LEGGINGS,
             Leggings.WITHER_ROSE_LEGGINGS,
-            Leggings.SUEDE_LEGGINGS,
         ),
         EquipmentSlot.FEET to listOf(
             Boots.DRUIDS_BOOTS,
@@ -59,6 +60,7 @@ object EquipmentGenerationSettings {
     val UNIQUE_RANGED_EQUIPMENT = listOf(
         Bow.WINDSTRING,
         Bow.HAILSTORM,
+        Bow.DUSK_PIERCER,
     )
 
     val HELMETS = listOf(

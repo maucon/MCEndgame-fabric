@@ -23,8 +23,11 @@ class CustomModelProvider(
 
     override fun generateItemModels(generator: ItemModelGenerator) {
         generator.register(CustomToolItems.TWINFIRE, Models.HANDHELD)
+        generator.register(CustomToolItems.FATESPLITTER, Models.HANDHELD)
+        generator.register(CustomToolItems.SERPENTS_FANG, Models.HANDHELD)
         registerCustomBow(generator, CustomToolItems.WINDSTRING)
         registerCustomBow(generator, CustomToolItems.HAILSTORM)
+        registerCustomBow(generator, CustomToolItems.DUSK_PIERCER)
 
         generator.register(CustomArmorItems.BOUND_ABYSS, Models.GENERATED)
         generator.register(CustomArmorItems.DRUIDS_BOOTS, Models.GENERATED)

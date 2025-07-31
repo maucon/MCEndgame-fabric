@@ -38,6 +38,9 @@ enum class Sword(
     ),
     BLOODHARVEST(
         CustomToolItems.BLOODHARVEST,
+    ),
+    SERPENTS_FANG(
+        CustomToolItems.SERPENTS_FANG,
     );
 
     override val slot = AttributeModifierSlot.HAND

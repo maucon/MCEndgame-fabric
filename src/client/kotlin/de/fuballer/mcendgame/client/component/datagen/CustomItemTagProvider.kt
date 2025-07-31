@@ -18,6 +18,10 @@ class CustomItemTagProvider(
         getOrCreateTagBuilder(ItemTags.SWORDS)
             .add(CustomToolItems.TWINFIRE)
             .add(CustomToolItems.BLOODHARVEST)
+            .add(CustomToolItems.SERPENTS_FANG)
+
+        getOrCreateTagBuilder(ItemTags.AXES)
+            .add(CustomToolItems.FATESPLITTER)
 
         getOrCreateTagBuilder(ItemTags.HEAD_ARMOR)
             .add(CustomArmorItems.DRUIDS_HELMET)
@@ -47,6 +51,7 @@ class CustomItemTagProvider(
             .add(Items.BOW)
             .add(CustomToolItems.WINDSTRING)
             .add(CustomToolItems.HAILSTORM)
+            .add(CustomToolItems.DUSK_PIERCER)
 
         getOrCreateTagBuilder(ItemTags.BOW_ENCHANTABLE)
             .forceAddTag(CustomTags.BOW)
