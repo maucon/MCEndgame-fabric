@@ -15,6 +15,8 @@ sealed interface AttributeRoll<T> {
     fun getActualRoll(): T
 
     fun isNegative(): Boolean
+
+    fun getSignFlipped(): AttributeRoll<T>
 }
 
 data class DoubleRoll(
@@ -35,6 +37,8 @@ data class DoubleRoll(
     override fun getActualRoll() = bounds.min + (bounds.max - bounds.min) * percentRoll
 
     override fun isNegative() = getActualRoll() < 0
+
+    override fun getSignFlipped() = DoubleRoll(bounds.getSignFlipped(), 1 - percentRoll, format)
 }
 
 data class StringRoll(
@@ -54,6 +58,8 @@ data class StringRoll(
     override fun getActualRoll() = bounds.options[indexRoll]
 
     override fun isNegative() = false
+
+    override fun getSignFlipped() = StringRoll(bounds.getSignFlipped(), indexRoll)
 }
 
 data class IntRoll(
@@ -73,4 +79,6 @@ data class IntRoll(
     override fun getActualRoll() = (bounds.min + (bounds.max - bounds.min) * percentRoll).roundToInt()
 
     override fun isNegative() = getActualRoll() < 0
+
+    override fun getSignFlipped() = IntRoll(bounds.getSignFlipped(), 1 - percentRoll)
 }

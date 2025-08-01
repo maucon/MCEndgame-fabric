@@ -2,6 +2,7 @@ package de.fuballer.mcendgame.client.component.custom_attribute
 
 import de.fuballer.mcendgame.client.messaging.RenderItemTooltipCommand
 import de.fuballer.mcendgame.main.component.custom_attribute.CustomAttributesExtensions.getCustomAttributes
+import de.fuballer.mcendgame.main.component.custom_attribute.data.AttributeRoll
 import de.fuballer.mcendgame.main.component.custom_attribute.data.CustomAttribute
 import de.fuballer.mcendgame.main.component.custom_attribute.sign_based_keyword.SignBasedKeyword
 import de.fuballer.mcendgame.main.util.NumberUtil
@@ -37,16 +38,17 @@ class CustomAttributesRenderer {
         val type = attribute.type
         val rolls = attribute.rolls
         val signBasedKeywords = type.signBasedKeywords
-        val toggleSign = signBasedKeywords.zip(rolls).map { it.first != null && it.second.isNegative() }
+        val flipSign = signBasedKeywords.zip(rolls).map { it.first != null && it.second.isNegative() }
 
-        val formattedRolls = toggleRollSign(type.formatRolls(rolls), toggleSign)
+        val flippedRolls = flipRollSigns(rolls, flipSign)
+        val formattedRolls = type.formatRolls(flippedRolls)
         if (!detailed) {
-            val array = getWithSignBasedKeywords(formattedRolls, signBasedKeywords, toggleSign).toTypedArray()
+            val array = getWithSignBasedKeywords(formattedRolls.map { Text.literal(it) }, signBasedKeywords, flipSign).toTypedArray()
             return Text.translatable("$LANGUAGE_KEY_PREFIX${type.key}", *array)
                 .formatted(ATTRIBUTE_LINE_COLOR)
         }
 
-        val formattedBounds = toggleBoundSigns(type.formatBounds(rolls.map { it.bounds }), toggleSign)
+        val formattedBounds = type.formatBounds(flippedRolls.map { it.bounds })
         val formattedRollsWithBounds = formattedRolls.zip(formattedBounds)
             .map {
                 val boundsDetails = Text.literal(it.second)
@@ -55,36 +57,25 @@ class CustomAttributesRenderer {
                 Text.literal(it.first)
                     .formatted(ATTRIBUTE_LINE_COLOR)
                     .append(boundsDetails)
-                    .string
             }
-        val array = getWithSignBasedKeywords(formattedRollsWithBounds, signBasedKeywords, toggleSign).toTypedArray()
+        val array = getWithSignBasedKeywords(formattedRollsWithBounds, signBasedKeywords, flipSign).toTypedArray()
 
         return Text.translatable("$LANGUAGE_KEY_PREFIX${type.key}", *array)
             .formatted(ATTRIBUTE_LINE_COLOR)
             .append(getFormattedTier(attribute.tier))
     }
 
-    private fun toggleBoundSigns(boundsList: List<String>, invert: List<Boolean>) =
-        boundsList.mapIndexed { i, bounds ->
-            if (invert.getOrNull(i) == true)
-                BOUNDS_REGEX.replace(bounds) { match ->
-                    val min = toggleSign(match.groupValues[1])
-                    val max = toggleSign(match.groupValues[2])
-                    "($min-$max)"
-                }
-            else bounds
+    private fun flipRollSigns(rolls: List<AttributeRoll<*>>, flip: List<Boolean>) =
+        rolls.mapIndexed { i, roll ->
+            if (flip.getOrNull(i) != true) roll
+            else roll.getSignFlipped()
         }
 
-    private fun toggleRollSign(rolls: List<String>, invert: List<Boolean>) =
-        rolls.mapIndexed { i, roll -> if (invert.getOrNull(i) == true) toggleSign(roll) else roll }
-
-    private fun toggleSign(s: String) = if (s.startsWith("-")) s.drop(1) else "-$s"
-
     private fun getWithSignBasedKeywords(
-        rolls: List<String>,
+        rolls: List<Text>,
         keywords: List<SignBasedKeyword?>,
         isNegative: List<Boolean>,
-    ): List<String> {
+    ): List<Text> {
         if (keywords.isEmpty()) return rolls
 
         val insertedList = rolls.toMutableList()
@@ -94,7 +85,7 @@ class CustomAttributesRenderer {
 
             val text = if (isNegative[i]) keyword.negative else keyword.positive
             val index = i + insertedCount + 1
-            insertedList.add(index, text.string)
+            insertedList.add(index, text)
 
             insertedCount++
         }
