@@ -7,14 +7,14 @@ import de.maucon.mauconframework.command.CommandHandler
 import de.maucon.mauconframework.di.annotation.Injectable
 
 @Injectable
-class LessDamageTakenService {
+class MoreDamageTakenService {
     @CommandHandler
     fun on(cmd: ApplyDamageCalculationCommand) {
-        val attributes = cmd.damagedAttributes[CustomAttributeTypes.LESS_DAMAGE_TAKEN] ?: return
+        val attributes = cmd.damagedAttributes[CustomAttributeTypes.MORE_DAMAGE_TAKEN] ?: return
 
         attributes.forEach { attribute ->
-            val lessDamage = attribute.rolls[0].asDoubleRoll().getActualRoll()
-            cmd.lessDamage.add(lessDamage)
+            val moreDamage = attribute.rolls[0].asDoubleRoll().getActualRoll()
+            cmd.moreDamage.add(moreDamage)
         }
     }
 }

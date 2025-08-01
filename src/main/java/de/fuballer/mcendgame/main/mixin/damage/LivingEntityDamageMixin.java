@@ -46,12 +46,12 @@ public abstract class LivingEntityDamageMixin {
         var attackDamage = ApplyDamageUtil.INSTANCE.calculateAttackDamage(originalDamage, entity, source, cmd);
         attackDamage = applyArmorToDamage(attackDamage, source, cmd, entity);
         attackDamage = modifyAppliedDamage(source, attackDamage, entity);
-        attackDamage = ApplyDamageUtil.INSTANCE.reduceDamageByAttributes(attackDamage, cmd);
+        attackDamage = ApplyDamageUtil.INSTANCE.applyDamageTakenAttributes(attackDamage, cmd);
 
         var elementalDamage = ApplyDamageUtil.INSTANCE.calculateElementalDamage(source, cmd);
         elementalDamage = applyWardToDamage(elementalDamage, source, cmd, entity);
         elementalDamage = modifyAppliedDamage(source, elementalDamage, entity);
-        elementalDamage = ApplyDamageUtil.INSTANCE.reduceDamageByAttributes(elementalDamage, cmd);
+        elementalDamage = ApplyDamageUtil.INSTANCE.applyDamageTakenAttributes(elementalDamage, cmd);
 
         var combinedDamage = attackDamage + elementalDamage;
 

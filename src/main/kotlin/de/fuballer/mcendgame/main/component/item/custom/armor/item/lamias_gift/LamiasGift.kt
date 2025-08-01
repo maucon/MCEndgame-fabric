@@ -36,7 +36,7 @@ class LamiasGift(
     ).random()
 
     private fun getDefensiveAttribute() = listOf(
-        RollableCustomAttribute(CustomAttributeTypes.REDUCED_DAMAGE_TAKEN_WHILE_POISONED, 0, DoubleBounds(0.05, 0.15)),
+        RollableCustomAttribute(CustomAttributeTypes.MORE_DAMAGE_TAKEN_WHILE_POISONED, 0, DoubleBounds(-0.1, -0.05)),
         RollableCustomAttribute(CustomAttributeTypes.DODGE_WHILE_POISONED, 0, DoubleBounds(0.05, 0.15)),
     ).random()
 
