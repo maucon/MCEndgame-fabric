@@ -13,6 +13,8 @@ sealed interface AttributeRoll<T> {
     val bounds: AttributeBounds<*>
 
     fun getActualRoll(): T
+
+    fun isNegative(): Boolean
 }
 
 data class DoubleRoll(
@@ -31,6 +33,8 @@ data class DoubleRoll(
     }
 
     override fun getActualRoll() = bounds.min + (bounds.max - bounds.min) * percentRoll
+
+    override fun isNegative() = getActualRoll() < 0
 }
 
 data class StringRoll(
@@ -48,6 +52,8 @@ data class StringRoll(
     }
 
     override fun getActualRoll() = bounds.options[indexRoll]
+
+    override fun isNegative() = false
 }
 
 data class IntRoll(
@@ -65,4 +71,6 @@ data class IntRoll(
     }
 
     override fun getActualRoll() = (bounds.min + (bounds.max - bounds.min) * percentRoll).roundToInt()
+
+    override fun isNegative() = getActualRoll() < 0
 }

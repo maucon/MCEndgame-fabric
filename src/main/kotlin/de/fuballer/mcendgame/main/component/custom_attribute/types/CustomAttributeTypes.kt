@@ -2,6 +2,7 @@ package de.fuballer.mcendgame.main.component.custom_attribute.types
 
 import de.fuballer.mcendgame.main.component.custom_attribute.AttributeFormats
 import de.fuballer.mcendgame.main.component.custom_attribute.data.CustomAttributeType
+import de.fuballer.mcendgame.main.component.custom_attribute.sign_based_keyword.SignBasedKeywords
 import kotlin.reflect.KVisibility
 import kotlin.reflect.full.memberProperties
 
@@ -23,7 +24,7 @@ object CustomAttributeTypes {
     val MORE_DAMAGE_PER_MISSING_HEART = CustomAttributeType("more_damage_per_missing_heart", AttributeFormats.PERCENT_ROLL, AttributeFormats.PERCENT_BOUNDS)
     val INCREASED_ELEMENTAL_DAMAGE = CustomAttributeType("increased_elemental_damage", AttributeFormats.SIGNED_PERCENT_ROLL, AttributeFormats.PERCENT_BOUNDS)
     val INCREASED_PROJECTILE_DAMAGE = CustomAttributeType("increased_projectile_damage", AttributeFormats.SIGNED_PERCENT_ROLL, AttributeFormats.PERCENT_BOUNDS)
-    val MORE_PROJECTILE_DAMAGE = CustomAttributeType("more_projectile_damage", AttributeFormats.PERCENT_ROLL, AttributeFormats.PERCENT_BOUNDS)
+    val MORE_PROJECTILE_DAMAGE = CustomAttributeType("more_projectile_damage", AttributeFormats.PERCENT_ROLL, AttributeFormats.PERCENT_BOUNDS, SignBasedKeywords.MORE)
 
     // BOW
     val BOW_PULL_TICKS = CustomAttributeType("bow_pull_ticks", AttributeFormats.SIGNED_INT_ROLL, AttributeFormats.INT_BOUNDS)

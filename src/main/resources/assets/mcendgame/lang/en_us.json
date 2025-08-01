@@ -51,6 +51,11 @@
 
   "mcendgame.corrupted": "Corrupted",
 
+  "attribute.mcendgame.more": "more",
+  "attribute.mcendgame.less": "less",
+  "attribute.mcendgame.increased": "increased",
+  "attribute.mcendgame.reduced": "reduced",
+
   "attribute.mcendgame.error": "Could not load attribute type",
   "attribute.mcendgame.armor": "%s Armor",
   "attribute.mcendgame.armor_toughness": "%s Armor Toughness",
@@ -75,7 +80,7 @@
   "attribute.mcendgame.more_damage_per_missing_heart": " %s%% more Damage per missing Heart",
   "attribute.mcendgame.increased_elemental_damage": "%s%% increased Elemental Damage",
   "attribute.mcendgame.increased_projectile_damage": "%s%% increased Projectile Damage",
-  "attribute.mcendgame.more_projectile_damage": " %s%% more Projectile Damage",
+  "attribute.mcendgame.more_projectile_damage": " %s%% %s Projectile Damage",
   "attribute.mcendgame.increased_damage_against_full_health": "%s%% increased Damage against Full Health Enemies",
   "attribute.mcendgame.increased_damage_while_low_health": "%s%% increased Damage while Low Health",
   "attribute.mcendgame.less_damage_taken_while_high_health": " %s%% less Damage taken while High Health",
