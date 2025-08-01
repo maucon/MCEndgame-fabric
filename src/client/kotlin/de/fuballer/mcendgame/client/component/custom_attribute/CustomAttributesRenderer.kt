@@ -18,7 +18,6 @@ private const val LANGUAGE_KEY_PREFIX = "attribute.mcendgame."
 private val ATTRIBUTE_LINE_COLOR = Formatting.BLUE
 private val ATTRIBUTE_LINE_DETAILS_COLOR = Formatting.DARK_GRAY
 private val TIER_DETAIL_COLOR = Formatting.AQUA
-private val BOUNDS_REGEX = Regex("""\((-?[\d.]+)-(-?[\d.]+)\)""")
 
 @Injectable
 @Environment(EnvType.CLIENT)
