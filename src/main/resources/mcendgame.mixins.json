@@ -42,6 +42,7 @@
     "mob_entity.MobEntityTargetCommandMixin",
     "player.PlayerEntityDungeonLevelMixin",
     "player.PlayerEntityDungeonSeedMixin",
+    "projectile.PersistentProjectileEntityDamageMixin",
     "projectile.PersistentProjectileEntityIsAdditionalMixin",
     "projectile.PersistentProjectileEntityPierceLevelMixin",
     "server_player_entity.ServerPlayerEntityDeathNBTCopyMixin",

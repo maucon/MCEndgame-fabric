@@ -2,6 +2,8 @@ package de.fuballer.mcendgame.main.mixin.damage;
 
 import de.fuballer.mcendgame.main.component.damage.ApplyDamageCalculationCommand;
 import de.fuballer.mcendgame.main.component.damage.ApplyDamageUtil;
+import de.fuballer.mcendgame.main.component.damage.calculator.DamageCalculator;
+import de.fuballer.mcendgame.main.component.damage.calculator.MeleeAttackCalculator;
 import de.maucon.mauconframework.command.CommandGateway;
 import net.minecraft.enchantment.EnchantmentHelper;
 import net.minecraft.entity.DamageUtil;
@@ -21,10 +23,16 @@ import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.Inject;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 
+import java.util.List;
 import java.util.Objects;
 
 @Mixin(LivingEntity.class)
 public abstract class LivingEntityDamageMixin {
+    @Unique
+    private static final List<DamageCalculator> DAMAGE_CALCULATORS = List.of(
+            MeleeAttackCalculator.INSTANCE
+    );
+
     @Inject(at = @At("HEAD"), method = "applyDamage", cancellable = true)
     protected void applyDamage(
             ServerWorld world,
@@ -34,13 +42,13 @@ public abstract class LivingEntityDamageMixin {
     ) {
         LivingEntity entity = (LivingEntity) (Object) this;
 
-        var applyDamageCalculationCommand = ApplyDamageCalculationCommand.Companion.of(entity, world, source);
-        var cmd = CommandGateway.INSTANCE.apply(applyDamageCalculationCommand);
-
-        if (entity.isInvulnerableTo(world, source)) { // TODO maybe before command?
+        if (entity.isInvulnerableTo(world, source)) {
             ci.cancel();
             return;
         }
+
+        var applyDamageCalculationCommand = ApplyDamageCalculationCommand.Companion.of(entity, world, source);
+        var cmd = CommandGateway.INSTANCE.apply(applyDamageCalculationCommand);
 
         // TODO enchant breach
         var attackDamage = ApplyDamageUtil.INSTANCE.calculateAttackDamage(originalDamage, entity, source, cmd);
@@ -54,6 +62,7 @@ public abstract class LivingEntityDamageMixin {
         elementalDamage = ApplyDamageUtil.INSTANCE.reduceDamageByAttributes(elementalDamage, cmd);
 
         var combinedDamage = attackDamage + elementalDamage;
+        System.out.println("combined damage: " + combinedDamage);
 
         float healthDamage = Math.max(combinedDamage - entity.getAbsorptionAmount(), 0.0F);
         float absorbedDamage = combinedDamage - healthDamage;

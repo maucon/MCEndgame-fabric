@@ -10,6 +10,7 @@ import net.minecraft.entity.damage.DamageSource
 import net.minecraft.entity.damage.DamageType
 import net.minecraft.entity.player.PlayerEntity
 import net.minecraft.entity.projectile.PersistentProjectileEntity
+import net.minecraft.entity.projectile.ProjectileEntity
 import net.minecraft.server.world.ServerWorld
 
 data class ApplyDamageCalculationCommand(
@@ -56,10 +57,10 @@ data class ApplyDamageCalculationCommand(
             val damagedAttributes = damaged.getAllCustomAttributes()
             val damageType = source.type
 
-            val isProjectile = source.source is PersistentProjectileEntity
-            val isProjectileCritical = if (!isProjectile) false else (source.source as PersistentProjectileEntity).isCritical
+            val isProjectile = source.source is ProjectileEntity
+            val isProjectileCritical = (source.source as? PersistentProjectileEntity)?.isCritical ?: false
             val playerCriticalAttack = (damager as? PlayerEntity)?.wasLastAttackCritical() ?: false
-            val isCritical = playerCriticalAttack || isProjectileCritical
+            val isCritical = if (isProjectile) isProjectileCritical else playerCriticalAttack
 
             return ApplyDamageCalculationCommand(damager, damagerAttributes, damaged, damagedAttributes, damageType, world, isProjectile, isCritical)
         }
