@@ -14,7 +14,7 @@ class MoreDamageTakenService {
 
         attributes.forEach { attribute ->
             val moreDamage = attribute.rolls[0].asDoubleRoll().getActualRoll()
-            cmd.moreDamage.add(moreDamage)
+            cmd.moreDamageTaken.add(moreDamage)
         }
     }
 }
