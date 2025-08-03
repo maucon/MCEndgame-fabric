@@ -38,10 +38,10 @@ class AttributesWhilePoisonedService {
     private fun defensive(cmd: ApplyDamageCalculationCommand) {
         if (!cmd.damaged.hasStatusEffect(StatusEffects.POISON)) return
 
-        val attributes = cmd.damagedAttributes[CustomAttributeTypes.REDUCED_DAMAGE_TAKEN_WHILE_POISONED] ?: return
+        val attributes = cmd.damagedAttributes[CustomAttributeTypes.MORE_DAMAGE_TAKEN_WHILE_POISONED] ?: return
         attributes.forEach { attribute ->
-            val reducedDamage = attribute.rolls[0].asDoubleRoll().getActualRoll()
-            cmd.reducedDamage.add(reducedDamage)
+            val moreDamage = attribute.rolls[0].asDoubleRoll().getActualRoll()
+            cmd.moreDamageTaken.add(moreDamage)
         }
     }
 

@@ -6,6 +6,7 @@ import kotlin.random.Random
 
 sealed interface AttributeBounds<T : AttributeRoll<*>> {
     fun roll(percentRoll: Double): T
+    fun getSignFlipped(): AttributeBounds<T>
 }
 
 data class DoubleBounds(
@@ -29,6 +30,8 @@ data class DoubleBounds(
     constructor(max: Double) : this(0.0, max)
 
     override fun roll(percentRoll: Double) = DoubleRoll(this, percentRoll)
+
+    override fun getSignFlipped() = DoubleBounds(-max, -min)
 }
 
 data class StringBounds(
@@ -46,6 +49,8 @@ data class StringBounds(
     constructor(vararg options: String) : this(options.toList())
 
     override fun roll(percentRoll: Double) = StringRoll(this, Random.nextInt(options.size))
+
+    override fun getSignFlipped() = StringBounds(options)
 }
 
 data class IntBounds(
@@ -69,4 +74,6 @@ data class IntBounds(
     constructor(max: Int) : this(0, max)
 
     override fun roll(percentRoll: Double) = IntRoll(this, percentRoll)
+
+    override fun getSignFlipped() = IntBounds(-max, -min)
 }

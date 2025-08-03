@@ -11,6 +11,6 @@ class ResilienceEffectService {
     fun on(cmd: ApplyDamageCalculationCommand) {
         val amplifier = cmd.damaged.getStatusEffect(CustomStatusEffects.RESILIENCE)?.amplifier ?: return
 
-        cmd.lessDamage.add((amplifier + 1) * 0.03)
+        cmd.moreDamageTaken.add((amplifier + 1) * 0.03)
     }
 }

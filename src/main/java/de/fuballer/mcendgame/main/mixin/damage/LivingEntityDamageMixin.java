@@ -50,6 +50,7 @@ public abstract class LivingEntityDamageMixin {
             return;
         }
 
+        // applyDamageTakenAttributes
         // TODO what about difficulty
         // -> maybe just add hard multiplier?
         /*
