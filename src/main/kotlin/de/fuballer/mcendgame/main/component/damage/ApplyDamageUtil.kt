@@ -67,13 +67,13 @@ object ApplyDamageUtil {
         return ((baseDamage + enchantmentDamage) * damageMulti * critMulti * otherMulti).toFloat()
     }
 
-    fun reduceDamageByAttributes(
+    fun applyDamageTakenAttributes(
         damageAmount: Float,
         cmd: ApplyDamageCalculationCommand,
     ): Float {
-        val reducedDamage = 1 + cmd.reducedDamage.sum()
-        val lessDamageFactor = cmd.lessDamage.fold(1.0) { a, b -> a * (1 - b) }
-        return (damageAmount / reducedDamage * lessDamageFactor).toFloat()
+        val increasedDamage = 1 + cmd.increasedDamageTaken.sum()
+        val moreDamageFactor = cmd.moreDamageTaken.fold(1.0) { a, b -> a * (1 + b) }
+        return (damageAmount * increasedDamage * moreDamageFactor).toFloat()
     }
 
     fun calculateElementalDamage(

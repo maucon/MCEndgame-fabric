@@ -64,9 +64,9 @@ enum class Leggings(
         RandomOption(5, RollableCustomAttribute(CustomAttributeTypes.DODGE, 1, DoubleBounds(0.15, 0.2))),
         RandomOption(10, RollableCustomAttribute(CustomAttributeTypes.DODGE, 2, DoubleBounds(0.1, 0.15))),
         RandomOption(20, RollableCustomAttribute(CustomAttributeTypes.DODGE, 3, DoubleBounds(0.05, 0.1))),
-        RandomOption(5, RollableCustomAttribute(CustomAttributeTypes.LESS_DAMAGE_TAKEN, 1, DoubleBounds(0.11, 0.15))),
-        RandomOption(10, RollableCustomAttribute(CustomAttributeTypes.LESS_DAMAGE_TAKEN, 2, DoubleBounds(0.07, 0.11))),
-        RandomOption(20, RollableCustomAttribute(CustomAttributeTypes.LESS_DAMAGE_TAKEN, 3, DoubleBounds(0.03, 0.07))),
+        RandomOption(5, RollableCustomAttribute(CustomAttributeTypes.MORE_DAMAGE_TAKEN, 1, DoubleBounds(-0.15, -0.11))),
+        RandomOption(10, RollableCustomAttribute(CustomAttributeTypes.MORE_DAMAGE_TAKEN, 2, DoubleBounds(-0.11, -0.07))),
+        RandomOption(20, RollableCustomAttribute(CustomAttributeTypes.MORE_DAMAGE_TAKEN, 3, DoubleBounds(-0.07, -0.03))),
     )
 
     override val rollableEnchants = listOf(

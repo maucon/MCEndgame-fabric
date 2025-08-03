@@ -39,8 +39,8 @@ data class ApplyDamageCalculationCommand(
     val increasedProjectileDamage: MutableList<Double> = mutableListOf(),
     val moreProjectileDamage: MutableList<Double> = mutableListOf(),
 
-    val reducedDamage: MutableList<Double> = mutableListOf(),
-    val lessDamage: MutableList<Double> = mutableListOf(),
+    val increasedDamageTaken: MutableList<Double> = mutableListOf(),
+    val moreDamageTaken: MutableList<Double> = mutableListOf(),
     val ward: MutableList<Double> = mutableListOf(),
 
     var isExecute: Boolean = false,

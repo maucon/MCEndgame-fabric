@@ -2,6 +2,7 @@ package de.fuballer.mcendgame.main.component.custom_attribute.data
 
 import com.mojang.serialization.Codec
 import com.mojang.serialization.codecs.RecordCodecBuilder
+import de.fuballer.mcendgame.main.component.custom_attribute.sign_based_keyword.SignBasedKeyword
 import de.fuballer.mcendgame.main.component.custom_attribute.types.CustomAttributeTypes
 import de.fuballer.mcendgame.main.component.custom_attribute.types.VanillaAttributeTypes
 import de.fuballer.mcendgame.main.util.minecraft.CodecUtil
@@ -12,7 +13,8 @@ import net.minecraft.registry.entry.RegistryEntry
 sealed class AttributeType(
     val key: String,
     val formatRolls: (List<AttributeRoll<*>>) -> List<String>,
-    val formatBounds: (List<AttributeBounds<*>>) -> List<String>
+    val formatBounds: (List<AttributeBounds<*>>) -> List<String>,
+    val signBasedKeywords: List<SignBasedKeyword?>,
 ) {
     companion object {
         val CODEC: Codec<AttributeType> = CodecUtil.ofTwo(VanillaAttributeType.CODEC, CustomAttributeType.CODEC)
@@ -24,8 +26,9 @@ class VanillaAttributeType(
     val scaleType: EntityAttributeModifier.Operation,
     key: String,
     formatRolls: (List<AttributeRoll<*>>) -> List<String>,
-    formatBounds: (List<AttributeBounds<*>>) -> List<String>
-) : AttributeType(key, formatRolls, formatBounds) {
+    formatBounds: (List<AttributeBounds<*>>) -> List<String>,
+    signBasedKeywords: List<SignBasedKeyword?> = listOf<SignBasedKeyword>(),
+) : AttributeType(key, formatRolls, formatBounds, signBasedKeywords) {
     companion object {
         val CODEC: Codec<VanillaAttributeType> =
             RecordCodecBuilder.create { instance ->
@@ -39,8 +42,9 @@ class VanillaAttributeType(
 class CustomAttributeType(
     key: String,
     formatRolls: (List<AttributeRoll<*>>) -> List<String>,
-    formatBounds: (List<AttributeBounds<*>>) -> List<String>
-) : AttributeType(key, formatRolls, formatBounds) {
+    formatBounds: (List<AttributeBounds<*>>) -> List<String>,
+    signBasedKeywords: List<SignBasedKeyword?> = listOf<SignBasedKeyword>(),
+) : AttributeType(key, formatRolls, formatBounds, signBasedKeywords) {
     companion object {
         val CODEC: Codec<CustomAttributeType> =
             RecordCodecBuilder.create { instance ->
