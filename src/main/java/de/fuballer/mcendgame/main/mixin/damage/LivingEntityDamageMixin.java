@@ -1,16 +1,15 @@
 package de.fuballer.mcendgame.main.mixin.damage;
 
 import de.fuballer.mcendgame.main.component.damage.ApplyDamageCalculationCommand;
-import de.fuballer.mcendgame.main.component.damage.ApplyDamageUtil;
-import de.fuballer.mcendgame.main.component.damage.calculator.DamageCalculator;
-import de.fuballer.mcendgame.main.component.damage.calculator.MeleeAttackCalculator;
+import de.fuballer.mcendgame.main.component.damage.DamageUtil;
+import de.fuballer.mcendgame.main.component.damage.calculator.*;
 import de.maucon.mauconframework.command.CommandGateway;
 import net.minecraft.enchantment.EnchantmentHelper;
-import net.minecraft.entity.DamageUtil;
 import net.minecraft.entity.LivingEntity;
 import net.minecraft.entity.attribute.EntityAttributes;
 import net.minecraft.entity.damage.DamageSource;
 import net.minecraft.entity.effect.StatusEffects;
+import net.minecraft.entity.mob.ZombieEntity;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.registry.tag.DamageTypeTags;
 import net.minecraft.server.network.ServerPlayerEntity;
@@ -30,7 +29,11 @@ import java.util.Objects;
 public abstract class LivingEntityDamageMixin {
     @Unique
     private static final List<DamageCalculator> DAMAGE_CALCULATORS = List.of(
-            MeleeAttackCalculator.INSTANCE
+            MeleeAttackCalculator.INSTANCE,
+            TridentProjectileCalculator.INSTANCE,
+            PersistentProjectileCalculator.INSTANCE,
+            SnowballCalculator.INSTANCE,
+            OtherProjectilesCalculator.INSTANCE
     );
 
     @Inject(at = @At("HEAD"), method = "applyDamage", cancellable = true)
@@ -47,22 +50,43 @@ public abstract class LivingEntityDamageMixin {
             return;
         }
 
+        // TODO what about difficulty
+        // -> maybe just add hard multiplier?
+        /*
+        if (source.isScaledWithDifficulty()) {
+                    if (world.getDifficulty() == Difficulty.PEACEFUL) {
+                        amount = 0.0F;
+                    }
+
+                    if (world.getDifficulty() == Difficulty.EASY) {
+                        amount = Math.min(amount / 2.0F + 1.0F, amount);
+                    }
+
+                    if (world.getDifficulty() == Difficulty.HARD) {
+                        amount = amount * 3.0F / 2.0F;
+                    }
+                }
+         */
+        // TODO skeleton, stray, bogged proj
+        // TODO drowned with trident
+
+        // TODO blaze proj and melee
+        // TODO ghast
+        // -> also redirected ghast balls do 500 damage to ghasts
+        // -> fire res entities do not take hit damage of (small)fireballs
+        // TODO breeze proj
+        // TODO guardians
+        // TODO evoker spells
+        // TODO shulker proj
+        // TODO warden
+        // TODO witch potions
+        // TODO wither skulls
+        // TODO ender dragon ball
+
         var applyDamageCalculationCommand = ApplyDamageCalculationCommand.Companion.of(entity, world, source);
         var cmd = CommandGateway.INSTANCE.apply(applyDamageCalculationCommand);
 
-        // TODO enchant breach
-        var attackDamage = ApplyDamageUtil.INSTANCE.calculateAttackDamage(originalDamage, entity, source, cmd);
-        attackDamage = applyArmorToDamage(attackDamage, source, cmd, entity);
-        attackDamage = modifyAppliedDamage(source, attackDamage, entity);
-        attackDamage = ApplyDamageUtil.INSTANCE.reduceDamageByAttributes(attackDamage, cmd);
-
-        var elementalDamage = ApplyDamageUtil.INSTANCE.calculateElementalDamage(source, cmd);
-        elementalDamage = applyWardToDamage(elementalDamage, source, cmd, entity);
-        elementalDamage = modifyAppliedDamage(source, elementalDamage, entity);
-        elementalDamage = ApplyDamageUtil.INSTANCE.reduceDamageByAttributes(elementalDamage, cmd);
-
-        var combinedDamage = attackDamage + elementalDamage;
-        System.out.println("combined damage: " + combinedDamage);
+        var combinedDamage = getFullDamage(originalDamage, entity, source, cmd);
 
         float healthDamage = Math.max(combinedDamage - entity.getAbsorptionAmount(), 0.0F);
         float absorbedDamage = combinedDamage - healthDamage;
@@ -93,6 +117,45 @@ public abstract class LivingEntityDamageMixin {
     }
 
     @Unique
+    private float getFullDamage(
+            float originalDamage,
+            LivingEntity attacked,
+            DamageSource source,
+            ApplyDamageCalculationCommand cmd
+    ) {
+        System.out.println("---------------------------------");
+
+        var damageCalculatorOptional = DAMAGE_CALCULATORS.stream()
+                .filter(calculator -> calculator.isActive(source))
+                .findFirst();
+
+        if (damageCalculatorOptional.isEmpty()) {
+            return originalDamage;
+        }
+
+        var damageCalculator = damageCalculatorOptional.get();
+        System.out.println("damageCalculator: " + damageCalculator.getClass().getSimpleName());
+
+        // TODO enchant breach
+        var attackDamage = damageCalculator.calculateAttackDamage(originalDamage, attacked, source, cmd);
+        attackDamage = applyArmorToDamage(attackDamage, source, cmd, attacked);
+        attackDamage = modifyAppliedDamage(source, attackDamage, attacked);
+        attackDamage = DamageUtil.INSTANCE.reduceDamageByAttributes(attackDamage, cmd);
+
+        var elementalDamage = damageCalculator.calculateElementalDamage(originalDamage, attacked, source, cmd);
+        elementalDamage = applyWardToDamage(elementalDamage, source, cmd, attacked);
+        elementalDamage = modifyAppliedDamage(source, elementalDamage, attacked);
+        elementalDamage = DamageUtil.INSTANCE.reduceDamageByAttributes(elementalDamage, cmd);
+
+        System.out.println("attack damage: " + attackDamage);
+        System.out.println("elemental damage: " + elementalDamage);
+        var combinedDamage = attackDamage + elementalDamage;
+        System.out.println("combined damage: " + combinedDamage);
+
+        return combinedDamage;
+    }
+
+    @Unique
     private float applyArmorToDamage(
             float amount,
             DamageSource source,
@@ -104,7 +167,7 @@ public abstract class LivingEntityDamageMixin {
 
         var armor = entity.getArmor();
         var armorToughness = (float) entity.getAttributeValue(EntityAttributes.ARMOR_TOUGHNESS);
-        amount = ApplyDamageUtil.INSTANCE.reduceAttackDamageByArmor(entity, amount, source, armor, armorToughness);
+        amount = DamageUtil.INSTANCE.reduceAttackDamageByArmor(entity, amount, source, armor, armorToughness);
 
         return amount;
     }
@@ -117,10 +180,10 @@ public abstract class LivingEntityDamageMixin {
             LivingEntity entity
     ) {
         // if (source.isIn(DamageTypeTags.BYPASSES_ARMOR)) return amount; //TODO DECIDE IF APPLY
-        // entity.damageArmor(source, amount);
+        // attacked.damageArmor(source, amount);
 
         var ward = cmd.getWard().stream().mapToDouble(Double::doubleValue).sum();
-        amount = ApplyDamageUtil.INSTANCE.reduceElementalDamageByWard(entity, amount, source, (float) ward);
+        amount = DamageUtil.INSTANCE.reduceElementalDamageByWard(entity, amount, source, (float) ward);
 
         return amount;
     }
@@ -154,7 +217,7 @@ public abstract class LivingEntityDamageMixin {
         if (!(entity.getWorld() instanceof ServerWorld serverWorld)) return amount;
 
         var protectionAmount = EnchantmentHelper.getProtectionAmount(serverWorld, entity, source);
-        amount = DamageUtil.getInflictedDamage(amount, protectionAmount);
+        amount = net.minecraft.entity.DamageUtil.getInflictedDamage(amount, protectionAmount);
         return amount;
     }
 }

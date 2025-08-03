@@ -1,4 +1,4 @@
-package de.fuballer.mcendgame.main.component.damage.custom
+package de.fuballer.mcendgame.main.component.damage.custom_type
 
 import de.fuballer.mcendgame.main.util.minecraft.IdentifierUtil
 import net.minecraft.entity.Entity
