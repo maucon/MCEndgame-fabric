@@ -26,17 +26,17 @@ object DamageUtil {
         return damageAmount * damageMultiplier
     }
 
-    fun reduceDamageByAttributes(
+    fun applyDamageTakenAttributes(
         damageAmount: Float,
         cmd: ApplyDamageCalculationCommand,
     ): Float {
-        val reducedDamage = 1 - cmd.reducedDamage.sum()
-        val lessDamage = cmd.lessDamage.fold(1.0) { a, b -> a * (1 - b) }
+        val increasedDamage = 1 + cmd.increasedDamageTaken.sum()
+        val moreDamage = cmd.moreDamageTaken.fold(1.0) { a, b -> a * (1 + b) }
 
-        var totalReduction = reducedDamage * lessDamage
-        totalReduction = totalReduction.coerceAtLeast(0.0)
+        var totalFactor = increasedDamage * moreDamage
+        totalFactor = totalFactor.coerceAtLeast(0.0)
 
-        return (damageAmount * totalReduction).toFloat()
+        return (damageAmount * totalFactor).toFloat()
     }
 
     fun reduceElementalDamageByWard(

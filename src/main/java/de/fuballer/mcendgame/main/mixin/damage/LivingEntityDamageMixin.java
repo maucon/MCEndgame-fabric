@@ -9,7 +9,6 @@ import net.minecraft.entity.LivingEntity;
 import net.minecraft.entity.attribute.EntityAttributes;
 import net.minecraft.entity.damage.DamageSource;
 import net.minecraft.entity.effect.StatusEffects;
-import net.minecraft.entity.mob.ZombieEntity;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.registry.tag.DamageTypeTags;
 import net.minecraft.server.network.ServerPlayerEntity;
@@ -83,6 +82,7 @@ public abstract class LivingEntityDamageMixin {
         // TODO witch potions
         // TODO wither skulls
         // TODO ender dragon ball
+        // TODO enchant breach
 
         var applyDamageCalculationCommand = ApplyDamageCalculationCommand.Companion.of(entity, world, source);
         var cmd = CommandGateway.INSTANCE.apply(applyDamageCalculationCommand);
@@ -137,16 +137,15 @@ public abstract class LivingEntityDamageMixin {
         var damageCalculator = damageCalculatorOptional.get();
         System.out.println("damageCalculator: " + damageCalculator.getClass().getSimpleName());
 
-        // TODO enchant breach
         var attackDamage = damageCalculator.calculateAttackDamage(originalDamage, attacked, source, cmd);
         attackDamage = applyArmorToDamage(attackDamage, source, cmd, attacked);
         attackDamage = modifyAppliedDamage(source, attackDamage, attacked);
-        attackDamage = DamageUtil.INSTANCE.reduceDamageByAttributes(attackDamage, cmd);
+        attackDamage = DamageUtil.INSTANCE.applyDamageTakenAttributes(attackDamage, cmd);
 
         var elementalDamage = damageCalculator.calculateElementalDamage(originalDamage, attacked, source, cmd);
         elementalDamage = applyWardToDamage(elementalDamage, source, cmd, attacked);
         elementalDamage = modifyAppliedDamage(source, elementalDamage, attacked);
-        elementalDamage = DamageUtil.INSTANCE.reduceDamageByAttributes(elementalDamage, cmd);
+        elementalDamage = DamageUtil.INSTANCE.applyDamageTakenAttributes(elementalDamage, cmd);
 
         System.out.println("attack damage: " + attackDamage);
         System.out.println("elemental damage: " + elementalDamage);
