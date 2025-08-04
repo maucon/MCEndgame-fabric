@@ -21,9 +21,7 @@ public class LivingEntityDodgeMixin {
 
         var key = source.getTypeRegistryEntry().getKey();
         if (key.isEmpty()) return;
-        System.out.println(key.get().toString());
         if (!DodgeSettings.INSTANCE.getDODGEABLE_DAMAGE_TYPES().contains(key.get())) return;
-        System.out.println("dodged");
 
         var dodgeCalculationCommand = DodgeCalculationCommand.Companion.of(entity, source);
         var cmd = CommandGateway.INSTANCE.apply(dodgeCalculationCommand);
