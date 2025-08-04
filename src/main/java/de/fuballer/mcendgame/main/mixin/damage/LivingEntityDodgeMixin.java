@@ -1,5 +1,6 @@
 package de.fuballer.mcendgame.main.mixin.damage;
 
+import de.fuballer.mcendgame.main.component.custom_attribute.effects.dodge.DodgeSettings;
 import de.fuballer.mcendgame.main.component.damage.DodgeCalculationCommand;
 import de.fuballer.mcendgame.main.messaging.misc.LivingEntityDodgedEvent;
 import de.maucon.mauconframework.command.CommandGateway;
@@ -17,7 +18,12 @@ public class LivingEntityDodgeMixin {
     @Inject(method = "damage", at = @At("HEAD"), cancellable = true)
     public void damage(ServerWorld world, DamageSource source, float amount, CallbackInfoReturnable<Boolean> cir) {
         var entity = (LivingEntity) (Object) this;
-        if (source.getType() == entity.getDamageSources().genericKill().getType()) return;
+
+        var key = source.getTypeRegistryEntry().getKey();
+        if (key.isEmpty()) return;
+        System.out.println(key.get().toString());
+        if (!DodgeSettings.INSTANCE.getDODGEABLE_DAMAGE_TYPES().contains(key.get())) return;
+        System.out.println("dodged");
 
         var dodgeCalculationCommand = DodgeCalculationCommand.Companion.of(entity, source);
         var cmd = CommandGateway.INSTANCE.apply(dodgeCalculationCommand);

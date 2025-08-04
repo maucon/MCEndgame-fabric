@@ -1,4 +1,4 @@
-package de.fuballer.mcendgame.main.component.custom_attribute.effects
+package de.fuballer.mcendgame.main.component.custom_attribute.effects.dodge
 
 import de.fuballer.mcendgame.main.component.custom_attribute.CustomAttributesExtensions.asDoubleRoll
 import de.fuballer.mcendgame.main.component.custom_attribute.types.CustomAttributeTypes
@@ -16,7 +16,7 @@ class ProjectileDodgeService {
 
         for (attribute in attributes) {
             val dodge = attribute.rolls[0].asDoubleRoll().getActualRoll()
-            if (Random.nextDouble() > dodge) continue
+            if (Random.Default.nextDouble() > dodge) continue
 
             cmd.isDodging = true
             return
