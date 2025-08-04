@@ -36,8 +36,6 @@ object DungeonWorldSettings {
             .setGameRule(GameRules.DISABLE_RAIDS, true)
             .setGameRule(GameRules.SPECTATORS_GENERATE_CHUNKS, false)
             .setGameRule(GameRules.DO_WARDEN_SPAWNING, false)
-            .setGameRule(GameRules.DROWNING_DAMAGE, false)
-            .setGameRule(GameRules.FREEZE_DAMAGE, false)
             .setGameRule(GameRules.DO_VINES_SPREAD, false)
             .setGameRule(GameRules.SPAWN_CHUNK_RADIUS, 0)
             .setGameRule(GameRules.UNIVERSAL_ANGER, true)
