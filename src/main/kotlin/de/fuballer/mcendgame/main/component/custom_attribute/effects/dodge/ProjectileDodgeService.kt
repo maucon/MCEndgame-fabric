@@ -16,7 +16,7 @@ class ProjectileDodgeService {
 
         for (attribute in attributes) {
             val dodge = attribute.rolls[0].asDoubleRoll().getActualRoll()
-            if (Random.Default.nextDouble() > dodge) continue
+            if (Random.nextDouble() > dodge) continue
 
             cmd.isDodging = true
             return
