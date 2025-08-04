@@ -1,7 +1,7 @@
 package de.fuballer.mcendgame.client.component.screen
 
 import de.fuballer.mcendgame.main.component.entity.custom.CustomEntities
-import de.fuballer.mcendgame.main.component.entity.custom.entities.bonecrusher.BonecrusherEntity
+import de.fuballer.mcendgame.main.component.entity.custom.entities.arachne.ArachneEntity
 import de.fuballer.mcendgame.main.component.killer.KillerScreenHandler
 import de.fuballer.mcendgame.main.util.minecraft.IdentifierUtil
 import net.minecraft.client.gui.DrawContext
@@ -12,13 +12,21 @@ import net.minecraft.entity.player.PlayerInventory
 import net.minecraft.text.Text
 import net.minecraft.util.Identifier
 
-private val TEXTURE = IdentifierUtil.default("textures/gui/container/dungeon_device.png") //TODO add own texture
+private val TEXTURE = IdentifierUtil.default("textures/gui/container/killer.png")
 
 class KillerScreen(
     handler: KillerScreenHandler,
     inventory: PlayerInventory,
     title: Text,
 ) : HandledScreen<KillerScreenHandler>(handler, inventory, title) {
+    var entityDrawPanelRatio = 1.0
+
+    init {
+        backgroundWidth = 111
+        backgroundHeight = 126
+        entityDrawPanelRatio = backgroundWidth / backgroundHeight.toDouble()
+    }
+
     override fun drawBackground(
         context: DrawContext,
         deltaTicks: Float,
@@ -37,12 +45,30 @@ class KillerScreen(
             0.0f,
             backgroundWidth,
             backgroundHeight,
-            256,
-            256
+            backgroundWidth,
+            backgroundHeight,
         )
 
         val player = client?.player ?: return
-        val killer = BonecrusherEntity(CustomEntities.BONECRUSHER, player.world) //TODO get actual killer
-        InventoryScreen.drawEntity(context, x + 26, y + 8, x + 75, y + 78, 30, 0.0625F, mouseX.toFloat(), mouseY.toFloat(), player)
+        val killer = ArachneEntity(CustomEntities.ARACHNE, player.world) //TODO get actual killer
+
+        val killerRatio = killer.width / killer.height
+        val sizeFactor = 1.0 / if (killerRatio > entityDrawPanelRatio) killer.width else killer.height
+        val size = (75 * sizeFactor).toInt()
+
+        InventoryScreen.drawEntity(
+            context,
+            x + 26,
+            y + 8,
+            x + 103,
+            y + 118,
+            size,
+            0.0625F,
+            mouseX.toFloat(),
+            mouseY.toFloat(),
+            killer
+        )
     }
+
+    override fun drawForeground(context: DrawContext, mouseX: Int, mouseY: Int) {}
 }

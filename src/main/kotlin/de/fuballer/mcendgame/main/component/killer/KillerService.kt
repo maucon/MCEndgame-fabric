@@ -19,7 +19,8 @@ class KillerService {
     }
 
     companion object {
-        val SCREEN_HANDLER_TYPE = ScreenHandlerType<KillerScreenHandler>(::KillerScreenHandler, FeatureFlags.VANILLA_FEATURES)
-            .also { RegistryUtil.registerScreenHandler("killer", it) }
+        val SCREEN_HANDLER_TYPE =
+            ScreenHandlerType<KillerScreenHandler>(::KillerScreenHandler, FeatureFlags.VANILLA_FEATURES)
+                .also { RegistryUtil.registerScreenHandler("killer", it) }
     }
 }
