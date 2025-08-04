@@ -44,6 +44,7 @@
   "item.mcendgame.aspect.description.zeal": "Dungeon Completion grants %s additional Progress",
 
   "container.mcendgame.filter.title": "Dungeon Filter (Blacklist)",
+  "container.mcendgame.killer.title": "Killer",
 
   "block.mcendgame.dungeon_device": "Dungeon Device",
   "container.mcendgame.dungeon_device.title": "Dungeon Device",
