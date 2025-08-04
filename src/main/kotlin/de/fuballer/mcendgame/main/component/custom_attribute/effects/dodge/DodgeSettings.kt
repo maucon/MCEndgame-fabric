@@ -1,5 +1,6 @@
 package de.fuballer.mcendgame.main.component.custom_attribute.effects.dodge
 
+import de.fuballer.mcendgame.main.component.damage.custom.CustomDamageTypes
 import net.minecraft.entity.damage.DamageTypes
 
 object DodgeSettings {
@@ -25,5 +26,6 @@ object DodgeSettings {
         DamageTypes.FALLING_STALACTITE,
         DamageTypes.SONIC_BOOM,
         DamageTypes.LIGHTNING_BOLT,
+        CustomDamageTypes.SWEEPING,
     )
 }
