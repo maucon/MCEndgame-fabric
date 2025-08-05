@@ -30,7 +30,7 @@ class KillerScreen(
         entityDrawPanelRatio = backgroundWidth / backgroundHeight.toDouble()
 
         statusEffectsDisplay.backgroundHeight = 24
-        statusEffectsDisplay.yOffset = { effectCount -> if (effectCount <= 4) 25 else (backgroundHeight - statusEffectsDisplay.backgroundHeight) / (effectCount - 1) }
+        statusEffectsDisplay.yOffsetPerEffect = { effectCount -> if (effectCount <= 4) 25 else (backgroundHeight - statusEffectsDisplay.backgroundHeight) / (effectCount - 1) }
         statusEffectsDisplay.spriteYOffset = 3
         statusEffectsDisplay.descriptionTextYOffset = 8
         statusEffectsDisplay.renderDurationText = false
@@ -52,10 +52,6 @@ class KillerScreen(
             listOf(
                 StatusEffectInstance(StatusEffects.STRENGTH),
                 StatusEffectInstance(StatusEffects.SPEED, 200, 3),
-                StatusEffectInstance(StatusEffects.RESISTANCE, StatusEffectInstance.INFINITE, 100),
-                StatusEffectInstance(StatusEffects.RESISTANCE, StatusEffectInstance.INFINITE, 100),
-                StatusEffectInstance(StatusEffects.RESISTANCE, StatusEffectInstance.INFINITE, 100),
-                StatusEffectInstance(StatusEffects.RESISTANCE, StatusEffectInstance.INFINITE, 100),
                 StatusEffectInstance(StatusEffects.RESISTANCE, StatusEffectInstance.INFINITE, 100),
             )
         )

@@ -35,7 +35,9 @@ class CustomStatusEffectsDisplay(
     var durationTextColor = 8355711
     var renderDurationText = true
 
-    var yOffset: (Int) -> Int = { effectCount -> if (effectCount <= 5) 33 else 132 / (effectCount - 1) }
+    var enableTooltip = true
+
+    var yOffsetPerEffect: (Int) -> Int = { effectCount -> if (effectCount <= 5) 33 else 132 / (effectCount - 1) }
 
     fun drawStatusEffects(
         context: DrawContext,
@@ -50,19 +52,36 @@ class CustomStatusEffectsDisplay(
         if (statusEffects.isEmpty()) return
 
         val wide = isWide(space)
-        var yOffsetPerEffect = yOffset(statusEffects.size)
+        var yOffsetPerEffect = yOffsetPerEffect(statusEffects.size)
 
         val sortedEffects = statusEffects.sortedBy { it }
-        drawStatusEffectBackgrounds(context, x, y, yOffsetPerEffect, sortedEffects, wide)
-        drawStatusEffectSprites(context, x, y, yOffsetPerEffect, sortedEffects, wide)
+        var effectY = y
+        sortedEffects.forEach {
+            drawStatusEffectBackground(context, x, effectY, wide)
+            drawStatusEffectSprite(context, x, effectY, it, wide)
 
-        if (wide) return drawStatusEffectDescriptions(context, x, y, yOffsetPerEffect, sortedEffects)
+            if (wide) drawStatusEffectDescription(context, x, effectY, it)
+            effectY += yOffsetPerEffect
+        }
 
+        if (wide || !enableTooltip) return
+        drawTooltip(context, sortedEffects, x, y, mouseX, mouseY, yOffsetPerEffect)
+    }
+
+    private fun drawTooltip(
+        context: DrawContext,
+        effects: Iterable<StatusEffectInstance>,
+        x: Int,
+        y: Int,
+        mouseX: Int,
+        mouseY: Int,
+        yOffsetPerEffect: Int,
+    ) {
         if (mouseX < x || mouseX > x + smallWidth) return
 
         var yy = y
         var hoveredStatusEffectInstance: StatusEffectInstance? = null
-        sortedEffects.forEach {
+        effects.forEach {
             if (mouseY >= yy && mouseY <= yy + yOffsetPerEffect) {
                 hoveredStatusEffectInstance = it
             }
@@ -76,64 +95,43 @@ class CustomStatusEffectsDisplay(
         context.drawTooltip(parent.getTextRenderer(), tooltip, Optional.empty(), mouseX, mouseY)
     }
 
-    private fun drawStatusEffectBackgrounds(
+    private fun drawStatusEffectBackground(
         context: DrawContext,
         x: Int,
-        yStart: Int,
-        yOffsetPerEffect: Int,
-        statusEffects: Iterable<StatusEffectInstance>,
+        yBase: Int,
         wide: Boolean,
     ) {
-        var y = yStart
-
-        statusEffects.forEach {
-            if (wide) context.drawGuiTexture(RenderLayer::getGuiTextured, EFFECT_BACKGROUND_LARGE_TEXTURE, x, y, wideWidth, backgroundHeight)
-            else context.drawGuiTexture(RenderLayer::getGuiTextured, EFFECT_BACKGROUND_SMALL_TEXTURE, x, y, smallWidth, backgroundHeight)
-
-            y += yOffsetPerEffect
-        }
+        if (wide) context.drawGuiTexture(RenderLayer::getGuiTextured, EFFECT_BACKGROUND_LARGE_TEXTURE, x, yBase, wideWidth, backgroundHeight)
+        else context.drawGuiTexture(RenderLayer::getGuiTextured, EFFECT_BACKGROUND_SMALL_TEXTURE, x, yBase, smallWidth, backgroundHeight)
     }
 
-    private fun drawStatusEffectSprites(
+    private fun drawStatusEffectSprite(
         context: DrawContext,
         x: Int,
-        yStart: Int,
-        yOffsetPerEffect: Int,
-        statusEffects: Iterable<StatusEffectInstance>,
+        yBase: Int,
+        statusEffect: StatusEffectInstance,
         wide: Boolean,
     ) {
         val statusEffectSpriteManager = client.statusEffectSpriteManager
-        var y = yStart
 
-        statusEffects.forEach {
-            val entry = it.effectType
-            val sprite = statusEffectSpriteManager.getSprite(entry)
-            context.drawSpriteStretched(RenderLayer::getGuiTextured, sprite, x + spriteXOffset(wide), y + spriteYOffset, spriteSize, spriteSize)
-
-            y += yOffsetPerEffect
-        }
+        val entry = statusEffect.effectType
+        val sprite = statusEffectSpriteManager.getSprite(entry)
+        context.drawSpriteStretched(RenderLayer::getGuiTextured, sprite, x + spriteXOffset(wide), yBase + spriteYOffset, spriteSize, spriteSize)
     }
 
-    private fun drawStatusEffectDescriptions(
+    private fun drawStatusEffectDescription(
         context: DrawContext,
         x: Int,
-        yStart: Int,
-        yOffsetPerEffect: Int,
-        statusEffects: Iterable<StatusEffectInstance>,
+        yBase: Int,
+        statusEffect: StatusEffectInstance,
     ) {
-        var y = yStart
+        val descriptionText = getStatusEffectDescription(statusEffect)
+        context.drawTextWithShadow(parent.getTextRenderer(), descriptionText, x + textXOffset, yBase + descriptionTextYOffset, descriptionTextColor)
 
-        statusEffects.forEach {
-            val descriptionText = getStatusEffectDescription(it)
-            context.drawTextWithShadow(parent.getTextRenderer(), descriptionText, x + textXOffset, y + descriptionTextYOffset, descriptionTextColor)
+        if (!renderDurationText) return
 
-            if (renderDurationText) {
-                val durationText = StatusEffectUtil.getDurationText(it, 1.0F, client.world!!.tickManager.getTickRate())
-                context.drawTextWithShadow(parent.getTextRenderer(), durationText, x + textXOffset, y + durationTextYOffset, durationTextColor)
-            }
-
-            y += yOffsetPerEffect
-        }
+        val durationText = StatusEffectUtil.getDurationText(statusEffect, 1.0F, client.world!!.tickManager.getTickRate())
+        context.drawTextWithShadow(parent.getTextRenderer(), durationText, x + textXOffset, yBase + durationTextYOffset, durationTextColor)
     }
 
     private fun getStatusEffectDescription(
