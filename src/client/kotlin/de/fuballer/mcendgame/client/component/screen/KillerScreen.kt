@@ -7,7 +7,6 @@ import net.minecraft.client.gui.screen.ingame.HandledScreen
 import net.minecraft.client.gui.screen.ingame.InventoryScreen
 import net.minecraft.client.render.RenderLayer
 import net.minecraft.entity.effect.StatusEffectInstance
-import net.minecraft.entity.effect.StatusEffects
 import net.minecraft.entity.player.PlayerInventory
 import net.minecraft.text.Text
 import net.minecraft.util.Identifier
@@ -53,6 +52,7 @@ class KillerScreen(
             mouseY,
             effects,
         )
+        drawMouseoverTooltip(context, mouseX, mouseY)
     }
 
     override fun drawBackground(
