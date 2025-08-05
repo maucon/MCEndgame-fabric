@@ -28,6 +28,12 @@ class KillerScreen(
         backgroundWidth = 111
         backgroundHeight = 126
         entityDrawPanelRatio = backgroundWidth / backgroundHeight.toDouble()
+
+        statusEffectsDisplay.backgroundHeight = 24
+        statusEffectsDisplay.yOffset = { effectCount -> if (effectCount <= 4) 25 else (backgroundHeight - statusEffectsDisplay.backgroundHeight) / (effectCount - 1) }
+        statusEffectsDisplay.spriteYOffset = 3
+        statusEffectsDisplay.descriptionTextYOffset = 8
+        statusEffectsDisplay.renderDurationText = false
     }
 
     override fun render(
@@ -39,13 +45,17 @@ class KillerScreen(
         super.render(context, mouseX, mouseY, deltaTicks)
         statusEffectsDisplay.drawStatusEffects(
             context,
-            x + backgroundWidth,
+            x + backgroundWidth + 1,
             y,
             mouseX,
             mouseY,
             listOf(
                 StatusEffectInstance(StatusEffects.STRENGTH),
                 StatusEffectInstance(StatusEffects.SPEED, 200, 3),
+                StatusEffectInstance(StatusEffects.RESISTANCE, StatusEffectInstance.INFINITE, 100),
+                StatusEffectInstance(StatusEffects.RESISTANCE, StatusEffectInstance.INFINITE, 100),
+                StatusEffectInstance(StatusEffects.RESISTANCE, StatusEffectInstance.INFINITE, 100),
+                StatusEffectInstance(StatusEffects.RESISTANCE, StatusEffectInstance.INFINITE, 100),
                 StatusEffectInstance(StatusEffects.RESISTANCE, StatusEffectInstance.INFINITE, 100),
             )
         )

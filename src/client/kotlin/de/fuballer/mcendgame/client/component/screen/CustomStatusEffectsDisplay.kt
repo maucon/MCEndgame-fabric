@@ -19,6 +19,24 @@ class CustomStatusEffectsDisplay(
     val parent: HandledScreen<*>,
     val client: MinecraftClient = MinecraftClient.getInstance(),
 ) {
+    var backgroundHeight = 32
+    var wideWidth = 120
+    var smallWidth = 32
+    var isWide: (Int) -> Boolean = { space -> space >= 120 }
+
+    var spriteSize = 18
+    var spriteXOffset: (Boolean) -> Int = { wide -> if (wide) 6 else 7 }
+    var spriteYOffset = 7
+
+    var textXOffset = 28
+    var descriptionTextYOffset = 6
+    var descriptionTextColor = 16777215
+    var durationTextYOffset = 16
+    var durationTextColor = 8355711
+    var renderDurationText = true
+
+    var yOffset: (Int) -> Int = { effectCount -> if (effectCount <= 5) 33 else 132 / (effectCount - 1) }
+
     fun drawStatusEffects(
         context: DrawContext,
         x: Int,
@@ -31,16 +49,16 @@ class CustomStatusEffectsDisplay(
         if (space < 32) return
         if (statusEffects.isEmpty()) return
 
-        val wide = space >= 120
-        val statusEffectCount = statusEffects.size
-        var yOffsetPerEffect = if (statusEffectCount <= 5) 33 else 132 / (statusEffectCount - 1)
+        val wide = isWide(space)
+        var yOffsetPerEffect = yOffset(statusEffects.size)
 
         val sortedEffects = statusEffects.sortedBy { it }
         drawStatusEffectBackgrounds(context, x, y, yOffsetPerEffect, sortedEffects, wide)
         drawStatusEffectSprites(context, x, y, yOffsetPerEffect, sortedEffects, wide)
+
         if (wide) return drawStatusEffectDescriptions(context, x, y, yOffsetPerEffect, sortedEffects)
 
-        if (mouseX < x || mouseX > x + 33) return
+        if (mouseX < x || mouseX > x + smallWidth) return
 
         var yy = y
         var hoveredStatusEffectInstance: StatusEffectInstance? = null
@@ -52,10 +70,9 @@ class CustomStatusEffectsDisplay(
         }
         if (hoveredStatusEffectInstance == null) return
 
-        val tooltip = listOf(
-            getStatusEffectDescription(hoveredStatusEffectInstance),
-            StatusEffectUtil.getDurationText(hoveredStatusEffectInstance, 1.0F, client.world!!.tickManager.getTickRate())
-        )
+        val tooltip = mutableListOf(getStatusEffectDescription(hoveredStatusEffectInstance))
+        if (renderDurationText) tooltip.add(StatusEffectUtil.getDurationText(hoveredStatusEffectInstance, 1.0F, client.world!!.tickManager.getTickRate()))
+
         context.drawTooltip(parent.getTextRenderer(), tooltip, Optional.empty(), mouseX, mouseY)
     }
 
@@ -70,8 +87,8 @@ class CustomStatusEffectsDisplay(
         var y = yStart
 
         statusEffects.forEach {
-            if (wide) context.drawGuiTexture(RenderLayer::getGuiTextured, EFFECT_BACKGROUND_LARGE_TEXTURE, x, y, 120, 32)
-            else context.drawGuiTexture(RenderLayer::getGuiTextured, EFFECT_BACKGROUND_SMALL_TEXTURE, x, y, 32, 32)
+            if (wide) context.drawGuiTexture(RenderLayer::getGuiTextured, EFFECT_BACKGROUND_LARGE_TEXTURE, x, y, wideWidth, backgroundHeight)
+            else context.drawGuiTexture(RenderLayer::getGuiTextured, EFFECT_BACKGROUND_SMALL_TEXTURE, x, y, smallWidth, backgroundHeight)
 
             y += yOffsetPerEffect
         }
@@ -91,7 +108,7 @@ class CustomStatusEffectsDisplay(
         statusEffects.forEach {
             val entry = it.effectType
             val sprite = statusEffectSpriteManager.getSprite(entry)
-            context.drawSpriteStretched(RenderLayer::getGuiTextured, sprite, x + if (wide) 6 else 7, y + 7, 18, 18)
+            context.drawSpriteStretched(RenderLayer::getGuiTextured, sprite, x + spriteXOffset(wide), y + spriteYOffset, spriteSize, spriteSize)
 
             y += yOffsetPerEffect
         }
@@ -108,10 +125,12 @@ class CustomStatusEffectsDisplay(
 
         statusEffects.forEach {
             val descriptionText = getStatusEffectDescription(it)
-            context.drawTextWithShadow(parent.getTextRenderer(), descriptionText, x + 10 + 18, y + 6, 16777215)
+            context.drawTextWithShadow(parent.getTextRenderer(), descriptionText, x + textXOffset, y + descriptionTextYOffset, descriptionTextColor)
 
-            val durationText = StatusEffectUtil.getDurationText(it, 1.0F, client.world!!.tickManager.getTickRate())
-            context.drawTextWithShadow(parent.getTextRenderer(), durationText, x + 10 + 18, y + 6 + 10, 8355711)
+            if (renderDurationText) {
+                val durationText = StatusEffectUtil.getDurationText(it, 1.0F, client.world!!.tickManager.getTickRate())
+                context.drawTextWithShadow(parent.getTextRenderer(), durationText, x + textXOffset, y + durationTextYOffset, durationTextColor)
+            }
 
             y += yOffsetPerEffect
         }
