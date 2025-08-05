@@ -29,7 +29,6 @@ class KillerScreenHandler(
         actionType: SlotActionType,
         player: PlayerEntity
     ) {
-
     }
 
     override fun canUse(player: PlayerEntity) = killerInventory.canPlayerUse(player)

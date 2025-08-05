@@ -8,6 +8,8 @@ import net.minecraft.client.gui.DrawContext
 import net.minecraft.client.gui.screen.ingame.HandledScreen
 import net.minecraft.client.gui.screen.ingame.InventoryScreen
 import net.minecraft.client.render.RenderLayer
+import net.minecraft.entity.effect.StatusEffectInstance
+import net.minecraft.entity.effect.StatusEffects
 import net.minecraft.entity.player.PlayerInventory
 import net.minecraft.text.Text
 import net.minecraft.util.Identifier
@@ -19,12 +21,34 @@ class KillerScreen(
     inventory: PlayerInventory,
     title: Text,
 ) : HandledScreen<KillerScreenHandler>(handler, inventory, title) {
+    val statusEffectsDisplay = CustomStatusEffectsDisplay(this)
     var entityDrawPanelRatio = 1.0
 
     init {
         backgroundWidth = 111
         backgroundHeight = 126
         entityDrawPanelRatio = backgroundWidth / backgroundHeight.toDouble()
+    }
+
+    override fun render(
+        context: DrawContext,
+        mouseX: Int,
+        mouseY: Int,
+        deltaTicks: Float
+    ) {
+        super.render(context, mouseX, mouseY, deltaTicks)
+        statusEffectsDisplay.drawStatusEffects(
+            context,
+            x + backgroundWidth,
+            y,
+            mouseX,
+            mouseY,
+            listOf(
+                StatusEffectInstance(StatusEffects.STRENGTH),
+                StatusEffectInstance(StatusEffects.SPEED, 200, 3),
+                StatusEffectInstance(StatusEffects.RESISTANCE, StatusEffectInstance.INFINITE, 100),
+            )
+        )
     }
 
     override fun drawBackground(
