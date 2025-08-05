@@ -1,7 +1,5 @@
 package de.fuballer.mcendgame.client.component.screen
 
-import de.fuballer.mcendgame.main.component.entity.custom.CustomEntities
-import de.fuballer.mcendgame.main.component.entity.custom.entities.arachne.ArachneEntity
 import de.fuballer.mcendgame.main.component.killer.KillerScreenHandler
 import de.fuballer.mcendgame.main.util.minecraft.IdentifierUtil
 import net.minecraft.client.gui.DrawContext
@@ -79,9 +77,15 @@ class KillerScreen(
             backgroundHeight,
         )
 
-        val player = client?.player ?: return
-        val killer = ArachneEntity(CustomEntities.ARACHNE, player.world) //TODO get actual killer
+        drawKillerEntity(context, mouseX, mouseY)
+    }
 
+    private fun drawKillerEntity(
+        context: DrawContext,
+        mouseX: Int,
+        mouseY: Int,
+    ) {
+        val killer = handler.killer ?: return
         val killerRatio = killer.width / killer.height
         val sizeFactor = 1.0 / if (killerRatio > entityDrawPanelRatio) killer.width else killer.height
         val size = (75 * sizeFactor).toInt()
