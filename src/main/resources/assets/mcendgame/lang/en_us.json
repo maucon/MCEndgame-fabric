@@ -44,7 +44,6 @@
   "item.mcendgame.aspect.description.zeal": "Dungeon Completion grants %s additional Progress",
 
   "container.mcendgame.filter.title": "Dungeon Filter (Blacklist)",
-  "container.mcendgame.killer.title": "Killer",
 
   "block.mcendgame.dungeon_device": "Dungeon Device",
   "container.mcendgame.dungeon_device.title": "Dungeon Device",
@@ -115,6 +114,7 @@
   "effect.mcendgame.resilience": "Resilience",
   "effect.mcendgame.scorch": "Scorch",
 
+  "entity.mcendgame.unknown": "Unknown",
   "entity.mcendgame.swamp_golem": "Swamp Golem",
   "entity.mcendgame.elf_duelist": "Elf Duelist",
   "entity.mcendgame.arachne": "Arachne",
@@ -139,5 +139,7 @@
   "text.mcendgame.dungeon.device.level": "Level: %s",
   "text.mcendgame.dungeon.device.progress": "Progress: %s/%s",
 
-  "error.mcendgame.teleport.failed": "Destination location invalid! Closing portal."
+  "error.mcendgame.teleport.failed": "Destination location invalid! Closing portal.",
+
+  "error.mcendgame.no_killer_found": "No killer found for %s!"
 }

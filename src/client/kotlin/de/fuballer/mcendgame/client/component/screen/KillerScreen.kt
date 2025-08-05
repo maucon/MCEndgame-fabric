@@ -12,6 +12,12 @@ import net.minecraft.text.Text
 import net.minecraft.util.Identifier
 
 private val TEXTURE = IdentifierUtil.default("textures/gui/container/killer.png")
+private const val ENTITY_DRAW_PANEL_X = 26
+private const val ENTITY_DRAW_PANEL_WIDTH = 77
+private const val ENTITY_DRAW_PANEL_Y = 18
+private const val ENTITY_DRAW_PANEL_HEIGHT = 110
+private const val ENTITY_DRAW_PANEL_RATIO = ENTITY_DRAW_PANEL_WIDTH / ENTITY_DRAW_PANEL_HEIGHT.toDouble()
+private const val ENTITY_BASE_SIZE = 75
 
 class KillerScreen(
     handler: KillerScreenHandler,
@@ -19,12 +25,10 @@ class KillerScreen(
     title: Text,
 ) : HandledScreen<KillerScreenHandler>(handler, inventory, title) {
     val statusEffectsDisplay = CustomStatusEffectsDisplay(this)
-    var entityDrawPanelRatio = 1.0
 
     init {
         backgroundWidth = 111
-        backgroundHeight = 126
-        entityDrawPanelRatio = backgroundWidth / backgroundHeight.toDouble()
+        backgroundHeight = 136
 
         statusEffectsDisplay.backgroundHeight = 24
         statusEffectsDisplay.smallWidth = 24
@@ -87,15 +91,16 @@ class KillerScreen(
     ) {
         val killer = handler.killer ?: return
         val killerRatio = killer.width / killer.height
-        val sizeFactor = 1.0 / if (killerRatio > entityDrawPanelRatio) killer.width else killer.height
-        val size = (75 * sizeFactor).toInt()
+
+        val sizeFactor = 1.0 / if (killerRatio > ENTITY_DRAW_PANEL_RATIO) killer.width / ENTITY_DRAW_PANEL_RATIO.toFloat() else killer.height
+        val size = (ENTITY_BASE_SIZE * sizeFactor).toInt()
 
         InventoryScreen.drawEntity(
             context,
-            x + 26,
-            y + 8,
-            x + 103,
-            y + 118,
+            x + ENTITY_DRAW_PANEL_X,
+            y + ENTITY_DRAW_PANEL_Y,
+            x + ENTITY_DRAW_PANEL_X + ENTITY_DRAW_PANEL_WIDTH,
+            y + ENTITY_DRAW_PANEL_Y + ENTITY_DRAW_PANEL_HEIGHT,
             size,
             0.0625F,
             mouseX.toFloat(),
@@ -104,5 +109,11 @@ class KillerScreen(
         )
     }
 
-    override fun drawForeground(context: DrawContext, mouseX: Int, mouseY: Int) {}
+    override fun drawForeground(
+        context: DrawContext,
+        mouseX: Int,
+        mouseY: Int
+    ) {
+        context.drawText(textRenderer, title, titleX, titleY, 4210752, false)
+    }
 }
