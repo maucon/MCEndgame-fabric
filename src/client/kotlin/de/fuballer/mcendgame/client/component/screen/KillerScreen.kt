@@ -28,10 +28,13 @@ class KillerScreen(
         entityDrawPanelRatio = backgroundWidth / backgroundHeight.toDouble()
 
         statusEffectsDisplay.backgroundHeight = 24
+        statusEffectsDisplay.smallWidth = 24
         statusEffectsDisplay.yOffsetPerEffect = { effectCount -> if (effectCount <= 4) 25 else (backgroundHeight - statusEffectsDisplay.backgroundHeight) / (effectCount - 1) }
+        statusEffectsDisplay.spriteXOffset = { 3 }
         statusEffectsDisplay.spriteYOffset = 3
         statusEffectsDisplay.descriptionTextYOffset = 8
         statusEffectsDisplay.renderDurationText = false
+        statusEffectsDisplay.isWide = { false }
     }
 
     override fun render(
@@ -41,17 +44,14 @@ class KillerScreen(
         deltaTicks: Float
     ) {
         super.render(context, mouseX, mouseY, deltaTicks)
+        val effects = handler.killer?.statusEffects ?: listOf<StatusEffectInstance>()
         statusEffectsDisplay.drawStatusEffects(
             context,
             x + backgroundWidth + 1,
             y,
             mouseX,
             mouseY,
-            listOf(
-                StatusEffectInstance(StatusEffects.STRENGTH),
-                StatusEffectInstance(StatusEffects.SPEED, 200, 3),
-                StatusEffectInstance(StatusEffects.RESISTANCE, StatusEffectInstance.INFINITE, 100),
-            )
+            effects,
         )
     }
 

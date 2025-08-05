@@ -5,6 +5,8 @@ import de.fuballer.mcendgame.main.component.entity.custom.entities.arachne.Arach
 import de.fuballer.mcendgame.main.component.inventory.EmptySpriteSlot
 import net.minecraft.entity.EquipmentSlot
 import net.minecraft.entity.LivingEntity
+import net.minecraft.entity.effect.StatusEffectInstance
+import net.minecraft.entity.effect.StatusEffects
 import net.minecraft.entity.player.PlayerEntity
 import net.minecraft.entity.player.PlayerInventory
 import net.minecraft.inventory.SimpleInventory
@@ -63,6 +65,12 @@ class KillerScreenHandler(
             val stack = killer!!.getEquippedStack(it.key)
             killerInventory.setStack(it.value, stack)
         }
+
+        listOf(
+            StatusEffectInstance(StatusEffects.STRENGTH),
+            StatusEffectInstance(StatusEffects.SPEED, 200, 3),
+            StatusEffectInstance(StatusEffects.RESISTANCE, StatusEffectInstance.INFINITE, 100),
+        ).forEach { killer!!.addStatusEffect(it) }
     }
 
     override fun onSlotClick(
