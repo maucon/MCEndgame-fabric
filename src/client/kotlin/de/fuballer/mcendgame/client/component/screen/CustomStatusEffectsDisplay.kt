@@ -12,8 +12,8 @@ import net.minecraft.text.Text
 import net.minecraft.util.Identifier
 import java.util.*
 
-val EFFECT_BACKGROUND_LARGE_TEXTURE: Identifier = Identifier.ofVanilla("container/inventory/effect_background_large");
-val EFFECT_BACKGROUND_SMALL_TEXTURE: Identifier = Identifier.ofVanilla("container/inventory/effect_background_small");
+private val EFFECT_BACKGROUND_LARGE_TEXTURE: Identifier = Identifier.ofVanilla("container/inventory/effect_background_large");
+private val EFFECT_BACKGROUND_SMALL_TEXTURE: Identifier = Identifier.ofVanilla("container/inventory/effect_background_small");
 
 class CustomStatusEffectsDisplay(
     val parent: HandledScreen<*>,

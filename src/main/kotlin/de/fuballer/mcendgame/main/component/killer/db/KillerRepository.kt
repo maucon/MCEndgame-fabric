@@ -13,6 +13,4 @@ class KillerRepository(
     log,
     "killer_entity",
     KillerEntity.CODEC
-) {
-    // TODO save when?
-}
+)
