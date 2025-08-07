@@ -138,6 +138,8 @@
 
   "text.mcendgame.dungeon.device.level": "Level: %s",
   "text.mcendgame.dungeon.device.progress": "Progress: %s/%s",
+  "text.mcendgame.dungeon.device.next_level": "Next Level: %s more",
+  "text.mcendgame.dungeon.device.player": "Player: %s",
 
   "error.mcendgame.teleport.failed": "Destination location invalid! Closing portal.",
 

@@ -37,9 +37,11 @@ class DungeonDeviceScreen(
         super.init()
         titleX = (backgroundWidth - textRenderer.getWidth(title)) / 2
 
-        createDungeonButton.setPosition((width - backgroundWidth) / 2 + 69, (height - backgroundHeight) / 2 + 62)
+        createDungeonButton.setPosition((width - backgroundWidth) / 2 + 69, (height - backgroundHeight) / 2 + 82)
 
         val playerDungeonLevel = handler.payload.playerDungeonLevel
+        val progressUntilNext = DungeonLevelSettings.LEVEL_INCREASE_THRESHOLD - playerDungeonLevel.levelProgress
+        
         addDrawableChild(
             TextWidget(
                 (width - backgroundWidth) / 2 - 20,
@@ -61,6 +63,26 @@ class DungeonDeviceScreen(
                     playerDungeonLevel.levelProgress,
                     DungeonLevelSettings.LEVEL_INCREASE_THRESHOLD
                 ),
+                textRenderer
+            )
+        )
+        addDrawableChild(
+            TextWidget(
+                (width - backgroundWidth) / 2 - 20,
+                (height - backgroundHeight) / 2 + 60,
+                100,
+                10,
+                Text.translatable("text.mcendgame.dungeon.device.next_level", progressUntilNext),
+                textRenderer
+            )
+        )
+        addDrawableChild(
+            TextWidget(
+                (width - backgroundWidth) / 2 - 20,
+                (height - backgroundHeight) / 2 + 69,
+                150,
+                10,
+                Text.translatable("text.mcendgame.dungeon.device.player", inventory.player.gameProfile.name),
                 textRenderer
             )
         )
