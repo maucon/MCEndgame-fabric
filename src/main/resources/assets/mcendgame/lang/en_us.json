@@ -114,6 +114,7 @@
   "effect.mcendgame.resilience": "Resilience",
   "effect.mcendgame.scorch": "Scorch",
 
+  "entity.mcendgame.unknown": "Unknown",
   "entity.mcendgame.swamp_golem": "Swamp Golem",
   "entity.mcendgame.elf_duelist": "Elf Duelist",
   "entity.mcendgame.arachne": "Arachne",
@@ -138,5 +139,7 @@
   "text.mcendgame.dungeon.device.level": "Level: %s",
   "text.mcendgame.dungeon.device.progress": "Progress: %s/%s",
 
-  "error.mcendgame.teleport.failed": "Destination location invalid! Closing portal."
+  "error.mcendgame.teleport.failed": "Destination location invalid! Closing portal.",
+
+  "error.mcendgame.no_killer_found": "No killer found for %s!"
 }

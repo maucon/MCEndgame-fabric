@@ -1,4 +1,4 @@
-package de.fuballer.mcendgame.client.component.dungeon.device.screen
+package de.fuballer.mcendgame.client.component.screen
 
 import com.mojang.logging.LogUtils
 import de.fuballer.mcendgame.main.component.dungeon.device.DungeonDevice
@@ -56,7 +56,11 @@ class DungeonDeviceScreen(
                 (height - backgroundHeight) / 2 + 51,
                 100,
                 10,
-                Text.translatable("text.mcendgame.dungeon.device.progress", playerDungeonLevel.levelProgress, DungeonLevelSettings.LEVEL_INCREASE_THRESHOLD),
+                Text.translatable(
+                    "text.mcendgame.dungeon.device.progress",
+                    playerDungeonLevel.levelProgress,
+                    DungeonLevelSettings.LEVEL_INCREASE_THRESHOLD
+                ),
                 textRenderer
             )
         )
