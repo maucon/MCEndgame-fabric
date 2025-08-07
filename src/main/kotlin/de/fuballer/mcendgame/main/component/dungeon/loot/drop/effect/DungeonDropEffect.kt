@@ -1,5 +1,6 @@
 package de.fuballer.mcendgame.main.component.dungeon.loot.drop.effect
 
+import de.fuballer.mcendgame.main.component.dungeon.loot.drop.ItemColor
 import de.fuballer.mcendgame.main.util.extension.mixin.EntityMixinExtension.setForcedGlowColor
 import net.minecraft.entity.Entity
 import net.minecraft.entity.ItemEntity
@@ -13,7 +14,7 @@ import kotlin.random.Random
 class DungeonDropEffect(
     val sound: SoundEvent? = null,
     val particleType: SimpleParticleType? = null,
-    val glowColor: Int? = null,
+    val glowColor: ItemColor? = null,
 ) {
     private var soundCategory = SoundCategory.MASTER
     private var volume = 1F
@@ -30,21 +31,22 @@ class DungeonDropEffect(
         itemEntity: ItemEntity,
         world: ServerWorld,
     ) {
-        if (sound != null) playSound(itemEntity, world)
-        if (particleType != null) spawnParticles(itemEntity, world)
+        playSound(itemEntity, world)
+        spawnParticles(itemEntity, world)
         if (glowColor != null) {
             itemEntity.isGlowing = true
-            itemEntity.setForcedGlowColor(glowColor)
+            itemEntity.setForcedGlowColor(glowColor.color)
         }
-        if (additionalEffects != null) additionalEffects!!(itemEntity, world)
+        additionalEffects?.invoke(itemEntity, world)
     }
 
     private fun spawnParticles(
         itemEntity: Entity,
         world: ServerWorld,
     ) {
+        if (particleType == null) return
         world.spawnParticles(
-            particleType!!,
+            particleType,
             itemEntity.x,
             itemEntity.y + itemEntity.height / 2,
             itemEntity.z,
@@ -60,10 +62,11 @@ class DungeonDropEffect(
         itemEntity: ItemEntity,
         world: ServerWorld,
     ) {
+        if (sound == null) return
         world.playSound(
             itemEntity,
             itemEntity.blockPos,
-            sound!!,
+            sound,
             soundCategory,
             volume,
             pitch + pitchVariance * Random.nextDouble(-1.0, 1.0).toFloat()
