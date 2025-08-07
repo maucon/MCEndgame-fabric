@@ -19,8 +19,8 @@ class BossGenerationService {
         level: Int,
         types: List<EntityTypeStats>,
         locations: List<SpawnPosition>,
-        random: Random,
     ) {
+        val random = Random
         val shuffledTypes = types.shuffled(random)
         val bosses = locations.mapIndexed { index, pos ->
             val type = shuffledTypes[index % shuffledTypes.size]

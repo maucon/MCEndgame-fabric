@@ -29,8 +29,8 @@ class EnemyGenerationService(
         level: Int,
         types: List<RandomOption<EntityTypeStats>>,
         spawnPositions: List<SpawnPosition>,
-        random: Random,
     ) {
+        val random = Random
         val generateDungeonEnemiesCommand = DungeonGenerateEnemiesCommand.of(dungeonWorld, spawnPositions.toMutableList())
         val cmd = CommandGateway.apply(generateDungeonEnemiesCommand)
 
