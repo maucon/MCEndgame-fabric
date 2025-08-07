@@ -145,8 +145,6 @@ object EventMapper {
     fun onDungeonItemDrop(event: ItemDropEvent) {
         if (!event.world.isDungeonWorld()) return
 
-        event.entity.owner
-
         val dungeonItemDropEvent = DungeonItemDropEvent.of(event)
         EventGateway.launchPublish(dungeonItemDropEvent)
     }
