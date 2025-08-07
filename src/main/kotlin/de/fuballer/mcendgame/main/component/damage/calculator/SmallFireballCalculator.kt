@@ -3,9 +3,9 @@ package de.fuballer.mcendgame.main.component.damage.calculator
 import de.fuballer.mcendgame.main.component.damage.ApplyDamageCalculationCommand
 import net.minecraft.entity.LivingEntity
 import net.minecraft.entity.damage.DamageSource
+import net.minecraft.entity.effect.StatusEffects
 import net.minecraft.entity.projectile.SmallFireballEntity
 
-// TODO blaze
 object SmallFireballCalculator : DamageCalculator {
     override fun isActive(source: DamageSource) = source.source is SmallFireballEntity
 
@@ -15,7 +15,8 @@ object SmallFireballCalculator : DamageCalculator {
         source: DamageSource,
         event: ApplyDamageCalculationCommand
     ): Float {
-        TODO("Not yet implemented")
+        if (attacked.hasStatusEffect(StatusEffects.FIRE_RESISTANCE)) return 0.0F
+        return 5f
     }
 
     override fun calculateElementalDamage(
@@ -23,7 +24,5 @@ object SmallFireballCalculator : DamageCalculator {
         attacked: LivingEntity,
         source: DamageSource,
         event: ApplyDamageCalculationCommand
-    ): Float {
-        TODO("Not yet implemented")
-    }
+    ) = 0f
 }

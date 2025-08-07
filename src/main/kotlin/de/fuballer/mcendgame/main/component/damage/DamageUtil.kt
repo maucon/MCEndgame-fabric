@@ -5,8 +5,25 @@ import net.minecraft.entity.LivingEntity
 import net.minecraft.entity.damage.DamageSource
 import net.minecraft.server.world.ServerWorld
 import net.minecraft.util.math.MathHelper
+import net.minecraft.world.Difficulty
+import net.minecraft.world.World
 
 object DamageUtil {
+    fun scaleByDifficulty(
+        baseDamage: Float,
+        world: World,
+        source: DamageSource
+    ): Float {
+        if (!source.isScaledWithDifficulty) return baseDamage
+
+        return when (world.difficulty) {
+            Difficulty.PEACEFUL -> 0f
+            Difficulty.EASY -> (baseDamage / 2f + 1f).coerceAtMost(baseDamage)
+            Difficulty.NORMAL -> baseDamage
+            Difficulty.HARD -> baseDamage * 3f / 2f
+        }
+    }
+
     fun reduceAttackDamageByArmor(
         armorWearer: LivingEntity,
         damageAmount: Float,
@@ -58,7 +75,7 @@ object DamageUtil {
         return damageAmount * damageMultiplier
     }
 
-     fun calculateProjectileAttackDamageMultiplier(
+    fun calculateProjectileAttackDamageMultiplier(
         event: ApplyDamageCalculationCommand
     ): Double {
         var damageIncrease = 1 + event.increasedDamage.sum()

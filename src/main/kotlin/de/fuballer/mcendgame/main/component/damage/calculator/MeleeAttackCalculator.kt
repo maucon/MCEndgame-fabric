@@ -1,6 +1,7 @@
 package de.fuballer.mcendgame.main.component.damage.calculator
 
 import de.fuballer.mcendgame.main.component.damage.ApplyDamageCalculationCommand
+import de.fuballer.mcendgame.main.component.damage.DamageUtil
 import de.fuballer.mcendgame.main.component.damage.custom_type.CustomDamageTypes
 import de.fuballer.mcendgame.main.util.extension.mixin.PlayerEntityMixinExtension.getAttackCooldownMultiplier
 import net.minecraft.enchantment.EnchantmentHelper

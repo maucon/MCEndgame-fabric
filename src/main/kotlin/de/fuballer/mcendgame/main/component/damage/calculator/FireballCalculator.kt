@@ -5,7 +5,6 @@ import net.minecraft.entity.LivingEntity
 import net.minecraft.entity.damage.DamageSource
 import net.minecraft.entity.projectile.FireballEntity
 
-// TODO ghast
 object FireballCalculator : DamageCalculator {
     override fun isActive(source: DamageSource) = source.source is FireballEntity
 
@@ -14,16 +13,12 @@ object FireballCalculator : DamageCalculator {
         attacked: LivingEntity,
         source: DamageSource,
         event: ApplyDamageCalculationCommand
-    ): Float {
-        TODO("Not yet implemented")
-    }
+    ) = 6f
 
     override fun calculateElementalDamage(
         originalDamage: Float,
         attacked: LivingEntity,
         source: DamageSource,
         event: ApplyDamageCalculationCommand
-    ): Float {
-        TODO("Not yet implemented")
-    }
+    ) = 0f
 }

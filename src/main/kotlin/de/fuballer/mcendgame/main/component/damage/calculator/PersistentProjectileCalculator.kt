@@ -9,9 +9,10 @@ import net.minecraft.entity.damage.DamageSource
 import net.minecraft.entity.projectile.PersistentProjectileEntity
 import net.minecraft.entity.projectile.ProjectileEntity
 import net.minecraft.server.world.ServerWorld
+import kotlin.math.ceil
 import kotlin.random.Random
 
-// TODO skeleton, stray, bogged
+// skeleton arrows (bogged, stray)
 object PersistentProjectileCalculator : DamageCalculator {
     override fun isActive(source: DamageSource) = source.source is PersistentProjectileEntity
 
@@ -24,12 +25,14 @@ object PersistentProjectileCalculator : DamageCalculator {
         val attacker = source.attacker as? LivingEntity ?: return originalDamage
 
         val baseDamage = calculateBaseAttackDamage(source)
+        println("baseDamage = $baseDamage")
         val enchantmentDamage = calculateEnchantmentDamage(attacker, attacked, source)
-        val damageMulti = DamageUtil.calculateProjectileAttackDamageMultiplier(event)
-        val critMulti = calculateCriticalMultiplier(event)
         val projectileSpeedMulti = calculateOtherMultiplier(source)
+        val critMulti = calculateCriticalMultiplier(event)
+        val damageMulti = DamageUtil.calculateProjectileAttackDamageMultiplier(event)
 
-        return ((baseDamage + enchantmentDamage) * damageMulti * critMulti * projectileSpeedMulti).toFloat()
+        val vanillaLikeDamage = ceil((baseDamage + enchantmentDamage) * projectileSpeedMulti)
+        return (vanillaLikeDamage * critMulti * damageMulti).toFloat()
     }
 
     override fun calculateElementalDamage( // TODO
