@@ -122,4 +122,9 @@ object EntityMixinExtension {
         val accessor = this as MobEntityDungeonBossAccessor
         return accessor.`mcendgame$getSpawnPosition`() ?: SpawnPosition(Vec3i.ZERO)
     }
+
+    fun Entity.setForcedGlowColor(color: Int) {
+        val accessor = this as EntityForcedGlowColorAccessor
+        accessor.`mcendgame$setForcedGlowColor`(color)
+    }
 }
