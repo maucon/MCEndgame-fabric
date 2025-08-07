@@ -40,7 +40,7 @@ class DungeonDeviceScreen(
         createDungeonButton.setPosition((width - backgroundWidth) / 2 + 69, (height - backgroundHeight) / 2 + 82)
 
         val playerDungeonLevel = handler.payload.playerDungeonLevel
-        val progressUntilNext = DungeonLevelSettings.LEVEL_INCREASE_THRESHOLD - playerDungeonLevel.levelProgress
+        val progressUntilNext = maxOf(0, DungeonLevelSettings.LEVEL_INCREASE_THRESHOLD - playerDungeonLevel.levelProgress)
         
         addDrawableChild(
             TextWidget(
