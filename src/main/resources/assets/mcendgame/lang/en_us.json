@@ -49,6 +49,10 @@
   "container.mcendgame.dungeon_device.title": "Dungeon Device",
   "container.mcendgame.dungeon_device.open": "Open",
 
+  "block.mcendgame.crystal_forge": "Crystal Forge",
+  "container.mcendgame.crystal_forge.title": "Crystal Forge",
+  "container.mcendgame.crystal_forge.forge": "Forge",
+
   "mcendgame.corrupted": "Corrupted",
 
   "attribute.mcendgame.more": "more",

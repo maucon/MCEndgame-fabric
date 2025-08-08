@@ -1,7 +1,6 @@
 package de.fuballer.mcendgame.main.component.item.custom.group
 
 import de.fuballer.mcendgame.main.component.block.CustomBlocks
-import de.fuballer.mcendgame.main.component.dungeon.device.DungeonDevice
 import de.fuballer.mcendgame.main.component.item.custom.armor.CustomArmorItems
 import de.fuballer.mcendgame.main.component.item.custom.aspect.AspectItems
 import de.fuballer.mcendgame.main.component.item.custom.tool.CustomToolItems
@@ -42,7 +41,7 @@ object CustomItemGroups {
     val CUSTOM_BLOCKS_KEY = RegistryKey.of(Registries.ITEM_GROUP.key, IdentifierUtil.default("blocks"))
     val CUSTOM_BLOCKS = RegistryUtil.registerItemGroup(
         CUSTOM_BLOCKS_KEY, FabricItemGroup.builder()
-            .icon { ItemStack(DungeonDevice.BLOCK) }
+            .icon { ItemStack(CustomBlocks.DUNGEON_DEVICE) }
             .displayName(Text.translatable("item_group.mcendgame.blocks"))
     )
 
@@ -86,7 +85,8 @@ object CustomItemGroups {
             itemGroup.add(AspectItems.ASPECT_OF_ZEAL.defaultStack)
         }
         ItemGroupEvents.modifyEntriesEvent(CUSTOM_BLOCKS_KEY).register { itemGroup ->
-            itemGroup.add(DungeonDevice.BLOCK)
+            itemGroup.add(CustomBlocks.DUNGEON_DEVICE)
+            itemGroup.add(CustomBlocks.CRYSTAL_FORGE)
             itemGroup.add(CustomBlocks.DECAYING_COBWEB)
         }
     }

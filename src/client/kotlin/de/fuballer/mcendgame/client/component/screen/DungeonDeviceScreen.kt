@@ -1,8 +1,8 @@
 package de.fuballer.mcendgame.client.component.screen
 
 import com.mojang.logging.LogUtils
-import de.fuballer.mcendgame.main.component.dungeon.device.DungeonDevice
-import de.fuballer.mcendgame.main.component.dungeon.device.screen.DungeonDeviceScreenHandler
+import de.fuballer.mcendgame.main.component.block.CustomBlocks
+import de.fuballer.mcendgame.main.component.block.dungeon_device.DungeonDeviceScreenHandler
 import de.fuballer.mcendgame.main.component.dungeon.level.DungeonLevelSettings
 import de.fuballer.mcendgame.main.util.minecraft.IdentifierUtil
 import net.fabricmc.api.EnvType
@@ -24,7 +24,7 @@ private val OPEN_DUNGEON_BUTTON_TEXT = Text.translatable("container.mcendgame.du
 class DungeonDeviceScreen(
     handler: DungeonDeviceScreenHandler,
     private val inventory: PlayerInventory,
-    title: Text
+    title: Text,
 ) : HandledScreen<DungeonDeviceScreenHandler>(handler, inventory, title) {
     private val log = LogUtils.getLogger()
 
@@ -77,7 +77,7 @@ class DungeonDeviceScreen(
         val textureX = (width - backgroundWidth) / 2
         val textureY = (height - backgroundHeight) / 2
 
-        context.drawItem(DungeonDevice.BLOCK.asItem().defaultStack, textureX + 8, textureY + 8)
+        context.drawItem(CustomBlocks.DUNGEON_DEVICE.asItem().defaultStack, textureX + 8, textureY + 8)
 
         context.drawTexture(
             { texture: Identifier -> RenderLayer.getGuiTextured(texture) },

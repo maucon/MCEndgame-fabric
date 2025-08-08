@@ -1,9 +1,10 @@
-package de.fuballer.mcendgame.main.component.dungeon.device
+package de.fuballer.mcendgame.main.component.block.dungeon_device
 
-import de.fuballer.mcendgame.main.component.dungeon.device.networking.DungeonDevicePayload
-import de.fuballer.mcendgame.main.component.dungeon.device.screen.DungeonDeviceScreenHandler
-import de.fuballer.mcendgame.main.util.extension.mixin.PlayerEntityMixinExtension.getDungeonLevel
+import de.fuballer.mcendgame.main.component.block.CustomBlockEntityTypes
+import de.fuballer.mcendgame.main.component.block.dungeon_device.networking.DungeonDevicePayload
+import de.fuballer.mcendgame.main.component.block.dungeon_device.DungeonDeviceScreenHandler
 import de.fuballer.mcendgame.main.functional.inventory.ImplementedInventory
+import de.fuballer.mcendgame.main.util.extension.mixin.PlayerEntityMixinExtension.getDungeonLevel
 import net.fabricmc.fabric.api.screenhandler.v1.ExtendedScreenHandlerFactory
 import net.minecraft.block.BlockState
 import net.minecraft.block.entity.BlockEntity
@@ -23,7 +24,7 @@ private val TITLE = Text.translatable("container.mcendgame.dungeon_device.title"
 class DungeonDeviceBlockEntity(
     blockPos: BlockPos,
     blockState: BlockState,
-) : BlockEntity(DungeonDevice.BLOCK_ENTITY_TYPE, blockPos, blockState), ExtendedScreenHandlerFactory<DungeonDevicePayload>, ImplementedInventory {
+) : BlockEntity(CustomBlockEntityTypes.DUNGEON_DEVICE, blockPos, blockState), ExtendedScreenHandlerFactory<DungeonDevicePayload>, ImplementedInventory {
     private val inventory = DefaultedList.ofSize(DungeonDeviceSettings.INVENTORY_SIZE, ItemStack.EMPTY)
 
     override fun getItems(): DefaultedList<ItemStack> = inventory

@@ -2,7 +2,6 @@ package de.fuballer.mcendgame.client.component.datagen
 
 import de.fuballer.mcendgame.client.component.datagen.property.BowPullDurationProperty
 import de.fuballer.mcendgame.main.component.block.CustomBlocks
-import de.fuballer.mcendgame.main.component.dungeon.device.DungeonDevice
 import de.fuballer.mcendgame.main.component.item.custom.armor.CustomArmorItems
 import de.fuballer.mcendgame.main.component.item.custom.aspect.AspectItems
 import de.fuballer.mcendgame.main.component.item.custom.tool.CustomToolItems
@@ -17,7 +16,7 @@ class CustomModelProvider(
     output: FabricDataOutput,
 ) : FabricModelProvider(output) {
     override fun generateBlockStateModels(generator: BlockStateModelGenerator) {
-        generator.registerCubeWithCustomTextures(DungeonDevice.BLOCK, DungeonDevice.BLOCK) { block, _ -> sideTopBottomTextureMap(block) }
+        generator.registerCubeWithCustomTextures(CustomBlocks.DUNGEON_DEVICE, CustomBlocks.DUNGEON_DEVICE) { block, _ -> sideTopBottomTextureMap(block) }
         generator.registerTintableCross(CustomBlocks.DECAYING_COBWEB, BlockStateModelGenerator.CrossType.NOT_TINTED)
     }
 
