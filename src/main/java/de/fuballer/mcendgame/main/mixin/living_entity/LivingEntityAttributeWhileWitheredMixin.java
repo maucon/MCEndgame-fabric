@@ -75,7 +75,7 @@ public abstract class LivingEntityAttributeWhileWitheredMixin {
         }
 
         var sum = attributes.stream()
-                .mapToDouble(it -> CustomAttributesExtensions.INSTANCE.asDoubleRoll(it.getRolls().getFirst()).getActualRoll())
+                .mapToDouble(it -> CustomAttributesExtensions.INSTANCE.asDoubleRoll(it.getRolls().getFirst()).getValue())
                 .sum();
 
         var existingModifier = attributeInstance.getModifier(identifier);

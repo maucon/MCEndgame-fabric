@@ -24,13 +24,13 @@ class AttributesWhilePoisonedService {
 
         var attributes = cmd.damagerAttributes[CustomAttributeTypes.INCREASED_DAMAGE_WHILE_POISONED] ?: return
         attributes.forEach { attribute ->
-            val increasedDamage = attribute.rolls[0].asDoubleRoll().getActualRoll()
+            val increasedDamage = attribute.rolls[0].asDoubleRoll().getValue()
             cmd.increasedDamage.add(increasedDamage)
         }
 
         attributes = cmd.damagerAttributes[CustomAttributeTypes.INCREASED_ELEMENTAL_DAMAGE_WHILE_POISONED] ?: return
         attributes.forEach { attribute ->
-            val increasedDamage = attribute.rolls[0].asDoubleRoll().getActualRoll()
+            val increasedDamage = attribute.rolls[0].asDoubleRoll().getValue()
             cmd.increasedElementalDamage.add(increasedDamage)
         }
     }
@@ -40,7 +40,7 @@ class AttributesWhilePoisonedService {
 
         val attributes = cmd.damagedAttributes[CustomAttributeTypes.MORE_DAMAGE_TAKEN_WHILE_POISONED] ?: return
         attributes.forEach { attribute ->
-            val moreDamage = attribute.rolls[0].asDoubleRoll().getActualRoll()
+            val moreDamage = attribute.rolls[0].asDoubleRoll().getValue()
             cmd.moreDamageTaken.add(moreDamage)
         }
     }
@@ -50,7 +50,7 @@ class AttributesWhilePoisonedService {
 
         val attributes = cmd.damagedAttributes[CustomAttributeTypes.DODGE_WHILE_POISONED] ?: return
         for (attribute in attributes) {
-            val dodge = attribute.rolls[0].asDoubleRoll().getActualRoll()
+            val dodge = attribute.rolls[0].asDoubleRoll().getValue()
             if (Random.nextDouble() > dodge) continue
 
             cmd.isDodging = true

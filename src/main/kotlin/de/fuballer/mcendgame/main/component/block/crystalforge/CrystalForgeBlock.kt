@@ -28,7 +28,7 @@ class CrystalForgeBlock(
 
         val screenHandlerFactory = SimpleNamedScreenHandlerFactory(
             { syncId, inventory, _ -> CrystalForgeScreenHandler(syncId, inventory) },
-            Text.translatable("container.mcendgame.crystal_forge.title")
+            Text.translatable("${CrystalForgeSettings.CONTAINER_BASE_KEY}title")
         )
         player.openHandledScreen(screenHandlerFactory)
 

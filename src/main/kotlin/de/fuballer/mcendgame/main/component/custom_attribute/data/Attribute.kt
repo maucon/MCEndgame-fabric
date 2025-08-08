@@ -41,4 +41,12 @@ data class CustomAttribute(
                 ).apply(instance, ::CustomAttribute)
             }
     }
+
+    fun hasNonZeroRange() = rolls.any { it.hasNonZeroRange() }
+
+    fun getRerolled() = CustomAttribute(type, tier, rolls.map { it.getRerolled() }, slot)
+
+    fun getBeneficialAverageRoll() = rolls.map { it.getBeneficialPercentRoll() }.average()
+
+    fun getEnhanced(value: Double) = CustomAttribute(type, tier, rolls.map { it.getEnhanced(value) }, slot)
 }

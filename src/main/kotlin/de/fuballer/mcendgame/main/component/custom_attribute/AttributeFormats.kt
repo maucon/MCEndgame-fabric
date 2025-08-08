@@ -12,31 +12,31 @@ import de.fuballer.mcendgame.main.component.custom_attribute.data.AttributeRoll
 object AttributeFormats {
     val EMPTY_ROLL = { _: List<AttributeRoll<*>> -> listOf<String>() }
     val PERCENT_ROLL = { rolls: List<AttributeRoll<*>> ->
-        listOf(formatDouble(rolls[0].asDoubleRoll().getActualRoll() * 100))
+        listOf(formatDouble(rolls[0].asDoubleRoll().getValue() * 100))
     }
     val SIGNED_PERCENT_ROLL = { rolls: List<AttributeRoll<*>> ->
-        listOf(formatDoubleSigned(rolls[0].asDoubleRoll().getActualRoll() * 100))
+        listOf(formatDoubleSigned(rolls[0].asDoubleRoll().getValue() * 100))
     }
     val STRING_ROLL = { rolls: List<AttributeRoll<*>> ->
-        listOf(rolls[0].asStringRoll().getActualRoll())
+        listOf(rolls[0].asStringRoll().getValue())
     }
     val INT_ROLL = { rolls: List<AttributeRoll<*>> ->
-        listOf(rolls[0].getActualRoll().toString())
+        listOf(rolls[0].getValue().toString())
     }
     val SIGNED_INT_ROLL = { rolls: List<AttributeRoll<*>> ->
-        listOf(String.format("%+d", rolls[0].asIntRoll().getActualRoll()))
+        listOf(String.format("%+d", rolls[0].asIntRoll().getValue()))
     }
     val TWO_INT_ROLL = { rolls: List<AttributeRoll<*>> ->
-        listOf(rolls[0].getActualRoll().toString(), rolls[1].getActualRoll().toString())
+        listOf(rolls[0].getValue().toString(), rolls[1].getValue().toString())
     }
     val SIGNED_DOUBLE_ROLL = { rolls: List<AttributeRoll<*>> ->
-        listOf(formatDoubleSigned(rolls[0].asDoubleRoll().getActualRoll()))
+        listOf(formatDoubleSigned(rolls[0].asDoubleRoll().getValue()))
     }
     val PERCENT_AND_INT_ROLL = { rolls: List<AttributeRoll<*>> ->
-        listOf(formatDouble(rolls[0].asDoubleRoll().getActualRoll() * 100), rolls[1].getActualRoll().toString())
+        listOf(formatDouble(rolls[0].asDoubleRoll().getValue() * 100), rolls[1].getValue().toString())
     }
     val SIGNED_PERCENT_AND_INT_ROLL = { rolls: List<AttributeRoll<*>> ->
-        listOf(formatDoubleSigned(rolls[0].asDoubleRoll().getActualRoll() * 100), rolls[1].getActualRoll().toString())
+        listOf(formatDoubleSigned(rolls[0].asDoubleRoll().getValue() * 100), rolls[1].getValue().toString())
     }
 
     val EMPTY_BOUNDS = { _: List<AttributeBounds<*>> -> listOf<String>() }

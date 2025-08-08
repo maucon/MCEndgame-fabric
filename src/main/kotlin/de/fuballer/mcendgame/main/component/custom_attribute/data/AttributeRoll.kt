@@ -4,6 +4,7 @@ import com.mojang.serialization.Codec
 import com.mojang.serialization.codecs.RecordCodecBuilder
 import de.fuballer.mcendgame.main.util.minecraft.CodecUtil
 import kotlin.math.roundToInt
+import kotlin.random.Random
 
 sealed interface AttributeRoll<T> {
     companion object {
@@ -12,11 +13,19 @@ sealed interface AttributeRoll<T> {
 
     val bounds: AttributeBounds<*>
 
-    fun getActualRoll(): T
+    fun getValue(): T
 
     fun isNegative(): Boolean
 
     fun getSignFlipped(): AttributeRoll<T>
+
+    fun hasNonZeroRange(): Boolean
+
+    fun getRerolled(): AttributeRoll<T>
+
+    fun getBeneficialPercentRoll(): Double //TODO add system to determine if attributes / rolls are beneficial
+
+    fun getEnhanced(value: Double): AttributeRoll<T>
 }
 
 data class DoubleRoll(
@@ -34,11 +43,19 @@ data class DoubleRoll(
             }
     }
 
-    override fun getActualRoll() = bounds.min + (bounds.max - bounds.min) * percentRoll
+    override fun getValue() = bounds.min + (bounds.max - bounds.min) * percentRoll
 
-    override fun isNegative() = getActualRoll() < 0
+    override fun isNegative() = getValue() < 0
 
     override fun getSignFlipped() = DoubleRoll(bounds.getSignFlipped(), 1 - percentRoll, format)
+
+    override fun hasNonZeroRange() = bounds.min < bounds.max
+
+    override fun getRerolled() = DoubleRoll(bounds, Random.nextDouble(), format)
+
+    override fun getBeneficialPercentRoll() = percentRoll
+
+    override fun getEnhanced(value: Double) = DoubleRoll(bounds, percentRoll + value, format)
 }
 
 data class StringRoll(
@@ -55,11 +72,19 @@ data class StringRoll(
             }
     }
 
-    override fun getActualRoll() = bounds.options[indexRoll]
+    override fun getValue() = bounds.options[indexRoll]
 
     override fun isNegative() = false
 
     override fun getSignFlipped() = StringRoll(bounds.getSignFlipped(), indexRoll)
+
+    override fun hasNonZeroRange() = bounds.options.size > 1
+
+    override fun getRerolled() = StringRoll(bounds, Random.nextInt(bounds.options.size))
+
+    override fun getBeneficialPercentRoll() = 0.5
+
+    override fun getEnhanced(value: Double) = copy()
 }
 
 data class IntRoll(
@@ -76,9 +101,17 @@ data class IntRoll(
             }
     }
 
-    override fun getActualRoll() = (bounds.min + (bounds.max - bounds.min) * percentRoll).roundToInt()
+    override fun getValue() = (bounds.min + (bounds.max - bounds.min) * percentRoll).roundToInt()
 
-    override fun isNegative() = getActualRoll() < 0
+    override fun isNegative() = getValue() < 0
 
     override fun getSignFlipped() = IntRoll(bounds.getSignFlipped(), 1 - percentRoll)
+
+    override fun hasNonZeroRange() = bounds.min < bounds.max
+
+    override fun getRerolled() = IntRoll(bounds, Random.nextDouble())
+
+    override fun getBeneficialPercentRoll() = percentRoll
+
+    override fun getEnhanced(value: Double) = IntRoll(bounds, percentRoll + value)
 }

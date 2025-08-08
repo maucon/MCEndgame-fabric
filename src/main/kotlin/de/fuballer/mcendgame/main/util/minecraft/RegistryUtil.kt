@@ -2,6 +2,7 @@ package de.fuballer.mcendgame.main.util.minecraft
 
 import de.fuballer.mcendgame.main.component.item.custom.armor.materials.CustomArmorMaterial
 import de.fuballer.mcendgame.main.component.item.custom.aspect.AspectItem
+import de.fuballer.mcendgame.main.component.item.custom.crystal.CrystalItem
 import net.fabricmc.fabric.api.`object`.builder.v1.block.entity.FabricBlockEntityTypeBuilder
 import net.minecraft.block.AbstractBlock
 import net.minecraft.block.Block
@@ -70,4 +71,6 @@ object RegistryUtil {
         Registry.registerReference(Registries.STATUS_EFFECT, IdentifierUtil.default(name), effect)
 
     fun registerAspectItem(factory: (Item.Settings) -> Item, name: String, rarity: Rarity = Rarity.UNCOMMON) = registerItem(factory, Item.Settings().rarity(rarity), name) as AspectItem
+
+    fun registerCrystalItem(factory: (Item.Settings) -> Item, name: String, rarity: Rarity = Rarity.UNCOMMON) = registerItem(factory, Item.Settings().rarity(rarity), name) as CrystalItem
 }

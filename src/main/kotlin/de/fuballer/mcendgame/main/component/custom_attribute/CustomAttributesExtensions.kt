@@ -99,7 +99,7 @@ object CustomAttributesExtensions {
             .forEach {
                 val vanillaAttributeType = it.type as VanillaAttributeType
                 val attribute = vanillaAttributeType.attribute
-                val modifier = EntityAttributeModifier(IdentifierUtil.defaultRandom(), it.rolls[0].asDoubleRoll().getActualRoll(), vanillaAttributeType.scaleType)
+                val modifier = EntityAttributeModifier(IdentifierUtil.defaultRandom(), it.rolls[0].asDoubleRoll().getValue(), vanillaAttributeType.scaleType)
                 newA.add(attribute, modifier, slot)
             }
     }

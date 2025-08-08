@@ -13,7 +13,7 @@ class HealingReceivedService {
     fun onIncrease(cmd: LivingEntityHealCommand) {
         val attributes = cmd.entity.getAllCustomAttributes()[CustomAttributeTypes.INCREASED_HEALING_RECEIVED] ?: return
         attributes.forEach {
-            cmd.increase.add(it.rolls[0].asDoubleRoll().getActualRoll().toFloat())
+            cmd.increase.add(it.rolls[0].asDoubleRoll().getValue().toFloat())
         }
     }
 
@@ -21,7 +21,7 @@ class HealingReceivedService {
     fun onMore(cmd: LivingEntityHealCommand) {
         val attributes = cmd.entity.getAllCustomAttributes()[CustomAttributeTypes.MORE_HEALING_RECEIVED] ?: return
         attributes.forEach {
-            cmd.more.add(it.rolls[0].asDoubleRoll().getActualRoll().toFloat())
+            cmd.more.add(it.rolls[0].asDoubleRoll().getValue().toFloat())
         }
     }
 }

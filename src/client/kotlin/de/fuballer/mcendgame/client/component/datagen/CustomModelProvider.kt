@@ -4,6 +4,7 @@ import de.fuballer.mcendgame.client.component.datagen.property.BowPullDurationPr
 import de.fuballer.mcendgame.main.component.block.CustomBlocks
 import de.fuballer.mcendgame.main.component.item.custom.armor.CustomArmorItems
 import de.fuballer.mcendgame.main.component.item.custom.aspect.AspectItems
+import de.fuballer.mcendgame.main.component.item.custom.crystal.CrystalItems
 import de.fuballer.mcendgame.main.component.item.custom.tool.CustomToolItems
 import net.fabricmc.fabric.api.client.datagen.v1.provider.FabricModelProvider
 import net.fabricmc.fabric.api.datagen.v1.FabricDataOutput
@@ -53,6 +54,9 @@ class CustomModelProvider(
         generator.register(AspectItems.ASPECT_OF_IMPATIENCE, Models.GENERATED)
         generator.register(AspectItems.ASPECT_OF_TYRANNY, Models.GENERATED)
         generator.register(AspectItems.ASPECT_OF_ZEAL, Models.GENERATED)
+
+        generator.register(CrystalItems.CALIBRATION_CRYSTAL, Models.GENERATED)
+        generator.register(CrystalItems.SACRIFICIAL_CRYSTAL, Models.GENERATED)
     }
 
     private fun sideTopBottomTextureMap(block: Block) = TextureMap()

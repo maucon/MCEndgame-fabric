@@ -3,6 +3,7 @@ package de.fuballer.mcendgame.main.component.item.custom.group
 import de.fuballer.mcendgame.main.component.block.CustomBlocks
 import de.fuballer.mcendgame.main.component.item.custom.armor.CustomArmorItems
 import de.fuballer.mcendgame.main.component.item.custom.aspect.AspectItems
+import de.fuballer.mcendgame.main.component.item.custom.crystal.CrystalItems
 import de.fuballer.mcendgame.main.component.item.custom.tool.CustomToolItems
 import de.fuballer.mcendgame.main.util.minecraft.IdentifierUtil
 import de.fuballer.mcendgame.main.util.minecraft.RegistryUtil
@@ -36,6 +37,13 @@ object CustomItemGroups {
         ASPECTS_KEY, FabricItemGroup.builder()
             .icon { ItemStack(AspectItems.ASPECT_OF_TYRANNY) }
             .displayName(Text.translatable("item_group.mcendgame.aspects"))
+    )
+
+    val CRYSTALS_KEY = RegistryKey.of(Registries.ITEM_GROUP.key, IdentifierUtil.default("crystals"))
+    val CRYSTALS = RegistryUtil.registerItemGroup(
+        CRYSTALS_KEY, FabricItemGroup.builder()
+            .icon { ItemStack(CrystalItems.CALIBRATION_CRYSTAL) }
+            .displayName(Text.translatable("item_group.mcendgame.crystals"))
     )
 
     val CUSTOM_BLOCKS_KEY = RegistryKey.of(Registries.ITEM_GROUP.key, IdentifierUtil.default("blocks"))
@@ -83,6 +91,10 @@ object CustomItemGroups {
             itemGroup.add(AspectItems.ASPECT_OF_CURIO.defaultStack)
             itemGroup.add(AspectItems.ASPECT_OF_FORTUNE.defaultStack)
             itemGroup.add(AspectItems.ASPECT_OF_ZEAL.defaultStack)
+        }
+        ItemGroupEvents.modifyEntriesEvent(CRYSTALS_KEY).register { itemGroup ->
+            itemGroup.add(CrystalItems.CALIBRATION_CRYSTAL.defaultStack)
+            itemGroup.add(CrystalItems.SACRIFICIAL_CRYSTAL.defaultStack)
         }
         ItemGroupEvents.modifyEntriesEvent(CUSTOM_BLOCKS_KEY).register { itemGroup ->
             itemGroup.add(CustomBlocks.DUNGEON_DEVICE)

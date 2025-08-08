@@ -14,7 +14,7 @@ class MoreProjectileDamageService {
         val attributes = cmd.damagerAttributes[CustomAttributeTypes.MORE_PROJECTILE_DAMAGE] ?: return
 
         attributes.forEach { attribute ->
-            val moreProjectileDamage = attribute.rolls[0].asDoubleRoll().getActualRoll()
+            val moreProjectileDamage = attribute.rolls[0].asDoubleRoll().getValue()
             cmd.moreProjectileDamage.add(moreProjectileDamage)
         }
     }

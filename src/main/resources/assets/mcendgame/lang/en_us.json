@@ -43,6 +43,12 @@
   "item.mcendgame.aspect.description.fortune": "Loot Goblins Equipment has Lucky Attributes",
   "item.mcendgame.aspect.description.zeal": "Dungeon Completion grants %s additional Progress",
 
+  "item.mcendgame.calibration_crystal": "Calibration Crystal",
+  "item.mcendgame.sacrificial": "Sacrificial Crystal",
+
+  "item.mcendgame.crystal.description.calibration": "Randomize all values of an item's attributes",
+  "item.mcendgame.crystal.description.sacrificial": "Enhances an attribute by removing another",
+
   "container.mcendgame.filter.title": "Dungeon Filter (Blacklist)",
 
   "block.mcendgame.dungeon_device": "Dungeon Device",
@@ -51,7 +57,13 @@
 
   "block.mcendgame.crystal_forge": "Crystal Forge",
   "container.mcendgame.crystal_forge.title": "Crystal Forge",
-  "container.mcendgame.crystal_forge.forge": "Forge",
+  "container.mcendgame.crystal_forge.forge_button": "Forge",
+  "container.mcendgame.crystal_forge.forge_error.no_crystal": "No crystal provided.",
+  "container.mcendgame.crystal_forge.forge_error.no_item": "No item provided.",
+  "container.mcendgame.crystal_forge.forge_error.item_not_forgeable": "Item is not forgeable.",
+  "container.mcendgame.crystal_forge.forge_error.cannot_forge_unique": "Crystal cannot forge unique items.",
+  "container.mcendgame.crystal_forge.forge_error.not_enough_attributes": "Not enough attributes.",
+  "container.mcendgame.crystal_forge.forge_error.no_attribute_with_range": "No rollable attribute.",
 
   "mcendgame.corrupted": "Corrupted",
 
@@ -132,6 +144,7 @@
   "item_group.mcendgame.armor": "MCEndgame Armor",
   "item_group.mcendgame.tools": "MCEndgame Weapons & Tools",
   "item_group.mcendgame.aspects": "MCEndgame Aspects",
+  "item_group.mcendgame.crystals": "MCEndgame Crystals",
   "item_group.mcendgame.blocks": "MCEndgame Blocks",
 
   "text.mcendgame.dungeon_level.dungeon_completed": "Dungeon completed!",

@@ -17,7 +17,7 @@ class MoreDamagePerMissingHeartService {
         val missingHearts = (livingDamager.maxHealth - livingDamager.health) / 2
 
         attributes.forEach { attribute ->
-            val moreDamagePerMissingHeart = attribute.rolls[0].asDoubleRoll().getActualRoll()
+            val moreDamagePerMissingHeart = attribute.rolls[0].asDoubleRoll().getValue()
             val moreDamage = moreDamagePerMissingHeart * missingHearts
             cmd.moreDamage.add(moreDamage)
         }
