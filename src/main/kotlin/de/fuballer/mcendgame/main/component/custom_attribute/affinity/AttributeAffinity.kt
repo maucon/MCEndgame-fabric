@@ -17,10 +17,7 @@ class SimpleAttributeAffinity(
         configuration: List<AttributeAffinity>,
         rolls: List<AttributeRoll<*>>,
         index: Int,
-    ): Boolean {
-        val positive = rolls[index].isPositive()
-        return beneficial == positive
-    }
+    ) = beneficial
 }
 
 class ConditionalAttributeAffinity(
@@ -32,8 +29,10 @@ class ConditionalAttributeAffinity(
         rolls: List<AttributeRoll<*>>,
         index: Int,
     ): Boolean {
-        val condition = configuration[conditionIndex].isBeneficial(configuration, rolls, conditionIndex)
-        val positive = rolls[index].isPositive()
-        return beneficial == positive == condition
+        val conditionBeneficial = configuration[conditionIndex].isBeneficial(configuration, rolls, conditionIndex)
+        val conditionSign = rolls[conditionIndex].isPositive()
+        val condition = conditionBeneficial == conditionSign
+
+        return beneficial == condition
     }
 }

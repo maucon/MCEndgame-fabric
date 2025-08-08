@@ -51,5 +51,11 @@ data class CustomAttribute(
         return rolls.withIndex().map { it.value.getAffinityBasedRollPercentage(type.affinities, rolls, it.index) }.average()
     }
 
-    fun getEnhanced(value: Double) = CustomAttribute(type, tier, rolls.map { it.getEnhanced(value) }, slot)
+    fun getEnhanced(value: Double): CustomAttribute {
+        val enhancedRolls = rolls.withIndex().map {
+            val beneficial = type.affinities[it.index].isBeneficial(type.affinities, rolls, it.index)
+            it.value.getEnhanced(value, beneficial)
+        }
+        return CustomAttribute(type, tier, enhancedRolls, slot)
+    }
 }

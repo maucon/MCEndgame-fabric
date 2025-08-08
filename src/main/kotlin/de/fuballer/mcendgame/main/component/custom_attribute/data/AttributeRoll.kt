@@ -33,7 +33,10 @@ sealed interface AttributeRoll<T> {
         index: Int,
     ): Double //TODO add system to determine if attributes / rolls are beneficial
 
-    fun getEnhanced(value: Double): AttributeRoll<T>
+    fun getEnhanced(
+        value: Double,
+        beneficial: Boolean,
+    ): AttributeRoll<T>
 }
 
 data class DoubleRoll(
@@ -71,7 +74,13 @@ data class DoubleRoll(
         return if (beneficial) percentage else 1 - percentage
     }
 
-    override fun getEnhanced(value: Double) = DoubleRoll(bounds, percentRoll + value, format)
+    override fun getEnhanced(
+        value: Double,
+        beneficial: Boolean,
+    ): DoubleRoll {
+        val enhancedPercentRoll = if (beneficial) percentRoll + value else percentRoll - value
+        return DoubleRoll(bounds, enhancedPercentRoll, format)
+    }
 }
 
 data class StringRoll(
@@ -104,7 +113,10 @@ data class StringRoll(
         index: Int,
     ) = AttributeRoll.DEFAULT_BENEFICIAL_ROLL_PERCENTAGE
 
-    override fun getEnhanced(value: Double) = copy()
+    override fun getEnhanced(
+        value: Double,
+        beneficial: Boolean,
+    ) = copy()
 }
 
 data class IntRoll(
@@ -141,5 +153,11 @@ data class IntRoll(
         return if (beneficial) percentage else 1 - percentage
     }
 
-    override fun getEnhanced(value: Double) = IntRoll(bounds, percentRoll + value)
+    override fun getEnhanced(
+        value: Double,
+        beneficial: Boolean,
+    ): IntRoll {
+        val enhancedPercentRoll = if (beneficial) percentRoll + value else percentRoll - value
+        return IntRoll(bounds, enhancedPercentRoll)
+    }
 }
