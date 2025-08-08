@@ -2,6 +2,7 @@ package de.fuballer.mcendgame.main.component.custom_attribute.data
 
 import com.mojang.serialization.Codec
 import com.mojang.serialization.codecs.RecordCodecBuilder
+import de.fuballer.mcendgame.main.component.custom_attribute.affinity.AttributeAffinity
 import de.fuballer.mcendgame.main.util.minecraft.CodecUtil
 import kotlin.math.roundToInt
 import kotlin.random.Random
@@ -9,6 +10,7 @@ import kotlin.random.Random
 sealed interface AttributeRoll<T> {
     companion object {
         val CODEC: Codec<AttributeRoll<*>> = CodecUtil.ofThree(DoubleRoll.CODEC, StringRoll.CODEC, IntRoll.CODEC)
+        const val DEFAULT_BENEFICIAL_ROLL_PERCENTAGE = 0.5
     }
 
     val bounds: AttributeBounds<*>
@@ -17,13 +19,19 @@ sealed interface AttributeRoll<T> {
 
     fun isNegative(): Boolean
 
+    fun isPositive() = !isNegative()
+
     fun getSignFlipped(): AttributeRoll<T>
 
     fun hasNonZeroRange(): Boolean
 
     fun getRerolled(): AttributeRoll<T>
 
-    fun getBeneficialPercentRoll(): Double //TODO add system to determine if attributes / rolls are beneficial
+    fun getAffinityBasedRollPercentage(
+        config: List<AttributeAffinity>,
+        rolls: List<AttributeRoll<*>>,
+        index: Int,
+    ): Double //TODO add system to determine if attributes / rolls are beneficial
 
     fun getEnhanced(value: Double): AttributeRoll<T>
 }
@@ -53,7 +61,15 @@ data class DoubleRoll(
 
     override fun getRerolled() = DoubleRoll(bounds, Random.nextDouble(), format)
 
-    override fun getBeneficialPercentRoll() = percentRoll
+    override fun getAffinityBasedRollPercentage(
+        config: List<AttributeAffinity>,
+        rolls: List<AttributeRoll<*>>,
+        index: Int,
+    ): Double {
+        val beneficial = config[index].isBeneficial(config, rolls, index)
+        val percentage = if (bounds.min == bounds.max) AttributeRoll.DEFAULT_BENEFICIAL_ROLL_PERCENTAGE else percentRoll
+        return if (beneficial) percentage else 1 - percentage
+    }
 
     override fun getEnhanced(value: Double) = DoubleRoll(bounds, percentRoll + value, format)
 }
@@ -82,7 +98,11 @@ data class StringRoll(
 
     override fun getRerolled() = StringRoll(bounds, Random.nextInt(bounds.options.size))
 
-    override fun getBeneficialPercentRoll() = 0.5
+    override fun getAffinityBasedRollPercentage(
+        config: List<AttributeAffinity>,
+        rolls: List<AttributeRoll<*>>,
+        index: Int,
+    ) = AttributeRoll.DEFAULT_BENEFICIAL_ROLL_PERCENTAGE
 
     override fun getEnhanced(value: Double) = copy()
 }
@@ -111,7 +131,15 @@ data class IntRoll(
 
     override fun getRerolled() = IntRoll(bounds, Random.nextDouble())
 
-    override fun getBeneficialPercentRoll() = percentRoll
+    override fun getAffinityBasedRollPercentage(
+        config: List<AttributeAffinity>,
+        rolls: List<AttributeRoll<*>>,
+        index: Int,
+    ): Double {
+        val beneficial = config[index].isBeneficial(config, rolls, index)
+        val percentage = if (bounds.min == bounds.max) AttributeRoll.DEFAULT_BENEFICIAL_ROLL_PERCENTAGE else percentRoll
+        return if (beneficial) percentage else 1 - percentage
+    }
 
     override fun getEnhanced(value: Double) = IntRoll(bounds, percentRoll + value)
 }

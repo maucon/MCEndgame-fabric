@@ -3,11 +3,14 @@ package de.fuballer.mcendgame.main.component.item.custom.crystal.item
 import de.fuballer.mcendgame.main.component.block.crystalforge.CrystalForgeSettings
 import de.fuballer.mcendgame.main.component.custom_attribute.CustomAttributesExtensions.getCustomAttributes
 import de.fuballer.mcendgame.main.component.custom_attribute.CustomAttributesExtensions.setCustomAttributes
-import de.fuballer.mcendgame.main.component.item.custom.UniqueAttributesItemInterface
 import de.fuballer.mcendgame.main.component.item.custom.crystal.CrystalItem
 import net.minecraft.item.ItemStack
 import net.minecraft.text.MutableText
 import net.minecraft.text.Text
+import kotlin.math.max
+
+private const val ENHANCE_BASE_PERCENTAGE = 0.1
+private const val SACRIFICE_TO_ENHANCE_RATIO = 0.5
 
 class SacrificialCrystalItem(
     settings: Settings,
@@ -18,7 +21,7 @@ class SacrificialCrystalItem(
         val cannotForgeReason = super.canForge(stack)
         if (cannotForgeReason != null) return cannotForgeReason
 
-        if (stack.item is UniqueAttributesItemInterface) return CrystalForgeSettings.getForgeErrorText("cannot_forge_unique")
+        //if (stack.item is UniqueAttributesItemInterface) return CrystalForgeSettings.getForgeErrorText("cannot_forge_unique")
 
         val attributes = stack.getCustomAttributes()
         if (attributes.size < 2) return CrystalForgeSettings.getForgeErrorText("not_enough_attributes")
@@ -39,10 +42,13 @@ class SacrificialCrystalItem(
 
         val remainingAttributes = oldAttributes.filter { it != toEnhance }
         val sacrifice = remainingAttributes.random()
-        val sacrificeRoll = sacrifice.getBeneficialAverageRoll()
+        val sacrificePercentage = sacrifice.getAffinityBasedRollPercentage()
 
-        println(sacrificeRoll)
-        val enhanced = toEnhance.getEnhanced(sacrificeRoll / 2)
+        println(sacrificePercentage)
+
+        val enhancePercentage = ENHANCE_BASE_PERCENTAGE + max(sacrificePercentage * SACRIFICE_TO_ENHANCE_RATIO, 0.0)
+        val enhanced = toEnhance.getEnhanced(enhancePercentage)
+
         val newAttributes = remainingAttributes.filter { it != sacrifice }.toMutableList()
         newAttributes.add(enhanced)
         newStack.setCustomAttributes(newAttributes, slot)

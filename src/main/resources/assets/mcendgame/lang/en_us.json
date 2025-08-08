@@ -44,7 +44,7 @@
   "item.mcendgame.aspect.description.zeal": "Dungeon Completion grants %s additional Progress",
 
   "item.mcendgame.calibration_crystal": "Calibration Crystal",
-  "item.mcendgame.sacrificial": "Sacrificial Crystal",
+  "item.mcendgame.sacrificial_crystal": "Sacrificial Crystal",
 
   "item.mcendgame.crystal.description.calibration": "Randomize all values of an item's attributes",
   "item.mcendgame.crystal.description.sacrificial": "Enhances an attribute by removing another",
