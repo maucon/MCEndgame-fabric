@@ -80,7 +80,7 @@ data class DoubleRoll(
         index: Int,
     ): Double {
         val affinity = affinityConfig[index].getAffinity(affinityConfig, rolls, index)
-        if (affinity == Affinity.NEUTRAL) return AttributeRoll.DEFAULT_AFFINITY_BASED_ROLL_PERCENTAGE
+        if (affinity == Affinity.NEUTRAL) return if (isPositive()) percentRoll else 1 - percentRoll
         if (bounds.min == bounds.max) return AttributeRoll.DEFAULT_AFFINITY_BASED_ROLL_PERCENTAGE
 
         return if (affinity == Affinity.BENEFICIAL) percentRoll else 1 - percentRoll
@@ -161,7 +161,7 @@ data class IntRoll(
         index: Int,
     ): Double {
         val affinity = affinityConfig[index].getAffinity(affinityConfig, rolls, index)
-        if (affinity == Affinity.NEUTRAL) return AttributeRoll.DEFAULT_AFFINITY_BASED_ROLL_PERCENTAGE
+        if (affinity == Affinity.NEUTRAL) return if (isPositive()) percentRoll else 1 - percentRoll
         if (bounds.min == bounds.max) return AttributeRoll.DEFAULT_AFFINITY_BASED_ROLL_PERCENTAGE
 
         return if (affinity == Affinity.BENEFICIAL) percentRoll else 1 - percentRoll
