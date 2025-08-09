@@ -47,13 +47,13 @@ data class CustomAttribute(
     fun getRerolled() = CustomAttribute(type, tier, rolls.map { it.getRerolled() }, slot)
 
     fun getAffinityBasedRollPercentage(): Double {
-        if (rolls.isEmpty()) return AttributeRoll.DEFAULT_BENEFICIAL_ROLL_PERCENTAGE
+        if (rolls.isEmpty()) return AttributeRoll.DEFAULT_AFFINITY_ROLL_PERCENTAGE
         return rolls.withIndex().map { it.value.getAffinityBasedRollPercentage(type.affinities, rolls, it.index) }.average()
     }
 
     fun getEnhanced(value: Double): CustomAttribute {
         val enhancedRolls = rolls.withIndex().map {
-            val beneficial = type.affinities[it.index].isBeneficial(type.affinities, rolls, it.index)
+            val beneficial = type.affinities[it.index].getAffinity(type.affinities, rolls, it.index)
             it.value.getEnhanced(value, beneficial)
         }
         return CustomAttribute(type, tier, enhancedRolls, slot)

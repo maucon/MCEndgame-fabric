@@ -17,7 +17,7 @@ object VanillaAttributeTypes {
         "armor",
         AttributeFormats.SIGNED_DOUBLE_ROLL,
         AttributeFormats.DOUBLE_BOUNDS,
-        AttributeAffinities.B
+        AttributeAffinities.BENEFICIAL
     )
     val ARMOR_TOUGHNESS = VanillaAttributeType(
         EntityAttributes.ARMOR_TOUGHNESS,
@@ -25,7 +25,7 @@ object VanillaAttributeTypes {
         "armor_toughness",
         AttributeFormats.SIGNED_DOUBLE_ROLL,
         AttributeFormats.DOUBLE_BOUNDS,
-        AttributeAffinities.B
+        AttributeAffinities.BENEFICIAL
     )
     val MAX_HEALTH =
         VanillaAttributeType(
@@ -34,7 +34,7 @@ object VanillaAttributeTypes {
             "max_health",
             AttributeFormats.SIGNED_DOUBLE_ROLL,
             AttributeFormats.DOUBLE_BOUNDS,
-            AttributeAffinities.B
+            AttributeAffinities.BENEFICIAL
         )
 
     // OFFENSE
@@ -44,7 +44,7 @@ object VanillaAttributeTypes {
         "attack_damage",
         AttributeFormats.SIGNED_DOUBLE_ROLL,
         AttributeFormats.DOUBLE_BOUNDS,
-        AttributeAffinities.B
+        AttributeAffinities.BENEFICIAL
     )
     val INCREASED_ATTACK_DAMAGE = VanillaAttributeType(
         EntityAttributes.ATTACK_DAMAGE,
@@ -52,7 +52,7 @@ object VanillaAttributeTypes {
         "increased_attack_damage",
         AttributeFormats.SIGNED_PERCENT_ROLL,
         AttributeFormats.PERCENT_BOUNDS,
-        AttributeAffinities.B,
+        AttributeAffinities.BENEFICIAL,
         SignBasedKeywords.INCREASED
     )
     val INCREASED_ATTACK_SPEED = VanillaAttributeType(
@@ -61,7 +61,7 @@ object VanillaAttributeTypes {
         "increased_attack_speed",
         AttributeFormats.SIGNED_PERCENT_ROLL,
         AttributeFormats.PERCENT_BOUNDS,
-        AttributeAffinities.B,
+        AttributeAffinities.BENEFICIAL,
         SignBasedKeywords.INCREASED
     )
 
@@ -72,7 +72,7 @@ object VanillaAttributeTypes {
         "increased_movement_speed",
         AttributeFormats.SIGNED_PERCENT_ROLL,
         AttributeFormats.PERCENT_BOUNDS,
-        AttributeAffinities.B,
+        AttributeAffinities.BENEFICIAL,
         SignBasedKeywords.INCREASED
     )
     val LUCK = VanillaAttributeType(
@@ -81,7 +81,7 @@ object VanillaAttributeTypes {
         "luck",
         AttributeFormats.SIGNED_DOUBLE_ROLL,
         AttributeFormats.DOUBLE_BOUNDS,
-        AttributeAffinities.B
+        AttributeAffinities.BENEFICIAL
     )
     val INCREASED_SCALE = VanillaAttributeType(
         EntityAttributes.SCALE,
@@ -89,7 +89,7 @@ object VanillaAttributeTypes {
         "increased_scale",
         AttributeFormats.SIGNED_PERCENT_ROLL,
         AttributeFormats.PERCENT_BOUNDS,
-        AttributeAffinities.B,
+        AttributeAffinities.NEUTRAL,
         SignBasedKeywords.INCREASED
     )
     val INCREASED_ENTITY_INTERACTION_RANGE = VanillaAttributeType(
@@ -98,7 +98,7 @@ object VanillaAttributeTypes {
         "increased_entity_interaction_range",
         AttributeFormats.SIGNED_PERCENT_ROLL,
         AttributeFormats.PERCENT_BOUNDS,
-        AttributeAffinities.B,
+        AttributeAffinities.BENEFICIAL,
         SignBasedKeywords.INCREASED
     )
 
