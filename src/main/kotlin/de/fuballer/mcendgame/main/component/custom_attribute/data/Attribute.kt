@@ -47,7 +47,7 @@ data class CustomAttribute(
     fun getRerolled() = CustomAttribute(type, tier, rolls.map { it.getRerolled() }, slot)
 
     fun getAffinityBasedRollPercentage(): Double {
-        if (rolls.isEmpty()) return AttributeRoll.DEFAULT_AFFINITY_ROLL_PERCENTAGE
+        if (rolls.isEmpty()) return AttributeRoll.DEFAULT_AFFINITY_BASED_ROLL_PERCENTAGE
         return rolls.withIndex().map { it.value.getAffinityBasedRollPercentage(type.affinities, rolls, it.index) }.average()
     }
 

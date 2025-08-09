@@ -11,7 +11,7 @@ import kotlin.random.Random
 sealed interface AttributeRoll<T> {
     companion object {
         val CODEC: Codec<AttributeRoll<*>> = CodecUtil.ofThree(DoubleRoll.CODEC, StringRoll.CODEC, IntRoll.CODEC)
-        const val DEFAULT_AFFINITY_ROLL_PERCENTAGE = 0.5
+        const val DEFAULT_AFFINITY_BASED_ROLL_PERCENTAGE = 0.5
     }
 
     val bounds: AttributeBounds<*>
@@ -80,8 +80,8 @@ data class DoubleRoll(
         index: Int,
     ): Double {
         val affinity = affinityConfig[index].getAffinity(affinityConfig, rolls, index)
-        if (affinity == Affinity.NEUTRAL) return AttributeRoll.DEFAULT_AFFINITY_ROLL_PERCENTAGE
-        if (bounds.min == bounds.max) return AttributeRoll.DEFAULT_AFFINITY_ROLL_PERCENTAGE
+        if (affinity == Affinity.NEUTRAL) return AttributeRoll.DEFAULT_AFFINITY_BASED_ROLL_PERCENTAGE
+        if (bounds.min == bounds.max) return AttributeRoll.DEFAULT_AFFINITY_BASED_ROLL_PERCENTAGE
 
         return if (affinity == Affinity.BENEFICIAL) percentRoll else 1 - percentRoll
     }
@@ -123,7 +123,7 @@ data class StringRoll(
         affinityConfig: List<AttributeAffinity>,
         rolls: List<AttributeRoll<*>>,
         index: Int,
-    ) = AttributeRoll.DEFAULT_AFFINITY_ROLL_PERCENTAGE
+    ) = AttributeRoll.DEFAULT_AFFINITY_BASED_ROLL_PERCENTAGE
 
     override fun getEnhanced(
         value: Double,
@@ -161,8 +161,8 @@ data class IntRoll(
         index: Int,
     ): Double {
         val affinity = affinityConfig[index].getAffinity(affinityConfig, rolls, index)
-        if (affinity == Affinity.NEUTRAL) return AttributeRoll.DEFAULT_AFFINITY_ROLL_PERCENTAGE
-        if (bounds.min == bounds.max) return AttributeRoll.DEFAULT_AFFINITY_ROLL_PERCENTAGE
+        if (affinity == Affinity.NEUTRAL) return AttributeRoll.DEFAULT_AFFINITY_BASED_ROLL_PERCENTAGE
+        if (bounds.min == bounds.max) return AttributeRoll.DEFAULT_AFFINITY_BASED_ROLL_PERCENTAGE
 
         return if (affinity == Affinity.BENEFICIAL) percentRoll else 1 - percentRoll
     }
