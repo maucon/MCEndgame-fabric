@@ -1,11 +1,7 @@
 package de.fuballer.mcendgame.main.component.dungeon.enemy.equipment.attributes
 
-import de.fuballer.mcendgame.main.component.custom_attribute.CustomAttributesExtensions.asDoubleRoll
-import de.fuballer.mcendgame.main.component.custom_attribute.CustomAttributesExtensions.asIntRoll
 import de.fuballer.mcendgame.main.component.custom_attribute.CustomAttributesExtensions.setCustomAttributes
 import de.fuballer.mcendgame.main.component.custom_attribute.data.CustomAttribute
-import de.fuballer.mcendgame.main.component.custom_attribute.data.DoubleRoll
-import de.fuballer.mcendgame.main.component.custom_attribute.data.IntRoll
 import de.fuballer.mcendgame.main.component.custom_attribute.data.RollableCustomAttribute
 import de.fuballer.mcendgame.main.util.random.RandomOption
 import de.fuballer.mcendgame.main.util.random.RandomUtil
@@ -80,9 +76,5 @@ class AttributeService {
 
     private fun getTierScore(rolls: List<CustomAttribute>) = rolls.sumOf { 5 - it.tier }
 
-    private fun getAvgPercentRoll(rolledAttributes: List<CustomAttribute>): Double {
-        val rolls = rolledAttributes.flatMap { it.rolls }.filter { it is IntRoll || it is DoubleRoll }
-        val rollPercentSum = rolls.sumOf { if (it is DoubleRoll) it.asDoubleRoll().percentRoll else it.asIntRoll().percentRoll }
-        return rollPercentSum / rolls.size
-    }
+    private fun getAvgPercentRoll(attributes: List<CustomAttribute>) = attributes.map { it.getAffinityBasedRollPercentage() }.average()
 }
