@@ -8,10 +8,9 @@ import de.fuballer.mcendgame.main.component.item.custom.crystal.CrystalItem
 import net.minecraft.item.ItemStack
 import net.minecraft.text.MutableText
 import net.minecraft.text.Text
-import kotlin.math.max
+import kotlin.math.pow
 
-private const val ENHANCE_BASE_PERCENTAGE = 0.1
-private const val SACRIFICE_TO_ENHANCE_RATIO = 0.5
+private fun getTierBasedEnhanceValue(tier: Int) = 0.5.pow((tier + 1) / 2.0)
 
 class SacrificialCrystalItem(
     settings: Settings,
@@ -43,9 +42,8 @@ class SacrificialCrystalItem(
 
         val remainingAttributes = oldAttributes.filter { it != toEnhance }
         val sacrifice = remainingAttributes.random()
-        val sacrificePercentage = sacrifice.getAffinityBasedRollPercentage()
 
-        val enhancePercentage = ENHANCE_BASE_PERCENTAGE + max(sacrificePercentage * SACRIFICE_TO_ENHANCE_RATIO, 0.0)
+        val enhancePercentage = getTierBasedEnhanceValue(sacrifice.tier)
         val enhanced = toEnhance.getEnhanced(enhancePercentage)
 
         val newAttributes = remainingAttributes.filter { it != sacrifice }.toMutableList()
