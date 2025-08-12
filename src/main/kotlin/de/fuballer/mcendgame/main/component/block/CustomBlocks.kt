@@ -39,7 +39,8 @@ object CustomBlocks {
         Settings.create()
             .resistance(1200F)
             .hardness(10F)
-            .requiresTool(),
+            .requiresTool()
+            .nonOpaque(),
         CrystalForgeBlock.ID,
     )
 }
