@@ -47,6 +47,10 @@ sealed interface AttributeRoll<T> {
         Affinity.DETRIMENTAL -> -value
         Affinity.NEUTRAL -> if (isPositive()) value else -value
     }
+
+    fun getPercentRollOrNull(): Double?
+
+    fun getWithPercentRoll(percent: Double): AttributeRoll<T>
 }
 
 data class DoubleRoll(
@@ -93,6 +97,10 @@ data class DoubleRoll(
         val affinityBasedValue = getAffinityBasedEnhanceValue(value, affinity)
         return DoubleRoll(bounds, percentRoll + affinityBasedValue, format)
     }
+
+    override fun getPercentRollOrNull() = if (hasNonZeroRange()) percentRoll else null
+
+    override fun getWithPercentRoll(percent: Double) = DoubleRoll(bounds, percent, format)
 }
 
 data class StringRoll(
@@ -129,6 +137,10 @@ data class StringRoll(
         value: Double,
         affinity: Affinity,
     ) = copy()
+
+    override fun getPercentRollOrNull() = null
+
+    override fun getWithPercentRoll(percent: Double) = StringRoll(bounds, indexRoll)
 }
 
 data class IntRoll(
@@ -174,4 +186,8 @@ data class IntRoll(
         val affinityBasedValue = getAffinityBasedEnhanceValue(value, affinity)
         return IntRoll(bounds, percentRoll + affinityBasedValue)
     }
+
+    override fun getPercentRollOrNull() = if (hasNonZeroRange()) percentRoll else null
+
+    override fun getWithPercentRoll(percent: Double) = IntRoll(bounds, percent)
 }

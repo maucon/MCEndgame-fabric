@@ -45,9 +45,11 @@
 
   "item.mcendgame.calibration_crystal": "Calibration Crystal",
   "item.mcendgame.sacrificial_crystal": "Sacrificial Crystal",
+  "item.mcendgame.permutation_crystal": "Permutation Crystal",
 
   "item.mcendgame.crystal.description.calibration": "Randomize all values of an item's attributes",
   "item.mcendgame.crystal.description.sacrificial": "Enhances an attribute by removing another",
+  "item.mcendgame.crystal.description.permutation": "Shuffles the rolls of attributes",
 
   "container.mcendgame.filter.title": "Dungeon Filter (Blacklist)",
 
@@ -64,6 +66,7 @@
   "container.mcendgame.crystal_forge.forge_error.cannot_forge_unique": "Crystal cannot forge unique items.",
   "container.mcendgame.crystal_forge.forge_error.not_enough_attributes": "Not enough attributes.",
   "container.mcendgame.crystal_forge.forge_error.no_attribute_with_range": "No rollable attribute.",
+  "container.mcendgame.crystal_forge.forge_error.not_enough_rolls_to_shuffle": "Not enough rolls to shuffle.",
 
   "mcendgame.corrupted": "Corrupted",
 

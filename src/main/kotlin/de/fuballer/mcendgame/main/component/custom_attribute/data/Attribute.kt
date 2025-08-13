@@ -42,7 +42,9 @@ data class CustomAttribute(
             }
     }
 
-    fun hasNonZeroRange() = rolls.any { it.hasNonZeroRange() }
+    fun getNonZeroRangeCount() = rolls.count { it.hasNonZeroRange() }
+
+    fun hasNonZeroRange() = getNonZeroRangeCount() > 0
 
     fun getRerolled() = CustomAttribute(type, tier, rolls.map { it.getRerolled() }, slot)
 
@@ -57,5 +59,20 @@ data class CustomAttribute(
             it.value.getEnhanced(value, beneficial)
         }
         return CustomAttribute(type, tier, enhancedRolls, slot)
+    }
+
+    fun getNonZeroRangePercentRollCount() = rolls.count { it.hasNonZeroRange() && it.getPercentRollOrNull() != null }
+
+    fun getPercentRolls() = rolls.mapNotNull { it.getPercentRollOrNull() }
+
+    fun getWithRollPercentages(
+        percentages: List<Double>,
+    ): CustomAttribute {
+        var percentagesUsed = 0
+        val newRolls = rolls.map {
+            if (!it.hasNonZeroRange()) it
+            else it.getWithPercentRoll(percentages[percentagesUsed++])
+        }
+        return CustomAttribute(type, tier, newRolls, slot)
     }
 }
