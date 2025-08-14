@@ -1,6 +1,7 @@
 package de.fuballer.mcendgame.main.component.item.custom.crystal
 
 import de.fuballer.mcendgame.main.component.block.crystalforge.CrystalForgeSettings
+import de.fuballer.mcendgame.main.component.corruption.CorruptionExtensions.isCorrupted
 import de.fuballer.mcendgame.main.util.extension.ItemStackExtension.isForgeable
 import net.minecraft.component.DataComponentTypes
 import net.minecraft.component.type.LoreComponent
@@ -32,6 +33,7 @@ abstract class CrystalItem(
     open fun canForge(stack: ItemStack): MutableText? {
         if (stack.isEmpty) return CrystalForgeSettings.getForgeErrorText("no_item")
         if (!stack.isForgeable()) return CrystalForgeSettings.getForgeErrorText("item_not_forgeable")
+        if (stack.isCorrupted()) return CrystalForgeSettings.getForgeErrorText("item_corrupted")
         return null
     }
 

@@ -96,6 +96,7 @@ object CustomItemGroups {
             itemGroup.add(CrystalItems.CALIBRATION_CRYSTAL.defaultStack)
             itemGroup.add(CrystalItems.SACRIFICIAL_CRYSTAL.defaultStack)
             itemGroup.add(CrystalItems.PERMUTATION_CRYSTAL.defaultStack)
+            itemGroup.add(CrystalItems.REFORGE_CRYSTAL.defaultStack)
         }
         ItemGroupEvents.modifyEntriesEvent(CUSTOM_BLOCKS_KEY).register { itemGroup ->
             itemGroup.add(CustomBlocks.DUNGEON_DEVICE)
