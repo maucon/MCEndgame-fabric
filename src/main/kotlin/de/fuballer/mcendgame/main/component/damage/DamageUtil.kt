@@ -1,12 +1,17 @@
 package de.fuballer.mcendgame.main.component.damage
 
+import net.minecraft.component.DataComponentTypes
+import net.minecraft.component.type.BlocksAttacksComponent.DamageReduction
 import net.minecraft.enchantment.EnchantmentHelper
 import net.minecraft.entity.LivingEntity
 import net.minecraft.entity.damage.DamageSource
 import net.minecraft.server.world.ServerWorld
 import net.minecraft.util.math.MathHelper
+import net.minecraft.util.math.Vec3d
 import net.minecraft.world.Difficulty
 import net.minecraft.world.World
+import java.util.function.Consumer
+import kotlin.math.acos
 
 object DamageUtil {
     fun scaleByDifficulty(
@@ -87,5 +92,20 @@ object DamageUtil {
         moreDamage *= event.moreProjectileDamage.fold(1.0) { a, b -> a * (b + 1) }
 
         return damageIncrease * moreDamage
+    }
+
+    fun isDamageBlocked(
+        damaged: LivingEntity,
+        source: DamageSource,
+    ): Boolean {
+        val blocksAttacksComponent = damaged.activeItem.get(DataComponentTypes.BLOCKS_ATTACKS) ?: return false
+
+        val vec3d = source.getPosition() ?: return false
+        val vec3d2 = damaged.getRotationVector(0.0f, damaged.getHeadYaw())
+        var vec3d3 = vec3d.subtract(damaged.pos)
+        vec3d3 = Vec3d(vec3d3.x, 0.0, vec3d3.z).normalize()
+
+        val angle = acos(vec3d3.dotProduct(vec3d2))
+        return blocksAttacksComponent.getDamageReductionAmount(source, 1f, angle) == 1f
     }
 }

@@ -1,8 +1,8 @@
 package de.fuballer.mcendgame.main.component.damage.calculator
 
 import de.fuballer.mcendgame.main.component.damage.ApplyDamageCalculationCommand
-import de.fuballer.mcendgame.main.component.damage.DamageUtil
 import de.fuballer.mcendgame.main.component.damage.custom_type.CustomDamageTypes
+import de.fuballer.mcendgame.main.util.extension.DamageTypeExtension.isOf
 import de.fuballer.mcendgame.main.util.extension.mixin.PlayerEntityMixinExtension.getAttackCooldownMultiplier
 import net.minecraft.enchantment.EnchantmentHelper
 import net.minecraft.entity.LivingEntity
@@ -27,6 +27,12 @@ object MeleeAttackCalculator : DamageCalculator {
         val damageMulti = calculateDamageMultiplier(event)
         val critMulti = calculateCriticalMultiplier(event)
         val attackCooldownMulti = calculateAttackCooldownMultiplier(source)
+
+        println("baseDamage = $baseDamage")
+        println("enchantmentDamage = $enchantmentDamage")
+        println("damageMulti = $damageMulti")
+        println("critMulti = $critMulti")
+        println("attackCooldownMulti = $attackCooldownMulti")
 
         // TODO technically crit multi is applied only to baseDamage and not to enchantmentDamage
         return ((baseDamage + enchantmentDamage) * damageMulti * critMulti * attackCooldownMulti).toFloat()
@@ -54,7 +60,7 @@ object MeleeAttackCalculator : DamageCalculator {
     ): Double {
         var baseDamage = attacker.getAttributeValue(EntityAttributes.ATTACK_DAMAGE)
 
-        if (source.type.msgId == CustomDamageTypes.SWEEPING_KEY.path) {
+        if (source.type.isOf(CustomDamageTypes.SWEEPING)) {
             val sweepingRatio = attacker.getAttributeValue(EntityAttributes.SWEEPING_DAMAGE_RATIO)
             baseDamage = 1.0 + sweepingRatio * baseDamage
         }

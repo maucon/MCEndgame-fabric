@@ -9,8 +9,7 @@ import net.minecraft.registry.RegistryKeys
 import net.minecraft.world.World
 
 object CustomDamageTypes {
-    val SWEEPING_KEY = IdentifierUtil.default("sweeping")
-    val SWEEPING: RegistryKey<DamageType> = RegistryKey.of(RegistryKeys.DAMAGE_TYPE, SWEEPING_KEY)
+    val SWEEPING: RegistryKey<DamageType> = RegistryKey.of(RegistryKeys.DAMAGE_TYPE, IdentifierUtil.default("sweeping"))
 
     fun of(
         world: World,

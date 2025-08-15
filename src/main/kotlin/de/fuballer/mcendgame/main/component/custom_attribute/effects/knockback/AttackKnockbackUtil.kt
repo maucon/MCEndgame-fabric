@@ -14,8 +14,8 @@ object AttackKnockbackUtil {
     ) {
         if (attacker !is LivingEntity) return takeKnockback(strength, x, z)
 
-        var command = LivingEntityKnockbackLivingEntityCommand(this, attacker, strength)
-        var cmd = CommandGateway.apply(command)
+        val command = LivingEntityKnockbackLivingEntityCommand(this, attacker, strength)
+        val cmd = CommandGateway.apply(command)
 
         takeKnockback(cmd.strength, x, z)
     }

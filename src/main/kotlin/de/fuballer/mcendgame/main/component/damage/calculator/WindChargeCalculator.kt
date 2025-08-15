@@ -4,10 +4,13 @@ import de.fuballer.mcendgame.main.component.damage.ApplyDamageCalculationCommand
 import net.minecraft.entity.LivingEntity
 import net.minecraft.entity.damage.DamageSource
 import net.minecraft.entity.effect.StatusEffects
+import net.minecraft.entity.projectile.AbstractWindChargeEntity
+import net.minecraft.entity.projectile.BreezeWindChargeEntity
 import net.minecraft.entity.projectile.SmallFireballEntity
+import net.minecraft.entity.projectile.WindChargeEntity
 
-object SmallFireballCalculator : DamageCalculator {
-    override fun isActive(source: DamageSource) = source.source is SmallFireballEntity
+object WindChargeCalculator : DamageCalculator {
+    override fun isActive(source: DamageSource) = source.source is AbstractWindChargeEntity
 
     override fun calculateAttackDamage(
         originalDamage: Float,
@@ -15,10 +18,7 @@ object SmallFireballCalculator : DamageCalculator {
         source: DamageSource,
         event: ApplyDamageCalculationCommand
     ): Float {
-        // not really necessary, as entities with fire res just block small fireballs
-        // but just to be safe i guess
-        if (attacked.hasStatusEffect(StatusEffects.FIRE_RESISTANCE)) return 0.0F
-        return 5f
+        return 1f
     }
 
     override fun calculateElementalDamage(

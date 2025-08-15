@@ -1,13 +1,16 @@
 package de.fuballer.mcendgame.main.component.damage.calculator
 
 import de.fuballer.mcendgame.main.component.damage.ApplyDamageCalculationCommand
+import de.fuballer.mcendgame.main.util.extension.DamageTypeExtension.isOf
 import net.minecraft.entity.LivingEntity
 import net.minecraft.entity.damage.DamageSource
-import net.minecraft.entity.effect.StatusEffects
-import net.minecraft.entity.projectile.SmallFireballEntity
+import net.minecraft.entity.damage.DamageTypes
+import net.minecraft.entity.mob.ElderGuardianEntity
+import net.minecraft.entity.mob.GuardianEntity
+import net.minecraft.world.Difficulty
 
-object SmallFireballCalculator : DamageCalculator {
-    override fun isActive(source: DamageSource) = source.source is SmallFireballEntity
+object GuardianMagicCalculator : DamageCalculator {
+    override fun isActive(source: DamageSource) = source.source is GuardianEntity && source.type.isOf(DamageTypes.INDIRECT_MAGIC)
 
     override fun calculateAttackDamage(
         originalDamage: Float,
@@ -15,10 +18,10 @@ object SmallFireballCalculator : DamageCalculator {
         source: DamageSource,
         event: ApplyDamageCalculationCommand
     ): Float {
-        // not really necessary, as entities with fire res just block small fireballs
-        // but just to be safe i guess
-        if (attacked.hasStatusEffect(StatusEffects.FIRE_RESISTANCE)) return 0.0F
-        return 5f
+        var base = 1f
+        if (source.source is ElderGuardianEntity) base += 2
+        if (event.world.difficulty == Difficulty.HARD) base += 2
+        return base
     }
 
     override fun calculateElementalDamage(

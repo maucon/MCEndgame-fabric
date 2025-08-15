@@ -3,14 +3,15 @@ package de.fuballer.mcendgame.main.mixin.damage;
 import de.fuballer.mcendgame.main.component.damage.ApplyDamageCalculationCommand;
 import de.fuballer.mcendgame.main.component.damage.DamageUtil;
 import de.fuballer.mcendgame.main.component.damage.calculator.*;
+import de.fuballer.mcendgame.main.util.extension.DamageTypeExtension;
 import de.maucon.mauconframework.command.CommandGateway;
-import net.minecraft.component.DataComponentTypes;
-import net.minecraft.component.type.BlocksAttacksComponent;
 import net.minecraft.enchantment.EnchantmentHelper;
 import net.minecraft.entity.LivingEntity;
 import net.minecraft.entity.attribute.EntityAttributes;
 import net.minecraft.entity.damage.DamageSource;
+import net.minecraft.entity.damage.DamageTypes;
 import net.minecraft.entity.effect.StatusEffects;
+import net.minecraft.entity.mob.GuardianEntity;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.registry.tag.DamageTypeTags;
 import net.minecraft.server.network.ServerPlayerEntity;
@@ -31,12 +32,14 @@ import java.util.Objects;
 public abstract class LivingEntityDamageMixin {
     @Unique
     private static final List<DamageCalculator> DAMAGE_CALCULATORS = List.of(
-            MeleeAttackCalculator.INSTANCE,
+            GuardianMagicCalculator.INSTANCE,
             TridentProjectileCalculator.INSTANCE,
             SmallFireballCalculator.INSTANCE,
             FireballCalculator.INSTANCE,
             PersistentProjectileCalculator.INSTANCE,
             SnowballCalculator.INSTANCE,
+            WindChargeCalculator.INSTANCE,
+            MeleeAttackCalculator.INSTANCE,
             OtherProjectilesCalculator.INSTANCE
     );
 
@@ -48,22 +51,16 @@ public abstract class LivingEntityDamageMixin {
             CallbackInfo ci
     ) {
         LivingEntity entity = (LivingEntity) (Object) this;
-//        BlocksAttacksComponent blocksAttacksComponent = entity.getActiveItem().get(DataComponentTypes.BLOCKS_ATTACKS);
-//        System.out.println(blocksAttacksComponent);
-//        System.out.println(entity.getDamageBlockedAmount(world, source, originalDamage));
 
         if (entity.isInvulnerableTo(world, source)) {
             ci.cancel();
             return;
         }
 
-        // TODO test ghast
-        // TODO shield blocking not working
+        // TODO fix unblockable attacks -> like guardian laser
+        // TODO (elder) guardians AD attack wierd ;-;
+        // TODO test if magic damage is not affected by armor
 
-        // -> also redirected ghast balls do 500 damage to ghasts
-        // -> fire res entities do not take hit damage of (small)fireballs
-        // TODO breeze proj
-        // TODO guardians
         // TODO evoker spells
         // TODO shulker proj
         // TODO warden
@@ -72,10 +69,15 @@ public abstract class LivingEntityDamageMixin {
         // TODO ender dragon ball
         // TODO enchant breach
         // TODO trident with impaling
-        // TODO fireball from dispenser
 
         var applyDamageCalculationCommand = ApplyDamageCalculationCommand.Companion.of(entity, world, source);
         var cmd = CommandGateway.INSTANCE.apply(applyDamageCalculationCommand);
+
+        if (cmd.isDamageBlocked()) {
+            System.out.println("DAMAGE BLOCKED");
+            ci.cancel();
+            return;
+        }
 
         var combinedDamage = getFullDamage(originalDamage, entity, source, world, cmd);
 
@@ -116,6 +118,11 @@ public abstract class LivingEntityDamageMixin {
             ApplyDamageCalculationCommand cmd
     ) {
         System.out.println("---------------------------------");
+        System.out.println("originalDamage: " + originalDamage);
+        System.out.println("source: " + source.getSource());
+        System.out.println("attacker: " + source.getAttacker());
+        System.out.println("damage type: " + source.getType());
+        System.out.println("bypasses armor: " + source.isIn(DamageTypeTags.BYPASSES_ARMOR));
 
         var damageCalculatorOptional = DAMAGE_CALCULATORS.stream()
                 .filter(calculator -> calculator.isActive(source))
