@@ -3,6 +3,7 @@ package de.fuballer.mcendgame.main.component.dungeon.loot
 import de.fuballer.mcendgame.main.component.item.custom.UniqueAttributesItemInterface
 import de.fuballer.mcendgame.main.component.tags.CustomTags
 import de.fuballer.mcendgame.main.configuration.RuntimeConfig
+import de.fuballer.mcendgame.main.messaging.dungeon.DungeonBossDeathEvent
 import de.fuballer.mcendgame.main.messaging.dungeon.DungeonEnemyDeathEvent
 import de.fuballer.mcendgame.main.messaging.misc.LivingEntityDropCommand
 import de.fuballer.mcendgame.main.messaging.misc.MagicFindCommand
@@ -10,6 +11,7 @@ import de.fuballer.mcendgame.main.util.extension.WorldExtension.isDungeonWorld
 import de.fuballer.mcendgame.main.util.extension.mixin.EntityMixinExtension.isDungeonBoss
 import de.fuballer.mcendgame.main.util.extension.mixin.EntityMixinExtension.isElite
 import de.fuballer.mcendgame.main.util.extension.mixin.EntityMixinExtension.isLootGoblin
+import de.fuballer.mcendgame.main.util.extension.mixin.WorldMixinExtension.getDungeonLevel
 import de.fuballer.mcendgame.main.util.random.RandomUtil
 import de.maucon.mauconframework.command.CommandGateway
 import de.maucon.mauconframework.command.CommandHandler
@@ -41,10 +43,7 @@ class LootService {
         val serverWorld = event.world as? ServerWorld ?: return
         val enemyEntity = event.enemyEntity
 
-        if (enemyEntity.isDungeonBoss()) {
-            // TODO drop dungeon loot
-            return
-        }
+        if (enemyEntity.isDungeonBoss()) return
 
         if (enemyEntity.isElite()) dropEliteLoot(serverWorld, enemyEntity)
 
@@ -59,6 +58,24 @@ class LootService {
             }
             .onEach { setRandomDurability(it) }
             .forEach { enemyEntity.dropStack(serverWorld, it) }
+    }
+
+    @EventSubscriber
+    fun on(event: DungeonBossDeathEvent) {
+        val serverWorld = event.world as? ServerWorld ?: return
+
+        val level = serverWorld.getDungeonLevel()
+        val baseCrystalCount = LootSettings.getBossBaseCrystalCount(level)
+
+        val bossEntity = event.bossEntity
+        val empowermentFactor = 1.0 //TODO get count multiplier based on boss empowerment
+        val finalCrystalCount = (baseCrystalCount * empowermentFactor).toInt()
+
+        val levelAppropriateCrystals = LootSettings.CRYSTALS.filter { it.option.level <= level }
+        val crystalItems = RandomUtil.pickAllowRepeat(levelAppropriateCrystals, finalCrystalCount)
+        val itemStacks = crystalItems.map { it.item.defaultStack }
+
+        itemStacks.forEach { bossEntity.dropStack(serverWorld, it) }
     }
 
     private fun getLootingLevel(entity: LivingEntity?): Int {

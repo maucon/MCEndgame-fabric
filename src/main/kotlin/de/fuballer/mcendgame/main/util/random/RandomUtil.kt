@@ -44,6 +44,17 @@ object RandomUtil {
         return picked
     }
 
+    fun <T> pickAllowRepeat(
+        options: List<RandomOption<T>>,
+        amount: Int,
+        random: Random = Random,
+    ): List<T> {
+        val picked = mutableListOf<T>()
+        repeat(amount) { picked.add(pick(options, random).option) }
+
+        return picked
+    }
+
     fun <T : SortableRandomOption<*>> pick(
         options: List<T>,
         rolls: Int,

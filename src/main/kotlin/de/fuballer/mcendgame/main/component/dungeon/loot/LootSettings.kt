@@ -1,7 +1,10 @@
 package de.fuballer.mcendgame.main.component.dungeon.loot
 
+import de.fuballer.mcendgame.main.component.dungeon.loot.data.LevelRestrictedItem
 import de.fuballer.mcendgame.main.component.item.custom.aspect.AspectItems
+import de.fuballer.mcendgame.main.component.item.custom.crystal.CrystalItems
 import de.fuballer.mcendgame.main.util.random.RandomOption
+import kotlin.random.Random
 
 object LootSettings {
     const val ITEMS_DROP_PROBABILITY = 0.015
@@ -24,5 +27,15 @@ object LootSettings {
         RandomOption(8, AspectItems.ASPECT_OF_CURIO),
         RandomOption(10, AspectItems.ASPECT_OF_GREED),
         RandomOption(5, AspectItems.ASPECT_OF_FORTUNE),
+    )
+
+    fun getBossBaseCrystalCount(dungeonLevel: Int) = Random.nextDouble(dungeonLevel.toDouble())
+
+    val CRYSTALS = listOf(
+        RandomOption(10, LevelRestrictedItem(CrystalItems.PERMUTATION_CRYSTAL)),
+        RandomOption(10, LevelRestrictedItem(CrystalItems.CALIBRATION_CRYSTAL)),
+        RandomOption(5, LevelRestrictedItem(CrystalItems.REFORGE_CRYSTAL)),
+        RandomOption(5, LevelRestrictedItem(CrystalItems.SACRIFICIAL_CRYSTAL)),
+        RandomOption(3, LevelRestrictedItem(CrystalItems.CORRUPTION_CRYSTAL)),
     )
 }
