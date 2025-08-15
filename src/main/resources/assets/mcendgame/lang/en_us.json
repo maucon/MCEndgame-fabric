@@ -44,14 +44,16 @@
   "item.mcendgame.aspect.description.zeal": "Dungeon Completion grants %s additional Progress",
 
   "item.mcendgame.calibration_crystal": "Calibration Crystal",
-  "item.mcendgame.sacrificial_crystal": "Sacrificial Crystal",
+  "item.mcendgame.sacrifice_crystal": "Sacrifice Crystal",
   "item.mcendgame.permutation_crystal": "Permutation Crystal",
   "item.mcendgame.reforge_crystal": "Reforge Crystal",
+  "item.mcendgame.corruption_crystal": "Corruption Crystal",
 
   "item.mcendgame.crystal.description.calibration": "Randomize all values of an item's attributes",
-  "item.mcendgame.crystal.description.sacrificial": "Enhances an attribute by removing another",
+  "item.mcendgame.crystal.description.sacrifice": "Enhances an attribute by removing another",
   "item.mcendgame.crystal.description.permutation": "Shuffles the rolls of attributes",
   "item.mcendgame.crystal.description.reforge": "Reforges a unique item into a different one",
+  "item.mcendgame.crystal.description.corruption": "Corrupts an item with varying results",
 
   "container.mcendgame.filter.title": "Dungeon Filter (Blacklist)",
 

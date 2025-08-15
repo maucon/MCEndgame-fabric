@@ -2,7 +2,7 @@ package de.fuballer.mcendgame.main.component.item.custom.crystal.item
 
 import de.fuballer.mcendgame.main.component.block.crystalforge.CrystalForgeSettings
 import de.fuballer.mcendgame.main.component.custom_attribute.CustomAttributesExtensions.getCustomAttributes
-import de.fuballer.mcendgame.main.component.custom_attribute.CustomAttributesExtensions.setCustomAttributes
+import de.fuballer.mcendgame.main.component.custom_attribute.CustomAttributesExtensions.updateCustomAttributes
 import de.fuballer.mcendgame.main.component.item.custom.crystal.CrystalItem
 import net.minecraft.item.ItemStack
 import net.minecraft.text.MutableText
@@ -28,7 +28,6 @@ class PermutationCrystalItem(
 
         val oldAttributes = stack.getCustomAttributes()
         if (oldAttributes.isEmpty()) return newStack
-        val slot = oldAttributes[0].slot
 
         val oldRolls = oldAttributes.flatMap { it.getPercentRolls() }.toMutableList()
         if (oldRolls.size < 2) return newStack
@@ -49,7 +48,7 @@ class PermutationCrystalItem(
             it.getWithRollPercentages(newRolls)
         }
 
-        newStack.setCustomAttributes(newAttributes, slot)
+        newStack.updateCustomAttributes(newAttributes)
 
         return newStack
     }

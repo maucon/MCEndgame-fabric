@@ -59,6 +59,7 @@ class CustomModelProvider(
         generator.register(CrystalItems.SACRIFICIAL_CRYSTAL, Models.GENERATED)
         generator.register(CrystalItems.PERMUTATION_CRYSTAL, Models.GENERATED)
         generator.register(CrystalItems.REFORGE_CRYSTAL, Models.GENERATED)
+        generator.register(CrystalItems.CORRUPTION_CRYSTAL, Models.GENERATED)
     }
 
     private fun sideTopBottomTextureMap(block: Block) = TextureMap()

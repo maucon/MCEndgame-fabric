@@ -2,7 +2,7 @@ package de.fuballer.mcendgame.main.component.item.custom.crystal.item
 
 import de.fuballer.mcendgame.main.component.block.crystalforge.CrystalForgeSettings
 import de.fuballer.mcendgame.main.component.custom_attribute.CustomAttributesExtensions.getCustomAttributes
-import de.fuballer.mcendgame.main.component.custom_attribute.CustomAttributesExtensions.setCustomAttributes
+import de.fuballer.mcendgame.main.component.custom_attribute.CustomAttributesExtensions.updateCustomAttributes
 import de.fuballer.mcendgame.main.component.item.custom.UniqueAttributesItemInterface
 import de.fuballer.mcendgame.main.component.item.custom.crystal.CrystalItem
 import net.minecraft.item.ItemStack
@@ -12,10 +12,10 @@ import kotlin.math.pow
 
 private fun getTierBasedEnhanceValue(tier: Int) = 0.5.pow((tier + 1) / 2.0)
 
-class SacrificialCrystalItem(
+class SacrificeCrystalItem(
     settings: Settings,
 ) : CrystalItem(settings) {
-    override val description: MutableText = Text.translatable(DESCRIPTION_BASE_KEY + "sacrificial")
+    override val description: MutableText = Text.translatable(DESCRIPTION_BASE_KEY + "sacrifice")
 
     override fun canForge(stack: ItemStack): MutableText? {
         val cannotForgeReason = super.canForge(stack)
@@ -35,7 +35,6 @@ class SacrificialCrystalItem(
 
         val oldAttributes = stack.getCustomAttributes()
         if (oldAttributes.size < 2) return newStack
-        val slot = oldAttributes[0].slot
 
         val attributesWithRange = oldAttributes.filter { it.hasNonZeroRange() }
         val toEnhance = attributesWithRange.randomOrNull() ?: return newStack
@@ -44,11 +43,11 @@ class SacrificialCrystalItem(
         val sacrifice = remainingAttributes.random()
 
         val enhancePercentage = getTierBasedEnhanceValue(sacrifice.tier)
-        val enhanced = toEnhance.getEnhanced(enhancePercentage)
+        val enhanced = toEnhance.getSingleRollEnhanced(enhancePercentage)
 
         val newAttributes = remainingAttributes.filter { it != sacrifice }.toMutableList()
         newAttributes.add(enhanced)
-        newStack.setCustomAttributes(newAttributes, slot)
+        newStack.updateCustomAttributes(newAttributes)
 
         return newStack
     }

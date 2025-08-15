@@ -1,0 +1,17 @@
+package de.fuballer.mcendgame.main.component.item.custom.crystal.item.corruption
+
+import de.fuballer.mcendgame.main.component.custom_attribute.CustomAttributesExtensions.getCustomAttributes
+import net.minecraft.item.ItemStack
+
+enum class CorruptionOutcome(
+    val canApply: (ItemStack) -> Boolean,
+    val apply: (ItemStack) -> ItemStack,
+) {
+    NOTHING({ true }, { it.copy() }),
+    DESTROY({ true }, { ItemStack.EMPTY }),
+    INCREASE_ENCHANT_LEVEL({ true }, { CorruptionService.increaseEnchantLevel(it) }),
+    LOWER_ENCHANT_LEVEL({ stack -> stack.hasEnchantments() }, { CorruptionService.lowerEnchantLevel(it) }),
+    ADD_CURSE_ENCHANT({ true }, { CorruptionService.addCurseEnchant(it) }),
+    ENHANCE_ATTRIBUTE({ stack -> stack.getCustomAttributes().any { it.hasNonZeroRangePercentRoll() } }, { CorruptionService.enhanceAttribute(it) }),
+    DIMINISH_ATTRIBUTE({ stack -> stack.getCustomAttributes().any { it.hasNonZeroRangePercentRoll() } }, { CorruptionService.diminishAttribute(it) }),
+}

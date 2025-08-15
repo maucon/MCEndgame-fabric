@@ -50,6 +50,8 @@ sealed interface AttributeRoll<T> {
 
     fun getPercentRollOrNull(): Double?
 
+    fun hasPercentRoll() = getPercentRollOrNull() != null
+
     fun getWithPercentRoll(percent: Double): AttributeRoll<T>
 }
 
