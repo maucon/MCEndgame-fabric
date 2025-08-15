@@ -1,9 +1,11 @@
-package de.fuballer.mcendgame.main.component.item.custom.crystal.item.corruption
+package de.fuballer.mcendgame.main.component.corruption
 
+import de.fuballer.mcendgame.main.component.corruption.CorruptionExtensions.setCorrupted
 import de.fuballer.mcendgame.main.component.custom_attribute.CustomAttributesExtensions.getCustomAttributes
 import de.fuballer.mcendgame.main.component.custom_attribute.CustomAttributesExtensions.updateCustomAttributes
 import de.fuballer.mcendgame.main.component.item.equipment.Equipment
 import de.fuballer.mcendgame.main.configuration.RuntimeConfig
+import de.fuballer.mcendgame.main.util.random.RandomUtil
 import net.minecraft.component.type.ItemEnchantmentsComponent
 import net.minecraft.enchantment.Enchantment
 import net.minecraft.enchantment.EnchantmentHelper
@@ -14,6 +16,18 @@ import net.minecraft.registry.tag.EnchantmentTags
 import kotlin.jvm.optionals.getOrNull
 
 object CorruptionService {
+    fun corrupt(
+        stack: ItemStack,
+    ): ItemStack {
+        val possibleOutcomes = CorruptionSettings.CORRUPTION_OUTCOMES.toList().filter { it.option.canApply(stack) }
+        val outcome = RandomUtil.pick(possibleOutcomes).option
+
+        val result = outcome.apply(stack.copy())
+        result.setCorrupted()
+
+        return result
+    }
+
     fun increaseEnchantLevel(stack: ItemStack) = changeRandomEnchantLevel(stack, 1)
 
     fun lowerEnchantLevel(stack: ItemStack) = changeRandomEnchantLevel(stack, -1)

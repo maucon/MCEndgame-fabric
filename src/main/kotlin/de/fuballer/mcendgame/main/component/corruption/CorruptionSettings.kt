@@ -1,4 +1,4 @@
-package de.fuballer.mcendgame.main.component.item.custom.crystal.item.corruption
+package de.fuballer.mcendgame.main.component.corruption
 
 import de.fuballer.mcendgame.main.util.random.RandomOption
 import kotlin.random.Random
