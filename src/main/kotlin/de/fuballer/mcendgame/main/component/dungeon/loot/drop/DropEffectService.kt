@@ -13,6 +13,9 @@ private val EFFECTS = mapOf(
 
     DungeonDropSelectors.ASPECT_PLAYER_DROPPED to DungeonDropEffects.ASPECT_PLAYER_DROPPED,
     DungeonDropSelectors.ASPECT to DungeonDropEffects.ASPECT,
+
+    DungeonDropSelectors.CRYSTAL_PLAYER_DROPPED to DungeonDropEffects.CRYSTAL_PLAYER_DROPPED,
+    DungeonDropSelectors.CRYSTAL to DungeonDropEffects.CRYSTAL,
 )
 
 @Injectable

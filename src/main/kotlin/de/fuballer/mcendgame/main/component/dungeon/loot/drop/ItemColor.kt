@@ -5,4 +5,5 @@ enum class ItemColor(
 ) {
     UNIQUE(16732160),
     ASPECT(6616575),
+    CRYSTAL(12268287),
 }
