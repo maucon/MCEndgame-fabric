@@ -2,22 +2,32 @@ package de.fuballer.mcendgame.main.component.item.custom.crystal.item.corruption
 
 import de.fuballer.mcendgame.main.component.custom_attribute.CustomAttributesExtensions.getCustomAttributes
 import de.fuballer.mcendgame.main.component.custom_attribute.CustomAttributesExtensions.updateCustomAttributes
+import de.fuballer.mcendgame.main.component.item.equipment.Equipment
+import de.fuballer.mcendgame.main.configuration.RuntimeConfig
 import net.minecraft.component.type.ItemEnchantmentsComponent
+import net.minecraft.enchantment.Enchantment
 import net.minecraft.enchantment.EnchantmentHelper
 import net.minecraft.item.ItemStack
+import net.minecraft.registry.RegistryKey
+import net.minecraft.registry.RegistryKeys
+import net.minecraft.registry.tag.EnchantmentTags
+import kotlin.jvm.optionals.getOrNull
 
 object CorruptionService {
-    fun increaseEnchantLevel(stack: ItemStack): ItemStack {
-        return stack.copy()
-    }
+    fun increaseEnchantLevel(stack: ItemStack) = changeRandomEnchantLevel(stack, 1)
 
-    fun lowerEnchantLevel(stack: ItemStack): ItemStack {
+    fun lowerEnchantLevel(stack: ItemStack) = changeRandomEnchantLevel(stack, -1)
+
+    fun changeRandomEnchantLevel(
+        stack: ItemStack,
+        change: Int,
+    ): ItemStack {
         val builder = ItemEnchantmentsComponent.Builder(stack.enchantments)
         val enchantments = builder.enchantments
         if (enchantments.isEmpty()) return stack.copy()
 
         val chosenEnchantment = enchantments.random()
-        val newLevel = builder.getLevel(chosenEnchantment) - 1
+        val newLevel = builder.getLevel(chosenEnchantment) + change
         builder.set(chosenEnchantment, newLevel)
 
         val result = stack.copy()
@@ -25,8 +35,32 @@ object CorruptionService {
         return result
     }
 
+    fun addNonCurseEnchant(stack: ItemStack): ItemStack {
+        val notPresentEnchants = getNotPresentNonCurseEnchants(stack)
+        return addEnchant(stack, notPresentEnchants)
+    }
+
     fun addCurseEnchant(stack: ItemStack): ItemStack {
-        return stack.copy()
+        val notPresentEnchants = getNotPresentCurseEnchants(stack)
+        return addEnchant(stack, notPresentEnchants)
+    }
+
+    fun addEnchant(
+        stack: ItemStack,
+        notPresentEnchants: List<RegistryKey<Enchantment>>,
+    ): ItemStack {
+        if (notPresentEnchants.isEmpty()) return stack.copy()
+
+        val chosenEnchant = notPresentEnchants.random()
+        val registry = RuntimeConfig.SERVER.registryManager.getOrThrow(RegistryKeys.ENCHANTMENT)
+        val entry = registry.getOptional(chosenEnchant).getOrNull() ?: return stack.copy() //TODO make enchants not selectable
+
+        val builder = ItemEnchantmentsComponent.Builder(stack.enchantments)
+        builder.set(entry, 1)
+
+        val result = stack.copy()
+        EnchantmentHelper.set(result, builder.build())
+        return result
     }
 
     fun enhanceAttribute(stack: ItemStack): ItemStack {
@@ -57,4 +91,50 @@ object CorruptionService {
         result.updateCustomAttributes(newAttributes)
         return result
     }
+
+    fun getNotPresentNonCurseEnchants(
+        stack: ItemStack,
+    ): List<RegistryKey<Enchantment>> {
+        val possibleEnchants = getPossibleEnchants(stack)
+        val nonCurseEnchants = filterCurseEnchants(possibleEnchants, false)
+        return getNotPresentEnchants(stack, nonCurseEnchants)
+    }
+
+    fun getNotPresentCurseEnchants(
+        stack: ItemStack,
+    ): List<RegistryKey<Enchantment>> {
+        val possibleEnchants = getPossibleEnchants(stack)
+        val curseEnchants = filterCurseEnchants(possibleEnchants, true)
+        return getNotPresentEnchants(stack, curseEnchants)
+    }
+
+    fun getNotPresentEnchants(
+        stack: ItemStack,
+        possibleEnchants: List<RegistryKey<Enchantment>>,
+    ): List<RegistryKey<Enchantment>> {
+        val presentEnchants = stack.enchantments.enchantments.mapNotNull { it.key.getOrNull() }
+        return possibleEnchants.filter { !presentEnchants.contains(it) }
+    }
+
+    fun getPossibleEnchants(
+        stack: ItemStack,
+    ): List<RegistryKey<Enchantment>> {
+        val equipment = Equipment.fromItem(stack.item) ?: return listOf()
+        return equipment.rollableEnchants.map { it.option.enchantment }.distinct()
+    }
+
+    fun filterCurseEnchants(
+        enchants: List<RegistryKey<Enchantment>>,
+        getCurses: Boolean,
+    ): List<RegistryKey<Enchantment>> {
+        val registry = RuntimeConfig.SERVER.registryManager.getOrThrow(RegistryKeys.ENCHANTMENT)
+        return enchants.filter {
+            val entry = registry.getOptional(it).getOrNull() ?: return@filter false
+            entry.isIn(EnchantmentTags.CURSE) == getCurses
+        }
+    }
+
+    fun canAddEnchant(stack: ItemStack) = getNotPresentNonCurseEnchants(stack).isNotEmpty()
+
+    fun canAddCurseEnchant(stack: ItemStack) = getNotPresentCurseEnchants(stack).isNotEmpty()
 }

@@ -12,9 +12,10 @@ object CorruptionSettings {
         RandomOption(5, CorruptionOutcome.NOTHING),
         RandomOption(5, CorruptionOutcome.DESTROY),
         RandomOption(25, CorruptionOutcome.INCREASE_ENCHANT_LEVEL),
+        RandomOption(10, CorruptionOutcome.ADD_ENCHANT),
         RandomOption(5, CorruptionOutcome.ADD_CURSE_ENCHANT),
         RandomOption(25, CorruptionOutcome.LOWER_ENCHANT_LEVEL),
-        RandomOption(25000, CorruptionOutcome.ENHANCE_ATTRIBUTE),
+        RandomOption(25, CorruptionOutcome.ENHANCE_ATTRIBUTE),
         RandomOption(25, CorruptionOutcome.DIMINISH_ATTRIBUTE),
     )
 }
