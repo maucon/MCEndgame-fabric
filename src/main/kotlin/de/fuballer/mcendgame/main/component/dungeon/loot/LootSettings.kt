@@ -33,9 +33,9 @@ object LootSettings {
 
     val CRYSTALS = listOf(
         RandomOption(10, LevelRestrictedItem(CrystalItems.PERMUTATION_CRYSTAL)),
-        RandomOption(10, LevelRestrictedItem(CrystalItems.CALIBRATION_CRYSTAL)),
-        RandomOption(5, LevelRestrictedItem(CrystalItems.REFORGE_CRYSTAL)),
-        RandomOption(5, LevelRestrictedItem(CrystalItems.SACRIFICIAL_CRYSTAL)),
-        RandomOption(3, LevelRestrictedItem(CrystalItems.CORRUPTION_CRYSTAL)),
+        RandomOption(10, LevelRestrictedItem(CrystalItems.CALIBRATION_CRYSTAL, 3)),
+        RandomOption(5, LevelRestrictedItem(CrystalItems.REFORGE_CRYSTAL, 5)),
+        RandomOption(5, LevelRestrictedItem(CrystalItems.SACRIFICIAL_CRYSTAL, 8)),
+        RandomOption(3, LevelRestrictedItem(CrystalItems.CORRUPTION_CRYSTAL, 10)),
     )
 }
