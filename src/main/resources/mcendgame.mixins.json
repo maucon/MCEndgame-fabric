@@ -5,6 +5,7 @@
   "mixins": [
     "conversion.SkeletonConversionMixin",
     "conversion.ZombieConversionMixin",
+    "corruption.CraftingScreenHandlerCorruptionUnmodifiableMixin",
     "damage.LivingEntityDamageMixin",
     "damage.LivingEntityDodgeMixin",
     "damage.PlayerEntityDamageMixin",
