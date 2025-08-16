@@ -14,6 +14,10 @@ public interface DungeonWorldAccessor {
 
     void mcendgame$setLevel(int level);
 
+    int mcendgame$getBossesKilled();
+
+    void mcendgame$increaseBossesKilled();
+
     void mcendgame$setOpener(PlayerEntity opener);
 
     PlayerEntity mcendgame$getOpener();

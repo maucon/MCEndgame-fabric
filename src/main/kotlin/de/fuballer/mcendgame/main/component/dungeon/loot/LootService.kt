@@ -8,6 +8,7 @@ import de.fuballer.mcendgame.main.messaging.dungeon.DungeonEnemyDeathEvent
 import de.fuballer.mcendgame.main.messaging.misc.LivingEntityDropCommand
 import de.fuballer.mcendgame.main.messaging.misc.MagicFindCommand
 import de.fuballer.mcendgame.main.util.extension.WorldExtension.isDungeonWorld
+import de.fuballer.mcendgame.main.util.extension.mixin.EntityMixinExtension.getLootMultiplier
 import de.fuballer.mcendgame.main.util.extension.mixin.EntityMixinExtension.isDungeonBoss
 import de.fuballer.mcendgame.main.util.extension.mixin.EntityMixinExtension.isElite
 import de.fuballer.mcendgame.main.util.extension.mixin.EntityMixinExtension.isLootGoblin
@@ -68,8 +69,8 @@ class LootService {
         val baseCrystalCount = LootSettings.getBossBaseCrystalCount(level)
 
         val bossEntity = event.bossEntity
-        val empowermentFactor = 1.0 //TODO get count multiplier based on boss empowerment
-        val finalCrystalCount = (baseCrystalCount * empowermentFactor).toInt()
+        val empoweredCrystalCount = baseCrystalCount * bossEntity.getLootMultiplier()
+        val finalCrystalCount = empoweredCrystalCount.toInt() + if (Random.nextDouble() < empoweredCrystalCount % 1) 1 else 0
 
         val levelAppropriateCrystals = LootSettings.CRYSTALS.filter { it.option.level <= level }
         val crystalItems = RandomUtil.pickAllowRepeat(levelAppropriateCrystals, finalCrystalCount)

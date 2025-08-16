@@ -12,7 +12,6 @@
     "enemy.LivingEntityDungeonEnemyMixin",
     "enemy.LivingEntityEliteMixin",
     "enemy.LivingEntityLootGoblinMixin",
-    "enemy.boss.LivingEntityDungeonBossMixin",
     "enemy.boss.MobEntityDungeonBossMixin",
     "entity.EntityCompanionPortalMixin",
     "entity.EntityForcedGlowColorMixin",

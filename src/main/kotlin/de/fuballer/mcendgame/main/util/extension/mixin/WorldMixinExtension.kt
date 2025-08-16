@@ -26,6 +26,16 @@ object WorldMixinExtension {
         return accessor.`mcendgame$getLevel`()
     }
 
+    fun ServerWorld.increaseBossesKilled() {
+        val accessor = this as DungeonWorldAccessor
+        accessor.`mcendgame$increaseBossesKilled`()
+    }
+
+    fun ServerWorld.getBossesKilled(): Int {
+        val accessor = this as DungeonWorldAccessor
+        return accessor.`mcendgame$getBossesKilled`()
+    }
+
     fun ServerWorld.setOpener(opener: PlayerEntity) {
         val accessor = this as DungeonWorldAccessor
         accessor.`mcendgame$setOpener`(opener)
