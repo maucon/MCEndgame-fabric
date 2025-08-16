@@ -1,6 +1,6 @@
 package de.fuballer.mcendgame.main.mixin.corruption;
 
-import de.fuballer.mcendgame.main.messaging.misc.AnvilInputCommand;
+import de.fuballer.mcendgame.main.messaging.misc.CanAnvilForgeCommand;
 import de.maucon.mauconframework.command.CommandGateway;
 import net.minecraft.item.ItemStack;
 import net.minecraft.screen.AnvilScreenHandler;
@@ -26,9 +26,9 @@ public class AnvilScreenHandlerCorruptionUnmodifiableMixin {
         var stack0 = input.getStack(0);
         var stack1 = input.getStack(1);
 
-        var anvilInputCommand = new AnvilInputCommand(stack0, stack1, false);
+        var anvilInputCommand = new CanAnvilForgeCommand(stack0, stack1, false);
         var cmd = CommandGateway.INSTANCE.apply(anvilInputCommand);
-        if (!cmd.getDisable()) return;
+        if (cmd.getCanForge()) return;
 
         var output = accessor.getOutput();
         output.setStack(0, ItemStack.EMPTY);

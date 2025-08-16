@@ -9,6 +9,7 @@
     "corruption.CrafterBlockCorruptionUnmodifiableMixin",
     "corruption.CrafterScreenHandlerCorruptionUnmodifiableMixin",
     "corruption.CraftingScreenHandlerCorruptionUnmodifiableMixin",
+    "corruption.EnchantmentScreenHandlerCorruptionUnmodifiableMixin",
     "corruption.ForgingScreenHandlerOutputAccessorMixin",
     "damage.LivingEntityDamageMixin",
     "damage.LivingEntityDodgeMixin",

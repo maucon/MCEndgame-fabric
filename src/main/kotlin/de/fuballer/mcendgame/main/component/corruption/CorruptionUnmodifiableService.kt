@@ -1,7 +1,8 @@
 package de.fuballer.mcendgame.main.component.corruption
 
 import de.fuballer.mcendgame.main.component.corruption.CorruptionExtensions.isCorrupted
-import de.fuballer.mcendgame.main.messaging.misc.AnvilInputCommand
+import de.fuballer.mcendgame.main.messaging.misc.CanAnvilForgeCommand
+import de.fuballer.mcendgame.main.messaging.misc.CanEnchantItemCommand
 import de.fuballer.mcendgame.main.messaging.misc.CraftingRecipeCommand
 import de.maucon.mauconframework.command.CommandHandler
 import de.maucon.mauconframework.di.annotation.Injectable
@@ -17,9 +18,14 @@ object CorruptionUnmodifiableService {
     }
 
     @CommandHandler
-    fun on(cmd: AnvilInputCommand) {
+    fun on(cmd: CanAnvilForgeCommand) {
         if (cmd.stack0.isCorrupted() || cmd.stack1.isCorrupted()) {
-            cmd.disable = true
+            cmd.canForge = false
         }
+    }
+
+    @CommandHandler
+    fun on(cmd: CanEnchantItemCommand) {
+        if (cmd.itemStack.isCorrupted()) cmd.canEnchant = false
     }
 }

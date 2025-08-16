@@ -2,8 +2,8 @@ package de.fuballer.mcendgame.main.messaging.misc
 
 import net.minecraft.item.ItemStack
 
-data class AnvilInputCommand(
+data class CanAnvilForgeCommand(
     val stack0: ItemStack,
     val stack1: ItemStack,
-    var disable: Boolean = false,
+    var canForge: Boolean = true,
 )
