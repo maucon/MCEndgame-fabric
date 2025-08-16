@@ -1,9 +1,9 @@
 package de.fuballer.mcendgame.main.messaging.misc
 
-import net.minecraft.inventory.RecipeInputInventory
 import net.minecraft.item.ItemStack
+import net.minecraft.recipe.input.CraftingRecipeInput
 
 data class CraftingRecipeCommand(
-    val craftingInventory: RecipeInputInventory,
+    val input: CraftingRecipeInput,
     var result: ItemStack,
 )

@@ -10,7 +10,7 @@ import net.minecraft.item.ItemStack
 object CorruptionUnmodifiableService {
     @CommandHandler
     fun on(cmd: CraftingRecipeCommand) {
-        val stacks = cmd.craftingInventory.heldStacks
+        val stacks = cmd.input.stacks
         if (stacks.none { it.isCorrupted() }) return
         cmd.result = ItemStack.EMPTY
     }
