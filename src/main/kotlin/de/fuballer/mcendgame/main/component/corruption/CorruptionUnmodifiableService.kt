@@ -3,6 +3,7 @@ package de.fuballer.mcendgame.main.component.corruption
 import de.fuballer.mcendgame.main.component.corruption.CorruptionExtensions.isCorrupted
 import de.fuballer.mcendgame.main.messaging.misc.CanAnvilForgeCommand
 import de.fuballer.mcendgame.main.messaging.misc.CanEnchantItemCommand
+import de.fuballer.mcendgame.main.messaging.misc.CanSmithCommand
 import de.fuballer.mcendgame.main.messaging.misc.CraftingRecipeCommand
 import de.maucon.mauconframework.command.CommandHandler
 import de.maucon.mauconframework.di.annotation.Injectable
@@ -27,5 +28,11 @@ object CorruptionUnmodifiableService {
     @CommandHandler
     fun on(cmd: CanEnchantItemCommand) {
         if (cmd.itemStack.isCorrupted()) cmd.canEnchant = false
+    }
+
+    @CommandHandler
+    fun on(cmd: CanSmithCommand) {
+        val stack = cmd.input.base
+        if (stack.isCorrupted()) cmd.canSmith = false
     }
 }
