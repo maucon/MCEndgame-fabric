@@ -11,6 +11,7 @@
     "corruption.CraftingScreenHandlerCorruptionUnmodifiableMixin",
     "corruption.EnchantmentScreenHandlerCorruptionUnmodifiableMixin",
     "corruption.ForgingScreenHandlerOutputAccessorMixin",
+    "corruption.GrindstoneScreenHandlerCorruptionUnmodifiableMixin",
     "corruption.SmithingScreenHandlerCorruptionUnmodifiableMixin",
     "damage.LivingEntityDamageMixin",
     "damage.LivingEntityDodgeMixin",

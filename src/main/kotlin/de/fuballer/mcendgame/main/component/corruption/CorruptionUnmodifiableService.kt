@@ -1,10 +1,7 @@
 package de.fuballer.mcendgame.main.component.corruption
 
 import de.fuballer.mcendgame.main.component.corruption.CorruptionExtensions.isCorrupted
-import de.fuballer.mcendgame.main.messaging.misc.CanAnvilForgeCommand
-import de.fuballer.mcendgame.main.messaging.misc.CanEnchantItemCommand
-import de.fuballer.mcendgame.main.messaging.misc.CanSmithCommand
-import de.fuballer.mcendgame.main.messaging.misc.CraftingRecipeCommand
+import de.fuballer.mcendgame.main.messaging.misc.*
 import de.maucon.mauconframework.command.CommandHandler
 import de.maucon.mauconframework.di.annotation.Injectable
 import net.minecraft.item.ItemStack
@@ -12,7 +9,7 @@ import net.minecraft.item.ItemStack
 @Injectable
 object CorruptionUnmodifiableService {
     @CommandHandler
-    fun on(cmd: CraftingRecipeCommand) {
+    fun on(cmd: CraftingResultCommand) {
         val stacks = cmd.input.stacks
         if (stacks.none { it.isCorrupted() }) return
         cmd.result = ItemStack.EMPTY
@@ -34,5 +31,10 @@ object CorruptionUnmodifiableService {
     fun on(cmd: CanSmithCommand) {
         val stack = cmd.input.base
         if (stack.isCorrupted()) cmd.canSmith = false
+    }
+
+    @CommandHandler
+    fun on(cmd: GrindstoneOutputCommand) {
+        if (cmd.firstInput.isCorrupted() || cmd.secondInput.isCorrupted()) cmd.output = ItemStack.EMPTY
     }
 }

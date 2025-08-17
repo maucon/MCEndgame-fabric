@@ -1,7 +1,7 @@
 package de.fuballer.mcendgame.main.mixin.corruption;
 
 import com.llamalad7.mixinextras.sugar.Local;
-import de.fuballer.mcendgame.main.messaging.misc.CraftingRecipeCommand;
+import de.fuballer.mcendgame.main.messaging.misc.CraftingResultCommand;
 import de.maucon.mauconframework.command.CommandGateway;
 import net.minecraft.block.CrafterBlock;
 import net.minecraft.item.ItemStack;
@@ -21,7 +21,7 @@ public class CrafterBlockCorruptionUnmodifiableMixin {
             ItemStack originalStack,
             @Local CraftingRecipeInput recipeInput
     ) {
-        var recipeCommand = new CraftingRecipeCommand(recipeInput, originalStack);
+        var recipeCommand = new CraftingResultCommand(recipeInput, originalStack);
         var cmd = CommandGateway.INSTANCE.apply(recipeCommand);
         return cmd.getResult();
     }

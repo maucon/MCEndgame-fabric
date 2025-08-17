@@ -1,7 +1,7 @@
 package de.fuballer.mcendgame.main.mixin.corruption;
 
 import com.llamalad7.mixinextras.sugar.Local;
-import de.fuballer.mcendgame.main.messaging.misc.CraftingRecipeCommand;
+import de.fuballer.mcendgame.main.messaging.misc.CraftingResultCommand;
 import de.maucon.mauconframework.command.CommandGateway;
 import net.minecraft.item.ItemStack;
 import net.minecraft.recipe.input.CraftingRecipeInput;
@@ -20,7 +20,7 @@ public class CraftingScreenHandlerCorruptionUnmodifiableMixin {
             ItemStack originalStack,
             @Local CraftingRecipeInput craftingRecipeInput
     ) {
-        var recipeCommand = new CraftingRecipeCommand(craftingRecipeInput, originalStack);
+        var recipeCommand = new CraftingResultCommand(craftingRecipeInput, originalStack);
         var cmd = CommandGateway.INSTANCE.apply(recipeCommand);
         return cmd.getResult();
     }
