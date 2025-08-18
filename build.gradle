@@ -97,6 +97,18 @@ java {
     targetCompatibility = JavaVersion.VERSION_21
 }
 
+sourceSets {
+    main {
+        resources {
+            srcDir("build/generated/resources")
+        }
+    }
+}
+
+tasks.named("jar") {
+    dependsOn(tasks.named("runDatagen"))
+}
+
 tasks.named("sourcesJar") {
     dependsOn(tasks.named("runDatagen"))
 }
