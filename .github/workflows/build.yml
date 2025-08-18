@@ -34,7 +34,7 @@ jobs:
       - name: Gradle build
         env:
           MAUCONFRAMEWORK_REPO_KEY: ${{ secrets.MAUCONFRAMEWORK_REPO_KEY }}
-        run: ./gradlew build
+        run: ./gradlew runDatagen build
 
       - name: Upload build artifacts
         id: artifact-upload
