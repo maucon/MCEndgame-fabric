@@ -35,6 +35,7 @@ class KillerScreen(
 ) : HandledScreen<KillerScreenHandler>(handler, inventory, title) {
     val statusEffectsDisplay = CustomStatusEffectsDisplay(this)
     var killer: LivingEntity? = null
+    var trimmedTitle: Text? = null
 
     init {
         backgroundWidth = 111
@@ -149,6 +150,22 @@ class KillerScreen(
         mouseX: Int,
         mouseY: Int
     ) {
-        context.drawText(textRenderer, title, titleX, titleY, 4210752, false)
+        if (trimmedTitle == null) trimTitle()
+        context.drawText(textRenderer, trimmedTitle!!, titleX, titleY, 4210752, false)
+    }
+
+    private fun trimTitle() {
+        val literal = title.string
+        val maxWidth = backgroundWidth - titleX * 2
+        val baseWidth = textRenderer.getWidth(literal)
+        if (baseWidth <= maxWidth) {
+            trimmedTitle = title
+            return
+        }
+
+        val ellipsis = "..."
+        val trimmedMaxWidth = maxWidth - textRenderer.getWidth(ellipsis)
+        val trimmed = textRenderer.trimToWidth(literal, trimmedMaxWidth)
+        trimmedTitle = Text.literal(trimmed + ellipsis)
     }
 }
