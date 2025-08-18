@@ -7,7 +7,6 @@ import it.unimi.dsi.fastutil.objects.Object2ObjectOpenHashMap
 import net.minecraft.entity.EntityType
 import net.minecraft.entity.EquipmentSlot
 import net.minecraft.entity.LivingEntity
-import net.minecraft.entity.SpawnReason
 import net.minecraft.entity.effect.StatusEffectInstance
 import net.minecraft.entity.player.PlayerEntity
 import net.minecraft.item.ItemStack
@@ -20,14 +19,14 @@ import net.minecraft.registry.RegistryKeys
 import net.minecraft.text.Text
 import net.minecraft.text.TextCodecs
 import net.minecraft.util.Uuids
-import net.minecraft.world.World
 import java.util.*
 
 data class KillerEntity(
     /** id of a player */
     override var id: UUID,
     val type: RegistryKey<EntityType<*>>,
-    val name: Optional<Text>,
+    val displayName: Optional<Text>,
+    val killerUUID: UUID,
     val equipment: Map<EquipmentSlot, ItemStack>,
     val statusEffects: List<StatusEffectInstance>,
 ) : Entity<UUID> {
@@ -41,7 +40,8 @@ data class KillerEntity(
                 instance.group(
                     Uuids.CODEC.fieldOf("id").forGetter(KillerEntity::id),
                     RegistryKey.createCodec(RegistryKeys.ENTITY_TYPE).fieldOf("type").forGetter(KillerEntity::type),
-                    Codec.optionalField("name", TextCodecs.CODEC, true).fieldOf("name").forGetter(KillerEntity::name),
+                    Codec.optionalField("name", TextCodecs.CODEC, true).fieldOf("name").forGetter(KillerEntity::displayName),
+                    Uuids.CODEC.fieldOf("killerUUID").forGetter(KillerEntity::killerUUID),
                     EQUIPMENT_MAP_CODEC.fieldOf("equipment").forGetter(KillerEntity::equipment),
                     STATUS_EFFECTS_CODEC.fieldOf("status_effects").forGetter(KillerEntity::statusEffects),
                 ).apply(instance, ::KillerEntity)
@@ -56,7 +56,8 @@ data class KillerEntity(
         val PACKET_CODEC: PacketCodec<RegistryByteBuf, KillerEntity> = PacketCodec.tuple(
             Uuids.PACKET_CODEC, KillerEntity::id,
             RegistryKey.createPacketCodec(RegistryKeys.ENTITY_TYPE), KillerEntity::type,
-            PacketCodecs.optional(TextCodecs.PACKET_CODEC), KillerEntity::name,
+            PacketCodecs.optional(TextCodecs.PACKET_CODEC), KillerEntity::displayName,
+            Uuids.PACKET_CODEC, KillerEntity::killerUUID,
             EQUIPMENT_MAP_PACKET_CODEC, KillerEntity::equipment,
             STATUS_EFFECTS_PACKET_CODEC, KillerEntity::statusEffects,
             ::KillerEntity
@@ -67,7 +68,7 @@ data class KillerEntity(
             killer: LivingEntity,
         ): KillerEntity {
             val type = Registries.ENTITY_TYPE.getKey(killer.type).get()
-            val name = Optional.ofNullable(killer.customName)
+            val name = Optional.ofNullable(killer.displayName)
             val equipment = mapOf(
                 EquipmentSlot.HEAD to killer.getEquippedStack(EquipmentSlot.HEAD),
                 EquipmentSlot.CHEST to killer.getEquippedStack(EquipmentSlot.CHEST),
@@ -78,25 +79,7 @@ data class KillerEntity(
             ).filter { !it.value.isEmpty }
             val effects = killer.statusEffects.toList()
 
-            return KillerEntity(killed.uuid, type, name, equipment, effects)
+            return KillerEntity(killed.uuid, type, name, killer.uuid, equipment, effects)
         }
-    }
-
-    fun asLivingEntity(world: World): LivingEntity? {
-        val type = Registries.ENTITY_TYPE.get(type) ?: return null
-        val livingEntity = type.create(world, SpawnReason.COMMAND) as LivingEntity
-
-        if (name.isPresent) livingEntity.customName = name.get()
-
-        equipment.forEach { livingEntity.equipStack(it.key, it.value) }
-        statusEffects.forEach { livingEntity.addStatusEffect(it) }
-
-        return livingEntity
-    }
-
-    fun getNameOrTypeName(): Text {
-        if (name.isPresent) return name.get()
-        val type = Registries.ENTITY_TYPE.get(type) ?: return Text.translatable("entity.mcendgame.unknown")
-        return Text.translatable(type.translationKey)
     }
 }

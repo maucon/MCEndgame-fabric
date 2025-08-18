@@ -1,5 +1,6 @@
 package de.fuballer.mcendgame.client.component.screen
 
+import de.fuballer.mcendgame.client.component.screen.KillerScreen
 import de.fuballer.mcendgame.main.component.dungeon.device.DungeonDevice
 import de.fuballer.mcendgame.main.component.killer.KillerService
 import de.maucon.mauconframework.di.annotation.Injectable
