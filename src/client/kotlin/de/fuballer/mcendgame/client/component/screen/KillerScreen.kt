@@ -124,11 +124,11 @@ class KillerScreen(
         mouseX: Int,
         mouseY: Int,
     ) {
-        if (killer == null) return
-        val killerRatio = killer!!.width / killer!!.height
+        val livingKiller = killer ?: return
+        val killerRatio = livingKiller.width / livingKiller.height
 
         val sizeFactor =
-            1.0 / if (killerRatio > ENTITY_DRAW_PANEL_RATIO) killer!!.width / ENTITY_DRAW_PANEL_RATIO.toFloat() else killer!!.height
+            1.0 / if (killerRatio > ENTITY_DRAW_PANEL_RATIO) livingKiller.width / ENTITY_DRAW_PANEL_RATIO.toFloat() else livingKiller.height
         val size = (ENTITY_BASE_SIZE * sizeFactor).toInt()
 
         InventoryScreen.drawEntity(
@@ -141,7 +141,7 @@ class KillerScreen(
             0.0625F,
             mouseX.toFloat(),
             mouseY.toFloat(),
-            killer
+            livingKiller
         )
     }
 

@@ -40,7 +40,7 @@ data class KillerEntity(
                 instance.group(
                     Uuids.CODEC.fieldOf("id").forGetter(KillerEntity::id),
                     RegistryKey.createCodec(RegistryKeys.ENTITY_TYPE).fieldOf("type").forGetter(KillerEntity::type),
-                    Codec.optionalField("name", TextCodecs.CODEC, true).fieldOf("name").forGetter(KillerEntity::displayName),
+                    Codec.optionalField("displayName", TextCodecs.CODEC, true).fieldOf("displayName").forGetter(KillerEntity::displayName),
                     Uuids.CODEC.fieldOf("killerUUID").forGetter(KillerEntity::killerUUID),
                     EQUIPMENT_MAP_CODEC.fieldOf("equipment").forGetter(KillerEntity::equipment),
                     STATUS_EFFECTS_CODEC.fieldOf("status_effects").forGetter(KillerEntity::statusEffects),
