@@ -97,10 +97,6 @@ java {
     targetCompatibility = JavaVersion.VERSION_21
 }
 
-tasks.named("sourcesJar") {
-    dependsOn(tasks.named("runDatagen"))
-}
-
 jar {
     from("LICENSE") {
         rename { "${it}_${base.archivesName.get()}" }
