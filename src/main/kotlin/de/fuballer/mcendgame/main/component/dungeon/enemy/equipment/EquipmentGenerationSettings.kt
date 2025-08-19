@@ -59,17 +59,21 @@ object EquipmentGenerationSettings {
     fun getRandomUniqueEquipment(
         slot: EquipmentSlot? = null,
         tag: EquipmentTag,
+        tagExactMatch: Boolean = true,
         random: Random = Random,
-    ) = getRandomUniqueEquipment(slot, setOf(tag), random)
+    ) = getRandomUniqueEquipment(slot, setOf(tag), tagExactMatch, random)
 
     fun getRandomUniqueEquipment(
         slot: EquipmentSlot? = null,
         tags: Set<EquipmentTag> = setOf(),
+        tagsExactMatch: Boolean = true,
         random: Random = Random,
     ): Equipment? {
         val options = UNIQUE_EQUIPMENT.toMutableList()
         if (slot != null) options.removeAll { !it.option.slots.contains(slot) }
-        options.removeAll { it.option.tags != tags }
+
+        if (tagsExactMatch) options.removeAll { it.option.tags != tags }
+        else options.removeAll { !it.option.tags.containsAll(tags) }
 
         if (options.isEmpty()) return null
         return RandomUtil.pick(options, random).option.equipment

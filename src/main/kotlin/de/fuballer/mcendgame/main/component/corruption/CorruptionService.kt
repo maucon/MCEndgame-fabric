@@ -67,7 +67,7 @@ object CorruptionService {
 
         val chosenEnchant = notPresentEnchants.random()
         val registry = RuntimeConfig.SERVER.registryManager.getOrThrow(RegistryKeys.ENCHANTMENT)
-        val entry = registry.getOptional(chosenEnchant).getOrNull() ?: return stack.copy() //TODO make enchants not selectable
+        val entry = registry.getOptional(chosenEnchant).getOrNull() ?: return stack.copy()
 
         val builder = ItemEnchantmentsComponent.Builder(stack.enchantments)
         builder.set(entry, 1)
@@ -130,6 +130,7 @@ object CorruptionService {
         return possibleEnchants.filter { !presentEnchants.contains(it) }
     }
 
+    //TODO make enchants that are removed (via data packs for example) not selectable
     fun getPossibleEnchants(
         stack: ItemStack,
     ): List<RegistryKey<Enchantment>> {

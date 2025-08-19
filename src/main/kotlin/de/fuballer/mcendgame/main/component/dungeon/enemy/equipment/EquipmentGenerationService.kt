@@ -92,7 +92,7 @@ class EquipmentGenerationService(
         random: Random,
         isRanged: Boolean,
     ): ItemStack? {
-        val equipment = (if (isRanged && slot == EquipmentSlot.MAINHAND) EquipmentGenerationSettings.getRandomUniqueEquipment(slot, EquipmentTag.RANGED, random)
+        val equipment = (if (isRanged && slot == EquipmentSlot.MAINHAND) EquipmentGenerationSettings.getRandomUniqueEquipment(slot, EquipmentTag.RANGED, true, random)
         else EquipmentGenerationSettings.getRandomUniqueEquipment(slot, random = random)) ?: return null
 
         val item = equipment.item

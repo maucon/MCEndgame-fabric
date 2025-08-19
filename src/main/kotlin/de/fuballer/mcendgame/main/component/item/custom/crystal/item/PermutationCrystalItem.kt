@@ -17,8 +17,13 @@ class PermutationCrystalItem(
         val cannotForgeReason = super.canForge(stack)
         if (cannotForgeReason != null) return cannotForgeReason
 
-        val viableRollCount = stack.getCustomAttributes().sumOf { it.getNonZeroRangePercentRollCount() }
+        val attributes = stack.getCustomAttributes()
+
+        val viableRollCount = attributes.sumOf { it.getNonZeroRangePercentRollCount() }
         if (viableRollCount < 2) return CrystalForgeSettings.getForgeErrorText("not_enough_rolls_to_shuffle")
+
+        val rolls = attributes.flatMap { it.getPercentRolls() }
+        if (rolls.distinct().size < 2) return CrystalForgeSettings.getForgeErrorText("all_rolls_equal")
 
         return null
     }
@@ -29,13 +34,17 @@ class PermutationCrystalItem(
         val oldAttributes = stack.getCustomAttributes()
         if (oldAttributes.isEmpty()) return newStack
 
-        val oldRolls = oldAttributes.flatMap { it.getPercentRolls() }.toMutableList()
+        val oldRolls = oldAttributes.flatMap { it.getPercentRolls() }
         if (oldRolls.size < 2) return newStack
 
         var shuffledRolls: List<Double>
-        do {
-            shuffledRolls = oldRolls.shuffled()
-        } while (shuffledRolls == oldRolls)
+        if (oldRolls.distinct().size > 1) {
+            do {
+                shuffledRolls = oldRolls.shuffled()
+            } while (shuffledRolls == oldRolls)
+        } else {
+            shuffledRolls = oldRolls.toList()
+        }
 
         var rollsUsed = 0
         val newAttributes = oldAttributes.map {

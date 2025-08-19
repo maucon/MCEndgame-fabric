@@ -51,7 +51,7 @@ object DungeonBossService {
         val killedBosses = world.getBossesKilled()
         if (killedBosses == 0) return
 
-        //TODO enhance boss once custom entity attributes are added
+        //TODO enhance boss once custom entity attributes are added (reduced dmg taken & increased dmg dealt per killed boss)
 
         var lootMultiplier = boss.getLootMultiplier()
         lootMultiplier *= DungeonBossSettings.LOOT_MULTIPLIER_PER_KILLED_BOSS.pow(killedBosses)

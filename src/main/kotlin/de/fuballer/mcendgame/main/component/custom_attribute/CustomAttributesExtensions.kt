@@ -25,7 +25,7 @@ object CustomAttributesExtensions {
             "custom_attributes"
         )
 
-    //TODO #86
+    //TODO #86 change how attributes slots are handled
     fun ItemStack.setCustomAttributes(
         customAttributes: List<CustomAttribute>,
         slot: AttributeModifierSlot,

@@ -26,7 +26,7 @@ class ReforgeCrystalItem(
     override fun forge(stack: ItemStack): ItemStack {
         var uniqueItem: Item
         do {
-            uniqueItem = EquipmentGenerationSettings.getRandomUniqueEquipment()!!.item
+            uniqueItem = EquipmentGenerationSettings.getRandomUniqueEquipment(tagsExactMatch = false)!!.item
         } while (uniqueItem == stack.item)
 
         val uniqueInterface = uniqueItem as UniqueAttributesItemInterface

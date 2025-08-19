@@ -73,6 +73,7 @@
   "container.mcendgame.crystal_forge.forge_error.not_enough_attributes": "Not enough attributes.",
   "container.mcendgame.crystal_forge.forge_error.no_attribute_with_range": "No rollable attribute.",
   "container.mcendgame.crystal_forge.forge_error.not_enough_rolls_to_shuffle": "Not enough rolls to shuffle.",
+  "container.mcendgame.crystal_forge.forge_error.all_rolls_equal": "All rolls are equal.",
 
   "mcendgame.corrupted": "Corrupted",
 
