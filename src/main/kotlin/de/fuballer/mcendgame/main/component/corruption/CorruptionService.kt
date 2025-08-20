@@ -19,7 +19,7 @@ object CorruptionService {
     fun corrupt(
         stack: ItemStack,
     ): ItemStack {
-        val possibleOutcomes = CorruptionSettings.CORRUPTION_OUTCOMES.toList().filter { it.option.canApply(stack) }
+        val possibleOutcomes = CorruptionSettings.CORRUPTION_OUTCOMES.filter { it.option.canApply(stack) }
         val outcome = RandomUtil.pick(possibleOutcomes).option
 
         val result = outcome.apply(stack.copy())
@@ -28,11 +28,37 @@ object CorruptionService {
         return result
     }
 
+    fun canAddEnchant(stack: ItemStack) = getNotPresentNonCurseEnchants(stack).isNotEmpty()
+
+    fun canAddCurseEnchant(stack: ItemStack) = getNotPresentCurseEnchants(stack).isNotEmpty()
+
+    fun canChangeAttributeRoll(stack: ItemStack) = stack.getCustomAttributes().any { it.hasNonZeroRangePercentRoll() }
+
     fun increaseEnchantLevel(stack: ItemStack) = changeRandomEnchantLevel(stack, 1)
 
     fun lowerEnchantLevel(stack: ItemStack) = changeRandomEnchantLevel(stack, -1)
 
-    fun changeRandomEnchantLevel(
+    fun addNonCurseEnchant(stack: ItemStack): ItemStack {
+        val notPresentEnchants = getNotPresentNonCurseEnchants(stack)
+        return addEnchant(stack, notPresentEnchants)
+    }
+
+    fun addCurseEnchant(stack: ItemStack): ItemStack {
+        val notPresentEnchants = getNotPresentCurseEnchants(stack)
+        return addEnchant(stack, notPresentEnchants)
+    }
+
+    fun enhanceAttribute(stack: ItemStack): ItemStack {
+        val enhanceValue = CorruptionSettings.getAttributeChange()
+        return changeAttribute(stack, enhanceValue)
+    }
+
+    fun diminishAttribute(stack: ItemStack): ItemStack {
+        val diminishValue = -CorruptionSettings.getAttributeChange()
+        return changeAttribute(stack, diminishValue)
+    }
+
+    private fun changeRandomEnchantLevel(
         stack: ItemStack,
         change: Int,
     ): ItemStack {
@@ -49,17 +75,7 @@ object CorruptionService {
         return result
     }
 
-    fun addNonCurseEnchant(stack: ItemStack): ItemStack {
-        val notPresentEnchants = getNotPresentNonCurseEnchants(stack)
-        return addEnchant(stack, notPresentEnchants)
-    }
-
-    fun addCurseEnchant(stack: ItemStack): ItemStack {
-        val notPresentEnchants = getNotPresentCurseEnchants(stack)
-        return addEnchant(stack, notPresentEnchants)
-    }
-
-    fun addEnchant(
+    private fun addEnchant(
         stack: ItemStack,
         notPresentEnchants: List<RegistryKey<Enchantment>>,
     ): ItemStack {
@@ -77,17 +93,7 @@ object CorruptionService {
         return result
     }
 
-    fun enhanceAttribute(stack: ItemStack): ItemStack {
-        val enhanceValue = CorruptionSettings.getAttributeChange()
-        return changeAttribute(stack, enhanceValue)
-    }
-
-    fun diminishAttribute(stack: ItemStack): ItemStack {
-        val diminishValue = -CorruptionSettings.getAttributeChange()
-        return changeAttribute(stack, diminishValue)
-    }
-
-    fun changeAttribute(
+    private fun changeAttribute(
         stack: ItemStack,
         value: Double,
     ): ItemStack {
@@ -106,7 +112,7 @@ object CorruptionService {
         return result
     }
 
-    fun getNotPresentNonCurseEnchants(
+    private fun getNotPresentNonCurseEnchants(
         stack: ItemStack,
     ): List<RegistryKey<Enchantment>> {
         val possibleEnchants = getPossibleEnchants(stack)
@@ -114,7 +120,7 @@ object CorruptionService {
         return getNotPresentEnchants(stack, nonCurseEnchants)
     }
 
-    fun getNotPresentCurseEnchants(
+    private fun getNotPresentCurseEnchants(
         stack: ItemStack,
     ): List<RegistryKey<Enchantment>> {
         val possibleEnchants = getPossibleEnchants(stack)
@@ -122,7 +128,7 @@ object CorruptionService {
         return getNotPresentEnchants(stack, curseEnchants)
     }
 
-    fun getNotPresentEnchants(
+    private fun getNotPresentEnchants(
         stack: ItemStack,
         possibleEnchants: List<RegistryKey<Enchantment>>,
     ): List<RegistryKey<Enchantment>> {
@@ -131,14 +137,14 @@ object CorruptionService {
     }
 
     //TODO make enchants that are removed (via data packs for example) not selectable
-    fun getPossibleEnchants(
+    private fun getPossibleEnchants(
         stack: ItemStack,
     ): List<RegistryKey<Enchantment>> {
         val equipment = Equipment.fromItem(stack.item) ?: return listOf()
         return equipment.rollableEnchants.map { it.option.enchantment }.distinct()
     }
 
-    fun filterCurseEnchants(
+    private fun filterCurseEnchants(
         enchants: List<RegistryKey<Enchantment>>,
         getCurses: Boolean,
     ): List<RegistryKey<Enchantment>> {
@@ -148,8 +154,4 @@ object CorruptionService {
             entry.isIn(EnchantmentTags.CURSE) == getCurses
         }
     }
-
-    fun canAddEnchant(stack: ItemStack) = getNotPresentNonCurseEnchants(stack).isNotEmpty()
-
-    fun canAddCurseEnchant(stack: ItemStack) = getNotPresentCurseEnchants(stack).isNotEmpty()
 }

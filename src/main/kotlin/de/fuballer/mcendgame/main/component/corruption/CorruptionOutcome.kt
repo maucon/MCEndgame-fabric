@@ -1,18 +1,17 @@
 package de.fuballer.mcendgame.main.component.corruption
 
-import de.fuballer.mcendgame.main.component.custom_attribute.CustomAttributesExtensions.getCustomAttributes
 import net.minecraft.item.ItemStack
 
 enum class CorruptionOutcome(
     val canApply: (ItemStack) -> Boolean,
     val apply: (ItemStack) -> ItemStack,
 ) {
-    NOTHING({ true }, { it.copy() }),
+    NOTHING({ true }, ItemStack::copy),
     DESTROY({ true }, { ItemStack.EMPTY }),
-    INCREASE_ENCHANT_LEVEL({ stack -> stack.hasEnchantments() }, { CorruptionService.increaseEnchantLevel(it) }),
-    LOWER_ENCHANT_LEVEL({ stack -> stack.hasEnchantments() }, { CorruptionService.lowerEnchantLevel(it) }),
-    ADD_ENCHANT({ CorruptionService.canAddEnchant(it) }, { CorruptionService.addNonCurseEnchant(it) }),
-    ADD_CURSE_ENCHANT({ CorruptionService.canAddCurseEnchant(it) }, { CorruptionService.addCurseEnchant(it) }),
-    ENHANCE_ATTRIBUTE({ stack -> stack.getCustomAttributes().any { it.hasNonZeroRangePercentRoll() } }, { CorruptionService.enhanceAttribute(it) }),
-    DIMINISH_ATTRIBUTE({ stack -> stack.getCustomAttributes().any { it.hasNonZeroRangePercentRoll() } }, { CorruptionService.diminishAttribute(it) }),
+    INCREASE_ENCHANT_LEVEL(ItemStack::hasEnchantments, CorruptionService::increaseEnchantLevel),
+    LOWER_ENCHANT_LEVEL(ItemStack::hasEnchantments, CorruptionService::lowerEnchantLevel),
+    ADD_ENCHANT(CorruptionService::canAddEnchant, CorruptionService::addNonCurseEnchant),
+    ADD_CURSE_ENCHANT(CorruptionService::canAddCurseEnchant, CorruptionService::addCurseEnchant),
+    ENHANCE_ATTRIBUTE(CorruptionService::canChangeAttributeRoll, CorruptionService::enhanceAttribute),
+    DIMINISH_ATTRIBUTE(CorruptionService::canChangeAttributeRoll, CorruptionService::diminishAttribute),
 }
