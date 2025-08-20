@@ -1,15 +1,24 @@
 package de.fuballer.mcendgame.client.component.screen
 
+import com.mojang.authlib.GameProfile
 import de.fuballer.mcendgame.main.component.killer.KillerScreenHandler
+import de.fuballer.mcendgame.main.component.killer.db.KillerEntity
 import de.fuballer.mcendgame.main.util.minecraft.IdentifierUtil
+import net.minecraft.client.MinecraftClient
 import net.minecraft.client.gui.DrawContext
 import net.minecraft.client.gui.screen.ingame.HandledScreen
 import net.minecraft.client.gui.screen.ingame.InventoryScreen
+import net.minecraft.client.network.OtherClientPlayerEntity
 import net.minecraft.client.render.RenderLayer
+import net.minecraft.entity.EntityType
+import net.minecraft.entity.LivingEntity
+import net.minecraft.entity.SpawnReason
 import net.minecraft.entity.effect.StatusEffectInstance
 import net.minecraft.entity.player.PlayerInventory
+import net.minecraft.registry.Registries
 import net.minecraft.text.Text
 import net.minecraft.util.Identifier
+import kotlin.jvm.optionals.getOrNull
 
 private val TEXTURE = IdentifierUtil.default("textures/gui/container/killer.png")
 private const val ENTITY_DRAW_PANEL_X = 26
@@ -25,6 +34,8 @@ class KillerScreen(
     title: Text,
 ) : HandledScreen<KillerScreenHandler>(handler, inventory, title) {
     val statusEffectsDisplay = CustomStatusEffectsDisplay(this)
+    var killer: LivingEntity? = null
+    var trimmedTitle: Text? = null
 
     init {
         backgroundWidth = 111
@@ -32,12 +43,36 @@ class KillerScreen(
 
         statusEffectsDisplay.backgroundHeight = 24
         statusEffectsDisplay.smallWidth = 24
-        statusEffectsDisplay.yOffsetPerEffect = { effectCount -> if (effectCount <= 4) 25 else (backgroundHeight - statusEffectsDisplay.backgroundHeight) / (effectCount - 1) }
+        statusEffectsDisplay.yOffsetPerEffect =
+            { effectCount -> if (effectCount <= 4) 25 else (backgroundHeight - statusEffectsDisplay.backgroundHeight) / (effectCount - 1) }
         statusEffectsDisplay.spriteXOffset = { 3 }
         statusEffectsDisplay.spriteYOffset = 3
         statusEffectsDisplay.descriptionTextYOffset = 8
         statusEffectsDisplay.renderDurationText = false
         statusEffectsDisplay.isWide = { false }
+
+        handler.killerEntity?.let { killer = getKillerEntityAsLivingEntity(it) }
+    }
+
+    private fun getKillerEntityAsLivingEntity(
+        killerEntity: KillerEntity,
+    ): LivingEntity? {
+        val type = Registries.ENTITY_TYPE.get(killerEntity.type) ?: return null
+        val world = MinecraftClient.getInstance().world!!
+
+        var livingEntity: LivingEntity
+        if (type != EntityType.PLAYER) {
+            livingEntity = type.create(world, SpawnReason.COMMAND) as LivingEntity
+        } else {
+            val name = killerEntity.displayName.getOrNull()?.string ?: ""
+            val profile = GameProfile(killerEntity.killerUUID, name)
+            livingEntity = OtherClientPlayerEntity(world, profile)
+        }
+
+        killerEntity.equipment.forEach { livingEntity.equipStack(it.key, it.value) }
+        killerEntity.statusEffects.forEach { livingEntity.addStatusEffect(it) }
+
+        return livingEntity
     }
 
     override fun render(
@@ -47,7 +82,7 @@ class KillerScreen(
         deltaTicks: Float
     ) {
         super.render(context, mouseX, mouseY, deltaTicks)
-        val effects = handler.killer?.statusEffects ?: listOf<StatusEffectInstance>()
+        val effects = handler.killerEntity?.statusEffects ?: listOf<StatusEffectInstance>()
         statusEffectsDisplay.drawStatusEffects(
             context,
             x + backgroundWidth + 1,
@@ -89,10 +124,11 @@ class KillerScreen(
         mouseX: Int,
         mouseY: Int,
     ) {
-        val killer = handler.killer ?: return
-        val killerRatio = killer.width / killer.height
+        val livingKiller = killer ?: return
+        val killerRatio = livingKiller.width / livingKiller.height
 
-        val sizeFactor = 1.0 / if (killerRatio > ENTITY_DRAW_PANEL_RATIO) killer.width / ENTITY_DRAW_PANEL_RATIO.toFloat() else killer.height
+        val sizeFactor =
+            1.0 / if (killerRatio > ENTITY_DRAW_PANEL_RATIO) livingKiller.width / ENTITY_DRAW_PANEL_RATIO.toFloat() else livingKiller.height
         val size = (ENTITY_BASE_SIZE * sizeFactor).toInt()
 
         InventoryScreen.drawEntity(
@@ -105,7 +141,7 @@ class KillerScreen(
             0.0625F,
             mouseX.toFloat(),
             mouseY.toFloat(),
-            killer
+            livingKiller
         )
     }
 
@@ -114,6 +150,22 @@ class KillerScreen(
         mouseX: Int,
         mouseY: Int
     ) {
-        context.drawText(textRenderer, title, titleX, titleY, 4210752, false)
+        if (trimmedTitle == null) trimTitle()
+        context.drawText(textRenderer, trimmedTitle!!, titleX, titleY, 4210752, false)
+    }
+
+    private fun trimTitle() {
+        val literal = title.string
+        val maxWidth = backgroundWidth - titleX * 2
+        val baseWidth = textRenderer.getWidth(literal)
+        if (baseWidth <= maxWidth) {
+            trimmedTitle = title
+            return
+        }
+
+        val ellipsis = "..."
+        val trimmedMaxWidth = maxWidth - textRenderer.getWidth(ellipsis)
+        val trimmed = textRenderer.trimToWidth(literal, trimmedMaxWidth)
+        trimmedTitle = Text.literal(trimmed + ellipsis)
     }
 }

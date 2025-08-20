@@ -1,10 +1,10 @@
 package de.fuballer.mcendgame.main.component.killer
 
 import de.fuballer.mcendgame.main.component.inventory.EmptySpriteSlot
+import de.fuballer.mcendgame.main.component.killer.db.KillerEntity
 import de.fuballer.mcendgame.main.component.killer.networking.KillerEntityPayload
 import de.fuballer.mcendgame.main.component.screen.CustomScreenHandlerTypes
 import net.minecraft.entity.EquipmentSlot
-import net.minecraft.entity.LivingEntity
 import net.minecraft.entity.player.PlayerEntity
 import net.minecraft.entity.player.PlayerInventory
 import net.minecraft.inventory.SimpleInventory
@@ -37,7 +37,7 @@ class KillerScreenHandler(
     playerInventory: PlayerInventory,
     payload: KillerEntityPayload,
 ) : ScreenHandler(CustomScreenHandlerTypes.KILLER, syncId) {
-    var killer: LivingEntity? = null
+    var killerEntity: KillerEntity? = null
     private val killerInventory = SimpleInventory(6)
 
     init {
@@ -48,8 +48,7 @@ class KillerScreenHandler(
             addSlot(EmptySpriteSlot(killerInventory, weaponSlot + 4, 8, 94 + weaponSlot * 18, SLOT_SPRITES[4 + weaponSlot]))
         }
 
-        val world = playerInventory.player.world
-        killer = payload.killerEntity.asLivingEntity(world)
+        killerEntity = payload.killerEntity
 
         payload.killerEntity.equipment.forEach {
             val slot = EQUIPMENT_SLOTS[it.key] ?: return@forEach
