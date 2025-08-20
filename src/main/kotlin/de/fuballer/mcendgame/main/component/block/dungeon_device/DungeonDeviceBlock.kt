@@ -1,4 +1,4 @@
-package de.fuballer.mcendgame.main.component.dungeon.device
+package de.fuballer.mcendgame.main.component.block.dungeon_device
 
 import com.mojang.serialization.MapCodec
 import net.minecraft.block.BlockState
@@ -15,6 +15,10 @@ import net.minecraft.world.World
 class DungeonDeviceBlock(
     settings: Settings
 ) : BlockWithEntity(settings) {
+    companion object {
+        const val ID = "dungeon_device"
+    }
+
     override fun getCodec(): MapCodec<out BlockWithEntity> = createCodec(::DungeonDeviceBlock)
 
     override fun onUse(state: BlockState, world: World, pos: BlockPos, player: PlayerEntity, hit: BlockHitResult): ActionResult {

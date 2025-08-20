@@ -19,11 +19,11 @@ class DodgeIfNotDodgedInLastSecondsService {
         val attributes = cmd.damagedAttributes[CustomAttributeTypes.DODGE_IF_NOT_DODGED_IN_LAST_SECONDS] ?: return
 
         for (attribute in attributes) {
-            val ticks = attribute.rolls[1].asIntRoll().getActualRoll() * 20
+            val ticks = attribute.rolls[1].asIntRoll().getValue() * 20
 
             if (cmd.damaged.hasDodged(ticks)) continue
 
-            val dodge = attribute.rolls[0].asDoubleRoll().getActualRoll()
+            val dodge = attribute.rolls[0].asDoubleRoll().getValue()
             if (Random.nextDouble() > dodge) continue
 
             cmd.isDodging = true

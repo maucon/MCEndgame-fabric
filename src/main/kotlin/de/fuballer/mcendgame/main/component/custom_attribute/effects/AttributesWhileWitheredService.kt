@@ -21,7 +21,7 @@ class AttributesWhileWitheredService {
 
         val attributes = cmd.damagerAttributes[CustomAttributeTypes.INCREASED_DAMAGE_WHILE_WITHERED] ?: return
         attributes.forEach { attribute ->
-            val increasedDamage = attribute.rolls[0].asDoubleRoll().getActualRoll()
+            val increasedDamage = attribute.rolls[0].asDoubleRoll().getValue()
             cmd.increasedDamage.add(increasedDamage)
         }
     }

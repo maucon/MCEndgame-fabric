@@ -15,7 +15,7 @@ class MoreDamageTakenWhileHighHealthService {
         if (!cmd.damaged.isHighHealth()) return
 
         attributes.forEach { attribute ->
-            val moreDamage = attribute.rolls[0].asDoubleRoll().getActualRoll()
+            val moreDamage = attribute.rolls[0].asDoubleRoll().getValue()
             cmd.moreDamageTaken.add(moreDamage)
         }
     }

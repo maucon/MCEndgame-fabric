@@ -25,9 +25,10 @@ object CustomAttributesExtensions {
             "custom_attributes"
         )
 
+    //TODO #86 change how attributes slots are handled
     fun ItemStack.setCustomAttributes(
         customAttributes: List<CustomAttribute>,
-        slot: AttributeModifierSlot
+        slot: AttributeModifierSlot,
     ) {
         set(COMPONENT_TYPE, customAttributes)
 
@@ -38,6 +39,16 @@ object CustomAttributesExtensions {
         addVanillaTypeAttributes(customAttributes, attributeComponentBuilder, slot)
 
         set(DataComponentTypes.ATTRIBUTE_MODIFIERS, attributeComponentBuilder.build())
+    }
+
+    /**
+     * Automatically uses the slot of given attributes or defaults to [AttributeModifierSlot.ANY] if empty
+     */
+    fun ItemStack.updateCustomAttributes(
+        customAttributes: List<CustomAttribute>,
+    ) {
+        val slot = if (customAttributes.isEmpty()) AttributeModifierSlot.ANY else customAttributes[0].slot
+        return setCustomAttributes(customAttributes, slot)
     }
 
     fun ItemStack.getCustomAttributes(): List<CustomAttribute> {
@@ -99,7 +110,7 @@ object CustomAttributesExtensions {
             .forEach {
                 val vanillaAttributeType = it.type as VanillaAttributeType
                 val attribute = vanillaAttributeType.attribute
-                val modifier = EntityAttributeModifier(IdentifierUtil.defaultRandom(), it.rolls[0].asDoubleRoll().getActualRoll(), vanillaAttributeType.scaleType)
+                val modifier = EntityAttributeModifier(IdentifierUtil.defaultRandom(), it.rolls[0].asDoubleRoll().getValue(), vanillaAttributeType.scaleType)
                 newA.add(attribute, modifier, slot)
             }
     }

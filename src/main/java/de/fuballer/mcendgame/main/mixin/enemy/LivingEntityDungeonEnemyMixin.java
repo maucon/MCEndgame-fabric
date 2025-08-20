@@ -14,7 +14,12 @@ public class LivingEntityDungeonEnemyMixin implements LivingEntityDungeonEnemyAc
     @Unique
     private static final String DUNGEON_ENEMY_NBT = "isDungeonEnemy";
     @Unique
+    private static final String LOOT_MULTIPLIER_NBT = "lootMultiplier";
+
+    @Unique
     private boolean isDungeonEnemy = false;
+    @Unique
+    private double lootMultiplier = 1.0;
 
     @Override
     public boolean mcendgame$isDungeonEnemy() {
@@ -26,14 +31,25 @@ public class LivingEntityDungeonEnemyMixin implements LivingEntityDungeonEnemyAc
         isDungeonEnemy = enemy;
     }
 
+    @Override
+    public double mcendgame$getLootMultiplier() {
+        return lootMultiplier;
+    }
+
+    @Override
+    public void mcendgame$setLootMultiplier(double multiplier) {
+        lootMultiplier = multiplier;
+    }
+
     @Inject(method = "writeCustomDataToNbt", at = @At("TAIL"))
     private void writeNBT(NbtCompound nbt, CallbackInfo ci) {
-        if (!isDungeonEnemy) return;
-        nbt.putBoolean(DUNGEON_ENEMY_NBT, true);
+        if (isDungeonEnemy) nbt.putBoolean(DUNGEON_ENEMY_NBT, true);
+        if (lootMultiplier != 1.0) nbt.putDouble(LOOT_MULTIPLIER_NBT, lootMultiplier);
     }
 
     @Inject(method = "readCustomDataFromNbt", at = @At("TAIL"))
     private void readNBT(NbtCompound nbt, CallbackInfo ci) {
         isDungeonEnemy = nbt.getBoolean(DUNGEON_ENEMY_NBT).orElse(false);
+        lootMultiplier = nbt.getDouble(LOOT_MULTIPLIER_NBT).orElse(1.0);
     }
 }

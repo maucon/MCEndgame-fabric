@@ -150,5 +150,4 @@ enum class EquipmentEnchantment(
     LURE_2(Enchantments.LURE, 2),
     LURE_3(Enchantments.LURE, 3),
     SILK_TOUCH(Enchantments.SILK_TOUCH, 1),
-    ;
 }

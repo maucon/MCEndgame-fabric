@@ -4,7 +4,6 @@ import de.fuballer.mcendgame.main.accessor.DungeonWorldAccessor;
 import de.fuballer.mcendgame.main.component.item.custom.aspect.AspectItem;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.server.world.ServerWorld;
-import org.jetbrains.annotations.Nullable;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.Unique;
 
@@ -17,6 +16,8 @@ public class DungeonWorldMixin implements DungeonWorldAccessor {
     private boolean isCompleted = false;
     @Unique
     private int level = 0;
+    @Unique
+    private int bossesKilled = 0;
 
     @Unique
     private PlayerEntity opener;
@@ -42,6 +43,16 @@ public class DungeonWorldMixin implements DungeonWorldAccessor {
     @Override
     public void mcendgame$setLevel(int level) {
         this.level = level;
+    }
+
+    @Override
+    public int mcendgame$getBossesKilled() {
+        return bossesKilled;
+    }
+
+    @Override
+    public void mcendgame$increaseBossesKilled() {
+        bossesKilled++;
     }
 
     @Override

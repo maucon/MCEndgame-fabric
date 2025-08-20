@@ -1,6 +1,7 @@
 package de.fuballer.mcendgame.client.component.datagen
 
 import de.fuballer.mcendgame.main.component.item.custom.armor.CustomArmorItems
+import de.fuballer.mcendgame.main.component.item.custom.crystal.CrystalItems
 import de.fuballer.mcendgame.main.component.item.custom.tool.CustomToolItems
 import de.fuballer.mcendgame.main.component.tags.CustomTags
 import net.fabricmc.fabric.api.datagen.v1.FabricDataOutput
@@ -119,5 +120,12 @@ class CustomItemTagProvider(
             .add(Items.PAINTING)
             .add(Items.ITEM_FRAME)
             .add(Items.GLOW_ITEM_FRAME)
+
+        getOrCreateTagBuilder(CustomTags.CRYSTAL)
+            .add(CrystalItems.REFORGE_CRYSTAL)
+            .add(CrystalItems.CORRUPTION_CRYSTAL)
+            .add(CrystalItems.CALIBRATION_CRYSTAL)
+            .add(CrystalItems.PERMUTATION_CRYSTAL)
+            .add(CrystalItems.SACRIFICIAL_CRYSTAL)
     }
 }

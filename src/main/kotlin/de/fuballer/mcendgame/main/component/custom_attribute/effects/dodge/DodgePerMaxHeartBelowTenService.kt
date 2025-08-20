@@ -16,7 +16,7 @@ class DodgePerMaxHeartBelowTenService {
         val missingHearts = (10 - cmd.damaged.maxHealth / 2).toInt()
 
         for (attribute in attributes) {
-            val dodge = attribute.rolls[0].asDoubleRoll().getActualRoll() * missingHearts
+            val dodge = attribute.rolls[0].asDoubleRoll().getValue() * missingHearts
             if (Random.nextDouble() > dodge) continue
 
             cmd.isDodging = true

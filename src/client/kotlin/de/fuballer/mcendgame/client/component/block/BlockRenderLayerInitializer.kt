@@ -11,5 +11,6 @@ object BlockRenderLayerInitializer {
     @Initializer
     fun init() {
         BlockRenderLayerMap.INSTANCE.putBlock(CustomBlocks.DECAYING_COBWEB, RenderLayer.getCutout())
+        BlockRenderLayerMap.INSTANCE.putBlock(CustomBlocks.CRYSTAL_FORGE, RenderLayer.getCutout())
     }
 }

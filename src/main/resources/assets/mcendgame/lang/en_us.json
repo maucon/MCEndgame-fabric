@@ -43,11 +43,37 @@
   "item.mcendgame.aspect.description.fortune": "Loot Goblins Equipment has Lucky Attributes",
   "item.mcendgame.aspect.description.zeal": "Dungeon Completion grants %s additional Progress",
 
+  "item.mcendgame.calibration_crystal": "Calibration Crystal",
+  "item.mcendgame.sacrifice_crystal": "Sacrifice Crystal",
+  "item.mcendgame.permutation_crystal": "Permutation Crystal",
+  "item.mcendgame.reforge_crystal": "Reforge Crystal",
+  "item.mcendgame.corruption_crystal": "Corruption Crystal",
+
+  "item.mcendgame.crystal.description.calibration": "Randomize all values of an item's attributes",
+  "item.mcendgame.crystal.description.sacrifice": "Enhances an attribute by removing another",
+  "item.mcendgame.crystal.description.permutation": "Shuffles the rolls of attributes",
+  "item.mcendgame.crystal.description.reforge": "Reforges a unique item into a different one",
+  "item.mcendgame.crystal.description.corruption": "Corrupts an item with varying results",
+
   "container.mcendgame.filter.title": "Dungeon Filter (Blacklist)",
 
   "block.mcendgame.dungeon_device": "Dungeon Device",
   "container.mcendgame.dungeon_device.title": "Dungeon Device",
   "container.mcendgame.dungeon_device.open": "Open",
+
+  "block.mcendgame.crystal_forge": "Crystal Forge",
+  "container.mcendgame.crystal_forge.title": "Crystal Forge",
+  "container.mcendgame.crystal_forge.forge_button": "Forge",
+  "container.mcendgame.crystal_forge.forge_error.no_crystal": "No crystal provided.",
+  "container.mcendgame.crystal_forge.forge_error.no_item": "No item provided.",
+  "container.mcendgame.crystal_forge.forge_error.item_not_forgeable": "Item is not forgeable.",
+  "container.mcendgame.crystal_forge.forge_error.item_corrupted": "Corrupted items cannot be modified.",
+  "container.mcendgame.crystal_forge.forge_error.cannot_forge_unique": "Crystal cannot forge unique items.",
+  "container.mcendgame.crystal_forge.forge_error.can_only_forge_unique": "Crystal can only forge unique items.",
+  "container.mcendgame.crystal_forge.forge_error.not_enough_attributes": "Not enough attributes.",
+  "container.mcendgame.crystal_forge.forge_error.no_attribute_with_range": "No rollable attribute.",
+  "container.mcendgame.crystal_forge.forge_error.not_enough_rolls_to_shuffle": "Not enough rolls to shuffle.",
+  "container.mcendgame.crystal_forge.forge_error.all_rolls_equal": "All rolls are equal.",
 
   "mcendgame.corrupted": "Corrupted",
 
@@ -128,6 +154,7 @@
   "item_group.mcendgame.armor": "MCEndgame Armor",
   "item_group.mcendgame.tools": "MCEndgame Weapons & Tools",
   "item_group.mcendgame.aspects": "MCEndgame Aspects",
+  "item_group.mcendgame.crystals": "MCEndgame Crystals",
   "item_group.mcendgame.blocks": "MCEndgame Blocks",
 
   "text.mcendgame.dungeon_level.dungeon_completed": "Dungeon completed!",

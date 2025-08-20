@@ -1,8 +1,6 @@
 package de.fuballer.mcendgame.client.component.screen
 
-import de.fuballer.mcendgame.client.component.screen.KillerScreen
-import de.fuballer.mcendgame.main.component.dungeon.device.DungeonDevice
-import de.fuballer.mcendgame.main.component.killer.KillerService
+import de.fuballer.mcendgame.main.component.screen.CustomScreenHandlerTypes
 import de.maucon.mauconframework.di.annotation.Injectable
 import de.maucon.mauconframework.initializer.Initializer
 import net.minecraft.client.gui.screen.ingame.HandledScreens
@@ -11,7 +9,8 @@ import net.minecraft.client.gui.screen.ingame.HandledScreens
 object ScreenRegisterer {
     @Initializer
     fun register() {
-        HandledScreens.register(DungeonDevice.EXTENDED_SCREEN_HANDLER, ::DungeonDeviceScreen)
-        HandledScreens.register(KillerService.SCREEN_HANDLER_TYPE, ::KillerScreen)
+        HandledScreens.register(CustomScreenHandlerTypes.DUNGEON_DEVICE, ::DungeonDeviceScreen)
+        HandledScreens.register(CustomScreenHandlerTypes.KILLER, ::KillerScreen)
+        HandledScreens.register(CustomScreenHandlerTypes.CRYSTAL_FORGE, ::CrystalForgeScreen)
     }
 }

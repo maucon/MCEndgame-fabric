@@ -6,7 +6,7 @@ import net.minecraft.sound.SoundEvents
 
 object DungeonDropEffects {
     val UNIQUE =
-        DungeonDropEffect(SoundEvents.BLOCK_ENCHANTMENT_TABLE_USE, ParticleTypes.DRAGON_BREATH, ItemColor.UNIQUE)
+        DungeonDropEffect(SoundEvents.BLOCK_ENCHANTMENT_TABLE_USE, ParticleTypes.FLAME, ItemColor.UNIQUE)
             .withVolume(2F)
             .withParticleCount(20)
             .withParticleSpeed(0.03)
@@ -18,4 +18,11 @@ object DungeonDropEffects {
             .withParticleCount(20)
             .withParticleSpeed(0.03)
     val ASPECT_PLAYER_DROPPED = DungeonDropEffect(glowColor = ItemColor.ASPECT)
+
+    val CRYSTAL =
+        DungeonDropEffect(SoundEvents.BLOCK_ENCHANTMENT_TABLE_USE, ParticleTypes.DRAGON_BREATH, ItemColor.CRYSTAL)
+            .withVolume(2F)
+            .withParticleCount(20)
+            .withParticleSpeed(0.03)
+    val CRYSTAL_PLAYER_DROPPED = DungeonDropEffect(glowColor = ItemColor.CRYSTAL)
 }

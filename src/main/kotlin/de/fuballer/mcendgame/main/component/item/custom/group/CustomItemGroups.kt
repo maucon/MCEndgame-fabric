@@ -1,9 +1,9 @@
 package de.fuballer.mcendgame.main.component.item.custom.group
 
 import de.fuballer.mcendgame.main.component.block.CustomBlocks
-import de.fuballer.mcendgame.main.component.dungeon.device.DungeonDevice
 import de.fuballer.mcendgame.main.component.item.custom.armor.CustomArmorItems
 import de.fuballer.mcendgame.main.component.item.custom.aspect.AspectItems
+import de.fuballer.mcendgame.main.component.item.custom.crystal.CrystalItems
 import de.fuballer.mcendgame.main.component.item.custom.tool.CustomToolItems
 import de.fuballer.mcendgame.main.util.minecraft.IdentifierUtil
 import de.fuballer.mcendgame.main.util.minecraft.RegistryUtil
@@ -39,10 +39,17 @@ object CustomItemGroups {
             .displayName(Text.translatable("item_group.mcendgame.aspects"))
     )
 
+    val CRYSTALS_KEY = RegistryKey.of(Registries.ITEM_GROUP.key, IdentifierUtil.default("crystals"))
+    val CRYSTALS = RegistryUtil.registerItemGroup(
+        CRYSTALS_KEY, FabricItemGroup.builder()
+            .icon { ItemStack(CrystalItems.CALIBRATION_CRYSTAL) }
+            .displayName(Text.translatable("item_group.mcendgame.crystals"))
+    )
+
     val CUSTOM_BLOCKS_KEY = RegistryKey.of(Registries.ITEM_GROUP.key, IdentifierUtil.default("blocks"))
     val CUSTOM_BLOCKS = RegistryUtil.registerItemGroup(
         CUSTOM_BLOCKS_KEY, FabricItemGroup.builder()
-            .icon { ItemStack(DungeonDevice.BLOCK) }
+            .icon { ItemStack(CustomBlocks.DUNGEON_DEVICE) }
             .displayName(Text.translatable("item_group.mcendgame.blocks"))
     )
 
@@ -85,8 +92,16 @@ object CustomItemGroups {
             itemGroup.add(AspectItems.ASPECT_OF_FORTUNE.defaultStack)
             itemGroup.add(AspectItems.ASPECT_OF_ZEAL.defaultStack)
         }
+        ItemGroupEvents.modifyEntriesEvent(CRYSTALS_KEY).register { itemGroup ->
+            itemGroup.add(CrystalItems.CALIBRATION_CRYSTAL.defaultStack)
+            itemGroup.add(CrystalItems.SACRIFICIAL_CRYSTAL.defaultStack)
+            itemGroup.add(CrystalItems.PERMUTATION_CRYSTAL.defaultStack)
+            itemGroup.add(CrystalItems.REFORGE_CRYSTAL.defaultStack)
+            itemGroup.add(CrystalItems.CORRUPTION_CRYSTAL.defaultStack)
+        }
         ItemGroupEvents.modifyEntriesEvent(CUSTOM_BLOCKS_KEY).register { itemGroup ->
-            itemGroup.add(DungeonDevice.BLOCK)
+            itemGroup.add(CustomBlocks.DUNGEON_DEVICE)
+            itemGroup.add(CustomBlocks.CRYSTAL_FORGE)
             itemGroup.add(CustomBlocks.DECAYING_COBWEB)
         }
     }

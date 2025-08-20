@@ -1,5 +1,6 @@
 package de.fuballer.mcendgame.main.util.extension
 
+import de.fuballer.mcendgame.main.component.item.equipment.Equipment
 import net.minecraft.component.DataComponentTypes
 import net.minecraft.item.ItemStack
 
@@ -10,4 +11,6 @@ object ItemStackExtension {
         val otherComponents = other.components.filter { it.type != DataComponentTypes.DAMAGE }.associateBy { it.type }
         return ownComponents == otherComponents
     }
+
+    fun ItemStack.isForgeable() = Equipment.fromItem(item) != null
 }

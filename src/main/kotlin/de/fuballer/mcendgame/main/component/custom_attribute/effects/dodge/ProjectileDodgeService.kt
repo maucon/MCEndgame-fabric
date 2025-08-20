@@ -15,7 +15,7 @@ class ProjectileDodgeService {
         val attributes = cmd.damagedAttributes[CustomAttributeTypes.PROJECTILE_DODGE] ?: return
 
         for (attribute in attributes) {
-            val dodge = attribute.rolls[0].asDoubleRoll().getActualRoll()
+            val dodge = attribute.rolls[0].asDoubleRoll().getValue()
             if (Random.nextDouble() > dodge) continue
 
             cmd.isDodging = true

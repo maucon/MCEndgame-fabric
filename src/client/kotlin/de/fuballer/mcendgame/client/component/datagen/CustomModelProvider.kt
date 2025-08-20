@@ -2,9 +2,9 @@ package de.fuballer.mcendgame.client.component.datagen
 
 import de.fuballer.mcendgame.client.component.datagen.property.BowPullDurationProperty
 import de.fuballer.mcendgame.main.component.block.CustomBlocks
-import de.fuballer.mcendgame.main.component.dungeon.device.DungeonDevice
 import de.fuballer.mcendgame.main.component.item.custom.armor.CustomArmorItems
 import de.fuballer.mcendgame.main.component.item.custom.aspect.AspectItems
+import de.fuballer.mcendgame.main.component.item.custom.crystal.CrystalItems
 import de.fuballer.mcendgame.main.component.item.custom.tool.CustomToolItems
 import net.fabricmc.fabric.api.client.datagen.v1.provider.FabricModelProvider
 import net.fabricmc.fabric.api.datagen.v1.FabricDataOutput
@@ -17,7 +17,7 @@ class CustomModelProvider(
     output: FabricDataOutput,
 ) : FabricModelProvider(output) {
     override fun generateBlockStateModels(generator: BlockStateModelGenerator) {
-        generator.registerCubeWithCustomTextures(DungeonDevice.BLOCK, DungeonDevice.BLOCK) { block, _ -> sideTopBottomTextureMap(block) }
+        generator.registerCubeWithCustomTextures(CustomBlocks.DUNGEON_DEVICE, CustomBlocks.DUNGEON_DEVICE) { block, _ -> sideTopBottomTextureMap(block) }
         generator.registerTintableCross(CustomBlocks.DECAYING_COBWEB, BlockStateModelGenerator.CrossType.NOT_TINTED)
     }
 
@@ -54,6 +54,12 @@ class CustomModelProvider(
         generator.register(AspectItems.ASPECT_OF_IMPATIENCE, Models.GENERATED)
         generator.register(AspectItems.ASPECT_OF_TYRANNY, Models.GENERATED)
         generator.register(AspectItems.ASPECT_OF_ZEAL, Models.GENERATED)
+
+        generator.register(CrystalItems.CALIBRATION_CRYSTAL, Models.GENERATED)
+        generator.register(CrystalItems.SACRIFICIAL_CRYSTAL, Models.GENERATED)
+        generator.register(CrystalItems.PERMUTATION_CRYSTAL, Models.GENERATED)
+        generator.register(CrystalItems.REFORGE_CRYSTAL, Models.GENERATED)
+        generator.register(CrystalItems.CORRUPTION_CRYSTAL, Models.GENERATED)
     }
 
     private fun sideTopBottomTextureMap(block: Block) = TextureMap()

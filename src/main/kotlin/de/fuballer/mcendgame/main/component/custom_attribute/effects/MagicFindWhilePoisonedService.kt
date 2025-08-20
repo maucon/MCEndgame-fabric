@@ -16,6 +16,6 @@ class MagicFindWhilePoisonedService {
         if (!entity.hasStatusEffect(StatusEffects.POISON)) return
 
         val attributes = entity.getAllCustomAttributes()[CustomAttributeTypes.MAGIC_FIND_WHILE_POISONED] ?: return
-        cmd.magicFind += attributes.sumOf { it.rolls[0].asIntRoll().getActualRoll() }
+        cmd.magicFind += attributes.sumOf { it.rolls[0].asIntRoll().getValue() }
     }
 }

@@ -82,6 +82,6 @@ object EntityExtension {
 
     fun LivingEntity.getAdditionalBowPullTicks(): Int {
         val attributes = getAllCustomAttributes()[CustomAttributeTypes.BOW_PULL_TICKS] ?: return 0
-        return attributes.sumOf { it.rolls[0].asIntRoll().getActualRoll() }
+        return attributes.sumOf { it.rolls[0].asIntRoll().getValue() }
     }
 }

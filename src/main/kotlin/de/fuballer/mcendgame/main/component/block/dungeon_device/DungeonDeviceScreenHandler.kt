@@ -1,8 +1,7 @@
-package de.fuballer.mcendgame.main.component.dungeon.device.screen
+package de.fuballer.mcendgame.main.component.block.dungeon_device
 
-import de.fuballer.mcendgame.main.component.dungeon.device.DungeonDevice
-import de.fuballer.mcendgame.main.component.dungeon.device.DungeonDeviceSettings
-import de.fuballer.mcendgame.main.component.dungeon.device.networking.DungeonDevicePayload
+import de.fuballer.mcendgame.main.component.block.dungeon_device.networking.DungeonDevicePayload
+import de.fuballer.mcendgame.main.component.screen.CustomScreenHandlerTypes
 import net.minecraft.entity.player.PlayerEntity
 import net.minecraft.entity.player.PlayerInventory
 import net.minecraft.inventory.Inventory
@@ -11,14 +10,12 @@ import net.minecraft.item.ItemStack
 import net.minecraft.screen.ScreenHandler
 import net.minecraft.screen.slot.Slot
 
-
 class DungeonDeviceScreenHandler(
     syncId: Int,
     playerInventory: PlayerInventory,
     private val inventory: Inventory = SimpleInventory(DungeonDeviceSettings.INVENTORY_SIZE),
-    val payload: DungeonDevicePayload = DungeonDevicePayload.EMPTY
-) : ScreenHandler(DungeonDevice.EXTENDED_SCREEN_HANDLER, syncId) {
-
+    val payload: DungeonDevicePayload = DungeonDevicePayload.Companion.EMPTY
+) : ScreenHandler(CustomScreenHandlerTypes.DUNGEON_DEVICE, syncId) {
     init {
         checkSize(inventory, DungeonDeviceSettings.INVENTORY_SIZE)
         inventory.onOpen(playerInventory.player)

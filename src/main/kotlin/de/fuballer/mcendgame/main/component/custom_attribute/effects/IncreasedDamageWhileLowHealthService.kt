@@ -18,7 +18,7 @@ class IncreasedDamageWhileLowHealthService {
         if (!livingDamager.isLowHealth()) return
 
         attributes.forEach { attribute ->
-            val increasedDamage = attribute.rolls[0].asDoubleRoll().getActualRoll()
+            val increasedDamage = attribute.rolls[0].asDoubleRoll().getValue()
             cmd.increasedDamage.add(increasedDamage)
         }
     }

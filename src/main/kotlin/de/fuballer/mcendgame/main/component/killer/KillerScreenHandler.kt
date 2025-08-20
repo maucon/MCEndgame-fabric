@@ -3,6 +3,7 @@ package de.fuballer.mcendgame.main.component.killer
 import de.fuballer.mcendgame.main.component.inventory.EmptySpriteSlot
 import de.fuballer.mcendgame.main.component.killer.db.KillerEntity
 import de.fuballer.mcendgame.main.component.killer.networking.KillerEntityPayload
+import de.fuballer.mcendgame.main.component.screen.CustomScreenHandlerTypes
 import net.minecraft.entity.EquipmentSlot
 import net.minecraft.entity.player.PlayerEntity
 import net.minecraft.entity.player.PlayerInventory
@@ -35,7 +36,7 @@ class KillerScreenHandler(
     syncId: Int,
     playerInventory: PlayerInventory,
     payload: KillerEntityPayload,
-) : ScreenHandler(KillerService.SCREEN_HANDLER_TYPE, syncId) {
+) : ScreenHandler(CustomScreenHandlerTypes.KILLER, syncId) {
     var killerEntity: KillerEntity? = null
     private val killerInventory = SimpleInventory(6)
 

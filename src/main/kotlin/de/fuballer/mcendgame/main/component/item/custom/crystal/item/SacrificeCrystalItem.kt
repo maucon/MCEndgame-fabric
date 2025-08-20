@@ -1,0 +1,54 @@
+package de.fuballer.mcendgame.main.component.item.custom.crystal.item
+
+import de.fuballer.mcendgame.main.component.block.crystalforge.CrystalForgeSettings
+import de.fuballer.mcendgame.main.component.custom_attribute.CustomAttributesExtensions.getCustomAttributes
+import de.fuballer.mcendgame.main.component.custom_attribute.CustomAttributesExtensions.updateCustomAttributes
+import de.fuballer.mcendgame.main.component.item.custom.UniqueAttributesItemInterface
+import de.fuballer.mcendgame.main.component.item.custom.crystal.CrystalItem
+import net.minecraft.item.ItemStack
+import net.minecraft.text.MutableText
+import net.minecraft.text.Text
+import kotlin.math.pow
+
+private fun getTierBasedEnhanceValue(tier: Int) = 0.5.pow((tier + 1) / 2.0)
+
+class SacrificeCrystalItem(
+    settings: Settings,
+) : CrystalItem(settings) {
+    override val description: MutableText = Text.translatable(DESCRIPTION_BASE_KEY + "sacrifice")
+
+    override fun canForge(stack: ItemStack): MutableText? {
+        val cannotForgeReason = super.canForge(stack)
+        if (cannotForgeReason != null) return cannotForgeReason
+
+        if (stack.item is UniqueAttributesItemInterface) return CrystalForgeSettings.getForgeErrorText("cannot_forge_unique")
+
+        val attributes = stack.getCustomAttributes()
+        if (attributes.size < 2) return CrystalForgeSettings.getForgeErrorText("not_enough_attributes")
+        if (attributes.none { it.hasNonZeroRange() }) return CrystalForgeSettings.getForgeErrorText("no_attribute_with_range")
+
+        return null
+    }
+
+    override fun forge(stack: ItemStack): ItemStack {
+        val newStack = stack.copy()
+
+        val oldAttributes = stack.getCustomAttributes()
+        if (oldAttributes.size < 2) return newStack
+
+        val attributesWithRange = oldAttributes.filter { it.hasNonZeroRange() }
+        val toEnhance = attributesWithRange.randomOrNull() ?: return newStack
+
+        val remainingAttributes = oldAttributes.filter { it != toEnhance }
+        val sacrifice = remainingAttributes.random()
+
+        val enhancePercentage = getTierBasedEnhanceValue(sacrifice.tier)
+        val enhanced = toEnhance.getSingleRollEnhanced(enhancePercentage)
+
+        val newAttributes = remainingAttributes.filter { it != sacrifice }.toMutableList()
+        newAttributes.add(enhanced)
+        newStack.updateCustomAttributes(newAttributes)
+
+        return newStack
+    }
+}

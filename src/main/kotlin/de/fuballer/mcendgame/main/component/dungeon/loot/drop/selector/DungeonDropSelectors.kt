@@ -2,6 +2,7 @@ package de.fuballer.mcendgame.main.component.dungeon.loot.drop.selector
 
 import de.fuballer.mcendgame.main.component.item.custom.UniqueAttributesItemInterface
 import de.fuballer.mcendgame.main.component.item.custom.aspect.AspectItem
+import de.fuballer.mcendgame.main.component.item.custom.crystal.CrystalItem
 import net.minecraft.entity.ItemEntity
 import net.minecraft.entity.player.PlayerEntity
 import net.minecraft.item.ItemStack
@@ -14,4 +15,7 @@ object DungeonDropSelectors {
 
     val ASPECT: (ItemStack, ItemEntity) -> Boolean = { itemStack, _ -> itemStack.item is AspectItem }
     val ASPECT_PLAYER_DROPPED: (ItemStack, ItemEntity) -> Boolean = { itemStack, itemEntity -> ASPECT(itemStack, itemEntity) && PLAYER_DROPPED(itemStack, itemEntity) }
+
+    val CRYSTAL: (ItemStack, ItemEntity) -> Boolean = { itemStack, _ -> itemStack.item is CrystalItem }
+    val CRYSTAL_PLAYER_DROPPED: (ItemStack, ItemEntity) -> Boolean = { itemStack, itemEntity -> CRYSTAL(itemStack, itemEntity) && PLAYER_DROPPED(itemStack, itemEntity) }
 }

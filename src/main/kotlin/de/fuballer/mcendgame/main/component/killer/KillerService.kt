@@ -4,10 +4,8 @@ import de.fuballer.mcendgame.main.component.killer.db.KillerEntity
 import de.fuballer.mcendgame.main.component.killer.db.KillerRepository
 import de.fuballer.mcendgame.main.component.killer.networking.KillerEntityPayload
 import de.fuballer.mcendgame.main.messaging.misc.PlayerEntityDeathEvent
-import de.fuballer.mcendgame.main.util.minecraft.RegistryUtil
 import de.maucon.mauconframework.di.annotation.Injectable
 import de.maucon.mauconframework.event.EventSubscriber
-import net.fabricmc.fabric.api.screenhandler.v1.ExtendedScreenHandlerType
 import net.minecraft.entity.player.PlayerEntity
 import net.minecraft.text.Text
 import java.util.*
@@ -17,13 +15,6 @@ import kotlin.jvm.optionals.getOrNull
 class KillerService(
     private val killerRepo: KillerRepository,
 ) {
-    companion object {
-        val SCREEN_HANDLER_TYPE = ExtendedScreenHandlerType(
-            { syncId, inventory, payload -> KillerScreenHandler(syncId, inventory, payload = payload) },
-            KillerEntityPayload.CODEC
-        ).also { RegistryUtil.registerScreenHandler("killer", it) }
-    }
-
     fun openKillerInventory(
         commandExecutor: PlayerEntity,
         killedPlayerUUID: UUID,

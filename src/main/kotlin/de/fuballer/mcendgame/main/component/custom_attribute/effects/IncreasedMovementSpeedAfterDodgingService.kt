@@ -22,8 +22,8 @@ class IncreasedMovementSpeedAfterDodgingService {
         val entity = event.entity
 
         val customAttributes = entity.getAllCustomAttributes()[CustomAttributeTypes.INCREASED_MOVEMENT_SPEED_AFTER_DODGING] ?: return
-        val movementSpeed = customAttributes.sumOf { it.rolls[0].asDoubleRoll().getActualRoll() }
-        val duration = customAttributes.maxOf { it.rolls[1].asIntRoll().getActualRoll() } * 20
+        val movementSpeed = customAttributes.sumOf { it.rolls[0].asDoubleRoll().getValue() }
+        val duration = customAttributes.maxOf { it.rolls[1].asIntRoll().getValue() } * 20
 
         entity.addTemporaryAttributeModifier(
             EntityAttributes.MOVEMENT_SPEED,
