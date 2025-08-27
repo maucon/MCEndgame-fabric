@@ -15,6 +15,7 @@
   "item.mcendgame.suede_chestplate": "Suede Bodice",
   "item.mcendgame.suede_leggings": "Suede Skirt",
   "item.mcendgame.suede_boots": "Suede Knee Boots",
+  "item.mcendgame.stoneward": "Stoneward",
 
   "item.mcendgame.bloodharvest": "Bloodharvest",
   "item.mcendgame.twinfire": "Twinfire",
@@ -90,6 +91,7 @@
   "attribute.mcendgame.increased_attack_damage": "%s%% %s Attack Damage",
   "attribute.mcendgame.increased_attack_speed": "%s%% %s Attack Speed",
   "attribute.mcendgame.increased_movement_speed": "%s%% %s Movement Speed",
+  "attribute.mcendgame.more_movement_speed": " %s%% %s Movement Speed",
   "attribute.mcendgame.luck": "%s Luck",
   "attribute.mcendgame.increased_scale": "%s%% %s Size",
   "attribute.mcendgame.increased_entity_interaction_range": "%s%% %s Attack Range",

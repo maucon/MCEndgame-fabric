@@ -46,6 +46,7 @@ object EquipmentGenerationSettings {
         RandomOption(100, TaggedEquipment(Leggings.DRUIDS_LEGGINGS, EquipmentSlot.LEGS)),
         RandomOption(100, TaggedEquipment(Leggings.WITHER_ROSE_LEGGINGS, EquipmentSlot.LEGS)),
         RandomOption(100, TaggedEquipment(Leggings.SUEDE_LEGGINGS, EquipmentSlot.LEGS)),
+        RandomOption(100, TaggedEquipment(Leggings.STONEWARD, EquipmentSlot.LEGS)),
 
         RandomOption(100, TaggedEquipment(Boots.DRUIDS_BOOTS, EquipmentSlot.FEET)),
         RandomOption(100, TaggedEquipment(Boots.WITHER_ROSE_BOOTS, EquipmentSlot.FEET)),

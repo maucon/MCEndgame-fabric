@@ -8,6 +8,7 @@ import de.fuballer.mcendgame.client.component.item.custom.armor.druids.DruidsLeg
 import de.fuballer.mcendgame.client.component.item.custom.armor.emberchant.EmberchantModel
 import de.fuballer.mcendgame.client.component.item.custom.armor.iceborne.IceborneModel
 import de.fuballer.mcendgame.client.component.item.custom.armor.lamias_gift.LamiasGiftModel
+import de.fuballer.mcendgame.client.component.item.custom.armor.stoneward.StonewardModel
 import de.fuballer.mcendgame.client.component.item.custom.armor.suede.SuedeBootsModel
 import de.fuballer.mcendgame.client.component.item.custom.armor.suede.SuedeChestplateModel
 import de.fuballer.mcendgame.client.component.item.custom.armor.suede.SuedeHelmetModel
@@ -114,6 +115,10 @@ class CustomHumanoidArmorFeatureRenderer<S : BipedEntityRenderState, M : BipedEn
             SuedeBootsModel(ctx.getPart(SuedeBootsModel.MODEL_LAYER)),
             colorAbleTexture = IdentifierUtil.default("textures/entity/equipment/custom_humanoid/suede_color_able.png"),
             defaultColor = 10511680,
+        )
+        texturedArmorModels[CustomArmorItems.STONEWARD] = TexturedArmorModel(
+            StonewardModel(ctx.getPart(StonewardModel.MODEL_LAYER)),
+            IdentifierUtil.default("textures/entity/equipment/custom_humanoid/stoneward.png"),
         )
     }
 

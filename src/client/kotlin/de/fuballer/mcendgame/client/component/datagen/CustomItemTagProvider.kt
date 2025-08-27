@@ -42,6 +42,7 @@ class CustomItemTagProvider(
             .add(CustomArmorItems.DRUIDS_LEGGINGS)
             .add(CustomArmorItems.SUEDE_LEGGINGS)
             .add(CustomArmorItems.WITHER_ROSE_LEGGINGS)
+            .add(CustomArmorItems.STONEWARD)
 
         getOrCreateTagBuilder(ItemTags.FOOT_ARMOR)
             .add(CustomArmorItems.DRUIDS_BOOTS)
