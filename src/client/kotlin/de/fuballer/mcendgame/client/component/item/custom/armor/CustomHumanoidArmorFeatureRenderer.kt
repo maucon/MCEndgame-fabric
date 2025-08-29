@@ -8,6 +8,7 @@ import de.fuballer.mcendgame.client.component.item.custom.armor.druids.DruidsLeg
 import de.fuballer.mcendgame.client.component.item.custom.armor.emberchant.EmberchantModel
 import de.fuballer.mcendgame.client.component.item.custom.armor.iceborne.IceborneModel
 import de.fuballer.mcendgame.client.component.item.custom.armor.lamias_gift.LamiasGiftModel
+import de.fuballer.mcendgame.client.component.item.custom.armor.moonshadow.MoonshadowModel
 import de.fuballer.mcendgame.client.component.item.custom.armor.stoneward.StonewardModel
 import de.fuballer.mcendgame.client.component.item.custom.armor.suede.SuedeBootsModel
 import de.fuballer.mcendgame.client.component.item.custom.armor.suede.SuedeChestplateModel
@@ -119,6 +120,10 @@ class CustomHumanoidArmorFeatureRenderer<S : BipedEntityRenderState, M : BipedEn
         texturedArmorModels[CustomArmorItems.STONEWARD] = TexturedArmorModel(
             StonewardModel(ctx.getPart(StonewardModel.MODEL_LAYER)),
             IdentifierUtil.default("textures/entity/equipment/custom_humanoid/stoneward.png"),
+        )
+        texturedArmorModels[CustomArmorItems.MOONSHADOW] = TexturedArmorModel(
+            MoonshadowModel(ctx.getPart(MoonshadowModel.MODEL_LAYER)),
+            IdentifierUtil.default("textures/entity/equipment/custom_humanoid/moonshadow.png"),
         )
     }
 

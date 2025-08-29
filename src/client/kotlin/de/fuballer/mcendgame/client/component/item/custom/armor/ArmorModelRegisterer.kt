@@ -8,6 +8,7 @@ import de.fuballer.mcendgame.client.component.item.custom.armor.druids.DruidsLeg
 import de.fuballer.mcendgame.client.component.item.custom.armor.emberchant.EmberchantModel
 import de.fuballer.mcendgame.client.component.item.custom.armor.iceborne.IceborneModel
 import de.fuballer.mcendgame.client.component.item.custom.armor.lamias_gift.LamiasGiftModel
+import de.fuballer.mcendgame.client.component.item.custom.armor.moonshadow.MoonshadowModel
 import de.fuballer.mcendgame.client.component.item.custom.armor.stoneward.StonewardModel
 import de.fuballer.mcendgame.client.component.item.custom.armor.suede.SuedeBootsModel
 import de.fuballer.mcendgame.client.component.item.custom.armor.suede.SuedeChestplateModel
@@ -92,6 +93,10 @@ object ArmorModelRegisterer {
         EntityModelLayerRegistry.registerModelLayer(
             StonewardModel.MODEL_LAYER,
             StonewardModel.Companion::getTexturedModelData
+        )
+        EntityModelLayerRegistry.registerModelLayer(
+            MoonshadowModel.MODEL_LAYER,
+            MoonshadowModel.Companion::getTexturedModelData
         )
     }
 }
