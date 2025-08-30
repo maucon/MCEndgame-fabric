@@ -1,7 +1,8 @@
 package de.fuballer.mcendgame.client.component.entity.custom.feature
 
-import de.fuballer.mcendgame.client.messaging.RegisterLivingEntityFeatureRendererCommand
+import de.fuballer.mcendgame.client.component.entity.custom.feature.ghostly.GhostlyFeatureRenderer
 import de.fuballer.mcendgame.client.component.entity.custom.feature.webbed.WebbedFeatureRenderer
+import de.fuballer.mcendgame.client.messaging.RegisterLivingEntityFeatureRendererCommand
 import de.maucon.mauconframework.command.CommandHandler
 import de.maucon.mauconframework.di.annotation.Injectable
 import net.minecraft.client.render.entity.feature.FeatureRendererContext
@@ -17,5 +18,8 @@ class FeatureRegisterer {
 
         val webbedFeatureRenderer = WebbedFeatureRenderer(livingEntityRenderer, cmd.context)
         cmd.registrationHelper.register(webbedFeatureRenderer)
+
+        val ghostlyFeatureRenderer = GhostlyFeatureRenderer(livingEntityRenderer)
+        cmd.registrationHelper.register(ghostlyFeatureRenderer)
     }
 }

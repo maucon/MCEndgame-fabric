@@ -138,6 +138,8 @@ object CustomAttributeTypes {
 
     val WOLF_COMPANION = CustomAttributeType("wolf_companion", AttributeFormats.STRING_ROLL, AttributeFormats.STRING_SHOW_ALL_OPTIONS, AttributeAffinities.BENEFICIAL)
 
+    val GHOSTLY = CustomAttributeType("ghostly", AttributeFormats.EMPTY_ROLL, AttributeFormats.EMPTY_BOUNDS, AttributeAffinities.EMPTY)
+
     // region get by key
     fun getByKey(key: String): CustomAttributeType {
         return attributeTypes[key] ?: ERROR

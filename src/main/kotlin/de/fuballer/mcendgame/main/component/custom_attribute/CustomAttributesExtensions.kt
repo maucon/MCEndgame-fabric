@@ -2,6 +2,7 @@ package de.fuballer.mcendgame.main.component.custom_attribute
 
 import de.fuballer.mcendgame.main.MCEndgame
 import de.fuballer.mcendgame.main.component.custom_attribute.data.*
+import de.fuballer.mcendgame.main.component.custom_attribute.types.CustomAttributeTypes
 import de.fuballer.mcendgame.main.util.extension.SlotExtension.isOrIsChildOf
 import de.fuballer.mcendgame.main.util.minecraft.IdentifierUtil
 import de.fuballer.mcendgame.main.util.minecraft.RegistryUtil
@@ -84,6 +85,8 @@ object CustomAttributesExtensions {
             .filter { it.type is CustomAttributeType }
             .groupBy { it.type as CustomAttributeType }
     }
+
+    fun LivingEntity.isGhostly() = getAllCustomAttributes().contains(CustomAttributeTypes.GHOSTLY)
 
     fun AttributeRoll<*>.asDoubleRoll() = this as DoubleRoll
     fun AttributeRoll<*>.asStringRoll() = this as StringRoll

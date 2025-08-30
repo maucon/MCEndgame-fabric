@@ -44,4 +44,8 @@ object EntityRenderStateMixinExtension {
         val accessor = this as LivingEntityRenderStateAccessor
         return accessor.`mcendgame$getLowHealthTicks20`()
     }
+
+    fun LivingEntityRenderState.setGhostly(ghostly: Boolean = true) = (this as LivingEntityRenderStateAccessor).`mcendgame$setGhostly`(ghostly)
+
+    fun LivingEntityRenderState.isGhostly() = (this as LivingEntityRenderStateAccessor).`mcendgame$isGhostly`()
 }

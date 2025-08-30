@@ -139,6 +139,7 @@
   "attribute.mcendgame.bow_pull_ticks": "%s Bow Draw Ticks",
   "attribute.mcendgame.additional_arrows": "%s additional Arrows",
   "attribute.mcendgame.pierce_all": "Arrows Pierce all Targets",
+  "attribute.mcendgame.ghostly": "Ghostly",
 
   "effect.mcendgame.fury": "Fury",
   "effect.mcendgame.resilience": "Resilience",

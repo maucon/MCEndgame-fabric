@@ -2,6 +2,7 @@ package de.fuballer.mcendgame.client.mixin.living_entity;
 
 import de.fuballer.mcendgame.client.accessor.LivingEntityLowHealthTicksAccessor;
 import de.fuballer.mcendgame.client.accessor.LivingEntityRenderStateAccessor;
+import de.fuballer.mcendgame.main.component.custom_attribute.CustomAttributesExtensions;
 import net.minecraft.client.render.entity.LivingEntityRenderer;
 import net.minecraft.client.render.entity.state.LivingEntityRenderState;
 import net.minecraft.entity.LivingEntity;
@@ -19,15 +20,16 @@ public class LivingEntityRendererMixin {
             float f,
             CallbackInfo ci
     ) {
-        if (!(livingEntityRenderState instanceof LivingEntityRenderStateAccessor livingEntityRenderStateAccessor)) {
-            return;
-        }
+        if (!(livingEntityRenderState instanceof LivingEntityRenderStateAccessor livingEntityRenderStateAccessor)) return;
+
         livingEntityRenderStateAccessor.mcendgame$setHealth(livingEntity.getHealth());
         livingEntityRenderStateAccessor.mcendgame$setMaxHealth(livingEntity.getMaxHealth());
 
-        if (!(livingEntity instanceof LivingEntityLowHealthTicksAccessor livingEntityLowHealthTicksAccessor)) {
-            return;
+        if (livingEntity instanceof LivingEntityLowHealthTicksAccessor livingEntityLowHealthTicksAccessor) {
+            livingEntityRenderStateAccessor.mcendgame$setLowHealthTicks20(livingEntityLowHealthTicksAccessor.mcendgame$getLowHealthTicks20());
         }
-        livingEntityRenderStateAccessor.mcendgame$setLowHealthTicks20(livingEntityLowHealthTicksAccessor.mcendgame$getLowHealthTicks20());
+
+        var ghostly = CustomAttributesExtensions.INSTANCE.isGhostly(livingEntity);
+        livingEntityRenderStateAccessor.mcendgame$setGhostly(ghostly);
     }
 }
