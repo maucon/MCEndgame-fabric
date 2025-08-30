@@ -85,7 +85,7 @@
   "attribute.mcendgame.increased": "increased",
   "attribute.mcendgame.reduced": "reduced",
 
-  "attribute.mcendgame.error": "Could not load attribute type",
+  "attribute.mcendgame.error": " Could not load attribute type",
   "attribute.mcendgame.armor": "%s Armor",
   "attribute.mcendgame.armor_toughness": "%s Armor Toughness",
   "attribute.mcendgame.max_health": "%s Max Health",
@@ -138,8 +138,8 @@
   "attribute.mcendgame.wolf_companion": " %s Wolf Companion",
   "attribute.mcendgame.bow_pull_ticks": "%s Bow Draw Ticks",
   "attribute.mcendgame.additional_arrows": "%s additional Arrows",
-  "attribute.mcendgame.pierce_all": "Arrows Pierce all Targets",
-  "attribute.mcendgame.ghostly": "Ghostly",
+  "attribute.mcendgame.pierce_all": " Arrows Pierce all Targets",
+  "attribute.mcendgame.ghostly": " Ghostly",
 
   "effect.mcendgame.fury": "Fury",
   "effect.mcendgame.resilience": "Resilience",

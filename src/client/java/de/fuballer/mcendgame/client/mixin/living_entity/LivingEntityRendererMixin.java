@@ -2,7 +2,6 @@ package de.fuballer.mcendgame.client.mixin.living_entity;
 
 import de.fuballer.mcendgame.client.accessor.LivingEntityLowHealthTicksAccessor;
 import de.fuballer.mcendgame.client.accessor.LivingEntityRenderStateAccessor;
-import de.fuballer.mcendgame.main.component.custom_attribute.CustomAttributesExtensions;
 import net.minecraft.client.render.entity.LivingEntityRenderer;
 import net.minecraft.client.render.entity.state.LivingEntityRenderState;
 import net.minecraft.entity.LivingEntity;
@@ -28,8 +27,5 @@ public class LivingEntityRendererMixin {
         if (livingEntity instanceof LivingEntityLowHealthTicksAccessor livingEntityLowHealthTicksAccessor) {
             livingEntityRenderStateAccessor.mcendgame$setLowHealthTicks20(livingEntityLowHealthTicksAccessor.mcendgame$getLowHealthTicks20());
         }
-
-        var ghostly = CustomAttributesExtensions.INSTANCE.isGhostly(livingEntity);
-        livingEntityRenderStateAccessor.mcendgame$setGhostly(ghostly);
     }
 }

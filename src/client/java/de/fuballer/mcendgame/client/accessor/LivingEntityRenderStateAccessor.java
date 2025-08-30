@@ -12,8 +12,4 @@ public interface LivingEntityRenderStateAccessor {
     int mcendgame$getLowHealthTicks20();
 
     void mcendgame$setLowHealthTicks20(int lowHealthTicks20);
-
-    boolean mcendgame$isGhostly();
-
-    void mcendgame$setGhostly(boolean ghostly);
 }

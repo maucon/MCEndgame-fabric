@@ -13,8 +13,6 @@ public class LivingEntityRenderStateMixin implements LivingEntityRenderStateAcce
     public float maxHealth;
     @Unique
     public int lowHealthTicks20;
-    @Unique
-    public boolean isGhostly = false;
 
     @Override
     public float mcendgame$getHealth() {
@@ -44,15 +42,5 @@ public class LivingEntityRenderStateMixin implements LivingEntityRenderStateAcce
     @Override
     public void mcendgame$setLowHealthTicks20(int lowHealthTicks20) {
         this.lowHealthTicks20 = lowHealthTicks20;
-    }
-
-    @Override
-    public boolean mcendgame$isGhostly() {
-        return isGhostly;
-    }
-
-    @Override
-    public void mcendgame$setGhostly(boolean ghostly) {
-        isGhostly = ghostly;
     }
 }
