@@ -7,6 +7,7 @@ import de.fuballer.mcendgame.main.component.item.custom.armor.item.druids.Druids
 import de.fuballer.mcendgame.main.component.item.custom.armor.item.druids.DruidsHelmet
 import de.fuballer.mcendgame.main.component.item.custom.armor.item.druids.DruidsLeggings
 import de.fuballer.mcendgame.main.component.item.custom.armor.item.emberchant.Emberchant
+import de.fuballer.mcendgame.main.component.item.custom.armor.item.geistergaloschen.Geistergaloschen
 import de.fuballer.mcendgame.main.component.item.custom.armor.item.iceborne.Iceborne
 import de.fuballer.mcendgame.main.component.item.custom.armor.item.lamias_gift.LamiasGift
 import de.fuballer.mcendgame.main.component.item.custom.armor.item.moonshadow.Moonshadow
@@ -43,4 +44,5 @@ object CustomArmorItems {
     val SUEDE_BOOTS = UniqueItemRegistry.registerArmorItem(::SuedeBoots, SuedeArmorMaterial, EquipmentType.BOOTS, "suede_boots")
     val STONEWARD = UniqueItemRegistry.registerArmorItem(::Stoneward, StonewardArmorMaterial, EquipmentType.LEGGINGS, "stoneward")
     val MOONSHADOW = UniqueItemRegistry.registerArmorItem(::Moonshadow, MoonshadowArmorMaterial, EquipmentType.BOOTS, "moonshadow")
+    val GEISTERGALOSCHEN = UniqueItemRegistry.registerArmorItem(::Geistergaloschen, GeistergaloschenArmorMaterial, EquipmentType.BOOTS, "geistergaloschen")
 }

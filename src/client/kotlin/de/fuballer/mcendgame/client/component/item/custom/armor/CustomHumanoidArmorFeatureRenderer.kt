@@ -6,6 +6,7 @@ import de.fuballer.mcendgame.client.component.item.custom.armor.druids.DruidsChe
 import de.fuballer.mcendgame.client.component.item.custom.armor.druids.DruidsHelmetModel
 import de.fuballer.mcendgame.client.component.item.custom.armor.druids.DruidsLeggingsModel
 import de.fuballer.mcendgame.client.component.item.custom.armor.emberchant.EmberchantModel
+import de.fuballer.mcendgame.client.component.item.custom.armor.geistergaloschen.GeistergaloschenModel
 import de.fuballer.mcendgame.client.component.item.custom.armor.iceborne.IceborneModel
 import de.fuballer.mcendgame.client.component.item.custom.armor.lamias_gift.LamiasGiftModel
 import de.fuballer.mcendgame.client.component.item.custom.armor.moonshadow.MoonshadowModel
@@ -124,6 +125,10 @@ class CustomHumanoidArmorFeatureRenderer<S : BipedEntityRenderState, M : BipedEn
         texturedArmorModels[CustomArmorItems.MOONSHADOW] = TexturedArmorModel(
             MoonshadowModel(ctx.getPart(MoonshadowModel.MODEL_LAYER)),
             IdentifierUtil.default("textures/entity/equipment/custom_humanoid/moonshadow.png"),
+        )
+        texturedArmorModels[CustomArmorItems.GEISTERGALOSCHEN] = TexturedArmorModel(
+            GeistergaloschenModel(ctx.getPart(GeistergaloschenModel.MODEL_LAYER)),
+            translucentTexture = IdentifierUtil.default("textures/entity/equipment/custom_humanoid/geistergaloschen.png"),
         )
     }
 

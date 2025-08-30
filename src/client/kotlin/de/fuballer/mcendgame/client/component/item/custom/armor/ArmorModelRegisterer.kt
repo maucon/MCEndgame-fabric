@@ -6,6 +6,7 @@ import de.fuballer.mcendgame.client.component.item.custom.armor.druids.DruidsChe
 import de.fuballer.mcendgame.client.component.item.custom.armor.druids.DruidsHelmetModel
 import de.fuballer.mcendgame.client.component.item.custom.armor.druids.DruidsLeggingsModel
 import de.fuballer.mcendgame.client.component.item.custom.armor.emberchant.EmberchantModel
+import de.fuballer.mcendgame.client.component.item.custom.armor.geistergaloschen.GeistergaloschenModel
 import de.fuballer.mcendgame.client.component.item.custom.armor.iceborne.IceborneModel
 import de.fuballer.mcendgame.client.component.item.custom.armor.lamias_gift.LamiasGiftModel
 import de.fuballer.mcendgame.client.component.item.custom.armor.moonshadow.MoonshadowModel
@@ -97,6 +98,10 @@ object ArmorModelRegisterer {
         EntityModelLayerRegistry.registerModelLayer(
             MoonshadowModel.MODEL_LAYER,
             MoonshadowModel.Companion::getTexturedModelData
+        )
+        EntityModelLayerRegistry.registerModelLayer(
+            GeistergaloschenModel.MODEL_LAYER,
+            GeistergaloschenModel.Companion::getTexturedModelData
         )
     }
 }

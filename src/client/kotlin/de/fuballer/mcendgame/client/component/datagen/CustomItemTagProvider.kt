@@ -49,6 +49,7 @@ class CustomItemTagProvider(
             .add(CustomArmorItems.SUEDE_BOOTS)
             .add(CustomArmorItems.WITHER_ROSE_BOOTS)
             .add(CustomArmorItems.MOONSHADOW)
+            .add(CustomArmorItems.GEISTERGALOSCHEN)
 
         getOrCreateTagBuilder(CustomTags.BOW)
             .add(Items.BOW)
