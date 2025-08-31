@@ -38,6 +38,7 @@
     "living_entity.LivingEntityAttributeWhilePoisonedMixin",
     "living_entity.LivingEntityAttributeWhileWitheredMixin",
     "living_entity.LivingEntityAuraMixin",
+    "living_entity.LivingEntityBlockPhasingMixin",
     "living_entity.LivingEntityCompanionMixin",
     "living_entity.LivingEntityDamageCommandMixin",
     "living_entity.LivingEntityDodgedRecentlyMixin",
