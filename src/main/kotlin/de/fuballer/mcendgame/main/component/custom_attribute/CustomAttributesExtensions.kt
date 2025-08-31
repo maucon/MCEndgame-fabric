@@ -86,7 +86,7 @@ object CustomAttributesExtensions {
             .groupBy { it.type as CustomAttributeType }
     }
 
-    fun LivingEntity.isGhostly() = getAllCustomAttributes().contains(CustomAttributeTypes.GHOSTLY)
+    fun LivingEntity.isGhostly() = getAllCustomAttributes().contains(CustomAttributeTypes.GHOSTLY_APPEARANCE)
 
     fun AttributeRoll<*>.asDoubleRoll() = this as DoubleRoll
     fun AttributeRoll<*>.asStringRoll() = this as StringRoll
