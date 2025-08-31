@@ -1,6 +1,7 @@
 package de.fuballer.mcendgame.main.component.damage.calculator
 
 import de.fuballer.mcendgame.main.component.damage.ApplyDamageCalculationCommand
+import de.fuballer.mcendgame.main.component.damage.DamageUtil
 import de.fuballer.mcendgame.main.component.damage.custom_type.CustomDamageTypes
 import de.fuballer.mcendgame.main.util.extension.DamageTypeExtension.isOf
 import de.fuballer.mcendgame.main.util.extension.mixin.PlayerEntityMixinExtension.getAttackCooldownMultiplier
@@ -23,7 +24,7 @@ object MeleeAttackCalculator : DamageCalculator {
         val attacker = source.attacker as? LivingEntity ?: return originalDamage
 
         val baseDamage = calculateBaseAttackDamage(attacker, source)
-        val enchantmentDamage = calculateEnchantmentDamage(attacker, attacked, source)
+        val enchantmentDamage = DamageUtil.calculateEnchantmentDamage(attacker, attacked, source)
         val damageMulti = calculateDamageMultiplier(event)
         val critMulti = calculateCriticalMultiplier(event)
         val attackCooldownMulti = calculateAttackCooldownMultiplier(source)
@@ -66,14 +67,6 @@ object MeleeAttackCalculator : DamageCalculator {
         }
 
         return baseDamage
-    }
-
-    private fun calculateEnchantmentDamage(
-        attacker: LivingEntity,
-        attacked: LivingEntity,
-        source: DamageSource
-    ): Double {
-        return EnchantmentHelper.getDamage(attacker.world as ServerWorld, attacker.weaponStack, attacked, source, 0.0F).toDouble()
     }
 
     private fun calculateDamageMultiplier(

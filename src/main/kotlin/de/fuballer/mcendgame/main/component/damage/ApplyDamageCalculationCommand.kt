@@ -8,7 +8,6 @@ import net.minecraft.entity.Entity
 import net.minecraft.entity.LivingEntity
 import net.minecraft.entity.damage.DamageSource
 import net.minecraft.entity.damage.DamageType
-import net.minecraft.entity.mob.GuardianEntity
 import net.minecraft.entity.player.PlayerEntity
 import net.minecraft.entity.projectile.PersistentProjectileEntity
 import net.minecraft.entity.projectile.ProjectileEntity
@@ -24,7 +23,7 @@ data class ApplyDamageCalculationCommand(
     val type: DamageType,
     val world: ServerWorld,
     val isProjectile: Boolean,
-    val isDamageBlocked: Boolean,
+    val isBlocking: Boolean,
     val isDamageCritical: Boolean,
 
     // === custom properties ===
@@ -52,19 +51,20 @@ data class ApplyDamageCalculationCommand(
             damaged: LivingEntity,
             world: ServerWorld,
             source: DamageSource,
+            originalDamage: Float,
         ): ApplyDamageCalculationCommand {
             val damager = source.attacker
             val damagerAttributes = (damager as? LivingEntity)?.getAllCustomAttributes() ?: emptyMap()
             val damagedAttributes = damaged.getAllCustomAttributes()
             val damageType = source.type
-            val isDamageBlocked = DamageUtil.isDamageBlocked(damaged, source)
+            val isBlocking = DamageUtil.isBlocking(damaged, source) && originalDamage == 0f // FIXME hmm
 
             val isProjectile = source.source is ProjectileEntity
             val isProjectileCritical = (source.source as? PersistentProjectileEntity)?.isCritical ?: false
             val playerCriticalAttack = (damager as? PlayerEntity)?.wasLastAttackCritical() ?: false
             val isCritical = if (isProjectile) isProjectileCritical else playerCriticalAttack
 
-            return ApplyDamageCalculationCommand(damager, damagerAttributes, damaged, damagedAttributes, damageType, world, isProjectile, isDamageBlocked, isCritical)
+            return ApplyDamageCalculationCommand(damager, damagerAttributes, damaged, damagedAttributes, damageType, world, isProjectile, isBlocking, isCritical)
         }
     }
 }

@@ -1,7 +1,6 @@
 package de.fuballer.mcendgame.main.component.damage
 
 import net.minecraft.component.DataComponentTypes
-import net.minecraft.component.type.BlocksAttacksComponent.DamageReduction
 import net.minecraft.enchantment.EnchantmentHelper
 import net.minecraft.entity.LivingEntity
 import net.minecraft.entity.damage.DamageSource
@@ -10,7 +9,6 @@ import net.minecraft.util.math.MathHelper
 import net.minecraft.util.math.Vec3d
 import net.minecraft.world.Difficulty
 import net.minecraft.world.World
-import java.util.function.Consumer
 import kotlin.math.acos
 
 object DamageUtil {
@@ -94,7 +92,15 @@ object DamageUtil {
         return damageIncrease * moreDamage
     }
 
-    fun isDamageBlocked(
+     fun calculateEnchantmentDamage(
+        attacker: LivingEntity,
+        attacked: LivingEntity,
+        source: DamageSource
+    ): Double {
+        return EnchantmentHelper.getDamage(attacker.world as ServerWorld, attacker.weaponStack, attacked, source, 0.0F).toDouble()
+    }
+
+    fun isBlocking(
         damaged: LivingEntity,
         source: DamageSource,
     ): Boolean {

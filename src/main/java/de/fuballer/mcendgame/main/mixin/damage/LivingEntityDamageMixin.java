@@ -3,15 +3,12 @@ package de.fuballer.mcendgame.main.mixin.damage;
 import de.fuballer.mcendgame.main.component.damage.ApplyDamageCalculationCommand;
 import de.fuballer.mcendgame.main.component.damage.DamageUtil;
 import de.fuballer.mcendgame.main.component.damage.calculator.*;
-import de.fuballer.mcendgame.main.util.extension.DamageTypeExtension;
 import de.maucon.mauconframework.command.CommandGateway;
 import net.minecraft.enchantment.EnchantmentHelper;
 import net.minecraft.entity.LivingEntity;
 import net.minecraft.entity.attribute.EntityAttributes;
 import net.minecraft.entity.damage.DamageSource;
-import net.minecraft.entity.damage.DamageTypes;
 import net.minecraft.entity.effect.StatusEffects;
-import net.minecraft.entity.mob.GuardianEntity;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.registry.tag.DamageTypeTags;
 import net.minecraft.server.network.ServerPlayerEntity;
@@ -40,6 +37,7 @@ public abstract class LivingEntityDamageMixin {
             SnowballCalculator.INSTANCE,
             WindChargeCalculator.INSTANCE,
             MeleeAttackCalculator.INSTANCE,
+            ShulkerBulletCalculator.INSTANCE,
             OtherProjectilesCalculator.INSTANCE
     );
 
@@ -57,23 +55,33 @@ public abstract class LivingEntityDamageMixin {
             return;
         }
 
-        // TODO fix unblockable attacks -> like guardian laser
+        // TODO ThornsCalculator
+        //    TODO enchantment
+        //    TODO guardian
+
         // TODO (elder) guardians AD attack wierd ;-;
         // TODO test if magic damage is not affected by armor
 
         // TODO evoker spells
-        // TODO shulker proj
         // TODO warden
         // TODO witch potions
         // TODO wither skulls
         // TODO ender dragon ball
         // TODO enchant breach
-        // TODO trident with impaling
 
-        var applyDamageCalculationCommand = ApplyDamageCalculationCommand.Companion.of(entity, world, source);
+        // TODO guardian damage values wrong (fuck this shit)
+
+        var applyDamageCalculationCommand = ApplyDamageCalculationCommand.Companion.of(entity, world, source, originalDamage);
         var cmd = CommandGateway.INSTANCE.apply(applyDamageCalculationCommand);
 
-        if (cmd.isDamageBlocked()) {
+        System.out.println("---------------------------------");
+        System.out.println("originalDamage: " + originalDamage);
+        System.out.println("source: " + source.getSource());
+        System.out.println("attacker: " + source.getAttacker());
+        System.out.println("damage type: " + source.getType());
+        System.out.println("bypasses armor: " + source.isIn(DamageTypeTags.BYPASSES_ARMOR));
+
+        if (cmd.isBlocking()) {
             System.out.println("DAMAGE BLOCKED");
             ci.cancel();
             return;
@@ -117,13 +125,6 @@ public abstract class LivingEntityDamageMixin {
             World world,
             ApplyDamageCalculationCommand cmd
     ) {
-        System.out.println("---------------------------------");
-        System.out.println("originalDamage: " + originalDamage);
-        System.out.println("source: " + source.getSource());
-        System.out.println("attacker: " + source.getAttacker());
-        System.out.println("damage type: " + source.getType());
-        System.out.println("bypasses armor: " + source.isIn(DamageTypeTags.BYPASSES_ARMOR));
-
         var damageCalculatorOptional = DAMAGE_CALCULATORS.stream()
                 .filter(calculator -> calculator.isActive(source))
                 .findFirst();
