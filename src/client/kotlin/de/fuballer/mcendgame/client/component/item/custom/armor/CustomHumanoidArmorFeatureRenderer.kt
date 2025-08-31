@@ -20,6 +20,7 @@ import de.fuballer.mcendgame.client.component.item.custom.armor.wither_rose.With
 import de.fuballer.mcendgame.client.component.item.custom.armor.wither_rose.WitherRoseHelmetModel
 import de.fuballer.mcendgame.client.component.item.custom.armor.wither_rose.WitherRoseLeggingsModel
 import de.fuballer.mcendgame.client.util.BipedEntityRenderStateMixinExtension.getHiddenArmor
+import de.fuballer.mcendgame.client.util.EntityRenderStateMixinExtension.isGhostly
 import de.fuballer.mcendgame.main.component.item.custom.armor.CustomArmorItems
 import de.fuballer.mcendgame.main.util.minecraft.IdentifierUtil
 import net.minecraft.client.model.Model
@@ -245,9 +246,11 @@ class CustomHumanoidArmorFeatureRenderer<S : BipedEntityRenderState, M : BipedEn
         color: Int = -1,
         translucent: Boolean = false,
     ) {
+        val ghostly = bipedEntityRenderState.isGhostly()
+
         var vertexConsumer = ItemRenderer.getArmorGlintConsumer(
             vertexConsumerProvider,
-            if (translucent) RenderLayer.getEntityTranslucent(texture) else RenderLayer.getArmorCutoutNoCull(texture),
+            if (translucent || ghostly) RenderLayer.getEntityTranslucent(texture) else RenderLayer.getArmorCutoutNoCull(texture),
             glint
         )
 
@@ -255,6 +258,6 @@ class CustomHumanoidArmorFeatureRenderer<S : BipedEntityRenderState, M : BipedEn
             vertexConsumer = model.getVertexConsumer(bipedEntityRenderState, vertexConsumerProvider, vertexConsumer)
         }
 
-        model.render(matrices, vertexConsumer, light, OverlayTexture.DEFAULT_UV, color)
+        model.render(matrices, vertexConsumer, light, OverlayTexture.DEFAULT_UV, if (ghostly) 0x8000FF00.toInt() else color)
     }
 }
