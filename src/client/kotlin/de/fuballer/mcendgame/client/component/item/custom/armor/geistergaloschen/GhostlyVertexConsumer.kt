@@ -7,10 +7,10 @@ class GhostlyVertexConsumer(
     private val delegate: VertexConsumer,
 ) : VertexConsumer {
     companion object {
-        const val TINT_R = 0
-        const val TINT_G = 255
-        const val TINT_B = 0
-        const val TINT_A = 120
+        private const val TINT_R = 10
+        private const val TINT_G = 235
+        private const val TINT_B = 200
+        private const val TINT_A = 120
 
         fun convertToGhostlyVertexConsumerProvider(original: VertexConsumerProvider) =
             VertexConsumerProvider { layer -> GhostlyVertexConsumer(original.getBuffer(layer)) }
