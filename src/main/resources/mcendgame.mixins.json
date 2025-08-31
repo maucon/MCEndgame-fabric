@@ -23,6 +23,7 @@
     "enemy.boss.MobEntityDungeonBossMixin",
     "entity.EntityCompanionPortalMixin",
     "entity.EntityForcedGlowColorMixin",
+    "entity.EntityPhasingMixin",
     "entity.EntityVisualFireMixin",
     "event.LivingEntityEventsMixin",
     "filter.ItemEntityFilterMixin",

@@ -140,6 +140,8 @@
   "attribute.mcendgame.additional_arrows": "%s additional Arrows",
   "attribute.mcendgame.pierce_all": " Arrows Pierce all Targets",
   "attribute.mcendgame.ghostly_appearance": " Ghostly Appearance",
+  "attribute.mcendgame.entity_phasing": " Entity Phasing",
+  "attribute.mcendgame.block_phasing": " Block Phasing",
 
   "effect.mcendgame.fury": "Fury",
   "effect.mcendgame.resilience": "Resilience",

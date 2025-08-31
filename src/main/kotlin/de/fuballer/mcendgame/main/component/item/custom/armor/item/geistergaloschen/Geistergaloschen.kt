@@ -12,6 +12,8 @@ class Geistergaloschen(
 ) : UniqueAttributesItem(settings) {
     override fun getCustomAttributes() = listOf(
         RollableCustomAttribute(CustomAttributeTypes.GHOSTLY_APPEARANCE, 0),
+        RollableCustomAttribute(CustomAttributeTypes.ENTITY_PHASING, 0),
+        RollableCustomAttribute(CustomAttributeTypes.BLOCK_PHASING, 0),
         RollableCustomAttribute(VanillaAttributeTypes.INCREASED_MOVEMENT_SPEED, 0, DoubleBounds(0.05, 0.15)),
     )
 
