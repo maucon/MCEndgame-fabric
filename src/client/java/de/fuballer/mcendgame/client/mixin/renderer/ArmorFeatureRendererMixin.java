@@ -1,7 +1,6 @@
 package de.fuballer.mcendgame.client.mixin.renderer;
 
 import de.fuballer.mcendgame.client.accessor.BipedEntityRenderStateAccessor;
-import de.fuballer.mcendgame.client.component.item.custom.armor.geistergaloschen.GhostlyVertexConsumer;
 import de.fuballer.mcendgame.client.util.EntityRenderStateMixinExtension;
 import de.fuballer.mcendgame.client.util.EquipmentRendererMixinExtension;
 import net.minecraft.client.render.VertexConsumerProvider;
@@ -46,7 +45,7 @@ public abstract class ArmorFeatureRendererMixin<S extends BipedEntityRenderState
             ), cancellable = true)
     public void render(MatrixStack matrixStack, VertexConsumerProvider vertexConsumerProvider, int light, S bipedEntityRenderState, float f, float g, CallbackInfo ci) {
         var stateAccessor = (BipedEntityRenderStateAccessor) bipedEntityRenderState;
-        var ghostly = EntityRenderStateMixinExtension.INSTANCE.isGhostly(bipedEntityRenderState);
+        var translucent = EntityRenderStateMixinExtension.INSTANCE.isGhostly(bipedEntityRenderState);
 
         if (!stateAccessor.mcendgame$getHiddenArmor().contains(EquipmentSlot.CHEST)) {
             renderArmor(
@@ -56,7 +55,7 @@ public abstract class ArmorFeatureRendererMixin<S extends BipedEntityRenderState
                     EquipmentSlot.CHEST,
                     light,
                     invokeGetModel(bipedEntityRenderState, EquipmentSlot.CHEST),
-                    ghostly
+                    translucent
             );
         }
 
@@ -68,7 +67,7 @@ public abstract class ArmorFeatureRendererMixin<S extends BipedEntityRenderState
                     EquipmentSlot.LEGS,
                     light,
                     invokeGetModel(bipedEntityRenderState, EquipmentSlot.LEGS),
-                    ghostly
+                    translucent
             );
         }
 
@@ -80,7 +79,7 @@ public abstract class ArmorFeatureRendererMixin<S extends BipedEntityRenderState
                     EquipmentSlot.FEET,
                     light,
                     invokeGetModel(bipedEntityRenderState, EquipmentSlot.FEET),
-                    ghostly
+                    translucent
             );
         }
 
@@ -92,7 +91,7 @@ public abstract class ArmorFeatureRendererMixin<S extends BipedEntityRenderState
                     EquipmentSlot.HEAD,
                     light,
                     invokeGetModel(bipedEntityRenderState, EquipmentSlot.HEAD),
-                    ghostly
+                    translucent
             );
         }
 
@@ -107,9 +106,9 @@ public abstract class ArmorFeatureRendererMixin<S extends BipedEntityRenderState
             EquipmentSlot slot,
             int light,
             A armorModel,
-            boolean ghostly
+            boolean translucent
     ) {
-        if (ghostly) renderArmorGhostly(matrixStack, vertexConsumerProvider, stack, slot, light, armorModel);
+        if (translucent) renderArmorTranslucent(matrixStack, vertexConsumerProvider, stack, slot, light, armorModel);
         else invokeRenderArmor(matrixStack, vertexConsumerProvider, stack, slot, light, armorModel);
     }
 
@@ -127,7 +126,7 @@ public abstract class ArmorFeatureRendererMixin<S extends BipedEntityRenderState
     public abstract A invokeGetModel(S state, EquipmentSlot slot);
 
     @Unique
-    private void renderArmorGhostly(
+    private void renderArmorTranslucent(
             MatrixStack matrixStack,
             VertexConsumerProvider vertexConsumerProvider,
             ItemStack stack,
@@ -144,16 +143,14 @@ public abstract class ArmorFeatureRendererMixin<S extends BipedEntityRenderState
         setVisible(armorModel, slot);
         EquipmentModel.LayerType layerType = usesInnerModel(slot) ? EquipmentModel.LayerType.HUMANOID_LEGGINGS : EquipmentModel.LayerType.HUMANOID;
 
-        var ghostlyVertexConsumerProvider = GhostlyVertexConsumer.Companion.convertToGhostlyVertexConsumerProvider(vertexConsumerProvider);
-
-        EquipmentRendererMixinExtension.INSTANCE.renderGhostly(
+        EquipmentRendererMixinExtension.INSTANCE.renderTranslucent(
                 equipmentRenderer,
                 layerType,
                 equippableComponent.assetId().orElseThrow(),
                 armorModel,
                 stack,
                 matrixStack,
-                ghostlyVertexConsumerProvider,
+                vertexConsumerProvider,
                 light,
                 null
         );

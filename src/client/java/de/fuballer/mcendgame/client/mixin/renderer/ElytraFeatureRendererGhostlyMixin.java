@@ -1,7 +1,6 @@
 package de.fuballer.mcendgame.client.mixin.renderer;
 
 import com.llamalad7.mixinextras.sugar.Local;
-import de.fuballer.mcendgame.client.component.item.custom.armor.geistergaloschen.GhostlyVertexConsumer;
 import de.fuballer.mcendgame.client.util.EntityRenderStateMixinExtension;
 import de.fuballer.mcendgame.client.util.EquipmentRendererMixinExtension;
 import net.minecraft.client.model.Model;
@@ -25,7 +24,7 @@ import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.Redirect;
 
 @Mixin(ElytraFeatureRenderer.class)
-public class ElytraFeatureRendererMixin<S extends BipedEntityRenderState> {
+public class ElytraFeatureRendererGhostlyMixin<S extends BipedEntityRenderState> {
     @Shadow
     @Final
     private EquipmentRenderer equipmentRenderer;
@@ -62,15 +61,14 @@ public class ElytraFeatureRendererMixin<S extends BipedEntityRenderState> {
                     identifier
             );
         } else {
-            var ghostlyVertexConsumerProvider = GhostlyVertexConsumer.Companion.convertToGhostlyVertexConsumerProvider(vertexConsumerProvider);
-            EquipmentRendererMixinExtension.INSTANCE.renderGhostly(
+            EquipmentRendererMixinExtension.INSTANCE.renderTranslucent(
                     equipmentRenderer,
                     EquipmentModel.LayerType.WINGS,
                     equippableComponent.assetId().get(),
                     elytraEntityModel,
                     itemStack,
                     matrixStack,
-                    ghostlyVertexConsumerProvider,
+                    vertexConsumerProvider,
                     light,
                     identifier
             );

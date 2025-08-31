@@ -11,7 +11,7 @@ import net.minecraft.util.Identifier;
 import org.jetbrains.annotations.Nullable;
 
 public interface EquipmentRendererAccessor {
-    void mcendgame$renderGhostly(
+    void mcendgame$renderTranslucent(
             EquipmentModel.LayerType layerType,
             RegistryKey<EquipmentAsset> assetKey,
             Model model,

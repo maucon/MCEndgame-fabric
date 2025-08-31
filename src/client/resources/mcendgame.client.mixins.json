@@ -15,10 +15,9 @@
     "low_health_ticks.LivingEntityLowHealthTicksMixin",
     "player.PlayerEntityMixin",
     "renderer.ArmorFeatureRendererMixin",
-    "renderer.BasicItemModelMixin",
-    "renderer.ElytraFeatureRendererMixin",
-    "renderer.EquipmentRendererMixin",
-    "renderer.HeldItemFeatureRendererMixin",
+    "renderer.BasicItemModelGhostlyMixin",
+    "renderer.ElytraFeatureRendererGhostlyMixin",
+    "renderer.EquipmentRendererTranslucentMixin",
     "renderer.ItemStackAttributeRenderMixin"
   ],
   "injectors": {

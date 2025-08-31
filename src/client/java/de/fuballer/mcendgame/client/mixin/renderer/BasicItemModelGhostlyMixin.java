@@ -13,7 +13,7 @@ import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.ModifyArg;
 
 @Mixin(BasicItemModel.class)
-public class BasicItemModelMixin {
+public class BasicItemModelGhostlyMixin {
     @ModifyArg(
             method = "update",
             at = @At(value = "INVOKE", target = "Lnet/minecraft/client/render/item/ItemRenderState$LayerRenderState;setRenderLayer(Lnet/minecraft/client/render/RenderLayer;)V")

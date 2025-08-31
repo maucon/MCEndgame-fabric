@@ -12,7 +12,7 @@ import net.minecraft.registry.RegistryKey
 import net.minecraft.util.Identifier
 
 object EquipmentRendererMixinExtension {
-    fun EquipmentRenderer.renderGhostly(
+    fun EquipmentRenderer.renderTranslucent(
         layerType: EquipmentModel.LayerType,
         assetKey: RegistryKey<EquipmentAsset>,
         model: Model,
@@ -22,7 +22,7 @@ object EquipmentRendererMixinExtension {
         light: Int,
         texture: Identifier? = null,
     ) {
-        (this as EquipmentRendererAccessor).`mcendgame$renderGhostly`(
+        (this as EquipmentRendererAccessor).`mcendgame$renderTranslucent`(
             layerType,
             assetKey,
             model,

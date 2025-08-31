@@ -31,7 +31,7 @@ import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 import java.util.List;
 
 @Mixin(EquipmentRenderer.class)
-public abstract class EquipmentRendererMixin implements EquipmentRendererAccessor {
+public abstract class EquipmentRendererTranslucentMixin implements EquipmentRendererAccessor {
     @Shadow
     @Final
     private EquipmentModelLoader equipmentModelLoader;
@@ -54,7 +54,7 @@ public abstract class EquipmentRendererMixin implements EquipmentRendererAccesso
     }
 
     @Override
-    public void mcendgame$renderGhostly(
+    public void mcendgame$renderTranslucent(
             EquipmentModel.LayerType layerType,
             RegistryKey<EquipmentAsset> assetKey,
             Model model,
