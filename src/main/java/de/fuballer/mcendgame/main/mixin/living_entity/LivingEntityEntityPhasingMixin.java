@@ -1,4 +1,4 @@
-package de.fuballer.mcendgame.main.mixin.entity;
+package de.fuballer.mcendgame.main.mixin.living_entity;
 
 import de.fuballer.mcendgame.main.component.custom_attribute.CustomAttributesExtensions;
 import net.minecraft.entity.LivingEntity;
@@ -10,7 +10,7 @@ import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfoReturnable;
 
 @Mixin(LivingEntity.class)
-public class EntityPhasingMixin {
+public class LivingEntityEntityPhasingMixin {
     @Inject(
             method = "isPushable",
             at = @At("HEAD"),
