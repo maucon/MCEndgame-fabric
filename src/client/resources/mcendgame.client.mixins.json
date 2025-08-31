@@ -18,7 +18,9 @@
     "renderer.BasicItemModelGhostlyMixin",
     "renderer.ElytraFeatureRendererGhostlyMixin",
     "renderer.EquipmentRendererTranslucentMixin",
-    "renderer.ItemStackAttributeRenderMixin"
+    "renderer.HeadFeatureRendererGhostlyMixin",
+    "renderer.ItemStackAttributeRenderMixin",
+    "renderer.SkullBlockEntityRendererAccessorMixin"
   ],
   "injectors": {
     "defaultRequire": 1
