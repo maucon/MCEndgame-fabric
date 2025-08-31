@@ -1,6 +1,7 @@
 package de.fuballer.mcendgame.client.mixin.living_entity;
 
 import de.fuballer.mcendgame.client.accessor.LivingEntityRenderStateGhostlyAccessor;
+import de.fuballer.mcendgame.client.component.item.custom.armor.geistergaloschen.GhostlyVertexConsumer;
 import de.fuballer.mcendgame.client.util.EntityRenderStateMixinExtension;
 import de.fuballer.mcendgame.main.component.custom_attribute.CustomAttributesExtensions;
 import net.minecraft.client.render.OverlayTexture;
@@ -63,6 +64,7 @@ public abstract class LivingEntityRendererGhostlyMixin<T extends LivingEntity, S
 
         var texture = getTexture(livingEntityRenderState);
         var translucentVertices = vertexConsumerProvider.getBuffer(RenderLayer.getEntityTranslucent(texture));
-        model.render(matrices, translucentVertices, light, OverlayTexture.DEFAULT_UV, 0x8000FF00);
+        var ghostlyVertices = new GhostlyVertexConsumer(translucentVertices);
+        model.render(matrices, ghostlyVertices, light, OverlayTexture.DEFAULT_UV);
     }
 }

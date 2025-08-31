@@ -7,6 +7,7 @@ import de.fuballer.mcendgame.client.component.item.custom.armor.druids.DruidsHel
 import de.fuballer.mcendgame.client.component.item.custom.armor.druids.DruidsLeggingsModel
 import de.fuballer.mcendgame.client.component.item.custom.armor.emberchant.EmberchantModel
 import de.fuballer.mcendgame.client.component.item.custom.armor.geistergaloschen.GeistergaloschenModel
+import de.fuballer.mcendgame.client.component.item.custom.armor.geistergaloschen.GhostlyVertexConsumer
 import de.fuballer.mcendgame.client.component.item.custom.armor.iceborne.IceborneModel
 import de.fuballer.mcendgame.client.component.item.custom.armor.lamias_gift.LamiasGiftModel
 import de.fuballer.mcendgame.client.component.item.custom.armor.moonshadow.MoonshadowModel
@@ -258,6 +259,10 @@ class CustomHumanoidArmorFeatureRenderer<S : BipedEntityRenderState, M : BipedEn
             vertexConsumer = model.getVertexConsumer(bipedEntityRenderState, vertexConsumerProvider, vertexConsumer)
         }
 
-        model.render(matrices, vertexConsumer, light, OverlayTexture.DEFAULT_UV, if (ghostly) 0x8000FF00.toInt() else color)
+        if (ghostly) {
+            vertexConsumer = GhostlyVertexConsumer(vertexConsumer)
+        }
+
+        model.render(matrices, vertexConsumer, light, OverlayTexture.DEFAULT_UV, color)
     }
 }

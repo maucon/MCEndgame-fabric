@@ -3,8 +3,6 @@
   "package": "de.fuballer.mcendgame.client.mixin",
   "compatibilityLevel": "JAVA_21",
   "client": [
-    "ArmorFeatureRendererMixin",
-    "ItemStackAttributeRenderMixin",
     "biped.BipedEntityModelMixin",
     "biped.BipedEntityRendererMixin",
     "biped.BipedEntityRenderStateMixin",
@@ -15,7 +13,12 @@
     "living_entity.LivingEntityRenderStateMixin",
     "living_entity.LivingEntityRenderStateWebbedMixin",
     "low_health_ticks.LivingEntityLowHealthTicksMixin",
-    "player.PlayerEntityMixin"
+    "player.PlayerEntityMixin",
+    "renderer.ArmorFeatureRendererMixin",
+    "renderer.BasicItemModelMixin",
+    "renderer.EquipmentRendererMixin",
+    "renderer.HeldItemFeatureRendererMixin",
+    "renderer.ItemStackAttributeRenderMixin"
   ],
   "injectors": {
     "defaultRequire": 1
