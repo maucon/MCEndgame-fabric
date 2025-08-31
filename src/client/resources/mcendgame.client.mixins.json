@@ -16,6 +16,7 @@
     "player.PlayerEntityMixin",
     "renderer.ArmorFeatureRendererMixin",
     "renderer.BasicItemModelMixin",
+    "renderer.ElytraFeatureRendererMixin",
     "renderer.EquipmentRendererMixin",
     "renderer.HeldItemFeatureRendererMixin",
     "renderer.ItemStackAttributeRenderMixin"
