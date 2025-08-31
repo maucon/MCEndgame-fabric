@@ -7,7 +7,6 @@ import de.fuballer.mcendgame.client.component.item.custom.armor.druids.DruidsHel
 import de.fuballer.mcendgame.client.component.item.custom.armor.druids.DruidsLeggingsModel
 import de.fuballer.mcendgame.client.component.item.custom.armor.emberchant.EmberchantModel
 import de.fuballer.mcendgame.client.component.item.custom.armor.geistergaloschen.GeistergaloschenModel
-import de.fuballer.mcendgame.client.component.item.custom.armor.geistergaloschen.GhostlyVertexConsumer
 import de.fuballer.mcendgame.client.component.item.custom.armor.iceborne.IceborneModel
 import de.fuballer.mcendgame.client.component.item.custom.armor.lamias_gift.LamiasGiftModel
 import de.fuballer.mcendgame.client.component.item.custom.armor.moonshadow.MoonshadowModel
@@ -247,20 +246,16 @@ class CustomHumanoidArmorFeatureRenderer<S : BipedEntityRenderState, M : BipedEn
         color: Int = -1,
         translucent: Boolean = false,
     ) {
-        val ghostly = bipedEntityRenderState.isGhostly()
+        var renderLayer = if (translucent || bipedEntityRenderState.isGhostly()) RenderLayer.getEntityTranslucent(texture) else RenderLayer.getArmorCutoutNoCull(texture)
 
         var vertexConsumer = ItemRenderer.getArmorGlintConsumer(
             vertexConsumerProvider,
-            if (translucent || ghostly) RenderLayer.getEntityTranslucent(texture) else RenderLayer.getArmorCutoutNoCull(texture),
+            renderLayer,
             glint
         )
 
         if (model is CustomVertexConsumer) {
             vertexConsumer = model.getVertexConsumer(bipedEntityRenderState, vertexConsumerProvider, vertexConsumer)
-        }
-
-        if (ghostly) {
-            vertexConsumer = GhostlyVertexConsumer(vertexConsumer)
         }
 
         model.render(matrices, vertexConsumer, light, OverlayTexture.DEFAULT_UV, color)
