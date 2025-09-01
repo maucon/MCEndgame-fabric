@@ -1,8 +1,10 @@
 package de.fuballer.mcendgame.main.util.extension
 
+import net.minecraft.util.math.BlockPos
 import net.minecraft.util.math.Vec3d
 import kotlin.math.PI
 import kotlin.math.acos
+import kotlin.math.floor
 
 object Vec3dExtension {
     private fun Vec3d.horizontalAngleDeg(to: Vec3d): Double {
@@ -22,4 +24,6 @@ object Vec3dExtension {
         val angle = horizontalAngleDeg(Vec3d(0.0, 0.0, 1.0))
         return if (x > 0) -angle else angle
     }
+
+    fun Vec3d.toBlockPos() = BlockPos(floor(x).toInt(), floor(y).toInt(), floor(z).toInt())
 }

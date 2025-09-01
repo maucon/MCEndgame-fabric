@@ -15,13 +15,15 @@
     "low_health_ticks.LivingEntityLowHealthTicksMixin",
     "player.PlayerEntityMixin",
     "renderer.ArmorFeatureRendererMixin",
+    "renderer.BackgroundRendererBlockPhasingMixin",
     "renderer.BasicItemModelGhostlyMixin",
     "renderer.ElytraFeatureRendererGhostlyMixin",
     "renderer.EquipmentRendererTranslucentMixin",
     "renderer.HeadFeatureRendererGhostlyMixin",
     "renderer.InGameOverlayRendererBlockPhasingMixin",
     "renderer.ItemStackAttributeRenderMixin",
-    "renderer.SkullBlockEntityRendererAccessorMixin"
+    "renderer.SkullBlockEntityRendererAccessorMixin",
+    "renderer.WorldRendererBlockPhasingMixin"
   ],
   "injectors": {
     "defaultRequire": 1
