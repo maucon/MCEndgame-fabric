@@ -19,6 +19,7 @@
     "renderer.ElytraFeatureRendererGhostlyMixin",
     "renderer.EquipmentRendererTranslucentMixin",
     "renderer.HeadFeatureRendererGhostlyMixin",
+    "renderer.InGameOverlayRendererBlockPhasingMixin",
     "renderer.ItemStackAttributeRenderMixin",
     "renderer.SkullBlockEntityRendererAccessorMixin"
   ],
