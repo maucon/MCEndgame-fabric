@@ -14,6 +14,7 @@ class Geistergaloschen(
         RollableCustomAttribute(CustomAttributeTypes.GHOSTLY_APPEARANCE, 0),
         RollableCustomAttribute(CustomAttributeTypes.ENTITY_PHASING, 0),
         RollableCustomAttribute(CustomAttributeTypes.BLOCK_PHASING, 0),
+        RollableCustomAttribute(CustomAttributeTypes.MORE_BACKSTAB_DAMAGE, 0, DoubleBounds(0.25, 0.35)),
         RollableCustomAttribute(VanillaAttributeTypes.INCREASED_MOVEMENT_SPEED, 0, DoubleBounds(0.05, 0.15)),
     )
 

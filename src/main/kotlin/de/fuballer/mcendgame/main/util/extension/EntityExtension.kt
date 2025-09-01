@@ -4,6 +4,7 @@ import de.fuballer.mcendgame.main.component.custom_attribute.CustomAttributesExt
 import de.fuballer.mcendgame.main.component.custom_attribute.CustomAttributesExtensions.getAllCustomAttributes
 import de.fuballer.mcendgame.main.component.custom_attribute.CustomAttributesExtensions.isBlockPhasing
 import de.fuballer.mcendgame.main.component.custom_attribute.types.CustomAttributeTypes
+import de.fuballer.mcendgame.main.util.extension.Vec3dExtension.angleDeg
 import de.fuballer.mcendgame.main.util.extension.WorldExtension.isDungeonWorld
 import de.fuballer.mcendgame.main.util.extension.mixin.EntityMixinExtension.isDungeonEnemy
 import net.minecraft.entity.Entity
@@ -104,5 +105,16 @@ object EntityExtension {
             val collisionShape = blockState.getCollisionShape(world, blockPos).offset(blockPos)
             VoxelShapes.matchesAnywhere(collisionShape, eyeBoxShape, BooleanBiFunction.AND)
         }
+    }
+
+    fun Entity.isBehind(
+        other: Entity,
+        maxAngle: Double = 90.0,
+    ): Boolean {
+        val distanceVec = other.pos.subtract(pos).normalize()
+        val damagedRotationVec = other.getRotationVec(1F).normalize()
+
+        val angle = distanceVec.angleDeg(damagedRotationVec)
+        return angle < maxAngle
     }
 }
