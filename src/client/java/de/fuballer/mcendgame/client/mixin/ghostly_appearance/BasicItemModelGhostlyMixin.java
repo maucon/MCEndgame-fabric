@@ -1,4 +1,4 @@
-package de.fuballer.mcendgame.client.mixin.renderer;
+package de.fuballer.mcendgame.client.mixin.ghostly_appearance;
 
 import com.llamalad7.mixinextras.sugar.Local;
 import de.fuballer.mcendgame.main.component.custom_attribute.CustomAttributesExtensions;

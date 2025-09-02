@@ -1,4 +1,4 @@
-package de.fuballer.mcendgame.client.mixin.living_entity;
+package de.fuballer.mcendgame.client.mixin.ghostly_appearance;
 
 import de.fuballer.mcendgame.client.accessor.LivingEntityRenderStateGhostlyAccessor;
 import net.minecraft.client.render.entity.state.LivingEntityRenderState;

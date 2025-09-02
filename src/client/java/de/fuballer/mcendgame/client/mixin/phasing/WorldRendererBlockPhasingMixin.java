@@ -1,4 +1,4 @@
-package de.fuballer.mcendgame.client.mixin.renderer;
+package de.fuballer.mcendgame.client.mixin.phasing;
 
 import de.fuballer.mcendgame.main.util.extension.EntityExtension;
 import net.minecraft.client.render.Camera;

@@ -1,4 +1,4 @@
-package de.fuballer.mcendgame.main.mixin.living_entity;
+package de.fuballer.mcendgame.main.mixin.phasing;
 
 import com.llamalad7.mixinextras.sugar.Local;
 import de.fuballer.mcendgame.main.component.custom_attribute.CustomAttributesExtensions;

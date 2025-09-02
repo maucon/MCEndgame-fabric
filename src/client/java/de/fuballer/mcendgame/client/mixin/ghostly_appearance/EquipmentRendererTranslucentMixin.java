@@ -1,4 +1,4 @@
-package de.fuballer.mcendgame.client.mixin.renderer;
+package de.fuballer.mcendgame.client.mixin.ghostly_appearance;
 
 import de.fuballer.mcendgame.client.accessor.EquipmentRendererAccessor;
 import net.minecraft.client.model.Model;

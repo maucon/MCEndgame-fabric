@@ -1,4 +1,4 @@
-package de.fuballer.mcendgame.client.mixin.renderer;
+package de.fuballer.mcendgame.client.mixin.phasing;
 
 import com.llamalad7.mixinextras.injector.ModifyExpressionValue;
 import com.llamalad7.mixinextras.sugar.Local;

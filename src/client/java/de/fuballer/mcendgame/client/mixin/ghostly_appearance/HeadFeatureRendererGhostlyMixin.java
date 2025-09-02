@@ -1,6 +1,7 @@
-package de.fuballer.mcendgame.client.mixin.renderer;
+package de.fuballer.mcendgame.client.mixin.ghostly_appearance;
 
 import com.llamalad7.mixinextras.sugar.Local;
+import de.fuballer.mcendgame.client.mixin.renderer.SkullBlockEntityRendererAccessorMixin;
 import de.fuballer.mcendgame.client.util.EntityRenderStateMixinExtension;
 import net.minecraft.block.SkullBlock;
 import net.minecraft.client.MinecraftClient;

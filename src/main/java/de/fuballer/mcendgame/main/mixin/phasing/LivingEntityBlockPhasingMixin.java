@@ -1,4 +1,4 @@
-package de.fuballer.mcendgame.main.mixin.living_entity;
+package de.fuballer.mcendgame.main.mixin.phasing;
 
 import de.fuballer.mcendgame.main.component.custom_attribute.CustomAttributesExtensions;
 import net.minecraft.entity.LivingEntity;
