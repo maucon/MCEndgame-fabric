@@ -14,6 +14,7 @@ class Stoneward(
         RollableCustomAttribute(CustomAttributeTypes.WARD, 0, DoubleBounds(2.0, 3.0)),
         RollableCustomAttribute(VanillaAttributeTypes.ARMOR, 0, DoubleBounds(2.0, 3.0)),
         RollableCustomAttribute(VanillaAttributeTypes.ARMOR_TOUGHNESS, 0, DoubleBounds(3.0, 5.0)),
+        RollableCustomAttribute(VanillaAttributeTypes.INCREASED_SCALE, 0, DoubleBounds(0.05, 0.1)),
         RollableCustomAttribute(VanillaAttributeTypes.MORE_MOVEMENT_SPEED, 0, DoubleBounds(-0.2, -0.2)),
     )
 
