@@ -1,6 +1,10 @@
 package de.fuballer.mcendgame.main.mixin.living_entity;
 
+import com.llamalad7.mixinextras.sugar.Local;
 import de.fuballer.mcendgame.main.component.custom_attribute.CustomAttributesExtensions;
+import de.fuballer.mcendgame.main.component.tags.CustomTags;
+import de.fuballer.mcendgame.main.util.extension.WorldExtension;
+import net.minecraft.block.BlockState;
 import net.minecraft.block.ShapeContext;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.LivingEntity;
@@ -46,6 +50,7 @@ public class BlockCollisionSpliteratorBlockPhasingMixin<T> {
             CallbackInfo ci
     ) {
         if (!(entity instanceof LivingEntity livingEntity)) return;
+        if (WorldExtension.INSTANCE.isDungeonWorld(livingEntity.getWorld())) return;
         blockPhasing = CustomAttributesExtensions.INSTANCE.isBlockPhasing(livingEntity);
     }
 
@@ -54,8 +59,12 @@ public class BlockCollisionSpliteratorBlockPhasingMixin<T> {
             at = @At(value = "STORE", ordinal = 0),
             ordinal = 0
     )
-    private VoxelShape filterVoxelShape(VoxelShape voxelShape) {
+    private VoxelShape filterVoxelShape(
+            VoxelShape voxelShape,
+            @Local BlockState blockState
+    ) {
         if (!blockPhasing) return voxelShape;
+        if (blockState.isIn(CustomTags.INSTANCE.getPHASING_BLOCKING())) return voxelShape;
 
         var collisionShape = VoxelShapes.empty();
         if (context.isDescending()) return collisionShape;
