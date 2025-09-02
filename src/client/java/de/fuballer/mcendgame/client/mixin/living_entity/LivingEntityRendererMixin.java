@@ -19,15 +19,13 @@ public class LivingEntityRendererMixin {
             float f,
             CallbackInfo ci
     ) {
-        if (!(livingEntityRenderState instanceof LivingEntityRenderStateAccessor livingEntityRenderStateAccessor)) {
-            return;
-        }
+        if (!(livingEntityRenderState instanceof LivingEntityRenderStateAccessor livingEntityRenderStateAccessor)) return;
+
         livingEntityRenderStateAccessor.mcendgame$setHealth(livingEntity.getHealth());
         livingEntityRenderStateAccessor.mcendgame$setMaxHealth(livingEntity.getMaxHealth());
 
-        if (!(livingEntity instanceof LivingEntityLowHealthTicksAccessor livingEntityLowHealthTicksAccessor)) {
-            return;
+        if (livingEntity instanceof LivingEntityLowHealthTicksAccessor livingEntityLowHealthTicksAccessor) {
+            livingEntityRenderStateAccessor.mcendgame$setLowHealthTicks20(livingEntityLowHealthTicksAccessor.mcendgame$getLowHealthTicks20());
         }
-        livingEntityRenderStateAccessor.mcendgame$setLowHealthTicks20(livingEntityLowHealthTicksAccessor.mcendgame$getLowHealthTicks20());
     }
 }

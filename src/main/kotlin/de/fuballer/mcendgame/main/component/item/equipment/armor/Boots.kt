@@ -41,6 +41,12 @@ enum class Boots(
     ),
     SUEDE_BOOTS(
         CustomArmorItems.SUEDE_BOOTS,
+    ),
+    MOONSHADOW(
+        CustomArmorItems.MOONSHADOW,
+    ),
+    GEISTERGALOSCHEN(
+        CustomArmorItems.GEISTERGALOSCHEN,
     );
 
     override val slot = AttributeModifierSlot.FEET

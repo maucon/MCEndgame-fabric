@@ -75,6 +75,15 @@ object VanillaAttributeTypes {
         AttributeAffinities.BENEFICIAL,
         SignBasedKeywords.INCREASED
     )
+    val MORE_MOVEMENT_SPEED = VanillaAttributeType(
+        EntityAttributes.MOVEMENT_SPEED,
+        EntityAttributeModifier.Operation.ADD_MULTIPLIED_TOTAL,
+        "more_movement_speed",
+        AttributeFormats.PERCENT_ROLL,
+        AttributeFormats.PERCENT_BOUNDS,
+        AttributeAffinities.BENEFICIAL,
+        SignBasedKeywords.MORE
+    )
     val LUCK = VanillaAttributeType(
         EntityAttributes.LUCK,
         EntityAttributeModifier.Operation.ADD_VALUE,

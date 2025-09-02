@@ -74,5 +74,9 @@ class CustomBlockTagProvider(
             .add(Blocks.CRIMSON_ROOTS)
             .add(Blocks.HANGING_ROOTS)
             .add(Blocks.LILY_PAD)
+
+        getOrCreateTagBuilder(CustomTags.PHASING_BLOCKING)
+            .add(Blocks.BARRIER)
+            .add(Blocks.BEDROCK)
     }
 }

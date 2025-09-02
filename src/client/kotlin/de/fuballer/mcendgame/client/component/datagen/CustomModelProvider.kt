@@ -45,6 +45,9 @@ class CustomModelProvider(
         generator.register(CustomArmorItems.WITHER_ROSE_CHESTPLATE, Models.GENERATED)
         generator.register(CustomArmorItems.WITHER_ROSE_HELMET, Models.GENERATED)
         generator.register(CustomArmorItems.WITHER_ROSE_LEGGINGS, Models.GENERATED)
+        generator.register(CustomArmorItems.STONEWARD, Models.GENERATED)
+        generator.register(CustomArmorItems.MOONSHADOW, Models.GENERATED)
+        generator.register(CustomArmorItems.GEISTERGALOSCHEN, Models.GENERATED)
 
         generator.register(AspectItems.ASPECT_OF_CURIO, Models.GENERATED)
         generator.register(AspectItems.ASPECT_OF_DOMINION, Models.GENERATED)

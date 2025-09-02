@@ -2,7 +2,9 @@ package de.fuballer.mcendgame.main.util.extension
 
 import de.fuballer.mcendgame.main.component.custom_attribute.CustomAttributesExtensions.asIntRoll
 import de.fuballer.mcendgame.main.component.custom_attribute.CustomAttributesExtensions.getAllCustomAttributes
+import de.fuballer.mcendgame.main.component.custom_attribute.CustomAttributesExtensions.isBlockPhasing
 import de.fuballer.mcendgame.main.component.custom_attribute.types.CustomAttributeTypes
+import de.fuballer.mcendgame.main.util.extension.Vec3dExtension.angleDeg
 import de.fuballer.mcendgame.main.util.extension.WorldExtension.isDungeonWorld
 import de.fuballer.mcendgame.main.util.extension.mixin.EntityMixinExtension.isDungeonEnemy
 import net.minecraft.entity.Entity
@@ -14,7 +16,11 @@ import net.minecraft.entity.passive.AnimalEntity
 import net.minecraft.entity.passive.IronGolemEntity
 import net.minecraft.entity.passive.VillagerEntity
 import net.minecraft.entity.player.PlayerEntity
+import net.minecraft.util.function.BooleanBiFunction
+import net.minecraft.util.math.BlockPos
+import net.minecraft.util.math.Box
 import net.minecraft.util.math.Vec3d
+import net.minecraft.util.shape.VoxelShapes
 
 object EntityExtension {
     fun LivingEntity.isAlly(entity: Entity): Boolean {
@@ -83,5 +89,32 @@ object EntityExtension {
     fun LivingEntity.getAdditionalBowPullTicks(): Int {
         val attributes = getAllCustomAttributes()[CustomAttributeTypes.BOW_PULL_TICKS] ?: return 0
         return attributes.sumOf { it.rolls[0].asIntRoll().getValue() }
+    }
+
+    fun Entity.isPhasingThroughWall(): Boolean {
+        if (this !is LivingEntity) return false
+        if (!isBlockPhasing()) return false
+
+        val eyeBox = Box.of(eyePos, 0.2, 0.2, 0.2)
+        val eyeBoxShape = VoxelShapes.cuboid(eyeBox)
+
+        return BlockPos.stream(eyeBox).anyMatch { blockPos ->
+            val blockState = world.getBlockState(blockPos)
+            if (blockState.isAir) return@anyMatch false
+
+            val collisionShape = blockState.getCollisionShape(world, blockPos).offset(blockPos)
+            VoxelShapes.matchesAnywhere(collisionShape, eyeBoxShape, BooleanBiFunction.AND)
+        }
+    }
+
+    fun Entity.isBehind(
+        other: Entity,
+        maxAngle: Double = 90.0,
+    ): Boolean {
+        val distanceVec = other.pos.subtract(pos).normalize()
+        val damagedRotationVec = other.getRotationVec(1F).normalize()
+
+        val angle = distanceVec.angleDeg(damagedRotationVec)
+        return angle < maxAngle
     }
 }

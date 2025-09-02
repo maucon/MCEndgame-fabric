@@ -46,10 +46,13 @@ object EquipmentGenerationSettings {
         RandomOption(100, TaggedEquipment(Leggings.DRUIDS_LEGGINGS, EquipmentSlot.LEGS)),
         RandomOption(100, TaggedEquipment(Leggings.WITHER_ROSE_LEGGINGS, EquipmentSlot.LEGS)),
         RandomOption(100, TaggedEquipment(Leggings.SUEDE_LEGGINGS, EquipmentSlot.LEGS)),
+        RandomOption(100, TaggedEquipment(Leggings.STONEWARD, EquipmentSlot.LEGS)),
 
         RandomOption(100, TaggedEquipment(Boots.DRUIDS_BOOTS, EquipmentSlot.FEET)),
         RandomOption(100, TaggedEquipment(Boots.WITHER_ROSE_BOOTS, EquipmentSlot.FEET)),
         RandomOption(100, TaggedEquipment(Boots.SUEDE_BOOTS, EquipmentSlot.FEET)),
+        RandomOption(100, TaggedEquipment(Boots.MOONSHADOW, EquipmentSlot.FEET)),
+        //RandomOption(100, TaggedEquipment(Boots.GEISTERGALOSCHEN, EquipmentSlot.FEET)), should not drop default
 
         RandomOption(100, TaggedEquipment.forRangedWeapon(Bow.WINDSTRING)),
         RandomOption(100, TaggedEquipment.forRangedWeapon(Bow.HAILSTORM)),

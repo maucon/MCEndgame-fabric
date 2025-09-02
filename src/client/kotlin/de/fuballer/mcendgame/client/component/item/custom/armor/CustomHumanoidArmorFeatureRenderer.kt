@@ -6,8 +6,11 @@ import de.fuballer.mcendgame.client.component.item.custom.armor.druids.DruidsChe
 import de.fuballer.mcendgame.client.component.item.custom.armor.druids.DruidsHelmetModel
 import de.fuballer.mcendgame.client.component.item.custom.armor.druids.DruidsLeggingsModel
 import de.fuballer.mcendgame.client.component.item.custom.armor.emberchant.EmberchantModel
+import de.fuballer.mcendgame.client.component.item.custom.armor.geistergaloschen.GeistergaloschenModel
 import de.fuballer.mcendgame.client.component.item.custom.armor.iceborne.IceborneModel
 import de.fuballer.mcendgame.client.component.item.custom.armor.lamias_gift.LamiasGiftModel
+import de.fuballer.mcendgame.client.component.item.custom.armor.moonshadow.MoonshadowModel
+import de.fuballer.mcendgame.client.component.item.custom.armor.stoneward.StonewardModel
 import de.fuballer.mcendgame.client.component.item.custom.armor.suede.SuedeBootsModel
 import de.fuballer.mcendgame.client.component.item.custom.armor.suede.SuedeChestplateModel
 import de.fuballer.mcendgame.client.component.item.custom.armor.suede.SuedeHelmetModel
@@ -17,6 +20,7 @@ import de.fuballer.mcendgame.client.component.item.custom.armor.wither_rose.With
 import de.fuballer.mcendgame.client.component.item.custom.armor.wither_rose.WitherRoseHelmetModel
 import de.fuballer.mcendgame.client.component.item.custom.armor.wither_rose.WitherRoseLeggingsModel
 import de.fuballer.mcendgame.client.util.BipedEntityRenderStateMixinExtension.getHiddenArmor
+import de.fuballer.mcendgame.client.util.EntityRenderStateMixinExtension.isGhostly
 import de.fuballer.mcendgame.main.component.item.custom.armor.CustomArmorItems
 import de.fuballer.mcendgame.main.util.minecraft.IdentifierUtil
 import net.minecraft.client.model.Model
@@ -114,6 +118,18 @@ class CustomHumanoidArmorFeatureRenderer<S : BipedEntityRenderState, M : BipedEn
             SuedeBootsModel(ctx.getPart(SuedeBootsModel.MODEL_LAYER)),
             colorAbleTexture = IdentifierUtil.default("textures/entity/equipment/custom_humanoid/suede_color_able.png"),
             defaultColor = 10511680,
+        )
+        texturedArmorModels[CustomArmorItems.STONEWARD] = TexturedArmorModel(
+            StonewardModel(ctx.getPart(StonewardModel.MODEL_LAYER)),
+            IdentifierUtil.default("textures/entity/equipment/custom_humanoid/stoneward.png"),
+        )
+        texturedArmorModels[CustomArmorItems.MOONSHADOW] = TexturedArmorModel(
+            MoonshadowModel(ctx.getPart(MoonshadowModel.MODEL_LAYER)),
+            IdentifierUtil.default("textures/entity/equipment/custom_humanoid/moonshadow.png"),
+        )
+        texturedArmorModels[CustomArmorItems.GEISTERGALOSCHEN] = TexturedArmorModel(
+            GeistergaloschenModel(ctx.getPart(GeistergaloschenModel.MODEL_LAYER)),
+            translucentTexture = IdentifierUtil.default("textures/entity/equipment/custom_humanoid/geistergaloschen.png"),
         )
     }
 
@@ -230,9 +246,11 @@ class CustomHumanoidArmorFeatureRenderer<S : BipedEntityRenderState, M : BipedEn
         color: Int = -1,
         translucent: Boolean = false,
     ) {
+        var renderLayer = if (translucent || bipedEntityRenderState.isGhostly()) RenderLayer.getEntityTranslucent(texture) else RenderLayer.getArmorCutoutNoCull(texture)
+
         var vertexConsumer = ItemRenderer.getArmorGlintConsumer(
             vertexConsumerProvider,
-            if (translucent) RenderLayer.getEntityTranslucent(texture) else RenderLayer.getArmorCutoutNoCull(texture),
+            renderLayer,
             glint
         )
 

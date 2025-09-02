@@ -42,11 +42,14 @@ class CustomItemTagProvider(
             .add(CustomArmorItems.DRUIDS_LEGGINGS)
             .add(CustomArmorItems.SUEDE_LEGGINGS)
             .add(CustomArmorItems.WITHER_ROSE_LEGGINGS)
+            .add(CustomArmorItems.STONEWARD)
 
         getOrCreateTagBuilder(ItemTags.FOOT_ARMOR)
             .add(CustomArmorItems.DRUIDS_BOOTS)
             .add(CustomArmorItems.SUEDE_BOOTS)
             .add(CustomArmorItems.WITHER_ROSE_BOOTS)
+            .add(CustomArmorItems.MOONSHADOW)
+            .add(CustomArmorItems.GEISTERGALOSCHEN)
 
         getOrCreateTagBuilder(CustomTags.BOW)
             .add(Items.BOW)

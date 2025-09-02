@@ -1,6 +1,7 @@
 package de.fuballer.mcendgame.client.util
 
 import de.fuballer.mcendgame.client.accessor.LivingEntityRenderStateAccessor
+import de.fuballer.mcendgame.client.accessor.LivingEntityRenderStateGhostlyAccessor
 import de.fuballer.mcendgame.client.accessor.LivingEntityRenderStateWebbedAccessor
 import net.minecraft.client.render.entity.state.LivingEntityRenderState
 
@@ -44,4 +45,8 @@ object EntityRenderStateMixinExtension {
         val accessor = this as LivingEntityRenderStateAccessor
         return accessor.`mcendgame$getLowHealthTicks20`()
     }
+
+    fun LivingEntityRenderState.setGhostly(ghostly: Boolean = true) = (this as LivingEntityRenderStateGhostlyAccessor).`mcendgame$setGhostly`(ghostly)
+
+    fun LivingEntityRenderState.isGhostly() = (this as LivingEntityRenderStateGhostlyAccessor).`mcendgame$isGhostly`()
 }

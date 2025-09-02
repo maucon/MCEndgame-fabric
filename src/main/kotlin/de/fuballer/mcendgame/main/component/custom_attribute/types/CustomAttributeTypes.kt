@@ -37,6 +37,8 @@ object CustomAttributeTypes {
         CustomAttributeType("increased_projectile_damage", AttributeFormats.SIGNED_PERCENT_ROLL, AttributeFormats.PERCENT_BOUNDS, AttributeAffinities.BENEFICIAL, SignBasedKeywords.INCREASED)
     val MORE_PROJECTILE_DAMAGE =
         CustomAttributeType("more_projectile_damage", AttributeFormats.PERCENT_ROLL, AttributeFormats.PERCENT_BOUNDS, AttributeAffinities.BENEFICIAL, SignBasedKeywords.MORE)
+    val MORE_BACKSTAB_DAMAGE =
+        CustomAttributeType("more_backstab_damage", AttributeFormats.PERCENT_ROLL, AttributeFormats.PERCENT_BOUNDS, AttributeAffinities.BENEFICIAL, SignBasedKeywords.MORE)
 
     // BOW
     val BOW_PULL_TICKS = CustomAttributeType("bow_pull_ticks", AttributeFormats.SIGNED_INT_ROLL, AttributeFormats.INT_BOUNDS, AttributeAffinities.DETRIMENTAL)
@@ -137,6 +139,11 @@ object CustomAttributeTypes {
     val RESILIENCE_ON_DAMAGE_TAKEN = CustomAttributeType("resilience_on_damage_taken", AttributeFormats.EMPTY_ROLL, AttributeFormats.EMPTY_BOUNDS, AttributeAffinities.EMPTY)
 
     val WOLF_COMPANION = CustomAttributeType("wolf_companion", AttributeFormats.STRING_ROLL, AttributeFormats.STRING_SHOW_ALL_OPTIONS, AttributeAffinities.BENEFICIAL)
+
+    val GHOSTLY_APPEARANCE = CustomAttributeType("ghostly_appearance", AttributeFormats.EMPTY_ROLL, AttributeFormats.EMPTY_BOUNDS, AttributeAffinities.EMPTY)
+
+    val ENTITY_PHASING = CustomAttributeType("entity_phasing", AttributeFormats.EMPTY_ROLL, AttributeFormats.EMPTY_BOUNDS, AttributeAffinities.EMPTY)
+    val BLOCK_PHASING = CustomAttributeType("block_phasing", AttributeFormats.EMPTY_ROLL, AttributeFormats.EMPTY_BOUNDS, AttributeAffinities.EMPTY)
 
     // region get by key
     fun getByKey(key: String): CustomAttributeType {

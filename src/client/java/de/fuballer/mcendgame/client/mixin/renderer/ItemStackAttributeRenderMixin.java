@@ -1,4 +1,4 @@
-package de.fuballer.mcendgame.client.mixin;
+package de.fuballer.mcendgame.client.mixin.renderer;
 
 import de.fuballer.mcendgame.main.MCEndgame;
 import net.minecraft.component.DataComponentTypes;

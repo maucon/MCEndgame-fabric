@@ -72,6 +72,9 @@ object CustomItemGroups {
             itemGroup.add(CustomArmorItems.SUEDE_CHESTPLATE.defaultStack)
             itemGroup.add(CustomArmorItems.SUEDE_LEGGINGS.defaultStack)
             itemGroup.add(CustomArmorItems.SUEDE_BOOTS.defaultStack)
+            itemGroup.add(CustomArmorItems.STONEWARD.defaultStack)
+            itemGroup.add(CustomArmorItems.MOONSHADOW.defaultStack)
+            itemGroup.add(CustomArmorItems.GEISTERGALOSCHEN.defaultStack)
         }
         ItemGroupEvents.modifyEntriesEvent(CUSTOM_TOOLS_KEY).register { itemGroup ->
             itemGroup.add(CustomToolItems.BLOODHARVEST.defaultStack)
