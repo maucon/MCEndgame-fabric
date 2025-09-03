@@ -1,7 +1,6 @@
 package de.fuballer.mcendgame.client.component.datagen
 
 import de.fuballer.mcendgame.main.component.block.CustomBlocks
-import de.fuballer.mcendgame.main.component.dungeon.device.DungeonDevice
 import de.fuballer.mcendgame.main.component.tags.CustomTags
 import net.fabricmc.fabric.api.datagen.v1.FabricDataOutput
 import net.fabricmc.fabric.api.datagen.v1.provider.FabricTagProvider
@@ -16,7 +15,8 @@ class CustomBlockTagProvider(
 ) : FabricTagProvider.BlockTagProvider(dataOutput, registryLookup) {
     override fun configure(wrapperLookup: RegistryWrapper.WrapperLookup) {
         getOrCreateTagBuilder(BlockTags.PICKAXE_MINEABLE)
-            .add(DungeonDevice.BLOCK)
+            .add(CustomBlocks.DUNGEON_DEVICE)
+            .add(CustomBlocks.CRYSTAL_FORGE)
 
         getOrCreateTagBuilder(BlockTags.SWORD_EFFICIENT)
             .add(CustomBlocks.DECAYING_COBWEB)
@@ -74,5 +74,9 @@ class CustomBlockTagProvider(
             .add(Blocks.CRIMSON_ROOTS)
             .add(Blocks.HANGING_ROOTS)
             .add(Blocks.LILY_PAD)
+
+        getOrCreateTagBuilder(CustomTags.PHASING_BLOCKING)
+            .add(Blocks.BARRIER)
+            .add(Blocks.BEDROCK)
     }
 }

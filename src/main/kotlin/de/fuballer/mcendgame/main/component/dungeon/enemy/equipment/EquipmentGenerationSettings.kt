@@ -1,5 +1,7 @@
 package de.fuballer.mcendgame.main.component.dungeon.enemy.equipment
 
+import de.fuballer.mcendgame.main.component.dungeon.enemy.equipment.data.EquipmentTag
+import de.fuballer.mcendgame.main.component.dungeon.enemy.equipment.data.TaggedEquipment
 import de.fuballer.mcendgame.main.component.item.equipment.Equipment
 import de.fuballer.mcendgame.main.component.item.equipment.armor.Boots
 import de.fuballer.mcendgame.main.component.item.equipment.armor.Chestplate
@@ -7,6 +9,7 @@ import de.fuballer.mcendgame.main.component.item.equipment.armor.Helmet
 import de.fuballer.mcendgame.main.component.item.equipment.armor.Leggings
 import de.fuballer.mcendgame.main.component.item.equipment.tool.*
 import de.fuballer.mcendgame.main.util.random.RandomOption
+import de.fuballer.mcendgame.main.util.random.RandomUtil
 import de.fuballer.mcendgame.main.util.random.SortableRandomOption
 import net.minecraft.entity.EquipmentSlot
 import net.minecraft.item.equipment.trim.ArmorTrimMaterial
@@ -14,6 +17,7 @@ import net.minecraft.item.equipment.trim.ArmorTrimMaterials
 import net.minecraft.item.equipment.trim.ArmorTrimPattern
 import net.minecraft.item.equipment.trim.ArmorTrimPatterns
 import net.minecraft.registry.RegistryKey
+import kotlin.random.Random
 
 object EquipmentGenerationSettings {
     private const val EQUIPMENT_ROLL_TRIES_PER_TIER = 0.25
@@ -21,47 +25,62 @@ object EquipmentGenerationSettings {
 
     const val UNIQUE_EQUIPMENT_PROBABILITY = 0.01
 
-    val UNIQUE_EQUIPMENT = mapOf<EquipmentSlot, List<Equipment>>(
-        EquipmentSlot.MAINHAND to listOf(
-            Sword.TWINFIRE,
-            Sword.BLOODHARVEST,
-            Sword.SERPENTS_FANG,
-            Axe.FATESPLITTER,
-        ),
-        EquipmentSlot.OFFHAND to listOf(
-            Sword.TWINFIRE,
-            Sword.BLOODHARVEST,
-        ),
-        EquipmentSlot.HEAD to listOf(
-            Helmet.ICEBORNE,
-            Helmet.EMBERCHANT,
-            Helmet.DRUIDS_HELMET,
-            Helmet.WITHER_ROSE_HELMET,
-            Helmet.SUEDE_HELMET,
-        ),
-        EquipmentSlot.CHEST to listOf(
-            Chestplate.BOUND_ABYSS,
-            Chestplate.DRUIDS_CHESTPLATE,
-            Chestplate.WITHER_ROSE_CHESTPLATE,
-            Chestplate.SUEDE_CHESTPLATE,
-        ),
-        EquipmentSlot.LEGS to listOf(
-            Leggings.LAMIAS_GIFT,
-            Leggings.DRUIDS_LEGGINGS,
-            Leggings.WITHER_ROSE_LEGGINGS,
-        ),
-        EquipmentSlot.FEET to listOf(
-            Boots.DRUIDS_BOOTS,
-            Boots.WITHER_ROSE_BOOTS,
-            Boots.SUEDE_BOOTS,
-        ),
+    val UNIQUE_EQUIPMENT = listOf(
+        RandomOption(100, TaggedEquipment.forBothHands(Sword.TWINFIRE)),
+        RandomOption(100, TaggedEquipment.forBothHands(Sword.BLOODHARVEST)),
+        RandomOption(100, TaggedEquipment.forBothHands(Sword.SERPENTS_FANG)),
+        RandomOption(100, TaggedEquipment.forBothHands(Axe.FATESPLITTER)),
+
+        RandomOption(100, TaggedEquipment(Helmet.ICEBORNE, EquipmentSlot.HEAD)),
+        RandomOption(100, TaggedEquipment(Helmet.EMBERCHANT, EquipmentSlot.HEAD)),
+        RandomOption(100, TaggedEquipment(Helmet.DRUIDS_HELMET, EquipmentSlot.HEAD)),
+        RandomOption(100, TaggedEquipment(Helmet.WITHER_ROSE_HELMET, EquipmentSlot.HEAD)),
+        RandomOption(100, TaggedEquipment(Helmet.SUEDE_HELMET, EquipmentSlot.HEAD)),
+
+        RandomOption(100, TaggedEquipment(Chestplate.BOUND_ABYSS, EquipmentSlot.CHEST)),
+        RandomOption(100, TaggedEquipment(Chestplate.DRUIDS_CHESTPLATE, EquipmentSlot.CHEST)),
+        RandomOption(100, TaggedEquipment(Chestplate.WITHER_ROSE_CHESTPLATE, EquipmentSlot.CHEST)),
+        RandomOption(100, TaggedEquipment(Chestplate.SUEDE_CHESTPLATE, EquipmentSlot.CHEST)),
+
+        RandomOption(100, TaggedEquipment(Leggings.LAMIAS_GIFT, EquipmentSlot.LEGS)),
+        RandomOption(100, TaggedEquipment(Leggings.DRUIDS_LEGGINGS, EquipmentSlot.LEGS)),
+        RandomOption(100, TaggedEquipment(Leggings.WITHER_ROSE_LEGGINGS, EquipmentSlot.LEGS)),
+        RandomOption(100, TaggedEquipment(Leggings.SUEDE_LEGGINGS, EquipmentSlot.LEGS)),
+        RandomOption(100, TaggedEquipment(Leggings.STONEWARD, EquipmentSlot.LEGS)),
+
+        RandomOption(100, TaggedEquipment(Boots.DRUIDS_BOOTS, EquipmentSlot.FEET)),
+        RandomOption(100, TaggedEquipment(Boots.WITHER_ROSE_BOOTS, EquipmentSlot.FEET)),
+        RandomOption(100, TaggedEquipment(Boots.SUEDE_BOOTS, EquipmentSlot.FEET)),
+        RandomOption(100, TaggedEquipment(Boots.MOONSHADOW, EquipmentSlot.FEET)),
+        //RandomOption(100, TaggedEquipment(Boots.GEISTERGALOSCHEN, EquipmentSlot.FEET)), should not drop default
+
+        RandomOption(100, TaggedEquipment.forRangedWeapon(Bow.WINDSTRING)),
+        RandomOption(100, TaggedEquipment.forRangedWeapon(Bow.HAILSTORM)),
+        RandomOption(100, TaggedEquipment.forRangedWeapon(Bow.DUSK_PIERCER)),
     )
 
-    val UNIQUE_RANGED_EQUIPMENT = listOf(
-        Bow.WINDSTRING,
-        Bow.HAILSTORM,
-        Bow.DUSK_PIERCER,
-    )
+    fun getRandomUniqueEquipment(
+        slot: EquipmentSlot? = null,
+        tag: EquipmentTag,
+        tagExactMatch: Boolean = true,
+        random: Random = Random,
+    ) = getRandomUniqueEquipment(slot, setOf(tag), tagExactMatch, random)
+
+    fun getRandomUniqueEquipment(
+        slot: EquipmentSlot? = null,
+        tags: Set<EquipmentTag> = setOf(),
+        tagsExactMatch: Boolean = true,
+        random: Random = Random,
+    ): Equipment? {
+        val options = UNIQUE_EQUIPMENT.toMutableList()
+        if (slot != null) options.removeAll { !it.option.slots.contains(slot) }
+
+        if (tagsExactMatch) options.removeAll { it.option.tags != tags }
+        else options.removeAll { !it.option.tags.containsAll(tags) }
+
+        if (options.isEmpty()) return null
+        return RandomUtil.pick(options, random).option.equipment
+    }
 
     val HELMETS = listOf(
         SortableRandomOption(500, 0, null),

@@ -15,7 +15,7 @@ class IncreasedDamageAgainstFullHealthService {
         if (!cmd.damaged.isFullHealth()) return
 
         attributes.forEach { attribute ->
-            val increasedDamage = attribute.rolls[0].asDoubleRoll().getActualRoll()
+            val increasedDamage = attribute.rolls[0].asDoubleRoll().getValue()
             cmd.increasedDamage.add(increasedDamage)
         }
     }

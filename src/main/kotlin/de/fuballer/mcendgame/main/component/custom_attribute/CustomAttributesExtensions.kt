@@ -2,6 +2,7 @@ package de.fuballer.mcendgame.main.component.custom_attribute
 
 import de.fuballer.mcendgame.main.MCEndgame
 import de.fuballer.mcendgame.main.component.custom_attribute.data.*
+import de.fuballer.mcendgame.main.component.custom_attribute.types.CustomAttributeTypes
 import de.fuballer.mcendgame.main.util.extension.SlotExtension.isOrIsChildOf
 import de.fuballer.mcendgame.main.util.minecraft.IdentifierUtil
 import de.fuballer.mcendgame.main.util.minecraft.RegistryUtil
@@ -25,9 +26,10 @@ object CustomAttributesExtensions {
             "custom_attributes"
         )
 
+    //TODO #86 change how attributes slots are handled
     fun ItemStack.setCustomAttributes(
         customAttributes: List<CustomAttribute>,
-        slot: AttributeModifierSlot
+        slot: AttributeModifierSlot,
     ) {
         set(COMPONENT_TYPE, customAttributes)
 
@@ -38,6 +40,16 @@ object CustomAttributesExtensions {
         addVanillaTypeAttributes(customAttributes, attributeComponentBuilder, slot)
 
         set(DataComponentTypes.ATTRIBUTE_MODIFIERS, attributeComponentBuilder.build())
+    }
+
+    /**
+     * Automatically uses the slot of given attributes or defaults to [AttributeModifierSlot.ANY] if empty
+     */
+    fun ItemStack.updateCustomAttributes(
+        customAttributes: List<CustomAttribute>,
+    ) {
+        val slot = if (customAttributes.isEmpty()) AttributeModifierSlot.ANY else customAttributes[0].slot
+        return setCustomAttributes(customAttributes, slot)
     }
 
     fun ItemStack.getCustomAttributes(): List<CustomAttribute> {
@@ -74,6 +86,10 @@ object CustomAttributesExtensions {
             .groupBy { it.type as CustomAttributeType }
     }
 
+    fun LivingEntity.isGhostly() = getAllCustomAttributes().contains(CustomAttributeTypes.GHOSTLY_APPEARANCE)
+    fun LivingEntity.isEntityPhasing() = getAllCustomAttributes().contains(CustomAttributeTypes.ENTITY_PHASING)
+    fun LivingEntity.isBlockPhasing() = getAllCustomAttributes().contains(CustomAttributeTypes.BLOCK_PHASING)
+
     fun AttributeRoll<*>.asDoubleRoll() = this as DoubleRoll
     fun AttributeRoll<*>.asStringRoll() = this as StringRoll
     fun AttributeRoll<*>.asIntRoll() = this as IntRoll
@@ -99,7 +115,7 @@ object CustomAttributesExtensions {
             .forEach {
                 val vanillaAttributeType = it.type as VanillaAttributeType
                 val attribute = vanillaAttributeType.attribute
-                val modifier = EntityAttributeModifier(IdentifierUtil.defaultRandom(), it.rolls[0].asDoubleRoll().getActualRoll(), vanillaAttributeType.scaleType)
+                val modifier = EntityAttributeModifier(IdentifierUtil.defaultRandom(), it.rolls[0].asDoubleRoll().getValue(), vanillaAttributeType.scaleType)
                 newA.add(attribute, modifier, slot)
             }
     }

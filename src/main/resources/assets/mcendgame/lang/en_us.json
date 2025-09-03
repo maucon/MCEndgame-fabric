@@ -15,6 +15,9 @@
   "item.mcendgame.suede_chestplate": "Suede Bodice",
   "item.mcendgame.suede_leggings": "Suede Skirt",
   "item.mcendgame.suede_boots": "Suede Knee Boots",
+  "item.mcendgame.stoneward": "Stoneward",
+  "item.mcendgame.moonshadow": "Moonshadow",
+  "item.mcendgame.geistergaloschen": "Geistergaloschen",
 
   "item.mcendgame.bloodharvest": "Bloodharvest",
   "item.mcendgame.twinfire": "Twinfire",
@@ -43,11 +46,37 @@
   "item.mcendgame.aspect.description.fortune": "Loot Goblins Equipment has Lucky Attributes",
   "item.mcendgame.aspect.description.zeal": "Dungeon Completion grants %s additional Progress",
 
+  "item.mcendgame.calibration_crystal": "Calibration Crystal",
+  "item.mcendgame.sacrifice_crystal": "Sacrifice Crystal",
+  "item.mcendgame.permutation_crystal": "Permutation Crystal",
+  "item.mcendgame.reforge_crystal": "Reforge Crystal",
+  "item.mcendgame.corruption_crystal": "Corruption Crystal",
+
+  "item.mcendgame.crystal.description.calibration": "Randomize all values of an item's attributes",
+  "item.mcendgame.crystal.description.sacrifice": "Enhances an attribute by removing another",
+  "item.mcendgame.crystal.description.permutation": "Shuffles the rolls of attributes",
+  "item.mcendgame.crystal.description.reforge": "Reforges a unique item into a different one",
+  "item.mcendgame.crystal.description.corruption": "Corrupts an item with varying results",
+
   "container.mcendgame.filter.title": "Dungeon Filter (Blacklist)",
 
   "block.mcendgame.dungeon_device": "Dungeon Device",
   "container.mcendgame.dungeon_device.title": "Dungeon Device",
   "container.mcendgame.dungeon_device.open": "Open",
+
+  "block.mcendgame.crystal_forge": "Crystal Forge",
+  "container.mcendgame.crystal_forge.title": "Crystal Forge",
+  "container.mcendgame.crystal_forge.forge_button": "Forge",
+  "container.mcendgame.crystal_forge.forge_error.no_crystal": "No crystal provided.",
+  "container.mcendgame.crystal_forge.forge_error.no_item": "No item provided.",
+  "container.mcendgame.crystal_forge.forge_error.item_not_forgeable": "Item is not forgeable.",
+  "container.mcendgame.crystal_forge.forge_error.item_corrupted": "Corrupted items cannot be modified.",
+  "container.mcendgame.crystal_forge.forge_error.cannot_forge_unique": "Crystal cannot forge unique items.",
+  "container.mcendgame.crystal_forge.forge_error.can_only_forge_unique": "Crystal can only forge unique items.",
+  "container.mcendgame.crystal_forge.forge_error.not_enough_attributes": "Not enough attributes.",
+  "container.mcendgame.crystal_forge.forge_error.no_attribute_with_range": "No rollable attribute.",
+  "container.mcendgame.crystal_forge.forge_error.not_enough_rolls_to_shuffle": "Not enough rolls to shuffle.",
+  "container.mcendgame.crystal_forge.forge_error.all_rolls_equal": "All rolls are equal.",
 
   "mcendgame.corrupted": "Corrupted",
 
@@ -56,7 +85,7 @@
   "attribute.mcendgame.increased": "increased",
   "attribute.mcendgame.reduced": "reduced",
 
-  "attribute.mcendgame.error": "Could not load attribute type",
+  "attribute.mcendgame.error": " Could not load attribute type",
   "attribute.mcendgame.armor": "%s Armor",
   "attribute.mcendgame.armor_toughness": "%s Armor Toughness",
   "attribute.mcendgame.max_health": "%s Max Health",
@@ -64,6 +93,7 @@
   "attribute.mcendgame.increased_attack_damage": "%s%% %s Attack Damage",
   "attribute.mcendgame.increased_attack_speed": "%s%% %s Attack Speed",
   "attribute.mcendgame.increased_movement_speed": "%s%% %s Movement Speed",
+  "attribute.mcendgame.more_movement_speed": " %s%% %s Movement Speed",
   "attribute.mcendgame.luck": "%s Luck",
   "attribute.mcendgame.increased_scale": "%s%% %s Size",
   "attribute.mcendgame.increased_entity_interaction_range": "%s%% %s Attack Range",
@@ -81,6 +111,7 @@
   "attribute.mcendgame.increased_elemental_damage": "%s%% %s Elemental Damage",
   "attribute.mcendgame.increased_projectile_damage": "%s%% %s Projectile Damage",
   "attribute.mcendgame.more_projectile_damage": " %s%% %s Projectile Damage",
+  "attribute.mcendgame.more_backstab_damage": " %s%% %s Backstab Damage",
   "attribute.mcendgame.increased_damage_against_full_health": "%s%% %s Damage against Full Health Enemies",
   "attribute.mcendgame.increased_damage_while_low_health": "%s%% %s Damage while Low Health",
   "attribute.mcendgame.more_damage_taken_while_high_health": " %s%% %s Damage taken while High Health",
@@ -99,7 +130,7 @@
   "attribute.mcendgame.magic_find": "%s Magic Find",
   "attribute.mcendgame.magic_find_per_max_heart": "%s Magic Find per Max Heart",
   "attribute.mcendgame.increased_movement_speed_after_dodging": "%s%% %s Movement Speed for %ss after Dodging",
-  "attribute.mcendgame.shoot_wither_skull_when_hit_by_projectile": " %s%% chance to shoot a Wither Skull when hit by a Projectile",
+  "attribute.mcendgame.shoot_wither_skull_when_hit_by_projectile": "%s%% chance to shoot a Wither Skull when hit by a Projectile",
   "attribute.mcendgame.burning_enemies_explode_when_killed": " Burning Enemies you kill explode, dealing %s%% Elemental Damage",
   "attribute.mcendgame.increased_healing_received": "%s%% %s Healing received",
   "attribute.mcendgame.more_healing_received": " %s%% %s Healing received",
@@ -108,12 +139,16 @@
   "attribute.mcendgame.wolf_companion": " %s Wolf Companion",
   "attribute.mcendgame.bow_pull_ticks": "%s Bow Draw Ticks",
   "attribute.mcendgame.additional_arrows": "%s additional Arrows",
-  "attribute.mcendgame.pierce_all": "Arrows Pierce all Targets",
+  "attribute.mcendgame.pierce_all": " Arrows Pierce all Targets",
+  "attribute.mcendgame.ghostly_appearance": " Ghostly Appearance",
+  "attribute.mcendgame.entity_phasing": " Entity Phasing",
+  "attribute.mcendgame.block_phasing": " Block Phasing",
 
   "effect.mcendgame.fury": "Fury",
   "effect.mcendgame.resilience": "Resilience",
   "effect.mcendgame.scorch": "Scorch",
 
+  "entity.mcendgame.unknown": "Unknown",
   "entity.mcendgame.swamp_golem": "Swamp Golem",
   "entity.mcendgame.elf_duelist": "Elf Duelist",
   "entity.mcendgame.arachne": "Arachne",
@@ -127,6 +162,7 @@
   "item_group.mcendgame.armor": "MCEndgame Armor",
   "item_group.mcendgame.tools": "MCEndgame Weapons & Tools",
   "item_group.mcendgame.aspects": "MCEndgame Aspects",
+  "item_group.mcendgame.crystals": "MCEndgame Crystals",
   "item_group.mcendgame.blocks": "MCEndgame Blocks",
 
   "text.mcendgame.dungeon_level.dungeon_completed": "Dungeon completed!",
@@ -138,5 +174,7 @@
   "text.mcendgame.dungeon.device.level": "Level: %s",
   "text.mcendgame.dungeon.device.progress": "Progress: %s/%s",
 
-  "error.mcendgame.teleport.failed": "Destination location invalid! Closing portal."
+  "error.mcendgame.teleport.failed": "Destination location invalid! Closing portal.",
+
+  "error.mcendgame.no_killer_found": "No killer found for %s!"
 }

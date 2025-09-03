@@ -12,6 +12,6 @@ class MagicFindService {
     @CommandHandler
     fun on(cmd: MagicFindCommand) {
         val attributes = cmd.entity.getAllCustomAttributes()[CustomAttributeTypes.MAGIC_FIND] ?: return
-        cmd.magicFind += attributes.sumOf { it.rolls[0].asIntRoll().getActualRoll() }
+        cmd.magicFind += attributes.sumOf { it.rolls[0].asIntRoll().getValue() }
     }
 }

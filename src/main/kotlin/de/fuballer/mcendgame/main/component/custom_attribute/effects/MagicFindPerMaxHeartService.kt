@@ -14,6 +14,6 @@ class MagicFindPerMaxHeartService {
         val entity = cmd.entity
         val hearts = (entity.maxHealth / 2).toInt()
         val attributes = entity.getAllCustomAttributes()[CustomAttributeTypes.MAGIC_FIND_PER_MAX_HEART] ?: return
-        cmd.magicFind += attributes.sumOf { it.rolls[0].asIntRoll().getActualRoll() * hearts }
+        cmd.magicFind += attributes.sumOf { it.rolls[0].asIntRoll().getValue() * hearts }
     }
 }

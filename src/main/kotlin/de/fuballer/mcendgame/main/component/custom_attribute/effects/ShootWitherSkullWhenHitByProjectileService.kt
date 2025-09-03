@@ -28,7 +28,7 @@ class ShootWitherSkullWhenHitByProjectileService {
         val attacker = damageSource.attacker
 
         attributes.forEach {
-            if (Random.nextDouble() > it.rolls[0].asDoubleRoll().getActualRoll()) return@forEach
+            if (Random.nextDouble() > it.rolls[0].asDoubleRoll().getValue()) return@forEach
             shootWitherSkullAt(damaged, attacker)
         }
     }

@@ -3,17 +3,27 @@
   "package": "de.fuballer.mcendgame.client.mixin",
   "compatibilityLevel": "JAVA_21",
   "client": [
-    "ArmorFeatureRendererMixin",
-    "ItemStackAttributeRenderMixin",
     "biped.BipedEntityModelMixin",
     "biped.BipedEntityRendererMixin",
     "biped.BipedEntityRenderStateMixin",
+    "ghostly_appearance.LivingEntityRendererGhostlyMixin",
     "living_entity.LivingEntityRendererMixin",
     "living_entity.LivingEntityRendererWebbedMixin",
+    "ghostly_appearance.LivingEntityRenderStateGhostlyMixin",
     "living_entity.LivingEntityRenderStateMixin",
     "living_entity.LivingEntityRenderStateWebbedMixin",
     "low_health_ticks.LivingEntityLowHealthTicksMixin",
-    "player.PlayerEntityMixin"
+    "player.PlayerEntityMixin",
+    "renderer.ArmorFeatureRendererMixin",
+    "phasing.BackgroundRendererBlockPhasingMixin",
+    "ghostly_appearance.BasicItemModelGhostlyMixin",
+    "ghostly_appearance.ElytraFeatureRendererGhostlyMixin",
+    "ghostly_appearance.EquipmentRendererTranslucentMixin",
+    "ghostly_appearance.HeadFeatureRendererGhostlyMixin",
+    "phasing.InGameOverlayRendererBlockPhasingMixin",
+    "renderer.ItemStackAttributeRenderMixin",
+    "renderer.SkullBlockEntityRendererAccessorMixin",
+    "phasing.WorldRendererBlockPhasingMixin"
   ],
   "injectors": {
     "defaultRequire": 1

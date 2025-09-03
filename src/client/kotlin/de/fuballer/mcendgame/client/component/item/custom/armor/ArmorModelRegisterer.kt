@@ -6,8 +6,11 @@ import de.fuballer.mcendgame.client.component.item.custom.armor.druids.DruidsChe
 import de.fuballer.mcendgame.client.component.item.custom.armor.druids.DruidsHelmetModel
 import de.fuballer.mcendgame.client.component.item.custom.armor.druids.DruidsLeggingsModel
 import de.fuballer.mcendgame.client.component.item.custom.armor.emberchant.EmberchantModel
+import de.fuballer.mcendgame.client.component.item.custom.armor.geistergaloschen.GeistergaloschenModel
 import de.fuballer.mcendgame.client.component.item.custom.armor.iceborne.IceborneModel
 import de.fuballer.mcendgame.client.component.item.custom.armor.lamias_gift.LamiasGiftModel
+import de.fuballer.mcendgame.client.component.item.custom.armor.moonshadow.MoonshadowModel
+import de.fuballer.mcendgame.client.component.item.custom.armor.stoneward.StonewardModel
 import de.fuballer.mcendgame.client.component.item.custom.armor.suede.SuedeBootsModel
 import de.fuballer.mcendgame.client.component.item.custom.armor.suede.SuedeChestplateModel
 import de.fuballer.mcendgame.client.component.item.custom.armor.suede.SuedeHelmetModel
@@ -87,6 +90,18 @@ object ArmorModelRegisterer {
         EntityModelLayerRegistry.registerModelLayer(
             SuedeBootsModel.MODEL_LAYER,
             SuedeBootsModel.Companion::getTexturedModelData
+        )
+        EntityModelLayerRegistry.registerModelLayer(
+            StonewardModel.MODEL_LAYER,
+            StonewardModel.Companion::getTexturedModelData
+        )
+        EntityModelLayerRegistry.registerModelLayer(
+            MoonshadowModel.MODEL_LAYER,
+            MoonshadowModel.Companion::getTexturedModelData
+        )
+        EntityModelLayerRegistry.registerModelLayer(
+            GeistergaloschenModel.MODEL_LAYER,
+            GeistergaloschenModel.Companion::getTexturedModelData
         )
     }
 }

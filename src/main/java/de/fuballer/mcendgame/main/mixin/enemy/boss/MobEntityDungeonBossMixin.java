@@ -1,6 +1,7 @@
 package de.fuballer.mcendgame.main.mixin.enemy.boss;
 
 import de.fuballer.mcendgame.main.accessor.MobEntityDungeonBossAccessor;
+import de.fuballer.mcendgame.main.component.dungeon.enemy.boss.DungeonBossService;
 import de.fuballer.mcendgame.main.component.dungeon.generation.data.SpawnPosition;
 import net.minecraft.entity.mob.MobEntity;
 import net.minecraft.entity.player.PlayerEntity;
@@ -60,9 +61,7 @@ public class MobEntityDungeonBossMixin implements MobEntityDungeonBossAccessor {
         for (PlayerEntity player : players) {
             if (!entity.canSee(player)) continue;
 
-            entity.setAiDisabled(false);
-            entity.setTarget(player);
-
+            DungeonBossService.INSTANCE.activateBoss(entity, player);
             return;
         }
     }

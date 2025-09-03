@@ -22,6 +22,7 @@ import net.fabricmc.fabric.api.event.lifecycle.v1.ServerEntityEvents
 import net.fabricmc.fabric.api.event.lifecycle.v1.ServerLifecycleEvents
 import net.fabricmc.fabric.api.event.lifecycle.v1.ServerTickEvents
 import net.fabricmc.fabric.api.networking.v1.ServerPlayConnectionEvents
+import net.minecraft.entity.ItemEntity
 import net.minecraft.entity.LivingEntity
 import net.minecraft.entity.mob.MobEntity
 import net.minecraft.entity.player.PlayerEntity
@@ -130,5 +131,21 @@ object EventMapper {
 
         val event = EntityShotArrowEvent.of(entity, owner)
         EventGateway.launchPublish(event)
+    }
+
+    @Initializer
+    fun onItemDrop() = ServerEntityEvents.ENTITY_LOAD.register { entity, world ->
+        if (entity !is ItemEntity) return@register
+
+        val event = ItemDropEvent.of(entity)
+        EventGateway.launchPublish(event)
+    }
+
+    @EventSubscriber
+    fun onDungeonItemDrop(event: ItemDropEvent) {
+        if (!event.world.isDungeonWorld()) return
+
+        val dungeonItemDropEvent = DungeonItemDropEvent.of(event)
+        EventGateway.launchPublish(dungeonItemDropEvent)
     }
 }

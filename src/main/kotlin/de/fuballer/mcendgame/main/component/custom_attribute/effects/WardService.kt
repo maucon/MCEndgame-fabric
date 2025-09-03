@@ -13,7 +13,7 @@ class WardService {
         val attributes = cmd.damagedAttributes[CustomAttributeTypes.WARD] ?: return
 
         attributes.forEach { attribute ->
-            val ward = attribute.rolls[0].asDoubleRoll().getActualRoll()
+            val ward = attribute.rolls[0].asDoubleRoll().getValue()
             cmd.ward.add(ward)
         }
     }

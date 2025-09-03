@@ -14,8 +14,10 @@ object CustomTags {
     val NETHERITE_GEAR: TagKey<Item> = createItemTag("netherite_gear")
     val BOW: TagKey<Item> = createItemTag("bow")
     val DUNGEON_DROP_DISABLED: TagKey<Item> = createItemTag("dungeon_drop_disabled")
+    val CRYSTAL: TagKey<Item> = createItemTag("crystal")
 
     val DUNGEON_BREAKABLE: TagKey<Block> = createBlockTag("dungeon_breakable")
+    val PHASING_BLOCKING: TagKey<Block> = createBlockTag("phasing_blocking")
 
     private fun createItemTag(id: String) = TagKey.of(RegistryKeys.ITEM, IdentifierUtil.default(id))
     private fun createBlockTag(id: String) = TagKey.of(RegistryKeys.BLOCK, IdentifierUtil.default(id))

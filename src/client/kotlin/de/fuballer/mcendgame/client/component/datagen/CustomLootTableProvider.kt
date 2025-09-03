@@ -1,6 +1,6 @@
 package de.fuballer.mcendgame.client.component.datagen
 
-import de.fuballer.mcendgame.main.component.dungeon.device.DungeonDevice
+import de.fuballer.mcendgame.main.component.block.CustomBlocks
 import net.fabricmc.fabric.api.datagen.v1.FabricDataOutput
 import net.fabricmc.fabric.api.datagen.v1.provider.FabricBlockLootTableProvider
 import net.minecraft.registry.RegistryWrapper
@@ -11,6 +11,7 @@ class CustomLootTableProvider(
     registryLookup: CompletableFuture<RegistryWrapper.WrapperLookup>,
 ) : FabricBlockLootTableProvider(dataOutput, registryLookup) {
     override fun generate() {
-        addDrop(DungeonDevice.BLOCK)
+        addDrop(CustomBlocks.DUNGEON_DEVICE)
+        addDrop(CustomBlocks.CRYSTAL_FORGE)
     }
 }

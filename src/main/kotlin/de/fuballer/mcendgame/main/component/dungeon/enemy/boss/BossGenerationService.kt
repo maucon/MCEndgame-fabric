@@ -19,8 +19,8 @@ class BossGenerationService {
         level: Int,
         types: List<EntityTypeStats>,
         locations: List<SpawnPosition>,
-        random: Random,
     ) {
+        val random = Random
         val shuffledTypes = types.shuffled(random)
         val bosses = locations.mapIndexed { index, pos ->
             val type = shuffledTypes[index % shuffledTypes.size]
@@ -54,7 +54,7 @@ class BossGenerationService {
         entity: MobEntity,
         random: Random,
     ) {
-        val scale = BossGenerationSettings.getRandomScale(random)
+        val scale = DungeonBossSettings.getRandomScale(random)
         entity.getAttributeInstance(EntityAttributes.SCALE)?.baseValue = scale
     }
 }

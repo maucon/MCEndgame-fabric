@@ -27,7 +27,7 @@ class BurningEnemyExplodeWhenKilledService {
 
         val killer = event.killer ?: return
         val attributes = killer.getAllCustomAttributes()[CustomAttributeTypes.BURNING_ENEMIES_EXPLODE_WHEN_KILLED] ?: return
-        val sum = attributes.sumOf { it.rolls[0].asDoubleRoll().getActualRoll() }
+        val sum = attributes.sumOf { it.rolls[0].asDoubleRoll().getValue() }
         if (sum <= 0) return
 
         explode(serverWorld, entity, killer, sum)

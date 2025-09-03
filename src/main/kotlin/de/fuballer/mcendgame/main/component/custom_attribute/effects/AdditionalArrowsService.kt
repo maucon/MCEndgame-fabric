@@ -35,7 +35,7 @@ class AdditionalArrowsService {
         originalArrow.setLoadProcessed()
 
         val attributes = event.owner.getAllCustomAttributes()[CustomAttributeTypes.ADDITIONAL_ARROWS] ?: return
-        val additionalArrows = attributes.sumOf { it.rolls[0].asIntRoll().getActualRoll() }
+        val additionalArrows = attributes.sumOf { it.rolls[0].asIntRoll().getValue() }
 
         shootAdditionalArrows(originalArrow, event.owner, additionalArrows)
     }

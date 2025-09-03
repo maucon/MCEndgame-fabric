@@ -26,7 +26,7 @@ class DecayingCobwebBlock(
     settings: Settings,
 ) : Block(settings) {
     companion object {
-        const val NAME = "decaying_cobweb"
+        const val ID = "decaying_cobweb"
         val CODEC: MapCodec<DecayingCobwebBlock> = createCodec(::DecayingCobwebBlock)
 
         private const val MAX_AGE = 5

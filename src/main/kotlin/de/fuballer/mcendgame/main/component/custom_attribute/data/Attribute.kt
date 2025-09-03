@@ -41,4 +41,42 @@ data class CustomAttribute(
                 ).apply(instance, ::CustomAttribute)
             }
     }
+
+    fun getNonZeroRangeCount() = rolls.count { it.hasNonZeroRange() }
+
+    fun hasNonZeroRange() = getNonZeroRangeCount() > 0
+
+    fun getRerolled() = CustomAttribute(type, tier, rolls.map { it.getRerolled() }, slot)
+
+    fun getAffinityBasedRollPercentage(): Double {
+        if (rolls.isEmpty()) return AttributeRoll.DEFAULT_AFFINITY_BASED_ROLL_PERCENTAGE
+        return rolls.withIndex().map { it.value.getAffinityBasedRollPercentage(type.affinities, rolls, it.index) }.average()
+    }
+
+    fun getSingleRollEnhanced(value: Double): CustomAttribute {
+        val chosenRollIndex = rolls.withIndex().filter { it.value.hasNonZeroRange() && it.value.hasPercentRoll() }.random().index
+        val beneficial = type.affinities[chosenRollIndex].getAffinity(type.affinities, rolls, chosenRollIndex)
+
+        val newRolls = rolls.toMutableList()
+        newRolls[chosenRollIndex] = rolls[chosenRollIndex].getEnhanced(value, beneficial)
+
+        return CustomAttribute(type, tier, newRolls, slot)
+    }
+
+    fun getNonZeroRangePercentRollCount() = rolls.count { it.hasNonZeroRange() && it.hasPercentRoll() }
+
+    fun hasNonZeroRangePercentRoll() = getNonZeroRangePercentRollCount() > 0
+
+    fun getPercentRolls() = rolls.mapNotNull { it.getPercentRollOrNull() }
+
+    fun getWithRollPercentages(
+        percentages: List<Double>,
+    ): CustomAttribute {
+        var percentagesUsed = 0
+        val newRolls = rolls.map {
+            if (!it.hasNonZeroRange()) it
+            else it.getWithPercentRoll(percentages[percentagesUsed++])
+        }
+        return CustomAttribute(type, tier, newRolls, slot)
+    }
 }

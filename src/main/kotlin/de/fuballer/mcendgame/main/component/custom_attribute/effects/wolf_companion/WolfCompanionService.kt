@@ -90,7 +90,7 @@ class WolfCompanionService {
 
         val registry = world.registryManager.getOrThrow(RegistryKeys.WOLF_VARIANT)
         attributes.forEach { attribute ->
-            val type = WolfCompanionType.getByName(attribute.rolls[0].asStringRoll().getActualRoll()) ?: return@forEach
+            val type = WolfCompanionType.getByName(attribute.rolls[0].asStringRoll().getValue()) ?: return@forEach
             summonWolfCompanion(player, world, type, registry)
         }
     }

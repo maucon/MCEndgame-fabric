@@ -1,6 +1,7 @@
 package de.fuballer.mcendgame.main.component.dungeon.enemy.equipment
 
 import de.fuballer.mcendgame.main.component.dungeon.enemy.equipment.attributes.AttributeService
+import de.fuballer.mcendgame.main.component.dungeon.enemy.equipment.data.EquipmentTag
 import de.fuballer.mcendgame.main.component.dungeon.enemy.equipment.enchantment.EnchantmentService
 import de.fuballer.mcendgame.main.component.entity.EntityTypeStats
 import de.fuballer.mcendgame.main.component.item.custom.UniqueAttributesItemInterface
@@ -91,8 +92,9 @@ class EquipmentGenerationService(
         random: Random,
         isRanged: Boolean,
     ): ItemStack? {
-        val equipment = if (isRanged && slot == EquipmentSlot.MAINHAND) EquipmentGenerationSettings.UNIQUE_RANGED_EQUIPMENT.random(random)
-        else EquipmentGenerationSettings.UNIQUE_EQUIPMENT[slot]?.random(random) ?: return null
+        val equipment = (if (isRanged && slot == EquipmentSlot.MAINHAND) EquipmentGenerationSettings.getRandomUniqueEquipment(slot, EquipmentTag.RANGED, true, random)
+        else EquipmentGenerationSettings.getRandomUniqueEquipment(slot, random = random)) ?: return null
+
         val item = equipment.item
         val itemStack = if (item is UniqueAttributesItemInterface) item.getRolledStack(item) else ItemStack(item)
 

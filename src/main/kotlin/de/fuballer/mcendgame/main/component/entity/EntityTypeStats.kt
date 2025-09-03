@@ -1,5 +1,6 @@
 package de.fuballer.mcendgame.main.component.entity
 
+import net.minecraft.entity.Entity
 import net.minecraft.entity.EntityType
 import net.minecraft.entity.mob.MobEntity
 
@@ -18,4 +19,6 @@ interface EntityTypeStats {
     val baseSpeed: Double
     val speedPerTier: Double
     val knockbackResistance: Double
+
+    fun applyMisc(entity: Entity) {}
 }
