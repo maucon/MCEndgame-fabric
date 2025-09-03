@@ -1,6 +1,7 @@
 package de.fuballer.mcendgame.main.component.entity.types
 
 import de.fuballer.mcendgame.main.component.entity.EntityTypeStats
+import net.minecraft.entity.Entity
 import net.minecraft.entity.EntityType
 import net.minecraft.entity.mob.ZombieEntity
 
@@ -19,4 +20,9 @@ object ZombieStats : EntityTypeStats {
     override val baseSpeed = 0.23
     override val speedPerTier = 0.0
     override val knockbackResistance = 0.0
+
+    override fun applyMisc(entity: Entity) {
+        val zombieEntity = entity as? ZombieEntity ?: return
+        zombieEntity.isBaby = false
+    }
 }

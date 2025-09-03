@@ -26,7 +26,7 @@ public class AnvilScreenHandlerCorruptionUnmodifiableMixin {
         var stack0 = input.getStack(0);
         var stack1 = input.getStack(1);
 
-        var anvilInputCommand = new CanAnvilForgeCommand(stack0, stack1, false);
+        var anvilInputCommand = new CanAnvilForgeCommand(stack0, stack1, true);
         var cmd = CommandGateway.INSTANCE.apply(anvilInputCommand);
         if (cmd.getCanForge()) return;
 

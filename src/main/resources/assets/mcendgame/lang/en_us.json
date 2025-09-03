@@ -130,7 +130,7 @@
   "attribute.mcendgame.magic_find": "%s Magic Find",
   "attribute.mcendgame.magic_find_per_max_heart": "%s Magic Find per Max Heart",
   "attribute.mcendgame.increased_movement_speed_after_dodging": "%s%% %s Movement Speed for %ss after Dodging",
-  "attribute.mcendgame.shoot_wither_skull_when_hit_by_projectile": " %s%% chance to shoot a Wither Skull when hit by a Projectile",
+  "attribute.mcendgame.shoot_wither_skull_when_hit_by_projectile": "%s%% chance to shoot a Wither Skull when hit by a Projectile",
   "attribute.mcendgame.burning_enemies_explode_when_killed": " Burning Enemies you kill explode, dealing %s%% Elemental Damage",
   "attribute.mcendgame.increased_healing_received": "%s%% %s Healing received",
   "attribute.mcendgame.more_healing_received": " %s%% %s Healing received",
