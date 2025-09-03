@@ -6,10 +6,13 @@ import de.fuballer.mcendgame.main.component.custom_attribute.types.CustomAttribu
 import de.fuballer.mcendgame.main.component.custom_attribute.types.VanillaAttributeTypes
 import de.fuballer.mcendgame.main.component.item.custom.UniqueAttributesItem
 import net.minecraft.component.type.AttributeModifierSlot
+import net.minecraft.util.Colors
 
 class Stoneward(
     settings: Settings,
 ) : UniqueAttributesItem(settings) {
+    override fun getNameColor() = Colors.GRAY
+
     override fun getCustomAttributes() = listOf(
         RollableCustomAttribute(CustomAttributeTypes.WARD, 0, DoubleBounds(2.0, 3.0)),
         RollableCustomAttribute(VanillaAttributeTypes.ARMOR, 0, DoubleBounds(2.0, 3.0)),

@@ -7,10 +7,13 @@ import de.fuballer.mcendgame.main.component.custom_attribute.types.CustomAttribu
 import de.fuballer.mcendgame.main.component.custom_attribute.types.VanillaAttributeTypes
 import de.fuballer.mcendgame.main.component.item.custom.UniqueAttributesItem
 import net.minecraft.component.type.AttributeModifierSlot
+import net.minecraft.util.Colors
 
 class SuedeHelmet(
     settings: Settings,
 ) : UniqueAttributesItem(settings) {
+    override fun getNameColor() = Colors.WHITE
+
     override fun getCustomAttributes() = listOf(
         RollableCustomAttribute(CustomAttributeTypes.PROJECTILE_DODGE, 0, DoubleBounds(0.15, 0.25)),
         RollableCustomAttribute(CustomAttributeTypes.DODGE_IF_NOT_DODGED_IN_LAST_SECONDS, 0, DoubleBounds(0.3, 0.4), IntBounds(5, 8)),

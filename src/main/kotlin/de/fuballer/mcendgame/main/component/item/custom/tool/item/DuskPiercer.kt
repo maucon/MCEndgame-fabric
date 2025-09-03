@@ -6,10 +6,13 @@ import de.fuballer.mcendgame.main.component.custom_attribute.data.RollableCustom
 import de.fuballer.mcendgame.main.component.custom_attribute.types.CustomAttributeTypes
 import de.fuballer.mcendgame.main.component.item.custom.UniqueAttributesBowItem
 import net.minecraft.component.type.AttributeModifierSlot
+import net.minecraft.util.Colors
 
 class DuskPiercer(
     settings: Settings,
 ) : UniqueAttributesBowItem(settings) {
+    override fun getNameColor() = Colors.PURPLE
+
     override fun getCustomAttributes() = listOf(
         RollableCustomAttribute(CustomAttributeTypes.PIERCE_ALL, 0),
         RollableCustomAttribute(CustomAttributeTypes.BOW_PULL_TICKS, 0, IntBounds(3, 5)),

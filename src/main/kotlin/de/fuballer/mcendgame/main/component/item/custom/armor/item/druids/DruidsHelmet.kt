@@ -8,10 +8,13 @@ import de.fuballer.mcendgame.main.component.custom_attribute.types.CustomAttribu
 import de.fuballer.mcendgame.main.component.custom_attribute.types.VanillaAttributeTypes
 import de.fuballer.mcendgame.main.component.item.custom.UniqueAttributesItem
 import net.minecraft.component.type.AttributeModifierSlot
+import net.minecraft.util.Colors
 
 class DruidsHelmet(
     settings: Settings,
 ) : UniqueAttributesItem(settings) {
+    override fun getNameColor() = Colors.GREEN
+
     override fun getCustomAttributes() = listOf(
         RollableCustomAttribute(VanillaAttributeTypes.MAX_HEALTH, 0, DoubleBounds(1.0, 3.0)),
         RollableCustomAttribute(CustomAttributeTypes.WOLF_COMPANION, 0, StringBounds(WolfCompanionType.getNames())),

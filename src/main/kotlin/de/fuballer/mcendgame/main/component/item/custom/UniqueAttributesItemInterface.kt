@@ -6,9 +6,12 @@ import de.fuballer.mcendgame.main.component.custom_attribute.data.RollableCustom
 import net.minecraft.component.type.AttributeModifierSlot
 import net.minecraft.item.Item
 import net.minecraft.item.ItemStack
+import net.minecraft.util.Colors
 import kotlin.random.Random
 
 interface UniqueAttributesItemInterface {
+    fun getNameColor(): Int = Colors.WHITE
+
     fun getCustomAttributes(): List<RollableCustomAttribute>
 
     fun getAttributeModifierSlot(): AttributeModifierSlot

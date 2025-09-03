@@ -7,10 +7,13 @@ import de.fuballer.mcendgame.main.component.custom_attribute.types.CustomAttribu
 import de.fuballer.mcendgame.main.component.custom_attribute.types.VanillaAttributeTypes
 import de.fuballer.mcendgame.main.component.item.custom.UniqueAttributesItem
 import net.minecraft.component.type.AttributeModifierSlot
+import net.minecraft.util.Colors
 
 class SuedeLeggings(
     settings: Settings,
 ) : UniqueAttributesItem(settings) {
+    override fun getNameColor() = Colors.WHITE
+
     override fun getCustomAttributes() = listOf(
         RollableCustomAttribute(CustomAttributeTypes.DODGE, 0, DoubleBounds(0.1, 0.15)),
         RollableCustomAttribute(VanillaAttributeTypes.MAX_HEALTH, 0, DoubleBounds(-4.0, -2.0)),

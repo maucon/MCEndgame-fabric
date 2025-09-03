@@ -5,10 +5,13 @@ import de.fuballer.mcendgame.main.component.custom_attribute.data.RollableCustom
 import de.fuballer.mcendgame.main.component.custom_attribute.types.CustomAttributeTypes
 import de.fuballer.mcendgame.main.component.item.custom.UniqueAttributesItem
 import net.minecraft.component.type.AttributeModifierSlot
+import net.minecraft.util.Colors
 
 class Emberchant(
     settings: Settings,
 ) : UniqueAttributesItem(settings) {
+    override fun getNameColor() = Colors.RED
+
     override fun getCustomAttributes() = listOf(
         RollableCustomAttribute(CustomAttributeTypes.BURNING_ENEMIES_EXPLODE_WHEN_KILLED, 0, DoubleBounds(0.8, 1.2))
     )

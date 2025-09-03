@@ -9,10 +9,13 @@ import de.fuballer.mcendgame.main.component.item.custom.armor.interfaces.HideBip
 import de.fuballer.mcendgame.main.component.item.custom.armor.interfaces.HideOtherArmorArmor
 import net.minecraft.component.type.AttributeModifierSlot
 import net.minecraft.entity.EquipmentSlot
+import net.minecraft.util.Colors
 
 class LamiasGift(
     settings: Settings,
 ) : UniqueAttributesItem(settings), HideBipedBoneArmor, HideOtherArmorArmor {
+    override fun getNameColor() = Colors.GREEN
+
     override val hiddenBones = listOf(
         HideBipedBoneArmor.BipedBone.LEGS,
     )

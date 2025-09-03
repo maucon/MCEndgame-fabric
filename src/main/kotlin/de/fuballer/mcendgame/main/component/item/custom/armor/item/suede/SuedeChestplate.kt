@@ -9,10 +9,13 @@ import de.fuballer.mcendgame.main.component.item.custom.UniqueAttributesItem
 import de.fuballer.mcendgame.main.component.item.custom.armor.interfaces.HidePlayerModelPartArmor
 import net.minecraft.component.type.AttributeModifierSlot
 import net.minecraft.entity.player.PlayerModelPart
+import net.minecraft.util.Colors
 
 class SuedeChestplate(
     settings: Settings,
 ) : UniqueAttributesItem(settings), HidePlayerModelPartArmor {
+    override fun getNameColor() = Colors.WHITE
+
     override fun getCustomAttributes() = listOf(
         RollableCustomAttribute(CustomAttributeTypes.DODGE_PER_MAX_HEART_BELOW_TEN, 0, DoubleBounds(0.04, 0.06)),
         RollableCustomAttribute(VanillaAttributeTypes.MAX_HEALTH, 0, DoubleBounds(-6.0, -3.0)),
