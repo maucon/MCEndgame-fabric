@@ -4,7 +4,7 @@ import de.fuballer.mcendgame.main.component.entity.EntityTypeStats
 import net.minecraft.entity.EntityType
 import net.minecraft.entity.mob.WitherSkeletonEntity
 
-object WitherSkeletonStats : EntityTypeStats {
+object WitherSkeletonStats : EntityTypeStats() {
     override val type: EntityType<WitherSkeletonEntity> = EntityType.WITHER_SKELETON
 
     override val canHaveWeapons = true

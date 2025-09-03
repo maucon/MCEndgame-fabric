@@ -26,6 +26,8 @@ object EntityUtil {
         )
         setStats(entity, type, level)
 
+        type.applyMisc(entity)
+
         return entity
     }
 

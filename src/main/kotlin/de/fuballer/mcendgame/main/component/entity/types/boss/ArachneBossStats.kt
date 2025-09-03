@@ -5,7 +5,7 @@ import de.fuballer.mcendgame.main.component.entity.custom.CustomEntities
 import de.fuballer.mcendgame.main.component.entity.custom.entities.arachne.ArachneEntity
 import net.minecraft.entity.EntityType
 
-object ArachneBossStats : EntityTypeStats {
+object ArachneBossStats : EntityTypeStats() {
     override val type: EntityType<ArachneEntity> = CustomEntities.ARACHNE
 
     override val canHaveWeapons = false

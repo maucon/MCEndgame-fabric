@@ -4,7 +4,7 @@ import de.fuballer.mcendgame.main.component.entity.EntityTypeStats
 import net.minecraft.entity.EntityType
 import net.minecraft.entity.mob.StrayEntity
 
-object StrayStats : EntityTypeStats {
+object StrayStats : EntityTypeStats() {
     override val type: EntityType<StrayEntity> = EntityType.STRAY
 
     override val canHaveWeapons = true

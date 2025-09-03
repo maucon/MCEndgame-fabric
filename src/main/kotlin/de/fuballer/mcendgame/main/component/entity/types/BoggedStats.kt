@@ -4,7 +4,7 @@ import de.fuballer.mcendgame.main.component.entity.EntityTypeStats
 import net.minecraft.entity.EntityType
 import net.minecraft.entity.mob.BoggedEntity
 
-object BoggedStats : EntityTypeStats {
+object BoggedStats : EntityTypeStats() {
     override val type: EntityType<BoggedEntity> = EntityType.BOGGED
 
     override val canHaveWeapons = true
