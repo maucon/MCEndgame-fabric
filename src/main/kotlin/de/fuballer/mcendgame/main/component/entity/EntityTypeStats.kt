@@ -4,21 +4,21 @@ import net.minecraft.entity.Entity
 import net.minecraft.entity.EntityType
 import net.minecraft.entity.mob.MobEntity
 
-abstract class EntityTypeStats {
-    abstract val type: EntityType<out MobEntity>
+interface EntityTypeStats {
+    val type: EntityType<out MobEntity>
 
-    abstract val canHaveWeapons: Boolean
-    abstract val isRanged: Boolean
-    abstract val canHaveArmor: Boolean
-    abstract val canBeInvisible: Boolean
+    val canHaveWeapons: Boolean
+    val isRanged: Boolean
+    val canHaveArmor: Boolean
+    val canBeInvisible: Boolean
 
-    abstract val baseHealth: Double
-    abstract val healthPerTier: Double
-    abstract val baseDamage: Double
-    abstract val damagePerTier: Double
-    abstract val baseSpeed: Double
-    abstract val speedPerTier: Double
-    abstract val knockbackResistance: Double
+    val baseHealth: Double
+    val healthPerTier: Double
+    val baseDamage: Double
+    val damagePerTier: Double
+    val baseSpeed: Double
+    val speedPerTier: Double
+    val knockbackResistance: Double
 
-    open val applyMisc: (entity: Entity) -> Unit = {}
+    fun applyMisc(entity: Entity) {}
 }

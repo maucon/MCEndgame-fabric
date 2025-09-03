@@ -4,7 +4,7 @@ import de.fuballer.mcendgame.main.component.entity.EntityTypeStats
 import net.minecraft.entity.EntityType
 import net.minecraft.entity.mob.PiglinEntity
 
-object PiglinStats : EntityTypeStats() {
+object PiglinStats : EntityTypeStats {
     override val type: EntityType<PiglinEntity> = EntityType.PIGLIN
 
     override val canHaveWeapons = true

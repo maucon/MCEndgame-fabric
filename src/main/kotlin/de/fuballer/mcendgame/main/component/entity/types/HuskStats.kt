@@ -5,7 +5,7 @@ import net.minecraft.entity.Entity
 import net.minecraft.entity.EntityType
 import net.minecraft.entity.mob.HuskEntity
 
-object HuskStats : EntityTypeStats() {
+object HuskStats : EntityTypeStats {
     override val type: EntityType<HuskEntity> = EntityType.HUSK
 
     override val canHaveWeapons = true
@@ -21,8 +21,8 @@ object HuskStats : EntityTypeStats() {
     override val speedPerTier = 0.0
     override val knockbackResistance = 0.0
 
-    override val applyMisc: (entity: Entity) -> Unit = applyMisc@{ entity ->
-        val huskEntity = entity as? HuskEntity ?: return@applyMisc
+    override fun applyMisc(entity: Entity) {
+        val huskEntity = entity as? HuskEntity ?: return
         huskEntity.isBaby = false
     }
 }

@@ -6,13 +6,10 @@ import de.fuballer.mcendgame.main.component.custom_attribute.types.CustomAttribu
 import de.fuballer.mcendgame.main.component.custom_attribute.types.VanillaAttributeTypes
 import de.fuballer.mcendgame.main.component.item.custom.UniqueAttributesItem
 import net.minecraft.component.type.AttributeModifierSlot
-import net.minecraft.util.Colors
 
 class Moonshadow(
     settings: Settings,
 ) : UniqueAttributesItem(settings) {
-    override fun getNameColor() = Colors.CYAN
-
     override fun getCustomAttributes() = listOf(
         RollableCustomAttribute(CustomAttributeTypes.DODGE, 0, DoubleBounds(0.1, 0.25)),
         RollableCustomAttribute(VanillaAttributeTypes.INCREASED_MOVEMENT_SPEED, 0, DoubleBounds(0.05, 0.15)),

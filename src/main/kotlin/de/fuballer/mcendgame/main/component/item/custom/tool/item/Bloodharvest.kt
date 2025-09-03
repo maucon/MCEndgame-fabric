@@ -6,13 +6,10 @@ import de.fuballer.mcendgame.main.component.custom_attribute.types.CustomAttribu
 import de.fuballer.mcendgame.main.component.custom_attribute.types.VanillaAttributeTypes
 import de.fuballer.mcendgame.main.component.item.custom.UniqueAttributesItem
 import net.minecraft.component.type.AttributeModifierSlot
-import net.minecraft.util.Colors
 
 class Bloodharvest(
     settings: Settings,
 ) : UniqueAttributesItem(settings) {
-    override fun getNameColor() = Colors.RED
-
     override fun getCustomAttributes() = listOf(
         RollableCustomAttribute(VanillaAttributeTypes.ATTACK_DAMAGE, 0, DoubleBounds(1.0, 3.0)),
         RollableCustomAttribute(VanillaAttributeTypes.INCREASED_ENTITY_INTERACTION_RANGE, 0, DoubleBounds(0.2, 0.2)),

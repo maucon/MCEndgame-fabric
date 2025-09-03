@@ -7,13 +7,10 @@ import de.fuballer.mcendgame.main.component.item.custom.UniqueAttributesItem
 import de.fuballer.mcendgame.main.component.item.custom.armor.interfaces.HidePlayerModelPartArmor
 import net.minecraft.component.type.AttributeModifierSlot
 import net.minecraft.entity.player.PlayerModelPart
-import net.minecraft.util.Colors
 
 class WitherRoseLeggings(
     settings: Settings,
 ) : UniqueAttributesItem(settings), HidePlayerModelPartArmor {
-    override fun getNameColor() = Colors.RED
-
     override val hiddenPlayerModelParts = listOf(
         PlayerModelPart.LEFT_PANTS_LEG,
         PlayerModelPart.RIGHT_PANTS_LEG

@@ -3,14 +3,14 @@ package de.fuballer.mcendgame.main.component.item.custom
 import de.fuballer.mcendgame.main.component.custom_attribute.CustomAttributesExtensions.setCustomAttributes
 import de.fuballer.mcendgame.main.component.custom_attribute.data.CustomAttribute
 import de.fuballer.mcendgame.main.component.custom_attribute.data.RollableCustomAttribute
+import de.fuballer.mcendgame.main.component.dungeon.loot.drop.ItemColor
 import net.minecraft.component.type.AttributeModifierSlot
 import net.minecraft.item.Item
 import net.minecraft.item.ItemStack
-import net.minecraft.util.Colors
 import kotlin.random.Random
 
 interface UniqueAttributesItemInterface {
-    fun getNameColor(): Int = Colors.WHITE
+    fun getNameColor(): Int = ItemColor.UNIQUE.color
 
     fun getCustomAttributes(): List<RollableCustomAttribute>
 

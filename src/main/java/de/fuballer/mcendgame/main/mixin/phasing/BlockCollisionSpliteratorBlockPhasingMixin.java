@@ -38,6 +38,8 @@ public class BlockCollisionSpliteratorBlockPhasingMixin<T> {
     private boolean blockPhasing = false;
     @Unique
     private double entityPitch = 0.0;
+    @Unique
+    private final static double MIN_PITCH_FOR_GROUND_PHASING = 85;
 
     @Inject(
             method = "<init>(Lnet/minecraft/world/CollisionView;Lnet/minecraft/entity/Entity;Lnet/minecraft/util/math/Box;ZLjava/util/function/BiFunction;)V",
@@ -70,7 +72,7 @@ public class BlockCollisionSpliteratorBlockPhasingMixin<T> {
         if (blockState.isIn(CustomTags.INSTANCE.getPHASING_BLOCKING())) return voxelShape;
 
         var collisionShape = VoxelShapes.empty();
-        if (context.isDescending() && entityPitch > 85) return collisionShape;
+        if (context.isDescending() && entityPitch >= MIN_PITCH_FOR_GROUND_PHASING) return collisionShape;
 
         for (Box box : voxelShape.getBoundingBoxes()) {
             var boxShape = VoxelShapes.cuboid(box);

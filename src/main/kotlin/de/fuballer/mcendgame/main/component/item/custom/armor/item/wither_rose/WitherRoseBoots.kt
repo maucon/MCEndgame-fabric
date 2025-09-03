@@ -5,13 +5,10 @@ import de.fuballer.mcendgame.main.component.custom_attribute.data.RollableCustom
 import de.fuballer.mcendgame.main.component.custom_attribute.types.VanillaAttributeTypes
 import de.fuballer.mcendgame.main.component.item.custom.UniqueAttributesItem
 import net.minecraft.component.type.AttributeModifierSlot
-import net.minecraft.util.Colors
 
 class WitherRoseBoots(
     settings: Settings,
 ) : UniqueAttributesItem(settings) {
-    override fun getNameColor() = Colors.RED
-
     override fun getCustomAttributes() = listOf(
         RollableCustomAttribute(VanillaAttributeTypes.INCREASED_MOVEMENT_SPEED, 0, DoubleBounds(0.1, 0.2)),
     )

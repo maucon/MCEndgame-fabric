@@ -6,13 +6,10 @@ import de.fuballer.mcendgame.main.component.custom_attribute.types.CustomAttribu
 import de.fuballer.mcendgame.main.component.custom_attribute.types.VanillaAttributeTypes
 import de.fuballer.mcendgame.main.component.item.custom.UniqueAttributesItem
 import net.minecraft.component.type.AttributeModifierSlot
-import net.minecraft.util.Colors
 
 class WitherRoseChestplate(
     settings: Settings,
 ) : UniqueAttributesItem(settings) {
-    override fun getNameColor() = Colors.RED
-
     override fun getCustomAttributes() = listOf(
         RollableCustomAttribute(CustomAttributeTypes.WITHER_DAMAGE_IMMUNITY, 0),
         RollableCustomAttribute(CustomAttributeTypes.INCREASED_DAMAGE_WHILE_WITHERED, 0, DoubleBounds(0.05, 0.15)),

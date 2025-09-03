@@ -5,7 +5,7 @@ import de.fuballer.mcendgame.main.component.entity.custom.CustomEntities
 import de.fuballer.mcendgame.main.component.entity.custom.entities.elf_duelist.ElfDuelistEntity
 import net.minecraft.entity.EntityType
 
-object ElfDuelistBossStats : EntityTypeStats() {
+object ElfDuelistBossStats : EntityTypeStats {
     override val type: EntityType<ElfDuelistEntity> = CustomEntities.ELF_DUELIST
 
     override val canHaveWeapons = false

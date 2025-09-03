@@ -5,7 +5,7 @@ import de.fuballer.mcendgame.main.component.entity.custom.CustomEntities
 import de.fuballer.mcendgame.main.component.entity.custom.entities.bonecrusher.BonecrusherEntity
 import net.minecraft.entity.EntityType
 
-object BonecrusherBossStats : EntityTypeStats() {
+object BonecrusherBossStats : EntityTypeStats {
     override val type: EntityType<BonecrusherEntity> = CustomEntities.BONECRUSHER
 
     override val canHaveWeapons = false

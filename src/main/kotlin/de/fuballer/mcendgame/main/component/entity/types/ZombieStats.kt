@@ -5,7 +5,7 @@ import net.minecraft.entity.Entity
 import net.minecraft.entity.EntityType
 import net.minecraft.entity.mob.ZombieEntity
 
-object ZombieStats : EntityTypeStats() {
+object ZombieStats : EntityTypeStats {
     override val type: EntityType<ZombieEntity> = EntityType.ZOMBIE
 
     override val canHaveWeapons = true
@@ -21,8 +21,8 @@ object ZombieStats : EntityTypeStats() {
     override val speedPerTier = 0.0
     override val knockbackResistance = 0.0
 
-    override val applyMisc: (entity: Entity) -> Unit = applyMisc@{ entity ->
-        val zombieEntity = entity as? ZombieEntity ?: return@applyMisc
+    override fun applyMisc(entity: Entity) {
+        val zombieEntity = entity as? ZombieEntity ?: return
         zombieEntity.isBaby = false
     }
 }
