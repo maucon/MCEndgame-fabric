@@ -1,7 +1,6 @@
 package de.fuballer.mcendgame.client.component.item.custom.armor.geistergaloschen
 
 import net.minecraft.client.render.VertexConsumer
-import net.minecraft.client.render.VertexConsumerProvider
 
 class GhostlyVertexConsumer(
     private val delegate: VertexConsumer,
@@ -11,9 +10,6 @@ class GhostlyVertexConsumer(
         private const val TINT_G = 235
         private const val TINT_B = 200
         private const val TINT_A = 120
-
-        fun convertToGhostlyVertexConsumerProvider(original: VertexConsumerProvider) =
-            VertexConsumerProvider { layer -> GhostlyVertexConsumer(original.getBuffer(layer)) }
     }
 
     override fun vertex(x: Float, y: Float, z: Float): VertexConsumer {
