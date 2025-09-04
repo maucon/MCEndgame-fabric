@@ -5,12 +5,11 @@ import de.fuballer.mcendgame.main.component.custom_attribute.types.CustomAttribu
 import de.fuballer.mcendgame.main.component.item.custom.UniqueAttributesItemInterface
 import de.fuballer.mcendgame.main.component.item.custom.armor.CustomArmorItems
 import de.fuballer.mcendgame.main.component.item.custom.aspect.AspectItems
-import de.fuballer.mcendgame.main.messaging.dungeon.DungeonBossDeathCommand
 import de.fuballer.mcendgame.main.messaging.dungeon.DungeonEnemiesGeneratedEvent
+import de.fuballer.mcendgame.main.messaging.dungeon.DungeonFinalBossDeathEvent
 import de.fuballer.mcendgame.main.messaging.dungeon.DungeonGenerateCommand
 import de.fuballer.mcendgame.main.util.extension.mixin.EntityMixinExtension.addCustomAttribute
-import de.fuballer.mcendgame.main.util.extension.mixin.WorldMixinExtension.getBossesKilled
-import de.fuballer.mcendgame.main.util.extension.mixin.WorldMixinExtension.getTotalBossCount
+import de.fuballer.mcendgame.main.util.extension.mixin.WorldMixinExtension.getDungeonAspects
 import de.maucon.mauconframework.command.CommandHandler
 import de.maucon.mauconframework.di.annotation.Injectable
 import de.maucon.mauconframework.event.EventSubscriber
@@ -33,13 +32,13 @@ object AspectOfGhostsService {
         cmd.dungeonLevel = AspectOfGhosts.FORCED_DUNGEON_LEVEL
     }
 
-    @CommandHandler(priority = 1)
-    fun onDungeonBossDeath(cmd: DungeonBossDeathCommand) {
-        val serverWorld = cmd.world as? ServerWorld ?: return
-        if (serverWorld.getBossesKilled() < serverWorld.getTotalBossCount()) return
+    @EventSubscriber
+    fun onDungeonBossDeath(event: DungeonFinalBossDeathEvent) {
+        val serverWorld = event.world as? ServerWorld ?: return
+        if (!serverWorld.getDungeonAspects().contains(AspectItems.ASPECT_OF_GHOSTS)) return
 
         val item = CustomArmorItems.GEISTERGALOSCHEN
         val stack = if (item is UniqueAttributesItemInterface) item.getRolledStack(item) else ItemStack(item)
-        cmd.bossEntity.dropStack(serverWorld, stack)
+        event.bossEntity.dropStack(serverWorld, stack)
     }
 }

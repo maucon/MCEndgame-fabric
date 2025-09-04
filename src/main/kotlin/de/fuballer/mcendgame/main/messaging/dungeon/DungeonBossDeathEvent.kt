@@ -7,7 +7,7 @@ import net.minecraft.world.World
 /**
  * FIXME currently only thrown server-side
  */
-data class DungeonBossDeathCommand(
+data class DungeonBossDeathEvent(
     val isClient: Boolean,
     val world: World,
     val bossEntity: MobEntity,
