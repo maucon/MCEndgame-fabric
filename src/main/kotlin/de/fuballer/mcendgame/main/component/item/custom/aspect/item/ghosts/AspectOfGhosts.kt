@@ -1,14 +1,22 @@
 package de.fuballer.mcendgame.main.component.item.custom.aspect.item.ghosts
 
 import de.fuballer.mcendgame.main.component.item.custom.aspect.AspectItem
-import net.minecraft.text.MutableText
+import de.fuballer.mcendgame.main.component.item.custom.aspect.AspectItems
 import net.minecraft.text.Text
 
 class AspectOfGhosts(
     settings: Settings,
 ) : AspectItem(settings) {
+    companion object {
+        const val FORCED_DUNGEON_LEVEL = 10
+    }
+
     override val tier = 2
     override val limit = 1
-    override val description: MutableText = Text.translatable(TRANSLATABLE_DESCRIPTION_KEY + "ghosts")
-    override val disabledAspects = listOf<AspectItem>()
+    override val description = mutableListOf(
+        Text.translatable(TRANSLATABLE_DESCRIPTION_KEY + "ghosts_0", FORCED_DUNGEON_LEVEL),
+        Text.translatable(TRANSLATABLE_DESCRIPTION_KEY + "ghosts_1"),
+        Text.translatable(TRANSLATABLE_DESCRIPTION_KEY + "ghosts_2")
+    )
+    override val disabledAspects = listOf(AspectItems.ASPECT_OF_IMPATIENCE)
 }
