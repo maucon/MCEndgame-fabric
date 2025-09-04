@@ -4,6 +4,7 @@ import de.fuballer.mcendgame.main.MCEndgame
 import de.fuballer.mcendgame.main.component.custom_attribute.data.*
 import de.fuballer.mcendgame.main.component.custom_attribute.types.CustomAttributeTypes
 import de.fuballer.mcendgame.main.util.extension.SlotExtension.isOrIsChildOf
+import de.fuballer.mcendgame.main.util.extension.mixin.EntityMixinExtension.getCustomAttributes
 import de.fuballer.mcendgame.main.util.minecraft.IdentifierUtil
 import de.fuballer.mcendgame.main.util.minecraft.RegistryUtil
 import de.maucon.mauconframework.di.annotation.Injectable
@@ -58,7 +59,17 @@ object CustomAttributesExtensions {
     }
 
     fun LivingEntity.getAllCustomAttributes(): Map<CustomAttributeType, List<CustomAttribute>> {
-        // TODO entity based attributes
+        val customAttributes = mutableListOf<CustomAttribute>()
+
+        customAttributes.addAll(getCustomAttributes())
+        customAttributes.addAll(getCustomAttributesOfItems())
+
+        return customAttributes
+            .filter { it.type is CustomAttributeType }
+            .groupBy { it.type as CustomAttributeType }
+    }
+
+    private fun LivingEntity.getCustomAttributesOfItems(): List<CustomAttribute> {
         val customAttributes = mutableListOf<CustomAttribute>()
 
         val feetItem = this.getEquippedStack(EquipmentSlot.FEET)
@@ -81,9 +92,7 @@ object CustomAttributesExtensions {
         val offHandAttributes = offHandItem.getCustomAttributes().filter { AttributeModifierSlot.OFFHAND.isOrIsChildOf(it.slot) }
         customAttributes.addAll(offHandAttributes)
 
-        return customAttributes
-            .filter { it.type is CustomAttributeType }
-            .groupBy { it.type as CustomAttributeType }
+        return customAttributes.filter { it.type is CustomAttributeType }
     }
 
     fun LivingEntity.isGhostly() = getAllCustomAttributes().contains(CustomAttributeTypes.GHOSTLY_APPEARANCE)

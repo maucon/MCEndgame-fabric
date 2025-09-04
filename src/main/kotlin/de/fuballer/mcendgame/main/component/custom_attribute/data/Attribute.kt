@@ -2,7 +2,12 @@ package de.fuballer.mcendgame.main.component.custom_attribute.data
 
 import com.mojang.serialization.Codec
 import com.mojang.serialization.codecs.RecordCodecBuilder
+import io.netty.buffer.ByteBuf
 import net.minecraft.component.type.AttributeModifierSlot
+import net.minecraft.entity.data.TrackedDataHandler
+import net.minecraft.entity.data.TrackedDataHandlerRegistry
+import net.minecraft.network.codec.PacketCodec
+import net.minecraft.network.codec.PacketCodecs
 
 data class RollableCustomAttribute(
     val type: AttributeType,
@@ -26,9 +31,9 @@ data class RollableCustomAttribute(
 
 data class CustomAttribute(
     val type: AttributeType,
-    val tier: Int,
-    val rolls: List<AttributeRoll<*>>,
-    val slot: AttributeModifierSlot,
+    val tier: Int = 0,
+    val rolls: List<AttributeRoll<*>> = listOf(),
+    val slot: AttributeModifierSlot = AttributeModifierSlot.ANY,
 ) {
     companion object {
         val CODEC: Codec<CustomAttribute> =
@@ -40,6 +45,12 @@ data class CustomAttribute(
                     AttributeModifierSlot.CODEC.fieldOf("slot").forGetter(CustomAttribute::slot),
                 ).apply(instance, ::CustomAttribute)
             }
+
+        val PACKET_CODEC: PacketCodec<ByteBuf, CustomAttribute> = PacketCodecs.codec(CODEC)
+        val LIST_PACKET_CODEC: PacketCodec<ByteBuf, List<CustomAttribute>> = PACKET_CODEC.collect(PacketCodecs.toList())
+
+        val LIST_TRACKED_DATA_HANDLER: TrackedDataHandler<List<CustomAttribute>> = TrackedDataHandler.create(LIST_PACKET_CODEC)
+            .also { TrackedDataHandlerRegistry.register(it) }
     }
 
     fun getNonZeroRangeCount() = rolls.count { it.hasNonZeroRange() }

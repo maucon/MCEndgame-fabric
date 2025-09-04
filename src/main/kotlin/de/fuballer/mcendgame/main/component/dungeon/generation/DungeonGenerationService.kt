@@ -44,15 +44,14 @@ class DungeonGenerationService(
 
         val (mapType, enemyTypes, bossTypes) = dungeonType.roll(random)
 
-        val generateLayoutCommand = DungeonGenerateCommand(playerDungeonLevel, dungeonType.bossCount, affectingAspects)
-        val (dungeonLevel, bossCount, _) = CommandGateway.apply(generateLayoutCommand)
+        val dungeonGenerateCommand = DungeonGenerateCommand(playerDungeonLevel, dungeonType.bossCount, affectingAspects)
+        val (dungeonLevel, bossCount, _) = CommandGateway.apply(dungeonGenerateCommand)
 
         val layoutGenerator = mapType.layoutGeneratorProvider()
         val layout = layoutGenerator.generateDungeon(random, dungeonLevel, bossCount)
 
         RuntimeConfig.SERVER.execute {
-            val dungeonWorld = dungeonWorldService.create(dungeonLevel, player)
-            dungeonWorld.setDungeonAspects(affectingAspects)
+            val dungeonWorld = dungeonWorldService.create(dungeonLevel, player, affectingAspects)
 
             dungeonBuilderService.build(dungeonWorld, layout.rooms)
 

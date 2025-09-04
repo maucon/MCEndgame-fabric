@@ -4,6 +4,7 @@ import de.fuballer.mcendgame.main.component.dungeon.enemy.equipment.EquipmentGen
 import de.fuballer.mcendgame.main.component.dungeon.enemy.potion_effect.PotionEffectService
 import de.fuballer.mcendgame.main.component.dungeon.generation.data.SpawnPosition
 import de.fuballer.mcendgame.main.component.entity.EntityTypeStats
+import de.fuballer.mcendgame.main.messaging.dungeon.DungeonEnemiesGeneratedEvent
 import de.fuballer.mcendgame.main.messaging.dungeon.DungeonGenerateEnemiesCommand
 import de.fuballer.mcendgame.main.util.extension.mixin.EntityMixinExtension.setDungeonEnemy
 import de.fuballer.mcendgame.main.util.extension.mixin.EntityMixinExtension.setElite
@@ -13,6 +14,7 @@ import de.fuballer.mcendgame.main.util.random.RandomOption
 import de.fuballer.mcendgame.main.util.random.RandomUtil
 import de.maucon.mauconframework.command.CommandGateway
 import de.maucon.mauconframework.di.annotation.Injectable
+import de.maucon.mauconframework.event.EventGateway
 import net.minecraft.entity.LivingEntity
 import net.minecraft.entity.attribute.EntityAttributes
 import net.minecraft.entity.mob.MobEntity
@@ -69,7 +71,8 @@ class EnemyGenerationService(
             )
         })
 
-        //TODO create event
+        val event = DungeonEnemiesGeneratedEvent.of(dungeonWorld, entities)
+        EventGateway.launchPublish(event)
     }
 
     private fun spawnEnemy(

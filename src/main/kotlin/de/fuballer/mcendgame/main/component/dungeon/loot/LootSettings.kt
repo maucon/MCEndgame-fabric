@@ -19,14 +19,15 @@ object LootSettings {
     fun calculateMagicFindDropProbabilityFactor(magicFind: Int) = 1 + magicFind / 100.0
 
     val ASPECTS = listOf(
-        RandomOption(10, AspectItems.ASPECT_OF_HORDES),
-        RandomOption(8, AspectItems.ASPECT_OF_TYRANNY),
-        RandomOption(8, AspectItems.ASPECT_OF_DOMINION),
-        RandomOption(10, AspectItems.ASPECT_OF_IMPATIENCE),
-        RandomOption(5, AspectItems.ASPECT_OF_ZEAL),
-        RandomOption(8, AspectItems.ASPECT_OF_CURIO),
-        RandomOption(10, AspectItems.ASPECT_OF_GREED),
-        RandomOption(5, AspectItems.ASPECT_OF_FORTUNE),
+        RandomOption(100, AspectItems.ASPECT_OF_HORDES),
+        RandomOption(80, AspectItems.ASPECT_OF_TYRANNY),
+        RandomOption(80, AspectItems.ASPECT_OF_DOMINION),
+        RandomOption(100, AspectItems.ASPECT_OF_IMPATIENCE),
+        RandomOption(50, AspectItems.ASPECT_OF_ZEAL),
+        RandomOption(80, AspectItems.ASPECT_OF_CURIO),
+        RandomOption(100, AspectItems.ASPECT_OF_GREED),
+        RandomOption(50, AspectItems.ASPECT_OF_FORTUNE),
+        RandomOption(5, AspectItems.ASPECT_OF_GHOSTS),
     )
 
     fun getBossBaseCrystalCount(dungeonLevel: Int) = Random.nextDouble(dungeonLevel.toDouble() / 2)
