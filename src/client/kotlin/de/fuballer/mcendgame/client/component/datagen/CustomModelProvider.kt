@@ -52,6 +52,7 @@ class CustomModelProvider(
         generator.register(AspectItems.ASPECT_OF_CURIO, Models.GENERATED)
         generator.register(AspectItems.ASPECT_OF_DOMINION, Models.GENERATED)
         generator.register(AspectItems.ASPECT_OF_FORTUNE, Models.GENERATED)
+        generator.register(AspectItems.ASPECT_OF_GHOSTS, Models.GENERATED)
         generator.register(AspectItems.ASPECT_OF_GREED, Models.GENERATED)
         generator.register(AspectItems.ASPECT_OF_HORDES, Models.GENERATED)
         generator.register(AspectItems.ASPECT_OF_IMPATIENCE, Models.GENERATED)

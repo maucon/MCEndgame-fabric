@@ -2,10 +2,12 @@ package de.fuballer.mcendgame.main.component.dungeon.world
 
 import de.fuballer.mcendgame.main.component.dungeon.world.db.DungeonWorldEntity
 import de.fuballer.mcendgame.main.component.dungeon.world.db.DungeonWorldRepository
+import de.fuballer.mcendgame.main.component.item.custom.aspect.AspectItem
 import de.fuballer.mcendgame.main.configuration.RuntimeConfig
 import de.fuballer.mcendgame.main.functional.scheduler.Scheduler
 import de.fuballer.mcendgame.main.messaging.server.ServerStartedEvent
 import de.fuballer.mcendgame.main.messaging.server.ServerStoppingEvent
+import de.fuballer.mcendgame.main.util.extension.mixin.WorldMixinExtension.setDungeonAspects
 import de.fuballer.mcendgame.main.util.extension.mixin.WorldMixinExtension.setDungeonLevel
 import de.fuballer.mcendgame.main.util.extension.mixin.WorldMixinExtension.setOpener
 import de.maucon.mauconframework.di.annotation.Injectable
@@ -37,7 +39,8 @@ class DungeonWorldService(
 
     fun create(
         dungeonLevel: Int,
-        opener: PlayerEntity
+        opener: PlayerEntity,
+        affectingAspects: Map<AspectItem, Int>,
     ): ServerWorld {
         val dungeonWorld = RuntimeConfig.FANTASY
             .openTemporaryWorld(DungeonWorldSettings.generateIdentifier(), DungeonWorldSettings.WORLD_CONFIG)
@@ -45,6 +48,7 @@ class DungeonWorldService(
 
         dungeonWorld.setDungeonLevel(dungeonLevel)
         dungeonWorld.setOpener(opener)
+        dungeonWorld.setDungeonAspects(affectingAspects)
 
         val entity = DungeonWorldEntity(dungeonWorld)
         dungeonWorldRepo.save(entity)

@@ -19,7 +19,7 @@ abstract class AspectItem(
     abstract val tier: Int
     abstract val limit: Int
 
-    abstract val description: MutableText
+    abstract val description: List<MutableText>
 
     abstract val disabledAspects: List<AspectItem>
 
@@ -27,7 +27,9 @@ abstract class AspectItem(
         val stack = super.getDefaultStack()
 
         val list = mutableListOf<Text>()
-        list.add(description.styled { style -> style.withItalic(false).withColor(Formatting.GREEN) })
+        description.forEach {
+            list.add(it.styled { style -> style.withItalic(false).withColor(Formatting.GREEN) })
+        }
         list.add(Text.translatable(TRANSLATABLE_BASE_KEY + "limit", limit).styled { style -> style.withItalic(false).withColor(Formatting.GRAY) })
 
         stack.set(DataComponentTypes.LORE, LoreComponent(list))

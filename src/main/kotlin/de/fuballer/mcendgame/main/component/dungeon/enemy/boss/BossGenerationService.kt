@@ -2,11 +2,14 @@ package de.fuballer.mcendgame.main.component.dungeon.enemy.boss
 
 import de.fuballer.mcendgame.main.component.dungeon.generation.data.SpawnPosition
 import de.fuballer.mcendgame.main.component.entity.EntityTypeStats
+import de.fuballer.mcendgame.main.messaging.dungeon.DungeonEnemiesGeneratedEvent
 import de.fuballer.mcendgame.main.util.extension.mixin.EntityMixinExtension.setDungeonBoss
 import de.fuballer.mcendgame.main.util.extension.mixin.EntityMixinExtension.setDungeonBossSpawnPosition
 import de.fuballer.mcendgame.main.util.extension.mixin.EntityMixinExtension.setDungeonEnemy
+import de.fuballer.mcendgame.main.util.extension.mixin.WorldMixinExtension.setTotalBossCount
 import de.fuballer.mcendgame.main.util.minecraft.EntityUtil
 import de.maucon.mauconframework.di.annotation.Injectable
+import de.maucon.mauconframework.event.EventGateway
 import net.minecraft.entity.attribute.EntityAttributes
 import net.minecraft.entity.mob.MobEntity
 import net.minecraft.server.world.ServerWorld
@@ -26,7 +29,11 @@ class BossGenerationService {
             val type = shuffledTypes[index % shuffledTypes.size]
             spawnBoss(dungeonWorld, level, type, pos, random)
         }
-        //TODO create event
+
+        dungeonWorld.setTotalBossCount(bosses.size)
+
+        val event = DungeonEnemiesGeneratedEvent.of(dungeonWorld, bosses)
+        EventGateway.launchPublish(event)
     }
 
     private fun spawnBoss(

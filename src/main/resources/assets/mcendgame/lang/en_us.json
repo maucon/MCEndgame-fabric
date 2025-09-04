@@ -35,6 +35,7 @@
   "item.mcendgame.aspect_of_curio": "Aspect of Curio",
   "item.mcendgame.aspect_of_fortune": "Aspect of Fortune",
   "item.mcendgame.aspect_of_zeal": "Aspect of Zeal",
+  "item.mcendgame.aspect_of_ghosts": "Aspect of Ghosts",
 
   "item.mcendgame.aspect.limit": "Limit: %s",
   "item.mcendgame.aspect.description.tyranny": "Dungeon contains %s additional Elites",
@@ -45,6 +46,9 @@
   "item.mcendgame.aspect.description.curio": "Enemies spawn with %s%% increased Unique Items",
   "item.mcendgame.aspect.description.fortune": "Loot Goblins Equipment has Lucky Attributes",
   "item.mcendgame.aspect.description.zeal": "Dungeon Completion grants %s additional Progress",
+  "item.mcendgame.aspect.description.ghosts_0": "Dungeon is Level %s",
+  "item.mcendgame.aspect.description.ghosts_1": "Enemies have a Ghostly Appearance",
+  "item.mcendgame.aspect.description.ghosts_2": "Final Boss drops %s",
 
   "item.mcendgame.calibration_crystal": "Calibration Crystal",
   "item.mcendgame.sacrifice_crystal": "Sacrifice Crystal",

@@ -14,6 +14,10 @@ public interface DungeonWorldAccessor {
 
     void mcendgame$setLevel(int level);
 
+    int mcendgame$getTotalBossCount();
+
+    void mcendgame$setTotalBossCount(int count);
+
     int mcendgame$getBossesKilled();
 
     void mcendgame$increaseBossesKilled();
