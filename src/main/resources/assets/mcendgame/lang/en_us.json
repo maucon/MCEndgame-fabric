@@ -48,7 +48,7 @@
   "item.mcendgame.aspect.description.zeal": "Dungeon Completion grants %s additional Progress",
   "item.mcendgame.aspect.description.ghosts_0": "Dungeon is Level %s",
   "item.mcendgame.aspect.description.ghosts_1": "Enemies have a Ghostly Appearance",
-  "item.mcendgame.aspect.description.ghosts_2": "Final Boss drops Geistergaloschen",
+  "item.mcendgame.aspect.description.ghosts_2": "Final Boss drops %s",
 
   "item.mcendgame.calibration_crystal": "Calibration Crystal",
   "item.mcendgame.sacrifice_crystal": "Sacrifice Crystal",
