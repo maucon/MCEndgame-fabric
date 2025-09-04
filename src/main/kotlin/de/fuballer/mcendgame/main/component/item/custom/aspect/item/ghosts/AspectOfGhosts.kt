@@ -11,7 +11,7 @@ class AspectOfGhosts(
         const val FORCED_DUNGEON_LEVEL = 10
     }
 
-    override val tier = 2
+    override val tier = 1
     override val limit = 1
     override val description = mutableListOf(
         Text.translatable(TRANSLATABLE_DESCRIPTION_KEY + "ghosts_0", FORCED_DUNGEON_LEVEL),
