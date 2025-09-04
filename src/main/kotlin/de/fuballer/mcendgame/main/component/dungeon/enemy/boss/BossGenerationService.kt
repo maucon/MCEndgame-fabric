@@ -6,6 +6,7 @@ import de.fuballer.mcendgame.main.messaging.dungeon.DungeonEnemiesGeneratedEvent
 import de.fuballer.mcendgame.main.util.extension.mixin.EntityMixinExtension.setDungeonBoss
 import de.fuballer.mcendgame.main.util.extension.mixin.EntityMixinExtension.setDungeonBossSpawnPosition
 import de.fuballer.mcendgame.main.util.extension.mixin.EntityMixinExtension.setDungeonEnemy
+import de.fuballer.mcendgame.main.util.extension.mixin.WorldMixinExtension.setTotalBossCount
 import de.fuballer.mcendgame.main.util.minecraft.EntityUtil
 import de.maucon.mauconframework.di.annotation.Injectable
 import de.maucon.mauconframework.event.EventGateway
@@ -28,6 +29,8 @@ class BossGenerationService {
             val type = shuffledTypes[index % shuffledTypes.size]
             spawnBoss(dungeonWorld, level, type, pos, random)
         }
+
+        dungeonWorld.setTotalBossCount(bosses.size)
 
         val event = DungeonEnemiesGeneratedEvent.of(dungeonWorld, bosses)
         EventGateway.launchPublish(event)

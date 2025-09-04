@@ -1,12 +1,13 @@
 package de.fuballer.mcendgame.main.component.dungeon.enemy.boss
 
-import de.fuballer.mcendgame.main.messaging.dungeon.DungeonBossDeathEvent
+import de.fuballer.mcendgame.main.messaging.dungeon.DungeonBossDeathCommand
 import de.fuballer.mcendgame.main.messaging.misc.LivingEntityDamagedEvent
 import de.fuballer.mcendgame.main.util.extension.mixin.EntityMixinExtension.getLootMultiplier
 import de.fuballer.mcendgame.main.util.extension.mixin.EntityMixinExtension.isDungeonBoss
 import de.fuballer.mcendgame.main.util.extension.mixin.EntityMixinExtension.setLootMultiplier
 import de.fuballer.mcendgame.main.util.extension.mixin.WorldMixinExtension.getBossesKilled
 import de.fuballer.mcendgame.main.util.extension.mixin.WorldMixinExtension.increaseBossesKilled
+import de.maucon.mauconframework.command.CommandHandler
 import de.maucon.mauconframework.di.annotation.Injectable
 import de.maucon.mauconframework.event.EventSubscriber
 import net.minecraft.entity.mob.MobEntity
@@ -16,9 +17,9 @@ import kotlin.math.pow
 
 @Injectable
 object DungeonBossService {
-    @EventSubscriber
-    fun on(event: DungeonBossDeathEvent) {
-        val world = event.world as? ServerWorld ?: return
+    @CommandHandler(priority = 0)
+    fun on(cmd: DungeonBossDeathCommand) {
+        val world = cmd.world as? ServerWorld ?: return
         world.increaseBossesKilled()
     }
 

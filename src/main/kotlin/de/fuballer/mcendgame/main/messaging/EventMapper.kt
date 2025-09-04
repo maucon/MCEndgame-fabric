@@ -1,6 +1,6 @@
 package de.fuballer.mcendgame.main.messaging
 
-import de.fuballer.mcendgame.main.messaging.dungeon.DungeonBossDeathEvent
+import de.fuballer.mcendgame.main.messaging.dungeon.DungeonBossDeathCommand
 import de.fuballer.mcendgame.main.messaging.dungeon.DungeonEnemyDeathEvent
 import de.fuballer.mcendgame.main.messaging.dungeon.DungeonEntityDeathEvent
 import de.fuballer.mcendgame.main.messaging.dungeon.DungeonPlayerDeathEvent
@@ -12,6 +12,7 @@ import de.fuballer.mcendgame.main.util.extension.ItemStackExtension.isSameIgnori
 import de.fuballer.mcendgame.main.util.extension.WorldExtension.isDungeonWorld
 import de.fuballer.mcendgame.main.util.extension.mixin.EntityMixinExtension.isDungeonBoss
 import de.fuballer.mcendgame.main.util.extension.mixin.EntityMixinExtension.isDungeonEnemy
+import de.maucon.mauconframework.command.CommandGateway
 import de.maucon.mauconframework.di.annotation.Injectable
 import de.maucon.mauconframework.event.EventGateway
 import de.maucon.mauconframework.event.EventSubscriber
@@ -70,8 +71,8 @@ object EventMapper {
         val bossEntity = event.enemyEntity as? MobEntity ?: return
         if (!bossEntity.isDungeonBoss()) return
 
-        val dungeonBossDeathEvent = DungeonBossDeathEvent(event.isClient, event.world, bossEntity, event.killer)
-        EventGateway.launchPublish(dungeonBossDeathEvent)
+        val dungeonBossDeathCommand = DungeonBossDeathCommand(event.isClient, event.world, bossEntity, event.killer)
+        CommandGateway.apply(dungeonBossDeathCommand)
     }
 
     @Initializer

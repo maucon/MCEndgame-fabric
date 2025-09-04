@@ -5,13 +5,14 @@ import de.fuballer.mcendgame.main.component.portal.Portals
 import de.fuballer.mcendgame.main.component.portal.teleport.TeleportLocation
 import de.fuballer.mcendgame.main.component.portal.type.DefaultPortalType
 import de.fuballer.mcendgame.main.component.portal.type.PortalType
-import de.fuballer.mcendgame.main.messaging.dungeon.DungeonBossDeathEvent
+import de.fuballer.mcendgame.main.messaging.dungeon.DungeonBossDeathCommand
 import de.fuballer.mcendgame.main.messaging.dungeon.DungeonGeneratedEvent
 import de.fuballer.mcendgame.main.messaging.dungeon.OpenDungeonButtonPressedEvent
 import de.fuballer.mcendgame.main.util.extension.BlockPosExtension.toVec3d
 import de.fuballer.mcendgame.main.util.extension.Vec3iExtension.toCenter
 import de.fuballer.mcendgame.main.util.extension.WorldExtension.isDungeonWorld
 import de.fuballer.mcendgame.main.util.extension.mixin.EntityMixinExtension.getDungeonBossSpawnPosition
+import de.maucon.mauconframework.command.CommandHandler
 import de.maucon.mauconframework.di.annotation.Injectable
 import de.maucon.mauconframework.event.EventSubscriber
 import net.minecraft.server.world.ServerWorld
@@ -48,14 +49,14 @@ class DungeonPortalService(
         clearPortals(entity)
     }
 
-    @EventSubscriber
-    fun on(event: DungeonBossDeathEvent) {
-        if (event.isClient) return
+    @CommandHandler
+    fun on(cmd: DungeonBossDeathCommand) {
+        if (cmd.isClient) return
 
-        val world = event.world as ServerWorld
-        if (!event.world.isDungeonWorld()) return
+        val world = cmd.world as ServerWorld
+        if (!cmd.world.isDungeonWorld()) return
 
-        val spawnPosition = event.bossEntity.getDungeonBossSpawnPosition()
+        val spawnPosition = cmd.bossEntity.getDungeonBossSpawnPosition()
         val dungeonPortalEntity = dungeonPortalRepo.findByDungeonWorld(world) ?: return
 
         Portals.spawn(world, spawnPosition.pos.toCenter(), dungeonPortalEntity.leaveLocation, rotation = spawnPosition.rot.toFloat())

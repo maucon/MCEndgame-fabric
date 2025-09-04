@@ -26,6 +26,16 @@ object WorldMixinExtension {
         return accessor.`mcendgame$getLevel`()
     }
 
+    fun ServerWorld.setTotalBossCount(count: Int) {
+        val accessor = this as DungeonWorldAccessor
+        accessor.`mcendgame$setTotalBossCount`(count)
+    }
+
+    fun ServerWorld.getTotalBossCount(): Int {
+        val accessor = this as DungeonWorldAccessor
+        return accessor.`mcendgame$getTotalBossCount`()
+    }
+
     fun ServerWorld.increaseBossesKilled() {
         val accessor = this as DungeonWorldAccessor
         accessor.`mcendgame$increaseBossesKilled`()

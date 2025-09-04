@@ -17,6 +17,8 @@ public class DungeonWorldMixin implements DungeonWorldAccessor {
     @Unique
     private int level = 0;
     @Unique
+    private int totalBossCount = 0;
+    @Unique
     private int bossesKilled = 0;
 
     @Unique
@@ -43,6 +45,16 @@ public class DungeonWorldMixin implements DungeonWorldAccessor {
     @Override
     public void mcendgame$setLevel(int level) {
         this.level = level;
+    }
+
+    @Override
+    public int mcendgame$getTotalBossCount() {
+        return totalBossCount;
+    }
+
+    @Override
+    public void mcendgame$setTotalBossCount(int count) {
+        totalBossCount = count;
     }
 
     @Override

@@ -3,7 +3,7 @@ package de.fuballer.mcendgame.main.component.dungeon.loot
 import de.fuballer.mcendgame.main.component.item.custom.UniqueAttributesItemInterface
 import de.fuballer.mcendgame.main.component.tags.CustomTags
 import de.fuballer.mcendgame.main.configuration.RuntimeConfig
-import de.fuballer.mcendgame.main.messaging.dungeon.DungeonBossDeathEvent
+import de.fuballer.mcendgame.main.messaging.dungeon.DungeonBossDeathCommand
 import de.fuballer.mcendgame.main.messaging.dungeon.DungeonEnemyDeathEvent
 import de.fuballer.mcendgame.main.messaging.misc.LivingEntityDropCommand
 import de.fuballer.mcendgame.main.messaging.misc.MagicFindCommand
@@ -61,14 +61,14 @@ class LootService {
             .forEach { enemyEntity.dropStack(serverWorld, it) }
     }
 
-    @EventSubscriber
-    fun on(event: DungeonBossDeathEvent) {
-        val serverWorld = event.world as? ServerWorld ?: return
+    @CommandHandler
+    fun on(cmd: DungeonBossDeathCommand) {
+        val serverWorld = cmd.world as? ServerWorld ?: return
 
         val level = serverWorld.getDungeonLevel()
         val baseCrystalCount = LootSettings.getBossBaseCrystalCount(level)
 
-        val bossEntity = event.bossEntity
+        val bossEntity = cmd.bossEntity
         val empoweredCrystalCount = baseCrystalCount * bossEntity.getLootMultiplier()
         val finalCrystalCount = empoweredCrystalCount.toInt() + if (Random.nextDouble() < empoweredCrystalCount % 1) 1 else 0
 
