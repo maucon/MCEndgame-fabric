@@ -35,6 +35,13 @@ data class CustomAttribute(
     val rolls: List<AttributeRoll<*>> = listOf(),
     val slot: AttributeModifierSlot = AttributeModifierSlot.ANY,
 ) {
+    constructor(
+        type: AttributeType,
+        tier: Int = 0,
+        roll: AttributeRoll<*>,
+        slot: AttributeModifierSlot = AttributeModifierSlot.ANY,
+    ) : this(type, tier, listOf(roll), slot)
+
     companion object {
         val CODEC: Codec<CustomAttribute> =
             RecordCodecBuilder.create { instance ->

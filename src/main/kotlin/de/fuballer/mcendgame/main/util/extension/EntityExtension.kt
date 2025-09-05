@@ -1,5 +1,6 @@
 package de.fuballer.mcendgame.main.util.extension
 
+import de.fuballer.mcendgame.main.component.custom_attribute.CustomAttributesExtensions.asDoubleRoll
 import de.fuballer.mcendgame.main.component.custom_attribute.CustomAttributesExtensions.asIntRoll
 import de.fuballer.mcendgame.main.component.custom_attribute.CustomAttributesExtensions.getAllCustomAttributes
 import de.fuballer.mcendgame.main.component.custom_attribute.CustomAttributesExtensions.isBlockPhasing
@@ -116,5 +117,17 @@ object EntityExtension {
 
         val angle = distanceVec.angleDeg(damagedRotationVec)
         return angle < maxAngle
+    }
+
+    fun LivingEntity.getTotalCustomAttributeLootMultiplier(): Double {
+        val attributes = getAllCustomAttributes()
+
+        val increasedAttributes = attributes[CustomAttributeTypes.DROP_INCREASED_LOOT]
+        val increasedFactor = 1.0 + (increasedAttributes?.sumOf { it.rolls[0].asDoubleRoll().getValue() } ?: 0.0)
+
+        val moreAttributes = attributes[CustomAttributeTypes.DROP_MORE_LOOT]
+        val moreFactor = moreAttributes?.map { it.rolls[0].asDoubleRoll().getValue() }?.fold(1.0) { a, b -> a * (1 + b) } ?: 1.0
+
+        return increasedFactor * moreFactor
     }
 }

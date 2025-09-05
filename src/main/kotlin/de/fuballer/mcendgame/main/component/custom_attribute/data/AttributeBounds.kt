@@ -11,7 +11,7 @@ sealed interface AttributeBounds<T : AttributeRoll<*>> {
 
 data class DoubleBounds(
     val min: Double,
-    val max: Double
+    val max: Double = min,
 ) : AttributeBounds<DoubleRoll> {
     companion object {
         val CODEC: Codec<DoubleBounds> =
@@ -26,8 +26,6 @@ data class DoubleBounds(
     init {
         require(min <= max) { "min must be smaller than max" }
     }
-
-    constructor(max: Double) : this(0.0, max)
 
     override fun roll(percentRoll: Double) = DoubleRoll(this, percentRoll)
 
@@ -55,7 +53,7 @@ data class StringBounds(
 
 data class IntBounds(
     val min: Int,
-    val max: Int
+    val max: Int = min,
 ) : AttributeBounds<IntRoll> {
     companion object {
         val CODEC: Codec<IntBounds> =
@@ -70,8 +68,6 @@ data class IntBounds(
     init {
         require(min <= max) { "min must be smaller than max" }
     }
-
-    constructor(max: Int) : this(0, max)
 
     override fun roll(percentRoll: Double) = IntRoll(this, percentRoll)
 

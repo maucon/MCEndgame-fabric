@@ -145,6 +145,12 @@ object CustomAttributeTypes {
     val ENTITY_PHASING = CustomAttributeType("entity_phasing", AttributeFormats.EMPTY_ROLL, AttributeFormats.EMPTY_BOUNDS, AttributeAffinities.EMPTY)
     val BLOCK_PHASING = CustomAttributeType("block_phasing", AttributeFormats.EMPTY_ROLL, AttributeFormats.EMPTY_BOUNDS, AttributeAffinities.EMPTY)
 
+    // for use on enemies (don't use for players)
+    val DROP_INCREASED_LOOT =
+        CustomAttributeType("drop_increased_loot", AttributeFormats.SIGNED_PERCENT_ROLL, AttributeFormats.PERCENT_BOUNDS, AttributeAffinities.EMPTY, SignBasedKeywords.INCREASED)
+    val DROP_MORE_LOOT =
+        CustomAttributeType("drop_more_loot", AttributeFormats.SIGNED_PERCENT_ROLL, AttributeFormats.PERCENT_BOUNDS, AttributeAffinities.EMPTY, SignBasedKeywords.MORE)
+
     // region get by key
     fun getByKey(key: String): CustomAttributeType {
         return attributeTypes[key] ?: ERROR

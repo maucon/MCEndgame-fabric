@@ -66,7 +66,7 @@ object AttributeFormats {
         listOf("(${formatDouble(bound1.min * 100)}-${formatDouble(bound1.max * 100)})", String.format("(%d-%d)", bound2.min, bound2.max))
     }
 
-    private fun formatDouble(value: Double): String {
+    fun formatDouble(value: Double): String {
         val formatted = "%.1f".format(value)
         if (formatted.endsWith("0")) {
             return "%.0f".format(value)
