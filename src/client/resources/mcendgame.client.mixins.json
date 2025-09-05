@@ -7,6 +7,7 @@
     "biped.BipedEntityRendererMixin",
     "biped.BipedEntityRenderStateMixin",
     "ghostly_appearance.BasicItemModelGhostlyMixin",
+    "ghostly_appearance.CapeFeatureRendererGhostlyMixin",
     "ghostly_appearance.ElytraFeatureRendererGhostlyMixin",
     "ghostly_appearance.EntityRenderDispatcherGhostlyMixin",
     "ghostly_appearance.EquipmentRendererTranslucentMixin",
