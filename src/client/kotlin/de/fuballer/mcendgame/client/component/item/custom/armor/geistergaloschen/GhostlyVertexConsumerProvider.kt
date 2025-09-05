@@ -15,10 +15,13 @@ class GhostlyVertexConsumerProvider(
     var delegate = VertexConsumerProvider { layer ->
         val vertexConsumer = parent.getBuffer(layer)
         val name = layer.name
-        if (name.equals("leash")
-            || name.contains("text")
-            || name.equals("entity_shadow")
-        ) vertexConsumer else GhostlyVertexConsumer(vertexConsumer)
+        when {
+            name == "leash" ||
+                    name.contains("text") ||
+                    name == "entity_shadow" -> vertexConsumer
+
+            else -> GhostlyVertexConsumer(vertexConsumer)
+        }
     }
 
     companion object {
