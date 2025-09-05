@@ -38,6 +38,7 @@
   "item.mcendgame.aspect_of_ghosts": "Aspect of Ghosts",
   "item.mcendgame.aspect_of_fortitude": "Aspect of Fortitude",
   "item.mcendgame.aspect_of_savagery": "Aspect of Savagery",
+  "item.mcendgame.aspect_of_eminence": "Aspect of Eminence",
 
   "item.mcendgame.aspect.limit": "Limit: %s",
   "item.mcendgame.aspect.description.tyranny": "Dungeon contains %s additional Elites",
@@ -55,6 +56,7 @@
   "item.mcendgame.aspect.description.fortitude_1": "Enemies drop %s%% increased Loot",
   "item.mcendgame.aspect.description.savagery_0": "Enemies deal %s%% more Damage",
   "item.mcendgame.aspect.description.savagery_1": "Enemies drop %s%% increased Loot",
+  "item.mcendgame.aspect.description.eminence": "Normal Equipment has a %s%% chance for an additional Attribute",
 
   "item.mcendgame.calibration_crystal": "Calibration Crystal",
   "item.mcendgame.sacrifice_crystal": "Sacrifice Crystal",

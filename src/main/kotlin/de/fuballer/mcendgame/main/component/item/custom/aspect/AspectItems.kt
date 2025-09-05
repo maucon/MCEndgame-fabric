@@ -2,6 +2,7 @@ package de.fuballer.mcendgame.main.component.item.custom.aspect
 
 import de.fuballer.mcendgame.main.component.item.custom.aspect.item.curio.AspectOfCurio
 import de.fuballer.mcendgame.main.component.item.custom.aspect.item.dominion.AspectOfDominion
+import de.fuballer.mcendgame.main.component.item.custom.aspect.item.eminence.AspectOfEminence
 import de.fuballer.mcendgame.main.component.item.custom.aspect.item.fortitude.AspectOfFortitude
 import de.fuballer.mcendgame.main.component.item.custom.aspect.item.fortune.AspectOfFortune
 import de.fuballer.mcendgame.main.component.item.custom.aspect.item.ghosts.AspectOfGhosts
@@ -27,4 +28,5 @@ object AspectItems {
     val ASPECT_OF_GHOSTS = RegistryUtil.registerAspectItem(::AspectOfGhosts, "aspect_of_ghosts")
     val ASPECT_OF_FORTITUDE = RegistryUtil.registerAspectItem(::AspectOfFortitude, "aspect_of_fortitude")
     val ASPECT_OF_SAVAGERY = RegistryUtil.registerAspectItem(::AspectOfSavagery, "aspect_of_savagery")
+    val ASPECT_OF_EMINENCE = RegistryUtil.registerAspectItem(::AspectOfEminence, "aspect_of_eminence")
 }

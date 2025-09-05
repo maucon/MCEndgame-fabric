@@ -30,6 +30,7 @@ object LootSettings {
         RandomOption(5, AspectItems.ASPECT_OF_GHOSTS),
         RandomOption(75, AspectItems.ASPECT_OF_FORTITUDE),
         RandomOption(75, AspectItems.ASPECT_OF_SAVAGERY),
+        RandomOption(15, AspectItems.ASPECT_OF_EMINENCE),
     )
 
     fun getBossBaseCrystalCount(dungeonLevel: Int) = Random.nextDouble(dungeonLevel.toDouble() / 2)
