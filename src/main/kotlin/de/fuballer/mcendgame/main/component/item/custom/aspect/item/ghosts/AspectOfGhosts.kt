@@ -10,6 +10,8 @@ class AspectOfGhosts(
 ) : AspectItem(settings) {
     companion object {
         const val FORCED_DUNGEON_LEVEL = 10
+
+        const val RANDOM_GHOST_PROBABILITY = 0.0001
     }
 
     override val tier = 1

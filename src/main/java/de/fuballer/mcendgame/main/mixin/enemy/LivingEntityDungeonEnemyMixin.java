@@ -13,9 +13,14 @@ import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 public class LivingEntityDungeonEnemyMixin implements LivingEntityDungeonEnemyAccessor {
     @Unique
     private static final String DUNGEON_ENEMY_NBT = "isDungeonEnemy";
+    @Unique
+    private static final String DROPS_ASPECT_OF_GHOSTS_NBT = "dropsAspectOfGhosts";
 
     @Unique
     private boolean isDungeonEnemy = false;
+
+    @Unique
+    private boolean dropsAspectOfGhosts = false;
 
     @Override
     public boolean mcendgame$isDungeonEnemy() {
@@ -27,13 +32,25 @@ public class LivingEntityDungeonEnemyMixin implements LivingEntityDungeonEnemyAc
         isDungeonEnemy = enemy;
     }
 
+    @Override
+    public boolean mcendgame$dropsAspectOfGhosts() {
+        return dropsAspectOfGhosts;
+    }
+
+    @Override
+    public void mcendgame$setDropsAspectOfGhosts(boolean drops) {
+        dropsAspectOfGhosts = drops;
+    }
+
     @Inject(method = "writeCustomDataToNbt", at = @At("TAIL"))
     private void writeNBT(NbtCompound nbt, CallbackInfo ci) {
         if (isDungeonEnemy) nbt.putBoolean(DUNGEON_ENEMY_NBT, true);
+        if (dropsAspectOfGhosts) nbt.putBoolean(DROPS_ASPECT_OF_GHOSTS_NBT, true);
     }
 
     @Inject(method = "readCustomDataFromNbt", at = @At("TAIL"))
     private void readNBT(NbtCompound nbt, CallbackInfo ci) {
         isDungeonEnemy = nbt.getBoolean(DUNGEON_ENEMY_NBT).orElse(false);
+        dropsAspectOfGhosts = nbt.getBoolean(DROPS_ASPECT_OF_GHOSTS_NBT).orElse(false);
     }
 }

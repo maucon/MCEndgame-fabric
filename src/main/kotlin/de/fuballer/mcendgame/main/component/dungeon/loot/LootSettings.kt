@@ -27,7 +27,7 @@ object LootSettings {
         RandomOption(80, AspectItems.ASPECT_OF_CURIO),
         RandomOption(100, AspectItems.ASPECT_OF_GREED),
         RandomOption(50, AspectItems.ASPECT_OF_FORTUNE),
-        RandomOption(5, AspectItems.ASPECT_OF_GHOSTS),
+        //RandomOption(5, AspectItems.ASPECT_OF_GHOSTS), doesn't drop default [AspectOfGhostsService]
         RandomOption(75, AspectItems.ASPECT_OF_FORTITUDE),
         RandomOption(75, AspectItems.ASPECT_OF_SAVAGERY),
         RandomOption(15, AspectItems.ASPECT_OF_EMINENCE),

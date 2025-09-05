@@ -44,6 +44,16 @@ object EntityMixinExtension {
         return enemyAccessor.`mcendgame$isDungeonEnemy`()
     }
 
+    fun LivingEntity.setDropsAspectOfGhosts(drops: Boolean = true) {
+        val accessor = this as LivingEntityDungeonEnemyAccessor
+        return accessor.`mcendgame$setDropsAspectOfGhosts`(drops)
+    }
+
+    fun LivingEntity.dropsAspectOfGhosts(): Boolean {
+        val enemyAccessor = this as LivingEntityDungeonEnemyAccessor
+        return enemyAccessor.`mcendgame$dropsAspectOfGhosts`()
+    }
+
     fun LivingEntity.setDungeonBoss(dungeonBoss: Boolean = true) {
         val accessor = this as MobEntityDungeonBossAccessor
         return accessor.`mcendgame$setDungeonBoss`(dungeonBoss)
