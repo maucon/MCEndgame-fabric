@@ -2,8 +2,7 @@ package de.fuballer.mcendgame.client.mixin.ghostly_appearance;
 
 import com.llamalad7.mixinextras.sugar.Local;
 import de.fuballer.mcendgame.client.accessor.LivingEntityRenderStateGhostlyAccessor;
-import de.fuballer.mcendgame.client.component.item.custom.armor.geistergaloschen.GhostlyVertexConsumer;
-import net.minecraft.client.render.RenderLayer;
+import de.fuballer.mcendgame.client.component.item.custom.armor.geistergaloschen.GhostlyVertexConsumerProvider;
 import net.minecraft.client.render.VertexConsumerProvider;
 import net.minecraft.client.render.entity.EntityRenderDispatcher;
 import net.minecraft.client.render.entity.state.EntityRenderState;
@@ -26,15 +25,6 @@ public class EntityRenderDispatcherGhostlyMixin {
         if (!(renderState instanceof LivingEntityRenderStateGhostlyAccessor accessor)) return vertexConsumers;
         if (!accessor.mcendgame$isGhostly()) return vertexConsumers;
 
-        return layer -> {
-            var vertexConsumer = vertexConsumers.getBuffer(layer);
-
-            if (layer == RenderLayer.getLeash()
-                    || layer.getName().contains("text")) {
-                return vertexConsumer;
-            }
-
-            return new GhostlyVertexConsumer(vertexConsumer);
-        };
+        return new GhostlyVertexConsumerProvider(vertexConsumers);
     }
 }
