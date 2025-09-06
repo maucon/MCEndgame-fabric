@@ -11,6 +11,7 @@ class AspectOfGhosts(
     companion object {
         const val FORCED_DUNGEON_LEVEL = 10
 
+        const val RANDOM_GHOST_MIN_DUNGEON_LEVEL = 8
         const val RANDOM_GHOST_PROBABILITY = 0.0001
     }
 

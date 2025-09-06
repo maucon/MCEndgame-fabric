@@ -13,6 +13,7 @@ import de.fuballer.mcendgame.main.util.extension.mixin.EntityMixinExtension.addC
 import de.fuballer.mcendgame.main.util.extension.mixin.EntityMixinExtension.dropsAspectOfGhosts
 import de.fuballer.mcendgame.main.util.extension.mixin.EntityMixinExtension.setDropsAspectOfGhosts
 import de.fuballer.mcendgame.main.util.extension.mixin.WorldMixinExtension.getDungeonAspects
+import de.fuballer.mcendgame.main.util.extension.mixin.WorldMixinExtension.getDungeonLevel
 import de.maucon.mauconframework.command.CommandHandler
 import de.maucon.mauconframework.di.annotation.Injectable
 import de.maucon.mauconframework.event.EventSubscriber
@@ -27,6 +28,7 @@ object AspectOfGhostsService {
 
     @EventSubscriber
     fun on(event: DungeonEnemiesGeneratedEvent) {
+        if (event.world.getDungeonLevel() < AspectOfGhosts.RANDOM_GHOST_MIN_DUNGEON_LEVEL) return
         if (event.aspects.contains(AspectItems.ASPECT_OF_GHOSTS)) return
 
         val enemyCount = event.enemies.count()
