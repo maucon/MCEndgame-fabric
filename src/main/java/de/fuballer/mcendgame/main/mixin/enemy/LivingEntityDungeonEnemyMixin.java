@@ -14,12 +14,13 @@ public class LivingEntityDungeonEnemyMixin implements LivingEntityDungeonEnemyAc
     @Unique
     private static final String DUNGEON_ENEMY_NBT = "isDungeonEnemy";
     @Unique
-    private static final String LOOT_MULTIPLIER_NBT = "lootMultiplier";
+    private static final String DROPS_ASPECT_OF_GHOSTS_NBT = "dropsAspectOfGhosts";
 
     @Unique
     private boolean isDungeonEnemy = false;
+
     @Unique
-    private double lootMultiplier = 1.0;
+    private boolean dropsAspectOfGhosts = false;
 
     @Override
     public boolean mcendgame$isDungeonEnemy() {
@@ -32,24 +33,24 @@ public class LivingEntityDungeonEnemyMixin implements LivingEntityDungeonEnemyAc
     }
 
     @Override
-    public double mcendgame$getLootMultiplier() {
-        return lootMultiplier;
+    public boolean mcendgame$dropsAspectOfGhosts() {
+        return dropsAspectOfGhosts;
     }
 
     @Override
-    public void mcendgame$setLootMultiplier(double multiplier) {
-        lootMultiplier = multiplier;
+    public void mcendgame$setDropsAspectOfGhosts(boolean drops) {
+        dropsAspectOfGhosts = drops;
     }
 
     @Inject(method = "writeCustomDataToNbt", at = @At("TAIL"))
     private void writeNBT(NbtCompound nbt, CallbackInfo ci) {
         if (isDungeonEnemy) nbt.putBoolean(DUNGEON_ENEMY_NBT, true);
-        if (lootMultiplier != 1.0) nbt.putDouble(LOOT_MULTIPLIER_NBT, lootMultiplier);
+        if (dropsAspectOfGhosts) nbt.putBoolean(DROPS_ASPECT_OF_GHOSTS_NBT, true);
     }
 
     @Inject(method = "readCustomDataFromNbt", at = @At("TAIL"))
     private void readNBT(NbtCompound nbt, CallbackInfo ci) {
         isDungeonEnemy = nbt.getBoolean(DUNGEON_ENEMY_NBT).orElse(false);
-        lootMultiplier = nbt.getDouble(LOOT_MULTIPLIER_NBT).orElse(1.0);
+        dropsAspectOfGhosts = nbt.getBoolean(DROPS_ASPECT_OF_GHOSTS_NBT).orElse(false);
     }
 }

@@ -57,7 +57,7 @@ sealed interface AttributeRoll<T> {
 
 data class DoubleRoll(
     override val bounds: DoubleBounds,
-    var percentRoll: Double,
+    var percentRoll: Double = 1.0,
     val format: String = "%.0f",
 ) : AttributeRoll<Double> {
     companion object {
@@ -107,7 +107,7 @@ data class DoubleRoll(
 
 data class StringRoll(
     override val bounds: StringBounds,
-    var indexRoll: Int,
+    var indexRoll: Int = 0,
 ) : AttributeRoll<String> {
     companion object {
         val CODEC: Codec<StringRoll> =
@@ -147,7 +147,7 @@ data class StringRoll(
 
 data class IntRoll(
     override val bounds: IntBounds,
-    var percentRoll: Double
+    var percentRoll: Double = 1.0,
 ) : AttributeRoll<Int> {
     companion object {
         val CODEC: Codec<IntRoll> =

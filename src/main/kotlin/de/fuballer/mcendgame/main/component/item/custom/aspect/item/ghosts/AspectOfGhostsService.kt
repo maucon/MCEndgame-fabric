@@ -6,24 +6,53 @@ import de.fuballer.mcendgame.main.component.item.custom.UniqueAttributesItemInte
 import de.fuballer.mcendgame.main.component.item.custom.armor.CustomArmorItems
 import de.fuballer.mcendgame.main.component.item.custom.aspect.AspectItems
 import de.fuballer.mcendgame.main.messaging.dungeon.DungeonEnemiesGeneratedEvent
+import de.fuballer.mcendgame.main.messaging.dungeon.DungeonEnemyDeathEvent
 import de.fuballer.mcendgame.main.messaging.dungeon.DungeonFinalBossDeathEvent
 import de.fuballer.mcendgame.main.messaging.dungeon.DungeonGenerateCommand
 import de.fuballer.mcendgame.main.util.extension.mixin.EntityMixinExtension.addCustomAttribute
+import de.fuballer.mcendgame.main.util.extension.mixin.EntityMixinExtension.dropsAspectOfGhosts
+import de.fuballer.mcendgame.main.util.extension.mixin.EntityMixinExtension.setDropsAspectOfGhosts
 import de.fuballer.mcendgame.main.util.extension.mixin.WorldMixinExtension.getDungeonAspects
+import de.fuballer.mcendgame.main.util.extension.mixin.WorldMixinExtension.getDungeonLevel
 import de.maucon.mauconframework.command.CommandHandler
 import de.maucon.mauconframework.di.annotation.Injectable
 import de.maucon.mauconframework.event.EventSubscriber
 import net.minecraft.item.ItemStack
 import net.minecraft.server.world.ServerWorld
+import kotlin.math.pow
+import kotlin.random.Random
 
 @Injectable
 object AspectOfGhostsService {
-    private val ATTRIBUTE = CustomAttribute(CustomAttributeTypes.GHOSTLY_APPEARANCE)
+    private val GHOSTLY_APPEARANCE_ATTRIBUTE = CustomAttribute(CustomAttributeTypes.GHOSTLY_APPEARANCE)
 
     @EventSubscriber
     fun on(event: DungeonEnemiesGeneratedEvent) {
+        if (event.world.getDungeonLevel() < AspectOfGhosts.RANDOM_GHOST_MIN_DUNGEON_LEVEL) return
+        if (event.aspects.contains(AspectItems.ASPECT_OF_GHOSTS)) return
+
+        val enemyCount = event.enemies.count()
+        val generateGhost = Random.nextDouble() > (1.0 - AspectOfGhosts.RANDOM_GHOST_PROBABILITY).pow(enemyCount)
+        if (!generateGhost) return
+
+        val enemy = event.enemies.random()
+        enemy.setDropsAspectOfGhosts()
+        enemy.addCustomAttribute(GHOSTLY_APPEARANCE_ATTRIBUTE)
+    }
+
+    @EventSubscriber
+    fun on(event: DungeonEnemyDeathEvent) {
+        val serverWorld = event.world as? ServerWorld ?: return
+        if (!event.enemyEntity.dropsAspectOfGhosts()) return
+
+        val stack = AspectItems.ASPECT_OF_GHOSTS.defaultStack
+        event.enemyEntity.dropStack(serverWorld, stack)
+    }
+
+    @EventSubscriber
+    fun onGhostDungeonGenerated(event: DungeonEnemiesGeneratedEvent) {
         if (!event.aspects.contains(AspectItems.ASPECT_OF_GHOSTS)) return
-        event.enemies.forEach { it.addCustomAttribute(ATTRIBUTE) }
+        event.enemies.forEach { it.addCustomAttribute(GHOSTLY_APPEARANCE_ATTRIBUTE) }
     }
 
     @CommandHandler

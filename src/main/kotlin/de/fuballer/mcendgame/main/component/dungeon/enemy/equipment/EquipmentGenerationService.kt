@@ -34,32 +34,34 @@ class EquipmentGenerationService(
         random: Random,
         generateEnemiesCommand: DungeonGenerateEnemiesCommand,
     ) {
-        val uniqueEquipmentProbability = generateEnemiesCommand.uniqueEquipmentProbability
-        val luckyAttributes = isLootGoblin && generateEnemiesCommand.lootGoblinLuckyAttributes
+        val equipmentData = EquipmentGenerationData(
+            generateEnemiesCommand.uniqueEquipmentProbability,
+            isLootGoblin && generateEnemiesCommand.lootGoblinLuckyAttributes,
+            generateEnemiesCommand.additionalAttributeProbabilities,
+            if (isLootGoblin) getArmorTrim(server, random) else null
+        )
 
         if (type.canHaveWeapons) {
-            createEquipment(level, EquipmentSlot.MAINHAND, server, random, uniqueEquipmentProbability, luckyAttributes, isRanged = type.isRanged)?.also {
+            createEquipment(level, EquipmentSlot.MAINHAND, server, random, equipmentData, type.isRanged)?.also {
                 entity.equipStack(EquipmentSlot.MAINHAND, it)
             }
-            createEquipment(level, EquipmentSlot.OFFHAND, server, random, uniqueEquipmentProbability, luckyAttributes)?.also {
+            createEquipment(level, EquipmentSlot.OFFHAND, server, random, equipmentData)?.also {
                 entity.equipStack(EquipmentSlot.OFFHAND, it)
             }
         }
 
         if (!type.canHaveArmor) return
 
-        val armorTrim = if (isLootGoblin) getArmorTrim(server, random) else null
-
-        createEquipment(level, EquipmentSlot.HEAD, server, random, uniqueEquipmentProbability, luckyAttributes, armorTrim = armorTrim)?.also {
+        createEquipment(level, EquipmentSlot.HEAD, server, random, equipmentData)?.also {
             entity.equipStack(EquipmentSlot.HEAD, it)
         }
-        createEquipment(level, EquipmentSlot.CHEST, server, random, uniqueEquipmentProbability, luckyAttributes, armorTrim = armorTrim)?.also {
+        createEquipment(level, EquipmentSlot.CHEST, server, random, equipmentData)?.also {
             entity.equipStack(EquipmentSlot.CHEST, it)
         }
-        createEquipment(level, EquipmentSlot.LEGS, server, random, uniqueEquipmentProbability, luckyAttributes, armorTrim = armorTrim)?.also {
+        createEquipment(level, EquipmentSlot.LEGS, server, random, equipmentData)?.also {
             entity.equipStack(EquipmentSlot.LEGS, it)
         }
-        createEquipment(level, EquipmentSlot.FEET, server, random, uniqueEquipmentProbability, luckyAttributes, armorTrim = armorTrim)?.also {
+        createEquipment(level, EquipmentSlot.FEET, server, random, equipmentData)?.also {
             entity.equipStack(EquipmentSlot.FEET, it)
         }
     }
@@ -69,19 +71,17 @@ class EquipmentGenerationService(
         slot: EquipmentSlot,
         server: MinecraftServer,
         random: Random,
-        uniqueEquipmentProbability: Double,
-        luckyAttributes: Boolean,
+        data: EquipmentGenerationData,
         isRanged: Boolean = false,
-        armorTrim: ArmorTrim? = null,
     ): ItemStack? {
-        if (random.nextDouble() <= uniqueEquipmentProbability) {
+        if (random.nextDouble() <= data.uniqueProbability) {
             return createUniqueEquipment(level, slot, server, random, isRanged)
         }
 
         return when (slot) {
-            EquipmentSlot.MAINHAND -> createMainHandItem(level, isRanged, server, random, luckyAttributes)
-            EquipmentSlot.OFFHAND -> createOffHandItem(level, server, random, luckyAttributes)
-            else -> createArmorEquipment(level, slot, server, random, luckyAttributes, armorTrim)
+            EquipmentSlot.MAINHAND -> createMainHandItem(level, isRanged, server, random, data)
+            EquipmentSlot.OFFHAND -> createOffHandItem(level, server, random, data)
+            else -> createArmorEquipment(level, slot, server, random, data)
         }
     }
 
@@ -108,7 +108,7 @@ class EquipmentGenerationService(
         isRanged: Boolean,
         server: MinecraftServer,
         random: Random,
-        luckyAttributes: Boolean,
+        data: EquipmentGenerationData,
     ): ItemStack? {
         val options = if (isRanged) {
             RandomUtil.pick(EquipmentGenerationSettings.RANGED_MAINHAND_PROBABILITIES, random).option
@@ -116,20 +116,20 @@ class EquipmentGenerationService(
             RandomUtil.pick(EquipmentGenerationSettings.MAINHAND_PROBABILITIES, random).option
         } ?: return null
 
-        return createEquipmentSortable(level, options, server, random, luckyAttributes)
+        return createEquipmentSortable(level, options, server, random, data)
     }
 
     private fun createOffHandItem(
         level: Int,
         server: MinecraftServer,
         random: Random,
-        luckyAttributes: Boolean,
+        data: EquipmentGenerationData,
     ): ItemStack? {
         if (random.nextDouble() < EquipmentGenerationSettings.OFFHAND_OTHER_OVER_MAINHAND_PROBABILITY) {
-            return createEquipment(level, EquipmentGenerationSettings.OTHER_ITEMS, server, random, luckyAttributes)
+            return createEquipment(level, EquipmentGenerationSettings.OTHER_ITEMS, server, random, data)
         }
 
-        return createMainHandItem(level, false, server, random, luckyAttributes)
+        return createMainHandItem(level, false, server, random, data)
     }
 
     private fun createArmorEquipment(
@@ -137,13 +137,12 @@ class EquipmentGenerationService(
         slot: EquipmentSlot,
         server: MinecraftServer,
         random: Random,
-        luckyAttributes: Boolean,
-        armorTrim: ArmorTrim? = null,
+        data: EquipmentGenerationData,
     ): ItemStack? {
         val equipmentOptions = EquipmentGenerationSettings.ARMORSLOT_EQUIPMENT_MAP[slot] ?: return null
-        val stack = createEquipmentSortable(level, equipmentOptions, server, random, luckyAttributes) ?: return null
+        val stack = createEquipmentSortable(level, equipmentOptions, server, random, data) ?: return null
 
-        stack.set(DataComponentTypes.TRIM, armorTrim)
+        stack.set(DataComponentTypes.TRIM, data.armorTrim)
         return stack
     }
 
@@ -152,12 +151,12 @@ class EquipmentGenerationService(
         equipmentOptions: List<SortableRandomOption<out Equipment?>>,
         server: MinecraftServer,
         random: Random,
-        luckyAttributes: Boolean,
+        data: EquipmentGenerationData,
     ): ItemStack? {
         val rolls = EquipmentGenerationSettings.calculateEquipmentRollTries(level)
         val equipment = RandomUtil.pick(equipmentOptions, rolls, random).option ?: return null
 
-        return createEquipment(level, equipment, server, random, luckyAttributes)
+        return createEquipment(level, equipment, server, random, data)
     }
 
     private fun createEquipment(
@@ -165,11 +164,11 @@ class EquipmentGenerationService(
         equipmentOptions: List<RandomOption<out Equipment?>>,
         server: MinecraftServer,
         random: Random,
-        luckyAttributes: Boolean,
+        data: EquipmentGenerationData,
     ): ItemStack? {
         val equipment = RandomUtil.pick(equipmentOptions, random).option ?: return null
 
-        return createEquipment(level, equipment, server, random, luckyAttributes)
+        return createEquipment(level, equipment, server, random, data)
     }
 
     private fun createEquipment(
@@ -177,13 +176,13 @@ class EquipmentGenerationService(
         equipment: Equipment,
         server: MinecraftServer,
         random: Random,
-        luckyAttributes: Boolean,
+        data: EquipmentGenerationData,
     ): ItemStack {
         val item = equipment.item
         val itemStack = ItemStack(item)
 
         enchantmentService.enchantItem(itemStack, equipment.rollableEnchants, level, server, random)
-        attributeService.applyAttributes(itemStack, equipment.rollableCustomAttributes, level, random, equipment.slot, luckyAttributes)
+        attributeService.applyAttributes(itemStack, equipment.rollableCustomAttributes, level, random, equipment.slot, data)
 
         return itemStack
     }

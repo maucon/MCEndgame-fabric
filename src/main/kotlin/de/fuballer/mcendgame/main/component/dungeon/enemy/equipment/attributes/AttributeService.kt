@@ -3,6 +3,7 @@ package de.fuballer.mcendgame.main.component.dungeon.enemy.equipment.attributes
 import de.fuballer.mcendgame.main.component.custom_attribute.CustomAttributesExtensions.setCustomAttributes
 import de.fuballer.mcendgame.main.component.custom_attribute.data.CustomAttribute
 import de.fuballer.mcendgame.main.component.custom_attribute.data.RollableCustomAttribute
+import de.fuballer.mcendgame.main.component.dungeon.enemy.equipment.EquipmentGenerationData
 import de.fuballer.mcendgame.main.util.random.RandomOption
 import de.fuballer.mcendgame.main.util.random.RandomUtil
 import de.maucon.mauconframework.di.annotation.Injectable
@@ -18,9 +19,9 @@ class AttributeService {
         level: Int,
         random: Random,
         slot: AttributeModifierSlot,
-        lucky: Boolean,
+        data: EquipmentGenerationData,
     ) {
-        val customAttributes = selectAttributes(level, possibleAttributes, slot, random, lucky)
+        val customAttributes = selectAttributes(level, possibleAttributes, slot, random, data)
         itemStack.setCustomAttributes(customAttributes, slot)
     }
 
@@ -29,12 +30,12 @@ class AttributeService {
         possibleAttributes: List<RandomOption<RollableCustomAttribute>>,
         slot: AttributeModifierSlot,
         random: Random,
-        lucky: Boolean,
+        data: EquipmentGenerationData,
     ): List<CustomAttribute> {
-        val rolledAttributes = getDistinctRolledAttributes(level, possibleAttributes, slot, random)
-        if (!lucky) return rolledAttributes
+        val rolledAttributes = getDistinctRolledAttributes(level, possibleAttributes, slot, random, data)
+        if (!data.luckyAttributes) return rolledAttributes
 
-        val rolledAttributesB = getDistinctRolledAttributes(level, possibleAttributes, slot, random)
+        val rolledAttributesB = getDistinctRolledAttributes(level, possibleAttributes, slot, random, data)
         return getBetterRolls(rolledAttributes, rolledAttributesB)
     }
 
@@ -43,8 +44,13 @@ class AttributeService {
         possibleAttributes: List<RandomOption<RollableCustomAttribute>>,
         slot: AttributeModifierSlot,
         random: Random,
+        data: EquipmentGenerationData,
     ): List<CustomAttribute> {
-        val statAmount = RandomUtil.pick(AttributeSettings.ATTRIBUTE_COUNT, level, random).option
+        var statAmount = RandomUtil.pick(AttributeSettings.ATTRIBUTE_COUNT, level, random).option
+        data.additionalAttributeProbabilities.forEach {
+            if (random.nextDouble() < it) statAmount++
+        }
+
         val pickedAttributes = RandomUtil.pick(possibleAttributes, random, statAmount)
             .groupBy { it.type }.mapNotNull { (_, group) -> group.minByOrNull { it.tier } }
         return rollAttributes(pickedAttributes, slot, random)

@@ -3,9 +3,8 @@ package de.fuballer.mcendgame.main.component.dungeon.enemy.boss
 import de.fuballer.mcendgame.main.messaging.dungeon.DungeonBossDeathEvent
 import de.fuballer.mcendgame.main.messaging.dungeon.DungeonFinalBossDeathEvent
 import de.fuballer.mcendgame.main.messaging.misc.LivingEntityDamagedEvent
-import de.fuballer.mcendgame.main.util.extension.mixin.EntityMixinExtension.getLootMultiplier
+import de.fuballer.mcendgame.main.util.extension.mixin.EntityMixinExtension.addCustomAttribute
 import de.fuballer.mcendgame.main.util.extension.mixin.EntityMixinExtension.isDungeonBoss
-import de.fuballer.mcendgame.main.util.extension.mixin.EntityMixinExtension.setLootMultiplier
 import de.fuballer.mcendgame.main.util.extension.mixin.WorldMixinExtension.getBossesKilled
 import de.fuballer.mcendgame.main.util.extension.mixin.WorldMixinExtension.getTotalBossCount
 import de.fuballer.mcendgame.main.util.extension.mixin.WorldMixinExtension.increaseBossesKilled
@@ -15,7 +14,6 @@ import de.maucon.mauconframework.event.EventSubscriber
 import net.minecraft.entity.mob.MobEntity
 import net.minecraft.entity.player.PlayerEntity
 import net.minecraft.server.world.ServerWorld
-import kotlin.math.pow
 
 @Injectable
 object DungeonBossService {
@@ -51,17 +49,11 @@ object DungeonBossService {
         boss.target = activatedBy
     }
 
-    fun enhanceBoss(
-        boss: MobEntity,
-    ) {
+    fun enhanceBoss(boss: MobEntity) {
         val world = boss.world as? ServerWorld ?: return
         val killedBosses = world.getBossesKilled()
         if (killedBosses == 0) return
 
-        //TODO enhance boss once custom entity attributes are added (reduced dmg taken & increased dmg dealt per killed boss)
-
-        var lootMultiplier = boss.getLootMultiplier()
-        lootMultiplier *= DungeonBossSettings.LOOT_MULTIPLIER_PER_KILLED_BOSS.pow(killedBosses)
-        boss.setLootMultiplier(lootMultiplier)
+        DungeonBossSettings.getAttributePerKilledBoss(killedBosses).forEach { boss.addCustomAttribute(it) }
     }
 }
