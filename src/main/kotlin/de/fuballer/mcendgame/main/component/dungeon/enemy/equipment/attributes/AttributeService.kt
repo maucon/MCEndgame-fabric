@@ -48,7 +48,7 @@ class AttributeService {
     ): List<CustomAttribute> {
         var statAmount = RandomUtil.pick(AttributeSettings.ATTRIBUTE_COUNT, level, random).option
         data.additionalAttributeProbabilities.forEach {
-            if (Random.nextDouble() < it) statAmount++
+            if (random.nextDouble() < it) statAmount++
         }
 
         val pickedAttributes = RandomUtil.pick(possibleAttributes, random, statAmount)
