@@ -1,5 +1,6 @@
 package de.fuballer.mcendgame.main.component.item.custom.aspect
 
+import de.fuballer.mcendgame.main.component.dungeon.loot.drop.ItemColor
 import net.minecraft.component.DataComponentTypes
 import net.minecraft.component.type.LoreComponent
 import net.minecraft.item.Item
@@ -28,12 +29,14 @@ abstract class AspectItem(
 
         val list = mutableListOf<Text>()
         description.forEach {
-            list.add(it.styled { style -> style.withItalic(false).withColor(Formatting.GREEN) })
+            list.add(it.styled { style -> style.withItalic(false).withColor(Formatting.GRAY) })
         }
-        list.add(Text.translatable(TRANSLATABLE_BASE_KEY + "limit", limit).styled { style -> style.withItalic(false).withColor(Formatting.GRAY) })
+        list.add(Text.translatable(TRANSLATABLE_BASE_KEY + "limit", limit).styled { style -> style.withItalic(false).withColor(Formatting.DARK_GRAY) })
 
         stack.set(DataComponentTypes.LORE, LoreComponent(list))
 
         return stack
     }
+
+    override fun getName(stack: ItemStack): MutableText = super.getName(stack).copy().withColor(ItemColor.ASPECT.color)
 }
