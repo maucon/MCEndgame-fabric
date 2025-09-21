@@ -1,6 +1,6 @@
 package de.fuballer.mcendgame.main.component.damage.calculator
 
-import de.fuballer.mcendgame.main.component.damage.ApplyDamageCalculationCommand
+import de.fuballer.mcendgame.main.component.damage.DamageCalculationCommand
 import de.fuballer.mcendgame.main.component.damage.DamageUtil
 import de.fuballer.mcendgame.main.util.extension.mixin.PersistentProjectileEntityMixinExtension.getDamage
 import net.minecraft.enchantment.EnchantmentHelper
@@ -20,7 +20,7 @@ object PersistentProjectileCalculator : DamageCalculator {
         originalDamage: Float,
         attacked: LivingEntity,
         source: DamageSource,
-        event: ApplyDamageCalculationCommand
+        event: DamageCalculationCommand
     ): Float {
         val attacker = source.attacker as? LivingEntity ?: return originalDamage
 
@@ -29,7 +29,7 @@ object PersistentProjectileCalculator : DamageCalculator {
         val enchantmentDamage = calculateEnchantmentDamage(attacker, attacked, source)
         val projectileSpeedMulti = calculateOtherMultiplier(source)
         val critMulti = calculateCriticalMultiplier(event)
-        val damageMulti = DamageUtil.calculateProjectileAttackDamageMultiplier(event)
+        val damageMulti = DamageUtil.calculateAttackDamageMultiplier(event)
 
         val vanillaLikeDamage = ceil((baseDamage + enchantmentDamage) * projectileSpeedMulti)
         return (vanillaLikeDamage * critMulti * damageMulti).toFloat()
@@ -39,12 +39,12 @@ object PersistentProjectileCalculator : DamageCalculator {
         originalDamage: Float,
         attacked: LivingEntity,
         source: DamageSource,
-        event: ApplyDamageCalculationCommand
+        event: DamageCalculationCommand
     ): Float {
         if (source.attacker !is LivingEntity) return 0.0F
 
         val baseDamage = calculateBaseElementalDamage(event)
-        val damageMulti = DamageUtil.calculateProjectileAttackDamageMultiplier(event)
+        val damageMulti = DamageUtil.calculateAttackDamageMultiplier(event)
         val critMulti = calculateCriticalMultiplier(event) // TODO can elemental damage crit?
         val projectileSpeedMulti = calculateOtherMultiplier(source)
 
@@ -63,7 +63,7 @@ object PersistentProjectileCalculator : DamageCalculator {
         return EnchantmentHelper.getDamage(attacker.world as ServerWorld, weaponStack, attacked, source, 0.0F).toDouble()
     }
 
-    private fun calculateCriticalMultiplier(event: ApplyDamageCalculationCommand): Double {
+    private fun calculateCriticalMultiplier(event: DamageCalculationCommand): Double {
         if (!event.isDamageCritical) return 1.0
 
         // simulating minecraft projectile (arrow) crit
@@ -76,7 +76,7 @@ object PersistentProjectileCalculator : DamageCalculator {
     }
 
     private fun calculateBaseElementalDamage(
-        event: ApplyDamageCalculationCommand
+        event: DamageCalculationCommand
     ): Double {
         return event.elementalDamage.sum()
     }

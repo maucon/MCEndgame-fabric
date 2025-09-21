@@ -1,6 +1,6 @@
 package de.fuballer.mcendgame.main.component.damage.calculator
 
-import de.fuballer.mcendgame.main.component.damage.ApplyDamageCalculationCommand
+import de.fuballer.mcendgame.main.component.damage.DamageCalculationCommand
 import net.minecraft.entity.LivingEntity
 import net.minecraft.entity.damage.DamageSource
 import net.minecraft.entity.effect.StatusEffects
@@ -13,7 +13,7 @@ object SmallFireballCalculator : DamageCalculator {
         originalDamage: Float,
         attacked: LivingEntity,
         source: DamageSource,
-        event: ApplyDamageCalculationCommand
+        event: DamageCalculationCommand
     ): Float {
         // not really necessary, as entities with fire res just block small fireballs
         // but just to be safe i guess
@@ -25,6 +25,6 @@ object SmallFireballCalculator : DamageCalculator {
         originalDamage: Float,
         attacked: LivingEntity,
         source: DamageSource,
-        event: ApplyDamageCalculationCommand
+        event: DamageCalculationCommand
     ) = 0f
 }

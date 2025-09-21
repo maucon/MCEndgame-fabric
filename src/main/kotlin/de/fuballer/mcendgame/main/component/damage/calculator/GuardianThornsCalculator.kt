@@ -1,25 +1,21 @@
 package de.fuballer.mcendgame.main.component.damage.calculator
 
 import de.fuballer.mcendgame.main.component.damage.DamageCalculationCommand
+import de.fuballer.mcendgame.main.util.extension.DamageTypeExtension.isOf
 import net.minecraft.entity.LivingEntity
 import net.minecraft.entity.damage.DamageSource
-import net.minecraft.entity.mob.GhastEntity
-import net.minecraft.entity.player.PlayerEntity
-import net.minecraft.entity.projectile.FireballEntity
+import net.minecraft.entity.damage.DamageTypes
+import net.minecraft.entity.mob.GuardianEntity
 
-object FireballCalculator : DamageCalculator {
-    override fun isActive(source: DamageSource) = source.source is FireballEntity
+object GuardianThornsCalculator : DamageCalculator {
+    override fun isActive(source: DamageSource) = source.source is GuardianEntity && source.type.isOf(DamageTypes.THORNS)
 
     override fun calculateAttackDamage(
         originalDamage: Float,
         attacked: LivingEntity,
         source: DamageSource,
         event: DamageCalculationCommand
-    ): Float {
-        // redirected fireballs deal 1000 damage to ghasts
-        if (source.attacker is PlayerEntity && attacked is GhastEntity) return 1000f
-        return 6f
-    }
+    ) = 2f
 
     override fun calculateElementalDamage(
         originalDamage: Float,

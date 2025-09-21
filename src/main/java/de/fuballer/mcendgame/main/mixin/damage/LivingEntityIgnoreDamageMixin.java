@@ -1,6 +1,6 @@
-package de.fuballer.mcendgame.main.mixin.living_entity;
+package de.fuballer.mcendgame.main.mixin.damage;
 
-import de.fuballer.mcendgame.main.messaging.misc.LivingEntityDamageCommand;
+import de.fuballer.mcendgame.main.messaging.misc.LivingEntityIgnoreDamageCommand;
 import de.maucon.mauconframework.command.CommandGateway;
 import net.minecraft.entity.LivingEntity;
 import net.minecraft.entity.damage.DamageSource;
@@ -11,15 +11,16 @@ import org.spongepowered.asm.mixin.injection.Inject;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfoReturnable;
 
 @Mixin(LivingEntity.class)
-public class LivingEntityDamageCommandMixin {
-    @Inject(method = "damage", at = @At("HEAD"), cancellable = true)
+public class LivingEntityIgnoreDamageMixin {
+    @Inject(method = "damage", at = @At("HEAD"), cancellable = true, order = 900)
     void damage(ServerWorld world, DamageSource source, float amount, CallbackInfoReturnable<Boolean> cir) {
         var entity = (LivingEntity) (Object) this;
-        var livingEntityDamageCommand = LivingEntityDamageCommand.Companion.of(entity, source, amount);
-        var cmd = CommandGateway.INSTANCE.apply(livingEntityDamageCommand);
 
-        if (cmd.getDealsDamage()) return;
+        var cmd = LivingEntityIgnoreDamageCommand.Companion.of(entity, source, amount);
+        cmd = CommandGateway.INSTANCE.apply(cmd);
 
-        cir.setReturnValue(false);
+        if (cmd.getIgnoresDamage()) {
+            cir.setReturnValue(false);
+        }
     }
 }

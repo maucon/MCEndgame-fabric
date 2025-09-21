@@ -1,6 +1,6 @@
 package de.fuballer.mcendgame.main.component.damage.calculator
 
-import de.fuballer.mcendgame.main.component.damage.ApplyDamageCalculationCommand
+import de.fuballer.mcendgame.main.component.damage.DamageCalculationCommand
 import net.minecraft.entity.LivingEntity
 import net.minecraft.entity.damage.DamageSource
 import net.minecraft.entity.mob.BlazeEntity
@@ -13,7 +13,7 @@ object SnowballCalculator : DamageCalculator {
         originalDamage: Float,
         attacked: LivingEntity,
         source: DamageSource,
-        event: ApplyDamageCalculationCommand
+        event: DamageCalculationCommand
     ): Float {
         if (attacked is BlazeEntity) return 3.0f
         return 0.0f
@@ -23,6 +23,6 @@ object SnowballCalculator : DamageCalculator {
         originalDamage: Float,
         attacked: LivingEntity,
         source: DamageSource,
-        event: ApplyDamageCalculationCommand
+        event: DamageCalculationCommand
     ) = 0.0f
 }

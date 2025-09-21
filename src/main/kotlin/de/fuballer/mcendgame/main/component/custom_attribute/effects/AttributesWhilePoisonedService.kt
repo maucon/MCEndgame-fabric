@@ -2,7 +2,7 @@ package de.fuballer.mcendgame.main.component.custom_attribute.effects
 
 import de.fuballer.mcendgame.main.component.custom_attribute.CustomAttributesExtensions.asDoubleRoll
 import de.fuballer.mcendgame.main.component.custom_attribute.types.CustomAttributeTypes
-import de.fuballer.mcendgame.main.component.damage.ApplyDamageCalculationCommand
+import de.fuballer.mcendgame.main.component.damage.DamageCalculationCommand
 import de.fuballer.mcendgame.main.component.damage.DodgeCalculationCommand
 import de.maucon.mauconframework.command.CommandHandler
 import de.maucon.mauconframework.di.annotation.Injectable
@@ -13,12 +13,12 @@ import kotlin.random.Random
 @Injectable
 class AttributesWhilePoisonedService {
     @CommandHandler
-    fun on(cmd: ApplyDamageCalculationCommand) {
+    fun on(cmd: DamageCalculationCommand) {
         offensive(cmd)
         defensive(cmd)
     }
 
-    private fun offensive(cmd: ApplyDamageCalculationCommand) {
+    private fun offensive(cmd: DamageCalculationCommand) {
         val damager = cmd.damager as? LivingEntity ?: return
         if (!damager.hasStatusEffect(StatusEffects.POISON)) return
 
@@ -35,7 +35,7 @@ class AttributesWhilePoisonedService {
         }
     }
 
-    private fun defensive(cmd: ApplyDamageCalculationCommand) {
+    private fun defensive(cmd: DamageCalculationCommand) {
         if (!cmd.damaged.hasStatusEffect(StatusEffects.POISON)) return
 
         val attributes = cmd.damagedAttributes[CustomAttributeTypes.MORE_DAMAGE_TAKEN_WHILE_POISONED] ?: return

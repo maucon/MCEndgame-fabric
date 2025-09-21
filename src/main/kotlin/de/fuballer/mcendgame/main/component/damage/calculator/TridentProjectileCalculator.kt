@@ -1,12 +1,10 @@
 package de.fuballer.mcendgame.main.component.damage.calculator
 
-import de.fuballer.mcendgame.main.component.damage.ApplyDamageCalculationCommand
+import de.fuballer.mcendgame.main.component.damage.DamageCalculationCommand
 import de.fuballer.mcendgame.main.component.damage.DamageUtil
-import net.minecraft.enchantment.EnchantmentHelper
 import net.minecraft.entity.LivingEntity
 import net.minecraft.entity.damage.DamageSource
 import net.minecraft.entity.projectile.TridentEntity
-import net.minecraft.server.world.ServerWorld
 
 // TODO drowned with trident
 object TridentProjectileCalculator : DamageCalculator {
@@ -16,12 +14,12 @@ object TridentProjectileCalculator : DamageCalculator {
         originalDamage: Float,
         attacked: LivingEntity,
         source: DamageSource,
-        event: ApplyDamageCalculationCommand
+        event: DamageCalculationCommand
     ): Float {
         val attacker = source.attacker as? LivingEntity ?: return originalDamage
 
         val baseDamage = 8.0
-        val damageMulti = DamageUtil.calculateProjectileAttackDamageMultiplier(event)
+        val damageMulti = DamageUtil.calculateAttackDamageMultiplier(event)
         val enchantmentDamage = DamageUtil.calculateEnchantmentDamage(attacker, attacked, source)
 
         return ((baseDamage + enchantmentDamage) * damageMulti).toFloat()
@@ -31,6 +29,6 @@ object TridentProjectileCalculator : DamageCalculator {
         originalDamage: Float,
         attacked: LivingEntity,
         source: DamageSource,
-        event: ApplyDamageCalculationCommand
+        event: DamageCalculationCommand
     ) = 0.0f
 }

@@ -1,14 +1,16 @@
 package de.fuballer.mcendgame.main.component.damage.calculator
 
 import de.fuballer.mcendgame.main.component.damage.DamageCalculationCommand
+import de.fuballer.mcendgame.main.component.damage.DamageUtil
 import net.minecraft.entity.LivingEntity
 import net.minecraft.entity.damage.DamageSource
-import net.minecraft.entity.mob.GhastEntity
-import net.minecraft.entity.player.PlayerEntity
-import net.minecraft.entity.projectile.FireballEntity
 
-object FireballCalculator : DamageCalculator {
-    override fun isActive(source: DamageSource) = source.source is FireballEntity
+/**
+ * Used when no other specific calculator is used
+ * - Fall Damage
+ * */
+object BaseDamageCalculator : DamageCalculator {
+    override fun isActive(source: DamageSource) = true
 
     override fun calculateAttackDamage(
         originalDamage: Float,
@@ -16,9 +18,8 @@ object FireballCalculator : DamageCalculator {
         source: DamageSource,
         event: DamageCalculationCommand
     ): Float {
-        // redirected fireballs deal 1000 damage to ghasts
-        if (source.attacker is PlayerEntity && attacked is GhastEntity) return 1000f
-        return 6f
+        val damageMulti = DamageUtil.calculateAttackDamageMultiplier(event)
+        return (originalDamage * damageMulti).toFloat()
     }
 
     override fun calculateElementalDamage(
@@ -26,5 +27,5 @@ object FireballCalculator : DamageCalculator {
         attacked: LivingEntity,
         source: DamageSource,
         event: DamageCalculationCommand
-    ) = 0f
+    ) = 0f // per default only attack damage is dealt
 }

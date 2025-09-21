@@ -1,13 +1,9 @@
 package de.fuballer.mcendgame.main.component.damage.calculator
 
-import de.fuballer.mcendgame.main.component.damage.ApplyDamageCalculationCommand
+import de.fuballer.mcendgame.main.component.damage.DamageCalculationCommand
 import net.minecraft.entity.LivingEntity
 import net.minecraft.entity.damage.DamageSource
-import net.minecraft.entity.effect.StatusEffects
 import net.minecraft.entity.projectile.AbstractWindChargeEntity
-import net.minecraft.entity.projectile.BreezeWindChargeEntity
-import net.minecraft.entity.projectile.SmallFireballEntity
-import net.minecraft.entity.projectile.WindChargeEntity
 
 object WindChargeCalculator : DamageCalculator {
     override fun isActive(source: DamageSource) = source.source is AbstractWindChargeEntity
@@ -16,7 +12,7 @@ object WindChargeCalculator : DamageCalculator {
         originalDamage: Float,
         attacked: LivingEntity,
         source: DamageSource,
-        event: ApplyDamageCalculationCommand
+        event: DamageCalculationCommand
     ): Float {
         return 1f
     }
@@ -25,6 +21,6 @@ object WindChargeCalculator : DamageCalculator {
         originalDamage: Float,
         attacked: LivingEntity,
         source: DamageSource,
-        event: ApplyDamageCalculationCommand
+        event: DamageCalculationCommand
     ) = 0f
 }
