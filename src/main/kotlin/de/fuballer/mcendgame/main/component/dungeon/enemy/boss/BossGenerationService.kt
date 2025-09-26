@@ -10,6 +10,7 @@ import de.fuballer.mcendgame.main.util.extension.mixin.WorldMixinExtension.setTo
 import de.fuballer.mcendgame.main.util.minecraft.EntityUtil
 import de.maucon.mauconframework.di.annotation.Injectable
 import de.maucon.mauconframework.event.EventGateway
+import net.minecraft.entity.LivingEntity
 import net.minecraft.entity.attribute.EntityAttributes
 import net.minecraft.entity.mob.MobEntity
 import net.minecraft.server.world.ServerWorld
@@ -21,6 +22,7 @@ class BossGenerationService {
         dungeonWorld: ServerWorld,
         level: Int,
         types: List<EntityTypeStats>,
+        applyMisc: (List<LivingEntity>) -> Unit,
         locations: List<SpawnPosition>,
     ) {
         val random = Random
@@ -29,6 +31,8 @@ class BossGenerationService {
             val type = shuffledTypes[index % shuffledTypes.size]
             spawnBoss(dungeonWorld, level, type, pos, random)
         }
+
+        applyMisc(bosses)
 
         dungeonWorld.setTotalBossCount(bosses.size)
 

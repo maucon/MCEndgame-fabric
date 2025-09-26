@@ -29,7 +29,8 @@ class EnemyGenerationService(
     fun generate(
         dungeonWorld: ServerWorld,
         level: Int,
-        types: List<RandomOption<EntityTypeStats>>,
+        enemyTypes: List<RandomOption<EntityTypeStats>>,
+        applyMisc: (List<LivingEntity>) -> Unit,
         spawnPositions: List<SpawnPosition>,
     ) {
         val random = Random
@@ -40,7 +41,7 @@ class EnemyGenerationService(
             spawnEnemy(
                 dungeonWorld,
                 level,
-                types,
+                enemyTypes,
                 it,
                 random,
                 cmd,
@@ -51,7 +52,7 @@ class EnemyGenerationService(
             spawnEnemy(
                 dungeonWorld,
                 level,
-                types,
+                enemyTypes,
                 it,
                 random,
                 cmd,
@@ -63,13 +64,15 @@ class EnemyGenerationService(
             spawnEnemy(
                 dungeonWorld,
                 level,
-                types,
+                enemyTypes,
                 it,
                 random,
                 cmd,
                 isForcedLootGoblin = true,
             )
         })
+
+        applyMisc(entities)
 
         val event = DungeonEnemiesGeneratedEvent.of(dungeonWorld, entities)
         EventGateway.launchPublish(event)
