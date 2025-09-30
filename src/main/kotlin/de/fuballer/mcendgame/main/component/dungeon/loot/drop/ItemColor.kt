@@ -9,4 +9,5 @@ enum class ItemColor(
     UNIQUE(Color(255, 80, 0).toInt()),
     ASPECT(Color(100, 245, 255).toInt()),
     CRYSTAL(Color(208, 0, 255).toInt()),
+    TOTEM(Color(230, 20, 20).toInt()),
 }

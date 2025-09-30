@@ -3,6 +3,7 @@ package de.fuballer.mcendgame.main.util.minecraft
 import de.fuballer.mcendgame.main.component.item.custom.armor.materials.CustomArmorMaterial
 import de.fuballer.mcendgame.main.component.item.custom.aspect.AspectItem
 import de.fuballer.mcendgame.main.component.item.custom.crystal.CrystalItem
+import de.fuballer.mcendgame.main.component.item.custom.totem.TotemItem
 import net.fabricmc.fabric.api.`object`.builder.v1.block.entity.FabricBlockEntityTypeBuilder
 import net.minecraft.block.AbstractBlock
 import net.minecraft.block.Block
@@ -73,4 +74,7 @@ object RegistryUtil {
     fun registerAspectItem(factory: (Item.Settings) -> Item, name: String, rarity: Rarity = Rarity.UNCOMMON) = registerItem(factory, Item.Settings().rarity(rarity), name) as AspectItem
 
     fun registerCrystalItem(factory: (Item.Settings) -> Item, name: String, rarity: Rarity = Rarity.UNCOMMON) = registerItem(factory, Item.Settings().rarity(rarity), name) as CrystalItem
+
+    fun registerTotemItem(factory: (Item.Settings) -> Item, name: String, rarity: Rarity = Rarity.UNCOMMON) =
+        registerItem(factory, Item.Settings().rarity(rarity).maxCount(1), name) as TotemItem
 }

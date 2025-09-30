@@ -6,6 +6,7 @@ import de.fuballer.mcendgame.main.component.item.custom.armor.CustomArmorItems
 import de.fuballer.mcendgame.main.component.item.custom.aspect.AspectItems
 import de.fuballer.mcendgame.main.component.item.custom.crystal.CrystalItems
 import de.fuballer.mcendgame.main.component.item.custom.tool.CustomToolItems
+import de.fuballer.mcendgame.main.component.item.custom.totem.TotemItems
 import net.fabricmc.fabric.api.client.datagen.v1.provider.FabricModelProvider
 import net.fabricmc.fabric.api.datagen.v1.FabricDataOutput
 import net.minecraft.block.Block
@@ -67,6 +68,8 @@ class CustomModelProvider(
         generator.register(CrystalItems.PERMUTATION_CRYSTAL, Models.GENERATED)
         generator.register(CrystalItems.REFORGE_CRYSTAL, Models.GENERATED)
         generator.register(CrystalItems.CORRUPTION_CRYSTAL, Models.GENERATED)
+        
+        generator.register(TotemItems.TOTEM_OF_BASTION, Models.GENERATED)
     }
 
     private fun sideTopBottomTextureMap(block: Block) = TextureMap()

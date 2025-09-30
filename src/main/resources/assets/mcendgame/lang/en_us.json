@@ -70,6 +70,10 @@
   "item.mcendgame.crystal.description.reforge": "Reforges a unique item into a different one",
   "item.mcendgame.crystal.description.corruption": "Corrupts an item with varying results",
 
+  "item.mcendgame.totem_of_bastion": "Totem of Bastion",
+
+  "item.mcendgame.totem.tier": "Tier: %s",
+
   "container.mcendgame.filter.title": "Dungeon Filter (Blacklist)",
 
   "block.mcendgame.dungeon_device": "Dungeon Device",
@@ -177,6 +181,7 @@
   "item_group.mcendgame.tools": "MCEndgame Weapons & Tools",
   "item_group.mcendgame.aspects": "MCEndgame Aspects",
   "item_group.mcendgame.crystals": "MCEndgame Crystals",
+  "item_group.mcendgame.totems": "MCEndgame Totems",
   "item_group.mcendgame.blocks": "MCEndgame Blocks",
 
   "text.mcendgame.dungeon_level.dungeon_completed": "Dungeon completed!",
