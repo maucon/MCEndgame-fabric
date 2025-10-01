@@ -74,6 +74,8 @@
 
   "item.mcendgame.totem.tier": "Tier: %s",
 
+  "container.mcendgame.totem.title": "Totems",
+
   "container.mcendgame.filter.title": "Dungeon Filter (Blacklist)",
 
   "block.mcendgame.dungeon_device": "Dungeon Device",

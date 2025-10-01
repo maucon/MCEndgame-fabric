@@ -12,5 +12,6 @@ object ScreenRegisterer {
         HandledScreens.register(CustomScreenHandlerTypes.DUNGEON_DEVICE, ::DungeonDeviceScreen)
         HandledScreens.register(CustomScreenHandlerTypes.KILLER, ::KillerScreen)
         HandledScreens.register(CustomScreenHandlerTypes.CRYSTAL_FORGE, ::CrystalForgeScreen)
+        HandledScreens.register(CustomScreenHandlerTypes.TOTEM, ::TotemScreen)
     }
 }
