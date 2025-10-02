@@ -74,6 +74,10 @@
 
   "item.mcendgame.totem.tier": "Tier: %s",
 
+  "item.mcendgame.totem.type.basic": "Type: Basic",
+  "item.mcendgame.totem.type.effect": "Type: Effect",
+  "item.mcendgame.totem.type.ability": "Type: Ability",
+
   "container.mcendgame.totem.title": "Totems",
 
   "container.mcendgame.filter.title": "Dungeon Filter (Blacklist)",

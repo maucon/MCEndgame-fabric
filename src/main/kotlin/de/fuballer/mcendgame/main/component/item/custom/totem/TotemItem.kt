@@ -2,7 +2,6 @@ package de.fuballer.mcendgame.main.component.item.custom.totem
 
 import de.fuballer.mcendgame.main.component.custom_attribute.CustomAttributesExtensions.setCustomAttributes
 import de.fuballer.mcendgame.main.component.custom_attribute.data.CustomAttribute
-import de.fuballer.mcendgame.main.component.dungeon.loot.drop.ItemColor
 import net.minecraft.component.DataComponentTypes
 import net.minecraft.component.type.AttributeModifierSlot
 import net.minecraft.component.type.LoreComponent
@@ -21,6 +20,7 @@ abstract class TotemItem(
     }
 
     abstract val maxTier: Int
+    abstract val type: TotemType
 
     abstract fun getCustomAttributes(tier: Int): List<CustomAttribute>
 
@@ -28,18 +28,21 @@ abstract class TotemItem(
         val stack = super.getDefaultStack()
 
         val limitedRarity = min(tier, maxTier)
-        addRarityLore(stack, tier)
+        addLore(stack, tier)
         stack.setCustomAttributes(getCustomAttributes(limitedRarity), AttributeModifierSlot.CHEST) //TODO add custom slot
 
         return stack
     }
 
-    private fun addRarityLore(stack: ItemStack, tier: Int) {
-        val lore = listOf(Text.translatable(TIER_KEY, tier).styled { style -> style.withItalic(false).withColor(Formatting.GRAY) })
+    private fun addLore(stack: ItemStack, tier: Int) {
+        val lore = listOf(
+            Text.translatable(TIER_KEY, tier).styled { style -> style.withItalic(false).withColor(Formatting.GRAY) },
+            type.getLore().styled { style -> style.withItalic(false).withColor(Formatting.GRAY) },
+        )
         stack.set(DataComponentTypes.LORE, LoreComponent(lore))
     }
 
-    override fun getName(stack: ItemStack): MutableText = super.getName(stack).copy().withColor(ItemColor.TOTEM.color)
+    override fun getName(stack: ItemStack): MutableText = super.getName(stack).copy().withColor(type.color.intColor)
 
     override fun getDefaultStack() = getStack()
 }

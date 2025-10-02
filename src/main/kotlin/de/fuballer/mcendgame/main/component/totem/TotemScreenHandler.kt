@@ -1,38 +1,60 @@
 package de.fuballer.mcendgame.main.component.totem
 
+import de.fuballer.mcendgame.main.component.item.custom.totem.TotemType
 import de.fuballer.mcendgame.main.component.screen.CustomScreenHandlerTypes
 import net.minecraft.entity.player.PlayerEntity
 import net.minecraft.entity.player.PlayerInventory
 import net.minecraft.inventory.SimpleInventory
 import net.minecraft.item.ItemStack
 import net.minecraft.screen.ScreenHandler
-import net.minecraft.screen.slot.Slot
-import net.minecraft.screen.slot.SlotActionType
 
 class TotemScreenHandler(
     syncId: Int,
     playerInventory: PlayerInventory,
+    totems: List<ItemStack> = listOf(),
+    private val totemService: TotemService? = null,
 ) : ScreenHandler(CustomScreenHandlerTypes.TOTEM, syncId) {
-    private val totemInventory = SimpleInventory(5)
+    private val totemInventory = SimpleInventory(8)
 
     init {
-        for (i in 0 until 5) {
-            addSlot(Slot(totemInventory, i, 44 + i * 18, 20))
+        addTotemSlots()
+        fillTotemSlots(totems)
+
+        addPlayerSlots(playerInventory, 8, 87)
+    }
+
+    private fun addTotemSlots() {
+        for (i in 0..4) addSlot(TotemSlot(totemInventory, i, 26 + 27 * i, 56, TotemType.BASIC))
+        addSlot(TotemSlot(totemInventory, 5, 53, 29, TotemType.EFFECT))
+        addSlot(TotemSlot(totemInventory, 6, 107, 29, TotemType.EFFECT))
+        addSlot(TotemSlot(totemInventory, 7, 80, 20, TotemType.ABILITY))
+    }
+
+    private fun fillTotemSlots(totems: List<ItemStack>) {
+        for ((index, totem) in totems.withIndex()) {
+            if (index >= totemInventory.size()) break
+            setStackInSlot(index, 0, totem)
         }
-
-        addPlayerSlots(playerInventory, 8, 51)
     }
 
-    override fun onSlotClick(
-        slotIndex: Int,
-        button: Int,
-        actionType: SlotActionType,
-        player: PlayerEntity
-    ) {
+    override fun onClosed(player: PlayerEntity) {
+        super.onClosed(player)
+        totemService?.savePlayerTotems(player, totemInventory)
     }
 
-    // only gets called in onSlotClick which is overridden
-    override fun quickMove(player: PlayerEntity, slot: Int): ItemStack = ItemStack.EMPTY
+    override fun quickMove(player: PlayerEntity, slotIndex: Int): ItemStack {
+        val slot = slots[slotIndex]
+        if (!slot.hasStack()) return ItemStack.EMPTY
+        val stack = slot.stack
+
+        if (slotIndex < 8) {
+            if (!insertItem(stack, 8, 44, true)) return ItemStack.EMPTY
+            return stack
+        } else {
+            if (!insertItem(stack, 0, 8, false)) return ItemStack.EMPTY
+            return stack
+        }
+    }
 
     override fun canUse(player: PlayerEntity) = totemInventory.canPlayerUse(player)
 }

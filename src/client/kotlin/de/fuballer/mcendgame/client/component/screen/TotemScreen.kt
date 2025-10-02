@@ -1,11 +1,13 @@
 package de.fuballer.mcendgame.client.component.screen
 
 import de.fuballer.mcendgame.main.component.totem.TotemScreenHandler
+import de.fuballer.mcendgame.main.component.totem.TotemSlot
 import de.fuballer.mcendgame.main.util.minecraft.IdentifierUtil
 import net.minecraft.client.gui.DrawContext
 import net.minecraft.client.gui.screen.ingame.HandledScreen
 import net.minecraft.client.render.RenderLayer
 import net.minecraft.entity.player.PlayerInventory
+import net.minecraft.screen.slot.Slot
 import net.minecraft.text.Text
 import net.minecraft.util.Identifier
 
@@ -18,7 +20,7 @@ class TotemScreen(
 ) : HandledScreen<TotemScreenHandler>(handler, inventory, title) {
     init {
         backgroundWidth = 176
-        backgroundHeight = 133
+        backgroundHeight = 169
         playerInventoryTitleY = backgroundHeight - 94
     }
 
@@ -48,5 +50,21 @@ class TotemScreen(
             256,
             256,
         )
+    }
+
+    override fun drawSlot(context: DrawContext, slot: Slot) {
+        super.drawSlot(context, slot)
+
+        val totemSlot = slot as? TotemSlot ?: return
+        val color = totemSlot.type.color.intColor
+
+        //top
+        context.drawHorizontalLine(slot.x - 2, slot.x + 17, slot.y - 2, color)
+        //bottom
+        context.drawHorizontalLine(slot.x - 2, slot.x + 17, slot.y + 17, color)
+        //left
+        context.drawVerticalLine(slot.x - 2, slot.y - 2, slot.y + 17, color)
+        //right
+        context.drawVerticalLine(slot.x + 17, slot.y - 2, slot.y + 17, color)
     }
 }

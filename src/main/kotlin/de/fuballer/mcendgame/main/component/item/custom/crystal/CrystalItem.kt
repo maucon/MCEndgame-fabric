@@ -31,7 +31,7 @@ abstract class CrystalItem(
         return stack
     }
 
-    override fun getName(stack: ItemStack): MutableText = super.getName(stack).copy().withColor(ItemColor.CRYSTAL.color)
+    override fun getName(stack: ItemStack): MutableText = super.getName(stack).copy().withColor(ItemColor.CRYSTAL.intColor)
 
     open fun canForge(stack: ItemStack): MutableText? {
         if (stack.isEmpty) return CrystalForgeSettings.getForgeErrorText("no_item")
