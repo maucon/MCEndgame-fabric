@@ -116,6 +116,14 @@ object CustomItemGroups {
         }
         ItemGroupEvents.modifyEntriesEvent(TOTEMS_KEY).register { itemGroup ->
             itemGroup.add(TotemItems.TOTEM_OF_BASTION.defaultStack)
+            itemGroup.add(TotemItems.TOTEM_OF_FORCE.defaultStack)
+            itemGroup.add(TotemItems.TOTEM_OF_FORTRESS.defaultStack)
+            itemGroup.add(TotemItems.TOTEM_OF_FRENZY.defaultStack)
+            itemGroup.add(TotemItems.TOTEM_OF_GRACE.defaultStack)
+            itemGroup.add(TotemItems.TOTEM_OF_IMPACT.defaultStack)
+            itemGroup.add(TotemItems.TOTEM_OF_SWIFTNESS.defaultStack)
+            itemGroup.add(TotemItems.TOTEM_OF_THICKNESS.defaultStack)
+            itemGroup.add(TotemItems.TOTEM_OF_VANGUARD.defaultStack)
         }
         ItemGroupEvents.modifyEntriesEvent(CUSTOM_BLOCKS_KEY).register { itemGroup ->
             itemGroup.add(CustomBlocks.DUNGEON_DEVICE)

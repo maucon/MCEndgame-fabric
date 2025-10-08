@@ -134,5 +134,13 @@ class CustomItemTagProvider(
 
         getOrCreateTagBuilder(CustomTags.TOTEM)
             .add(TotemItems.TOTEM_OF_BASTION)
+            .add(TotemItems.TOTEM_OF_FORCE)
+            .add(TotemItems.TOTEM_OF_FORTRESS)
+            .add(TotemItems.TOTEM_OF_FRENZY)
+            .add(TotemItems.TOTEM_OF_GRACE)
+            .add(TotemItems.TOTEM_OF_IMPACT)
+            .add(TotemItems.TOTEM_OF_SWIFTNESS)
+            .add(TotemItems.TOTEM_OF_THICKNESS)
+            .add(TotemItems.TOTEM_OF_VANGUARD)
     }
 }

@@ -68,8 +68,16 @@ class CustomModelProvider(
         generator.register(CrystalItems.PERMUTATION_CRYSTAL, Models.GENERATED)
         generator.register(CrystalItems.REFORGE_CRYSTAL, Models.GENERATED)
         generator.register(CrystalItems.CORRUPTION_CRYSTAL, Models.GENERATED)
-        
+
         generator.register(TotemItems.TOTEM_OF_BASTION, Models.GENERATED)
+        generator.register(TotemItems.TOTEM_OF_FORCE, Models.GENERATED)
+        generator.register(TotemItems.TOTEM_OF_FORTRESS, Models.GENERATED)
+        generator.register(TotemItems.TOTEM_OF_FRENZY, Models.GENERATED)
+        generator.register(TotemItems.TOTEM_OF_GRACE, Models.GENERATED)
+        generator.register(TotemItems.TOTEM_OF_IMPACT, Models.GENERATED)
+        generator.register(TotemItems.TOTEM_OF_SWIFTNESS, Models.GENERATED)
+        generator.register(TotemItems.TOTEM_OF_THICKNESS, Models.GENERATED)
+        generator.register(TotemItems.TOTEM_OF_VANGUARD, Models.GENERATED)
     }
 
     private fun sideTopBottomTextureMap(block: Block) = TextureMap()
