@@ -16,9 +16,9 @@ class TotemOfThicknessItem(
 
     override fun getCustomAttributes(tier: Int) =
         when (tier) {
-            0 -> listOf(CustomAttribute(VanillaAttributeTypes.MAX_HEALTH, tier, DoubleRoll(DoubleBounds(1.0))))
-            1 -> listOf(CustomAttribute(VanillaAttributeTypes.MAX_HEALTH, tier, DoubleRoll(DoubleBounds(2.0))))
-            2 -> listOf(CustomAttribute(VanillaAttributeTypes.MAX_HEALTH, tier, DoubleRoll(DoubleBounds(3.0))))
+            0 -> listOf(CustomAttribute(VanillaAttributeTypes.MAX_HEALTH, tier, DoubleRoll(DoubleBounds(2.0))))
+            1 -> listOf(CustomAttribute(VanillaAttributeTypes.MAX_HEALTH, tier, DoubleRoll(DoubleBounds(4.0))))
+            2 -> listOf(CustomAttribute(VanillaAttributeTypes.MAX_HEALTH, tier, DoubleRoll(DoubleBounds(6.0))))
             else -> listOf()
         }
 }
