@@ -2,11 +2,13 @@ package de.fuballer.mcendgame.main.component.totem
 
 import de.fuballer.mcendgame.main.component.item.custom.totem.TotemType
 import de.fuballer.mcendgame.main.component.screen.CustomScreenHandlerTypes
+import de.fuballer.mcendgame.main.util.extension.EntityExtension.isInDungeonWorld
 import net.minecraft.entity.player.PlayerEntity
 import net.minecraft.entity.player.PlayerInventory
 import net.minecraft.inventory.SimpleInventory
 import net.minecraft.item.ItemStack
 import net.minecraft.screen.ScreenHandler
+import net.minecraft.screen.slot.SlotActionType
 
 class TotemScreenHandler(
     syncId: Int,
@@ -40,6 +42,11 @@ class TotemScreenHandler(
     override fun onClosed(player: PlayerEntity) {
         super.onClosed(player)
         totemService?.savePlayerTotems(player, totemInventory)
+    }
+
+    override fun onSlotClick(slotIndex: Int, button: Int, actionType: SlotActionType, player: PlayerEntity) {
+        if (player.isInDungeonWorld()) return //TODO allow actions that don't alter equipped totems
+        super.onSlotClick(slotIndex, button, actionType, player)
     }
 
     override fun quickMove(player: PlayerEntity, slotIndex: Int): ItemStack {

@@ -1,7 +1,11 @@
 package de.fuballer.mcendgame.main.component.totem
 
+import de.fuballer.mcendgame.main.component.custom_attribute.CustomAttributesExtensions.getCustomAttributes
 import de.fuballer.mcendgame.main.component.totem.db.PlayerTotemsEntity
 import de.fuballer.mcendgame.main.component.totem.db.PlayerTotemsRepository
+import de.fuballer.mcendgame.main.messaging.misc.CollectCustomAttributesCommand
+import de.fuballer.mcendgame.main.util.extension.WorldExtension.isDungeonWorld
+import de.maucon.mauconframework.command.CommandHandler
 import de.maucon.mauconframework.di.annotation.Injectable
 import net.minecraft.entity.player.PlayerEntity
 import net.minecraft.inventory.Inventory
@@ -27,5 +31,15 @@ class TotemService(
     fun savePlayerTotems(player: PlayerEntity, inventory: Inventory) {
         val entity = PlayerTotemsEntity(player.uuid, inventory.toList())
         playerTotemsRepository.save(entity)
+    }
+
+    @CommandHandler
+    fun on(cmd: CollectCustomAttributesCommand) {
+        val player = cmd.entity as? PlayerEntity ?: return
+        if (!player.world.isDungeonWorld()) return
+
+        val totems = getPlayerTotems(player)
+        val attributes = totems.flatMap { it.getCustomAttributes() }
+        cmd.customAttributes.addAll(attributes)
     }
 }
