@@ -10,7 +10,7 @@ import de.fuballer.mcendgame.main.component.item.custom.totem.TotemType
 class TotemOfFortressItem(
     settings: Settings,
 ) : TotemItem(settings) {
-    override val maxTier = 3
+    override val maxTier = 2
     override val type = TotemType.BASIC
 
     override fun getCustomAttributes(tier: Int) =
