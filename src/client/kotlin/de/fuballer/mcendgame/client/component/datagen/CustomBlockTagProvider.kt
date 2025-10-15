@@ -17,6 +17,7 @@ class CustomBlockTagProvider(
         getOrCreateTagBuilder(BlockTags.PICKAXE_MINEABLE)
             .add(CustomBlocks.DUNGEON_DEVICE)
             .add(CustomBlocks.CRYSTAL_FORGE)
+            .add(CustomBlocks.TOTEM_STATUE)
 
         getOrCreateTagBuilder(BlockTags.SWORD_EFFICIENT)
             .add(CustomBlocks.DECAYING_COBWEB)

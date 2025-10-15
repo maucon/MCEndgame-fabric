@@ -129,6 +129,7 @@ object CustomItemGroups {
             itemGroup.add(CustomBlocks.DUNGEON_DEVICE)
             itemGroup.add(CustomBlocks.CRYSTAL_FORGE)
             itemGroup.add(CustomBlocks.DECAYING_COBWEB)
+            itemGroup.add(CustomBlocks.TOTEM_STATUE)
         }
     }
 }

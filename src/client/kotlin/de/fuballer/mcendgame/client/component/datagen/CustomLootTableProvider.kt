@@ -13,5 +13,6 @@ class CustomLootTableProvider(
     override fun generate() {
         addDrop(CustomBlocks.DUNGEON_DEVICE)
         addDrop(CustomBlocks.CRYSTAL_FORGE)
+        addDrop(CustomBlocks.TOTEM_STATUE)
     }
 }
