@@ -5,6 +5,7 @@ import de.fuballer.mcendgame.main.component.dungeon.generation.data.*
 import de.fuballer.mcendgame.main.util.extension.Vec3iExtension.clone
 import de.fuballer.mcendgame.main.util.extension.Vec3iExtension.max
 import de.fuballer.mcendgame.main.util.minecraft.IdentifierUtil
+import net.minecraft.block.Block
 import net.minecraft.state.property.Properties
 import net.minecraft.structure.StructurePlacementData
 import net.minecraft.structure.StructureTemplate
@@ -67,14 +68,14 @@ object RoomTypeLoader {
         offset: Vec3i = Vec3i.ZERO,
         size: Vec3i? = null,
     ): RoomMarkerPoints { // FIXME
-        val startPosMarkerInfos = template.getInfosForBlock(BlockPos(0, 0, 0), StructurePlacementData(), DungeonGenerationSettings.START_POS_MARKER)
+        val startPosMarkerInfos = getMarkerInfos(template, DungeonGenerationSettings.START_POS_MARKER)
         val startPos = if (startPosMarkerInfos.isEmpty()) null else startPosMarkerInfos.first().pos.add(offset)
 
-        val monsterPosMarkerInfos = template.getInfosForBlock(BlockPos(0, 0, 0), StructurePlacementData(), DungeonGenerationSettings.MONSTER_MARKER)
+        val monsterPosMarkerInfos = getMarkerInfos(template, DungeonGenerationSettings.MONSTER_MARKER)
         val monsterPos =
             monsterPosMarkerInfos.stream().map { SpawnPosition(it.pos.add(offset)) }.toList()
 
-        val bossPosMarkerInfos = template.getInfosForBlock(BlockPos(0, 0, 0), StructurePlacementData(), DungeonGenerationSettings.BOSS_MARKER)
+        val bossPosMarkerInfos = getMarkerInfos(template, DungeonGenerationSettings.BOSS_MARKER)
         val bossPos = bossPosMarkerInfos.stream().map {
             SpawnPosition(
                 it.pos.add(offset),
@@ -82,18 +83,23 @@ object RoomTypeLoader {
             )
         }.toList()
 
-        val doorPosMarkerInfos = template.getInfosForBlock(BlockPos(0, 0, 0), StructurePlacementData(), DungeonGenerationSettings.DOOR_MARKER)
+        val doorPosMarkerInfos = getMarkerInfos(template, DungeonGenerationSettings.DOOR_MARKER)
         val doorPos =
             doorPosMarkerInfos.stream()
                 .map { getDoor(it.pos.add(offset), size ?: template.size) }
                 .toList()
 
-        return RoomMarkerPoints(startPos, monsterPos.toMutableList(), bossPos.toMutableList(), doorPos.toMutableList())
+        val encounterPosMarkerInfos = getMarkerInfos(template, DungeonGenerationSettings.ENCOUNTER_MARKER)
+        val encounterPos = encounterPosMarkerInfos.stream().map { it.pos.add(offset) }.toList()
+
+        return RoomMarkerPoints.fromImmutable(startPos, monsterPos, bossPos, doorPos, encounterPos)
     }
+
+    private fun getMarkerInfos(template: StructureTemplate, block: Block) = template.getInfosForBlock(BlockPos(0, 0, 0), StructurePlacementData(), block)
 
     private fun getDoor(pos: Vec3i, size: Vec3i) = Door(
         pos.clone(),
-        RoomTypeLoader.getDoorDirection(pos.x, pos.z, size)
+        getDoorDirection(pos.x, pos.z, size)
     )
 
     private fun getDoorDirection(x: Int, z: Int, size: Vec3i) =

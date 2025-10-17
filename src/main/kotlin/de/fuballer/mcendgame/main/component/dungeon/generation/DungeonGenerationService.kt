@@ -3,6 +3,7 @@ package de.fuballer.mcendgame.main.component.dungeon.generation
 import de.fuballer.mcendgame.main.component.dungeon.enemy.EnemyGenerationService
 import de.fuballer.mcendgame.main.component.dungeon.enemy.boss.BossGenerationService
 import de.fuballer.mcendgame.main.component.dungeon.generation.builder.DungeonBuilderService
+import de.fuballer.mcendgame.main.component.dungeon.generation.encounter.DungeonEncounterService
 import de.fuballer.mcendgame.main.component.dungeon.seed.DungeonSeedService
 import de.fuballer.mcendgame.main.component.dungeon.world.DungeonWorldService
 import de.fuballer.mcendgame.main.component.item.custom.aspect.AspectService
@@ -22,6 +23,7 @@ import kotlin.random.Random
 class DungeonGenerationService(
     private val dungeonWorldService: DungeonWorldService,
     private val dungeonBuilderService: DungeonBuilderService,
+    private val dungeonEncounterService: DungeonEncounterService,
     private val enemyGenerationService: EnemyGenerationService,
     private val bossGenerationService: BossGenerationService,
     private val dungeonSeedService: DungeonSeedService,
@@ -53,6 +55,7 @@ class DungeonGenerationService(
             val dungeonWorld = dungeonWorldService.create(dungeonLevel, player, affectingAspects)
 
             dungeonBuilderService.build(dungeonWorld, layout.rooms)
+            dungeonEncounterService.generate(dungeonWorld, layout.encounterPos, affectingAspects, random)
 
             enemyGenerationService.generate(dungeonWorld, dungeonLevel, enemyTypes, applyMisc, layout.enemySpawnPos)
             bossGenerationService.generate(dungeonWorld, dungeonLevel, bossTypes, applyMisc, layout.bossSpawnPos)

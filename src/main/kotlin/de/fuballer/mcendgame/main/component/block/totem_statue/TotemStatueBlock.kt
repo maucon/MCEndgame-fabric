@@ -1,9 +1,8 @@
 package de.fuballer.mcendgame.main.component.block.totem_statue
 
-import net.minecraft.block.Block
-import net.minecraft.block.BlockState
-import net.minecraft.block.HorizontalFacingBlock
-import net.minecraft.block.ShapeContext
+import com.mojang.serialization.MapCodec
+import net.minecraft.block.*
+import net.minecraft.block.entity.BlockEntity
 import net.minecraft.entity.ai.pathing.NavigationType
 import net.minecraft.entity.player.PlayerEntity
 import net.minecraft.item.ItemPlacementContext
@@ -18,7 +17,7 @@ import net.minecraft.world.World
 
 class TotemStatueBlock(
     settings: Settings
-) : Block(settings) {
+) : BlockWithEntity(settings) {
 
     companion object {
         const val ID = "totem_statue"
@@ -42,6 +41,10 @@ class TotemStatueBlock(
     ): ActionResult {
         if (world.isClient) return ActionResult.SUCCESS
 
+        val blockEntity = world.getBlockEntity(pos) as? TotemStatueBlockEntity ?: return ActionResult.SUCCESS
+        if (blockEntity.isActive()) return ActionResult.SUCCESS
+        blockEntity.activate()
+
         //TODO
 
         return ActionResult.SUCCESS
@@ -59,4 +62,8 @@ class TotemStatueBlock(
     override fun appendProperties(builder: StateManager.Builder<Block, BlockState>) {
         builder.add(HorizontalFacingBlock.FACING)
     }
+
+    override fun getCodec(): MapCodec<out BlockWithEntity> = createCodec(::TotemStatueBlock)
+
+    override fun createBlockEntity(pos: BlockPos, state: BlockState): BlockEntity = TotemStatueBlockEntity(pos, state)
 }
