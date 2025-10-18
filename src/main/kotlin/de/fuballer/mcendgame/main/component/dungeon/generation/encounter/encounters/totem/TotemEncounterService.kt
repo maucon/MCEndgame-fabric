@@ -8,6 +8,7 @@ import de.fuballer.mcendgame.main.util.extension.Vec3iExtension.toBlockPos
 import de.maucon.mauconframework.command.CommandHandler
 import de.maucon.mauconframework.di.annotation.Injectable
 import de.maucon.mauconframework.event.EventSubscriber
+import net.minecraft.block.Blocks
 
 @Injectable
 class TotemEncounterService {
@@ -26,8 +27,11 @@ class TotemEncounterService {
         if (positions.isEmpty()) return
 
         positions.forEach { pos ->
-            var state = CustomBlocks.TOTEM_STATUE.defaultState
-            event.world.setBlockState(pos.toBlockPos(), state)
+            val wallState = Blocks.POLISHED_TUFF_WALL.defaultState
+            event.world.setBlockState(pos.toBlockPos(), wallState)
+
+            val totemState = CustomBlocks.TOTEM_STATUE.defaultState
+            event.world.setBlockState(pos.add(0, 1, 0).toBlockPos(), totemState)
         }
     }
 }

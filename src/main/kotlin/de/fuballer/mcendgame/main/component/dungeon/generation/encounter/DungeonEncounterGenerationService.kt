@@ -11,7 +11,7 @@ import net.minecraft.util.math.Vec3i
 import kotlin.random.Random
 
 @Injectable
-class DungeonEncounterService {
+class DungeonEncounterGenerationService {
     fun generate(
         world: ServerWorld,
         positions: List<Vec3i>,
