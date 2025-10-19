@@ -10,6 +10,7 @@ import de.fuballer.mcendgame.main.component.item.custom.totem.TotemItems
 import net.fabricmc.fabric.api.client.datagen.v1.provider.FabricModelProvider
 import net.fabricmc.fabric.api.datagen.v1.FabricDataOutput
 import net.minecraft.block.Block
+import net.minecraft.block.Blocks
 import net.minecraft.client.data.*
 import net.minecraft.client.render.item.tint.DyeTintSource
 import net.minecraft.item.Item
@@ -20,6 +21,7 @@ class CustomModelProvider(
     override fun generateBlockStateModels(generator: BlockStateModelGenerator) {
         generator.registerCubeWithCustomTextures(CustomBlocks.DUNGEON_DEVICE, CustomBlocks.DUNGEON_DEVICE) { block, _ -> sideTopBottomTextureMap(block) }
         generator.registerTintableCross(CustomBlocks.DECAYING_COBWEB, BlockStateModelGenerator.CrossType.NOT_TINTED)
+        generator.registerBuiltinWithParticle(CustomBlocks.TOTEM_STATUE, Blocks.STONE)
     }
 
     override fun generateItemModels(generator: ItemModelGenerator) {
