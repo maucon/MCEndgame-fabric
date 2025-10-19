@@ -9,6 +9,7 @@ import de.maucon.mauconframework.command.CommandHandler
 import de.maucon.mauconframework.di.annotation.Injectable
 import de.maucon.mauconframework.event.EventSubscriber
 import net.minecraft.block.Blocks
+import net.minecraft.state.property.Properties
 
 @Injectable
 class TotemEncounterService {
@@ -23,15 +24,18 @@ class TotemEncounterService {
         val amount = event.encounters[EncounterType.TOTEM] ?: return
         if (amount <= 0) return
 
-        val positions = event.takePositions(amount)
+        val positions = event.takeLocations(amount)
         if (positions.isEmpty()) return
 
-        positions.forEach { pos ->
+        positions.forEach { encounterLocation ->
+            val loc = encounterLocation.location
             val wallState = Blocks.POLISHED_TUFF_WALL.defaultState
-            event.world.setBlockState(pos.toBlockPos(), wallState)
+            event.world.setBlockState(loc.toBlockPos(), wallState)
 
+            val rotation = encounterLocation.getRotation16()
             val totemState = CustomBlocks.TOTEM_STATUE.defaultState
-            event.world.setBlockState(pos.add(0, 1, 0).toBlockPos(), totemState)
+                .with(Properties.ROTATION, rotation)
+            event.world.setBlockState(loc.add(0, 1, 0).toBlockPos(), totemState)
         }
     }
 }

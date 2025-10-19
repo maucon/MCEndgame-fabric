@@ -51,7 +51,7 @@ class LinearLayoutGenerator(
 
         val spawnLocations = mutableListOf<SpawnPosition>()
         val bossSpawnLocations = mutableListOf<SpawnPosition>()
-        val encounterLocations = mutableListOf<Vec3i>()
+        val encounterLocations = mutableListOf<EncounterLocation>()
 
         blockedArea.add(Area(Vec3i.ZERO, startRoomType.size.stepTowardsZero()))
 
@@ -83,7 +83,7 @@ class LinearLayoutGenerator(
         lastRoomType: RoomType?,
         spawnLocations: MutableList<SpawnPosition>,
         bossSpawnLocations: MutableList<SpawnPosition>,
-        encounterLocations: MutableList<Vec3i>,
+        encounterLocations: MutableList<EncounterLocation>,
     ): Boolean {
         if ((isMainPath && roomComplexitySum >= complexityLimit) ||
             (!isMainPath && roomComplexitySum >= branchComplexityLimit)
@@ -114,7 +114,7 @@ class LinearLayoutGenerator(
         currentDoor: Door,
         spawnLocations: MutableList<SpawnPosition>,
         bossSpawnLocations: MutableList<SpawnPosition>,
-        encounterLocations: MutableList<Vec3i>,
+        encounterLocations: MutableList<EncounterLocation>,
     ) = generateRoomIfValid(tiles, currentDoor, 0, true, 0, bossRoomType, spawnLocations, bossSpawnLocations, encounterLocations)
 
     private fun generateRoomIfValid(
@@ -126,7 +126,7 @@ class LinearLayoutGenerator(
         chosenRoomType: RoomType,
         spawnLocations: MutableList<SpawnPosition>,
         bossSpawnLocations: MutableList<SpawnPosition>,
-        encounterLocations: MutableList<Vec3i>,
+        encounterLocations: MutableList<EncounterLocation>,
     ): Boolean {
         val possibleDoors = chosenRoomType.markerPoints.doors.shuffled(random)
         for (chosenDoor in possibleDoors) {
@@ -188,7 +188,7 @@ class LinearLayoutGenerator(
             )
             tiles.add(tile)
 
-            addMarkerLocations(chosenRoomType, offsetRoomOrigin, rotation90, spawnLocations, bossSpawnLocations, encounterLocations)
+            addMarkerLocations(chosenRoomType, offsetRoomOrigin, rotation90, currentDoor, spawnLocations, bossSpawnLocations, encounterLocations)
 
             return true
         }
@@ -223,12 +223,12 @@ class LinearLayoutGenerator(
         rotation90: Int,
         spawnLocations: MutableList<SpawnPosition>,
         bossSpawnLocations: MutableList<SpawnPosition>,
-        encounterLocations: MutableList<Vec3i>,
+        encounterLocations: MutableList<EncounterLocation>,
     ): Boolean {
         val branchTiles = mutableListOf<PlaceableRoom>()
         val branchSpawnLocations = mutableListOf<SpawnPosition>()
         val branchBossSpawnLocations = mutableListOf<SpawnPosition>()
-        val branchEncounterLocations = mutableListOf<Vec3i>()
+        val branchEncounterLocations = mutableListOf<EncounterLocation>()
 
         val updatedExistingBranches = if (remainingDoors.size > 1) existingBranches + 1 else existingBranches
 
@@ -339,9 +339,10 @@ class LinearLayoutGenerator(
         chosenRoom: RoomType,
         offsetRoomOrigin: Vec3i,
         rotation90: Int,
+        entryDoor: Door,
         spawnLocations: MutableList<SpawnPosition>,
         bossSpawnLocations: MutableList<SpawnPosition>,
-        encounterLocations: MutableList<Vec3i>,
+        encounterLocations: MutableList<EncounterLocation>,
     ) {
         chosenRoom.markerPoints.monsterPos.onEach {
             val absPos = getAbsolutPos(it.pos, rotation90, offsetRoomOrigin)
@@ -357,7 +358,7 @@ class LinearLayoutGenerator(
 
         chosenRoom.markerPoints.encounterPos.onEach {
             val absPos = getAbsolutPos(it, rotation90, offsetRoomOrigin)
-            encounterLocations.add(absPos)
+            encounterLocations.add(EncounterLocation(absPos, entryDoor.getAdjacentPosition()))
         }
     }
 
