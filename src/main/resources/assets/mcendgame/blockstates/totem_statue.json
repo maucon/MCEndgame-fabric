@@ -1,8 +1,5 @@
 {
     "variants": {
-      "facing=east":  { "model": "mcendgame:block/totem_statue", "y": 270 },
-      "facing=north": { "model": "mcendgame:block/totem_statue", "y": 180 },
-      "facing=south": { "model": "mcendgame:block/totem_statue"},
-      "facing=west":  { "model": "mcendgame:block/totem_statue", "y": 90 }
+      "": { "model": "mcendgame:block/totem_statue"}
     }
 }

@@ -7,10 +7,11 @@ import net.minecraft.entity.ai.pathing.NavigationType
 import net.minecraft.entity.player.PlayerEntity
 import net.minecraft.item.ItemPlacementContext
 import net.minecraft.state.StateManager
+import net.minecraft.state.property.Properties
 import net.minecraft.util.ActionResult
 import net.minecraft.util.hit.BlockHitResult
 import net.minecraft.util.math.BlockPos
-import net.minecraft.util.math.Direction
+import net.minecraft.util.math.RotationPropertyHelper
 import net.minecraft.util.shape.VoxelShape
 import net.minecraft.world.BlockView
 import net.minecraft.world.World
@@ -18,7 +19,6 @@ import net.minecraft.world.World
 class TotemStatueBlock(
     settings: Settings
 ) : BlockWithEntity(settings) {
-
     companion object {
         const val ID = "totem_statue"
 
@@ -26,11 +26,11 @@ class TotemStatueBlock(
     }
 
     init {
-        defaultState = stateManager.getDefaultState().with(HorizontalFacingBlock.FACING, Direction.NORTH)
+        defaultState = stateManager.getDefaultState().with(Properties.ROTATION, 0)
     }
 
     override fun getPlacementState(ctx: ItemPlacementContext): BlockState =
-        defaultState.with(HorizontalFacingBlock.FACING, ctx.horizontalPlayerFacing)
+        defaultState.with(Properties.ROTATION, RotationPropertyHelper.fromYaw(ctx.playerYaw))
 
     override fun onUse(
         state: BlockState,
@@ -60,10 +60,12 @@ class TotemStatueBlock(
     ): VoxelShape = SHAPE
 
     override fun appendProperties(builder: StateManager.Builder<Block, BlockState>) {
-        builder.add(HorizontalFacingBlock.FACING)
+        builder.add(Properties.ROTATION)
     }
 
     override fun getCodec(): MapCodec<out BlockWithEntity> = createCodec(::TotemStatueBlock)
 
     override fun createBlockEntity(pos: BlockPos, state: BlockState): BlockEntity = TotemStatueBlockEntity(pos, state)
+
+    override fun getRenderType(state: BlockState) = BlockRenderType.INVISIBLE
 }

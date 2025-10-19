@@ -36,7 +36,7 @@ object RegistryUtil {
         Blocks.register(RegistryKeyUtil.createBlockKey(name), factory, settings)
             .also { Items.register(it) }
 
-    fun registerBlockEntityType(factory: (BlockPos, BlockState) -> BlockEntity, block: Block, name: String): BlockEntityType<*> =
+    fun <T : BlockEntity> registerBlockEntityType(factory: (BlockPos, BlockState) -> T, block: Block, name: String): BlockEntityType<T> =
         Registry.register(Registries.BLOCK_ENTITY_TYPE, IdentifierUtil.default(name), FabricBlockEntityTypeBuilder.create(factory, block).build())
 
     fun <T : Entity> registerEntity(key: RegistryKey<EntityType<*>>, type: EntityType.Builder<T>): EntityType<T> =
