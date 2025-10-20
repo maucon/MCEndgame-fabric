@@ -1,8 +1,11 @@
 package de.fuballer.mcendgame.main.component.block.totem_statue
 
 import com.mojang.serialization.MapCodec
+import de.fuballer.mcendgame.main.component.block.CustomBlockEntityTypes
 import net.minecraft.block.*
 import net.minecraft.block.entity.BlockEntity
+import net.minecraft.block.entity.BlockEntityTicker
+import net.minecraft.block.entity.BlockEntityType
 import net.minecraft.entity.ai.pathing.NavigationType
 import net.minecraft.entity.player.PlayerEntity
 import net.minecraft.item.ItemPlacementContext
@@ -42,10 +45,7 @@ class TotemStatueBlock(
         if (world.isClient) return ActionResult.SUCCESS
 
         val blockEntity = world.getBlockEntity(pos) as? TotemStatueBlockEntity ?: return ActionResult.SUCCESS
-        if (blockEntity.isActive()) return ActionResult.SUCCESS
-        blockEntity.activate()
-
-        //TODO
+        blockEntity.tryActivate()
 
         return ActionResult.SUCCESS
     }
@@ -68,4 +68,10 @@ class TotemStatueBlock(
     override fun createBlockEntity(pos: BlockPos, state: BlockState): BlockEntity = TotemStatueBlockEntity(pos, state)
 
     override fun getRenderType(state: BlockState) = BlockRenderType.INVISIBLE
+
+    override fun <T : BlockEntity> getTicker(world: World, state: BlockState, type: BlockEntityType<T>): BlockEntityTicker<T>? {
+        return validateTicker(type, CustomBlockEntityTypes.TOTEM_STATUE) { worldx, pos, state, blockEntity ->
+            TotemStatueBlockEntity.tick(worldx, pos, state, blockEntity)
+        }
+    }
 }

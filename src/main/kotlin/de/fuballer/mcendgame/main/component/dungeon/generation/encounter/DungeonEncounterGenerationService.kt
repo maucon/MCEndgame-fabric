@@ -14,6 +14,7 @@ import kotlin.random.Random
 class DungeonEncounterGenerationService {
     fun generate(
         world: ServerWorld,
+        dungeonLevel: Int,
         positions: List<EncounterLocation>,
         aspects: Map<AspectItem, Int>,
         random: Random,
@@ -21,7 +22,7 @@ class DungeonEncounterGenerationService {
         val collectCommand = CollectDungeonEncountersCommand(random, aspects)
         val cmd = CommandGateway.apply(collectCommand)
 
-        val generateEvent = GenerateDungeonEncountersEvent(world, positions.toMutableList(), aspects, cmd.encounters)
+        val generateEvent = GenerateDungeonEncountersEvent(world, dungeonLevel, positions.toMutableList(), aspects, cmd.encounters)
         EventGateway.launchPublish(generateEvent)
     }
 }

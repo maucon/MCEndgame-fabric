@@ -7,6 +7,7 @@ import net.minecraft.server.world.ServerWorld
 
 data class GenerateDungeonEncountersEvent(
     val world: ServerWorld,
+    val dungeonLevel: Int,
     val availableLocations: MutableList<EncounterLocation>,
     val aspects: Map<AspectItem, Int>,
     val encounters: Map<EncounterType, Int> = mapOf(),
