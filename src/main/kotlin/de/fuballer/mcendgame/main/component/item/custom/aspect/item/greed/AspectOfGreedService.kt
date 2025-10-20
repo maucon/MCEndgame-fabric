@@ -9,6 +9,7 @@ import de.maucon.mauconframework.di.annotation.Injectable
 object AspectOfGreedService {
     @CommandHandler
     fun generateDungeonEnemies(cmd: DungeonGenerateEnemiesCommand) {
+        if (cmd.isEncounter) return
         val count = cmd.aspects[AspectItems.ASPECT_OF_GREED] ?: return
 
         val lootGoblinSpawnPositions = cmd.spawnPositions.shuffled().take(AspectOfGreed.ADDITIONAL_LOOT_GOBLINS * count)

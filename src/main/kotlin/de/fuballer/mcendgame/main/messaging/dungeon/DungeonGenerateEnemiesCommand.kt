@@ -10,6 +10,7 @@ data class DungeonGenerateEnemiesCommand(
     val dungeonWorld: ServerWorld,
     val aspects: Map<AspectItem, Int>,
     val spawnPositions: MutableList<SpawnPosition>,
+    val isEncounter: Boolean,
     val eliteSpawnPositions: MutableList<SpawnPosition> = mutableListOf(),
     val lootGoblinSpawnPositions: MutableList<SpawnPosition> = mutableListOf(),
     var uniqueEquipmentProbability: Double = EquipmentGenerationSettings.UNIQUE_EQUIPMENT_PROBABILITY,
@@ -20,10 +21,12 @@ data class DungeonGenerateEnemiesCommand(
         fun of(
             dungeonWorld: ServerWorld,
             spawnPositions: MutableList<SpawnPosition>,
+            isEncounter: Boolean,
         ) = DungeonGenerateEnemiesCommand(
             dungeonWorld,
             dungeonWorld.getDungeonAspects(),
             spawnPositions,
+            isEncounter,
         )
     }
 }

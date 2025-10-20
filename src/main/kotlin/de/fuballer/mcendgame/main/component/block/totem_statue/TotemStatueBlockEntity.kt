@@ -3,10 +3,10 @@ package de.fuballer.mcendgame.main.component.block.totem_statue
 import de.fuballer.mcendgame.main.component.block.CustomBlockEntityTypes
 import de.fuballer.mcendgame.main.component.dungeon.generation.encounter.encounters.totem.TotemEncounterSettings
 import de.fuballer.mcendgame.main.util.extension.mixin.WorldMixinExtension.getDungeonLevel
+import de.maucon.mauconframework.command.CommandGateway
+import de.maucon.mauconframework.event.EventGateway
 import net.minecraft.block.BlockState
 import net.minecraft.block.entity.BlockEntity
-import net.minecraft.entity.EntityType
-import net.minecraft.entity.SpawnReason
 import net.minecraft.nbt.NbtCompound
 import net.minecraft.network.listener.ClientPlayPacketListener
 import net.minecraft.network.packet.Packet
@@ -95,9 +95,11 @@ class TotemStatueBlockEntity(
         world.spawnParticles(ParticleTypes.PORTAL, it.x + 0.5, it.y + 0.5, it.z + 0.5, 15, 0.0, 0.0, 0.0, 0.7)
     }
 
-    private fun spawnEnemies(world: ServerWorld) = spawnPositions.forEach {
-        world.spawnParticles(ParticleTypes.CLOUD, it.x + 0.5, it.y + 0.5, it.z + 0.5, 10, 0.1, 0.1, 0.1, 0.04)
-        EntityType.ZOMBIE.spawn(world, it, SpawnReason.SPAWNER)
+    private fun spawnEnemies(world: ServerWorld) {
+        spawnPositions.forEach { world.spawnParticles(ParticleTypes.CLOUD, it.x + 0.5, it.y + 0.5, it.z + 0.5, 10, 0.1, 0.1, 0.1, 0.04) }
+
+        val command = TotemStatueSpawnEnemiesCommand(world, spawnPositions)
+        val cmd = CommandGateway.apply(command)
     }
 
     override fun writeNbt(nbt: NbtCompound, registries: RegistryWrapper.WrapperLookup) {

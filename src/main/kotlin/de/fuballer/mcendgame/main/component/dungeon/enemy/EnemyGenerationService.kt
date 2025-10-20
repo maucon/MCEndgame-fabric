@@ -32,9 +32,10 @@ class EnemyGenerationService(
         enemyTypes: List<RandomOption<EntityTypeStats>>,
         applyMisc: (List<LivingEntity>) -> Unit,
         spawnPositions: List<SpawnPosition>,
-    ) {
+        isEncounter: Boolean = false,
+    ): List<LivingEntity> {
         val random = Random
-        val generateDungeonEnemiesCommand = DungeonGenerateEnemiesCommand.of(dungeonWorld, spawnPositions.toMutableList())
+        val generateDungeonEnemiesCommand = DungeonGenerateEnemiesCommand.of(dungeonWorld, spawnPositions.toMutableList(), isEncounter)
         val cmd = CommandGateway.apply(generateDungeonEnemiesCommand)
 
         val entities = cmd.spawnPositions.map {
@@ -76,6 +77,8 @@ class EnemyGenerationService(
 
         val event = DungeonEnemiesGeneratedEvent.of(dungeonWorld, entities)
         EventGateway.launchPublish(event)
+
+        return entities
     }
 
     private fun spawnEnemy(

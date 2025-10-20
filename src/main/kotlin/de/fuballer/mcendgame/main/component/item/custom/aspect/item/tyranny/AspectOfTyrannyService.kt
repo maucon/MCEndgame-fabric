@@ -9,6 +9,7 @@ import de.maucon.mauconframework.di.annotation.Injectable
 object AspectOfTyrannyService {
     @CommandHandler
     fun generateDungeonEnemies(cmd: DungeonGenerateEnemiesCommand) {
+        if (cmd.isEncounter) return
         val count = cmd.aspects[AspectItems.ASPECT_OF_TYRANNY] ?: return
 
         val eliteSpawnPositions = cmd.spawnPositions.shuffled().take(AspectOfTyranny.ADDITIONAL_ELITES * count)

@@ -1,6 +1,7 @@
 package de.fuballer.mcendgame.main.mixin.world;
 
 import de.fuballer.mcendgame.main.accessor.DungeonWorldAccessor;
+import de.fuballer.mcendgame.main.component.dungeon.type.DungeonType;
 import de.fuballer.mcendgame.main.component.item.custom.aspect.AspectItem;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.server.world.ServerWorld;
@@ -26,6 +27,8 @@ public class DungeonWorldMixin implements DungeonWorldAccessor {
 
     @Unique
     private Map<AspectItem, Integer> aspects = new HashMap<>();
+    @Unique
+    private DungeonType dungeonType = DungeonType.STRONGHOLD;
 
     @Override
     public boolean mcendgame$isCompleted() {
@@ -85,5 +88,15 @@ public class DungeonWorldMixin implements DungeonWorldAccessor {
     @Override
     public Map<AspectItem, Integer> mcendgame$getAspects() {
         return aspects;
+    }
+
+    @Override
+    public void mcendgame$setDungeonType(DungeonType type) {
+        this.dungeonType = type;
+    }
+
+    @Override
+    public DungeonType mcendgame$getDungeonType() {
+        return dungeonType;
     }
 }

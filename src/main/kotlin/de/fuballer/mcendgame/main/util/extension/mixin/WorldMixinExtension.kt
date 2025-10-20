@@ -1,6 +1,7 @@
 package de.fuballer.mcendgame.main.util.extension.mixin
 
 import de.fuballer.mcendgame.main.accessor.DungeonWorldAccessor
+import de.fuballer.mcendgame.main.component.dungeon.type.DungeonType
 import de.fuballer.mcendgame.main.component.item.custom.aspect.AspectItem
 import net.minecraft.entity.player.PlayerEntity
 import net.minecraft.server.world.ServerWorld
@@ -64,5 +65,15 @@ object WorldMixinExtension {
     fun ServerWorld.getDungeonAspects(): Map<AspectItem, Int> {
         val accessor = this as DungeonWorldAccessor
         return accessor.`mcendgame$getAspects`()
+    }
+
+    fun ServerWorld.setDungeonType(type: DungeonType) {
+        val accessor = this as DungeonWorldAccessor
+        accessor.`mcendgame$setDungeonType`(type)
+    }
+
+    fun ServerWorld.getDungeonType(): DungeonType {
+        val accessor = this as DungeonWorldAccessor
+        return accessor.`mcendgame$getDungeonType`()
     }
 }
