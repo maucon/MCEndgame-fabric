@@ -18,6 +18,9 @@ import kotlin.math.exp
 import kotlin.math.pow
 import kotlin.math.sin
 
+private val TEXTURE = IdentifierUtil.default("textures/block/totem_statue.png")
+private val ACTIVE_TEXTURE = IdentifierUtil.default("textures/block/totem_statue_active.png")
+
 private const val HOVER_START_TICKS = 50
 private const val HOVER_HEIGHT = 0.3
 private const val HOVER_CYCLE_TICKS = 50
@@ -35,7 +38,6 @@ class TotemStatueBlockEntityRenderer(
     context: BlockEntityRendererFactory.Context,
 ) : BlockEntityRenderer<TotemStatueBlockEntity> {
     private val model: Model
-    private val texture = IdentifierUtil.default("textures/block/totem_statue.png")
 
     init {
         val loadedModels = context.loadedEntityModels
@@ -71,6 +73,7 @@ class TotemStatueBlockEntityRenderer(
             matrices.multiply(RotationAxis.POSITIVE_Y.rotationDegrees(hoverRot))
         }
 
+        val texture = if (entity.isActive()) ACTIVE_TEXTURE else TEXTURE
         val renderLayer = RenderLayer.getEntityCutout(texture)
         val vertexConsumer = vertexConsumers.getBuffer(renderLayer)
 

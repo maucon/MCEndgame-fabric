@@ -72,7 +72,7 @@ class TotemStatueBlockEntity(
 
     fun getActiveTicks() = activeTicks
 
-    private fun isActive() = activeTicks >= 0
+    fun isActive() = activeTicks >= 0
 
     fun tryActivate() {
         if (isActive()) return
