@@ -17,6 +17,8 @@ import net.minecraft.network.packet.s2c.play.BlockEntityUpdateS2CPacket
 import net.minecraft.particle.ParticleTypes
 import net.minecraft.registry.RegistryWrapper
 import net.minecraft.server.world.ServerWorld
+import net.minecraft.sound.SoundCategory
+import net.minecraft.sound.SoundEvents
 import net.minecraft.util.math.BlockPos
 import net.minecraft.util.math.Vec3i
 import net.minecraft.world.World
@@ -29,6 +31,10 @@ private const val SPAWN_PREPARATION_PARTICLE_DELAY = 50
 private const val SPAWN_DELAY = 100
 private const val ACTIVE_PARTICLE_DELAY = 20
 private const val ACTIVE_PARTICLE_CYCLE = 10
+private const val AMBIENT_SOUND_DELAY = 20
+private const val AMBIENT_SOUND_CYCLE = 50
+
+private val SOUND_CATEGORY = SoundCategory.BLOCKS
 
 private const val COMPLETION_CHECK_CYCLE = 5
 
@@ -59,12 +65,13 @@ class TotemStatueBlockEntity(
             val serverWorld = world as? ServerWorld ?: return
             val ticks = entity.activeTicks
             when (ticks) {
-                1 -> entity.createActivationParticles(serverWorld)
+                1 -> entity.playActivationEffects(serverWorld)
                 SPAWN_PREPARATION_PARTICLE_DELAY -> entity.createSpawnPreparationParticles(serverWorld)
                 SPAWN_DELAY -> entity.spawnEnemies(serverWorld)
             }
 
             if (ticks >= ACTIVE_PARTICLE_DELAY && ticks % ACTIVE_PARTICLE_CYCLE == 0) entity.createActiveParticles(serverWorld)
+            if (ticks >= AMBIENT_SOUND_DELAY && ticks % AMBIENT_SOUND_CYCLE == 0) entity.playActiveAmbientSound(serverWorld)
 
             if (ticks % COMPLETION_CHECK_CYCLE == 0) entity.checkCompleted(serverWorld)
         }
@@ -100,18 +107,27 @@ class TotemStatueBlockEntity(
         return blockPos
     }
 
-    private fun createActivationParticles(world: ServerWorld) =
+    private fun playActivationEffects(world: ServerWorld) {
         world.spawnParticles(ParticleTypes.REVERSE_PORTAL, pos.x + 0.5, pos.y + 0.5, pos.z + 0.5, 35, 0.0, 0.0, 0.0, 0.1)
+        world.playSound(null, pos, SoundEvents.ENTITY_EVOKER_PREPARE_SUMMON, SOUND_CATEGORY, 1.5F, 1F)
+    }
 
     private fun createActiveParticles(world: ServerWorld) =
         world.spawnParticles(ParticleTypes.END_ROD, pos.x + 0.5, pos.y + 0.5, pos.z + 0.5, 1, 0.0, 0.0, 0.0, 0.1)
 
-    private fun createSpawnPreparationParticles(world: ServerWorld) = spawnPositions.forEach {
-        world.spawnParticles(ParticleTypes.PORTAL, it.x + 0.5, it.y + 0.5, it.z + 0.5, 15, 0.0, 0.0, 0.0, 0.7)
+    private fun playActiveAmbientSound(world: ServerWorld) =
+        world.playSound(null, pos, SoundEvents.BLOCK_BEACON_AMBIENT, SOUND_CATEGORY, 2F, 1F)
+
+    private fun createSpawnPreparationParticles(world: ServerWorld) {
+        spawnPositions.forEach { world.spawnParticles(ParticleTypes.PORTAL, it.x + 0.5, it.y + 0.5, it.z + 0.5, 15, 0.0, 0.0, 0.0, 0.7) }
+        world.playSound(null, pos, SoundEvents.BLOCK_PORTAL_TRIGGER, SOUND_CATEGORY, 0.75F, 1.5F)
     }
 
     private fun spawnEnemies(world: ServerWorld) {
-        spawnPositions.forEach { world.spawnParticles(ParticleTypes.CLOUD, it.x + 0.5, it.y + 0.5, it.z + 0.5, 10, 0.1, 0.1, 0.1, 0.04) }
+        spawnPositions.forEach {
+            world.spawnParticles(ParticleTypes.CLOUD, it.x + 0.5, it.y + 0.5, it.z + 0.5, 10, 0.1, 0.1, 0.1, 0.04)
+            world.playSound(null, pos, SoundEvents.ENTITY_ZOMBIE_INFECT, SOUND_CATEGORY, 1.2F, 1F)
+        }
 
         val command = TotemStatueSpawnEnemiesCommand(world, spawnPositions)
         val cmd = CommandGateway.apply(command)
@@ -130,6 +146,8 @@ class TotemStatueBlockEntity(
 
     private fun complete(world: ServerWorld) {
         world.spawnParticles(ParticleTypes.CLOUD, pos.x + 0.5, pos.y + 0.5, pos.z + 0.5, 20, 0.1, 0.1, 0.1, 0.1)
+        world.playSound(null, pos, SoundEvents.ITEM_TOTEM_USE, SOUND_CATEGORY, 1F, 1F)
+
         world.setBlockState(pos, Blocks.AIR.defaultState)
 
         val stack = TotemEncounterSettings.getTotemReward(world.getDungeonLevel())
