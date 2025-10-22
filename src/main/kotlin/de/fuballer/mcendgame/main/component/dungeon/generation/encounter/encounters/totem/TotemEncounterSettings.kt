@@ -7,7 +7,7 @@ import net.minecraft.item.ItemStack
 import kotlin.random.Random
 
 object TotemEncounterSettings {
-    const val BASE_PROBABILITY = 0.1 * 10
+    const val BASE_PROBABILITY = 0.1
 
     fun getEnemyCount(level: Int): Int {
         val random = Random.nextDouble(1 + level * 0.1)

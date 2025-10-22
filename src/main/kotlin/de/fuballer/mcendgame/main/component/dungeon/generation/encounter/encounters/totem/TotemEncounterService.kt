@@ -23,7 +23,7 @@ class TotemEncounterService(
     @CommandHandler
     fun on(cmd: CollectDungeonEncountersCommand) {
         if (cmd.random.nextDouble() >= TotemEncounterSettings.BASE_PROBABILITY) return
-        cmd.encounters[EncounterType.TOTEM] = (cmd.encounters[EncounterType.TOTEM] ?: 0) + 25
+        cmd.add(EncounterType.TOTEM)
     }
 
     @EventSubscriber

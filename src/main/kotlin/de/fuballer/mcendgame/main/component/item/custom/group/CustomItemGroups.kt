@@ -106,6 +106,7 @@ object CustomItemGroups {
             itemGroup.add(AspectItems.ASPECT_OF_FORTITUDE.defaultStack)
             itemGroup.add(AspectItems.ASPECT_OF_SAVAGERY.defaultStack)
             itemGroup.add(AspectItems.ASPECT_OF_EMINENCE.defaultStack)
+            itemGroup.add(AspectItems.ASPECT_OF_ANCESTORS.defaultStack)
         }
         ItemGroupEvents.modifyEntriesEvent(CRYSTALS_KEY).register { itemGroup ->
             itemGroup.add(CrystalItems.CALIBRATION_CRYSTAL.defaultStack)

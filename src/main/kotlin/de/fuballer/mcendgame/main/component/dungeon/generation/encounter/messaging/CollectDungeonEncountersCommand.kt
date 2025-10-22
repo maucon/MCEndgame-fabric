@@ -8,4 +8,8 @@ data class CollectDungeonEncountersCommand(
     val random: Random,
     val aspects: Map<AspectItem, Int>,
     val encounters: MutableMap<EncounterType, Int> = mutableMapOf(),
-)
+) {
+    fun add(type: EncounterType, count: Int = 1) {
+        encounters[type] = (encounters[type] ?: 0) + count
+    }
+}
