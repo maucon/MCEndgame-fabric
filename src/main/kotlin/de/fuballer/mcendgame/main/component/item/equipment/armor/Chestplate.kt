@@ -44,6 +44,9 @@ enum class Chestplate(
     ),
     SUEDE_CHESTPLATE(
         CustomArmorItems.SUEDE_CHESTPLATE,
+    ),
+    VOIDWEAVER(
+        CustomArmorItems.VOIDWEAVER,
     );
 
     override val slot = AttributeModifierSlot.CHEST

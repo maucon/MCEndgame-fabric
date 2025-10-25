@@ -35,6 +35,7 @@ class CustomItemTagProvider(
             .add(CustomArmorItems.BOUND_ABYSS)
             .add(CustomArmorItems.DRUIDS_CHESTPLATE)
             .add(CustomArmorItems.SUEDE_CHESTPLATE)
+            .add(CustomArmorItems.VOIDWEAVER)
             .add(CustomArmorItems.WITHER_ROSE_CHESTPLATE)
 
         getOrCreateTagBuilder(ItemTags.LEG_ARMOR)
@@ -46,10 +47,10 @@ class CustomItemTagProvider(
 
         getOrCreateTagBuilder(ItemTags.FOOT_ARMOR)
             .add(CustomArmorItems.DRUIDS_BOOTS)
+            .add(CustomArmorItems.GEISTERGALOSCHEN)
+            .add(CustomArmorItems.MOONSHADOW)
             .add(CustomArmorItems.SUEDE_BOOTS)
             .add(CustomArmorItems.WITHER_ROSE_BOOTS)
-            .add(CustomArmorItems.MOONSHADOW)
-            .add(CustomArmorItems.GEISTERGALOSCHEN)
 
         getOrCreateTagBuilder(CustomTags.BOW)
             .add(Items.BOW)

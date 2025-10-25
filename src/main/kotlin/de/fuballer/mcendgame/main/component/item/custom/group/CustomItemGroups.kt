@@ -75,6 +75,7 @@ object CustomItemGroups {
             itemGroup.add(CustomArmorItems.STONEWARD.defaultStack)
             itemGroup.add(CustomArmorItems.MOONSHADOW.defaultStack)
             itemGroup.add(CustomArmorItems.GEISTERGALOSCHEN.defaultStack)
+            itemGroup.add(CustomArmorItems.VOIDWEAVER.defaultStack)
         }
         ItemGroupEvents.modifyEntriesEvent(CUSTOM_TOOLS_KEY).register { itemGroup ->
             itemGroup.add(CustomToolItems.BLOODHARVEST.defaultStack)

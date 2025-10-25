@@ -15,6 +15,7 @@ import de.fuballer.mcendgame.client.component.item.custom.armor.suede.SuedeBoots
 import de.fuballer.mcendgame.client.component.item.custom.armor.suede.SuedeChestplateModel
 import de.fuballer.mcendgame.client.component.item.custom.armor.suede.SuedeHelmetModel
 import de.fuballer.mcendgame.client.component.item.custom.armor.suede.SuedeLeggingsModel
+import de.fuballer.mcendgame.client.component.item.custom.armor.voidweaver.VoidweaverModel
 import de.fuballer.mcendgame.client.component.item.custom.armor.wither_rose.WitherRoseBootsModel
 import de.fuballer.mcendgame.client.component.item.custom.armor.wither_rose.WitherRoseChestplateModel
 import de.fuballer.mcendgame.client.component.item.custom.armor.wither_rose.WitherRoseHelmetModel
@@ -130,6 +131,10 @@ class CustomHumanoidArmorFeatureRenderer<S : BipedEntityRenderState, M : BipedEn
         texturedArmorModels[CustomArmorItems.GEISTERGALOSCHEN] = TexturedArmorModel(
             GeistergaloschenModel(ctx.getPart(GeistergaloschenModel.MODEL_LAYER)),
             translucentTexture = IdentifierUtil.default("textures/entity/equipment/custom_humanoid/geistergaloschen.png"),
+        )
+        texturedArmorModels[CustomArmorItems.VOIDWEAVER] = TexturedArmorModel(
+            VoidweaverModel(ctx.getPart(VoidweaverModel.MODEL_LAYER)),
+            IdentifierUtil.default("textures/entity/equipment/custom_humanoid/voidweaver.png"),
         )
     }
 
