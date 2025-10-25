@@ -45,7 +45,7 @@ class TotemScreenHandler(
     }
 
     override fun onSlotClick(slotIndex: Int, button: Int, actionType: SlotActionType, player: PlayerEntity) {
-        if (player.isInDungeonWorld()) return //TODO allow actions that don't alter equipped totems
+        if (player.isInDungeonWorld()) return
         super.onSlotClick(slotIndex, button, actionType, player)
     }
 

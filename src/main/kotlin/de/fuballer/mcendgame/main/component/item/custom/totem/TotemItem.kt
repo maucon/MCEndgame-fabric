@@ -29,7 +29,7 @@ abstract class TotemItem(
 
         val limitedRarity = min(tier, maxTier)
         addLore(stack, tier)
-        stack.setCustomAttributes(getCustomAttributes(limitedRarity), AttributeModifierSlot.CHEST) //TODO add custom slot
+        stack.setCustomAttributes(getCustomAttributes(limitedRarity), AttributeModifierSlot.CHEST)
 
         return stack
     }

@@ -96,15 +96,21 @@ class TotemStatueBlockEntity(
     }
 
     private fun getNearbyBlockPos(count: Int): List<BlockPos> {
-        val fullListCount = (count / NEARBY_BLOCKS_OFFSET.size).toInt()
-        val offsets = List(fullListCount) { NEARBY_BLOCKS_OFFSET }.flatten().toMutableList()
+        val nearbyBlockPos = NEARBY_BLOCKS_OFFSET.map { pos.add(it) }
+        val validNearbyBlockPos = nearbyBlockPos.filter {
+            if (world!!.getBlockState(it).isSolidBlock(world, it)) return@filter false
+            val upPos = it.add(0, 1, 0)
+            return@filter !world!!.getBlockState(upPos).isSolidBlock(world, upPos)
+        }
 
-        val remaining = count % NEARBY_BLOCKS_OFFSET.size
-        val randomPicks = NEARBY_BLOCKS_OFFSET.shuffled().take(remaining)
-        offsets.addAll(randomPicks)
+        val fullListCount = (count / validNearbyBlockPos.size).toInt()
+        val chosenBlockPos = List(fullListCount) { validNearbyBlockPos }.flatten().toMutableList()
 
-        val blockPos = offsets.map { pos.add(it) }
-        return blockPos
+        val remaining = count % validNearbyBlockPos.size
+        val randomPicks = validNearbyBlockPos.shuffled().take(remaining)
+        chosenBlockPos.addAll(randomPicks)
+
+        return chosenBlockPos
     }
 
     private fun playActivationEffects(world: ServerWorld) {
