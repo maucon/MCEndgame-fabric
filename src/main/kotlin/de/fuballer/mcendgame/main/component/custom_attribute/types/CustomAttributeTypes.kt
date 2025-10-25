@@ -145,6 +145,10 @@ object CustomAttributeTypes {
     val ENTITY_PHASING = CustomAttributeType("entity_phasing", AttributeFormats.EMPTY_ROLL, AttributeFormats.EMPTY_BOUNDS, AttributeAffinities.EMPTY)
     val BLOCK_PHASING = CustomAttributeType("block_phasing", AttributeFormats.EMPTY_ROLL, AttributeFormats.EMPTY_BOUNDS, AttributeAffinities.EMPTY)
 
+    val LINK_NEARBY_ENEMIES = CustomAttributeType("link_nearby_enemies", AttributeFormats.INT_ROLL, AttributeFormats.INT_BOUNDS, AttributeAffinities.BENEFICIAL)
+    val DAMAGE_LINKED_ENEMIES = CustomAttributeType("damage_linked_enemies", AttributeFormats.PERCENT_ROLL, AttributeFormats.PERCENT_BOUNDS, AttributeAffinities.BENEFICIAL)
+    val HEAL_ON_LINKED_ENEMY_KILLED = CustomAttributeType("heal_on_linked_enemy_killed", AttributeFormats.DOUBLE_ROLL, AttributeFormats.DOUBLE_BOUNDS, AttributeAffinities.BENEFICIAL)
+
     // for use on enemies (don't use for players)
     val DROP_INCREASED_LOOT =
         CustomAttributeType("drop_increased_loot", AttributeFormats.SIGNED_PERCENT_ROLL, AttributeFormats.PERCENT_BOUNDS, AttributeAffinities.EMPTY, SignBasedKeywords.INCREASED)

@@ -1,6 +1,7 @@
 package de.fuballer.mcendgame.main.component.item.custom.armor.item.voidweaver
 
 import de.fuballer.mcendgame.main.component.custom_attribute.data.DoubleBounds
+import de.fuballer.mcendgame.main.component.custom_attribute.data.IntBounds
 import de.fuballer.mcendgame.main.component.custom_attribute.data.RollableCustomAttribute
 import de.fuballer.mcendgame.main.component.custom_attribute.types.CustomAttributeTypes
 import de.fuballer.mcendgame.main.component.item.custom.UniqueAttributesItem
@@ -12,8 +13,11 @@ class Voidweaver(
     settings: Settings,
 ) : UniqueAttributesItem(settings), HidePlayerModelPartArmor {
     override fun getCustomAttributes() = listOf(
-        RollableCustomAttribute(CustomAttributeTypes.WARD, 0, DoubleBounds(2.0, 3.0)),
+        RollableCustomAttribute(CustomAttributeTypes.LINK_NEARBY_ENEMIES, 0, IntBounds(4, 5)),
+        RollableCustomAttribute(CustomAttributeTypes.DAMAGE_LINKED_ENEMIES, 0, DoubleBounds(0.1, 0.15)),
+        RollableCustomAttribute(CustomAttributeTypes.HEAL_ON_LINKED_ENEMY_KILLED, 0, DoubleBounds(1.0, 1.5)),
         RollableCustomAttribute(CustomAttributeTypes.ELEMENTAL_DAMAGE, 0, DoubleBounds(2.0, 3.0)),
+        RollableCustomAttribute(CustomAttributeTypes.WARD, 0, DoubleBounds(2.0, 3.0)),
     )
 
     override fun getAttributeModifierSlot() = AttributeModifierSlot.CHEST

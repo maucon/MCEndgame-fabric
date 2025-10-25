@@ -158,6 +158,9 @@
   "attribute.mcendgame.block_phasing": " Block Phasing",
   "attribute.mcendgame.drop_increased_loot": "%s%% %s Loot",
   "attribute.mcendgame.drop_more_loot": " %s%% %s Loot",
+  "attribute.mcendgame.link_nearby_enemies": "Link to Enemies within %s Blocks",
+  "attribute.mcendgame.damage_linked_enemies": "Deal %s%% Elemental Damage to Linked Enemies every 5 Ticks",
+  "attribute.mcendgame.heal_on_linked_enemy_killed": "Heal %s Health when a Linked Enemy dies",
 
   "effect.mcendgame.fury": "Fury",
   "effect.mcendgame.resilience": "Resilience",
