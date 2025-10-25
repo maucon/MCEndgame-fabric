@@ -5,6 +5,7 @@ import de.fuballer.mcendgame.main.component.item.custom.armor.CustomArmorItems
 import de.fuballer.mcendgame.main.component.item.custom.aspect.AspectItems
 import de.fuballer.mcendgame.main.component.item.custom.crystal.CrystalItems
 import de.fuballer.mcendgame.main.component.item.custom.tool.CustomToolItems
+import de.fuballer.mcendgame.main.component.item.custom.totem.TotemItems
 import de.fuballer.mcendgame.main.util.minecraft.IdentifierUtil
 import de.fuballer.mcendgame.main.util.minecraft.RegistryUtil
 import de.maucon.mauconframework.di.annotation.Injectable
@@ -44,6 +45,13 @@ object CustomItemGroups {
         CRYSTALS_KEY, FabricItemGroup.builder()
             .icon { ItemStack(CrystalItems.CALIBRATION_CRYSTAL) }
             .displayName(Text.translatable("item_group.mcendgame.crystals"))
+    )
+
+    val TOTEMS_KEY = RegistryKey.of(Registries.ITEM_GROUP.key, IdentifierUtil.default("totems"))
+    val TOTEMS = RegistryUtil.registerItemGroup(
+        TOTEMS_KEY, FabricItemGroup.builder()
+            .icon { ItemStack(TotemItems.TOTEM_OF_BASTION) }
+            .displayName(Text.translatable("item_group.mcendgame.totems"))
     )
 
     val CUSTOM_BLOCKS_KEY = RegistryKey.of(Registries.ITEM_GROUP.key, IdentifierUtil.default("blocks"))
@@ -98,6 +106,7 @@ object CustomItemGroups {
             itemGroup.add(AspectItems.ASPECT_OF_FORTITUDE.defaultStack)
             itemGroup.add(AspectItems.ASPECT_OF_SAVAGERY.defaultStack)
             itemGroup.add(AspectItems.ASPECT_OF_EMINENCE.defaultStack)
+            itemGroup.add(AspectItems.ASPECT_OF_ANCESTORS.defaultStack)
         }
         ItemGroupEvents.modifyEntriesEvent(CRYSTALS_KEY).register { itemGroup ->
             itemGroup.add(CrystalItems.CALIBRATION_CRYSTAL.defaultStack)
@@ -106,10 +115,22 @@ object CustomItemGroups {
             itemGroup.add(CrystalItems.REFORGE_CRYSTAL.defaultStack)
             itemGroup.add(CrystalItems.CORRUPTION_CRYSTAL.defaultStack)
         }
+        ItemGroupEvents.modifyEntriesEvent(TOTEMS_KEY).register { itemGroup ->
+            itemGroup.add(TotemItems.TOTEM_OF_BASTION.defaultStack)
+            itemGroup.add(TotemItems.TOTEM_OF_FORCE.defaultStack)
+            itemGroup.add(TotemItems.TOTEM_OF_FORTRESS.defaultStack)
+            itemGroup.add(TotemItems.TOTEM_OF_FRENZY.defaultStack)
+            itemGroup.add(TotemItems.TOTEM_OF_GRACE.defaultStack)
+            itemGroup.add(TotemItems.TOTEM_OF_IMPACT.defaultStack)
+            itemGroup.add(TotemItems.TOTEM_OF_SWIFTNESS.defaultStack)
+            itemGroup.add(TotemItems.TOTEM_OF_THICKNESS.defaultStack)
+            itemGroup.add(TotemItems.TOTEM_OF_VANGUARD.defaultStack)
+        }
         ItemGroupEvents.modifyEntriesEvent(CUSTOM_BLOCKS_KEY).register { itemGroup ->
             itemGroup.add(CustomBlocks.DUNGEON_DEVICE)
             itemGroup.add(CustomBlocks.CRYSTAL_FORGE)
             itemGroup.add(CustomBlocks.DECAYING_COBWEB)
+            itemGroup.add(CustomBlocks.TOTEM_STATUE)
         }
     }
 }

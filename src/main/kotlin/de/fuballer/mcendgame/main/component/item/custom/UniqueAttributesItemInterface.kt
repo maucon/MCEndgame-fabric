@@ -10,7 +10,7 @@ import net.minecraft.item.ItemStack
 import kotlin.random.Random
 
 interface UniqueAttributesItemInterface {
-    fun getNameColor(): Int = ItemColor.UNIQUE.color
+    fun getNameColor(): Int = ItemColor.UNIQUE.intColor
 
     fun getCustomAttributes(): List<RollableCustomAttribute>
 

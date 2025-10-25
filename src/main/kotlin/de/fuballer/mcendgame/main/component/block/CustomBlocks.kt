@@ -2,6 +2,7 @@ package de.fuballer.mcendgame.main.component.block
 
 import de.fuballer.mcendgame.main.component.block.crystalforge.CrystalForgeBlock
 import de.fuballer.mcendgame.main.component.block.dungeon_device.DungeonDeviceBlock
+import de.fuballer.mcendgame.main.component.block.totem_statue.TotemStatueBlock
 import de.fuballer.mcendgame.main.util.minecraft.RegistryUtil
 import de.maucon.mauconframework.di.annotation.Injectable
 import net.minecraft.block.AbstractBlock.Settings
@@ -42,5 +43,15 @@ object CustomBlocks {
             .requiresTool()
             .nonOpaque(),
         CrystalForgeBlock.ID,
+    )
+
+    val TOTEM_STATUE = RegistryUtil.registerBlock(
+        ::TotemStatueBlock,
+        Settings.create()
+            .resistance(1200F)
+            .hardness(10F)
+            .requiresTool()
+            .nonOpaque(),
+        TotemStatueBlock.ID,
     )
 }

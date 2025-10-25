@@ -38,5 +38,5 @@ abstract class AspectItem(
         return stack
     }
 
-    override fun getName(stack: ItemStack): MutableText = super.getName(stack).copy().withColor(ItemColor.ASPECT.color)
+    override fun getName(stack: ItemStack): MutableText = super.getName(stack).copy().withColor(ItemColor.ASPECT.intColor)
 }

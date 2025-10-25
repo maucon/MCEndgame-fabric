@@ -35,7 +35,7 @@ class DungeonDropEffect(
         spawnParticles(itemEntity, world)
         if (glowColor != null) {
             itemEntity.isGlowing = true
-            itemEntity.setForcedGlowColor(glowColor.color)
+            itemEntity.setForcedGlowColor(glowColor.intColor)
         }
         additionalEffects?.invoke(itemEntity, world)
     }

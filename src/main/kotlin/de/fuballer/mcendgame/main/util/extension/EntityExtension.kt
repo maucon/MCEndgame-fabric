@@ -130,4 +130,6 @@ object EntityExtension {
 
         return increasedFactor * moreFactor
     }
+
+    fun Entity.isInDungeonWorld() = world.isDungeonWorld()
 }

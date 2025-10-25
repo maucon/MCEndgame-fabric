@@ -3,6 +3,7 @@ package de.fuballer.mcendgame.main.util.minecraft
 import de.fuballer.mcendgame.main.component.item.custom.armor.materials.CustomArmorMaterial
 import de.fuballer.mcendgame.main.component.item.custom.aspect.AspectItem
 import de.fuballer.mcendgame.main.component.item.custom.crystal.CrystalItem
+import de.fuballer.mcendgame.main.component.item.custom.totem.TotemItem
 import net.fabricmc.fabric.api.`object`.builder.v1.block.entity.FabricBlockEntityTypeBuilder
 import net.minecraft.block.AbstractBlock
 import net.minecraft.block.Block
@@ -35,7 +36,7 @@ object RegistryUtil {
         Blocks.register(RegistryKeyUtil.createBlockKey(name), factory, settings)
             .also { Items.register(it) }
 
-    fun registerBlockEntityType(factory: (BlockPos, BlockState) -> BlockEntity, block: Block, name: String): BlockEntityType<*> =
+    fun <T : BlockEntity> registerBlockEntityType(factory: (BlockPos, BlockState) -> T, block: Block, name: String): BlockEntityType<T> =
         Registry.register(Registries.BLOCK_ENTITY_TYPE, IdentifierUtil.default(name), FabricBlockEntityTypeBuilder.create(factory, block).build())
 
     fun <T : Entity> registerEntity(key: RegistryKey<EntityType<*>>, type: EntityType.Builder<T>): EntityType<T> =
@@ -73,4 +74,7 @@ object RegistryUtil {
     fun registerAspectItem(factory: (Item.Settings) -> Item, name: String, rarity: Rarity = Rarity.UNCOMMON) = registerItem(factory, Item.Settings().rarity(rarity), name) as AspectItem
 
     fun registerCrystalItem(factory: (Item.Settings) -> Item, name: String, rarity: Rarity = Rarity.UNCOMMON) = registerItem(factory, Item.Settings().rarity(rarity), name) as CrystalItem
+
+    fun registerTotemItem(factory: (Item.Settings) -> Item, name: String, rarity: Rarity = Rarity.UNCOMMON) =
+        registerItem(factory, Item.Settings().rarity(rarity).maxCount(1), name) as TotemItem
 }

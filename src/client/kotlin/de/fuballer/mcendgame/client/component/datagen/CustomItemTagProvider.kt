@@ -3,6 +3,7 @@ package de.fuballer.mcendgame.client.component.datagen
 import de.fuballer.mcendgame.main.component.item.custom.armor.CustomArmorItems
 import de.fuballer.mcendgame.main.component.item.custom.crystal.CrystalItems
 import de.fuballer.mcendgame.main.component.item.custom.tool.CustomToolItems
+import de.fuballer.mcendgame.main.component.item.custom.totem.TotemItems
 import de.fuballer.mcendgame.main.component.tags.CustomTags
 import net.fabricmc.fabric.api.datagen.v1.FabricDataOutput
 import net.fabricmc.fabric.api.datagen.v1.provider.FabricTagProvider
@@ -130,5 +131,16 @@ class CustomItemTagProvider(
             .add(CrystalItems.CALIBRATION_CRYSTAL)
             .add(CrystalItems.PERMUTATION_CRYSTAL)
             .add(CrystalItems.SACRIFICIAL_CRYSTAL)
+
+        getOrCreateTagBuilder(CustomTags.TOTEM)
+            .add(TotemItems.TOTEM_OF_BASTION)
+            .add(TotemItems.TOTEM_OF_FORCE)
+            .add(TotemItems.TOTEM_OF_FORTRESS)
+            .add(TotemItems.TOTEM_OF_FRENZY)
+            .add(TotemItems.TOTEM_OF_GRACE)
+            .add(TotemItems.TOTEM_OF_IMPACT)
+            .add(TotemItems.TOTEM_OF_SWIFTNESS)
+            .add(TotemItems.TOTEM_OF_THICKNESS)
+            .add(TotemItems.TOTEM_OF_VANGUARD)
     }
 }
