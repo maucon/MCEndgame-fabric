@@ -42,6 +42,7 @@
     "living_entity.LivingEntityDamageCommandMixin",
     "living_entity.LivingEntityDodgedRecentlyMixin",
     "living_entity.LivingEntityHealMixin",
+    "living_entity.LivingEntityLinkAttributeMixin",
     "living_entity.LivingEntityOnDamageEventMixin",
     "living_entity.LivingEntityPoisonDamageImmunityMixin",
     "living_entity.LivingEntityTemporaryAttributeModifierMixin",
