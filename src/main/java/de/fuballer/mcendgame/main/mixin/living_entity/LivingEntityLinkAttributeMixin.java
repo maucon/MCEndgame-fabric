@@ -1,5 +1,6 @@
 package de.fuballer.mcendgame.main.mixin.living_entity;
 
+import de.fuballer.mcendgame.main.accessor.LivingEntityLinkAttributeAccessor;
 import de.fuballer.mcendgame.main.component.custom_attribute.CustomAttributesExtensions;
 import de.fuballer.mcendgame.main.component.custom_attribute.data.DoubleRoll;
 import de.fuballer.mcendgame.main.component.custom_attribute.data.IntRoll;
@@ -27,7 +28,7 @@ import java.util.*;
 import java.util.stream.Collectors;
 
 @Mixin(LivingEntity.class)
-public class LivingEntityLinkAttributeMixin {
+public class LivingEntityLinkAttributeMixin implements LivingEntityLinkAttributeAccessor {
     @Unique
     private static PacketCodec<ByteBuf, UUID> UUID_PACKET_CODEC = PacketCodecs.STRING.xmap(UUID::fromString, UUID::toString);
     @Unique
@@ -157,5 +158,10 @@ public class LivingEntityLinkAttributeMixin {
 
         //TODO deal magic damage percent instead
         linkedEntities.forEach(linkedEntity -> linkedEntity.damage(world, entity.getDamageSources().mobAttack(entity), (float) sum));
+    }
+
+    @Override
+    public Map<UUID, Long> mcendgame$getLinkedEntities() {
+        return getLinkedEntitiesMap();
     }
 }

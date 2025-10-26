@@ -13,6 +13,8 @@
     "ghostly_appearance.accessors.RenderLayerMultiPhaseAccessorMixin",
     "ghostly_appearance.accessors.RenderLayerMultiPhaseParametersAccessorMixin",
     "ghostly_appearance.accessors.RenderPhaseTextureAccessorMixin",
+    "link.LivingEntityLinkRenderStateMixin",
+    "link.LivingEntityRendererLinkMixin",
     "living_entity.LivingEntityRendererMixin",
     "living_entity.LivingEntityRendererWebbedMixin",
     "living_entity.LivingEntityRenderStateMixin",
@@ -23,6 +25,7 @@
     "phasing.WorldRendererBlockPhasingMixin",
     "player.PlayerEntityMixin",
     "renderer.ArmorFeatureRendererMixin",
+    "renderer.EntityRendererAccessorMixin",
     "renderer.ItemStackAttributeRenderMixin",
     "renderer.SkullBlockEntityRendererAccessorMixin"
   ],
