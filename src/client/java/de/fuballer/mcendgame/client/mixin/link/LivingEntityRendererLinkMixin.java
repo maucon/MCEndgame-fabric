@@ -5,7 +5,9 @@ import de.fuballer.mcendgame.client.component.entity.custom.data.EntityConnectio
 import de.fuballer.mcendgame.client.component.entity.custom.data.MultipleEntityConnectionData;
 import de.fuballer.mcendgame.client.mixin.renderer.EntityRendererAccessorMixin;
 import de.fuballer.mcendgame.main.accessor.LivingEntityLinkAttributeAccessor;
+import de.fuballer.mcendgame.main.component.custom_attribute.effects.link.LinkSettings;
 import net.minecraft.client.render.RenderLayer;
+import net.minecraft.client.render.VertexConsumer;
 import net.minecraft.client.render.VertexConsumerProvider;
 import net.minecraft.client.render.entity.LivingEntityRenderer;
 import net.minecraft.client.render.entity.state.LivingEntityRenderState;
@@ -15,6 +17,7 @@ import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.Vec3d;
 import net.minecraft.world.LightType;
 import net.minecraft.world.World;
+import org.joml.Matrix4f;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.Unique;
 import org.spongepowered.asm.mixin.injection.At;
@@ -42,8 +45,7 @@ public abstract class LivingEntityRendererLinkMixin<T extends LivingEntity, S ex
 
         var world = entity.getWorld();
         var data = new MultipleEntityConnectionData();
-        var yaw = (float) (entity.lerpYaw(tickDelta) * (Math.PI / 180));
-        data.setOffset(entity.getLeashOffset(tickDelta).rotateY(-yaw));
+        data.setOffset(new Vec3d(0.0, entity.getHeight() * 0.7, 0.0));
         data.setOriginEntity(getLinkOriginEntityData(entity, tickDelta, world));
         data.setConnectedEntities(getLinkedEntitiesData(linkedEntities, tickDelta, world));
 
@@ -57,7 +59,7 @@ public abstract class LivingEntityRendererLinkMixin<T extends LivingEntity, S ex
             World world
     ) {
         var originEntity = new EntityConnectionPointData();
-        originEntity.setPos(entity.getLeashPos(tickDelta));
+        originEntity.setPos(entity.getLerpedPos(tickDelta).add(0.0, entity.getHeight() * 0.7, 0.0));
 
         var blockPos = BlockPos.ofFloored(entity.getCameraPosVec(tickDelta));
         var blockLight = ((EntityRendererAccessorMixin<T>) this).callGetBlockLight(entity, blockPos);
@@ -81,13 +83,12 @@ public abstract class LivingEntityRendererLinkMixin<T extends LivingEntity, S ex
             if (entity == null) continue;
 
             var entityData = new EntityConnectionPointData();
-
-            entityData.setPos(entity.getLeashPos(tickDelta));
+            entityData.setPos(entity.getLerpedPos(tickDelta).add(0.0, entity.getHeight() * 0.7, 0.0));
 
             var blockPos = BlockPos.ofFloored(entity.getCameraPosVec(tickDelta));
             entityData.setBlockLight(world.getLightLevel(LightType.BLOCK, blockPos));
             entityData.setSkyLight(world.getLightLevel(LightType.SKY, blockPos));
-            entityData.setConnectionDuration(currentTime - entry.getValue());
+            entityData.setConnectionDuration(currentTime + tickDelta - entry.getValue());
 
             data.add(entityData);
         }
@@ -103,12 +104,13 @@ public abstract class LivingEntityRendererLinkMixin<T extends LivingEntity, S ex
         var data = ((LivingEntityLinkRenderStateAccessor) renderState).mcendgame$getLinksData();
 
         for (EntityConnectionPointData entity : data.getConnectedEntities()) {
-            renderLink(matrixStack, vertexConsumerProvider, data.getOriginEntity(), entity, data.getOffset());
+            renderLink(renderState, matrixStack, vertexConsumerProvider, data.getOriginEntity(), entity, data.getOffset());
         }
     }
 
     @Unique
     private void renderLink(
+            S renderState,
             MatrixStack matrixStack,
             VertexConsumerProvider vertexConsumerProvider,
             EntityConnectionPointData origin,
@@ -118,19 +120,52 @@ public abstract class LivingEntityRendererLinkMixin<T extends LivingEntity, S ex
         matrixStack.push();
         matrixStack.translate(offset);
 
-        var distance = linked.getPos().subtract(origin.getPos());
+        var targetDistance = linked.getPos().subtract(origin.getPos());
+        var distancePercent = Math.min(linked.getConnectionDuration() / LinkSettings.DAMAGE_DELAY, 1f);
+        var linkDistance = targetDistance.multiply(distancePercent);
+        var segmentCount = linkDistance.length() / LinkSettings.LINK_RENDER_SEGMENT_LENGTH;
 
         var vertexConsumer = vertexConsumerProvider.getBuffer(RenderLayer.getLeash());
         var matrix = matrixStack.peek().getPositionMatrix();
 
-        vertexConsumer.vertex(matrix, 0f, 0f, 0f)
-                .color(1f, 0f, 0f, 1f).light(0);
-        vertexConsumer.vertex(matrix, (float) distance.x, (float) distance.y, (float) distance.z)
-                .color(0f, 0f, 1f, 1f).light(0);
-        vertexConsumer.vertex(matrix, 0.1f, 0f, 0.1f)
-                .color(1f, 0f, 0f, 1f).light(0);
-        vertexConsumer.vertex(matrix, (float) distance.x + 0.1f, (float) distance.y, (float) distance.z + 0.1f)
-                .color(0f, 0f, 1f, 1f).light(0);
+        for (int i = 0; i < segmentCount + 1; i++) {
+            renderSegment(
+                    renderState,
+                    vertexConsumer,
+                    matrix,
+                    targetDistance,
+                    linkDistance,
+                    i,
+                    (i <= segmentCount) ? 1.0 : segmentCount % 1
+            );
+        }
         matrixStack.pop();
+    }
+
+    @Unique
+    private void renderSegment(
+            S renderState,
+            VertexConsumer vertexConsumer,
+            Matrix4f matrix,
+            Vec3d targetDistance,
+            Vec3d linkDistance,
+            int segmentIndex,
+            double segmentLengthPercent
+    ) {
+        var totalLength = linkDistance.length();
+        var widthVector = linkDistance.getHorizontal().rotateY((float) Math.toRadians(90.0)).normalize().multiply(LinkSettings.LINK_RENDER_SEGMENT_WIDTH);
+        var segmentStartLength = segmentIndex * LinkSettings.LINK_RENDER_SEGMENT_LENGTH;
+        var segmentStartPos = linkDistance.multiply(segmentStartLength / totalLength);
+
+        var targetDistancePercent = segmentStartLength / targetDistance.length();
+        var sinStrength = Math.sin(Math.PI * targetDistancePercent);
+        var sine = Math.sin(segmentStartLength + renderState.age * LinkSettings.LINK_RENDER_SIN_SPEED) * LinkSettings.LINK_RENDER_SIN_STRENGTH * sinStrength;
+
+        var v = segmentStartPos.add(widthVector);
+        vertexConsumer.vertex(matrix, (float) v.x, (float) (v.y + LinkSettings.LINK_RENDER_SEGMENT_WIDTH + sine), (float) v.z)
+                .color(1f, 0f, 0f, 1f).light(0);
+        v = segmentStartPos.subtract(widthVector);
+        vertexConsumer.vertex(matrix, (float) v.x, (float) (v.y - LinkSettings.LINK_RENDER_SEGMENT_WIDTH + sine), (float) v.z)
+                .color(1f, 0f, 0f, 1f).light(0);
     }
 }

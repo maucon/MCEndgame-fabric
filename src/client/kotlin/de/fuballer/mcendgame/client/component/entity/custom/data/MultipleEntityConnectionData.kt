@@ -12,5 +12,5 @@ data class EntityConnectionPointData(
     var pos: Vec3d = Vec3d.ZERO,
     var blockLight: Int = 0,
     var skyLight: Int = 15,
-    var connectionDuration: Long = 0
+    var connectionDuration: Float = 0F
 )
