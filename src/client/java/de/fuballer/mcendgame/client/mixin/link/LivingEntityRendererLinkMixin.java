@@ -2,11 +2,13 @@ package de.fuballer.mcendgame.client.mixin.link;
 
 import de.fuballer.mcendgame.client.accessor.LivingEntityLinkRenderStateAccessor;
 import de.fuballer.mcendgame.client.component.entity.custom.data.EntityConnectionPointData;
+import de.fuballer.mcendgame.client.component.entity.custom.data.LinkVertexData;
 import de.fuballer.mcendgame.client.component.entity.custom.data.MultipleEntityConnectionData;
+import de.fuballer.mcendgame.client.component.render.CustomRenderLayers;
 import de.fuballer.mcendgame.client.mixin.renderer.EntityRendererAccessorMixin;
 import de.fuballer.mcendgame.main.accessor.LivingEntityLinkAttributeAccessor;
 import de.fuballer.mcendgame.main.component.custom_attribute.effects.link.LinkSettings;
-import net.minecraft.client.render.RenderLayer;
+import net.minecraft.client.render.LightmapTextureManager;
 import net.minecraft.client.render.VertexConsumer;
 import net.minecraft.client.render.VertexConsumerProvider;
 import net.minecraft.client.render.entity.LivingEntityRenderer;
@@ -14,6 +16,7 @@ import net.minecraft.client.render.entity.state.LivingEntityRenderState;
 import net.minecraft.client.util.math.MatrixStack;
 import net.minecraft.entity.LivingEntity;
 import net.minecraft.util.math.BlockPos;
+import net.minecraft.util.math.MathHelper;
 import net.minecraft.util.math.Vec3d;
 import net.minecraft.world.LightType;
 import net.minecraft.world.World;
@@ -125,28 +128,49 @@ public abstract class LivingEntityRendererLinkMixin<T extends LivingEntity, S ex
         var linkDistance = targetDistance.multiply(distancePercent);
         var segmentCount = linkDistance.length() / LinkSettings.LINK_RENDER_SEGMENT_LENGTH;
 
-        var vertexConsumer = vertexConsumerProvider.getBuffer(RenderLayer.getLeash());
+        var perpendicularVector = linkDistance.getHorizontal().rotateY((float) Math.toRadians(90.0)).normalize();
+
+        var vertexConsumer = vertexConsumerProvider.getBuffer(CustomRenderLayers.INSTANCE.getLINK());
         var matrix = matrixStack.peek().getPositionMatrix();
 
-        var totalLength = linkDistance.length();
+        var targetLength = targetDistance.length();
+        var linkLength = linkDistance.length();
 
-        var vertexPositions = new ArrayList<Vec3d>();
+        var vertexData = new ArrayList<LinkVertexData>();
         for (int i = 0; i < segmentCount + 2; i++) {
             var vertexDistance = i * LinkSettings.LINK_RENDER_SEGMENT_LENGTH;
             if (i > segmentCount + 1) vertexDistance -= LinkSettings.LINK_RENDER_SEGMENT_LENGTH * (1 - segmentCount % 1);
-            var vertexPos = linkDistance.multiply(vertexDistance / totalLength);
+            var vertexPos = linkDistance.multiply(vertexDistance / linkLength);
 
             var vertexTargetDistancePercentage = vertexDistance / targetDistance.length();
             var flatteningSineStrength = Math.sin(Math.PI * vertexTargetDistancePercentage);
-            var yOffset = Math.sin(vertexDistance - renderState.age * LinkSettings.LINK_RENDER_SINE_SPEED) * LinkSettings.LINK_RENDER_SINE_STRENGTH * flatteningSineStrength;
+            var flattenedSine = Math.sin(vertexDistance - renderState.age * LinkSettings.LINK_RENDER_SINE_SPEED) * flatteningSineStrength;
 
-            vertexPositions.add(vertexPos.add(0.0, yOffset, 0.0));
+            var verticalOffset = flattenedSine * LinkSettings.LINK_RENDER_SINE_VERTICAL_STRENGTH;
+            vertexPos = vertexPos.add(0.0, verticalOffset, 0.0);
+            var horizontalOffset = flattenedSine * LinkSettings.LINK_RENDER_SINE_HORIZONTAL_STRENGTH;
+            vertexPos = vertexPos.add(perpendicularVector.multiply(horizontalOffset));
+
+            var thicknessFactor = 1 + (Math.abs(flattenedSine) * LinkSettings.LINK_RENDER_MAX_THICKNESS_FACTOR);
+
+            var distancePercentage = vertexDistance / targetLength;
+            var color = LinkSettings.INSTANCE.getColor(distancePercentage);
+
+            var blockLight = MathHelper.lerp((float) distancePercentage, origin.getBlockLight(), linked.getBlockLight());
+            var skyLight = MathHelper.lerp((float) distancePercentage, origin.getSkyLight(), linked.getSkyLight());
+            var light = LightmapTextureManager.pack(blockLight, skyLight);
+
+            vertexData.add(new LinkVertexData(vertexPos, color, light, thicknessFactor));
         }
 
-        var widthOffset = linkDistance.getHorizontal().rotateY((float) Math.toRadians(90.0)).normalize().multiply(LinkSettings.LINK_RENDER_SEGMENT_WIDTH);
+        var widthOffset = perpendicularVector.multiply(LinkSettings.LINK_RENDER_SEGMENT_WIDTH);
 
-        for (Vec3d vertexPosition : vertexPositions) addVertices(vertexConsumer, matrix, vertexPosition, widthOffset, 0, false);
-        for (int i = vertexPositions.size() - 1; i >= 0; i--) addVertices(vertexConsumer, matrix, vertexPositions.get(i), widthOffset, 0, true);
+        for (LinkVertexData data : vertexData)
+            addVertices(vertexConsumer, matrix, data, widthOffset, false);
+        for (int i = vertexData.size() - 1; i >= 0; i--) {
+            var data = vertexData.get(i);
+            addVertices(vertexConsumer, matrix, data, widthOffset, true);
+        }
 
         matrixStack.pop();
     }
@@ -155,19 +179,24 @@ public abstract class LivingEntityRendererLinkMixin<T extends LivingEntity, S ex
     private void addVertices(
             VertexConsumer vertexConsumer,
             Matrix4f matrix,
-            Vec3d vertexPos,
+            LinkVertexData data,
             Vec3d widthOffset,
-            int color,
             boolean reverse
     ) {
-        var heightOffset = reverse ? LinkSettings.LINK_RENDER_SEGMENT_WIDTH : -LinkSettings.LINK_RENDER_SEGMENT_WIDTH;
+        var pos = data.getPos();
+        var color = data.getColor();
+        var light = data.getLight();
 
-        var vec1 = vertexPos.add(widthOffset).add(0.0, heightOffset, 0.0);
+        var thickness = data.getThicknessFactor();
+        var heightOffset = (reverse ? LinkSettings.LINK_RENDER_SEGMENT_WIDTH : -LinkSettings.LINK_RENDER_SEGMENT_WIDTH) * thickness;
+        var scaledWidthOffset = widthOffset.multiply(thickness);
+
+        var vec1 = pos.add(scaledWidthOffset).add(0.0, heightOffset, 0.0);
         vertexConsumer.vertex(matrix, (float) vec1.x, (float) vec1.y, (float) vec1.z)
-                .color(color).light(0);
+                .color(color).light(light);
 
-        var vec2 = vertexPos.subtract(widthOffset).subtract(0.0, heightOffset, 0.0);
+        var vec2 = pos.subtract(scaledWidthOffset).subtract(0.0, heightOffset, 0.0);
         vertexConsumer.vertex(matrix, (float) vec2.x, (float) vec2.y, (float) vec2.z)
-                .color(color).light(0);
+                .color(color).light(light);
     }
 }
