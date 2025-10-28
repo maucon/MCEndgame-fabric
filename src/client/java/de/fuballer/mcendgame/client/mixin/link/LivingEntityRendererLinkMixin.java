@@ -128,44 +128,46 @@ public abstract class LivingEntityRendererLinkMixin<T extends LivingEntity, S ex
         var vertexConsumer = vertexConsumerProvider.getBuffer(RenderLayer.getLeash());
         var matrix = matrixStack.peek().getPositionMatrix();
 
-        for (int i = 0; i < segmentCount + 1; i++) {
-            renderSegment(
-                    renderState,
-                    vertexConsumer,
-                    matrix,
-                    targetDistance,
-                    linkDistance,
-                    i,
-                    (i <= segmentCount) ? 1.0 : segmentCount % 1
-            );
+        var totalLength = linkDistance.length();
+
+        var vertexPositions = new ArrayList<Vec3d>();
+        for (int i = 0; i < segmentCount + 2; i++) {
+            var vertexDistance = i * LinkSettings.LINK_RENDER_SEGMENT_LENGTH;
+            if (i > segmentCount + 1) vertexDistance -= LinkSettings.LINK_RENDER_SEGMENT_LENGTH * (1 - segmentCount % 1);
+            var vertexPos = linkDistance.multiply(vertexDistance / totalLength);
+
+            var vertexTargetDistancePercentage = vertexDistance / targetDistance.length();
+            var flatteningSineStrength = Math.sin(Math.PI * vertexTargetDistancePercentage);
+            var yOffset = Math.sin(vertexDistance - renderState.age * LinkSettings.LINK_RENDER_SINE_SPEED) * LinkSettings.LINK_RENDER_SINE_STRENGTH * flatteningSineStrength;
+
+            vertexPositions.add(vertexPos.add(0.0, yOffset, 0.0));
         }
+
+        var widthOffset = linkDistance.getHorizontal().rotateY((float) Math.toRadians(90.0)).normalize().multiply(LinkSettings.LINK_RENDER_SEGMENT_WIDTH);
+
+        for (Vec3d vertexPosition : vertexPositions) addVertices(vertexConsumer, matrix, vertexPosition, widthOffset, 0, false);
+        for (int i = vertexPositions.size() - 1; i >= 0; i--) addVertices(vertexConsumer, matrix, vertexPositions.get(i), widthOffset, 0, true);
+
         matrixStack.pop();
     }
 
     @Unique
-    private void renderSegment(
-            S renderState,
+    private void addVertices(
             VertexConsumer vertexConsumer,
             Matrix4f matrix,
-            Vec3d targetDistance,
-            Vec3d linkDistance,
-            int segmentIndex,
-            double segmentLengthPercent
+            Vec3d vertexPos,
+            Vec3d widthOffset,
+            int color,
+            boolean reverse
     ) {
-        var totalLength = linkDistance.length();
-        var widthVector = linkDistance.getHorizontal().rotateY((float) Math.toRadians(90.0)).normalize().multiply(LinkSettings.LINK_RENDER_SEGMENT_WIDTH);
-        var segmentStartLength = segmentIndex * LinkSettings.LINK_RENDER_SEGMENT_LENGTH;
-        var segmentStartPos = linkDistance.multiply(segmentStartLength / totalLength);
+        var heightOffset = reverse ? LinkSettings.LINK_RENDER_SEGMENT_WIDTH : -LinkSettings.LINK_RENDER_SEGMENT_WIDTH;
 
-        var targetDistancePercent = segmentStartLength / targetDistance.length();
-        var sinStrength = Math.sin(Math.PI * targetDistancePercent);
-        var sine = Math.sin(segmentStartLength + renderState.age * LinkSettings.LINK_RENDER_SIN_SPEED) * LinkSettings.LINK_RENDER_SIN_STRENGTH * sinStrength;
+        var vec1 = vertexPos.add(widthOffset).add(0.0, heightOffset, 0.0);
+        vertexConsumer.vertex(matrix, (float) vec1.x, (float) vec1.y, (float) vec1.z)
+                .color(color).light(0);
 
-        var v = segmentStartPos.add(widthVector);
-        vertexConsumer.vertex(matrix, (float) v.x, (float) (v.y + LinkSettings.LINK_RENDER_SEGMENT_WIDTH + sine), (float) v.z)
-                .color(1f, 0f, 0f, 1f).light(0);
-        v = segmentStartPos.subtract(widthVector);
-        vertexConsumer.vertex(matrix, (float) v.x, (float) (v.y - LinkSettings.LINK_RENDER_SEGMENT_WIDTH + sine), (float) v.z)
-                .color(1f, 0f, 0f, 1f).light(0);
+        var vec2 = vertexPos.subtract(widthOffset).subtract(0.0, heightOffset, 0.0);
+        vertexConsumer.vertex(matrix, (float) vec2.x, (float) vec2.y, (float) vec2.z)
+                .color(color).light(0);
     }
 }

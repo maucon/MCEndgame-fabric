@@ -9,6 +9,6 @@ object LinkSettings {
     const val LINK_RENDER_SEGMENT_LENGTH = 0.2
     const val LINK_RENDER_SEGMENT_WIDTH = 0.03
 
-    const val LINK_RENDER_SIN_STRENGTH = 0.25
-    const val LINK_RENDER_SIN_SPEED = 0.15
+    const val LINK_RENDER_SINE_STRENGTH = 0.25
+    const val LINK_RENDER_SINE_SPEED = 0.15
 }
