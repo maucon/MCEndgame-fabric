@@ -41,7 +41,7 @@ public abstract class LivingEntityRendererLinkMixin<T extends LivingEntity, S ex
     )
     void render(S renderState, MatrixStack matrixStack, VertexConsumerProvider vertexConsumerProvider, int light, CallbackInfo ci) {
         var data = ((LivingEntityRenderStateLinkAccessor) renderState).mcendgame$getLinksData();
-        var cmd = new RenderLinksCommand(renderState, matrixStack, vertexConsumerProvider, data);
+        var cmd = new RenderLinksCommand(matrixStack, vertexConsumerProvider, data, renderState.age);
         CommandGateway.INSTANCE.apply(cmd);
     }
 }

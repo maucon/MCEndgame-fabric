@@ -2,15 +2,18 @@ package de.fuballer.mcendgame.client.component.render.link
 
 import de.fuballer.mcendgame.client.component.entity.custom.data.EntityConnectionPointData
 import de.fuballer.mcendgame.client.component.render.CustomRenderLayers
+import de.fuballer.mcendgame.client.messaging.AfterEntitiesRenderCommand
 import de.fuballer.mcendgame.client.messaging.CreateLinkDataCommand
 import de.fuballer.mcendgame.client.messaging.RenderLinksCommand
+import de.fuballer.mcendgame.main.accessor.LivingEntityLinkAttributeAccessor
 import de.fuballer.mcendgame.main.component.custom_attribute.effects.link.LinkSettings
+import de.maucon.mauconframework.command.CommandGateway
 import de.maucon.mauconframework.command.CommandHandler
 import de.maucon.mauconframework.di.annotation.Injectable
+import net.minecraft.client.MinecraftClient
 import net.minecraft.client.render.LightmapTextureManager
 import net.minecraft.client.render.VertexConsumer
 import net.minecraft.client.render.VertexConsumerProvider
-import net.minecraft.client.render.entity.state.LivingEntityRenderState
 import net.minecraft.client.util.math.MatrixStack
 import net.minecraft.entity.LivingEntity
 import net.minecraft.util.math.BlockPos
@@ -25,6 +28,31 @@ import kotlin.math.sin
 
 @Injectable
 class LinkRenderService {
+    @CommandHandler
+    fun on(cmd: AfterEntitiesRenderCommand) {
+        val context = cmd.context
+
+        val client = MinecraftClient.getInstance()
+        val player = client.player ?: return
+        if (!client.options.perspective.isFirstPerson) return
+
+        val linkedEntities = (player as LivingEntityLinkAttributeAccessor).`mcendgame$getLinkedEntities`()
+        val tickDelta = context.tickCounter().getTickProgress(false)
+
+        val createDataCommand = CreateLinkDataCommand(linkedEntities, player, tickDelta)
+        val createDataCmd = CommandGateway.apply(createDataCommand)
+
+        val data = createDataCmd.data
+        data.offset = data.offset.subtract(0.0, player.getEyeHeight(player.pose).toDouble(), 0.0)
+
+        val matrixStack = context.matrixStack() ?: return
+        val vertexConsumerProvider = context.consumers() ?: return
+        val age = player.age + tickDelta
+
+        val cmd = RenderLinksCommand(matrixStack, vertexConsumerProvider, data, age)
+        CommandGateway.apply(cmd)
+    }
+
     @CommandHandler
     fun on(cmd: CreateLinkDataCommand) {
         val entity = cmd.entity
@@ -82,17 +110,17 @@ class LinkRenderService {
     fun on(cmd: RenderLinksCommand) {
         val data = cmd.data
         data.connectedEntities.forEach {
-            renderLink(cmd.renderState, cmd.matrixStack, cmd.vertexConsumerProvider, data.originEntity, it, data.offset)
+            renderLink(cmd.matrixStack, cmd.vertexConsumerProvider, data.originEntity, it, data.offset, cmd.age)
         }
     }
 
     private fun renderLink(
-        renderState: LivingEntityRenderState,
         matrixStack: MatrixStack,
         vertexConsumerProvider: VertexConsumerProvider,
         origin: EntityConnectionPointData,
         linked: EntityConnectionPointData,
         offset: Vec3d,
+        age: Float,
     ) {
         matrixStack.push();
         matrixStack.translate(offset);
@@ -118,7 +146,7 @@ class LinkRenderService {
 
             val vertexTargetDistancePercentage = vertexDistance / targetDistanceVector.length()
             val flatteningSineStrength = sin(Math.PI * vertexTargetDistancePercentage)
-            val flattenedSine = sin(vertexDistance - renderState.age * LinkSettings.LINK_RENDER_SINE_SPEED) * flatteningSineStrength
+            val flattenedSine = sin(vertexDistance - age * LinkSettings.LINK_RENDER_SINE_SPEED) * flatteningSineStrength
 
             val verticalOffset = flattenedSine * LinkSettings.LINK_RENDER_SINE_VERTICAL_STRENGTH
             vertexPos = vertexPos.add(0.0, verticalOffset, 0.0)

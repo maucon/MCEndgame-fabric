@@ -1,13 +1,11 @@
 package de.fuballer.mcendgame.client.messaging
 
-import de.fuballer.mcendgame.main.accessor.LivingEntityLinkAttributeAccessor
 import de.maucon.mauconframework.command.CommandGateway
 import de.maucon.mauconframework.di.annotation.Injectable
 import de.maucon.mauconframework.initializer.Initializer
 import net.fabricmc.fabric.api.client.item.v1.ItemTooltipCallback
 import net.fabricmc.fabric.api.client.rendering.v1.LivingEntityFeatureRendererRegistrationCallback
 import net.fabricmc.fabric.api.client.rendering.v1.WorldRenderEvents
-import net.minecraft.client.MinecraftClient
 import net.minecraft.item.Item
 import net.minecraft.item.ItemStack
 import net.minecraft.item.tooltip.TooltipType
@@ -27,17 +25,9 @@ object CommandMapper {
         CommandGateway.apply(cmd)
     }
 
-    fun onEntitiesRendered() = WorldRenderEvents.AFTER_ENTITIES.register { context ->
-        val client = MinecraftClient.getInstance()
-        val player = client.player ?: return@register
-        if (!client.options.perspective.isFirstPerson) return@register
-
-        val matrixStack = context.matrixStack()
-        val vertexConsumerProvider = context.consumers()
-
-        /*player.render
-
-        val cmd = RenderLinksCommand(renderState, matrixStack, vertexConsumerProvider, data)
-        CommandGateway.apply(cmd)*/
+    @Initializer
+    fun afterEntitiesRendered() = WorldRenderEvents.AFTER_ENTITIES.register { context ->
+        val cmd = AfterEntitiesRenderCommand(context)
+        CommandGateway.apply(cmd)
     }
 }
