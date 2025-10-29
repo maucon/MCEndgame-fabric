@@ -18,7 +18,9 @@ import net.minecraft.entity.data.TrackedDataHandlerRegistry;
 import net.minecraft.network.codec.PacketCodec;
 import net.minecraft.network.codec.PacketCodecs;
 import net.minecraft.server.world.ServerWorld;
+import net.minecraft.world.RaycastContext;
 import org.spongepowered.asm.mixin.Mixin;
+import org.spongepowered.asm.mixin.Shadow;
 import org.spongepowered.asm.mixin.Unique;
 import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.Inject;
@@ -28,7 +30,10 @@ import java.util.*;
 import java.util.stream.Collectors;
 
 @Mixin(LivingEntity.class)
-public class LivingEntityLinkAttributeMixin implements LivingEntityLinkAttributeAccessor {
+public abstract class LivingEntityLinkAttributeMixin implements LivingEntityLinkAttributeAccessor {
+    @Shadow
+    public abstract void enterCombat();
+
     @Unique
     private static PacketCodec<ByteBuf, UUID> UUID_PACKET_CODEC = PacketCodecs.STRING.xmap(UUID::fromString, UUID::toString);
     @Unique
@@ -131,6 +136,7 @@ public class LivingEntityLinkAttributeMixin implements LivingEntityLinkAttribute
         return world.getOtherEntities(entity, entity.getBoundingBox().expand(distance))
                 .stream()
                 .filter(e -> EntityExtension.INSTANCE.isEnemy(entity, e))
+                .filter(e -> entity.canSee(e) || entity.canSee(e, RaycastContext.ShapeType.COLLIDER, RaycastContext.FluidHandling.NONE, e.getY()))
                 .map(enemy -> new Pair<>(enemy, enemy.distanceTo(entity)))
                 .filter(enemyDistancePair -> enemyDistancePair.getSecond() <= distance)
                 .collect(Collectors.toMap(Pair::getFirst, Pair::getSecond));
