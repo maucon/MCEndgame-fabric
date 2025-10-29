@@ -123,9 +123,10 @@ public abstract class LivingEntityRendererLinkMixin<T extends LivingEntity, S ex
         matrixStack.push();
         matrixStack.translate(offset);
 
-        var targetDistance = linked.getPos().subtract(origin.getPos());
-        var distancePercent = Math.min(linked.getConnectionDuration() / LinkSettings.DAMAGE_DELAY, 1f);
-        var linkDistance = targetDistance.multiply(distancePercent);
+        var targetDistanceVector = linked.getPos().subtract(origin.getPos());
+        var targetDistance = targetDistanceVector.length();
+        var distancePercent = Math.min(linked.getConnectionDuration() / LinkSettings.INSTANCE.getLinkConnectingTime(targetDistance), 1f);
+        var linkDistance = targetDistanceVector.multiply(distancePercent);
         var segmentCount = linkDistance.length() / LinkSettings.LINK_RENDER_SEGMENT_LENGTH;
 
         var perpendicularVector = linkDistance.getHorizontal().rotateY((float) Math.toRadians(90.0)).normalize();
@@ -133,7 +134,6 @@ public abstract class LivingEntityRendererLinkMixin<T extends LivingEntity, S ex
         var vertexConsumer = vertexConsumerProvider.getBuffer(CustomRenderLayers.INSTANCE.getLINK());
         var matrix = matrixStack.peek().getPositionMatrix();
 
-        var targetLength = targetDistance.length();
         var linkLength = linkDistance.length();
 
         var vertexData = new ArrayList<LinkVertexData>();
@@ -142,7 +142,7 @@ public abstract class LivingEntityRendererLinkMixin<T extends LivingEntity, S ex
             if (i > segmentCount + 1) vertexDistance -= LinkSettings.LINK_RENDER_SEGMENT_LENGTH * (1 - segmentCount % 1);
             var vertexPos = linkDistance.multiply(vertexDistance / linkLength);
 
-            var vertexTargetDistancePercentage = vertexDistance / targetDistance.length();
+            var vertexTargetDistancePercentage = vertexDistance / targetDistanceVector.length();
             var flatteningSineStrength = Math.sin(Math.PI * vertexTargetDistancePercentage);
             var flattenedSine = Math.sin(vertexDistance - renderState.age * LinkSettings.LINK_RENDER_SINE_SPEED) * flatteningSineStrength;
 
@@ -153,7 +153,7 @@ public abstract class LivingEntityRendererLinkMixin<T extends LivingEntity, S ex
 
             var thicknessFactor = 1 + (Math.abs(flattenedSine) * LinkSettings.LINK_RENDER_MAX_THICKNESS_FACTOR);
 
-            var distancePercentage = vertexDistance / targetLength;
+            var distancePercentage = vertexDistance / targetDistance;
             var color = LinkSettings.INSTANCE.getColor(distancePercentage);
 
             var blockLight = MathHelper.lerp((float) distancePercentage, origin.getBlockLight(), linked.getBlockLight());

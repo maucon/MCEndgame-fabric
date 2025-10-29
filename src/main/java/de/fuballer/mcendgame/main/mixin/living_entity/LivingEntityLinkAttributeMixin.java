@@ -152,9 +152,10 @@ public class LivingEntityLinkAttributeMixin implements LivingEntityLinkAttribute
         var time = world.getTime();
         var linkedEntities = entity.getDataTracker().get(LINKED_ENTITIES)
                 .stream()
-                .filter(pair -> time - pair.getSecond() > LinkSettings.DAMAGE_DELAY)
-                .map(pair -> world.getEntity(pair.getFirst()))
-                .filter(e -> e != null && e.isAlive());
+                .map(pair -> new Pair<>(world.getEntity(pair.getFirst()), pair.getSecond()))
+                .filter(pair -> pair.getFirst() != null && pair.getFirst().isAlive())
+                .filter(pair -> time - pair.getSecond() >= LinkSettings.INSTANCE.getLinkConnectingTime(entity.distanceTo(pair.getFirst())))
+                .map(Pair::getFirst);
 
         //TODO deal magic damage percent instead
         linkedEntities.forEach(linkedEntity -> linkedEntity.damage(world, entity.getDamageSources().mobAttack(entity), (float) sum));
