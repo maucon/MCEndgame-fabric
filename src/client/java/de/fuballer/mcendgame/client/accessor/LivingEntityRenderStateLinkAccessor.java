@@ -2,7 +2,7 @@ package de.fuballer.mcendgame.client.accessor;
 
 import de.fuballer.mcendgame.client.component.entity.custom.data.MultipleEntityConnectionData;
 
-public interface LivingEntityLinkRenderStateAccessor {
+public interface LivingEntityRenderStateLinkAccessor {
     void mcendgame$setMaxLinkDistance(double distance);
 
     double mcendgame$getMaxLinkDistance();

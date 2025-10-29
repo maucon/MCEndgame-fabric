@@ -5,7 +5,7 @@ import net.minecraft.util.math.Vec3d
 data class MultipleEntityConnectionData(
     var offset: Vec3d = Vec3d.ZERO,
     var originEntity: EntityConnectionPointData = EntityConnectionPointData(),
-    var connectedEntities: MutableList<EntityConnectionPointData> = mutableListOf(),
+    var connectedEntities: List<EntityConnectionPointData> = mutableListOf(),
 )
 
 data class EntityConnectionPointData(

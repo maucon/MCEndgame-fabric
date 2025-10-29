@@ -1,13 +1,13 @@
 package de.fuballer.mcendgame.client.mixin.link;
 
-import de.fuballer.mcendgame.client.accessor.LivingEntityLinkRenderStateAccessor;
+import de.fuballer.mcendgame.client.accessor.LivingEntityRenderStateLinkAccessor;
 import de.fuballer.mcendgame.client.component.entity.custom.data.MultipleEntityConnectionData;
 import net.minecraft.client.render.entity.state.LivingEntityRenderState;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.Unique;
 
 @Mixin(LivingEntityRenderState.class)
-public class LivingEntityLinkRenderStateMixin implements LivingEntityLinkRenderStateAccessor {
+public class LivingEntityRenderStateMixinLink implements LivingEntityRenderStateLinkAccessor {
     @Unique
     private double maxLinkDistance = 0.0;
     @Unique

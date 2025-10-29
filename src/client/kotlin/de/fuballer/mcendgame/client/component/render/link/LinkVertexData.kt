@@ -1,4 +1,4 @@
-package de.fuballer.mcendgame.client.component.entity.custom.data
+package de.fuballer.mcendgame.client.component.render.link
 
 import net.minecraft.util.math.Vec3d
 
