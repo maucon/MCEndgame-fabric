@@ -183,7 +183,7 @@ public abstract class LivingEntityLinkAttributeMixin implements LivingEntityLink
                 .filter(pair -> time - pair.getSecond() >= LinkSettings.INSTANCE.getLinkConnectingTime(entity.distanceTo(pair.getFirst())))
                 .map(Pair::getFirst);
 
-        //TODO deal magic damage percent instead
+        //TODO #118 deal magic damage percent instead
         linkedEntities.forEach(linkedEntity -> linkedEntity.damage(world, entity.getDamageSources().mobAttack(entity), (float) sum));
     }
 
