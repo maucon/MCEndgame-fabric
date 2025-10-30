@@ -52,6 +52,9 @@ public abstract class LivingEntityLinkAttributeMixin implements LivingEntityLink
     private static TrackedDataHandler<List<Pair<UUID, Long>>> UUID_LONG_PAIR_LIST_TRACKED_DATA_HANDLER
             = TrackedDataHandler.create(UUID_LONG_PAIR_LIST_PACKET_CODEC);
 
+    @Unique
+    private HashSet<UUID> linkedBy = new HashSet<>();
+
     static {
         TrackedDataHandlerRegistry.register(UUID_LONG_PAIR_LIST_TRACKED_DATA_HANDLER);
     }
@@ -113,8 +116,18 @@ public abstract class LivingEntityLinkAttributeMixin implements LivingEntityLink
         var enemyUuidsInPaddedRange = new HashMap<UUID, Float>(enemiesInPaddedRange.size());
         enemiesInPaddedRange.forEach((e, d) -> enemyUuidsInPaddedRange.put(e.getUuid(), d));
 
-        var updatedLinkedEntities = new HashMap<>(getLinkedEntitiesMap());
+        var oldLinkedEntities = getLinkedEntitiesMap();
+        var updatedLinkedEntities = new HashMap<>(oldLinkedEntities);
         updatedLinkedEntities.keySet().retainAll(enemyUuidsInPaddedRange.keySet());
+
+        var unlinkedEntities = new HashSet<>(oldLinkedEntities.keySet());
+        unlinkedEntities.removeAll(updatedLinkedEntities.keySet());
+        var linkOriginUuid = entity.getUuid();
+        for (UUID unlinkedUuid : unlinkedEntities) {
+            var unlinkedEntity = world.getEntity(unlinkedUuid);
+            if (unlinkedEntity == null || !unlinkedEntity.isAlive()) continue;
+            ((LivingEntityLinkAttributeAccessor) unlinkedEntity).mcendgame$removeLinkedBy(linkOriginUuid);
+        }
 
         var enemyUuidsInNonPaddedRange = new ArrayList<UUID>();
         enemyUuidsInPaddedRange.forEach((uuid, dist) -> {
@@ -122,7 +135,14 @@ public abstract class LivingEntityLinkAttributeMixin implements LivingEntityLink
         });
 
         var currentTime = world.getTime();
-        enemyUuidsInNonPaddedRange.forEach(uuid -> updatedLinkedEntities.putIfAbsent(uuid, currentTime));
+        enemyUuidsInNonPaddedRange.forEach(uuid -> {
+            if (updatedLinkedEntities.putIfAbsent(uuid, currentTime) == null) {
+                var linkedEntity = world.getEntity(uuid);
+                if (linkedEntity != null && linkedEntity.isAlive()) {
+                    ((LivingEntityLinkAttributeAccessor) linkedEntity).mcendgame$addLinkedBy(linkOriginUuid);
+                }
+            }
+        });
 
         setLinkedEntitiesMap(updatedLinkedEntities);
     }
@@ -170,5 +190,20 @@ public abstract class LivingEntityLinkAttributeMixin implements LivingEntityLink
     @Override
     public Map<UUID, Long> mcendgame$getLinkedEntities() {
         return getLinkedEntitiesMap();
+    }
+
+    @Override
+    public void mcendgame$addLinkedBy(UUID uuid) {
+        linkedBy.add(uuid);
+    }
+
+    @Override
+    public void mcendgame$removeLinkedBy(UUID uuid) {
+        linkedBy.remove(uuid);
+    }
+
+    @Override
+    public HashSet<UUID> mcendgame$getLinkedBy() {
+        return linkedBy;
     }
 }
