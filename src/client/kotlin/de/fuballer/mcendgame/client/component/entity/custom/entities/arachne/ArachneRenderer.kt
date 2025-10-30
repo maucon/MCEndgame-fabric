@@ -1,5 +1,7 @@
 package de.fuballer.mcendgame.client.component.entity.custom.entities.arachne
 
+import de.fuballer.mcendgame.client.component.entity.custom.data.EntityConnectionPointData
+import de.fuballer.mcendgame.client.component.entity.custom.data.MultipleEntityConnectionData
 import de.fuballer.mcendgame.main.component.entity.custom.entities.arachne.ArachneEntity
 import de.fuballer.mcendgame.main.component.entity.custom.entities.mount.MountEntity
 import de.fuballer.mcendgame.main.util.minecraft.IdentifierUtil
@@ -56,26 +58,26 @@ class ArachneRenderer(
         renderState: ArachneRenderState,
         tickDelta: Float
     ) {
-        val webHookData = ArachneRenderState.Companion.WebHookData()
+        val webHookData = MultipleEntityConnectionData()
         renderState.webHookData = webHookData
 
         if (entity.hookedEntityIds.isEmpty()) return
 
         val yaw = entity.lerpYaw(tickDelta) * (Math.PI / 180.0).toFloat()
         webHookData.offset = entity.getLeashOffset(tickDelta).rotateY(-yaw)
-        webHookData.pos = entity.getLeashPos(tickDelta)
+        webHookData.originEntity.pos = entity.getLeashPos(tickDelta)
 
         val world = entity.world
 
         val blockPos = BlockPos.ofFloored(entity.getCameraPosVec(tickDelta))
-        webHookData.blockLight = getBlockLight(entity, blockPos)
-        webHookData.skyLight = world.getLightLevel(LightType.SKY, blockPos)
+        webHookData.originEntity.blockLight = getBlockLight(entity, blockPos)
+        webHookData.originEntity.skyLight = world.getLightLevel(LightType.SKY, blockPos)
 
-        val hookedEntityDataList = mutableListOf<ArachneRenderState.Companion.WebHookedEntityData>()
+        val hookedEntityDataList = mutableListOf<EntityConnectionPointData>()
         for (hookedEntityId in entity.hookedEntityIds) {
             val hookedEntity = world.getEntityById(hookedEntityId) ?: continue
 
-            val hookedEntityData = ArachneRenderState.Companion.WebHookedEntityData()
+            val hookedEntityData = EntityConnectionPointData()
 
             hookedEntityData.pos = hookedEntity.getLeashPos(tickDelta)
 
@@ -85,7 +87,7 @@ class ArachneRenderer(
 
             hookedEntityDataList.add(hookedEntityData)
         }
-        webHookData.hookedEntities = hookedEntityDataList
+        webHookData.connectedEntities = hookedEntityDataList
     }
 
     override fun render(
@@ -103,10 +105,10 @@ class ArachneRenderer(
     private fun renderWebHook(
         matrices: MatrixStack,
         vertexConsumers: VertexConsumerProvider,
-        webHookData: ArachneRenderState.Companion.WebHookData
+        webHookData: MultipleEntityConnectionData,
     ) {
-        for (hookedData in webHookData.hookedEntities) {
-            val hookedOffset = hookedData.pos.subtract(webHookData.pos)
+        for (hookedData in webHookData.connectedEntities) {
+            val hookedOffset = hookedData.pos.subtract(webHookData.originEntity.pos)
 
             val segmentSize = 0.05f
             val horizontalSizeFactor = 1F / hookedOffset.horizontalLength() * segmentSize
@@ -124,9 +126,9 @@ class ArachneRenderer(
                     matrix4f,
                     hookedOffset,
                     hookedData.blockLight,
-                    webHookData.blockLight,
+                    webHookData.originEntity.blockLight,
                     hookedData.skyLight,
-                    webHookData.skyLight,
+                    webHookData.originEntity.skyLight,
                     segmentSize,
                     segmentSizeZ,
                     segmentSizeX,
@@ -141,9 +143,9 @@ class ArachneRenderer(
                     matrix4f,
                     hookedOffset,
                     hookedData.blockLight,
-                    webHookData.blockLight,
+                    webHookData.originEntity.blockLight,
                     hookedData.skyLight,
-                    webHookData.skyLight,
+                    webHookData.originEntity.skyLight,
                     segmentSize,
                     segmentSizeZ,
                     segmentSizeX,

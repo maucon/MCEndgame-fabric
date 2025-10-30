@@ -11,6 +11,7 @@ import net.minecraft.entity.attribute.EntityAttributeModifier
 import net.minecraft.registry.entry.RegistryEntry
 import net.minecraft.util.Identifier
 import net.minecraft.util.math.Vec3i
+import java.util.*
 
 object EntityMixinExtension {
     fun LivingEntity.addTemporaryAttributeModifier(
@@ -148,4 +149,8 @@ object EntityMixinExtension {
         val accessor = this as LivingEntityCustomAttributesAccessor
         return accessor.`mcendgame$getCustomAttributes`()
     }
+
+    fun LivingEntity.getLinkedBy(): HashSet<UUID> = (this as LivingEntityLinkAttributeAccessor).`mcendgame$getLinkedBy`()
+
+    fun LivingEntity.getLinkedEntities(): Map<UUID, Long> = (this as LivingEntityLinkAttributeAccessor).`mcendgame$getLinkedEntities`()
 }

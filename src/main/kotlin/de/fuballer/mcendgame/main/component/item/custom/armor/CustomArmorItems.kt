@@ -16,6 +16,7 @@ import de.fuballer.mcendgame.main.component.item.custom.armor.item.suede.SuedeBo
 import de.fuballer.mcendgame.main.component.item.custom.armor.item.suede.SuedeChestplate
 import de.fuballer.mcendgame.main.component.item.custom.armor.item.suede.SuedeHelmet
 import de.fuballer.mcendgame.main.component.item.custom.armor.item.suede.SuedeLeggings
+import de.fuballer.mcendgame.main.component.item.custom.armor.item.voidweaver.Voidweaver
 import de.fuballer.mcendgame.main.component.item.custom.armor.item.wither_rose.WitherRoseBoots
 import de.fuballer.mcendgame.main.component.item.custom.armor.item.wither_rose.WitherRoseChestplate
 import de.fuballer.mcendgame.main.component.item.custom.armor.item.wither_rose.WitherRoseHelmet
@@ -45,4 +46,5 @@ object CustomArmorItems {
     val STONEWARD = UniqueItemRegistry.registerArmorItem(::Stoneward, StonewardArmorMaterial, EquipmentType.LEGGINGS, "stoneward")
     val MOONSHADOW = UniqueItemRegistry.registerArmorItem(::Moonshadow, MoonshadowArmorMaterial, EquipmentType.BOOTS, "moonshadow")
     val GEISTERGALOSCHEN = UniqueItemRegistry.registerArmorItem(::Geistergaloschen, GeistergaloschenArmorMaterial, EquipmentType.BOOTS, "geistergaloschen")
+    val VOIDWEAVER = UniqueItemRegistry.registerArmorItem(::Voidweaver, VoidweaverArmorMaterial, EquipmentType.CHESTPLATE, "voidweaver")
 }
