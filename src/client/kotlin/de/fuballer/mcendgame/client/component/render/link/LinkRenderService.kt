@@ -122,8 +122,8 @@ class LinkRenderService {
         offset: Vec3d,
         age: Float,
     ) {
-        matrixStack.push();
-        matrixStack.translate(offset);
+        matrixStack.push()
+        matrixStack.translate(offset)
 
         val targetDistanceVector = linked.pos.subtract(origin.pos)
         val targetDistance = targetDistanceVector.length()
@@ -170,7 +170,7 @@ class LinkRenderService {
         vertexData.forEach { data -> addVertices(vertexConsumer, matrix, data, widthOffset, false) }
         vertexData.reversed().forEach { data -> addVertices(vertexConsumer, matrix, data, widthOffset, true) }
 
-        matrixStack.pop();
+        matrixStack.pop()
     }
 
     private fun addVertices(
