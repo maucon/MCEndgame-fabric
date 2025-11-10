@@ -44,7 +44,6 @@ object DamageService {
     // TODO warden
     // TODO wither skulls
     // TODO ender dragon ball
-    // TODO enchant breach
 
     fun calculateFinalDamage(
         entity: LivingEntity,
@@ -78,7 +77,7 @@ object DamageService {
         return getHitpoolDamage(originalDamage, entity, source, difficultyScaling, armadilloDamageReduction, cmd)
     }
 
-    /** calculated the final damage dealt  to the hit pool of the target */
+    /** calculates the final damage dealt to the hit pool of the target */
     fun getHitpoolDamage(
         originalDamage: Float,
         attacked: LivingEntity,
