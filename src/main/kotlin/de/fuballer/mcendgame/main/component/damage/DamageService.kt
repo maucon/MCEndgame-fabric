@@ -20,6 +20,7 @@ import kotlin.math.roundToInt
 typealias VanillaDamageUtil = net.minecraft.entity.DamageUtil
 
 private val DAMAGE_CALCULATORS = listOf(
+    SonicBoomCalculator,
     GuardianMagicCalculator,
     GuardianThornsCalculator,
     TridentProjectileCalculator,
@@ -40,7 +41,6 @@ private val DAMAGE_CALCULATORS = listOf(
 object DamageService {
     // TODO EnderDragonEntity#damage calculate amount
 
-    // TODO warden
     // TODO wither skulls
     // TODO ender dragon ball
 
