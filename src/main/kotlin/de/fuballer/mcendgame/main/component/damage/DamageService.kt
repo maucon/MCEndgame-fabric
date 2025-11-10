@@ -7,6 +7,7 @@ import de.maucon.mauconframework.command.CommandGateway
 import net.minecraft.enchantment.EnchantmentHelper
 import net.minecraft.entity.LivingEntity
 import net.minecraft.entity.attribute.EntityAttributes
+import net.minecraft.entity.boss.WitherEntity
 import net.minecraft.entity.damage.DamageSource
 import net.minecraft.entity.effect.StatusEffects
 import net.minecraft.registry.tag.DamageTypeTags
@@ -20,6 +21,8 @@ import kotlin.math.roundToInt
 typealias VanillaDamageUtil = net.minecraft.entity.DamageUtil
 
 private val DAMAGE_CALCULATORS = listOf(
+    WitherSkullCalculator,
+    WitherExplosionCalculator,
     SonicBoomCalculator,
     GuardianMagicCalculator,
     GuardianThornsCalculator,
@@ -40,8 +43,6 @@ private val DAMAGE_CALCULATORS = listOf(
 
 object DamageService {
     // TODO EnderDragonEntity#damage calculate amount
-
-    // TODO wither skulls
     // TODO ender dragon ball
 
     fun calculateFinalDamage(
