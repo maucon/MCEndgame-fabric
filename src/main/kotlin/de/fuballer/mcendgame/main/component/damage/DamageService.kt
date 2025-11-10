@@ -40,7 +40,6 @@ private val DAMAGE_CALCULATORS = listOf(
 object DamageService {
     // TODO EnderDragonEntity#damage calculate amount
 
-    // TODO evoker spells
     // TODO warden
     // TODO wither skulls
     // TODO ender dragon ball

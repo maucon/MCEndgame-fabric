@@ -8,6 +8,7 @@ import net.minecraft.entity.damage.DamageSource
 /**
  * Used when no other specific calculator is used
  * - Fall Damage
+ * - Evoker Fangs
  * */
 object BaseDamageCalculator : DamageCalculator {
     override fun isActive(source: DamageSource) = true
