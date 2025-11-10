@@ -60,7 +60,7 @@ class LinkRenderService {
         val data = cmd.data
         val tickDelta = cmd.tickDelta
 
-        data.offset = Vec3d(0.0, entity.height * 0.7, 0.0)
+        data.offset = Vec3d(0.0, entity.height * LinkSettings.LINK_CONNECTION_HEIGHT, 0.0)
         data.originEntity = getLinkOriginEntityData(entity, tickDelta, world)
         data.connectedEntities = getLinkedEntitiesData(cmd.linkedEntities, tickDelta, world)
     }
@@ -71,7 +71,7 @@ class LinkRenderService {
         world: World,
     ): EntityConnectionPointData {
         val originEntity = EntityConnectionPointData()
-        originEntity.pos = entity.getLerpedPos(tickDelta).add(0.0, entity.height * 0.7, 0.0)
+        originEntity.pos = entity.getLerpedPos(tickDelta).add(0.0, entity.height * LinkSettings.LINK_CONNECTION_HEIGHT, 0.0)
 
         val blockPos = BlockPos.ofFloored(entity.getCameraPosVec(tickDelta))
         originEntity.blockLight = world.getLightLevel(LightType.BLOCK, blockPos)

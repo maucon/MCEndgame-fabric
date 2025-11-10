@@ -18,6 +18,8 @@ import net.minecraft.entity.data.TrackedDataHandlerRegistry;
 import net.minecraft.network.codec.PacketCodec;
 import net.minecraft.network.codec.PacketCodecs;
 import net.minecraft.server.world.ServerWorld;
+import net.minecraft.util.hit.HitResult;
+import net.minecraft.util.math.Vec3d;
 import net.minecraft.world.RaycastContext;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.Shadow;
@@ -156,10 +158,22 @@ public abstract class LivingEntityLinkAttributeMixin implements LivingEntityLink
         return world.getOtherEntities(entity, entity.getBoundingBox().expand(distance))
                 .stream()
                 .filter(e -> EntityExtension.INSTANCE.isEnemy(entity, e))
-                .filter(e -> entity.canSee(e) || entity.canSee(e, RaycastContext.ShapeType.COLLIDER, RaycastContext.FluidHandling.NONE, e.getY()))
+                .filter(e -> canLink(entity, e, world))
                 .map(enemy -> new Pair<>(enemy, enemy.distanceTo(entity)))
                 .filter(enemyDistancePair -> enemyDistancePair.getSecond() <= distance)
                 .collect(Collectors.toMap(Pair::getFirst, Pair::getSecond));
+    }
+
+    @Unique
+    private boolean canLink(
+            Entity entity1,
+            Entity entity2,
+            ServerWorld world
+    ) {
+        var vec1 = new Vec3d(entity1.getX(), entity1.getY() + entity1.getHeight() * LinkSettings.LINK_CONNECTION_HEIGHT, entity1.getZ());
+        var vec2 = new Vec3d(entity2.getX(), entity2.getY() + entity2.getHeight() * LinkSettings.LINK_CONNECTION_HEIGHT, entity2.getZ());
+        var context = new RaycastContext(vec1, vec2, RaycastContext.ShapeType.COLLIDER, RaycastContext.FluidHandling.NONE, entity1);
+        return world.raycast(context).getType() == HitResult.Type.MISS;
     }
 
     @Unique

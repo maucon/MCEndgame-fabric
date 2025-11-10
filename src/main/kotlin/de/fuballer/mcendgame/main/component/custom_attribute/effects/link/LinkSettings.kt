@@ -10,6 +10,8 @@ object LinkSettings {
 
     fun getLinkConnectingTime(distance: Double) = distance.toInt() + 1
 
+    const val LINK_CONNECTION_HEIGHT = 0.7
+
     const val LINK_RENDER_SEGMENT_LENGTH = 0.2
     const val LINK_RENDER_SEGMENT_WIDTH = 0.03
 
