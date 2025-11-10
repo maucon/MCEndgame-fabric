@@ -105,7 +105,8 @@ public abstract class LivingEntityLinkAttributeMixin implements LivingEntityLink
             return;
         }
 
-        var distance = linkAttributes.stream().mapToInt(a -> ((IntRoll) a.getRolls().getFirst()).getValue()).max().orElse(0);
+        var highestAttributeDistance = linkAttributes.stream().mapToInt(a -> ((IntRoll) a.getRolls().getFirst()).getValue()).max().orElse(0);
+        var distance = Math.min(highestAttributeDistance, LinkSettings.MAX_LINK_DISTANCE);
         if (distance <= 0) {
             clearLinkedEntities(entity);
             return;
@@ -157,6 +158,7 @@ public abstract class LivingEntityLinkAttributeMixin implements LivingEntityLink
     ) {
         return world.getOtherEntities(entity, entity.getBoundingBox().expand(distance))
                 .stream()
+                .filter(Entity::isAlive)
                 .filter(e -> EntityExtension.INSTANCE.isEnemy(entity, e))
                 .filter(e -> canLink(entity, e, world))
                 .map(enemy -> new Pair<>(enemy, enemy.distanceTo(entity)))
