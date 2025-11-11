@@ -1,7 +1,7 @@
 import org.jetbrains.kotlin.gradle.tasks.KotlinCompile
 
 plugins {
-    id 'fabric-loom' version '1.10-SNAPSHOT'
+    id 'fabric-loom' version "${loom_version}"
     id 'maven-publish'
     id "org.jetbrains.kotlin.jvm" version "2.2.21"
 }
@@ -61,7 +61,7 @@ dependencies {
     modImplementation "net.fabricmc:fabric-language-kotlin:${fabric_kotlin_version}"
 
     modImplementation "xyz.nucleoid:fantasy:0.6.7+1.21.5"
-    modImplementation "software.bernie.geckolib:geckolib-fabric-${minecraft_version}:5.0"
+    modImplementation "software.bernie.geckolib:geckolib-fabric-${minecraft_version}:5.1.0"
     implementation "de.maucon:maucon-framework:1.8.0"
 
     include "de.maucon:maucon-framework:1.8.0"

@@ -15,12 +15,13 @@ import de.fuballer.mcendgame.main.util.extension.mixin.WorldMixinExtension.setOp
 import de.maucon.mauconframework.di.annotation.Injectable
 import de.maucon.mauconframework.di.annotation.Logging
 import de.maucon.mauconframework.event.EventSubscriber
-import kotlinx.datetime.Clock
 import kotlinx.datetime.DateTimeUnit
 import kotlinx.datetime.plus
 import net.minecraft.entity.player.PlayerEntity
 import net.minecraft.server.world.ServerWorld
 import org.slf4j.Logger
+import kotlin.time.Clock
+import kotlin.time.ExperimentalTime
 
 @Injectable
 class DungeonWorldService(
@@ -60,6 +61,7 @@ class DungeonWorldService(
         return dungeonWorld
     }
 
+    @OptIn(ExperimentalTime::class)
     private fun deleteEmptyWorlds() {
         log.info("Checking for empty worlds")
 
@@ -75,6 +77,7 @@ class DungeonWorldService(
             }
     }
 
+    @OptIn(ExperimentalTime::class)
     private fun updateDeleteTimer(entity: DungeonWorldEntity) {
         if (entity.world.players.isNotEmpty()) {
             entity.emptySince = Clock.System.now()
