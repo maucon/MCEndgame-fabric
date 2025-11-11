@@ -7,7 +7,8 @@ import de.maucon.mauconframework.command.CommandGateway
 import net.minecraft.enchantment.EnchantmentHelper
 import net.minecraft.entity.LivingEntity
 import net.minecraft.entity.attribute.EntityAttributes
-import net.minecraft.entity.boss.WitherEntity
+import net.minecraft.entity.boss.dragon.EnderDragonEntity
+import net.minecraft.entity.boss.dragon.EnderDragonPart
 import net.minecraft.entity.damage.DamageSource
 import net.minecraft.entity.effect.StatusEffects
 import net.minecraft.registry.tag.DamageTypeTags
@@ -42,9 +43,6 @@ private val DAMAGE_CALCULATORS = listOf(
 )
 
 object DamageService {
-    // TODO EnderDragonEntity#damage calculate amount
-    // TODO ender dragon ball
-
     fun calculateFinalDamage(
         entity: LivingEntity,
         world: ServerWorld,
@@ -73,6 +71,16 @@ object DamageService {
             println("DAMAGE BLOCKED")
             return 0.0f
         }
+
+        // TODO enderdragon damage amount
+        EnderDragonEntity::damage
+
+        amount = this.phaseManager.getCurrent().modifyDamageTaken(source, amount)
+        if (part !== this.head) {
+            amount = amount / 4.0f + min(amount, 1.0f)
+        }
+        // TODO enderdragon part damage
+        EnderDragonPart::damage
 
         return getHitpoolDamage(originalDamage, entity, source, difficultyScaling, armadilloDamageReduction, cmd)
     }
