@@ -1,16 +1,16 @@
 package de.fuballer.mcendgame.client.component.render.link
 
 import de.fuballer.mcendgame.client.component.entity.custom.data.EntityConnectionPointData
+import de.fuballer.mcendgame.client.component.entity.custom.data.MultipleEntityConnectionData
 import de.fuballer.mcendgame.client.component.render.CustomRenderLayers
 import de.fuballer.mcendgame.client.messaging.AfterEntitiesRenderCommand
-import de.fuballer.mcendgame.client.messaging.CreateLinkDataCommand
-import de.fuballer.mcendgame.client.messaging.RenderLinksCommand
 import de.fuballer.mcendgame.main.accessor.LivingEntityLinkAttributeAccessor
 import de.fuballer.mcendgame.main.component.custom_attribute.effects.link.LinkSettings
-import de.maucon.mauconframework.command.CommandGateway
 import de.maucon.mauconframework.command.CommandHandler
 import de.maucon.mauconframework.di.annotation.Injectable
+import net.fabricmc.fabric.api.client.rendering.v1.WorldRenderContext
 import net.minecraft.client.MinecraftClient
+import net.minecraft.client.network.ClientPlayerEntity
 import net.minecraft.client.render.LightmapTextureManager
 import net.minecraft.client.render.VertexConsumer
 import net.minecraft.client.render.VertexConsumerProvider
@@ -24,6 +24,7 @@ import net.minecraft.world.World
 import org.joml.Matrix4f
 import java.util.*
 import kotlin.math.abs
+import kotlin.math.cos
 import kotlin.math.sin
 
 @Injectable
@@ -31,38 +32,50 @@ class LinkRenderService {
     @CommandHandler
     fun on(cmd: AfterEntitiesRenderCommand) {
         val context = cmd.context
-
         val client = MinecraftClient.getInstance()
-        val player = client.player ?: return
-        if (!client.options.perspective.isFirstPerson) return
-
-        val linkedEntities = (player as LivingEntityLinkAttributeAccessor).`mcendgame$getLinkedEntities`()
+        val cameraPos = context.camera().pos
         val tickDelta = context.tickCounter().getTickProgress(false)
 
-        val createDataCommand = CreateLinkDataCommand(linkedEntities, player, tickDelta)
-        val createDataCmd = CommandGateway.apply(createDataCommand)
+        val player = client.player
+        val firstPerson = client.options.perspective.isFirstPerson
 
-        val data = createDataCmd.data
-        data.offset = data.offset.subtract(0.0, player.getEyeHeight(player.pose).toDouble(), 0.0)
+        val entities = client.world?.entities?.filterIsInstance<LivingEntity>() ?: return
+        entities.forEach { renderPotentialLinks(it, tickDelta, context, cameraPos, player, firstPerson) }
+    }
+
+    private fun renderPotentialLinks(
+        entity: LivingEntity,
+        tickDelta: Float,
+        context: WorldRenderContext,
+        cameraPos: Vec3d,
+        player: ClientPlayerEntity?,
+        firstPerson: Boolean,
+    ) {
+        val linkedEntities = (entity as? LivingEntityLinkAttributeAccessor)?.`mcendgame$getLinkedEntities`() ?: return
+        if (linkedEntities.isEmpty()) return
+
+        val data = MultipleEntityConnectionData()
+        data.offset = Vec3d(0.0, entity.height * LinkSettings.LINK_CONNECTION_HEIGHT, 0.0)
+        data.originEntity = getLinkOriginEntityData(entity, tickDelta, entity.world)
+        data.connectedEntities = getLinkedEntitiesData(linkedEntities, tickDelta, entity.world)
+
+        if (firstPerson && entity == player) {
+            val yawRadians = Math.toRadians(player.getLerpedYaw(tickDelta).toDouble())
+            val yawVector = Vec3d(-sin(yawRadians), 0.0, cos(yawRadians)).normalize()
+            val offsetStrength = abs(player.getLerpedPitch(tickDelta)) / 90
+            val linkOriginOffset = yawVector.multiply(-0.5 * offsetStrength)
+            data.originEntity.pos = data.originEntity.pos.add(linkOriginOffset)
+            data.offset = data.offset.add(linkOriginOffset)
+        }
+
+        val cameraOffset = entity.getLerpedPos(tickDelta).subtract(cameraPos)
+        data.offset = data.offset.add(cameraOffset)
 
         val matrixStack = context.matrixStack() ?: return
         val vertexConsumerProvider = context.consumers() ?: return
-        val age = player.age + tickDelta
+        val age = entity.age + tickDelta
 
-        val cmd = RenderLinksCommand(matrixStack, vertexConsumerProvider, data, age)
-        CommandGateway.apply(cmd)
-    }
-
-    @CommandHandler
-    fun on(cmd: CreateLinkDataCommand) {
-        val entity = cmd.entity
-        val world = entity.world
-        val data = cmd.data
-        val tickDelta = cmd.tickDelta
-
-        data.offset = Vec3d(0.0, entity.height * 0.7, 0.0)
-        data.originEntity = getLinkOriginEntityData(entity, tickDelta, world)
-        data.connectedEntities = getLinkedEntitiesData(cmd.linkedEntities, tickDelta, world)
+        renderLinks(matrixStack, vertexConsumerProvider, data, age)
     }
 
     private fun getLinkOriginEntityData(
@@ -71,7 +84,7 @@ class LinkRenderService {
         world: World,
     ): EntityConnectionPointData {
         val originEntity = EntityConnectionPointData()
-        originEntity.pos = entity.getLerpedPos(tickDelta).add(0.0, entity.height * 0.7, 0.0)
+        originEntity.pos = entity.getLerpedPos(tickDelta).add(0.0, entity.height * LinkSettings.LINK_CONNECTION_HEIGHT, 0.0)
 
         val blockPos = BlockPos.ofFloored(entity.getCameraPosVec(tickDelta))
         originEntity.blockLight = world.getLightLevel(LightType.BLOCK, blockPos)
@@ -93,7 +106,7 @@ class LinkRenderService {
             if (entity == null) continue
 
             val entityData = EntityConnectionPointData()
-            entityData.pos = entity.getLerpedPos(tickDelta).add(0.0, entity.height * 0.7, 0.0)
+            entityData.pos = entity.getLerpedPos(tickDelta).add(0.0, entity.height * LinkSettings.LINK_CONNECTION_HEIGHT, 0.0)
 
             val blockPos = BlockPos.ofFloored(entity.getCameraPosVec(tickDelta))
             entityData.blockLight = world.getLightLevel(LightType.BLOCK, blockPos)
@@ -106,12 +119,13 @@ class LinkRenderService {
         return data
     }
 
-    @CommandHandler
-    fun on(cmd: RenderLinksCommand) {
-        val data = cmd.data
-        data.connectedEntities.forEach {
-            renderLink(cmd.matrixStack, cmd.vertexConsumerProvider, data.originEntity, it, data.offset, cmd.age)
-        }
+    private fun renderLinks(
+        matrixStack: MatrixStack,
+        vertexConsumerProvider: VertexConsumerProvider,
+        data: MultipleEntityConnectionData,
+        age: Float,
+    ) {
+        data.connectedEntities.forEach { renderLink(matrixStack, vertexConsumerProvider, data.originEntity, it, data.offset, age) }
     }
 
     private fun renderLink(

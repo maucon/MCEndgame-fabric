@@ -4,11 +4,14 @@ import java.awt.Color
 import kotlin.math.roundToInt
 
 object LinkSettings {
-    const val LINK_UPDATE_INTERVAL = 5
+    const val LINK_UPDATE_INTERVAL = 1
     const val LINK_DAMAGE_INTERVAL = 5
     const val LINK_DISTANCE_BREAK_PADDING = 1F
+    const val MAX_LINK_DISTANCE = 64
 
     fun getLinkConnectingTime(distance: Double) = distance.toInt() + 1
+
+    const val LINK_CONNECTION_HEIGHT = 0.7
 
     const val LINK_RENDER_SEGMENT_LENGTH = 0.2
     const val LINK_RENDER_SEGMENT_WIDTH = 0.03
