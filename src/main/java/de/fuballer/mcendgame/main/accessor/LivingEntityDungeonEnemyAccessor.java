@@ -5,7 +5,7 @@ public interface LivingEntityDungeonEnemyAccessor {
 
     void mcendgame$setDungeonEnemy(boolean enemy);
 
-    double mcendgame$getLootMultiplier();
+    boolean mcendgame$dropsAspectOfGhosts();
 
-    void mcendgame$setLootMultiplier(double multiplier);
+    void mcendgame$setDropsAspectOfGhosts(boolean drops);
 }

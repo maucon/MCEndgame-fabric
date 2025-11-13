@@ -1,0 +1,24 @@
+package de.fuballer.mcendgame.main.component.item.custom.totem.item
+
+import de.fuballer.mcendgame.main.component.custom_attribute.data.CustomAttribute
+import de.fuballer.mcendgame.main.component.custom_attribute.data.DoubleBounds
+import de.fuballer.mcendgame.main.component.custom_attribute.data.DoubleRoll
+import de.fuballer.mcendgame.main.component.custom_attribute.types.VanillaAttributeTypes
+import de.fuballer.mcendgame.main.component.item.custom.totem.TotemItem
+import de.fuballer.mcendgame.main.component.item.custom.totem.TotemType
+
+// name chosen by xX20Erik01Xx
+class TotemOfThicknessItem(
+    settings: Settings,
+) : TotemItem(settings) {
+    override val maxTier = 2
+    override val type = TotemType.BASIC
+
+    override fun getCustomAttributes(tier: Int) =
+        when (tier) {
+            0 -> listOf(CustomAttribute(VanillaAttributeTypes.MAX_HEALTH, tier, DoubleRoll(DoubleBounds(2.0))))
+            1 -> listOf(CustomAttribute(VanillaAttributeTypes.MAX_HEALTH, tier, DoubleRoll(DoubleBounds(4.0))))
+            2 -> listOf(CustomAttribute(VanillaAttributeTypes.MAX_HEALTH, tier, DoubleRoll(DoubleBounds(6.0))))
+            else -> listOf()
+        }
+}

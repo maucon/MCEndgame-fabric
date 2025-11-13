@@ -2,7 +2,13 @@ package de.fuballer.mcendgame.main.component.custom_attribute.data
 
 import com.mojang.serialization.Codec
 import com.mojang.serialization.codecs.RecordCodecBuilder
+import de.fuballer.mcendgame.main.util.minecraft.IdentifierUtil
+import io.netty.buffer.ByteBuf
+import net.fabricmc.fabric.api.`object`.builder.v1.entity.FabricTrackedDataRegistry
 import net.minecraft.component.type.AttributeModifierSlot
+import net.minecraft.entity.data.TrackedDataHandler
+import net.minecraft.network.codec.PacketCodec
+import net.minecraft.network.codec.PacketCodecs
 
 data class RollableCustomAttribute(
     val type: AttributeType,
@@ -26,10 +32,17 @@ data class RollableCustomAttribute(
 
 data class CustomAttribute(
     val type: AttributeType,
-    val tier: Int,
-    val rolls: List<AttributeRoll<*>>,
-    val slot: AttributeModifierSlot,
+    val tier: Int = 0,
+    val rolls: List<AttributeRoll<*>> = listOf(),
+    val slot: AttributeModifierSlot = AttributeModifierSlot.ANY,
 ) {
+    constructor(
+        type: AttributeType,
+        tier: Int = 0,
+        roll: AttributeRoll<*>,
+        slot: AttributeModifierSlot = AttributeModifierSlot.ANY,
+    ) : this(type, tier, listOf(roll), slot)
+
     companion object {
         val CODEC: Codec<CustomAttribute> =
             RecordCodecBuilder.create { instance ->
@@ -40,6 +53,12 @@ data class CustomAttribute(
                     AttributeModifierSlot.CODEC.fieldOf("slot").forGetter(CustomAttribute::slot),
                 ).apply(instance, ::CustomAttribute)
             }
+
+        val PACKET_CODEC: PacketCodec<ByteBuf, CustomAttribute> = PacketCodecs.codec(CODEC)
+        val LIST_PACKET_CODEC: PacketCodec<ByteBuf, List<CustomAttribute>> = PACKET_CODEC.collect(PacketCodecs.toList())
+
+        val LIST_TRACKED_DATA_HANDLER: TrackedDataHandler<List<CustomAttribute>> = TrackedDataHandler.create(LIST_PACKET_CODEC)
+            .also { FabricTrackedDataRegistry.register(IdentifierUtil.default("custom_attribute_list_data_tracker"), it) }
     }
 
     fun getNonZeroRangeCount() = rolls.count { it.hasNonZeroRange() }

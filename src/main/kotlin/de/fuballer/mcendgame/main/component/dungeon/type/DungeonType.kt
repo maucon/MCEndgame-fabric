@@ -1,5 +1,6 @@
 package de.fuballer.mcendgame.main.component.dungeon.type
 
+import de.fuballer.mcendgame.main.component.dungeon.enemy.potion_effect.PotionEffect
 import de.fuballer.mcendgame.main.component.dungeon.generation.layout.DungeonLayoutType
 import de.fuballer.mcendgame.main.component.dungeon.type.data.RolledDungeonType
 import de.fuballer.mcendgame.main.component.entity.EntityTypeStats
@@ -9,6 +10,7 @@ import de.fuballer.mcendgame.main.component.entity.types.boss.BonecrusherBossSta
 import de.fuballer.mcendgame.main.component.entity.types.boss.ElfDuelistBossStats
 import de.fuballer.mcendgame.main.util.random.RandomOption
 import de.fuballer.mcendgame.main.util.random.RandomUtil
+import net.minecraft.entity.LivingEntity
 import kotlin.random.Random
 
 enum class DungeonType(
@@ -16,6 +18,7 @@ enum class DungeonType(
     private val entityTypes: List<RandomOption<EntityTypeStats>>,
     private val bossEntityTypes: List<RandomOption<EntityTypeStats>>,
     val bossCount: Int,
+    val applyMisc: (List<LivingEntity>) -> Unit = {},
 ) {
     STRONGHOLD(
         listOf(
@@ -35,7 +38,7 @@ enum class DungeonType(
             RandomOption(1, BonecrusherBossStats),
             RandomOption(1, ElfDuelistBossStats),
         ),
-        3
+        3,
     ),
     NETHER(
         listOf(
@@ -54,13 +57,17 @@ enum class DungeonType(
             RandomOption(1, BonecrusherBossStats),
             RandomOption(1, ElfDuelistBossStats),
         ),
-        3
+        3,
+        { enemies -> enemies.forEach { it.addStatusEffect(PotionEffect.FIRE_RESISTANCE.getEffectInstance(false)) } },
     );
 
     fun roll(random: Random): RolledDungeonType =
         RolledDungeonType(
             RandomUtil.pick(mapTypes, random).option,
             entityTypes,
-            RandomUtil.pickAllowRepeatIfNecessary(bossEntityTypes, random, bossCount)
+            RandomUtil.pickAllowRepeatIfNecessary(bossEntityTypes, random, bossCount),
+            applyMisc,
         )
+
+    fun getEntityTypes() = entityTypes.toMutableList()
 }

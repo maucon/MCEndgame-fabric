@@ -1,6 +1,7 @@
 package de.fuballer.mcendgame.main.util.extension.mixin
 
 import de.fuballer.mcendgame.main.accessor.*
+import de.fuballer.mcendgame.main.component.custom_attribute.data.CustomAttribute
 import de.fuballer.mcendgame.main.component.custom_attribute.effects.data.AuraStatusEffect
 import de.fuballer.mcendgame.main.component.dungeon.generation.data.SpawnPosition
 import net.minecraft.entity.Entity
@@ -10,6 +11,7 @@ import net.minecraft.entity.attribute.EntityAttributeModifier
 import net.minecraft.registry.entry.RegistryEntry
 import net.minecraft.util.Identifier
 import net.minecraft.util.math.Vec3i
+import java.util.*
 
 object EntityMixinExtension {
     fun LivingEntity.addTemporaryAttributeModifier(
@@ -43,14 +45,14 @@ object EntityMixinExtension {
         return enemyAccessor.`mcendgame$isDungeonEnemy`()
     }
 
-    fun LivingEntity.setLootMultiplier(multiplier: Double) {
+    fun LivingEntity.setDropsAspectOfGhosts(drops: Boolean = true) {
         val accessor = this as LivingEntityDungeonEnemyAccessor
-        return accessor.`mcendgame$setLootMultiplier`(multiplier)
+        return accessor.`mcendgame$setDropsAspectOfGhosts`(drops)
     }
 
-    fun LivingEntity.getLootMultiplier(): Double {
+    fun LivingEntity.dropsAspectOfGhosts(): Boolean {
         val enemyAccessor = this as LivingEntityDungeonEnemyAccessor
-        return enemyAccessor.`mcendgame$getLootMultiplier`()
+        return enemyAccessor.`mcendgame$dropsAspectOfGhosts`()
     }
 
     fun LivingEntity.setDungeonBoss(dungeonBoss: Boolean = true) {
@@ -137,4 +139,18 @@ object EntityMixinExtension {
         val accessor = this as EntityForcedGlowColorAccessor
         accessor.`mcendgame$setForcedGlowColor`(color)
     }
+
+    fun LivingEntity.addCustomAttribute(customAttribute: CustomAttribute) {
+        val accessor = this as LivingEntityCustomAttributesAccessor
+        accessor.`mcendgame$addCustomAttribute`(customAttribute)
+    }
+
+    fun LivingEntity.getCustomAttributes(): List<CustomAttribute> {
+        val accessor = this as LivingEntityCustomAttributesAccessor
+        return accessor.`mcendgame$getCustomAttributes`()
+    }
+
+    fun LivingEntity.getLinkedBy(): HashSet<UUID> = (this as LivingEntityLinkAttributeAccessor).`mcendgame$getLinkedBy`()
+
+    fun LivingEntity.getLinkedEntities(): Map<UUID, Long> = (this as LivingEntityLinkAttributeAccessor).`mcendgame$getLinkedEntities`()
 }

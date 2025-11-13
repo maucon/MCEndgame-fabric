@@ -7,6 +7,7 @@ import de.fuballer.mcendgame.main.component.block.dungeon_device.DungeonDeviceSc
 import de.fuballer.mcendgame.main.component.block.dungeon_device.networking.DungeonDevicePayload
 import de.fuballer.mcendgame.main.component.killer.KillerScreenHandler
 import de.fuballer.mcendgame.main.component.killer.networking.KillerEntityPayload
+import de.fuballer.mcendgame.main.component.totem.TotemScreenHandler
 import de.fuballer.mcendgame.main.util.minecraft.RegistryUtil
 import de.maucon.mauconframework.di.annotation.Injectable
 import net.fabricmc.fabric.api.screenhandler.v1.ExtendedScreenHandlerType
@@ -28,4 +29,8 @@ object CustomScreenHandlerTypes {
     val CRYSTAL_FORGE = ScreenHandlerType<CrystalForgeScreenHandler>(
         ::CrystalForgeScreenHandler, FeatureFlags.VANILLA_FEATURES,
     ).also { RegistryUtil.registerScreenHandler(CrystalForgeBlock.ID, it) }
+
+    val TOTEM = ScreenHandlerType<TotemScreenHandler>(
+        ::TotemScreenHandler, FeatureFlags.VANILLA_FEATURES,
+    ).also { RegistryUtil.registerScreenHandler("totem", it) }
 }

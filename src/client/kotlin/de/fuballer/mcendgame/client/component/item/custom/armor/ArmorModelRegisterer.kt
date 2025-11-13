@@ -15,6 +15,7 @@ import de.fuballer.mcendgame.client.component.item.custom.armor.suede.SuedeBoots
 import de.fuballer.mcendgame.client.component.item.custom.armor.suede.SuedeChestplateModel
 import de.fuballer.mcendgame.client.component.item.custom.armor.suede.SuedeHelmetModel
 import de.fuballer.mcendgame.client.component.item.custom.armor.suede.SuedeLeggingsModel
+import de.fuballer.mcendgame.client.component.item.custom.armor.voidweaver.VoidweaverModel
 import de.fuballer.mcendgame.client.component.item.custom.armor.wither_rose.WitherRoseBootsModel
 import de.fuballer.mcendgame.client.component.item.custom.armor.wither_rose.WitherRoseChestplateModel
 import de.fuballer.mcendgame.client.component.item.custom.armor.wither_rose.WitherRoseHelmetModel
@@ -102,6 +103,10 @@ object ArmorModelRegisterer {
         EntityModelLayerRegistry.registerModelLayer(
             GeistergaloschenModel.MODEL_LAYER,
             GeistergaloschenModel.Companion::getTexturedModelData
+        )
+        EntityModelLayerRegistry.registerModelLayer(
+            VoidweaverModel.MODEL_LAYER,
+            VoidweaverModel.Companion::getTexturedModelData
         )
     }
 }

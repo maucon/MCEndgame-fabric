@@ -1,5 +1,6 @@
 package de.fuballer.mcendgame.main.accessor;
 
+import de.fuballer.mcendgame.main.component.dungeon.type.DungeonType;
 import de.fuballer.mcendgame.main.component.item.custom.aspect.AspectItem;
 import net.minecraft.entity.player.PlayerEntity;
 
@@ -14,6 +15,10 @@ public interface DungeonWorldAccessor {
 
     void mcendgame$setLevel(int level);
 
+    int mcendgame$getTotalBossCount();
+
+    void mcendgame$setTotalBossCount(int count);
+
     int mcendgame$getBossesKilled();
 
     void mcendgame$increaseBossesKilled();
@@ -25,4 +30,8 @@ public interface DungeonWorldAccessor {
     void mcendgame$setAspects(Map<AspectItem, Integer> aspects);
 
     Map<AspectItem, Integer> mcendgame$getAspects();
+
+    void mcendgame$setDungeonType(DungeonType type);
+
+    DungeonType mcendgame$getDungeonType();
 }

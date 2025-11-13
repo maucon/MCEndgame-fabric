@@ -2,6 +2,7 @@ package de.fuballer.mcendgame.main.component.item.custom.crystal
 
 import de.fuballer.mcendgame.main.component.block.crystalforge.CrystalForgeSettings
 import de.fuballer.mcendgame.main.component.corruption.CorruptionExtensions.isCorrupted
+import de.fuballer.mcendgame.main.component.dungeon.loot.drop.ItemColor
 import de.fuballer.mcendgame.main.util.extension.ItemStackExtension.isForgeable
 import net.minecraft.component.DataComponentTypes
 import net.minecraft.component.type.LoreComponent
@@ -29,6 +30,8 @@ abstract class CrystalItem(
 
         return stack
     }
+
+    override fun getName(stack: ItemStack): MutableText = super.getName(stack).copy().withColor(ItemColor.CRYSTAL.intColor)
 
     open fun canForge(stack: ItemStack): MutableText? {
         if (stack.isEmpty) return CrystalForgeSettings.getForgeErrorText("no_item")

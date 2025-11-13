@@ -1,22 +1,27 @@
 package de.fuballer.mcendgame.main.component.dungeon.world
 
+import de.fuballer.mcendgame.main.component.dungeon.type.DungeonType
 import de.fuballer.mcendgame.main.component.dungeon.world.db.DungeonWorldEntity
 import de.fuballer.mcendgame.main.component.dungeon.world.db.DungeonWorldRepository
+import de.fuballer.mcendgame.main.component.item.custom.aspect.AspectItem
 import de.fuballer.mcendgame.main.configuration.RuntimeConfig
 import de.fuballer.mcendgame.main.functional.scheduler.Scheduler
 import de.fuballer.mcendgame.main.messaging.server.ServerStartedEvent
 import de.fuballer.mcendgame.main.messaging.server.ServerStoppingEvent
+import de.fuballer.mcendgame.main.util.extension.mixin.WorldMixinExtension.setDungeonAspects
 import de.fuballer.mcendgame.main.util.extension.mixin.WorldMixinExtension.setDungeonLevel
+import de.fuballer.mcendgame.main.util.extension.mixin.WorldMixinExtension.setDungeonType
 import de.fuballer.mcendgame.main.util.extension.mixin.WorldMixinExtension.setOpener
 import de.maucon.mauconframework.di.annotation.Injectable
 import de.maucon.mauconframework.di.annotation.Logging
 import de.maucon.mauconframework.event.EventSubscriber
-import kotlinx.datetime.Clock
 import kotlinx.datetime.DateTimeUnit
 import kotlinx.datetime.plus
 import net.minecraft.entity.player.PlayerEntity
 import net.minecraft.server.world.ServerWorld
 import org.slf4j.Logger
+import kotlin.time.Clock
+import kotlin.time.ExperimentalTime
 
 @Injectable
 class DungeonWorldService(
@@ -37,7 +42,9 @@ class DungeonWorldService(
 
     fun create(
         dungeonLevel: Int,
-        opener: PlayerEntity
+        opener: PlayerEntity,
+        affectingAspects: Map<AspectItem, Int>,
+        dungeonType: DungeonType,
     ): ServerWorld {
         val dungeonWorld = RuntimeConfig.FANTASY
             .openTemporaryWorld(DungeonWorldSettings.generateIdentifier(), DungeonWorldSettings.WORLD_CONFIG)
@@ -45,6 +52,8 @@ class DungeonWorldService(
 
         dungeonWorld.setDungeonLevel(dungeonLevel)
         dungeonWorld.setOpener(opener)
+        dungeonWorld.setDungeonAspects(affectingAspects)
+        dungeonWorld.setDungeonType(dungeonType)
 
         val entity = DungeonWorldEntity(dungeonWorld)
         dungeonWorldRepo.save(entity)
@@ -52,6 +61,7 @@ class DungeonWorldService(
         return dungeonWorld
     }
 
+    @OptIn(ExperimentalTime::class)
     private fun deleteEmptyWorlds() {
         log.info("Checking for empty worlds")
 
@@ -67,6 +77,7 @@ class DungeonWorldService(
             }
     }
 
+    @OptIn(ExperimentalTime::class)
     private fun updateDeleteTimer(entity: DungeonWorldEntity) {
         if (entity.world.players.isNotEmpty()) {
             entity.emptySince = Clock.System.now()

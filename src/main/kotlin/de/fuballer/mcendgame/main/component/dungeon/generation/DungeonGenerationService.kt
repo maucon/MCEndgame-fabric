@@ -3,6 +3,7 @@ package de.fuballer.mcendgame.main.component.dungeon.generation
 import de.fuballer.mcendgame.main.component.dungeon.enemy.EnemyGenerationService
 import de.fuballer.mcendgame.main.component.dungeon.enemy.boss.BossGenerationService
 import de.fuballer.mcendgame.main.component.dungeon.generation.builder.DungeonBuilderService
+import de.fuballer.mcendgame.main.component.dungeon.generation.encounter.DungeonEncounterGenerationService
 import de.fuballer.mcendgame.main.component.dungeon.seed.DungeonSeedService
 import de.fuballer.mcendgame.main.component.dungeon.world.DungeonWorldService
 import de.fuballer.mcendgame.main.component.item.custom.aspect.AspectService
@@ -11,7 +12,6 @@ import de.fuballer.mcendgame.main.messaging.dungeon.DungeonGenerateCommand
 import de.fuballer.mcendgame.main.messaging.dungeon.DungeonGeneratedEvent
 import de.fuballer.mcendgame.main.messaging.dungeon.OpenDungeonButtonPressedEvent
 import de.fuballer.mcendgame.main.util.extension.mixin.PlayerEntityMixinExtension.getDungeonLevel
-import de.fuballer.mcendgame.main.util.extension.mixin.WorldMixinExtension.setDungeonAspects
 import de.maucon.mauconframework.command.CommandGateway
 import de.maucon.mauconframework.di.annotation.Injectable
 import de.maucon.mauconframework.event.EventGateway
@@ -23,6 +23,7 @@ import kotlin.random.Random
 class DungeonGenerationService(
     private val dungeonWorldService: DungeonWorldService,
     private val dungeonBuilderService: DungeonBuilderService,
+    private val dungeonEncounterGenerationService: DungeonEncounterGenerationService,
     private val enemyGenerationService: EnemyGenerationService,
     private val bossGenerationService: BossGenerationService,
     private val dungeonSeedService: DungeonSeedService,
@@ -42,22 +43,22 @@ class DungeonGenerationService(
 
         val random = Random(seed)
 
-        val (mapType, enemyTypes, bossTypes) = dungeonType.roll(random)
+        val (mapType, enemyTypes, bossTypes, applyMisc) = dungeonType.roll(random)
 
-        val generateLayoutCommand = DungeonGenerateCommand(playerDungeonLevel, dungeonType.bossCount, affectingAspects)
-        val (dungeonLevel, bossCount, _) = CommandGateway.apply(generateLayoutCommand)
+        val dungeonGenerateCommand = DungeonGenerateCommand(playerDungeonLevel, dungeonType.bossCount, affectingAspects)
+        val (dungeonLevel, bossCount, _) = CommandGateway.apply(dungeonGenerateCommand)
 
         val layoutGenerator = mapType.layoutGeneratorProvider()
         val layout = layoutGenerator.generateDungeon(random, dungeonLevel, bossCount)
 
         RuntimeConfig.SERVER.execute {
-            val dungeonWorld = dungeonWorldService.create(dungeonLevel, player)
-            dungeonWorld.setDungeonAspects(affectingAspects)
+            val dungeonWorld = dungeonWorldService.create(dungeonLevel, player, affectingAspects, dungeonType)
 
             dungeonBuilderService.build(dungeonWorld, layout.rooms)
+            dungeonEncounterGenerationService.generate(dungeonWorld, dungeonLevel, layout.encounterPos, affectingAspects, random)
 
-            enemyGenerationService.generate(dungeonWorld, dungeonLevel, enemyTypes, layout.enemySpawnPos)
-            bossGenerationService.generate(dungeonWorld, dungeonLevel, bossTypes, layout.bossSpawnPos)
+            enemyGenerationService.generate(dungeonWorld, dungeonLevel, enemyTypes, applyMisc, layout.enemySpawnPos)
+            bossGenerationService.generate(dungeonWorld, dungeonLevel, bossTypes, applyMisc, layout.bossSpawnPos)
 
             val dungeonGeneratedEvent = DungeonGeneratedEvent(originWorld, dungeonWorld, layout.spawnPos, dungeonDevicePos)
             EventGateway.launchPublish(dungeonGeneratedEvent)

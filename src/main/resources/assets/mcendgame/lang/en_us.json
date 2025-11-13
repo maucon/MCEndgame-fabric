@@ -18,6 +18,7 @@
   "item.mcendgame.stoneward": "Stoneward",
   "item.mcendgame.moonshadow": "Moonshadow",
   "item.mcendgame.geistergaloschen": "Geistergaloschen",
+  "item.mcendgame.voidweaver": "Voidweaver",
 
   "item.mcendgame.bloodharvest": "Bloodharvest",
   "item.mcendgame.twinfire": "Twinfire",
@@ -35,6 +36,11 @@
   "item.mcendgame.aspect_of_curio": "Aspect of Curio",
   "item.mcendgame.aspect_of_fortune": "Aspect of Fortune",
   "item.mcendgame.aspect_of_zeal": "Aspect of Zeal",
+  "item.mcendgame.aspect_of_ghosts": "Aspect of Ghosts",
+  "item.mcendgame.aspect_of_fortitude": "Aspect of Fortitude",
+  "item.mcendgame.aspect_of_savagery": "Aspect of Savagery",
+  "item.mcendgame.aspect_of_eminence": "Aspect of Eminence",
+  "item.mcendgame.aspect_of_ancestors": "Aspect of Ancestors",
 
   "item.mcendgame.aspect.limit": "Limit: %s",
   "item.mcendgame.aspect.description.tyranny": "Dungeon contains %s additional Elites",
@@ -45,6 +51,15 @@
   "item.mcendgame.aspect.description.curio": "Enemies spawn with %s%% increased Unique Items",
   "item.mcendgame.aspect.description.fortune": "Loot Goblins Equipment has Lucky Attributes",
   "item.mcendgame.aspect.description.zeal": "Dungeon Completion grants %s additional Progress",
+  "item.mcendgame.aspect.description.ghosts_0": "Dungeon is Level %s",
+  "item.mcendgame.aspect.description.ghosts_1": "Enemies have a Ghostly Appearance",
+  "item.mcendgame.aspect.description.ghosts_2": "Final Boss drops %s",
+  "item.mcendgame.aspect.description.fortitude_0": "Enemies take %s%% less Damage",
+  "item.mcendgame.aspect.description.fortitude_1": "Enemies drop %s%% increased Loot",
+  "item.mcendgame.aspect.description.savagery_0": "Enemies deal %s%% more Damage",
+  "item.mcendgame.aspect.description.savagery_1": "Enemies drop %s%% increased Loot",
+  "item.mcendgame.aspect.description.eminence": "Normal Equipment has a %s%% chance for an additional Attribute",
+  "item.mcendgame.aspect.description.ancestors": "Dungeon contains an additional Totem Encounter",
 
   "item.mcendgame.calibration_crystal": "Calibration Crystal",
   "item.mcendgame.sacrifice_crystal": "Sacrifice Crystal",
@@ -57,6 +72,24 @@
   "item.mcendgame.crystal.description.permutation": "Shuffles the rolls of attributes",
   "item.mcendgame.crystal.description.reforge": "Reforges a unique item into a different one",
   "item.mcendgame.crystal.description.corruption": "Corrupts an item with varying results",
+
+  "item.mcendgame.totem_of_bastion": "Totem of Bastion",
+  "item.mcendgame.totem_of_force": "Totem of Force",
+  "item.mcendgame.totem_of_fortress": "Totem of Fortress",
+  "item.mcendgame.totem_of_frenzy": "Totem of Frenzy",
+  "item.mcendgame.totem_of_grace": "Totem of Grace",
+  "item.mcendgame.totem_of_impact": "Totem of Impact",
+  "item.mcendgame.totem_of_swiftness": "Totem of Swiftness",
+  "item.mcendgame.totem_of_thickness": "Totem of Thickness",
+  "item.mcendgame.totem_of_vanguard": "Totem of Vanguard",
+
+  "item.mcendgame.totem.tier": "Tier: %s",
+
+  "item.mcendgame.totem.type.basic": "Type: Basic",
+  "item.mcendgame.totem.type.effect": "Type: Effect",
+  "item.mcendgame.totem.type.ability": "Type: Ability",
+
+  "container.mcendgame.totem.title": "Totems",
 
   "container.mcendgame.filter.title": "Dungeon Filter (Blacklist)",
 
@@ -143,6 +176,11 @@
   "attribute.mcendgame.ghostly_appearance": " Ghostly Appearance",
   "attribute.mcendgame.entity_phasing": " Entity Phasing",
   "attribute.mcendgame.block_phasing": " Block Phasing",
+  "attribute.mcendgame.drop_increased_loot": "%s%% %s Loot",
+  "attribute.mcendgame.drop_more_loot": " %s%% %s Loot",
+  "attribute.mcendgame.link_nearby_enemies": " Link to Enemies within %s Blocks",
+  "attribute.mcendgame.damage_linked_enemies": " Deal %s%% Elemental Damage to Linked Enemies every 5 Ticks",
+  "attribute.mcendgame.heal_on_linked_enemy_killed": " Heal %s Health when a Linked Enemy dies",
 
   "effect.mcendgame.fury": "Fury",
   "effect.mcendgame.resilience": "Resilience",
@@ -158,11 +196,13 @@
   "entity.mcendgame.bonecrusher": "Bonecrusher",
 
   "block.mcendgame.decaying_cobweb": "Decaying Cobweb",
+  "block.mcendgame.totem_statue": "Totem Statue",
 
   "item_group.mcendgame.armor": "MCEndgame Armor",
   "item_group.mcendgame.tools": "MCEndgame Weapons & Tools",
   "item_group.mcendgame.aspects": "MCEndgame Aspects",
   "item_group.mcendgame.crystals": "MCEndgame Crystals",
+  "item_group.mcendgame.totems": "MCEndgame Totems",
   "item_group.mcendgame.blocks": "MCEndgame Blocks",
 
   "text.mcendgame.dungeon_level.dungeon_completed": "Dungeon completed!",
@@ -176,5 +216,7 @@
 
   "error.mcendgame.teleport.failed": "Destination location invalid! Closing portal.",
 
-  "error.mcendgame.no_killer_found": "No killer found for %s!"
+  "error.mcendgame.no_killer_found": "No killer found for %s!",
+
+  "error.mcendgame.invalid_totem_tier": "Maximum tier of this totem is %s!"
 }

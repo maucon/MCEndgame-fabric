@@ -41,6 +41,7 @@ object EquipmentGenerationSettings {
         RandomOption(100, TaggedEquipment(Chestplate.DRUIDS_CHESTPLATE, EquipmentSlot.CHEST)),
         RandomOption(100, TaggedEquipment(Chestplate.WITHER_ROSE_CHESTPLATE, EquipmentSlot.CHEST)),
         RandomOption(100, TaggedEquipment(Chestplate.SUEDE_CHESTPLATE, EquipmentSlot.CHEST)),
+        RandomOption(100, TaggedEquipment(Chestplate.VOIDWEAVER, EquipmentSlot.CHEST)),
 
         RandomOption(100, TaggedEquipment(Leggings.LAMIAS_GIFT, EquipmentSlot.LEGS)),
         RandomOption(100, TaggedEquipment(Leggings.DRUIDS_LEGGINGS, EquipmentSlot.LEGS)),
