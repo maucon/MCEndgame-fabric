@@ -7,7 +7,6 @@ import net.minecraft.entity.LivingEntity
 import net.minecraft.entity.boss.WitherEntity
 import net.minecraft.entity.damage.DamageSource
 import net.minecraft.entity.damage.DamageTypes
-import net.minecraft.entity.mob.WitherSkeletonEntity
 
 object WitherExplosionCalculator : DamageCalculator {
     override fun isActive(source: DamageSource) = source.source is WitherEntity && source.type.isOf(DamageTypes.PLAYER_EXPLOSION)

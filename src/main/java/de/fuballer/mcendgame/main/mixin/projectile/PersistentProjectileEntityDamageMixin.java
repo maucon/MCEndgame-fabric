@@ -10,6 +10,7 @@ public class PersistentProjectileEntityDamageMixin implements PersistentProjecti
     @Shadow
     private double damage;
 
+    @Override
     public double mcendgame$getDamage() {
         return this.damage;
     }
