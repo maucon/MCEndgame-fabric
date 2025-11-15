@@ -20,7 +20,10 @@ import de.fuballer.mcendgame.client.component.item.custom.armor.model.wither_ros
 import de.fuballer.mcendgame.client.component.item.custom.armor.model.wither_rose.WitherRoseChestplateModel
 import de.fuballer.mcendgame.client.component.item.custom.armor.model.wither_rose.WitherRoseHelmetModel
 import de.fuballer.mcendgame.client.component.item.custom.armor.model.wither_rose.WitherRoseLeggingsModel
+import de.fuballer.mcendgame.client.component.item.custom.armor.transformer.EndermanArmorTransformer
+import de.fuballer.mcendgame.client.component.item.custom.armor.transformer.EntityArmorTransformer
 import de.fuballer.mcendgame.client.component.item.custom.armor.transformer.HuskArmorTransformer
+import de.fuballer.mcendgame.client.component.item.custom.armor.transformer.WitherSkeletonArmorTransformer
 import de.fuballer.mcendgame.client.util.BipedEntityRenderStateMixinExtension.getHiddenArmor
 import de.fuballer.mcendgame.client.util.EntityRenderStateMixinExtension.isGhostly
 import de.fuballer.mcendgame.main.component.item.custom.armor.CustomArmorItems
@@ -49,12 +52,13 @@ class CustomHumanoidArmorFeatureRenderer<S : BipedEntityRenderState, M : BipedEn
     ctx: EntityRendererFactory.Context,
 ) : FeatureRenderer<S, M>(featureContext) {
 
-    private val armorTransformer: Map<EntityType<out Entity>, HuskArmorTransformer> = mapOf(
+    private val armorTransformer: Map<EntityType<out Entity>, EntityArmorTransformer> = mapOf(
         EntityType.HUSK to HuskArmorTransformer(),
+        EntityType.WITHER_SKELETON to WitherSkeletonArmorTransformer(),
+        EntityType.ENDERMAN to EndermanArmorTransformer(),
     )
 
-    private val texturedArmorModels: MutableMap<Item, TexturedArmorModel<BipedEntityModel<S>>> =
-        mutableMapOf()
+    private val texturedArmorModels: MutableMap<Item, TexturedArmorModel<BipedEntityModel<S>>> = mutableMapOf()
 
     init {
         texturedArmorModels[CustomArmorItems.ICEBORNE] = TexturedArmorModel(
