@@ -199,6 +199,7 @@ public abstract class LivingEntityDamageMixin {
                 vanillaMoreDamage,
                 vanillaMoreDamageTaken,
                 armadilloDamageReduction,
+                false,
                 amount
         );
         ///////////////////////////////////////////////////////////////////////////////////

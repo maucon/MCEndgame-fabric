@@ -7,8 +7,6 @@ import de.maucon.mauconframework.command.CommandGateway
 import net.minecraft.enchantment.EnchantmentHelper
 import net.minecraft.entity.LivingEntity
 import net.minecraft.entity.attribute.EntityAttributes
-import net.minecraft.entity.boss.dragon.EnderDragonEntity
-import net.minecraft.entity.boss.dragon.EnderDragonPart
 import net.minecraft.entity.damage.DamageSource
 import net.minecraft.entity.effect.StatusEffects
 import net.minecraft.registry.tag.DamageTypeTags
@@ -22,6 +20,7 @@ import kotlin.math.roundToInt
 typealias VanillaDamageUtil = net.minecraft.entity.DamageUtil
 
 private val DAMAGE_CALCULATORS = listOf(
+    EnderDragonCalculator,
     WitherSkullCalculator,
     WitherExplosionCalculator,
     SonicBoomCalculator,
@@ -52,6 +51,7 @@ object DamageService {
         vanillaMoreDamage: List<Double>,
         vanillaMoreDamageTaken: LinkedList<Double>,
         armadilloDamageReduction: Boolean,
+        enderDragonDamageReduction: Boolean,
         originalDamage: Float
     ): Float {
         val damageCalculationCommand = DamageCalculationCommand.of(entity, world, source, shieldBlocking)
@@ -64,6 +64,7 @@ object DamageService {
         println("originalDamage: $originalDamage")
         println("source: " + source.source)
         println("attacker: " + source.attacker)
+        println("bug: $entity")
         println("damage type: " + source.type)
         println("bypasses armor: " + source.isIn(DamageTypeTags.BYPASSES_ARMOR))
 
@@ -72,17 +73,7 @@ object DamageService {
             return 0.0f
         }
 
-        // TODO enderdragon damage amount
-        EnderDragonEntity::damage
-
-        amount = this.phaseManager.getCurrent().modifyDamageTaken(source, amount)
-        if (part !== this.head) {
-            amount = amount / 4.0f + min(amount, 1.0f)
-        }
-        // TODO enderdragon part damage
-        EnderDragonPart::damage
-
-        return getHitpoolDamage(originalDamage, entity, source, difficultyScaling, armadilloDamageReduction, cmd)
+        return getHitpoolDamage(originalDamage, entity, source, difficultyScaling, armadilloDamageReduction, enderDragonDamageReduction, cmd)
     }
 
     /** calculates the final damage dealt to the hit pool of the target */
@@ -92,10 +83,10 @@ object DamageService {
         source: DamageSource,
         difficultyScaling: DifficultyScaling,
         armadilloDamageReduction: Boolean,
+        enderDragonDamageReduction: Boolean,
         cmd: DamageCalculationCommand
     ): Float {
         val damageCalculator = DAMAGE_CALCULATORS.firstOrNull { it.isActive(source) }!!
-
         println("damageCalculator: " + damageCalculator.javaClass.getSimpleName())
 
         var attackDamage = damageCalculator.calculateAttackDamage(originalDamage, attacked, source, cmd)
@@ -111,6 +102,9 @@ object DamageService {
         // Special damage calculation
         if (armadilloDamageReduction) {
             combinedDamage = (combinedDamage - 1f) / 2f
+        }
+         if (enderDragonDamageReduction) {
+            combinedDamage = combinedDamage / 4f + min(combinedDamage, 1.0f)
         }
         combinedDamage = difficultyScaling.scaleDamage(combinedDamage)
         println("damage after difficulty scaling: $combinedDamage")
