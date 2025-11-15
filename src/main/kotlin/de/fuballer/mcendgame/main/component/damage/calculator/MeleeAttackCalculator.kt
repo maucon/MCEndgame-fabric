@@ -27,12 +27,6 @@ object MeleeAttackCalculator : DamageCalculator {
         val critMulti = calculateCriticalMultiplier(event)
         val attackCooldownMulti = calculateAttackCooldownMultiplier(source)
 
-        println("baseDamage = $baseDamage")
-        println("enchantmentDamage = $enchantmentDamage")
-        println("damageMulti = $damageMulti")
-        println("critMulti = $critMulti")
-        println("attackCooldownMulti = $attackCooldownMulti")
-
         // TODO technically crit multi is applied only to baseDamage and not to enchantmentDamage
         return ((baseDamage + enchantmentDamage) * damageMulti * critMulti * attackCooldownMulti).toFloat()
     }

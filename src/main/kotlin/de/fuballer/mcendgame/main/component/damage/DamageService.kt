@@ -1,5 +1,6 @@
 package de.fuballer.mcendgame.main.component.damage
 
+import com.mojang.logging.LogUtils
 import de.fuballer.mcendgame.main.component.damage.DamageUtil.reduceAttackDamageByArmor
 import de.fuballer.mcendgame.main.component.damage.DamageUtil.reduceElementalDamageByWard
 import de.fuballer.mcendgame.main.component.damage.calculator.*
@@ -42,6 +43,8 @@ private val DAMAGE_CALCULATORS = listOf(
 )
 
 object DamageService {
+    private val log = LogUtils.getLogger()
+
     fun calculateFinalDamage(
         entity: LivingEntity,
         world: ServerWorld,
@@ -60,16 +63,7 @@ object DamageService {
 
         val cmd = CommandGateway.apply(damageCalculationCommand)
 
-        println("---------------------------------")
-        println("originalDamage: $originalDamage")
-        println("source: " + source.source)
-        println("attacker: " + source.attacker)
-        println("bug: $entity")
-        println("damage type: " + source.type)
-        println("bypasses armor: " + source.isIn(DamageTypeTags.BYPASSES_ARMOR))
-
         if (cmd.isShieldBlocking) {
-            println("DAMAGE BLOCKED")
             return 0.0f
         }
 
@@ -87,14 +81,11 @@ object DamageService {
         cmd: DamageCalculationCommand
     ): Float {
         val damageCalculator = DAMAGE_CALCULATORS.firstOrNull { it.isActive(source) }!!
-        println("damageCalculator: " + damageCalculator.javaClass.getSimpleName())
 
         var attackDamage = damageCalculator.calculateAttackDamage(originalDamage, attacked, source, cmd)
-        println("raw attack damage: $attackDamage")
         attackDamage = calculateAttackDamageReduction(attackDamage, attacked, source, cmd)
 
         var elementalDamage = damageCalculator.calculateElementalDamage(originalDamage, attacked, source, cmd)
-        println("raw elemental damage: $elementalDamage")
         elementalDamage = calculateElementalDamageReduction(elementalDamage, attacked, source, cmd)
 
         var combinedDamage = attackDamage + elementalDamage
@@ -103,11 +94,12 @@ object DamageService {
         if (armadilloDamageReduction) {
             combinedDamage = (combinedDamage - 1f) / 2f
         }
-         if (enderDragonDamageReduction) {
+        if (enderDragonDamageReduction) {
             combinedDamage = combinedDamage / 4f + min(combinedDamage, 1.0f)
         }
         combinedDamage = difficultyScaling.scaleDamage(combinedDamage)
-        println("damage after difficulty scaling: $combinedDamage")
+
+        log.info("${attacked.javaClass.simpleName} got damaged: originalDamage: $originalDamage --> calculated damage: $combinedDamage")
 
         return combinedDamage
     }

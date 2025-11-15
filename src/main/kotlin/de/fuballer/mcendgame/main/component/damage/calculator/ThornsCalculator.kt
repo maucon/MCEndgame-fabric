@@ -19,7 +19,6 @@ object ThornsCalculator : DamageCalculator {
     ): Float {
         val baseDamage = Random.nextFloat() * 4 + 1 // 1 to 5 damage
         val damageMulti = DamageUtil.calculateGenericDamageMultiplier(event)
-        println("damageMulti = $damageMulti")
         return (baseDamage * damageMulti).toFloat()
     }
 

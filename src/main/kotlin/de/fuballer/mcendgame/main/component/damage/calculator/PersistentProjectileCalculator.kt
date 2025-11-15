@@ -25,7 +25,6 @@ object PersistentProjectileCalculator : DamageCalculator {
         val attacker = source.attacker as? LivingEntity ?: return originalDamage
 
         val baseDamage = calculateBaseAttackDamage(source)
-        println("baseDamage = $baseDamage")
         val enchantmentDamage = calculateEnchantmentDamage(attacker, attacked, source)
         val projectileSpeedMulti = calculateOtherMultiplier(source)
         val critMulti = calculateCriticalMultiplier(event)
