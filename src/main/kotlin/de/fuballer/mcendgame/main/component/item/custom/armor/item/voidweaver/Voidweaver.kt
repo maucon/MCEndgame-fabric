@@ -25,5 +25,6 @@ class Voidweaver(
     override val hiddenPlayerModelParts = listOf(
         PlayerModelPart.LEFT_SLEEVE,
         PlayerModelPart.RIGHT_SLEEVE,
+        PlayerModelPart.JACKET,
     )
 }

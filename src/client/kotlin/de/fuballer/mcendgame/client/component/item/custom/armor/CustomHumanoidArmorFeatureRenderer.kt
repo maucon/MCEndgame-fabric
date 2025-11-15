@@ -1,25 +1,26 @@
 package de.fuballer.mcendgame.client.component.item.custom.armor
 
-import de.fuballer.mcendgame.client.component.item.custom.armor.bound_abyss.BoundAbyssModel
-import de.fuballer.mcendgame.client.component.item.custom.armor.druids.DruidsBootsModel
-import de.fuballer.mcendgame.client.component.item.custom.armor.druids.DruidsChestplateModel
-import de.fuballer.mcendgame.client.component.item.custom.armor.druids.DruidsHelmetModel
-import de.fuballer.mcendgame.client.component.item.custom.armor.druids.DruidsLeggingsModel
-import de.fuballer.mcendgame.client.component.item.custom.armor.emberchant.EmberchantModel
-import de.fuballer.mcendgame.client.component.item.custom.armor.geistergaloschen.GeistergaloschenModel
-import de.fuballer.mcendgame.client.component.item.custom.armor.iceborne.IceborneModel
-import de.fuballer.mcendgame.client.component.item.custom.armor.lamias_gift.LamiasGiftModel
-import de.fuballer.mcendgame.client.component.item.custom.armor.moonshadow.MoonshadowModel
-import de.fuballer.mcendgame.client.component.item.custom.armor.stoneward.StonewardModel
-import de.fuballer.mcendgame.client.component.item.custom.armor.suede.SuedeBootsModel
-import de.fuballer.mcendgame.client.component.item.custom.armor.suede.SuedeChestplateModel
-import de.fuballer.mcendgame.client.component.item.custom.armor.suede.SuedeHelmetModel
-import de.fuballer.mcendgame.client.component.item.custom.armor.suede.SuedeLeggingsModel
-import de.fuballer.mcendgame.client.component.item.custom.armor.voidweaver.VoidweaverModel
-import de.fuballer.mcendgame.client.component.item.custom.armor.wither_rose.WitherRoseBootsModel
-import de.fuballer.mcendgame.client.component.item.custom.armor.wither_rose.WitherRoseChestplateModel
-import de.fuballer.mcendgame.client.component.item.custom.armor.wither_rose.WitherRoseHelmetModel
-import de.fuballer.mcendgame.client.component.item.custom.armor.wither_rose.WitherRoseLeggingsModel
+import de.fuballer.mcendgame.client.component.item.custom.armor.model.bound_abyss.BoundAbyssModel
+import de.fuballer.mcendgame.client.component.item.custom.armor.model.druids.DruidsBootsModel
+import de.fuballer.mcendgame.client.component.item.custom.armor.model.druids.DruidsChestplateModel
+import de.fuballer.mcendgame.client.component.item.custom.armor.model.druids.DruidsHelmetModel
+import de.fuballer.mcendgame.client.component.item.custom.armor.model.druids.DruidsLeggingsModel
+import de.fuballer.mcendgame.client.component.item.custom.armor.model.emberchant.EmberchantModel
+import de.fuballer.mcendgame.client.component.item.custom.armor.model.geistergaloschen.GeistergaloschenModel
+import de.fuballer.mcendgame.client.component.item.custom.armor.model.iceborne.IceborneModel
+import de.fuballer.mcendgame.client.component.item.custom.armor.model.lamias_gift.LamiasGiftModel
+import de.fuballer.mcendgame.client.component.item.custom.armor.model.moonshadow.MoonshadowModel
+import de.fuballer.mcendgame.client.component.item.custom.armor.model.stoneward.StonewardModel
+import de.fuballer.mcendgame.client.component.item.custom.armor.model.suede.SuedeBootsModel
+import de.fuballer.mcendgame.client.component.item.custom.armor.model.suede.SuedeChestplateModel
+import de.fuballer.mcendgame.client.component.item.custom.armor.model.suede.SuedeHelmetModel
+import de.fuballer.mcendgame.client.component.item.custom.armor.model.suede.SuedeLeggingsModel
+import de.fuballer.mcendgame.client.component.item.custom.armor.model.voidweaver.VoidweaverModel
+import de.fuballer.mcendgame.client.component.item.custom.armor.model.wither_rose.WitherRoseBootsModel
+import de.fuballer.mcendgame.client.component.item.custom.armor.model.wither_rose.WitherRoseChestplateModel
+import de.fuballer.mcendgame.client.component.item.custom.armor.model.wither_rose.WitherRoseHelmetModel
+import de.fuballer.mcendgame.client.component.item.custom.armor.model.wither_rose.WitherRoseLeggingsModel
+import de.fuballer.mcendgame.client.component.item.custom.armor.transformer.HuskArmorTransformer
 import de.fuballer.mcendgame.client.util.BipedEntityRenderStateMixinExtension.getHiddenArmor
 import de.fuballer.mcendgame.client.util.EntityRenderStateMixinExtension.isGhostly
 import de.fuballer.mcendgame.main.component.item.custom.armor.CustomArmorItems
@@ -36,6 +37,8 @@ import net.minecraft.client.render.entity.state.BipedEntityRenderState
 import net.minecraft.client.render.item.ItemRenderer
 import net.minecraft.client.util.math.MatrixStack
 import net.minecraft.component.type.DyedColorComponent
+import net.minecraft.entity.Entity
+import net.minecraft.entity.EntityType
 import net.minecraft.entity.EquipmentSlot
 import net.minecraft.item.Item
 import net.minecraft.item.ItemStack
@@ -45,6 +48,10 @@ class CustomHumanoidArmorFeatureRenderer<S : BipedEntityRenderState, M : BipedEn
     featureContext: FeatureRendererContext<S, M>,
     ctx: EntityRendererFactory.Context,
 ) : FeatureRenderer<S, M>(featureContext) {
+
+    private val armorTransformer: Map<EntityType<out Entity>, HuskArmorTransformer> = mapOf(
+        EntityType.HUSK to HuskArmorTransformer(),
+    )
 
     private val texturedArmorModels: MutableMap<Item, TexturedArmorModel<BipedEntityModel<S>>> =
         mutableMapOf()
@@ -154,7 +161,8 @@ class CustomHumanoidArmorFeatureRenderer<S : BipedEntityRenderState, M : BipedEn
                 matrixStack,
                 vertexConsumerProvider,
                 bipedEntityRenderState.equippedHeadStack,
-                light
+                light,
+                EquipmentSlot.HEAD,
             )
         }
         if (!hiddenArmor.contains(EquipmentSlot.CHEST)) {
@@ -163,7 +171,8 @@ class CustomHumanoidArmorFeatureRenderer<S : BipedEntityRenderState, M : BipedEn
                 matrixStack,
                 vertexConsumerProvider,
                 bipedEntityRenderState.equippedChestStack,
-                light
+                light,
+                EquipmentSlot.CHEST,
             )
         }
         if (!hiddenArmor.contains(EquipmentSlot.LEGS)) {
@@ -172,7 +181,8 @@ class CustomHumanoidArmorFeatureRenderer<S : BipedEntityRenderState, M : BipedEn
                 matrixStack,
                 vertexConsumerProvider,
                 bipedEntityRenderState.equippedLegsStack,
-                light
+                light,
+                EquipmentSlot.LEGS,
             )
         }
         if (!hiddenArmor.contains(EquipmentSlot.FEET)) {
@@ -181,7 +191,8 @@ class CustomHumanoidArmorFeatureRenderer<S : BipedEntityRenderState, M : BipedEn
                 matrixStack,
                 vertexConsumerProvider,
                 bipedEntityRenderState.equippedFeetStack,
-                light
+                light,
+                EquipmentSlot.FEET,
             )
         }
     }
@@ -192,6 +203,7 @@ class CustomHumanoidArmorFeatureRenderer<S : BipedEntityRenderState, M : BipedEn
         vertexConsumerProvider: VertexConsumerProvider,
         itemStack: ItemStack,
         light: Int,
+        slot: EquipmentSlot,
     ) {
         val item = itemStack.item
         val texturedArmorModel = texturedArmorModels[item] ?: return
@@ -200,6 +212,9 @@ class CustomHumanoidArmorFeatureRenderer<S : BipedEntityRenderState, M : BipedEn
         contextModel.copyTransforms(model)
 
         model.setAngles(bipedEntityRenderState)
+
+        matrices.push()
+        armorTransformer[bipedEntityRenderState.entityType]?.transform(slot, matrices, model)
 
         if (texturedArmorModel.texture != null) {
             renderModel(
@@ -238,6 +253,8 @@ class CustomHumanoidArmorFeatureRenderer<S : BipedEntityRenderState, M : BipedEn
                 translucent = true,
             )
         }
+
+        matrices.pop()
     }
 
     private fun renderModel(
