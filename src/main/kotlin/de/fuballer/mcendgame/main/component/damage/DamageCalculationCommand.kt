@@ -10,9 +10,10 @@ import net.minecraft.entity.damage.DamageSource
 import net.minecraft.entity.damage.DamageType
 import net.minecraft.entity.player.PlayerEntity
 import net.minecraft.entity.projectile.PersistentProjectileEntity
+import net.minecraft.entity.projectile.ProjectileEntity
 import net.minecraft.server.world.ServerWorld
 
-data class ApplyDamageCalculationCommand(
+data class DamageCalculationCommand(
     val damager: Entity?,
     val damagerAttributes: Map<CustomAttributeType, List<CustomAttribute>>,
 
@@ -22,7 +23,7 @@ data class ApplyDamageCalculationCommand(
     val type: DamageType,
     val world: ServerWorld,
     val isProjectile: Boolean,
-//    val isDamageBlocked: Boolean,
+    val isShieldBlocking: Boolean,
     val isDamageCritical: Boolean,
 
     // === custom properties ===
@@ -36,32 +37,28 @@ data class ApplyDamageCalculationCommand(
     val increasedElementalDamage: MutableList<Double> = mutableListOf(),
     val moreElementalDamage: MutableList<Double> = mutableListOf(),
 
-    val increasedProjectileDamage: MutableList<Double> = mutableListOf(),
-    val moreProjectileDamage: MutableList<Double> = mutableListOf(),
-
     val increasedDamageTaken: MutableList<Double> = mutableListOf(),
     val moreDamageTaken: MutableList<Double> = mutableListOf(),
     val ward: MutableList<Double> = mutableListOf(),
-
-    var isExecute: Boolean = false,
 ) {
     companion object {
         fun of(
             damaged: LivingEntity,
             world: ServerWorld,
             source: DamageSource,
-        ): ApplyDamageCalculationCommand {
+            shieldBlocking: Boolean,
+        ): DamageCalculationCommand {
             val damager = source.attacker
             val damagerAttributes = (damager as? LivingEntity)?.getAllCustomAttributes() ?: emptyMap()
             val damagedAttributes = damaged.getAllCustomAttributes()
             val damageType = source.type
 
-            val isProjectile = source.source is PersistentProjectileEntity
-            val isProjectileCritical = if (!isProjectile) false else (source.source as PersistentProjectileEntity).isCritical
+            val isProjectile = source.source is ProjectileEntity
+            val isProjectileCritical = (source.source as? PersistentProjectileEntity)?.isCritical ?: false
             val playerCriticalAttack = (damager as? PlayerEntity)?.wasLastAttackCritical() ?: false
-            val isCritical = playerCriticalAttack || isProjectileCritical
+            val isCritical = if (isProjectile) isProjectileCritical else playerCriticalAttack
 
-            return ApplyDamageCalculationCommand(damager, damagerAttributes, damaged, damagedAttributes, damageType, world, isProjectile, isCritical)
+            return DamageCalculationCommand(damager, damagerAttributes, damaged, damagedAttributes, damageType, world, isProjectile, shieldBlocking, isCritical)
         }
     }
 }

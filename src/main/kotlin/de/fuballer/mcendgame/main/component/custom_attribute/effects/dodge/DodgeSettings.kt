@@ -1,6 +1,6 @@
 package de.fuballer.mcendgame.main.component.custom_attribute.effects.dodge
 
-import de.fuballer.mcendgame.main.component.damage.custom.CustomDamageTypes
+import de.fuballer.mcendgame.main.component.damage.custom_type.CustomDamageTypes
 import net.minecraft.entity.damage.DamageTypes
 
 object DodgeSettings {

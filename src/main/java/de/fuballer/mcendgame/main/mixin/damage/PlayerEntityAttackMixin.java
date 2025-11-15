@@ -2,14 +2,10 @@ package de.fuballer.mcendgame.main.mixin.damage;
 
 import de.fuballer.mcendgame.main.accessor.PlayerEntityMixinAccessor;
 import net.minecraft.entity.Entity;
-import net.minecraft.entity.EntityType;
 import net.minecraft.entity.LivingEntity;
-import net.minecraft.entity.damage.DamageSource;
 import net.minecraft.entity.effect.StatusEffects;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.server.network.ServerPlayerEntity;
-import net.minecraft.server.world.ServerWorld;
-import net.minecraft.world.World;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.Unique;
 import org.spongepowered.asm.mixin.injection.At;
@@ -17,26 +13,11 @@ import org.spongepowered.asm.mixin.injection.Inject;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 
 @Mixin(PlayerEntity.class)
-public abstract class PlayerEntityDamageMixin extends LivingEntity implements PlayerEntityMixinAccessor {
+public abstract class PlayerEntityAttackMixin implements PlayerEntityMixinAccessor {
     @Unique
     private float lastAttackCharge;
     @Unique
     private boolean lastAttackWasCritical;
-
-    protected PlayerEntityDamageMixin(EntityType<? extends LivingEntity> entityType, World world) {
-        super(entityType, world);
-    }
-
-    @Inject(at = @At("HEAD"), method = "applyDamage", cancellable = true)
-    protected void applyDamage(
-            ServerWorld world,
-            DamageSource source,
-            float amount,
-            CallbackInfo ci
-    ) {
-        super.applyDamage(world, source, amount);
-        ci.cancel();
-    }
 
     @Inject(method = "attack", at = @At(value = "INVOKE", target = "Lnet/minecraft/entity/player/PlayerEntity;getAttackCooldownProgress(F)F"))
     protected void attack(Entity target, CallbackInfo ci) {
