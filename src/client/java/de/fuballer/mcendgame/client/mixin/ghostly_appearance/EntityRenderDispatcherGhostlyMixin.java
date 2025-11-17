@@ -2,7 +2,7 @@ package de.fuballer.mcendgame.client.mixin.ghostly_appearance;
 
 import com.llamalad7.mixinextras.sugar.Local;
 import de.fuballer.mcendgame.client.accessor.LivingEntityRenderStateGhostlyAccessor;
-import de.fuballer.mcendgame.client.component.item.custom.armor.geistergaloschen.GhostlyVertexConsumerProvider;
+import de.fuballer.mcendgame.client.component.item.custom.armor.model.geistergaloschen.GhostlyVertexConsumerProvider;
 import net.minecraft.client.render.VertexConsumerProvider;
 import net.minecraft.client.render.entity.EntityRenderDispatcher;
 import net.minecraft.client.render.entity.state.EntityRenderState;
