@@ -1,7 +1,6 @@
 package de.fuballer.mcendgame.client.component.item.custom.armor.model.geistergaloschen
 
 import de.fuballer.mcendgame.client.component.item.custom.ModelPartDataExtension.createEmptyChild
-import de.fuballer.mcendgame.client.component.item.custom.armor.model.CustomArmorModel
 import de.fuballer.mcendgame.main.util.minecraft.IdentifierUtil
 import net.minecraft.client.model.*
 import net.minecraft.client.render.entity.model.BipedEntityModel
@@ -11,9 +10,7 @@ import net.minecraft.client.render.entity.state.BipedEntityRenderState
 
 class GeistergaloschenModel<S : BipedEntityRenderState>(
     root: ModelPart
-) : BipedEntityModel<S>(root), CustomArmorModel {
-    override val yOffsetFromEntityPos = -0.6f
-
+) : BipedEntityModel<S>(root) {
     companion object {
         val MODEL_LAYER = EntityModelLayer(IdentifierUtil.default("geistergaloschen"), "main")
 
@@ -44,4 +41,6 @@ class GeistergaloschenModel<S : BipedEntityRenderState>(
             return TexturedModelData.of(modelData, 64, 32)
         }
     }
+
+    override fun setAngles(renderState: S) {}
 }

@@ -2,7 +2,6 @@ package de.fuballer.mcendgame.client.component.item.custom.armor.model.bound_aby
 
 import de.fuballer.mcendgame.client.component.item.custom.ModelPartDataExtension.createEmptyChild
 import de.fuballer.mcendgame.client.component.item.custom.armor.CustomVertexConsumer
-import de.fuballer.mcendgame.client.component.item.custom.armor.model.CustomArmorModel
 import de.fuballer.mcendgame.client.util.EntityRenderStateMixinExtension.getLowHealthTicks
 import de.fuballer.mcendgame.main.util.minecraft.IdentifierUtil
 import net.minecraft.client.model.*
@@ -18,9 +17,7 @@ import org.joml.Vector3f
 
 class BoundAbyssModel<S : BipedEntityRenderState>(
     root: ModelPart
-) : BipedEntityModel<S>(root), CustomVertexConsumer, CustomArmorModel {
-    override val yOffsetFromEntityPos = 24.85f
-
+) : BipedEntityModel<S>(root), CustomVertexConsumer {
     private val shoulderPadLeft: ModelPart
     private val vambraceLeft: ModelPart
     private val shoulderPadRight: ModelPart

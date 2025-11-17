@@ -1,7 +1,6 @@
 package de.fuballer.mcendgame.client.component.item.custom.armor.model.druids
 
 import de.fuballer.mcendgame.client.component.item.custom.ModelPartDataExtension.createEmptyChild
-import de.fuballer.mcendgame.client.component.item.custom.armor.model.CustomArmorModel
 import de.fuballer.mcendgame.main.util.minecraft.IdentifierUtil
 import net.minecraft.client.model.*
 import net.minecraft.client.render.entity.model.BipedEntityModel
@@ -11,9 +10,7 @@ import net.minecraft.client.render.entity.state.BipedEntityRenderState
 
 class DruidsBootsModel<S : BipedEntityRenderState>(
     root: ModelPart
-) : BipedEntityModel<S>(root), CustomArmorModel {
-    override val yOffsetFromEntityPos = -0.6f
-
+) : BipedEntityModel<S>(root) {
     companion object {
         val MODEL_LAYER = EntityModelLayer(IdentifierUtil.default("druids_boots"), "main")
 
@@ -27,8 +24,7 @@ class DruidsBootsModel<S : BipedEntityRenderState>(
             val left_arm = modelPartData.createEmptyChild(EntityModelPartNames.LEFT_ARM)
             val right_arm = modelPartData.createEmptyChild(EntityModelPartNames.RIGHT_ARM)
 
-            val left_leg =
-                modelPartData.addChild(EntityModelPartNames.LEFT_LEG, ModelPartBuilder.create(), ModelTransform.origin(2.0f, 12.0f, 0.0f))
+            val left_leg = modelPartData.addChild(EntityModelPartNames.LEFT_LEG, ModelPartBuilder.create(), ModelTransform.origin(2.0f, 12.0f, 0.0f))
 
             val left_boot = left_leg.addChild(
                 "left_boot",
@@ -62,5 +58,5 @@ class DruidsBootsModel<S : BipedEntityRenderState>(
         }
     }
 
-    override fun setAngles(bipedEntityRenderState: S) {}
+    override fun setAngles(renderState: S) {}
 }

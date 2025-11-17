@@ -1,7 +1,6 @@
 package de.fuballer.mcendgame.client.component.item.custom.armor.model.lamias_gift
 
 import de.fuballer.mcendgame.client.component.item.custom.ModelPartDataExtension.createEmptyChild
-import de.fuballer.mcendgame.client.component.item.custom.armor.model.CustomArmorModel
 import de.fuballer.mcendgame.main.util.minecraft.IdentifierUtil
 import net.minecraft.client.model.*
 import net.minecraft.client.render.entity.model.BipedEntityModel
@@ -13,9 +12,7 @@ import kotlin.math.sin
 
 class LamiasGiftModel<S : BipedEntityRenderState>(
     root: ModelPart
-) : BipedEntityModel<S>(root), CustomArmorModel {
-    override val yOffsetFromEntityPos = 15f
-
+) : BipedEntityModel<S>(root) {
     private val leggings = body.getChild("leggings")
     private val tailZero: ModelPart = leggings.getChild("nagaTailZero")
     private val tailOne: ModelPart = tailZero.getChild("nagaTailOne")
@@ -42,7 +39,11 @@ class LamiasGiftModel<S : BipedEntityRenderState>(
             val leggings = body.addChild("leggings", ModelPartBuilder.create(), ModelTransform.origin(0.0f, 24.0f, 0.0f))
 
             val nagaTailZero =
-                leggings.addChild("nagaTailZero", ModelPartBuilder.create().uv(2, 1).cuboid(-4.5f, 0.0f, -3.0f, 9.0f, 10.0f, 5.0f, Dilation(0.0f)), ModelTransform.origin(0.0f, -15.75f, 0.5f))
+                leggings.addChild(
+                    "nagaTailZero",
+                    ModelPartBuilder.create().uv(2, 1).cuboid(-4.5f, 0.0f, -3.0f, 9.0f, 10.0f, 5.0f, Dilation(0.0f)),
+                    ModelTransform.origin(0.0f, -15.75f, 0.5f)
+                )
 
             val nagaTailOne = nagaTailZero.addChild(
                 "nagaTailOne",

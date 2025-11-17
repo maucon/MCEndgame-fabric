@@ -1,7 +1,6 @@
 package de.fuballer.mcendgame.client.component.item.custom.armor.model.moonshadow
 
 import de.fuballer.mcendgame.client.component.item.custom.ModelPartDataExtension.createEmptyChild
-import de.fuballer.mcendgame.client.component.item.custom.armor.model.CustomArmorModel
 import de.fuballer.mcendgame.main.util.minecraft.IdentifierUtil
 import net.minecraft.client.model.*
 import net.minecraft.client.render.entity.model.BipedEntityModel
@@ -11,9 +10,7 @@ import net.minecraft.client.render.entity.state.BipedEntityRenderState
 
 class MoonshadowModel<S : BipedEntityRenderState>(
     root: ModelPart
-) : BipedEntityModel<S>(root), CustomArmorModel {
-    override val yOffsetFromEntityPos = -0.75f
-
+) : BipedEntityModel<S>(root) {
     companion object {
         val MODEL_LAYER = EntityModelLayer(IdentifierUtil.default("moonshadow"), "main")
 
@@ -40,4 +37,6 @@ class MoonshadowModel<S : BipedEntityRenderState>(
             return TexturedModelData.of(modelData, 32, 16)
         }
     }
+
+    override fun setAngles(renderState: S) {}
 }

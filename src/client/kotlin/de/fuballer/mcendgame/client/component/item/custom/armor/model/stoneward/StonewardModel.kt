@@ -1,7 +1,6 @@
 package de.fuballer.mcendgame.client.component.item.custom.armor.model.stoneward
 
 import de.fuballer.mcendgame.client.component.item.custom.ModelPartDataExtension.createEmptyChild
-import de.fuballer.mcendgame.client.component.item.custom.armor.model.CustomArmorModel
 import de.fuballer.mcendgame.main.util.minecraft.IdentifierUtil
 import net.minecraft.client.model.*
 import net.minecraft.client.render.entity.model.BipedEntityModel
@@ -11,9 +10,7 @@ import net.minecraft.client.render.entity.state.BipedEntityRenderState
 
 class StonewardModel<S : BipedEntityRenderState>(
     root: ModelPart
-) : BipedEntityModel<S>(root), CustomArmorModel {
-    override val yOffsetFromEntityPos = 15.5f
-
+) : BipedEntityModel<S>(root) {
     companion object {
         val MODEL_LAYER = EntityModelLayer(IdentifierUtil.default("stoneward"), "main")
 
@@ -50,4 +47,6 @@ class StonewardModel<S : BipedEntityRenderState>(
             return TexturedModelData.of(modelData, 64, 64)
         }
     }
+
+    override fun setAngles(renderState: S) {}
 }

@@ -1,7 +1,6 @@
 package de.fuballer.mcendgame.client.component.item.custom.armor.model.suede
 
 import de.fuballer.mcendgame.client.component.item.custom.ModelPartDataExtension.createEmptyChild
-import de.fuballer.mcendgame.client.component.item.custom.armor.model.CustomArmorModel
 import de.fuballer.mcendgame.main.util.minecraft.IdentifierUtil
 import net.minecraft.client.model.*
 import net.minecraft.client.render.entity.model.BipedEntityModel
@@ -11,9 +10,7 @@ import net.minecraft.client.render.entity.state.BipedEntityRenderState
 
 class SuedeBootsModel<S : BipedEntityRenderState>(
     root: ModelPart
-) : BipedEntityModel<S>(root), CustomArmorModel {
-    override val yOffsetFromEntityPos = -0.25f
-
+) : BipedEntityModel<S>(root) {
     companion object {
         val MODEL_LAYER = EntityModelLayer(IdentifierUtil.default("suede_boots"), "main")
 
@@ -40,5 +37,5 @@ class SuedeBootsModel<S : BipedEntityRenderState>(
         }
     }
 
-    override fun setAngles(bipedEntityRenderState: S) {}
+    override fun setAngles(renderState: S) {}
 }

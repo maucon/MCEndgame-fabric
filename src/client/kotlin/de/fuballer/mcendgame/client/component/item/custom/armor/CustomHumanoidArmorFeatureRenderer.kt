@@ -20,10 +20,9 @@ import de.fuballer.mcendgame.client.component.item.custom.armor.model.wither_ros
 import de.fuballer.mcendgame.client.component.item.custom.armor.model.wither_rose.WitherRoseChestplateModel
 import de.fuballer.mcendgame.client.component.item.custom.armor.model.wither_rose.WitherRoseHelmetModel
 import de.fuballer.mcendgame.client.component.item.custom.armor.model.wither_rose.WitherRoseLeggingsModel
-import de.fuballer.mcendgame.client.component.item.custom.armor.transformer.EndermanArmorTransformer
 import de.fuballer.mcendgame.client.component.item.custom.armor.transformer.EntityArmorTransformer
-import de.fuballer.mcendgame.client.component.item.custom.armor.transformer.HuskArmorTransformer
-import de.fuballer.mcendgame.client.component.item.custom.armor.transformer.WitherSkeletonArmorTransformer
+import de.fuballer.mcendgame.client.component.item.custom.armor.transformer.PiglinArmorTransformer
+import de.fuballer.mcendgame.client.component.item.custom.armor.transformer.ScaleArmorTransformer
 import de.fuballer.mcendgame.client.util.BipedEntityRenderStateMixinExtension.getHiddenArmor
 import de.fuballer.mcendgame.client.util.EntityRenderStateMixinExtension.isGhostly
 import de.fuballer.mcendgame.main.component.item.custom.armor.CustomArmorItems
@@ -51,11 +50,12 @@ class CustomHumanoidArmorFeatureRenderer<S : BipedEntityRenderState, M : BipedEn
     featureContext: FeatureRendererContext<S, M>,
     ctx: EntityRendererFactory.Context,
 ) : FeatureRenderer<S, M>(featureContext) {
-
-    private val armorTransformer: Map<EntityType<out Entity>, EntityArmorTransformer> = mapOf(
-        EntityType.HUSK to HuskArmorTransformer(),
-        EntityType.WITHER_SKELETON to WitherSkeletonArmorTransformer(),
-        EntityType.ENDERMAN to EndermanArmorTransformer(),
+    private val armorTransformers: Map<EntityType<out Entity>, EntityArmorTransformer> = mapOf(
+        EntityType.HUSK to ScaleArmorTransformer(1.0625f),
+        EntityType.WITHER_SKELETON to ScaleArmorTransformer(1.2f),
+        EntityType.PIGLIN to PiglinArmorTransformer(),
+        EntityType.PIGLIN_BRUTE to PiglinArmorTransformer(),
+        EntityType.ZOMBIFIED_PIGLIN to PiglinArmorTransformer(),
     )
 
     private val texturedArmorModels: MutableMap<Item, TexturedArmorModel<BipedEntityModel<S>>> = mutableMapOf()
@@ -209,6 +209,9 @@ class CustomHumanoidArmorFeatureRenderer<S : BipedEntityRenderState, M : BipedEn
         light: Int,
         slot: EquipmentSlot,
     ) {
+        // Note: rendering leggings and boots on endermen is disabled
+        if ((slot == EquipmentSlot.LEGS || slot == EquipmentSlot.FEET) && bipedEntityRenderState.entityType == EntityType.ENDERMAN) return
+
         val item = itemStack.item
         val texturedArmorModel = texturedArmorModels[item] ?: return
 
@@ -218,7 +221,7 @@ class CustomHumanoidArmorFeatureRenderer<S : BipedEntityRenderState, M : BipedEn
         model.setAngles(bipedEntityRenderState)
 
         matrices.push()
-        armorTransformer[bipedEntityRenderState.entityType]?.transform(slot, matrices, model)
+        armorTransformers[bipedEntityRenderState.entityType]?.transform(slot, matrices)
 
         if (texturedArmorModel.texture != null) {
             renderModel(
