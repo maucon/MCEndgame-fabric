@@ -1,14 +1,22 @@
 package de.fuballer.mcendgame.main.mixin.damage;
 
+import de.fuballer.mcendgame.main.component.damage.DifficultyScaling;
+import de.fuballer.mcendgame.main.component.damage.dealing.DamageCalculationConfig;
+import de.fuballer.mcendgame.main.component.damage.dealing.ExtendedDamageSource;
+import de.fuballer.mcendgame.main.mixin.access.PlayerEntityAccessMixin;
 import net.minecraft.entity.EntityType;
 import net.minecraft.entity.LivingEntity;
 import net.minecraft.entity.damage.DamageSource;
+import net.minecraft.entity.player.PlayerAbilities;
 import net.minecraft.entity.player.PlayerEntity;
+import net.minecraft.registry.tag.DamageTypeTags;
 import net.minecraft.server.world.ServerWorld;
 import net.minecraft.stat.Stats;
+import net.minecraft.world.Difficulty;
 import net.minecraft.world.World;
 import net.minecraft.world.event.GameEvent;
 import org.spongepowered.asm.mixin.Mixin;
+import org.spongepowered.asm.mixin.Shadow;
 import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.Inject;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
@@ -16,19 +24,66 @@ import org.spongepowered.asm.mixin.injection.callback.CallbackInfoReturnable;
 
 @Mixin(PlayerEntity.class)
 public abstract class PlayerEntityDamageCalculationMixin extends LivingEntity {
+    @Shadow
+    public abstract PlayerAbilities getAbilities();
+
     protected PlayerEntityDamageCalculationMixin(EntityType<? extends LivingEntity> entityType, World world) {
         super(entityType, world);
     }
 
-    /**
-     * The original implementation of this method is used in the
-     * LivingEntityDamageMixin#damage method to bring together all the values needed
-     * to calculate the damage in our custom system.
-     */
     @Inject(at = @At("HEAD"), method = "damage", cancellable = true)
     protected void damage(ServerWorld world, DamageSource source, float amount, CallbackInfoReturnable<Boolean> cir) {
-        var value = super.damage(world, source, amount);
-        cir.setReturnValue(value);
+        if (this.isInvulnerableTo(world, source)) {
+            cir.setReturnValue(false);
+            return;
+        }
+        if (this.getAbilities().invulnerable && !source.isIn(DamageTypeTags.BYPASSES_INVULNERABILITY)) {
+            cir.setReturnValue(false);
+            return;
+        }
+
+        this.despawnCounter = 0;
+        if (this.isDead()) {
+            cir.setReturnValue(false);
+            return;
+        }
+
+        ((PlayerEntityAccessMixin) this).invokeDropShoulderEntities();
+
+        ///////////////////////////////////////////////////////////////////////////////////
+        var difficultyScaling = DifficultyScaling.NONE;
+        ///////////////////////////////////////////////////////////////////////////////////
+
+        if (source.isScaledWithDifficulty()) {
+            if (world.getDifficulty() == Difficulty.PEACEFUL) {
+                cir.setReturnValue(false);
+                return;
+            }
+
+            if (world.getDifficulty() == Difficulty.EASY) {
+                amount = Math.min(amount / 2.0F + 1.0F, amount);
+                ///////////////////////////////////////////////////////////////////////////////////
+                difficultyScaling = DifficultyScaling.EASY;
+                ///////////////////////////////////////////////////////////////////////////////////
+            }
+
+            if (world.getDifficulty() == Difficulty.HARD) {
+                amount = amount * 3.0F / 2.0F;
+                ///////////////////////////////////////////////////////////////////////////////////
+                difficultyScaling = DifficultyScaling.HARD;
+                ///////////////////////////////////////////////////////////////////////////////////
+            }
+        }
+
+        // return amount == 0.0F ? false : super.damage(world, source, amount);
+        ///////////////////////////////////////////////////////////////////////////////////
+        var extendedDamageSource = source instanceof ExtendedDamageSource
+                ? (ExtendedDamageSource) source
+                : new ExtendedDamageSource(source);
+
+        extendedDamageSource.getDamageCalculationConfig().difficultyScaling(difficultyScaling);
+        cir.setReturnValue(super.damage(world, extendedDamageSource, amount));
+        ///////////////////////////////////////////////////////////////////////////////////
     }
 
     /**
@@ -45,7 +100,6 @@ public abstract class PlayerEntityDamageCalculationMixin extends LivingEntity {
     ) {
         PlayerEntity this_ = (PlayerEntity) (Object) this;
 
-        // region original
         if (this.isInvulnerableTo(world, source)) {
             return;
         }
@@ -72,7 +126,6 @@ public abstract class PlayerEntityDamageCalculationMixin extends LivingEntity {
             this_.increaseStat(Stats.DAMAGE_TAKEN, Math.round(amount * 10.0f));
         }
         this.emitGameEvent(GameEvent.ENTITY_DAMAGE);
-        // endregion
 
         ci.cancel();
     }

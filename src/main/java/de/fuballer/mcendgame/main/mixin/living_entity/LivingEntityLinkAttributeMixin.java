@@ -6,6 +6,7 @@ import de.fuballer.mcendgame.main.component.custom_attribute.data.DoubleRoll;
 import de.fuballer.mcendgame.main.component.custom_attribute.data.IntRoll;
 import de.fuballer.mcendgame.main.component.custom_attribute.effects.link.LinkSettings;
 import de.fuballer.mcendgame.main.component.custom_attribute.types.CustomAttributeTypes;
+import de.fuballer.mcendgame.main.component.damage.dealing.DamageDealingService;
 import de.fuballer.mcendgame.main.util.extension.EntityExtension;
 import de.fuballer.mcendgame.main.util.minecraft.IdentifierUtil;
 import io.netty.buffer.ByteBuf;
@@ -23,7 +24,6 @@ import net.minecraft.util.hit.HitResult;
 import net.minecraft.util.math.Vec3d;
 import net.minecraft.world.RaycastContext;
 import org.spongepowered.asm.mixin.Mixin;
-import org.spongepowered.asm.mixin.Shadow;
 import org.spongepowered.asm.mixin.Unique;
 import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.Inject;
@@ -34,9 +34,6 @@ import java.util.stream.Collectors;
 
 @Mixin(LivingEntity.class)
 public abstract class LivingEntityLinkAttributeMixin implements LivingEntityLinkAttributeAccessor {
-    @Shadow
-    public abstract void enterCombat();
-
     @Unique
     private static PacketCodec<ByteBuf, UUID> UUID_PACKET_CODEC = PacketCodecs.STRING.xmap(UUID::fromString, UUID::toString);
     @Unique
@@ -198,10 +195,10 @@ public abstract class LivingEntityLinkAttributeMixin implements LivingEntityLink
                 .map(pair -> new Pair<>(world.getEntity(pair.getFirst()), pair.getSecond()))
                 .filter(pair -> pair.getFirst() != null && pair.getFirst().isAlive())
                 .filter(pair -> time - pair.getSecond() >= LinkSettings.INSTANCE.getLinkConnectingTime(entity.distanceTo(pair.getFirst())))
-                .map(Pair::getFirst);
+                .map(Pair::getFirst)
+                .toList();
 
-        //TODO #118 deal magic damage percent instead
-        linkedEntities.forEach(linkedEntity -> linkedEntity.damage(world, entity.getDamageSources().mobAttack(entity), (float) sum));
+        linkedEntities.forEach(linkedEntity -> DamageDealingService.INSTANCE.dealElementalDamage(linkedEntity, sum, entity));
     }
 
     @Override

@@ -1,9 +1,9 @@
 package de.fuballer.mcendgame.main.component.damage
 
 import com.mojang.logging.LogUtils
-import de.fuballer.mcendgame.main.component.damage.DamageUtil.reduceAttackDamageByArmor
-import de.fuballer.mcendgame.main.component.damage.DamageUtil.reduceElementalDamageByWard
 import de.fuballer.mcendgame.main.component.damage.calculator.*
+import de.fuballer.mcendgame.main.component.damage.dealing.DamageCalculationConfig
+import de.fuballer.mcendgame.main.component.damage.dealing.ExtendedDamageSource
 import de.maucon.mauconframework.command.CommandGateway
 import net.minecraft.enchantment.EnchantmentHelper
 import net.minecraft.entity.LivingEntity
@@ -14,13 +14,13 @@ import net.minecraft.registry.tag.DamageTypeTags
 import net.minecraft.server.network.ServerPlayerEntity
 import net.minecraft.server.world.ServerWorld
 import net.minecraft.stat.Stats
-import java.util.*
 import kotlin.math.min
 import kotlin.math.roundToInt
 
 typealias VanillaDamageUtil = net.minecraft.entity.DamageUtil
 
 private val DAMAGE_CALCULATORS = listOf(
+    ElementalDamageCalculator,
     EnderDragonCalculator,
     WitherSkullCalculator,
     WitherExplosionCalculator,
@@ -48,18 +48,14 @@ object DamageService {
     fun calculateFinalDamage(
         entity: LivingEntity,
         world: ServerWorld,
-        source: DamageSource,
-        shieldBlocking: Boolean,
-        difficultyScaling: DifficultyScaling,
-        vanillaMoreDamage: List<Double>,
-        vanillaMoreDamageTaken: LinkedList<Double>,
-        armadilloDamageReduction: Boolean,
-        enderDragonDamageReduction: Boolean,
+        extendedDamageSource: ExtendedDamageSource,
         originalDamage: Float
     ): Float {
-        val damageCalculationCommand = DamageCalculationCommand.of(entity, world, source, shieldBlocking)
-        damageCalculationCommand.moreDamage.addAll(vanillaMoreDamage)
-        damageCalculationCommand.moreDamageTaken.addAll(vanillaMoreDamageTaken)
+        val damageCalculationConfig = extendedDamageSource.damageCalculationConfig
+
+        val damageCalculationCommand = DamageCalculationCommand.of(entity, world, extendedDamageSource, damageCalculationConfig.shieldBlocked)
+        damageCalculationCommand.moreDamage.addAll(damageCalculationConfig.vanillaMoreDamage)
+        damageCalculationCommand.moreDamageTaken.addAll(damageCalculationConfig.vanillaMoreDamageTaken)
 
         val cmd = CommandGateway.apply(damageCalculationCommand)
 
@@ -67,41 +63,36 @@ object DamageService {
             return 0.0f
         }
 
-        return getHitpoolDamage(originalDamage, entity, source, difficultyScaling, armadilloDamageReduction, enderDragonDamageReduction, cmd)
+        return getHitpoolDamage(originalDamage, entity, extendedDamageSource, damageCalculationConfig, cmd)
     }
 
     /** calculates the final damage dealt to the hit pool of the target */
     fun getHitpoolDamage(
         originalDamage: Float,
         attacked: LivingEntity,
-        source: DamageSource,
-        difficultyScaling: DifficultyScaling,
-        armadilloDamageReduction: Boolean,
-        enderDragonDamageReduction: Boolean,
+        source: ExtendedDamageSource,
+        damageCalculationConfig: DamageCalculationConfig,
         cmd: DamageCalculationCommand
     ): Float {
         val damageCalculator = DAMAGE_CALCULATORS.firstOrNull { it.isActive(source) }!!
 
         var attackDamage = damageCalculator.calculateAttackDamage(originalDamage, attacked, source, cmd)
-        attackDamage = calculateAttackDamageReduction(attackDamage, attacked, source, cmd)
-
         var elementalDamage = damageCalculator.calculateElementalDamage(originalDamage, attacked, source, cmd)
+        log.info("${attacked.javaClass.simpleName} got damaged: originalDamage: $originalDamage --> calculated damage: ${attackDamage + elementalDamage} ($attackDamage + $elementalDamage)")
+
+        attackDamage = calculateAttackDamageReduction(attackDamage, attacked, source, cmd)
         elementalDamage = calculateElementalDamageReduction(elementalDamage, attacked, source, cmd)
 
         var combinedDamage = attackDamage + elementalDamage
 
         // Special damage calculation
-        if (armadilloDamageReduction) {
+        if (damageCalculationConfig.isArmadilloDamageReduction) {
             combinedDamage = (combinedDamage - 1f) / 2f
         }
-        if (enderDragonDamageReduction) {
+        if (damageCalculationConfig.isEnderDragonDamageReduction) {
             combinedDamage = combinedDamage / 4f + min(combinedDamage, 1.0f)
         }
-        combinedDamage = difficultyScaling.scaleDamage(combinedDamage)
-
-        log.info("${attacked.javaClass.simpleName} got damaged: originalDamage: $originalDamage --> calculated damage: $combinedDamage")
-
-        return combinedDamage
+        return damageCalculationConfig.difficultyScaling.scaleDamage(combinedDamage)
     }
 
     private fun calculateAttackDamageReduction(
@@ -133,10 +124,11 @@ object DamageService {
     ): Float {
         var amount = amount
         if (source.isIn(DamageTypeTags.BYPASSES_ARMOR)) return amount
+
         entity.damageArmor(source, amount)
 
         val armorToughness = entity.getAttributeValue(EntityAttributes.ARMOR_TOUGHNESS).toFloat()
-        amount = reduceAttackDamageByArmor(entity, amount, source, entity.armor.toFloat(), armorToughness)
+        amount = DamageUtil.reduceAttackDamageByArmor(entity, amount, source, entity.armor.toFloat(), armorToughness)
 
         return amount
     }
@@ -152,7 +144,7 @@ object DamageService {
 
         var amount = amount
         val ward = cmd.ward.sum().toFloat()
-        amount = reduceElementalDamageByWard(entity, amount, source, ward)
+        amount = DamageUtil.reduceElementalDamageByWard(entity, amount, source, ward)
 
         return amount
     }

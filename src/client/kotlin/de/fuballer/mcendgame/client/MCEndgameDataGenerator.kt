@@ -15,5 +15,6 @@ object MCEndgameDataGenerator : DataGeneratorEntrypoint {
         pack.addProvider { dataOutput, _ -> CustomDimensionTypeProvider(dataOutput) }
         pack.addProvider { dataOutput, _ -> CustomDamageTypeProvider(dataOutput) }
         pack.addProvider { dataOutput, registryLookUp -> CustomRecipeProvider(dataOutput, registryLookUp) }
+        pack.addProvider { dataOutput, registryLookUp -> CustomDamageTypeTagProvider(dataOutput, registryLookUp) }
     }
 }
