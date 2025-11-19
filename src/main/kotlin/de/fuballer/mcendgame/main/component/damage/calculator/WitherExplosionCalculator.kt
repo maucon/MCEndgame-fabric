@@ -2,6 +2,7 @@ package de.fuballer.mcendgame.main.component.damage.calculator
 
 import de.fuballer.mcendgame.main.component.damage.DamageCalculationCommand
 import de.fuballer.mcendgame.main.component.damage.DamageUtil
+import de.fuballer.mcendgame.main.component.damage.dealing.ExtendedDamageSource
 import de.fuballer.mcendgame.main.util.extension.DamageTypeExtension.isOf
 import net.minecraft.entity.LivingEntity
 import net.minecraft.entity.boss.WitherEntity
@@ -14,7 +15,7 @@ object WitherExplosionCalculator : DamageCalculator {
     override fun calculateAttackDamage(
         originalDamage: Float,
         attacked: LivingEntity,
-        source: DamageSource,
+        source: ExtendedDamageSource,
         event: DamageCalculationCommand
     ): Float {
         val damageMulti = DamageUtil.calculateAttackDamageMultiplier(event)
@@ -24,7 +25,7 @@ object WitherExplosionCalculator : DamageCalculator {
     override fun calculateElementalDamage(
         originalDamage: Float,
         attacked: LivingEntity,
-        source: DamageSource,
+        source: ExtendedDamageSource,
         event: DamageCalculationCommand
     ) = 0.0f
 }

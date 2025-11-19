@@ -27,5 +27,6 @@ object DodgeSettings {
         DamageTypes.SONIC_BOOM,
         DamageTypes.LIGHTNING_BOLT,
         CustomDamageTypes.SWEEPING,
+        CustomDamageTypes.ELEMENTAL,
     )
 }

@@ -2,6 +2,7 @@ package de.fuballer.mcendgame.main.component.damage.calculator
 
 import de.fuballer.mcendgame.main.component.damage.DamageCalculationCommand
 import de.fuballer.mcendgame.main.component.damage.DamageUtil
+import de.fuballer.mcendgame.main.component.damage.dealing.ExtendedDamageSource
 import de.fuballer.mcendgame.main.util.extension.mixin.PersistentProjectileEntityMixinExtension.getDamage
 import net.minecraft.enchantment.EnchantmentHelper
 import net.minecraft.entity.LivingEntity
@@ -19,7 +20,7 @@ object PersistentProjectileCalculator : DamageCalculator {
     override fun calculateAttackDamage(
         originalDamage: Float,
         attacked: LivingEntity,
-        source: DamageSource,
+        source: ExtendedDamageSource,
         event: DamageCalculationCommand
     ): Float {
         val attacker = source.attacker as? LivingEntity ?: return originalDamage
@@ -37,7 +38,7 @@ object PersistentProjectileCalculator : DamageCalculator {
     override fun calculateElementalDamage( // TODO
         originalDamage: Float,
         attacked: LivingEntity,
-        source: DamageSource,
+        source: ExtendedDamageSource,
         event: DamageCalculationCommand
     ): Float {
         if (source.attacker !is LivingEntity) return 0.0F

@@ -1,9 +1,9 @@
 package de.fuballer.mcendgame.main.mixin.damage;
 
 import de.fuballer.mcendgame.main.component.damage.DamageService;
-import de.fuballer.mcendgame.main.component.damage.DifficultyScaling;
+import de.fuballer.mcendgame.main.component.damage.custom_type.CustomDamageTypes;
+import de.fuballer.mcendgame.main.component.damage.dealing.ExtendedDamageSource;
 import de.fuballer.mcendgame.main.mixin.access.EntityAccessMixin;
-import de.fuballer.mcendgame.main.mixin.access.PlayerEntityAccessMixin;
 import it.unimi.dsi.fastutil.doubles.DoubleDoubleImmutablePair;
 import net.minecraft.advancement.criterion.Criteria;
 import net.minecraft.component.DataComponentTypes;
@@ -15,7 +15,6 @@ import net.minecraft.entity.damage.DamageSource;
 import net.minecraft.entity.effect.StatusEffectInstance;
 import net.minecraft.entity.effect.StatusEffects;
 import net.minecraft.entity.mob.WitchEntity;
-import net.minecraft.entity.passive.ArmadilloEntity;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.entity.projectile.ProjectileEntity;
 import net.minecraft.registry.tag.DamageTypeTags;
@@ -24,7 +23,6 @@ import net.minecraft.server.network.ServerPlayerEntity;
 import net.minecraft.server.world.ServerWorld;
 import net.minecraft.sound.SoundEvent;
 import net.minecraft.stat.Stats;
-import net.minecraft.world.Difficulty;
 import net.minecraft.world.event.GameEvent;
 import org.jetbrains.annotations.Nullable;
 import org.spongepowered.asm.mixin.Mixin;
@@ -81,59 +79,6 @@ public abstract class LivingEntityDamageMixin {
 
         var vanillaMoreDamage = new LinkedList<Double>();
         var vanillaMoreDamageTaken = new LinkedList<Double>();
-        var difficultyScaling = DifficultyScaling.NONE;
-        var armadilloDamageReduction = false;
-
-        ///////////////////////////////////////////////////////////////////////////////////
-        if (this_ instanceof ArmadilloEntity armadillo) {
-            if (armadillo.isNotIdle()) {
-                armadilloDamageReduction = true;
-            }
-        }
-        ///////////////////////////////////////////////////////////////////////////////////
-
-        ///////////////////////////////////////////////////////////////////////////////////
-        if (this_ instanceof PlayerEntity player) {
-
-            // region PlayerEntity::damage
-            if (this_.isInvulnerableTo(world, source)) {
-                return false;
-            }
-            if (player.getAbilities().invulnerable && !source.isIn(DamageTypeTags.BYPASSES_INVULNERABILITY)) {
-                return false;
-            }
-            this.despawnCounter = 0;
-            if (player.isDead()) {
-                return false;
-            }
-            ((PlayerEntityAccessMixin) player).invokeDropShoulderEntities();
-            if (source.isScaledWithDifficulty()) {
-                if (world.getDifficulty() == Difficulty.PEACEFUL) {
-                    // amount = 0.0f;
-                    ///////////////////////////////////////////////////////////////////////////////////
-                    return false;
-                    ///////////////////////////////////////////////////////////////////////////////////
-                }
-                if (world.getDifficulty() == Difficulty.EASY) {
-                    // amount = Math.min(amount / 2.0f + 1.0f, amount);
-                    ///////////////////////////////////////////////////////////////////////////////////
-                    difficultyScaling = DifficultyScaling.EASY;
-                    ///////////////////////////////////////////////////////////////////////////////////
-                }
-                if (world.getDifficulty() == Difficulty.HARD) {
-                    // amount = amount * 3.0f / 2.0f;
-                    ///////////////////////////////////////////////////////////////////////////////////
-                    difficultyScaling = DifficultyScaling.HARD;
-                    ///////////////////////////////////////////////////////////////////////////////////
-                }
-            }
-            // if (amount == 0.0f) {
-            //     return false;
-            // }
-            // return super.damage(world, source, amount);
-            // endregion
-        }
-        ///////////////////////////////////////////////////////////////////////////////////
 
         Entity entity;
         boolean bl3;
@@ -190,18 +135,17 @@ public abstract class LivingEntityDamageMixin {
         }
 
         ///////////////////////////////////////////////////////////////////////////////////
-        amount = DamageService.INSTANCE.calculateFinalDamage(
-                this_,
-                world,
-                source,
-                shieldBlocked,
-                difficultyScaling,
-                vanillaMoreDamage,
-                vanillaMoreDamageTaken,
-                armadilloDamageReduction,
-                false,
-                amount
-        );
+        var extendedSource = source instanceof ExtendedDamageSource
+                ? (ExtendedDamageSource) source
+                : new ExtendedDamageSource(source);
+
+        var damageCalculationConfig = extendedSource.getDamageCalculationConfig();
+
+        damageCalculationConfig.getVanillaMoreDamage().addAll(vanillaMoreDamage);
+        damageCalculationConfig.getVanillaMoreDamageTaken().addAll(vanillaMoreDamageTaken);
+        damageCalculationConfig.setShieldBlocked(shieldBlocked);
+
+        amount = DamageService.INSTANCE.calculateFinalDamage(this_, world, extendedSource, amount);
         ///////////////////////////////////////////////////////////////////////////////////
 
         boolean bl22 = true;

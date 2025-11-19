@@ -5,7 +5,7 @@ import kotlin.math.roundToInt
 
 object LinkSettings {
     const val LINK_UPDATE_INTERVAL = 1
-    const val LINK_DAMAGE_INTERVAL = 5
+    const val LINK_DAMAGE_INTERVAL = 20
     const val LINK_DISTANCE_BREAK_PADDING = 1F
     const val MAX_LINK_DISTANCE = 64
 

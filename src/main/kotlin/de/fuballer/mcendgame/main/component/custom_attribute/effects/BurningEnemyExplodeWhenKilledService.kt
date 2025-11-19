@@ -3,6 +3,7 @@ package de.fuballer.mcendgame.main.component.custom_attribute.effects
 import de.fuballer.mcendgame.main.component.custom_attribute.CustomAttributesExtensions.asDoubleRoll
 import de.fuballer.mcendgame.main.component.custom_attribute.CustomAttributesExtensions.getAllCustomAttributes
 import de.fuballer.mcendgame.main.component.custom_attribute.types.CustomAttributeTypes
+import de.fuballer.mcendgame.main.component.damage.dealing.DamageDealingService.dealElementalDamage
 import de.fuballer.mcendgame.main.messaging.misc.LivingEntityDeathEvent
 import de.fuballer.mcendgame.main.util.extension.EntityExtension.centerPos
 import de.fuballer.mcendgame.main.util.extension.EntityExtension.isValidSecondaryTarget
@@ -42,14 +43,8 @@ class BurningEnemyExplodeWhenKilledService {
         createParticles(world, killed.centerPos())
         playSound(world, killed, killed.centerPos())
 
-        val targets = getNearbyTargets(world, killed, killer)
-
-        targets.forEach { target ->
-            target.isOnFire = true
-            target.fireTicks = 60
-
-            // TODO deal damage (prob needs changes to damage system (should deal only the entities elemental damage))
-        }
+        getNearbyTargets(world, killed, killer)
+            .forEach { target -> target.dealElementalDamage(damagePercentage, killer) }
     }
 
     private fun getNearbyTargets(

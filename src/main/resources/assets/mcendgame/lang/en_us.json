@@ -179,7 +179,7 @@
   "attribute.mcendgame.drop_increased_loot": "%s%% %s Loot",
   "attribute.mcendgame.drop_more_loot": " %s%% %s Loot",
   "attribute.mcendgame.link_nearby_enemies": " Link to Enemies within %s Blocks",
-  "attribute.mcendgame.damage_linked_enemies": " Deal %s%% Elemental Damage to Linked Enemies every 5 Ticks",
+  "attribute.mcendgame.damage_linked_enemies": " Deal %s%% Elemental Damage to Linked Enemies every second",
   "attribute.mcendgame.heal_on_linked_enemy_killed": " Heal %s Health when a Linked Enemy dies",
 
   "effect.mcendgame.fury": "Fury",
@@ -218,5 +218,7 @@
 
   "error.mcendgame.no_killer_found": "No killer found for %s!",
 
-  "error.mcendgame.invalid_totem_tier": "Maximum tier of this totem is %s!"
+  "error.mcendgame.invalid_totem_tier": "Maximum tier of this totem is %s!",
+
+  "death.attack.elemental": "%s fell to the elemental power of %s"
 }

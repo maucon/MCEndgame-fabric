@@ -3,6 +3,7 @@ package de.fuballer.mcendgame.main.component.damage.calculator
 import de.fuballer.mcendgame.main.component.damage.DamageCalculationCommand
 import de.fuballer.mcendgame.main.component.damage.DamageUtil
 import de.fuballer.mcendgame.main.component.damage.custom_type.CustomDamageTypes
+import de.fuballer.mcendgame.main.component.damage.dealing.ExtendedDamageSource
 import de.fuballer.mcendgame.main.util.extension.DamageTypeExtension.isOf
 import de.fuballer.mcendgame.main.util.extension.mixin.PlayerEntityMixinExtension.getAttackCooldownMultiplier
 import net.minecraft.entity.LivingEntity
@@ -16,7 +17,7 @@ object MeleeAttackCalculator : DamageCalculator {
     override fun calculateAttackDamage(
         originalDamage: Float,
         attacked: LivingEntity,
-        source: DamageSource,
+        source: ExtendedDamageSource,
         event: DamageCalculationCommand
     ): Float {
         val attacker = source.attacker as? LivingEntity ?: return originalDamage
@@ -25,16 +26,16 @@ object MeleeAttackCalculator : DamageCalculator {
         val enchantmentDamage = DamageUtil.calculateEnchantmentDamage(attacker, attacked, source)
         val damageMulti = DamageUtil.calculateAttackDamageMultiplier(event)
         val critMulti = calculateCriticalMultiplier(event)
-        val attackCooldownMulti = calculateAttackCooldownMultiplier(source)
+        val attackCooldown = getAttackCooldown(source)
+        val attackDamageMulti = calculateAttackCooldownMulti(attackCooldown)
 
-        // TODO technically crit multi is applied only to baseDamage and not to enchantmentDamage
-        return ((baseDamage + enchantmentDamage) * damageMulti * critMulti * attackCooldownMulti).toFloat()
+        return ((baseDamage * attackDamageMulti * critMulti + enchantmentDamage * attackCooldown) * damageMulti).toFloat()
     }
 
     override fun calculateElementalDamage(
         originalDamage: Float,
         attacked: LivingEntity,
-        source: DamageSource,
+        source: ExtendedDamageSource,
         event: DamageCalculationCommand
     ): Float {
         if (source.attacker !is LivingEntity) return 0.0F
@@ -42,16 +43,17 @@ object MeleeAttackCalculator : DamageCalculator {
         val baseDamage = calculateBaseElementalDamage(event)
         val damageMulti = DamageUtil.calculateElementalDamageMultiplier(event)
         val critMulti = calculateCriticalMultiplier(event) // TODO can elemental damage crit?
-        val attackCooldownMulti = calculateAttackCooldownMultiplier(source)
+        val attackCooldown = getAttackCooldown(source)
+        val attackDamageMulti = calculateAttackCooldownMulti(attackCooldown)
 
-        return (baseDamage * damageMulti * critMulti * attackCooldownMulti).toFloat()
+        return ((baseDamage * attackDamageMulti * critMulti) * damageMulti).toFloat()
     }
 
     private fun calculateBaseAttackDamage(
         attacker: LivingEntity,
         source: DamageSource
     ): Double {
-        var baseDamage = attacker.getAttributeValue(EntityAttributes.ATTACK_DAMAGE)
+        var baseDamage = if (attacker.isUsingRiptide) 8.0 else attacker.getAttributeValue(EntityAttributes.ATTACK_DAMAGE)
 
         if (source.type.isOf(CustomDamageTypes.SWEEPING)) {
             val sweepingRatio = attacker.getAttributeValue(EntityAttributes.SWEEPING_DAMAGE_RATIO)
@@ -65,9 +67,13 @@ object MeleeAttackCalculator : DamageCalculator {
         return if (event.isDamageCritical) 1.5 else 1.0 // TODO ISSUE: #74
     }
 
-    private fun calculateAttackCooldownMultiplier(source: DamageSource): Double {
+    private fun getAttackCooldown(source: DamageSource): Double {
         val sourceEntity = source.source as? PlayerEntity ?: return 1.0
         return sourceEntity.getAttackCooldownMultiplier().toDouble()
+    }
+
+    private fun calculateAttackCooldownMulti(attackCooldown: Double): Double {
+        return 0.2 + attackCooldown * attackCooldown * 0.8
     }
 
     private fun calculateBaseElementalDamage(
