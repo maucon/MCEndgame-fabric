@@ -46,7 +46,7 @@ object MeleeAttackCalculator : DamageCalculator {
         val attackCooldown = getAttackCooldown(source)
         val attackDamageMulti = calculateAttackCooldownMulti(attackCooldown)
 
-        return (baseDamage * damageMulti * critMulti * attackCooldown).toFloat()
+        return ((baseDamage * attackDamageMulti * critMulti) * damageMulti).toFloat()
     }
 
     private fun calculateBaseAttackDamage(
@@ -73,7 +73,7 @@ object MeleeAttackCalculator : DamageCalculator {
     }
 
     private fun calculateAttackCooldownMulti(attackCooldown: Double): Double {
-        return 0.2f + attackCooldown * attackCooldown * 0.8f
+        return 0.2 + attackCooldown * attackCooldown * 0.8
     }
 
     private fun calculateBaseElementalDamage(
