@@ -46,7 +46,7 @@ class AttributeService {
         random: Random,
         data: EquipmentGenerationData,
     ): List<CustomAttribute> {
-        var statAmount = RandomUtil.pick(AttributeSettings.ATTRIBUTE_COUNT, level, random).option
+        var statAmount = AttributeSettings.getAttributeCount(level, random)
         data.additionalAttributeProbabilities.forEach {
             if (random.nextDouble() < it) statAmount++
         }
