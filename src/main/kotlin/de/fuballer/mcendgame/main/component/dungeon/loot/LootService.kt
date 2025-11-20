@@ -2,7 +2,6 @@ package de.fuballer.mcendgame.main.component.dungeon.loot
 
 import de.fuballer.mcendgame.main.component.item.custom.UniqueAttributesItemInterface
 import de.fuballer.mcendgame.main.component.tags.CustomTags
-import de.fuballer.mcendgame.main.configuration.RuntimeConfig
 import de.fuballer.mcendgame.main.messaging.dungeon.DungeonBossDeathEvent
 import de.fuballer.mcendgame.main.messaging.dungeon.DungeonEnemyDeathEvent
 import de.fuballer.mcendgame.main.messaging.misc.LivingEntityDropCommand
@@ -18,11 +17,9 @@ import de.maucon.mauconframework.command.CommandGateway
 import de.maucon.mauconframework.command.CommandHandler
 import de.maucon.mauconframework.di.annotation.Injectable
 import de.maucon.mauconframework.event.EventSubscriber
-import net.minecraft.enchantment.Enchantments
 import net.minecraft.entity.EquipmentSlot
 import net.minecraft.entity.LivingEntity
 import net.minecraft.item.ItemStack
-import net.minecraft.registry.RegistryKeys
 import net.minecraft.server.world.ServerWorld
 import kotlin.random.Random
 
@@ -51,8 +48,7 @@ class LootService {
         EquipmentSlot.VALUES
             .map { enemyEntity.getEquippedStack(it) }
             .filter {
-                val lootingLevel = getLootingLevel(event.killer)
-                val baseDropProbability = getDropProbability(it, lootingLevel, enemyEntity.isLootGoblin())
+                val baseDropProbability = getDropProbability(it, enemyEntity.isLootGoblin())
                 var dropProbability = baseDropProbability * getMagicFindFactor(event.killer)
                 dropProbability *= enemyEntity.getTotalCustomAttributeLootMultiplier()
 
@@ -81,16 +77,6 @@ class LootService {
         itemStacks.forEach { bossEntity.dropStack(serverWorld, it) }
     }
 
-    private fun getLootingLevel(entity: LivingEntity?): Int {
-        if (entity == null) return 0
-
-        val itemStack = entity.getEquippedStack(EquipmentSlot.MAINHAND)
-        val enchantmentRegistry = RuntimeConfig.SERVER.registryManager.getOrThrow(RegistryKeys.ENCHANTMENT)
-        val lootingEntry = enchantmentRegistry.getOrThrow(Enchantments.LOOTING)
-
-        return itemStack.enchantments.getLevel(lootingEntry)
-    }
-
     private fun getMagicFindFactor(entity: LivingEntity?): Double {
         if (entity == null) return 1.0
 
@@ -100,19 +86,14 @@ class LootService {
         return LootSettings.calculateMagicFindDropProbabilityFactor(cmd.magicFind)
     }
 
-    private fun getDropProbability(stack: ItemStack, lootingLevel: Int, isLootGoblin: Boolean): Double {
+    private fun getDropProbability(stack: ItemStack, isLootGoblin: Boolean): Double {
         if (stack.isIn(CustomTags.DUNGEON_DROP_DISABLED)) return 0.0
         if (isLootGoblin) return 1.0 // loot goblins should always drop all equipment
         if (stack.item is UniqueAttributesItemInterface) return 1.0 // uniques should always drop
 
-        if (stack.isIn(CustomTags.DIAMOND_GEAR)) {
-            return LootSettings.ITEMS_DROP_PROBABILITY_DIAMOND + LootSettings.ITEMS_DROP_PROBABILITY_DIAMOND_PER_LOOTING * lootingLevel
-        }
-        if (stack.isIn(CustomTags.NETHERITE_GEAR)) {
-            return LootSettings.ITEMS_DROP_PROBABILITY_NETHERITE + LootSettings.ITEMS_DROP_PROBABILITY_NETHERITE_PER_LOOTING * lootingLevel
-        }
-
-        return LootSettings.ITEMS_DROP_PROBABILITY + LootSettings.ITEMS_DROP_PROBABILITY_PER_LOOTING * lootingLevel
+        if (stack.isIn(CustomTags.DIAMOND_GEAR)) return LootSettings.ITEMS_DROP_PROBABILITY_DIAMOND
+        if (stack.isIn(CustomTags.NETHERITE_GEAR)) return LootSettings.ITEMS_DROP_PROBABILITY_NETHERITE
+        return LootSettings.ITEMS_DROP_PROBABILITY
     }
 
     private fun setRandomDurability(itemStack: ItemStack) {
