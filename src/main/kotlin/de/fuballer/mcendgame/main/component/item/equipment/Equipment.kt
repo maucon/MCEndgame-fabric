@@ -7,6 +7,7 @@ import de.fuballer.mcendgame.main.component.item.equipment.armor.Helmet
 import de.fuballer.mcendgame.main.component.item.equipment.armor.Leggings
 import de.fuballer.mcendgame.main.component.item.equipment.enchantment.EquipmentEnchantment
 import de.fuballer.mcendgame.main.component.item.equipment.tool.*
+import de.fuballer.mcendgame.main.util.random.LevelLockedRandomOption
 import de.fuballer.mcendgame.main.util.random.RandomOption
 import net.minecraft.component.type.AttributeModifierSlot
 import net.minecraft.item.Item
@@ -16,7 +17,7 @@ interface Equipment {
     val slot: AttributeModifierSlot
 
     val rollableEnchants: List<RandomOption<EquipmentEnchantment>>
-    val rollableCustomAttributes: List<RandomOption<RollableCustomAttribute>>
+    val rollableCustomAttributes: List<RandomOption<List<LevelLockedRandomOption<RollableCustomAttribute>>>>
 
     companion object {
         private val materialToEquipment = mutableMapOf<Item, Equipment>()

@@ -88,6 +88,25 @@ object RandomUtil {
         return shuffled
     }
 
+    fun <T> pickLevelLocked(
+        options: List<LevelLockedRandomOption<T>>,
+        rolls: Int,
+        level: Int,
+        random: Random = Random,
+    ): T {
+        val unlockedOptions = options.filterNot { it.isLocked(level) }.toList()
+
+        val totalWeight = unlockedOptions.sumOf { it.weight }
+
+        var randomInt = 0
+        repeat(rolls) {
+            randomInt = max(randomInt, random.nextInt(totalWeight))
+        }
+
+        val sortedOptions = unlockedOptions.sortedBy { it.tier }.toList()
+        return pickOption(sortedOptions, randomInt).option
+    }
+
     private fun <T : RandomOption<*>> pickOption(
         options: List<T>,
         randomInt: Int

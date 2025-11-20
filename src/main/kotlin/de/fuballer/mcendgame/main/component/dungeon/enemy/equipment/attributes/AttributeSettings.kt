@@ -1,27 +1,23 @@
 package de.fuballer.mcendgame.main.component.dungeon.enemy.equipment.attributes
 
+import de.fuballer.mcendgame.main.util.random.LevelLockedRandomOption
 import de.fuballer.mcendgame.main.util.random.RandomUtil
-import de.fuballer.mcendgame.main.util.random.SortableRandomOption
 import kotlin.random.Random
 
 object AttributeSettings {
     fun getAttributeCount(level: Int, random: Random): Int {
-        val filteredOptions = ATTRIBUTE_COUNT.filter { it.barrierLevel <= level }.map { it.option }.toList()
-        val rolls = 1 + level / 2 + if (Random.nextDouble() < (level / 2.0) % 1) 1 else 0
-        return RandomUtil.pick(filteredOptions, rolls, random).option
+        val rolls = 1 + level / 2 + if (random.nextDouble() < (level / 2.0) % 1) 1 else 0
+        return RandomUtil.pickLevelLocked(ATTRIBUTE_COUNT, rolls, level, random)
     }
 
     val ATTRIBUTE_COUNT = listOf(
-        AttributeCountWithTierBarrier(SortableRandomOption(10000, 0, 0), 0),
-        AttributeCountWithTierBarrier(SortableRandomOption(10000, 1, 1), 0),
-        AttributeCountWithTierBarrier(SortableRandomOption(2400, 2, 2), 3),
-        AttributeCountWithTierBarrier(SortableRandomOption(350, 3, 3), 5),
-        AttributeCountWithTierBarrier(SortableRandomOption(50, 4, 4), 10),
-        AttributeCountWithTierBarrier(SortableRandomOption(1, 5, 5), 15),
+        LevelLockedRandomOption(weight = 10000, tier = 0, level = 0, option = 0),
+        LevelLockedRandomOption(weight = 10000, tier = 1, level = 0, option = 1),
+        LevelLockedRandomOption(weight = 2400, tier = 2, level = 3, option = 2),
+        LevelLockedRandomOption(weight = 350, tier = 3, level = 5, option = 3),
+        LevelLockedRandomOption(weight = 50, tier = 4, level = 10, option = 4),
+        LevelLockedRandomOption(weight = 1, tier = 5, level = 15, option = 5),
     )
 
-    data class AttributeCountWithTierBarrier(
-        val option: SortableRandomOption<Int>,
-        val barrierLevel: Int,
-    )
+    fun getAttributeTierRolls(level: Int, random: Random) = 1 + level / 5 + if (random.nextDouble() < (level / 5.0) % 1) 1 else 0
 }
