@@ -13,7 +13,7 @@ class DuskPiercer(
     override fun getCustomAttributes() = listOf(
         RollableCustomAttribute(CustomAttributeTypes.PIERCE_ALL, 0),
         RollableCustomAttribute(CustomAttributeTypes.BOW_PULL_TICKS, 0, IntBounds(3, 5)),
-        RollableCustomAttribute(CustomAttributeTypes.MORE_PROJECTILE_DAMAGE, 0, DoubleBounds(-0.5, -0.5)),
+        RollableCustomAttribute(CustomAttributeTypes.MORE_PROJECTILE_DAMAGE, 0, DoubleBounds(-0.3, -0.3)),
     )
 
     override fun getAttributeModifierSlot() = AttributeModifierSlot.HAND
