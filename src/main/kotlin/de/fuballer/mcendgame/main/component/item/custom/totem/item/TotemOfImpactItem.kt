@@ -15,9 +15,9 @@ class TotemOfImpactItem(
 
     override fun getCustomAttributes(tier: Int) =
         when (tier) {
-            0 -> listOf(CustomAttribute(CustomAttributeTypes.INCREASED_PROJECTILE_DAMAGE, tier, DoubleRoll(DoubleBounds(0.1))))
-            1 -> listOf(CustomAttribute(CustomAttributeTypes.INCREASED_PROJECTILE_DAMAGE, tier, DoubleRoll(DoubleBounds(0.2))))
-            2 -> listOf(CustomAttribute(CustomAttributeTypes.INCREASED_PROJECTILE_DAMAGE, tier, DoubleRoll(DoubleBounds(0.3))))
+            0 -> listOf(CustomAttribute(CustomAttributeTypes.INCREASED_PROJECTILE_DAMAGE, tier, DoubleRoll(DoubleBounds(0.04))))
+            1 -> listOf(CustomAttribute(CustomAttributeTypes.INCREASED_PROJECTILE_DAMAGE, tier, DoubleRoll(DoubleBounds(0.08))))
+            2 -> listOf(CustomAttribute(CustomAttributeTypes.INCREASED_PROJECTILE_DAMAGE, tier, DoubleRoll(DoubleBounds(0.12))))
             else -> listOf()
         }
 }

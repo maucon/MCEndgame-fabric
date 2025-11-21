@@ -12,9 +12,9 @@ class WitherRoseChestplate(
 ) : UniqueAttributesItem(settings) {
     override fun getCustomAttributes() = listOf(
         RollableCustomAttribute(CustomAttributeTypes.WITHER_DAMAGE_IMMUNITY, 0),
-        RollableCustomAttribute(CustomAttributeTypes.INCREASED_DAMAGE_WHILE_WITHERED, 0, DoubleBounds(0.05, 0.15)),
-        RollableCustomAttribute(CustomAttributeTypes.INCREASED_ATTACK_DAMAGE_WHILE_WITHERED, 0, DoubleBounds(0.1, 0.2)),
-        RollableCustomAttribute(CustomAttributeTypes.ARMOR_WHILE_WITHERED, 0, DoubleBounds(3.0, 5.0)),
+        RollableCustomAttribute(CustomAttributeTypes.INCREASED_DAMAGE_WHILE_WITHERED, 0, DoubleBounds(0.04, 0.06)),
+        RollableCustomAttribute(CustomAttributeTypes.INCREASED_ATTACK_DAMAGE_WHILE_WITHERED, 0, DoubleBounds(0.08, 0.12)),
+        RollableCustomAttribute(CustomAttributeTypes.ARMOR_WHILE_WITHERED, 0, DoubleBounds(2.5, 4.0)),
         RollableCustomAttribute(VanillaAttributeTypes.INCREASED_SCALE, 0, DoubleBounds(0.05, 0.15)),
     )
 

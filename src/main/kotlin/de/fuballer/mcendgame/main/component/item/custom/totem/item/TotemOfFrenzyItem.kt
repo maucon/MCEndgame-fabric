@@ -15,9 +15,9 @@ class TotemOfFrenzyItem(
 
     override fun getCustomAttributes(tier: Int) =
         when (tier) {
-            0 -> listOf(CustomAttribute(VanillaAttributeTypes.INCREASED_ATTACK_SPEED, tier, DoubleRoll(DoubleBounds(0.1))))
-            1 -> listOf(CustomAttribute(VanillaAttributeTypes.INCREASED_ATTACK_SPEED, tier, DoubleRoll(DoubleBounds(0.2))))
-            2 -> listOf(CustomAttribute(VanillaAttributeTypes.INCREASED_ATTACK_SPEED, tier, DoubleRoll(DoubleBounds(0.3))))
+            0 -> listOf(CustomAttribute(VanillaAttributeTypes.INCREASED_ATTACK_SPEED, tier, DoubleRoll(DoubleBounds(0.03))))
+            1 -> listOf(CustomAttribute(VanillaAttributeTypes.INCREASED_ATTACK_SPEED, tier, DoubleRoll(DoubleBounds(0.06))))
+            2 -> listOf(CustomAttribute(VanillaAttributeTypes.INCREASED_ATTACK_SPEED, tier, DoubleRoll(DoubleBounds(0.09))))
             else -> listOf()
         }
 }

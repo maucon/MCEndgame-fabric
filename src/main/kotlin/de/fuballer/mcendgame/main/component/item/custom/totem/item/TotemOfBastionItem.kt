@@ -15,9 +15,9 @@ class TotemOfBastionItem(
 
     override fun getCustomAttributes(tier: Int) =
         when (tier) {
-            0 -> listOf(CustomAttribute(VanillaAttributeTypes.ARMOR, tier, DoubleRoll(DoubleBounds(1.0))))
-            1 -> listOf(CustomAttribute(VanillaAttributeTypes.ARMOR, tier, DoubleRoll(DoubleBounds(2.0))))
-            2 -> listOf(CustomAttribute(VanillaAttributeTypes.ARMOR, tier, DoubleRoll(DoubleBounds(3.0))))
+            0 -> listOf(CustomAttribute(VanillaAttributeTypes.ARMOR, tier, DoubleRoll(DoubleBounds(0.5))))
+            1 -> listOf(CustomAttribute(VanillaAttributeTypes.ARMOR, tier, DoubleRoll(DoubleBounds(1.0))))
+            2 -> listOf(CustomAttribute(VanillaAttributeTypes.ARMOR, tier, DoubleRoll(DoubleBounds(1.5))))
             else -> listOf()
         }
 }

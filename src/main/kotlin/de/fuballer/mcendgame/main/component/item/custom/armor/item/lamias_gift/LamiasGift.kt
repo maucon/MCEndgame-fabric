@@ -30,18 +30,18 @@ class LamiasGift(
     )
 
     private fun getOffensiveAttribute() = listOf(
-        RollableCustomAttribute(CustomAttributeTypes.INCREASED_DAMAGE_WHILE_POISONED, 0, DoubleBounds(0.05, 0.1)),
-        RollableCustomAttribute(CustomAttributeTypes.INCREASED_ATTACK_DAMAGE_WHILE_POISONED, 0, DoubleBounds(0.1, 0.2)),
+        RollableCustomAttribute(CustomAttributeTypes.INCREASED_DAMAGE_WHILE_POISONED, 0, DoubleBounds(0.04, 0.06)),
+        RollableCustomAttribute(CustomAttributeTypes.INCREASED_ATTACK_DAMAGE_WHILE_POISONED, 0, DoubleBounds(0.1, 0.15)),
         RollableCustomAttribute(CustomAttributeTypes.INCREASED_ELEMENTAL_DAMAGE_WHILE_POISONED, 0, DoubleBounds(0.1, 0.2)),
     ).random()
 
     private fun getDefensiveAttribute() = listOf(
-        RollableCustomAttribute(CustomAttributeTypes.MORE_DAMAGE_TAKEN_WHILE_POISONED, 0, DoubleBounds(-0.1, -0.05)),
-        RollableCustomAttribute(CustomAttributeTypes.DODGE_WHILE_POISONED, 0, DoubleBounds(0.05, 0.15)),
+        RollableCustomAttribute(CustomAttributeTypes.MORE_DAMAGE_TAKEN_WHILE_POISONED, 0, DoubleBounds(-0.08, -0.05)),
+        RollableCustomAttribute(CustomAttributeTypes.DODGE_WHILE_POISONED, 0, DoubleBounds(0.06, 0.9)),
     ).random()
 
     private fun getMiscAttribute() = listOf(
-        RollableCustomAttribute(CustomAttributeTypes.INCREASED_MOVEMENT_SPEED_WHILE_POISONED, 0, DoubleBounds(.15, .3)),
-        RollableCustomAttribute(CustomAttributeTypes.MAGIC_FIND_WHILE_POISONED, 0, IntBounds(2, 5)),
+        RollableCustomAttribute(CustomAttributeTypes.INCREASED_MOVEMENT_SPEED_WHILE_POISONED, 0, DoubleBounds(.15, .25)),
+        RollableCustomAttribute(CustomAttributeTypes.MAGIC_FIND_WHILE_POISONED, 0, IntBounds(3, 5)),
     ).random()
 }

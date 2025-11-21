@@ -7,6 +7,7 @@ import de.fuballer.mcendgame.main.component.custom_attribute.types.VanillaAttrib
 import de.fuballer.mcendgame.main.component.item.custom.tool.CustomToolItems
 import de.fuballer.mcendgame.main.component.item.equipment.Equipment
 import de.fuballer.mcendgame.main.component.item.equipment.enchantment.EquipmentEnchantment
+import de.fuballer.mcendgame.main.util.random.LevelLockedRandomOption
 import de.fuballer.mcendgame.main.util.random.RandomOption
 import net.minecraft.component.type.AttributeModifierSlot
 import net.minecraft.item.Item
@@ -40,24 +41,54 @@ enum class Axe(
     override val slot = AttributeModifierSlot.HAND
 
     override val rollableCustomAttributes = listOf(
-        RandomOption(5, RollableCustomAttribute(VanillaAttributeTypes.ATTACK_DAMAGE, 1, DoubleBounds(3.5, 5.0))),
-        RandomOption(10, RollableCustomAttribute(VanillaAttributeTypes.ATTACK_DAMAGE, 2, DoubleBounds(2.0, 3.5))),
-        RandomOption(20, RollableCustomAttribute(VanillaAttributeTypes.ATTACK_DAMAGE, 3, DoubleBounds(0.5, 2.0))),
-        RandomOption(5, RollableCustomAttribute(VanillaAttributeTypes.INCREASED_ATTACK_DAMAGE, 1, DoubleBounds(0.15, 0.2))),
-        RandomOption(10, RollableCustomAttribute(VanillaAttributeTypes.INCREASED_ATTACK_DAMAGE, 2, DoubleBounds(0.1, 0.15))),
-        RandomOption(20, RollableCustomAttribute(VanillaAttributeTypes.INCREASED_ATTACK_DAMAGE, 3, DoubleBounds(0.05, 0.1))),
-        RandomOption(5, RollableCustomAttribute(VanillaAttributeTypes.INCREASED_ATTACK_SPEED, 1, DoubleBounds(0.25, 0.35))),
-        RandomOption(10, RollableCustomAttribute(VanillaAttributeTypes.INCREASED_ATTACK_SPEED, 2, DoubleBounds(0.15, 0.25))),
-        RandomOption(20, RollableCustomAttribute(VanillaAttributeTypes.INCREASED_ATTACK_SPEED, 3, DoubleBounds(0.05, 0.15))),
-        RandomOption(5, RollableCustomAttribute(CustomAttributeTypes.ELEMENTAL_DAMAGE, 1, DoubleBounds(3.5, 5.0))),
-        RandomOption(10, RollableCustomAttribute(CustomAttributeTypes.ELEMENTAL_DAMAGE, 2, DoubleBounds(2.0, 3.5))),
-        RandomOption(20, RollableCustomAttribute(CustomAttributeTypes.ELEMENTAL_DAMAGE, 3, DoubleBounds(0.5, 2.0))),
-        RandomOption(5, RollableCustomAttribute(CustomAttributeTypes.INCREASED_ELEMENTAL_DAMAGE, 1, DoubleBounds(0.15, 0.2))),
-        RandomOption(10, RollableCustomAttribute(CustomAttributeTypes.INCREASED_ELEMENTAL_DAMAGE, 2, DoubleBounds(0.1, 0.15))),
-        RandomOption(20, RollableCustomAttribute(CustomAttributeTypes.INCREASED_ELEMENTAL_DAMAGE, 3, DoubleBounds(0.05, 0.1))),
-        RandomOption(5, RollableCustomAttribute(CustomAttributeTypes.INCREASED_DAMAGE, 1, DoubleBounds(0.1, 0.13))),
-        RandomOption(10, RollableCustomAttribute(CustomAttributeTypes.INCREASED_DAMAGE, 2, DoubleBounds(0.06, 0.1))),
-        RandomOption(20, RollableCustomAttribute(CustomAttributeTypes.INCREASED_DAMAGE, 3, DoubleBounds(0.02, 0.06))),
+        RandomOption(
+            weight = 1,
+            listOf(
+                LevelLockedRandomOption(weight = 50, tier = 1, level = 0, RollableCustomAttribute(VanillaAttributeTypes.ATTACK_DAMAGE, 3, DoubleBounds(0.5, 2.0))),
+                LevelLockedRandomOption(weight = 10, tier = 2, level = 5, RollableCustomAttribute(VanillaAttributeTypes.ATTACK_DAMAGE, 2, DoubleBounds(2.0, 3.5))),
+                LevelLockedRandomOption(weight = 1, tier = 3, level = 10, RollableCustomAttribute(VanillaAttributeTypes.ATTACK_DAMAGE, 1, DoubleBounds(3.5, 4.5))),
+            )
+        ),
+        RandomOption(
+            weight = 1,
+            listOf(
+                LevelLockedRandomOption(weight = 50, tier = 1, level = 0, RollableCustomAttribute(VanillaAttributeTypes.INCREASED_ATTACK_DAMAGE, 3, DoubleBounds(0.03, 0.06))),
+                LevelLockedRandomOption(weight = 10, tier = 2, level = 5, RollableCustomAttribute(VanillaAttributeTypes.INCREASED_ATTACK_DAMAGE, 2, DoubleBounds(0.06, 0.09))),
+                LevelLockedRandomOption(weight = 1, tier = 3, level = 10, RollableCustomAttribute(VanillaAttributeTypes.INCREASED_ATTACK_DAMAGE, 1, DoubleBounds(0.09, 0.12))),
+            )
+        ),
+        RandomOption(
+            weight = 1,
+            listOf(
+                LevelLockedRandomOption(weight = 50, tier = 1, level = 0, RollableCustomAttribute(VanillaAttributeTypes.INCREASED_ATTACK_SPEED, 3, DoubleBounds(0.05, 0.1))),
+                LevelLockedRandomOption(weight = 10, tier = 2, level = 5, RollableCustomAttribute(VanillaAttributeTypes.INCREASED_ATTACK_SPEED, 2, DoubleBounds(0.1, 0.15))),
+                LevelLockedRandomOption(weight = 1, tier = 3, level = 10, RollableCustomAttribute(VanillaAttributeTypes.INCREASED_ATTACK_SPEED, 1, DoubleBounds(0.15, 0.2))),
+            )
+        ),
+        RandomOption(
+            weight = 1,
+            listOf(
+                LevelLockedRandomOption(weight = 50, tier = 1, level = 0, RollableCustomAttribute(CustomAttributeTypes.ELEMENTAL_DAMAGE, 3, DoubleBounds(0.6, 1.4))),
+                LevelLockedRandomOption(weight = 10, tier = 2, level = 5, RollableCustomAttribute(CustomAttributeTypes.ELEMENTAL_DAMAGE, 2, DoubleBounds(1.4, 2.2))),
+                LevelLockedRandomOption(weight = 1, tier = 3, level = 10, RollableCustomAttribute(CustomAttributeTypes.ELEMENTAL_DAMAGE, 1, DoubleBounds(2.2, 3.0))),
+            )
+        ),
+        RandomOption(
+            weight = 1,
+            listOf(
+                LevelLockedRandomOption(weight = 50, tier = 1, level = 0, RollableCustomAttribute(CustomAttributeTypes.INCREASED_ELEMENTAL_DAMAGE, 3, DoubleBounds(0.05, 0.1))),
+                LevelLockedRandomOption(weight = 10, tier = 2, level = 5, RollableCustomAttribute(CustomAttributeTypes.INCREASED_ELEMENTAL_DAMAGE, 2, DoubleBounds(0.1, 0.15))),
+                LevelLockedRandomOption(weight = 1, tier = 3, level = 10, RollableCustomAttribute(CustomAttributeTypes.INCREASED_ELEMENTAL_DAMAGE, 1, DoubleBounds(0.15, 0.2))),
+            )
+        ),
+        RandomOption(
+            weight = 1,
+            listOf(
+                LevelLockedRandomOption(weight = 50, tier = 1, level = 0, RollableCustomAttribute(CustomAttributeTypes.INCREASED_DAMAGE, 3, DoubleBounds(0.015, 0.03))),
+                LevelLockedRandomOption(weight = 10, tier = 2, level = 5, RollableCustomAttribute(CustomAttributeTypes.INCREASED_DAMAGE, 2, DoubleBounds(0.03, 0.045))),
+                LevelLockedRandomOption(weight = 1, tier = 3, level = 10, RollableCustomAttribute(CustomAttributeTypes.INCREASED_DAMAGE, 1, DoubleBounds(0.045, 0.06))),
+            )
+        ),
     )
 
     override val rollableEnchants = listOf(
