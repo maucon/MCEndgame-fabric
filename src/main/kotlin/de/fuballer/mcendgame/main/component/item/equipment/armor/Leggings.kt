@@ -56,49 +56,49 @@ enum class Leggings(
         RandomOption(
             weight = 1,
             listOf(
-                LevelLockedRandomOption(weight = 50, tier = 1, level = 0, RollableCustomAttribute(VanillaAttributeTypes.ARMOR, 3, DoubleBounds(1.0, 2.0))),
-                LevelLockedRandomOption(weight = 10, tier = 2, level = 5, RollableCustomAttribute(VanillaAttributeTypes.ARMOR, 2, DoubleBounds(2.0, 3.0))),
-                LevelLockedRandomOption(weight = 1, tier = 3, level = 10, RollableCustomAttribute(VanillaAttributeTypes.ARMOR, 1, DoubleBounds(3.0, 4.0))),
+                LevelLockedRandomOption(weight = 50, tier = 1, level = 0, RollableCustomAttribute(VanillaAttributeTypes.ARMOR, 3, DoubleBounds(0.4, 0.85))),
+                LevelLockedRandomOption(weight = 10, tier = 2, level = 5, RollableCustomAttribute(VanillaAttributeTypes.ARMOR, 2, DoubleBounds(0.85, 1.3))),
+                LevelLockedRandomOption(weight = 1, tier = 3, level = 10, RollableCustomAttribute(VanillaAttributeTypes.ARMOR, 1, DoubleBounds(1.3, 1.75))),
             )
         ),
         RandomOption(
             weight = 1,
             listOf(
-                LevelLockedRandomOption(weight = 50, tier = 1, level = 0, RollableCustomAttribute(VanillaAttributeTypes.ARMOR_TOUGHNESS, 3, DoubleBounds(1.0, 2.0))),
-                LevelLockedRandomOption(weight = 10, tier = 2, level = 5, RollableCustomAttribute(VanillaAttributeTypes.ARMOR_TOUGHNESS, 2, DoubleBounds(2.0, 3.0))),
-                LevelLockedRandomOption(weight = 1, tier = 3, level = 10, RollableCustomAttribute(VanillaAttributeTypes.ARMOR_TOUGHNESS, 1, DoubleBounds(3.0, 4.0))),
+                LevelLockedRandomOption(weight = 50, tier = 1, level = 0, RollableCustomAttribute(VanillaAttributeTypes.ARMOR_TOUGHNESS, 3, DoubleBounds(0.5, 1.25))),
+                LevelLockedRandomOption(weight = 10, tier = 2, level = 5, RollableCustomAttribute(VanillaAttributeTypes.ARMOR_TOUGHNESS, 2, DoubleBounds(1.25, 2.0))),
+                LevelLockedRandomOption(weight = 1, tier = 3, level = 10, RollableCustomAttribute(VanillaAttributeTypes.ARMOR_TOUGHNESS, 1, DoubleBounds(2.0, 2.5))),
             )
         ),
         RandomOption(
             weight = 1,
             listOf(
-                LevelLockedRandomOption(weight = 50, tier = 1, level = 0, RollableCustomAttribute(VanillaAttributeTypes.MAX_HEALTH, 3, DoubleBounds(1.0, 2.5))),
-                LevelLockedRandomOption(weight = 10, tier = 2, level = 5, RollableCustomAttribute(VanillaAttributeTypes.MAX_HEALTH, 2, DoubleBounds(2.5, 4.0))),
-                LevelLockedRandomOption(weight = 1, tier = 3, level = 10, RollableCustomAttribute(VanillaAttributeTypes.MAX_HEALTH, 1, DoubleBounds(4.0, 5.0))),
+                LevelLockedRandomOption(weight = 50, tier = 1, level = 0, RollableCustomAttribute(VanillaAttributeTypes.MAX_HEALTH, 3, DoubleBounds(0.5, 1.25))),
+                LevelLockedRandomOption(weight = 10, tier = 2, level = 5, RollableCustomAttribute(VanillaAttributeTypes.MAX_HEALTH, 2, DoubleBounds(1.25, 2.0))),
+                LevelLockedRandomOption(weight = 1, tier = 3, level = 10, RollableCustomAttribute(VanillaAttributeTypes.MAX_HEALTH, 1, DoubleBounds(2.0, 2.5))),
             )
         ),
         RandomOption(
             weight = 1,
             listOf(
-                LevelLockedRandomOption(weight = 50, tier = 1, level = 0, RollableCustomAttribute(CustomAttributeTypes.WARD, 3, DoubleBounds(1.0, 2.0))),
-                LevelLockedRandomOption(weight = 10, tier = 2, level = 5, RollableCustomAttribute(CustomAttributeTypes.WARD, 2, DoubleBounds(2.0, 3.0))),
-                LevelLockedRandomOption(weight = 1, tier = 3, level = 10, RollableCustomAttribute(CustomAttributeTypes.WARD, 1, DoubleBounds(3.0, 4.0))),
+                LevelLockedRandomOption(weight = 50, tier = 1, level = 0, RollableCustomAttribute(CustomAttributeTypes.WARD, 3, DoubleBounds(0.5, 1.25))),
+                LevelLockedRandomOption(weight = 10, tier = 2, level = 5, RollableCustomAttribute(CustomAttributeTypes.WARD, 2, DoubleBounds(1.25, 2.0))),
+                LevelLockedRandomOption(weight = 1, tier = 3, level = 10, RollableCustomAttribute(CustomAttributeTypes.WARD, 1, DoubleBounds(2.0, 2.5))),
             )
         ),
         RandomOption(
             weight = 1,
             listOf(
-                LevelLockedRandomOption(weight = 50, tier = 1, level = 0, RollableCustomAttribute(CustomAttributeTypes.DODGE, 3, DoubleBounds(0.05, 0.1))),
-                LevelLockedRandomOption(weight = 10, tier = 2, level = 5, RollableCustomAttribute(CustomAttributeTypes.DODGE, 2, DoubleBounds(0.1, 0.15))),
-                LevelLockedRandomOption(weight = 1, tier = 3, level = 10, RollableCustomAttribute(CustomAttributeTypes.DODGE, 1, DoubleBounds(0.15, 0.2))),
+                LevelLockedRandomOption(weight = 50, tier = 1, level = 0, RollableCustomAttribute(CustomAttributeTypes.DODGE, 3, DoubleBounds(0.015, 0.035))),
+                LevelLockedRandomOption(weight = 10, tier = 2, level = 5, RollableCustomAttribute(CustomAttributeTypes.DODGE, 2, DoubleBounds(0.035, 0.055))),
+                LevelLockedRandomOption(weight = 1, tier = 3, level = 10, RollableCustomAttribute(CustomAttributeTypes.DODGE, 1, DoubleBounds(0.055, 0.07))),
             )
         ),
         RandomOption(
             weight = 1,
             listOf(
-                LevelLockedRandomOption(weight = 50, tier = 1, level = 0, RollableCustomAttribute(CustomAttributeTypes.MORE_DAMAGE_TAKEN, 3, DoubleBounds(-0.07, -0.03))),
-                LevelLockedRandomOption(weight = 10, tier = 2, level = 5, RollableCustomAttribute(CustomAttributeTypes.MORE_DAMAGE_TAKEN, 2, DoubleBounds(-0.11, -0.07))),
-                LevelLockedRandomOption(weight = 1, tier = 3, level = 10, RollableCustomAttribute(CustomAttributeTypes.MORE_DAMAGE_TAKEN, 1, DoubleBounds(-0.15, -0.11))),
+                LevelLockedRandomOption(weight = 50, tier = 1, level = 0, RollableCustomAttribute(CustomAttributeTypes.MORE_DAMAGE_TAKEN, 3, DoubleBounds(-0.0275, -0.01))),
+                LevelLockedRandomOption(weight = 10, tier = 2, level = 5, RollableCustomAttribute(CustomAttributeTypes.MORE_DAMAGE_TAKEN, 2, DoubleBounds(-0.045, -0.0275))),
+                LevelLockedRandomOption(weight = 1, tier = 3, level = 10, RollableCustomAttribute(CustomAttributeTypes.MORE_DAMAGE_TAKEN, 1, DoubleBounds(-0.06, -0.045))),
             )
         ),
     )

@@ -35,25 +35,25 @@ enum class Bow(
         RandomOption(
             weight = 1,
             listOf(
-                LevelLockedRandomOption(weight = 50, tier = 1, level = 0, RollableCustomAttribute(CustomAttributeTypes.INCREASED_DAMAGE, 3, DoubleBounds(0.03, 0.06))),
-                LevelLockedRandomOption(weight = 10, tier = 2, level = 5, RollableCustomAttribute(CustomAttributeTypes.INCREASED_DAMAGE, 2, DoubleBounds(0.06, 0.09))),
-                LevelLockedRandomOption(weight = 1, tier = 3, level = 10, RollableCustomAttribute(CustomAttributeTypes.INCREASED_DAMAGE, 1, DoubleBounds(0.09, 0.12))),
+                LevelLockedRandomOption(weight = 50, tier = 1, level = 0, RollableCustomAttribute(CustomAttributeTypes.INCREASED_DAMAGE, 3, DoubleBounds(0.015, 0.03))),
+                LevelLockedRandomOption(weight = 10, tier = 2, level = 5, RollableCustomAttribute(CustomAttributeTypes.INCREASED_DAMAGE, 2, DoubleBounds(0.03, 0.045))),
+                LevelLockedRandomOption(weight = 1, tier = 3, level = 10, RollableCustomAttribute(CustomAttributeTypes.INCREASED_DAMAGE, 1, DoubleBounds(0.045, 0.06))),
             )
         ),
         RandomOption(
             weight = 1,
             listOf(
-                LevelLockedRandomOption(weight = 50, tier = 1, level = 0, RollableCustomAttribute(CustomAttributeTypes.INCREASED_PROJECTILE_DAMAGE, 3, DoubleBounds(0.06, 0.18))),
-                LevelLockedRandomOption(weight = 10, tier = 2, level = 5, RollableCustomAttribute(CustomAttributeTypes.INCREASED_PROJECTILE_DAMAGE, 2, DoubleBounds(0.18, 0.3))),
-                LevelLockedRandomOption(weight = 1, tier = 3, level = 10, RollableCustomAttribute(CustomAttributeTypes.INCREASED_PROJECTILE_DAMAGE, 1, DoubleBounds(0.3, 0.42))),
+                LevelLockedRandomOption(weight = 50, tier = 1, level = 0, RollableCustomAttribute(CustomAttributeTypes.INCREASED_PROJECTILE_DAMAGE, 3, DoubleBounds(0.05, 0.1))),
+                LevelLockedRandomOption(weight = 10, tier = 2, level = 5, RollableCustomAttribute(CustomAttributeTypes.INCREASED_PROJECTILE_DAMAGE, 2, DoubleBounds(0.1, 0.15))),
+                LevelLockedRandomOption(weight = 1, tier = 3, level = 10, RollableCustomAttribute(CustomAttributeTypes.INCREASED_PROJECTILE_DAMAGE, 1, DoubleBounds(0.15, 0.2))),
             )
         ),
         RandomOption(
             weight = 1,
             listOf(
-                LevelLockedRandomOption(weight = 50, tier = 1, level = 0, RollableCustomAttribute(CustomAttributeTypes.INCREASED_ELEMENTAL_DAMAGE, 3, DoubleBounds(0.02, 0.07))),
-                LevelLockedRandomOption(weight = 10, tier = 2, level = 5, RollableCustomAttribute(CustomAttributeTypes.INCREASED_ELEMENTAL_DAMAGE, 2, DoubleBounds(0.07, 0.12))),
-                LevelLockedRandomOption(weight = 1, tier = 3, level = 10, RollableCustomAttribute(CustomAttributeTypes.INCREASED_ELEMENTAL_DAMAGE, 1, DoubleBounds(0.12, 0.17))),
+                LevelLockedRandomOption(weight = 50, tier = 1, level = 0, RollableCustomAttribute(CustomAttributeTypes.INCREASED_ELEMENTAL_DAMAGE, 3, DoubleBounds(0.05, 0.1))),
+                LevelLockedRandomOption(weight = 10, tier = 2, level = 5, RollableCustomAttribute(CustomAttributeTypes.INCREASED_ELEMENTAL_DAMAGE, 2, DoubleBounds(0.1, 0.15))),
+                LevelLockedRandomOption(weight = 1, tier = 3, level = 10, RollableCustomAttribute(CustomAttributeTypes.INCREASED_ELEMENTAL_DAMAGE, 1, DoubleBounds(0.15, 0.2))),
             )
         ),
         RandomOption(
@@ -67,9 +67,9 @@ enum class Bow(
         RandomOption(
             weight = 1,
             listOf(
-                LevelLockedRandomOption(weight = 50, tier = 1, level = 0, RollableCustomAttribute(VanillaAttributeTypes.INCREASED_ATTACK_DAMAGE, 3, DoubleBounds(0.02, 0.07))),
-                LevelLockedRandomOption(weight = 10, tier = 2, level = 5, RollableCustomAttribute(VanillaAttributeTypes.INCREASED_ATTACK_DAMAGE, 2, DoubleBounds(0.07, 0.12))),
-                LevelLockedRandomOption(weight = 1, tier = 3, level = 10, RollableCustomAttribute(VanillaAttributeTypes.INCREASED_ATTACK_DAMAGE, 1, DoubleBounds(0.12, 0.17))),
+                LevelLockedRandomOption(weight = 50, tier = 1, level = 0, RollableCustomAttribute(VanillaAttributeTypes.INCREASED_ATTACK_DAMAGE, 3, DoubleBounds(0.03, 0.06))),
+                LevelLockedRandomOption(weight = 10, tier = 2, level = 5, RollableCustomAttribute(VanillaAttributeTypes.INCREASED_ATTACK_DAMAGE, 2, DoubleBounds(0.06, 0.09))),
+                LevelLockedRandomOption(weight = 1, tier = 3, level = 10, RollableCustomAttribute(VanillaAttributeTypes.INCREASED_ATTACK_DAMAGE, 1, DoubleBounds(0.09, 0.12))),
             )
         ),
         RandomOption(
