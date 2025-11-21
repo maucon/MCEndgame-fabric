@@ -54,7 +54,7 @@ class AttributeService {
 
         val pickedAttributeTypes = RandomUtil.pick(possibleAttributes, random, statAmount)
         val tierRolls = AttributeSettings.getAttributeTierRolls(level, random)
-        val pickedAttributes = pickedAttributeTypes.map { RandomUtil.pickLevelLocked(it, tierRolls, level, random) }.toList()
+        val pickedAttributes = pickedAttributeTypes.map { RandomUtil.pickLevelLocked(it, tierRolls, level, random) }
 
         return rollAttributes(pickedAttributes, slot, random)
     }

@@ -67,7 +67,7 @@ object RandomUtil {
             randomInt = max(randomInt, random.nextInt(totalWeight))
         }
 
-        val sortedOptions = options.sortedBy { it.tier }.toList()
+        val sortedOptions = options.sortedBy { it.tier }
         return pickOption(sortedOptions, randomInt)
     }
 
@@ -94,7 +94,7 @@ object RandomUtil {
         level: Int,
         random: Random = Random,
     ): T {
-        val unlockedOptions = options.filterNot { it.isLocked(level) }.toList()
+        val unlockedOptions = options.filterNot { it.isLocked(level) }
         return pick(unlockedOptions, rolls, random).option
     }
 
