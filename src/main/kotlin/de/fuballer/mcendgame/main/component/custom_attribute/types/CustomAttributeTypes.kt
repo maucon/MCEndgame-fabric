@@ -45,21 +45,6 @@ object CustomAttributeTypes {
     val ADDITIONAL_ARROWS = CustomAttributeType("additional_arrows", AttributeFormats.SIGNED_INT_ROLL, AttributeFormats.INT_BOUNDS, AttributeAffinities.BENEFICIAL)
     val PIERCE_ALL = CustomAttributeType("pierce_all", AttributeFormats.EMPTY_ROLL, AttributeFormats.EMPTY_BOUNDS, AttributeAffinities.EMPTY)
 
-    val INCREASED_DAMAGE_AGAINST_FULL_HEALTH = CustomAttributeType(
-        "increased_damage_against_full_health", AttributeFormats.SIGNED_PERCENT_ROLL, AttributeFormats.PERCENT_BOUNDS, AttributeAffinities.BENEFICIAL,
-        SignBasedKeywords.INCREASED
-    )
-    val INCREASED_DAMAGE_WHILE_LOW_HEALTH =
-        CustomAttributeType(
-            "increased_damage_while_low_health",
-            AttributeFormats.SIGNED_PERCENT_ROLL,
-            AttributeFormats.PERCENT_BOUNDS,
-            AttributeAffinities.BENEFICIAL,
-            SignBasedKeywords.INCREASED
-        )
-    val MORE_DAMAGE_TAKEN_WHILE_HIGH_HEALTH =
-        CustomAttributeType("more_damage_taken_while_high_health", AttributeFormats.PERCENT_ROLL, AttributeFormats.PERCENT_BOUNDS, AttributeAffinities.DETRIMENTAL, SignBasedKeywords.MORE)
-
     // POISON
     val INCREASED_DAMAGE_WHILE_POISONED =
         CustomAttributeType(
@@ -110,6 +95,29 @@ object CustomAttributeTypes {
     val WITHER_DAMAGE_IMMUNITY = CustomAttributeType("wither_damage_immunity", AttributeFormats.EMPTY_ROLL, AttributeFormats.EMPTY_BOUNDS, AttributeAffinities.EMPTY)
 
     // MISC
+    val INCREASED_DAMAGE_AGAINST_FULL_HEALTH = CustomAttributeType(
+        "increased_damage_against_full_health", AttributeFormats.SIGNED_PERCENT_ROLL, AttributeFormats.PERCENT_BOUNDS, AttributeAffinities.BENEFICIAL,
+        SignBasedKeywords.INCREASED
+    )
+    val INCREASED_DAMAGE_WHILE_LOW_HEALTH =
+        CustomAttributeType(
+            "increased_damage_while_low_health",
+            AttributeFormats.SIGNED_PERCENT_ROLL,
+            AttributeFormats.PERCENT_BOUNDS,
+            AttributeAffinities.BENEFICIAL,
+            SignBasedKeywords.INCREASED
+        )
+    val MORE_DAMAGE_TAKEN_WHILE_HIGH_HEALTH =
+        CustomAttributeType("more_damage_taken_while_high_health", AttributeFormats.PERCENT_ROLL, AttributeFormats.PERCENT_BOUNDS, AttributeAffinities.DETRIMENTAL, SignBasedKeywords.MORE)
+
+    val TWINFIRE_DUAL_WIELD_MORE_DAMAGE = CustomAttributeType(
+        "twinfire_more_damage",
+        AttributeFormats.SIGNED_PERCENT_ROLL,
+        AttributeFormats.PERCENT_BOUNDS,
+        AttributeAffinities.BENEFICIAL,
+        SignBasedKeywords.MORE
+    )
+
     val MAGIC_FIND = CustomAttributeType("magic_find", AttributeFormats.SIGNED_INT_ROLL, AttributeFormats.INT_BOUNDS, AttributeAffinities.BENEFICIAL)
     val MAGIC_FIND_PER_MAX_HEART = CustomAttributeType("magic_find_per_max_heart", AttributeFormats.SIGNED_INT_ROLL, AttributeFormats.INT_BOUNDS, AttributeAffinities.BENEFICIAL)
     val INCREASED_MOVEMENT_SPEED_AFTER_DODGING =
