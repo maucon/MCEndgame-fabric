@@ -45,7 +45,8 @@ class AttributesWhilePoisonedService {
         }
     }
 
-    private fun dodge(cmd: DodgeCalculationCommand) {
+    @CommandHandler
+    fun dodge(cmd: DodgeCalculationCommand) {
         if (!cmd.damaged.hasStatusEffect(StatusEffects.POISON)) return
 
         val attributes = cmd.damagedAttributes[CustomAttributeTypes.DODGE_WHILE_POISONED] ?: return

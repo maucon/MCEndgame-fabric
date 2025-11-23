@@ -3,6 +3,7 @@ package de.fuballer.mcendgame.main.component.damage
 import de.fuballer.mcendgame.main.component.custom_attribute.CustomAttributesExtensions.getAllCustomAttributes
 import de.fuballer.mcendgame.main.component.custom_attribute.data.CustomAttribute
 import de.fuballer.mcendgame.main.component.custom_attribute.data.CustomAttributeType
+import de.fuballer.mcendgame.main.component.damage.dealing.ExtendedDamageSource
 import de.fuballer.mcendgame.main.util.extension.mixin.PlayerEntityMixinExtension.wasLastAttackCritical
 import net.minecraft.entity.Entity
 import net.minecraft.entity.LivingEntity
@@ -45,7 +46,7 @@ data class DamageCalculationCommand(
         fun of(
             damaged: LivingEntity,
             world: ServerWorld,
-            source: DamageSource,
+            source: ExtendedDamageSource,
             shieldBlocking: Boolean,
         ): DamageCalculationCommand {
             val damager = source.attacker

@@ -1,7 +1,6 @@
 package de.fuballer.mcendgame.main.mixin.damage;
 
 import de.fuballer.mcendgame.main.component.damage.DamageService;
-import de.fuballer.mcendgame.main.component.damage.custom_type.CustomDamageTypes;
 import de.fuballer.mcendgame.main.component.damage.dealing.ExtendedDamageSource;
 import de.fuballer.mcendgame.main.mixin.access.EntityAccessMixin;
 import it.unimi.dsi.fastutil.doubles.DoubleDoubleImmutablePair;
@@ -145,7 +144,11 @@ public abstract class LivingEntityDamageMixin {
         damageCalculationConfig.getVanillaMoreDamageTaken().addAll(vanillaMoreDamageTaken);
         damageCalculationConfig.setShieldBlocked(shieldBlocked);
 
-        amount = DamageService.INSTANCE.calculateFinalDamage(this_, world, extendedSource, amount);
+        var result = DamageService.INSTANCE.calculateFinalDamage(this_, world, extendedSource, amount);
+        if (!result.isApplying()) {
+            return false;
+        }
+        amount = result.getAmount();
         ///////////////////////////////////////////////////////////////////////////////////
 
         boolean bl22 = true;
