@@ -232,8 +232,10 @@ public abstract class LivingEntityDamageMixin {
         }
 
         ///////////////////////////////////////////////////////////////////////////////////
-        var event = new LivingEntityDamagedEvent(this_, extendedSource, amount);
-        EventGateway.INSTANCE.launchPublish(event);
+        if (amount > 0f) {
+            var event = new LivingEntityDamagedEvent(this_, extendedSource, amount);
+            EventGateway.INSTANCE.launchPublish(event);
+        }
         ///////////////////////////////////////////////////////////////////////////////////
 
         return bl3;
