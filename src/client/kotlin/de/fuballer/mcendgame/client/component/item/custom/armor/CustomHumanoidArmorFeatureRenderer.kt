@@ -1,5 +1,6 @@
 package de.fuballer.mcendgame.client.component.item.custom.armor
 
+import de.fuballer.mcendgame.client.component.item.custom.armor.model.abyssal_mask.AbyssalMaskModel
 import de.fuballer.mcendgame.client.component.item.custom.armor.model.bound_abyss.BoundAbyssModel
 import de.fuballer.mcendgame.client.component.item.custom.armor.model.druids.DruidsBootsModel
 import de.fuballer.mcendgame.client.component.item.custom.armor.model.druids.DruidsChestplateModel
@@ -146,6 +147,10 @@ class CustomHumanoidArmorFeatureRenderer<S : BipedEntityRenderState, M : BipedEn
         texturedArmorModels[CustomArmorItems.VOIDWEAVER] = TexturedArmorModel(
             VoidweaverModel(ctx.getPart(VoidweaverModel.MODEL_LAYER)),
             IdentifierUtil.default("textures/entity/equipment/custom_humanoid/voidweaver.png"),
+        )
+        texturedArmorModels[CustomArmorItems.ABYSSAL_MASK] = TexturedArmorModel(
+            AbyssalMaskModel(ctx.getPart(AbyssalMaskModel.MODEL_LAYER)),
+            IdentifierUtil.default("textures/entity/equipment/custom_humanoid/abyssal_mask.png"),
         )
     }
 
