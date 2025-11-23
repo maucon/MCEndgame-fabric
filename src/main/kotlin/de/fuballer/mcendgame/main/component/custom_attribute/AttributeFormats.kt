@@ -20,6 +20,9 @@ object AttributeFormats {
     val STRING_ROLL = { rolls: List<AttributeRoll<*>> ->
         listOf(rolls[0].asStringRoll().getValue())
     }
+    val TWO_STRING_ROLL = { rolls: List<AttributeRoll<*>> ->
+        listOf(rolls[0].asStringRoll().getValue(), rolls[1].asStringRoll().getValue())
+    }
     val INT_ROLL = { rolls: List<AttributeRoll<*>> ->
         listOf(rolls[0].getValue().toString())
     }
@@ -52,6 +55,12 @@ object AttributeFormats {
     }
     val STRING_SHOW_ALL_OPTIONS = { bounds: List<AttributeBounds<*>> ->
         listOf(bounds[0].asStringBounds().options.joinToString(prefix = "(", postfix = ")"))
+    }
+    val TWO_STRING_SHOW_ALL_OPTIONS = { bounds: List<AttributeBounds<*>> ->
+        listOf(
+            bounds[0].asStringBounds().options.joinToString(prefix = "(", postfix = ")"),
+            bounds[1].asStringBounds().options.joinToString(prefix = "(", postfix = ")"),
+        )
     }
     val INT_BOUNDS = { bounds: List<AttributeBounds<*>> ->
         val bound = bounds[0].asIntBounds()

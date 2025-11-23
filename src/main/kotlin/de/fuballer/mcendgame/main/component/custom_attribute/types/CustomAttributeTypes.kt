@@ -157,6 +157,8 @@ object CustomAttributeTypes {
     val DAMAGE_LINKED_ENEMIES = CustomAttributeType("damage_linked_enemies", AttributeFormats.PERCENT_ROLL, AttributeFormats.PERCENT_BOUNDS, AttributeAffinities.BENEFICIAL)
     val HEAL_ON_LINKED_ENEMY_KILLED = CustomAttributeType("heal_on_linked_enemy_killed", AttributeFormats.DOUBLE_ROLL, AttributeFormats.DOUBLE_BOUNDS, AttributeAffinities.BENEFICIAL)
 
+    val CHANGE_GAINED_STATUS_EFFECT = CustomAttributeType("change_gained_status_effect", AttributeFormats.TWO_STRING_ROLL, AttributeFormats.TWO_STRING_SHOW_ALL_OPTIONS, AttributeAffinities.EMPTY)
+
     // for use on enemies (don't use for players)
     val DROP_INCREASED_LOOT =
         CustomAttributeType("drop_increased_loot", AttributeFormats.SIGNED_PERCENT_ROLL, AttributeFormats.PERCENT_BOUNDS, AttributeAffinities.EMPTY, SignBasedKeywords.INCREASED)

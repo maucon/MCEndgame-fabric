@@ -51,6 +51,9 @@ enum class Helmet(
     ),
     SUEDE_HELMET(
         CustomArmorItems.SUEDE_HELMET,
+    ),
+    ABYSSAL_MASK(
+        CustomArmorItems.ABYSSAL_MASK,
     );
 
     override val slot = AttributeModifierSlot.HEAD

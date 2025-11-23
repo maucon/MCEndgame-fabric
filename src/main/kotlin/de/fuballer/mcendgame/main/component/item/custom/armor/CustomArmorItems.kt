@@ -1,6 +1,7 @@
 package de.fuballer.mcendgame.main.component.item.custom.armor
 
 import de.fuballer.mcendgame.main.component.item.custom.UniqueItemRegistry
+import de.fuballer.mcendgame.main.component.item.custom.armor.item.abyssal_mask.AbyssalMask
 import de.fuballer.mcendgame.main.component.item.custom.armor.item.bound_abyss.BoundAbyss
 import de.fuballer.mcendgame.main.component.item.custom.armor.item.druids.DruidsBoots
 import de.fuballer.mcendgame.main.component.item.custom.armor.item.druids.DruidsChestplate
@@ -47,4 +48,5 @@ object CustomArmorItems {
     val MOONSHADOW = UniqueItemRegistry.registerArmorItem(::Moonshadow, MoonshadowArmorMaterial, EquipmentType.BOOTS, "moonshadow")
     val GEISTERGALOSCHEN = UniqueItemRegistry.registerArmorItem(::Geistergaloschen, GeistergaloschenArmorMaterial, EquipmentType.BOOTS, "geistergaloschen")
     val VOIDWEAVER = UniqueItemRegistry.registerArmorItem(::Voidweaver, VoidweaverArmorMaterial, EquipmentType.CHESTPLATE, "voidweaver")
+    val ABYSSAL_MASK = UniqueItemRegistry.registerArmorItem(::AbyssalMask, AbyssalMaskArmorMaterial, EquipmentType.HELMET, "abyssal_mask")
 }

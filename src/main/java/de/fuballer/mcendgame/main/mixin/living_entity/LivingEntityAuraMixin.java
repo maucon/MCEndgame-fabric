@@ -2,7 +2,9 @@ package de.fuballer.mcendgame.main.mixin.living_entity;
 
 import de.fuballer.mcendgame.main.accessor.LivingEntityAuraAccessor;
 import de.fuballer.mcendgame.main.component.custom_attribute.effects.data.AuraStatusEffect;
+import de.fuballer.mcendgame.main.messaging.misc.GainStatusEffectCommand;
 import de.fuballer.mcendgame.main.util.extension.EntityExtension;
+import de.maucon.mauconframework.command.CommandGateway;
 import net.minecraft.entity.LivingEntity;
 import net.minecraft.entity.effect.StatusEffect;
 import net.minecraft.nbt.NbtCompound;
@@ -90,7 +92,15 @@ public class LivingEntityAuraMixin implements LivingEntityAuraAccessor {
                 );
             }
 
+            var totalDuration = effect.getApplyDuration();
             for (LivingEntity affectedEntity : affectedEntities) {
+                var effectInstance = effect.getInstance();
+                var command = new GainStatusEffectCommand(affectedEntity, effectInstance);
+                var actualEffectInstance = CommandGateway.INSTANCE.apply(command).getEffect();
+
+                var activeEffect = affectedEntity.getStatusEffect(actualEffectInstance.getEffectType());
+                if (activeEffect != null && activeEffect.getAmplifier() >= effect.getAmplifier() && !activeEffect.isDurationBelow(totalDuration - 80)) continue;
+
                 affectedEntity.addStatusEffect(effect.getInstance(), entity);
             }
         }

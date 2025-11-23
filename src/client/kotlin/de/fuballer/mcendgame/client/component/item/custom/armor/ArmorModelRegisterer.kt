@@ -1,5 +1,6 @@
 package de.fuballer.mcendgame.client.component.item.custom.armor
 
+import de.fuballer.mcendgame.client.component.item.custom.armor.model.abyssal_mask.AbyssalMaskModel
 import de.fuballer.mcendgame.client.component.item.custom.armor.model.bound_abyss.BoundAbyssModel
 import de.fuballer.mcendgame.client.component.item.custom.armor.model.druids.DruidsBootsModel
 import de.fuballer.mcendgame.client.component.item.custom.armor.model.druids.DruidsChestplateModel
@@ -107,6 +108,10 @@ object ArmorModelRegisterer {
         EntityModelLayerRegistry.registerModelLayer(
             VoidweaverModel.MODEL_LAYER,
             VoidweaverModel.Companion::getTexturedModelData
+        )
+        EntityModelLayerRegistry.registerModelLayer(
+            AbyssalMaskModel.MODEL_LAYER,
+            AbyssalMaskModel.Companion::getTexturedModelData
         )
     }
 }

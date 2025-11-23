@@ -52,6 +52,7 @@ class CustomModelProvider(
         generator.register(CustomArmorItems.MOONSHADOW, Models.GENERATED)
         generator.register(CustomArmorItems.GEISTERGALOSCHEN, Models.GENERATED)
         generator.register(CustomArmorItems.VOIDWEAVER, Models.GENERATED)
+        generator.register(CustomArmorItems.ABYSSAL_MASK, Models.GENERATED)
 
         generator.register(AspectItems.ASPECT_OF_ANCESTORS, Models.GENERATED)
         generator.register(AspectItems.ASPECT_OF_CURIO, Models.GENERATED)

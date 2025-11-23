@@ -24,31 +24,31 @@ enum class WolfCompanionType(
 ) {
     SLOWING(
         "Slowing", WolfVariants.SNOWY, DyeColor.LIGHT_BLUE, 1.05,
-        enemyAuraStatusEffects = listOf(AuraStatusEffect(StatusEffects.SLOWNESS, 1, 59, 15)),
+        enemyAuraStatusEffects = listOf(AuraStatusEffect(StatusEffects.SLOWNESS, 1, 199, 15)),
     ),
     GUARDING(
         "Guarding", WolfVariants.CHESTNUT, DyeColor.PURPLE, 1.1,
-        allyAuraStatusEffects = listOf(AuraStatusEffect(StatusEffects.RESISTANCE, 0, 59, 15)),
+        allyAuraStatusEffects = listOf(AuraStatusEffect(StatusEffects.RESISTANCE, 0, 199, 15)),
     ),
     INTIMIDATING(
         "Intimidating", WolfVariants.BLACK, DyeColor.BLACK, 1.15,
-        enemyAuraStatusEffects = listOf(AuraStatusEffect(StatusEffects.WEAKNESS, 1, 59, 15)),
+        enemyAuraStatusEffects = listOf(AuraStatusEffect(StatusEffects.WEAKNESS, 1, 199, 15)),
     ),
     INCITING(
         "Inciting", WolfVariants.SPOTTED, DyeColor.RED, 1.0,
-        allyAuraStatusEffects = listOf(AuraStatusEffect(StatusEffects.STRENGTH, 1, 59, 15)),
+        allyAuraStatusEffects = listOf(AuraStatusEffect(StatusEffects.STRENGTH, 1, 199, 15)),
     ),
     HASTING(
         "Hasting", WolfVariants.STRIPED, DyeColor.YELLOW, 0.9,
-        allyAuraStatusEffects = listOf(AuraStatusEffect(StatusEffects.SPEED, 1, 59, 15)),
+        allyAuraStatusEffects = listOf(AuraStatusEffect(StatusEffects.SPEED, 1, 199, 15)),
     ),
     REJUVENATING(
         "Rejuvenating", WolfVariants.WOODS, DyeColor.GREEN, 1.0,
-        allyAuraStatusEffects = listOf(AuraStatusEffect(StatusEffects.REGENERATION, 0, 59, 15)),
+        allyAuraStatusEffects = listOf(AuraStatusEffect(StatusEffects.REGENERATION, 0, 199, 15)),
     ),
     SCORCHING(
         "Scorching", WolfVariants.RUSTY, DyeColor.ORANGE, 0.95,
-        allyAuraStatusEffects = listOf(AuraStatusEffect(StatusEffects.FIRE_RESISTANCE, 0, 59, 15)),
+        allyAuraStatusEffects = listOf(AuraStatusEffect(StatusEffects.FIRE_RESISTANCE, 0, 199, 15)),
         selfEffects = mapOf(CustomStatusEffects.SCORCH to 0),
         applyExtras = { wolf -> wolf.setVisualFire() }
     );

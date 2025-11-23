@@ -31,6 +31,7 @@ class CustomItemTagProvider(
             .add(CustomArmorItems.SUEDE_HELMET)
             .add(CustomArmorItems.WITHER_ROSE_HELMET)
             .add(CustomArmorItems.EMBERCHANT)
+            .add(CustomArmorItems.ABYSSAL_MASK)
 
         getOrCreateTagBuilder(ItemTags.CHEST_ARMOR)
             .add(CustomArmorItems.BOUND_ABYSS)
