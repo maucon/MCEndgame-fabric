@@ -1,4 +1,4 @@
-package de.fuballer.mcendgame.main.component.damage
+package de.fuballer.mcendgame.main.component.damage.ignore_damage
 
 import net.minecraft.entity.LivingEntity
 import net.minecraft.entity.damage.DamageSource

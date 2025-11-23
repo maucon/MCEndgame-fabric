@@ -5,7 +5,8 @@ import de.fuballer.mcendgame.main.component.custom_attribute.effects.dodge.Dodge
 import de.fuballer.mcendgame.main.component.damage.calculator.*
 import de.fuballer.mcendgame.main.component.damage.dealing.DamageCalculationConfig
 import de.fuballer.mcendgame.main.component.damage.dealing.ExtendedDamageSource
-import de.fuballer.mcendgame.main.messaging.misc.LivingEntityDamagedEvent
+import de.fuballer.mcendgame.main.component.damage.dodge.DodgeCalculationCommand
+import de.fuballer.mcendgame.main.component.damage.ignore_damage.IgnoreDamageCommand
 import de.fuballer.mcendgame.main.messaging.misc.LivingEntityDodgedEvent
 import de.maucon.mauconframework.command.CommandGateway
 import de.maucon.mauconframework.event.EventGateway

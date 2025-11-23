@@ -3,7 +3,7 @@ package de.fuballer.mcendgame.main.component.custom_attribute.effects
 import de.fuballer.mcendgame.main.component.custom_attribute.CustomAttributesExtensions.asDoubleRoll
 import de.fuballer.mcendgame.main.component.custom_attribute.types.CustomAttributeTypes
 import de.fuballer.mcendgame.main.component.damage.DamageCalculationCommand
-import de.fuballer.mcendgame.main.component.damage.DodgeCalculationCommand
+import de.fuballer.mcendgame.main.component.damage.dodge.DodgeCalculationCommand
 import de.maucon.mauconframework.command.CommandHandler
 import de.maucon.mauconframework.di.annotation.Injectable
 import net.minecraft.entity.LivingEntity

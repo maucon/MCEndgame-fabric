@@ -1,4 +1,4 @@
-package de.fuballer.mcendgame.main.component.damage
+package de.fuballer.mcendgame.main.component.damage.dodge
 
 import de.fuballer.mcendgame.main.component.custom_attribute.CustomAttributesExtensions.getAllCustomAttributes
 import de.fuballer.mcendgame.main.component.custom_attribute.data.CustomAttribute
