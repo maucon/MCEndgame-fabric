@@ -1,9 +1,10 @@
 package de.fuballer.mcendgame.main.mixin.damage;
 
 import de.fuballer.mcendgame.main.component.damage.DamageService;
-import de.fuballer.mcendgame.main.component.damage.custom_type.CustomDamageTypes;
 import de.fuballer.mcendgame.main.component.damage.dealing.ExtendedDamageSource;
+import de.fuballer.mcendgame.main.messaging.misc.LivingEntityDamagedEvent;
 import de.fuballer.mcendgame.main.mixin.access.EntityAccessMixin;
+import de.maucon.mauconframework.event.EventGateway;
 import it.unimi.dsi.fastutil.doubles.DoubleDoubleImmutablePair;
 import net.minecraft.advancement.criterion.Criteria;
 import net.minecraft.component.DataComponentTypes;
@@ -145,7 +146,11 @@ public abstract class LivingEntityDamageMixin {
         damageCalculationConfig.getVanillaMoreDamageTaken().addAll(vanillaMoreDamageTaken);
         damageCalculationConfig.setShieldBlocked(shieldBlocked);
 
-        amount = DamageService.INSTANCE.calculateFinalDamage(this_, world, extendedSource, amount);
+        var result = DamageService.INSTANCE.calculateFinalDamage(this_, world, extendedSource, amount);
+        if (!result.isApplying()) {
+            return false;
+        }
+        amount = result.getAmount();
         ///////////////////////////////////////////////////////////////////////////////////
 
         boolean bl22 = true;
@@ -225,6 +230,14 @@ public abstract class LivingEntityDamageMixin {
             ServerPlayerEntity serverPlayerEntity = (ServerPlayerEntity) entity;
             Criteria.PLAYER_HURT_ENTITY.trigger(serverPlayerEntity, this_, source, f, amount, bl);
         }
+
+        ///////////////////////////////////////////////////////////////////////////////////
+        if (amount > 0f) {
+            var event = new LivingEntityDamagedEvent(this_, extendedSource, amount);
+            EventGateway.INSTANCE.launchPublish(event);
+        }
+        ///////////////////////////////////////////////////////////////////////////////////
+
         return bl3;
     }
 

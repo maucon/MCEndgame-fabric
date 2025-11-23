@@ -1,10 +1,15 @@
 package de.fuballer.mcendgame.main.component.damage
 
 import com.mojang.logging.LogUtils
+import de.fuballer.mcendgame.main.component.custom_attribute.effects.dodge.DodgeSettings
 import de.fuballer.mcendgame.main.component.damage.calculator.*
 import de.fuballer.mcendgame.main.component.damage.dealing.DamageCalculationConfig
 import de.fuballer.mcendgame.main.component.damage.dealing.ExtendedDamageSource
+import de.fuballer.mcendgame.main.component.damage.dodge.DodgeCalculationCommand
+import de.fuballer.mcendgame.main.component.damage.ignore_damage.IgnoreDamageCommand
+import de.fuballer.mcendgame.main.messaging.misc.LivingEntityDodgedEvent
 import de.maucon.mauconframework.command.CommandGateway
+import de.maucon.mauconframework.event.EventGateway
 import net.minecraft.enchantment.EnchantmentHelper
 import net.minecraft.entity.LivingEntity
 import net.minecraft.entity.attribute.EntityAttributes
@@ -48,26 +53,64 @@ object DamageService {
     fun calculateFinalDamage(
         entity: LivingEntity,
         world: ServerWorld,
-        extendedDamageSource: ExtendedDamageSource,
+        source: ExtendedDamageSource,
         originalDamage: Float
-    ): Float {
-        val damageCalculationConfig = extendedDamageSource.damageCalculationConfig
+    ): DamageCalculationResult {
+        val damageCalculationConfig = source.damageCalculationConfig
 
-        val damageCalculationCommand = DamageCalculationCommand.of(entity, world, extendedDamageSource, damageCalculationConfig.shieldBlocked)
+        if (isDamageIgnored(entity, source)) {
+            return DamageCalculationResult.noDamage()
+        }
+        if (isDamageDodged(entity, source)) {
+            return DamageCalculationResult.noDamage()
+        }
+
+        val damageCalculationCommand = DamageCalculationCommand.of(entity, world, source, damageCalculationConfig.shieldBlocked)
         damageCalculationCommand.moreDamage.addAll(damageCalculationConfig.vanillaMoreDamage)
         damageCalculationCommand.moreDamageTaken.addAll(damageCalculationConfig.vanillaMoreDamageTaken)
 
         val cmd = CommandGateway.apply(damageCalculationCommand)
 
         if (cmd.isShieldBlocking) {
-            return 0.0f
+            return DamageCalculationResult.normalDamage(0f)
         }
 
-        return getHitpoolDamage(originalDamage, entity, extendedDamageSource, damageCalculationConfig, cmd)
+        val finalAmount = calculateFinalDamage(originalDamage, entity, source, damageCalculationConfig, cmd)
+        return DamageCalculationResult.normalDamage(finalAmount)
+    }
+
+    private fun isDamageIgnored(
+        entity: LivingEntity,
+        source: ExtendedDamageSource
+    ): Boolean {
+        val cmd = IgnoreDamageCommand.of(entity, source)
+            .let { CommandGateway.apply(it) }
+
+        return cmd.ignoreDamage
+    }
+
+    private fun isDamageDodged(
+        entity: LivingEntity,
+        source: ExtendedDamageSource
+    ): Boolean {
+        val key = source.typeRegistryEntry.getKey()
+        if (key.isEmpty) return false
+        if (!DodgeSettings.DODGEABLE_DAMAGE_TYPES.contains(key.get())) return false
+
+        val dodgeCalculationCommand = DodgeCalculationCommand.of(entity, source)
+            .let { CommandGateway.apply(it) }
+
+        if (dodgeCalculationCommand.isDodging) {
+            val dodgeEvent = LivingEntityDodgedEvent(entity, source.attacker)
+            EventGateway.launchPublish(dodgeEvent)
+            return true
+        }
+
+        return false
     }
 
     /** calculates the final damage dealt to the hit pool of the target */
-    fun getHitpoolDamage(
+    fun calculateFinalDamage(
         originalDamage: Float,
         attacked: LivingEntity,
         source: ExtendedDamageSource,
@@ -78,7 +121,7 @@ object DamageService {
 
         var attackDamage = damageCalculator.calculateAttackDamage(originalDamage, attacked, source, cmd)
         var elementalDamage = damageCalculator.calculateElementalDamage(originalDamage, attacked, source, cmd)
-        log.info("${attacked.javaClass.simpleName} got damaged: originalDamage: $originalDamage --> calculated damage: ${attackDamage + elementalDamage} ($attackDamage + $elementalDamage)")
+        log.info("${attacked.javaClass.simpleName} [${damageCalculator.javaClass.simpleName}]: originalDamage: $originalDamage --> calculated damage: ${attackDamage + elementalDamage} ($attackDamage + $elementalDamage)")
 
         attackDamage = calculateAttackDamageReduction(attackDamage, attacked, source, cmd)
         elementalDamage = calculateElementalDamageReduction(elementalDamage, attacked, source, cmd)
@@ -155,20 +198,21 @@ object DamageService {
         entity: LivingEntity
     ): Float {
         var amount = amount
-        if (source.isIn(DamageTypeTags.BYPASSES_EFFECTS)) return amount
 
-        if (entity.hasStatusEffect(StatusEffects.RESISTANCE) && !source.isIn(DamageTypeTags.BYPASSES_RESISTANCE)) {
-            val resistance = entity.getStatusEffect(StatusEffects.RESISTANCE)!!.amplifier + 1
+        if (!source.isIn(DamageTypeTags.BYPASSES_EFFECTS)) {
+            if (entity.hasStatusEffect(StatusEffects.RESISTANCE) && !source.isIn(DamageTypeTags.BYPASSES_RESISTANCE)) {
+                val resistance = entity.getStatusEffect(StatusEffects.RESISTANCE)!!.amplifier + 1
 
-            val resistancePercent = resistance * 0.2f
-            val resistedDamage = min(amount * resistancePercent, amount)
-            amount -= resistedDamage
+                val resistancePercent = resistance * 0.2f
+                val resistedDamage = min(amount * resistancePercent, amount)
+                amount -= resistedDamage
 
-            if (resistedDamage > 0.0f && resistedDamage < 3.4028235E37f) {
-                if (entity is ServerPlayerEntity) {
-                    entity.increaseStat(Stats.DAMAGE_RESISTED, (resistedDamage * 10.0f).roundToInt())
-                } else if (source.attacker is ServerPlayerEntity) {
-                    (source.attacker as ServerPlayerEntity).increaseStat(Stats.DAMAGE_DEALT_RESISTED, (resistedDamage * 10.0f).roundToInt())
+                if (resistedDamage > 0.0f && resistedDamage < 3.4028235E37f) {
+                    if (entity is ServerPlayerEntity) {
+                        entity.increaseStat(Stats.DAMAGE_RESISTED, (resistedDamage * 10.0f).roundToInt())
+                    } else if (source.attacker is ServerPlayerEntity) {
+                        (source.attacker as ServerPlayerEntity).increaseStat(Stats.DAMAGE_DEALT_RESISTED, (resistedDamage * 10.0f).roundToInt())
+                    }
                 }
             }
         }

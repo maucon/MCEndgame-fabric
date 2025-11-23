@@ -42,11 +42,11 @@ object MeleeAttackCalculator : DamageCalculator {
 
         val baseDamage = calculateBaseElementalDamage(event)
         val damageMulti = DamageUtil.calculateElementalDamageMultiplier(event)
-        val critMulti = calculateCriticalMultiplier(event) // TODO can elemental damage crit?
+        // TODO can elemental damage crit?
         val attackCooldown = getAttackCooldown(source)
         val attackDamageMulti = calculateAttackCooldownMulti(attackCooldown)
 
-        return ((baseDamage * attackDamageMulti * critMulti) * damageMulti).toFloat()
+        return ((baseDamage * attackDamageMulti) * damageMulti).toFloat()
     }
 
     private fun calculateBaseAttackDamage(

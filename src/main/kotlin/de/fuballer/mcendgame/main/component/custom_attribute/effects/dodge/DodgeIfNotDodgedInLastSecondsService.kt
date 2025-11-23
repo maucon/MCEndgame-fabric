@@ -3,7 +3,7 @@ package de.fuballer.mcendgame.main.component.custom_attribute.effects.dodge
 import de.fuballer.mcendgame.main.component.custom_attribute.CustomAttributesExtensions.asDoubleRoll
 import de.fuballer.mcendgame.main.component.custom_attribute.CustomAttributesExtensions.asIntRoll
 import de.fuballer.mcendgame.main.component.custom_attribute.types.CustomAttributeTypes
-import de.fuballer.mcendgame.main.component.damage.DodgeCalculationCommand
+import de.fuballer.mcendgame.main.component.damage.dodge.DodgeCalculationCommand
 import de.fuballer.mcendgame.main.util.extension.mixin.EntityMixinExtension.hasDodged
 import de.fuballer.mcendgame.main.util.extension.mixin.EntityMixinExtension.updateDodged
 import de.fuballer.mcendgame.main.messaging.misc.LivingEntityDodgedEvent

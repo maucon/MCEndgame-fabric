@@ -2,6 +2,7 @@ package de.fuballer.mcendgame.main.component.entity.custom.entities.arachne
 
 import de.fuballer.mcendgame.main.component.block.CustomBlocks
 import de.fuballer.mcendgame.main.component.custom_attribute.effects.knockback.AttackKnockbackUtil.takeKnockbackFrom
+import de.fuballer.mcendgame.main.component.damage.dealing.DamageDealingService.dealGenericAttackDamage
 import de.fuballer.mcendgame.main.component.entity.custom.CustomEntities
 import de.fuballer.mcendgame.main.component.entity.custom.entities.mount.MountEntity
 import de.fuballer.mcendgame.main.component.entity.custom.entities.webhook.WebhookEntity
@@ -426,13 +427,12 @@ class ArachneEntity(
 
         //debugAttackAreaParticles(forward, sideways)
 
-        val damageSource = damageSources.mobAttack(this)
         val damage = getAttributeValue(EntityAttributes.ATTACK_DAMAGE).toFloat()
         val knockBackDirection = getRotationVector(pitch, bodyYaw).horizontal.normalize()
         val knockBackStrength = getAttributeValue(EntityAttributes.ATTACK_KNOCKBACK) * getAttributeValue(EntityAttributes.SCALE)
 
         targets.forEach {
-            it.damage(serverWorld, damageSource, damage)
+            it.dealGenericAttackDamage(damage, this)
             it.velocityModified = true
             it.takeKnockbackFrom(this, knockBackStrength, -knockBackDirection.x, -knockBackDirection.z) //takeKnockback inverts it
         }

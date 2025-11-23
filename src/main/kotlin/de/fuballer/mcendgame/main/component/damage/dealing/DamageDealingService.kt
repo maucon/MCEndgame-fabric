@@ -12,4 +12,11 @@ object DamageDealingService {
 
         this.damage(world as ServerWorld, extended, 420f) // amount does not matter, will be calculated by us
     }
+
+    fun Entity.dealGenericAttackDamage(amount: Float, attacker: Entity) {
+        val damageSource = CustomDamageTypes.of(world, CustomDamageTypes.GENERIC_ATTACK, attacker)
+        val extended = ExtendedDamageSource(DamageCalculationConfig(), damageSource)
+
+        this.damage(world as ServerWorld, extended, amount)
+    }
 }

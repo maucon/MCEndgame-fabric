@@ -10,6 +10,7 @@ import net.minecraft.entity.damage.DamageSource
  * Used when no other specific calculator is used
  * - Fall Damage
  * - Evoker Fangs
+ * - CustomDamageTypes.GENERIC_ATTACK
  * */
 object BaseDamageCalculator : DamageCalculator {
     override fun isActive(source: DamageSource) = true

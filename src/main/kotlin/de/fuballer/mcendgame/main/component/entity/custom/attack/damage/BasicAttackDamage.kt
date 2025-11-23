@@ -1,6 +1,7 @@
 package de.fuballer.mcendgame.main.component.entity.custom.attack.damage
 
 import de.fuballer.mcendgame.main.component.custom_attribute.effects.knockback.AttackKnockbackUtil.takeKnockbackFrom
+import de.fuballer.mcendgame.main.component.damage.dealing.DamageDealingService.dealGenericAttackDamage
 import net.minecraft.entity.LivingEntity
 import net.minecraft.entity.mob.MobEntity
 import net.minecraft.server.world.ServerWorld
@@ -22,8 +23,7 @@ class BasicAttackDamage(
         if (squaredDistance > squaredHitRange) return false
 
         val damage = getDamage(damager)
-        val damageSource = damager.damageSources.mobAttack(damager)
-        target.damage(world, damageSource, damage)
+        target.dealGenericAttackDamage(damage, damager)
 
         val knockback = getKnockback(damager)
         val knockbackDirection = target.pos.subtract(damager.pos).normalize()
