@@ -11,7 +11,6 @@ class DungeonAllyFriendlyFireService {
     @CommandHandler
     fun on(cmd: IgnoreDamageCommand) {
         if (!cmd.world.isDungeonWorld()) return
-        if (!cmd.entity.isDungeonEnemy()) return
 
         val attacker = cmd.damageSource.attacker ?: return
         if (!cmd.entity.isAlly(attacker)) return
