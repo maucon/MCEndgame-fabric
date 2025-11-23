@@ -44,6 +44,7 @@
     "living_entity.LivingEntityAttributeWhilePoisonedMixin",
     "living_entity.LivingEntityAttributeWhileWitheredMixin",
     "living_entity.LivingEntityAuraMixin",
+    "living_entity.LivingEntityChangeGainedStatusEffectMixin",
     "living_entity.LivingEntityCompanionMixin",
     "living_entity.LivingEntityCustomAttributesMixin",
     "living_entity.LivingEntityDodgedRecentlyMixin",

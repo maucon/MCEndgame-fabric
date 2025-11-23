@@ -183,6 +183,7 @@
   "attribute.mcendgame.damage_linked_enemies": " Deal %s%% Elemental Damage to Linked Enemies every second",
   "attribute.mcendgame.heal_on_linked_enemy_killed": " Heal %s Health when a Linked Enemy dies",
   "attribute.mcendgame.twinfire_more_damage": "%s%% %s Damage while Dual Wielding Twinfire",
+  "attribute.mcendgame.change_gained_status_effect": "Gain %s instead of %s",
 
   "effect.mcendgame.fury": "Fury",
   "effect.mcendgame.resilience": "Resilience",
