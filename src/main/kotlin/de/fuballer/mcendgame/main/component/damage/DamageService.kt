@@ -75,10 +75,6 @@ object DamageService {
         }
 
         val finalAmount = calculateFinalDamage(originalDamage, entity, source, damageCalculationConfig, cmd)
-
-        val event = LivingEntityDamagedEvent(entity, source, finalAmount)
-        EventGateway.launchPublish(event)
-
         return DamageCalculationResult.normalDamage(finalAmount)
     }
 

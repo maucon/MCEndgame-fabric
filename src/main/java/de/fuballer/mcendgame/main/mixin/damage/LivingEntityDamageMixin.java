@@ -2,7 +2,9 @@ package de.fuballer.mcendgame.main.mixin.damage;
 
 import de.fuballer.mcendgame.main.component.damage.DamageService;
 import de.fuballer.mcendgame.main.component.damage.dealing.ExtendedDamageSource;
+import de.fuballer.mcendgame.main.messaging.misc.LivingEntityDamagedEvent;
 import de.fuballer.mcendgame.main.mixin.access.EntityAccessMixin;
+import de.maucon.mauconframework.event.EventGateway;
 import it.unimi.dsi.fastutil.doubles.DoubleDoubleImmutablePair;
 import net.minecraft.advancement.criterion.Criteria;
 import net.minecraft.component.DataComponentTypes;
@@ -228,6 +230,12 @@ public abstract class LivingEntityDamageMixin {
             ServerPlayerEntity serverPlayerEntity = (ServerPlayerEntity) entity;
             Criteria.PLAYER_HURT_ENTITY.trigger(serverPlayerEntity, this_, source, f, amount, bl);
         }
+
+        ///////////////////////////////////////////////////////////////////////////////////
+        var event = new LivingEntityDamagedEvent(this_, extendedSource, amount);
+        EventGateway.INSTANCE.launchPublish(event);
+        ///////////////////////////////////////////////////////////////////////////////////
+
         return bl3;
     }
 
