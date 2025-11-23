@@ -7,7 +7,6 @@ import de.fuballer.mcendgame.main.component.damage.dealing.ExtendedDamageSource
 import de.fuballer.mcendgame.main.util.extension.mixin.PlayerEntityMixinExtension.wasLastAttackCritical
 import net.minecraft.entity.Entity
 import net.minecraft.entity.LivingEntity
-import net.minecraft.entity.damage.DamageSource
 import net.minecraft.entity.damage.DamageType
 import net.minecraft.entity.player.PlayerEntity
 import net.minecraft.entity.projectile.PersistentProjectileEntity
