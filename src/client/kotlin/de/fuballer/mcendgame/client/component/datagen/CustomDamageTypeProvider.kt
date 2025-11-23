@@ -13,14 +13,19 @@ class CustomDamageTypeProvider(
 ) : DataProvider {
     override fun getName() = "${MCEndgame.MOD_ID} Damage Type Provider"
 
-    override fun run(writer: DataWriter): CompletableFuture<*>? {
-        val sweepingJson = generateDamageTypeJSON(CustomDamageTypes.SWEEPING.value.path)
-        val elementalJson = generateDamageTypeJSON(CustomDamageTypes.ELEMENTAL.value.path)
+    override fun run(writer: DataWriter): CompletableFuture<*> {
+        val damageTypes = listOf(
+            generateDamageTypeJSON("mob") // default mob attack death message
+                .let { DataProvider.writeToPath(writer, it, getPath(CustomDamageTypes.SWEEPING.value.path)) },
 
-        val f1 = DataProvider.writeToPath(writer, sweepingJson, getPath(CustomDamageTypes.SWEEPING.value.path))
-        val f2 = DataProvider.writeToPath(writer, elementalJson, getPath(CustomDamageTypes.ELEMENTAL.value.path))
+            generateDamageTypeJSON(CustomDamageTypes.ELEMENTAL.value.path)
+                .let { DataProvider.writeToPath(writer, it, getPath(CustomDamageTypes.ELEMENTAL.value.path)) },
 
-        return CompletableFuture.allOf(f1, f2)
+            generateDamageTypeJSON("mob") // default mob attack death message
+                .let { DataProvider.writeToPath(writer, it, getPath(CustomDamageTypes.GENERIC_ATTACK.value.path)) },
+        ).toTypedArray()
+
+        return CompletableFuture.allOf(*damageTypes)
     }
 
     private fun generateDamageTypeJSON(

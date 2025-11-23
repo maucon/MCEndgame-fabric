@@ -121,7 +121,7 @@ object DamageService {
 
         var attackDamage = damageCalculator.calculateAttackDamage(originalDamage, attacked, source, cmd)
         var elementalDamage = damageCalculator.calculateElementalDamage(originalDamage, attacked, source, cmd)
-        log.info("${attacked.javaClass.simpleName} got damaged: originalDamage: $originalDamage --> calculated damage: ${attackDamage + elementalDamage} ($attackDamage + $elementalDamage)")
+        log.info("${attacked.javaClass.simpleName} [${damageCalculator.javaClass.simpleName}]: originalDamage: $originalDamage --> calculated damage: ${attackDamage + elementalDamage} ($attackDamage + $elementalDamage)")
 
         attackDamage = calculateAttackDamageReduction(attackDamage, attacked, source, cmd)
         elementalDamage = calculateElementalDamageReduction(elementalDamage, attacked, source, cmd)

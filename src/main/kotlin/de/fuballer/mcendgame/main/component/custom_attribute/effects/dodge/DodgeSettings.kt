@@ -28,5 +28,6 @@ object DodgeSettings {
         DamageTypes.LIGHTNING_BOLT,
         CustomDamageTypes.SWEEPING,
         CustomDamageTypes.ELEMENTAL,
+        CustomDamageTypes.GENERIC_ATTACK,
     )
 }

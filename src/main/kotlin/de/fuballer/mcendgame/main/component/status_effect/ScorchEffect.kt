@@ -1,5 +1,6 @@
 package de.fuballer.mcendgame.main.component.status_effect
 
+import de.fuballer.mcendgame.main.component.damage.dealing.DamageDealingService.dealGenericAttackDamage
 import de.fuballer.mcendgame.main.util.extension.EntityExtension.isEnemy
 import net.minecraft.entity.Entity
 import net.minecraft.entity.LivingEntity
@@ -20,7 +21,7 @@ class ScorchEffect : StatusEffect(StatusEffectCategory.BENEFICIAL, 15754270) {
 
         for (enemy in enemies) {
             enemy.fireTicks = 60
-            enemy.damage(world, world.damageSources.mobAttack(entity), 2F)
+            enemy.dealGenericAttackDamage(2f, entity)
 
             spawnParticles(world, enemy, 3, 0.2)
         }

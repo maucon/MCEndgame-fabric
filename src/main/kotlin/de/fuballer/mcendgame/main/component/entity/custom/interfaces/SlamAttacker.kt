@@ -1,6 +1,7 @@
 package de.fuballer.mcendgame.main.component.entity.custom.interfaces
 
 import de.fuballer.mcendgame.main.component.custom_attribute.effects.knockback.AttackKnockbackUtil.takeKnockbackFrom
+import de.fuballer.mcendgame.main.component.damage.dealing.DamageDealingService.dealGenericAttackDamage
 import net.minecraft.entity.LivingEntity
 import net.minecraft.entity.attribute.EntityAttributes
 import net.minecraft.entity.mob.MobEntity
@@ -64,7 +65,7 @@ interface SlamAttacker : CustomPosesEntity {
             val distancePercent = max(1 - (distanceVector.length() / scaledRadius), 0.0)
 
             val damage = getDistanceScaled(attackDamage.toDouble(), distancePercent).toFloat()
-            target.damage(world, world.damageSources.mobAttack(slamAttacker), damage)
+            target.dealGenericAttackDamage(damage, slamAttacker)
 
             val effectiveKnockbackStrength = getDistanceScaled(scaledKnockbackStrength, distancePercent)
             target.takeKnockbackFrom(slamAttacker, effectiveKnockbackStrength, -distanceVector.x, -distanceVector.z)

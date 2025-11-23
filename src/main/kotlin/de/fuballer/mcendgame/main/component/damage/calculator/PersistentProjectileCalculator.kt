@@ -28,14 +28,14 @@ object PersistentProjectileCalculator : DamageCalculator {
         val baseDamage = calculateBaseAttackDamage(source)
         val enchantmentDamage = calculateEnchantmentDamage(attacker, attacked, source)
         val projectileSpeedMulti = calculateOtherMultiplier(source)
-        val critMulti = calculateCriticalMultiplier(event)
         val damageMulti = DamageUtil.calculateAttackDamageMultiplier(event)
 
-        val vanillaLikeDamage = ceil((baseDamage + enchantmentDamage) * projectileSpeedMulti)
-        return (vanillaLikeDamage * critMulti * damageMulti).toFloat()
+        val arrowDamage = ceil(projectileSpeedMulti * (baseDamage + enchantmentDamage))
+        val critBonus = calculateCriticalBonus(event, arrowDamage)
+        return ((arrowDamage + critBonus) * damageMulti).toFloat()
     }
 
-    override fun calculateElementalDamage( // TODO
+    override fun calculateElementalDamage(
         originalDamage: Float,
         attacked: LivingEntity,
         source: ExtendedDamageSource,
@@ -45,10 +45,10 @@ object PersistentProjectileCalculator : DamageCalculator {
 
         val baseDamage = calculateBaseElementalDamage(event)
         val damageMulti = DamageUtil.calculateAttackDamageMultiplier(event)
-        val critMulti = calculateCriticalMultiplier(event) // TODO can elemental damage crit?
+        // TODO can elemental damage crit?
         val projectileSpeedMulti = calculateOtherMultiplier(source)
 
-        return (baseDamage * damageMulti * critMulti * projectileSpeedMulti).toFloat()
+        return (baseDamage * damageMulti * projectileSpeedMulti).toFloat()
     }
 
     private fun calculateBaseAttackDamage(source: DamageSource): Double {
@@ -63,11 +63,10 @@ object PersistentProjectileCalculator : DamageCalculator {
         return EnchantmentHelper.getDamage(attacker.world as ServerWorld, weaponStack, attacked, source, 0.0F).toDouble()
     }
 
-    private fun calculateCriticalMultiplier(event: DamageCalculationCommand): Double {
-        if (!event.isDamageCritical) return 1.0
-
-        // simulating minecraft projectile (arrow) crit
-        return 1 + Random.nextDouble() * 0.5 // TODO ISSUE: #74
+    // TODO ISSUE: #74
+    private fun calculateCriticalBonus(event: DamageCalculationCommand, amount: Double): Int {
+        if (!event.isDamageCritical) return 0
+        return Random.nextInt(amount.toInt() / 2 + 2)
     }
 
     private fun calculateOtherMultiplier(source: DamageSource): Double {

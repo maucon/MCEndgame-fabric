@@ -1,6 +1,7 @@
 package de.fuballer.mcendgame.main.component.entity.custom.attack.damage
 
 import de.fuballer.mcendgame.main.component.custom_attribute.effects.knockback.AttackKnockbackUtil.takeKnockbackFrom
+import de.fuballer.mcendgame.main.component.damage.dealing.DamageDealingService.dealGenericAttackDamage
 import net.minecraft.entity.LivingEntity
 import net.minecraft.entity.attribute.EntityAttributes
 import net.minecraft.entity.mob.MobEntity
@@ -77,11 +78,11 @@ class AreaAttackDamage(
         forward: Vec3d,
         slamCenter: Vec3d,
     ) {
-        val damageSource = damager.damageSources.mobAttack(damager)
         val damage = getDamage(damager)
         val knockback = getKnockback(damager)
+
         targets.forEach {
-            it.damage(world, damageSource, damage)
+            it.dealGenericAttackDamage(damage, damager)
             applyKnockback(it, damager, knockback, scale, forward, slamCenter)
         }
     }
