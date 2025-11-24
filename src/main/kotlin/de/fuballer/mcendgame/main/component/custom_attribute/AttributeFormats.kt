@@ -51,7 +51,7 @@ object AttributeFormats {
     val EMPTY_BOUNDS = { _: List<AttributeBounds<*>> -> listOf<String>() }
     val PERCENT_BOUNDS = { bounds: List<AttributeBounds<*>> ->
         val bound = bounds[0].asDoubleBounds()
-        listOf("(${formatDouble(bound.min * 100)}-${formatDouble(bound.max * 100)})")
+        listOf(getRangeOrValue(formatDouble(bound.min * 100), formatDouble(bound.max * 100)))
     }
     val STRING_SHOW_ALL_OPTIONS = { bounds: List<AttributeBounds<*>> ->
         listOf(bounds[0].asStringBounds().options.joinToString(prefix = "(", postfix = ")"))
@@ -64,26 +64,35 @@ object AttributeFormats {
     }
     val INT_BOUNDS = { bounds: List<AttributeBounds<*>> ->
         val bound = bounds[0].asIntBounds()
-        listOf(String.format("(%d-%d)", bound.min, bound.max))
+        listOf(getRangeOrValue(bound.min.toString(), bound.max.toString()))
     }
     val TWO_INT_BOUNDS = { bounds: List<AttributeBounds<*>> ->
         val bound1 = bounds[0].asIntBounds()
         val bound2 = bounds[1].asIntBounds()
-        listOf(String.format("(%d-%d)", bound1.min, bound1.max), String.format("(%d-%d)", bound2.min, bound2.max))
+        listOf(
+            getRangeOrValue(bound1.min.toString(), bound1.max.toString()),
+            getRangeOrValue(bound2.min.toString(), bound2.max.toString()),
+        )
     }
     val DOUBLE_BOUNDS = { bounds: List<AttributeBounds<*>> ->
         val bound = bounds[0].asDoubleBounds()
-        listOf("(${formatDouble(bound.min)}-${formatDouble(bound.max)})")
+        listOf(getRangeOrValue(formatDouble(bound.min), formatDouble(bound.max)))
     }
     val PERCENT_AND_INT_BOUNDS = { bounds: List<AttributeBounds<*>> ->
         val bound1 = bounds[0].asDoubleBounds()
         val bound2 = bounds[1].asIntBounds()
-        listOf("(${formatDouble(bound1.min * 100)}-${formatDouble(bound1.max * 100)})", String.format("(%d-%d)", bound2.min, bound2.max))
+        listOf(
+            getRangeOrValue(formatDouble(bound1.min * 100), formatDouble(bound1.max * 100)),
+            getRangeOrValue(bound2.min.toString(), bound2.max.toString()),
+        )
     }
     val INT_AND_PERCENT_BOUNDS = { bounds: List<AttributeBounds<*>> ->
         val bound1 = bounds[0].asIntBounds()
         val bound2 = bounds[1].asDoubleBounds()
-        listOf(String.format("(%d-%d)", bound1.min, bound1.max), "(${formatDouble(bound2.min * 100)}-${formatDouble(bound2.max * 100)})")
+        listOf(
+            getRangeOrValue(bound1.min.toString(), bound1.max.toString()),
+            getRangeOrValue(formatDouble(bound2.min * 100), formatDouble(bound2.max * 100)),
+        )
     }
 
     fun formatDouble(value: Double): String {
@@ -101,4 +110,6 @@ object AttributeFormats {
         }
         return formatted
     }
+
+    private fun getRangeOrValue(val1: String, val2: String) = if (val1 == val2) "($val1)" else "($val1-$val2)"
 }
