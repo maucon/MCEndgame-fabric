@@ -401,6 +401,16 @@ class ArachneEntity(
         entity.setWebbed(false)
     }
 
+    override fun onDeath(damageSource: DamageSource?) {
+        super.onDeath(damageSource)
+
+        val serverWorld = world as? ServerWorld ?: return
+        hookedEntityUuidMap.keys.forEach { uuid ->
+            val entity = serverWorld.getEntity(uuid) as? LivingEntity ?: return@forEach
+            entity.setWebbed(false)
+        }
+    }
+
     override fun meleeAttack(target: LivingEntity) {
         changeAttackPose(CustomPosesEntity.CustomPose.MELEE_ATTACKING, 28)
         blockMovement(15)
