@@ -13,6 +13,4 @@ class ItemFilterRepository(
     log,
     "item_filter",
     ItemFilterEntity.CODEC
-) {
-    // TODO #115: save when?
-}
+)

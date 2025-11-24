@@ -13,6 +13,4 @@ class PlayerTotemsRepository(
     log,
     "player_totems",
     PlayerTotemsEntity.CODEC,
-) {
-    // TODO #115: save when?
-}
+)

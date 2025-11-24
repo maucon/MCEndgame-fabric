@@ -4,17 +4,17 @@ import com.google.gson.GsonBuilder
 import com.google.gson.JsonArray
 import com.google.gson.JsonParser
 import com.mojang.serialization.Codec
-import com.mojang.serialization.JsonOps
+import de.fuballer.mcendgame.main.MCEndgame
+import de.fuballer.mcendgame.main.configuration.RuntimeConfig
+import de.fuballer.mcendgame.main.messaging.misc.PlayerDisconnectEvent
 import de.fuballer.mcendgame.main.messaging.server.ServerStartedEvent
 import de.fuballer.mcendgame.main.messaging.server.ServerStoppingEvent
 import de.maucon.mauconframework.event.EventSubscriber
-import de.maucon.mauconframework.initializer.Initializer
 import de.maucon.mauconframework.stereotype.Entity
 import de.maucon.mauconframework.stereotype.extension.InMemoryMapRepository
 import org.slf4j.Logger
 import java.nio.charset.StandardCharsets
 import java.nio.file.Files
-import java.nio.file.Path
 import kotlin.jvm.optionals.getOrNull
 
 open class PersistentMapRepository<ID, ENTITY : Entity<ID>>(
@@ -24,16 +24,10 @@ open class PersistentMapRepository<ID, ENTITY : Entity<ID>>(
 ) : InMemoryMapRepository<ID, ENTITY>() {
     private val gson = GsonBuilder().setPrettyPrinting().create()
 
-    private lateinit var filePath: Path
-
-    @Initializer
-    fun initFilePath(folderPath: Path) {
-        filePath = folderPath.resolve("$name.json")
-    }
-
     @EventSubscriber
     fun on(event: ServerStartedEvent) {
         loadFromFile()
+        Files.createDirectories(getFolderPath())
     }
 
     @EventSubscriber
@@ -41,18 +35,24 @@ open class PersistentMapRepository<ID, ENTITY : Entity<ID>>(
         writeToFile()
     }
 
+    @EventSubscriber
+    fun on(event: PlayerDisconnectEvent) {
+        writeToFile()
+    }
+
     private fun loadFromFile() {
         try {
-            if (!Files.exists(filePath)) {
+            if (!Files.exists(getFilePath())) {
                 log.warn("No file for persistent repository '$name' found")
+                findAll().forEach { delete(it) }
                 return
             }
 
-            val content = Files.readString(filePath, StandardCharsets.UTF_8)
+            val content = Files.readString(getFilePath(), StandardCharsets.UTF_8)
             val jsonArray = JsonParser.parseString(content).asJsonArray
 
             val entities = jsonArray
-                .map { codec.parse(JsonOps.INSTANCE, it) }
+                .map { codec.parse(RuntimeConfig.REGISTRY_OPS, it) }
                 .map { it.result() }
                 .mapNotNull { it.getOrNull() }
 
@@ -69,18 +69,24 @@ open class PersistentMapRepository<ID, ENTITY : Entity<ID>>(
             val jsonArray = JsonArray()
 
             findAll()
-                .map { codec.encodeStart(JsonOps.INSTANCE, it) }
+                .map { codec.encodeStart(RuntimeConfig.REGISTRY_OPS, it) }
                 .map { it.result() }
                 .mapNotNull { it.getOrNull() }
                 .forEach { jsonArray.add(it) }
 
             val prettyJson = gson.toJson(jsonArray)
 
-            Files.writeString(filePath, prettyJson, StandardCharsets.UTF_8)
+            Files.writeString(getFilePath(), prettyJson, StandardCharsets.UTF_8)
             log.info("Saved ${jsonArray.size()} entities for persistent repository '$name'")
 
         } catch (e: Exception) {
             log.error("Failed to write file for persistent repository '$name': ${e.message}", e)
         }
     }
+
+    private fun getFolderPath() = RuntimeConfig.WORLD_SAVE_PATH
+        .resolve(MCEndgame.MOD_ID)
+        .resolve("repository")
+
+    private fun getFilePath() = getFolderPath().resolve("$name.json")
 }
