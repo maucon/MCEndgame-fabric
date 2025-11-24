@@ -4,7 +4,7 @@ import de.fuballer.mcendgame.main.component.block.CustomBlocks
 import de.fuballer.mcendgame.main.component.custom_attribute.effects.knockback.AttackKnockbackUtil.takeKnockbackFrom
 import de.fuballer.mcendgame.main.component.damage.dealing.DamageDealingService.dealGenericAttackDamage
 import de.fuballer.mcendgame.main.component.entity.custom.CustomEntities
-import de.fuballer.mcendgame.main.component.entity.custom.entities.mount.MountEntity
+import de.fuballer.mcendgame.main.component.entity.custom.entities.mount.DirectionalMovementEntity
 import de.fuballer.mcendgame.main.component.entity.custom.entities.webhook.WebhookEntity
 import de.fuballer.mcendgame.main.component.entity.custom.entities.webshot.WebshotEntity
 import de.fuballer.mcendgame.main.component.entity.custom.goals.*
@@ -18,6 +18,7 @@ import net.minecraft.entity.AnimationState
 import net.minecraft.entity.EntityType
 import net.minecraft.entity.LivingEntity
 import net.minecraft.entity.ai.RangedAttackMob
+import net.minecraft.entity.ai.goal.ActiveTargetGoal
 import net.minecraft.entity.ai.goal.RevengeGoal
 import net.minecraft.entity.ai.goal.SwimGoal
 import net.minecraft.entity.attribute.DefaultAttributeContainer
@@ -29,11 +30,9 @@ import net.minecraft.entity.mob.Monster
 import net.minecraft.entity.passive.VillagerEntity
 import net.minecraft.entity.player.PlayerEntity
 import net.minecraft.entity.projectile.ProjectileEntity
-import net.minecraft.item.Item
 import net.minecraft.item.ItemStack
 import net.minecraft.item.Items
 import net.minecraft.server.world.ServerWorld
-import net.minecraft.sound.BlockSoundGroup
 import net.minecraft.sound.SoundEvent
 import net.minecraft.sound.SoundEvents
 import net.minecraft.util.math.BlockPos
@@ -47,12 +46,7 @@ import kotlin.math.sqrt
 class ArachneEntity(
     type: EntityType<out ArachneEntity>,
     world: World,
-) : MountEntity(type, world, TAME_FOOD), Monster, RangedAttackMob, HookAttackMob, MeleeAttackMob {
-    override val passengerPos = Vec3d(0.0, 0.75, -0.65)
-    override val riddenSpeedMulti = 1.5
-    override val backwardsSpeedMulti = 0.5
-    override val sidewaysSpeedMulti = 0.5
-
+) : DirectionalMovementEntity(type, world), Monster, RangedAttackMob, HookAttackMob, MeleeAttackMob {
     private var attackAnimationTicks = 0
     val spitAnimationState = AnimationState()
     val attackAnimationState = AnimationState()
@@ -77,7 +71,6 @@ class ArachneEntity(
     private val projectileAttackGoal = NoMovementProjectileAttackGoal(this, 35, 15F, 15)
     private val rangedKeepDistanceGoal = KeepDistanceToTargetGoal(this, 1.0, 10F, 15F)
 
-    private val throwOffPassengerGoal = MountThrowOffPassengerGoal(this, 1.2)
     private val wanderGoal = DisableAbleWanderAroundFarGoal(this, 1.0)
     private val lookAtPlayerGoal = DisableAbleLookAtEntityGoal(this, PlayerEntity::class.java, 8.0f)
     private val lookAroundGoal = DisableAbleLookAroundGoal(this)
@@ -86,8 +79,6 @@ class ArachneEntity(
     private var maxStayMeleeRangeSquared = MAX_STAY_MELEE_RANGE * MAX_STAY_MELEE_RANGE
 
     companion object {
-        val TAME_FOOD = mapOf<Item, Double>(Items.ROTTEN_FLESH to 0.1)
-
         private const val MAX_STAY_MELEE_RANGE = 10.0
         const val MIN_MELEE_TICKS = 100
         const val RANDOM_STOP_MELEE_PROBABILITY = 0.002 // per tick
@@ -121,7 +112,6 @@ class ArachneEntity(
     }
 
     private fun initDynamicGoals() {
-        goalSelector.add(1, throwOffPassengerGoal)
         goalSelector.add(2, hookAttackGoal)
         goalSelector.add(3, projectileAttackGoal)
         goalSelector.add(3, meleeAttackGoal)
@@ -138,8 +128,8 @@ class ArachneEntity(
         goalSelector.add(0, SwimGoal(this))
 
         targetSelector.add(0, RevengeGoal(this))
-        targetSelector.add(1, TameableActiveTargetGoal(this, PlayerEntity::class.java, true))
-        targetSelector.add(2, TameableActiveTargetGoal(this, VillagerEntity::class.java, true))
+        targetSelector.add(1, ActiveTargetGoal(this, PlayerEntity::class.java, true))
+        targetSelector.add(2, ActiveTargetGoal(this, VillagerEntity::class.java, true))
     }
 
     private fun updateGoals() {
@@ -152,7 +142,6 @@ class ArachneEntity(
         projectileAttackGoal.isDisabled = !isCurrentlyRanged
         rangedKeepDistanceGoal.isDisabled = !isCurrentlyRanged || movementDisabled
 
-        throwOffPassengerGoal.isDisabled = movementDisabled
         wanderGoal.isDisabled = movementDisabled
         lookAtPlayerGoal.isDisabled = movementDisabled
         lookAroundGoal.isDisabled = movementDisabled
@@ -335,18 +324,6 @@ class ArachneEntity(
         return SoundEvents.ENTITY_SPIDER_HURT
     }
 
-    override fun getAngrySound(): SoundEvent {
-        return SoundEvents.ENTITY_SPIDER_HURT
-    }
-
-    override fun playEatSound() {
-        playSound(SoundEvents.ENTITY_SPIDER_AMBIENT, 1.0f, 1.0f)
-    }
-
-    override fun playWalkSound(group: BlockSoundGroup) {
-        playSound(SoundEvents.ENTITY_SPIDER_STEP, group.getVolume() * 0.15f, group.getPitch())
-    }
-
     private fun playSpitSound() {
         playSound(SoundEvents.ENTITY_SPIDER_AMBIENT, 1.0f, 0.75F + random.nextFloat() * 0.25F)
     }
@@ -360,13 +337,7 @@ class ArachneEntity(
         val blockState = world.getBlockState(pos.up())
         val blockSoundGroup = if (blockState.isOf(Blocks.SNOW)) blockState.soundGroup else state.soundGroup
 
-        if (!hasPassengers()) {
-            playWalkSound(blockSoundGroup)
-            return
-        }
-
-        if (++soundTicks > 5 && soundTicks % 2 != 0) return
-        playWalkSound(blockSoundGroup)
+        playSound(SoundEvents.ENTITY_SPIDER_STEP, blockSoundGroup.getVolume() * 0.15f, blockSoundGroup.getPitch())
     }
 
     override fun getLeashOffset() = Vec3d(0.0, standingEyeHeight * 0.9, width * 0.4)
@@ -399,6 +370,16 @@ class ArachneEntity(
 
         if (entity !is LivingEntity) return
         entity.setWebbed(false)
+    }
+
+    override fun onDeath(damageSource: DamageSource?) {
+        super.onDeath(damageSource)
+
+        val serverWorld = world as? ServerWorld ?: return
+        hookedEntityUuidMap.keys.forEach { uuid ->
+            val entity = serverWorld.getEntity(uuid) as? LivingEntity ?: return@forEach
+            entity.setWebbed(false)
+        }
     }
 
     override fun meleeAttack(target: LivingEntity) {

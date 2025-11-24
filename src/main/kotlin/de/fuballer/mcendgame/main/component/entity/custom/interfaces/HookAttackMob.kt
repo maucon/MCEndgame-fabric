@@ -18,7 +18,7 @@ interface HookAttackMob {
     val hookPullStrength: Double
     val hookPullAdditionalY: Double
     val hookedEntityIds: MutableList<Int> // client-side
-    val hookedEntityUuidMap: MutableMap<UUID, Pair<Int, Int>> // server-side
+    val hookedEntityUuidMap: MutableMap<UUID, Pair<Int, Int>> // server-side, Pair<PullCount, PullCooldown>
 
     fun shootHookAt(target: LivingEntity)
 

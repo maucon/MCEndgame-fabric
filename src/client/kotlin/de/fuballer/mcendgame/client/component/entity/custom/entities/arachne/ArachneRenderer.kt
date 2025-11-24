@@ -3,7 +3,7 @@ package de.fuballer.mcendgame.client.component.entity.custom.entities.arachne
 import de.fuballer.mcendgame.client.component.entity.custom.data.EntityConnectionPointData
 import de.fuballer.mcendgame.client.component.entity.custom.data.MultipleEntityConnectionData
 import de.fuballer.mcendgame.main.component.entity.custom.entities.arachne.ArachneEntity
-import de.fuballer.mcendgame.main.component.entity.custom.entities.mount.MountEntity
+import de.fuballer.mcendgame.main.component.entity.custom.entities.mount.DirectionalMovementEntity
 import de.fuballer.mcendgame.main.util.minecraft.IdentifierUtil
 import net.minecraft.client.render.*
 import net.minecraft.client.render.entity.EntityRendererFactory
@@ -48,7 +48,7 @@ class ArachneRenderer(
 
         renderState.isSaddled = entity.hasSaddleEquipped()
 
-        renderState.moveSpeed = entity.dataTracker.get(MountEntity.ANIMATION_MOVEMENT_SPEED)
+        renderState.moveSpeed = entity.dataTracker.get(DirectionalMovementEntity.ANIMATION_MOVEMENT_SPEED)
 
         updateHookedRenderState(entity, renderState, tickDelta)
     }
