@@ -81,7 +81,7 @@ class DungeonWorldService(
     }
 
     private fun deleteWorld(entity: DungeonWorldEntity) {
-        RuntimeConfig.FANTASY.tickDeleteWorld(entity.world) // is this enough?
+        RuntimeConfig.FANTASY.tickDeleteWorld(entity.world)
         dungeonWorldRepo.delete(entity)
 
         val event = DungeonWorldClosedEvent(entity.world)
