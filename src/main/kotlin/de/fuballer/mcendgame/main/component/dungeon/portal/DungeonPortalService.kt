@@ -71,8 +71,10 @@ class DungeonPortalService(
 
     @EventSubscriber
     fun on(event: DungeonDeviceBrokenEvent) {
+        println(1)
         val id = event.blockEntity.pos.hashCode()
         val entity = dungeonPortalRepo.findById(id) ?: return
+        println(2)
         clearPortals(entity)
     }
 

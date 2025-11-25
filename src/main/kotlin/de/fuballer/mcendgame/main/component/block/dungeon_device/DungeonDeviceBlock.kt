@@ -50,7 +50,7 @@ class DungeonDeviceBlock(
     }
 
     override fun onBreak(world: World, pos: BlockPos, state: BlockState, player: PlayerEntity): BlockState {
-        if (world.isClient) {
+        if (!world.isClient) {
             val blockEntity = world.getBlockEntity(pos)
 
             blockEntity?.also {
