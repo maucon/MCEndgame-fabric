@@ -243,9 +243,9 @@ enum class Miscellaneous(
             RandomOption(
                 weight = 1,
                 listOf(
-                    LevelLockedRandomOption(weight = 50, tier = 1, level = 0, RollableCustomAttribute(VanillaAttributeTypes.ATTACK_DAMAGE, 3, DoubleBounds(0.025, 0.05))),
-                    LevelLockedRandomOption(weight = 10, tier = 2, level = 5, RollableCustomAttribute(VanillaAttributeTypes.ATTACK_DAMAGE, 2, DoubleBounds(0.05, 0.075))),
-                    LevelLockedRandomOption(weight = 1, tier = 3, level = 10, RollableCustomAttribute(VanillaAttributeTypes.ATTACK_DAMAGE, 1, DoubleBounds(0.075, 0.1))),
+                    LevelLockedRandomOption(weight = 50, tier = 1, level = 0, RollableCustomAttribute(VanillaAttributeTypes.ATTACK_DAMAGE, 3, DoubleBounds(0.6, 1.4))),
+                    LevelLockedRandomOption(weight = 10, tier = 2, level = 5, RollableCustomAttribute(VanillaAttributeTypes.ATTACK_DAMAGE, 2, DoubleBounds(1.4, 2.2))),
+                    LevelLockedRandomOption(weight = 1, tier = 3, level = 10, RollableCustomAttribute(VanillaAttributeTypes.ATTACK_DAMAGE, 1, DoubleBounds(2.2, 3.0))),
                 )
             ),
             RandomOption(

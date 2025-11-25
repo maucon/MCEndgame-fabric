@@ -134,6 +134,7 @@ object CustomAttributeTypes {
 
     val SHOOT_WITHER_SKULL_WHEN_HIT_BY_PROJECTILE =
         CustomAttributeType("shoot_wither_skull_when_hit_by_projectile", AttributeFormats.SIGNED_PERCENT_ROLL, AttributeFormats.PERCENT_BOUNDS, AttributeAffinities.BENEFICIAL)
+    val EXPLODE_WHEN_TAKING_DAMAGE = CustomAttributeType("explode_when_taking_damage", AttributeFormats.PERCENT_ROLL, AttributeFormats.PERCENT_BOUNDS, AttributeAffinities.BENEFICIAL)
 
     val BURNING_ENEMIES_EXPLODE_WHEN_KILLED =
         CustomAttributeType("burning_enemies_explode_when_killed", AttributeFormats.PERCENT_ROLL, AttributeFormats.PERCENT_BOUNDS, AttributeAffinities.BENEFICIAL)
@@ -157,7 +158,18 @@ object CustomAttributeTypes {
     val DAMAGE_LINKED_ENEMIES = CustomAttributeType("damage_linked_enemies", AttributeFormats.PERCENT_ROLL, AttributeFormats.PERCENT_BOUNDS, AttributeAffinities.BENEFICIAL)
     val HEAL_ON_LINKED_ENEMY_KILLED = CustomAttributeType("heal_on_linked_enemy_killed", AttributeFormats.DOUBLE_ROLL, AttributeFormats.DOUBLE_BOUNDS, AttributeAffinities.BENEFICIAL)
 
-    val CHANGE_GAINED_STATUS_EFFECT = CustomAttributeType("change_gained_status_effect", AttributeFormats.TWO_STRING_ROLL, AttributeFormats.TWO_STRING_SHOW_ALL_OPTIONS, AttributeAffinities.EMPTY)
+    val CHANGE_GAINED_STATUS_EFFECT =
+        CustomAttributeType("change_gained_status_effect", AttributeFormats.TWO_STRING_ROLL, AttributeFormats.TWO_STRING_SHOW_ALL_OPTIONS, AttributeAffinities.EMPTY)
+
+    val MORE_DAMAGE_TAKEN_PER_MAX_HEART_ABOVE_TEN = CustomAttributeType(
+        "more_damage_taken_per_max_heart_above_ten", AttributeFormats.PERCENT_ROLL, AttributeFormats.PERCENT_BOUNDS,
+        AttributeAffinities.DETRIMENTAL, SignBasedKeywords.MORE
+    )
+
+    val MORE_DAMAGE_TAKEN_PER_NEARBY_ENEMY = CustomAttributeType(
+        "more_damage_taken_per_nearby_enemy", AttributeFormats.PERCENT_AND_INT_ROLL, AttributeFormats.PERCENT_AND_INT_BOUNDS,
+        AttributeAffinities.DETRIMENTAL, SignBasedKeywords.MORE
+    )
 
     // for use on enemies (don't use for players)
     val DROP_INCREASED_LOOT =

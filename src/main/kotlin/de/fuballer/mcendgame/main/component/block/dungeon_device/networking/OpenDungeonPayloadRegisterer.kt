@@ -20,9 +20,8 @@ class OpenDungeonPayloadRegisterer {
             val playerEntity = RuntimeConfig.SERVER.playerManager.getPlayer(openDungeonPayload.playerId) ?: return@registerGlobalReceiver
 
             val dungeonDeviceEntity = blockEntity as DungeonDeviceBlockEntity
-            val affectingItems = dungeonDeviceEntity.getItems()
 
-            EventGateway.launchPublish(OpenDungeonButtonPressedEvent(blockEntity, playerEntity, affectingItems))
+            EventGateway.launchPublish(OpenDungeonButtonPressedEvent(blockEntity, playerEntity, dungeonDeviceEntity))
         }
     }
 }

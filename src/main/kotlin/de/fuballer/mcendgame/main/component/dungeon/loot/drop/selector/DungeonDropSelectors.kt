@@ -3,6 +3,8 @@ package de.fuballer.mcendgame.main.component.dungeon.loot.drop.selector
 import de.fuballer.mcendgame.main.component.item.custom.UniqueAttributesItemInterface
 import de.fuballer.mcendgame.main.component.item.custom.aspect.AspectItem
 import de.fuballer.mcendgame.main.component.item.custom.crystal.CrystalItem
+import de.fuballer.mcendgame.main.component.item.custom.totem.TotemItem
+import de.fuballer.mcendgame.main.component.item.custom.totem.TotemType
 import net.minecraft.entity.ItemEntity
 import net.minecraft.entity.player.PlayerEntity
 import net.minecraft.item.ItemStack
@@ -18,4 +20,11 @@ object DungeonDropSelectors {
 
     val CRYSTAL: (ItemStack, ItemEntity) -> Boolean = { itemStack, _ -> itemStack.item is CrystalItem }
     val CRYSTAL_PLAYER_DROPPED: (ItemStack, ItemEntity) -> Boolean = { itemStack, itemEntity -> CRYSTAL(itemStack, itemEntity) && PLAYER_DROPPED(itemStack, itemEntity) }
+
+    val TOTEM_BASIC: (ItemStack, ItemEntity) -> Boolean = { itemStack, _ -> (itemStack.item as? TotemItem)?.type == TotemType.BASIC }
+    val TOTEM_BASIC_PLAYER_DROPPED: (ItemStack, ItemEntity) -> Boolean = { itemStack, itemEntity -> TOTEM_BASIC(itemStack, itemEntity) && PLAYER_DROPPED(itemStack, itemEntity) }
+    val TOTEM_EFFECT: (ItemStack, ItemEntity) -> Boolean = { itemStack, _ -> (itemStack.item as? TotemItem)?.type == TotemType.EFFECT }
+    val TOTEM_EFFECT_PLAYER_DROPPED: (ItemStack, ItemEntity) -> Boolean = { itemStack, itemEntity -> TOTEM_EFFECT(itemStack, itemEntity) && PLAYER_DROPPED(itemStack, itemEntity) }
+    val TOTEM_ABILITY: (ItemStack, ItemEntity) -> Boolean = { itemStack, _ -> (itemStack.item as? TotemItem)?.type == TotemType.ABILITY }
+    val TOTEM_ABILITY_PLAYER_DROPPED: (ItemStack, ItemEntity) -> Boolean = { itemStack, itemEntity -> TOTEM_ABILITY(itemStack, itemEntity) && PLAYER_DROPPED(itemStack, itemEntity) }
 }
