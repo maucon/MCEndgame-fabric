@@ -52,7 +52,7 @@ object EnemyGenerationSettings {
     const val LOOT_GOBLIN_CHANCE = 0.003
     fun randomLootGoblin(random: Random) = random.nextDouble() < LOOT_GOBLIN_CHANCE
 
-    const val ELITE_PROBABILITY = 0.0025
+    const val ELITE_PROBABILITY = 0.0075
     const val ELITE_SCALE = 1.35
     const val ELITE_HEALTH_FACTOR = 2.5
     fun randomElite(random: Random) = random.nextDouble() < ELITE_PROBABILITY
