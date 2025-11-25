@@ -47,7 +47,7 @@ class DungeonPortalService(
     fun on(event: OpenDungeonButtonPressedEvent) {
         val id = event.blockEntity.pos.hashCode()
         val entity = dungeonPortalRepo.findById(id) ?: return
-        clearPortals(entity)
+        clearPortalsAndDeleteEntity(entity)
     }
 
     @EventSubscriber
@@ -66,15 +66,14 @@ class DungeonPortalService(
     @EventSubscriber
     fun on(event: DungeonWorldClosedEvent) {
         val entity = dungeonPortalRepo.findByDungeonWorld(event.dungeonWorld) ?: return
-        clearPortals(entity)
+        clearPortalsAndDeleteEntity(entity)
     }
 
     @EventSubscriber
     fun on(event: DungeonDeviceBrokenEvent) {
         val id = event.blockEntity.pos.hashCode()
         val entity = dungeonPortalRepo.findById(id) ?: return
-        clearPortals(entity)
-        dungeonPortalRepo.delete(entity)
+        clearPortalsAndDeleteEntity(entity)
     }
 
     private fun spawnLeavePortal(
@@ -108,9 +107,11 @@ class DungeonPortalService(
         return portals
     }
 
-    private fun clearPortals(dungeonPortalEntity: DungeonPortalEntity) {
+    private fun clearPortalsAndDeleteEntity(dungeonPortalEntity: DungeonPortalEntity) {
         dungeonPortalEntity.portals
             .onEach { it.discard() }
             .clear()
+
+        dungeonPortalRepo.delete(dungeonPortalEntity)
     }
 }
