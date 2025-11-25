@@ -186,6 +186,7 @@
   "attribute.mcendgame.twinfire_more_damage": "%s%% %s Damage while Dual Wielding Twinfire",
   "attribute.mcendgame.change_gained_status_effect": "Gain %s instead of %s",
   "attribute.mcendgame.more_damage_taken_per_max_heart_above_ten": " %s%% %s Damage Taken per Max Heart above Ten",
+  "attribute.mcendgame.more_damage_taken_per_nearby_enemy": " %s%% %s Damage Taken per Enemy within %s Blocks",
 
   "effect.mcendgame.fury": "Fury",
   "effect.mcendgame.resilience": "Resilience",

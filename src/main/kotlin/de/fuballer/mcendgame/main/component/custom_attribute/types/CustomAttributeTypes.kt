@@ -166,6 +166,11 @@ object CustomAttributeTypes {
         AttributeAffinities.DETRIMENTAL, SignBasedKeywords.MORE
     )
 
+    val MORE_DAMAGE_TAKEN_PER_NEARBY_ENEMY = CustomAttributeType(
+        "more_damage_taken_per_nearby_enemy", AttributeFormats.PERCENT_AND_INT_ROLL, AttributeFormats.PERCENT_AND_INT_BOUNDS,
+        AttributeAffinities.DETRIMENTAL, SignBasedKeywords.MORE
+    )
+
     // for use on enemies (don't use for players)
     val DROP_INCREASED_LOOT =
         CustomAttributeType("drop_increased_loot", AttributeFormats.SIGNED_PERCENT_ROLL, AttributeFormats.PERCENT_BOUNDS, AttributeAffinities.EMPTY, SignBasedKeywords.INCREASED)
