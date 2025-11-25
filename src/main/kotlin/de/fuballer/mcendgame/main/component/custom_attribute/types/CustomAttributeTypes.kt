@@ -134,6 +134,7 @@ object CustomAttributeTypes {
 
     val SHOOT_WITHER_SKULL_WHEN_HIT_BY_PROJECTILE =
         CustomAttributeType("shoot_wither_skull_when_hit_by_projectile", AttributeFormats.SIGNED_PERCENT_ROLL, AttributeFormats.PERCENT_BOUNDS, AttributeAffinities.BENEFICIAL)
+    val EXPLODE_WHEN_TAKING_DAMAGE = CustomAttributeType("explode_when_taking_damage", AttributeFormats.PERCENT_ROLL, AttributeFormats.PERCENT_BOUNDS, AttributeAffinities.BENEFICIAL)
 
     val BURNING_ENEMIES_EXPLODE_WHEN_KILLED =
         CustomAttributeType("burning_enemies_explode_when_killed", AttributeFormats.PERCENT_ROLL, AttributeFormats.PERCENT_BOUNDS, AttributeAffinities.BENEFICIAL)

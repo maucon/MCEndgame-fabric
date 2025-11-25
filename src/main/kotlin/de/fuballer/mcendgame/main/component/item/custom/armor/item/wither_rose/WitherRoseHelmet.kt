@@ -10,7 +10,8 @@ class WitherRoseHelmet(
     settings: Settings,
 ) : UniqueAttributesItem(settings) {
     override fun getCustomAttributes() = listOf(
-        RollableCustomAttribute(CustomAttributeTypes.SHOOT_WITHER_SKULL_WHEN_HIT_BY_PROJECTILE, 0, DoubleBounds(0.3, 0.6))
+        RollableCustomAttribute(CustomAttributeTypes.SHOOT_WITHER_SKULL_WHEN_HIT_BY_PROJECTILE, 0, DoubleBounds(0.3, 0.6)),
+        RollableCustomAttribute(CustomAttributeTypes.EXPLODE_WHEN_TAKING_DAMAGE, 0, DoubleBounds(0.25, 0.35)),
     )
 
     override fun getAttributeModifierSlot() = AttributeModifierSlot.HEAD
