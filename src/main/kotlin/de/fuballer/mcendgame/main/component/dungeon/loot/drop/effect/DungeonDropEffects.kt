@@ -25,4 +25,25 @@ object DungeonDropEffects {
             .withParticleCount(20)
             .withParticleSpeed(0.03)
     val CRYSTAL_PLAYER_DROPPED = DungeonDropEffect(glowColor = ItemColor.CRYSTAL)
+
+    val TOTEM_BASIC =
+        DungeonDropEffect(SoundEvents.BLOCK_ENCHANTMENT_TABLE_USE, ParticleTypes.TOTEM_OF_UNDYING, ItemColor.TOTEM_BASIC)
+            .withVolume(2F)
+            .withParticleCount(20)
+            .withParticleSpeed(0.5)
+    val TOTEM_BASIC_PLAYER_DROPPED = DungeonDropEffect(glowColor = ItemColor.TOTEM_BASIC)
+
+    val TOTEM_EFFECT =
+        DungeonDropEffect(SoundEvents.BLOCK_ENCHANTMENT_TABLE_USE, ParticleTypes.TOTEM_OF_UNDYING, ItemColor.TOTEM_EFFECT)
+            .withVolume(2F)
+            .withParticleCount(20)
+            .withParticleSpeed(0.5)
+    val TOTEM_EFFECT_PLAYER_DROPPED = DungeonDropEffect(glowColor = ItemColor.TOTEM_EFFECT)
+
+    val TOTEM_ABILITY =
+        DungeonDropEffect(SoundEvents.BLOCK_ENCHANTMENT_TABLE_USE, ParticleTypes.TOTEM_OF_UNDYING, ItemColor.TOTEM_ABILITY)
+            .withVolume(2F)
+            .withParticleCount(20)
+            .withParticleSpeed(0.5)
+    val TOTEM_ABILITY_PLAYER_DROPPED = DungeonDropEffect(glowColor = ItemColor.TOTEM_ABILITY)
 }
