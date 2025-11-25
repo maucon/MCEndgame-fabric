@@ -11,7 +11,7 @@ import java.util.*
 
 object DungeonWorldSettings {
     const val EMPTY_WORLD_CHECK_PERIOD = 10 * 60 * 20 // ticks
-    const val MAX_EMPTY_TIME = 8 * 60 // seconds
+    const val MAX_EMPTY_TIME = 8 * 60L // seconds
 
     val WORLD_CONFIG: RuntimeWorldConfig =
         RuntimeWorldConfig()
