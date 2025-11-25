@@ -2,16 +2,14 @@ package de.fuballer.mcendgame.main.component.dungeon.world.db
 
 import de.maucon.mauconframework.stereotype.Entity
 import net.minecraft.server.world.ServerWorld
+import java.time.Instant
 import java.util.*
-import kotlin.time.Clock
-import kotlin.time.ExperimentalTime
-import kotlin.time.Instant
 
-data class DungeonWorldEntity @OptIn(ExperimentalTime::class) constructor(
+data class DungeonWorldEntity(
     override var id: UUID,
 
     var world: ServerWorld,
-    var emptySince: Instant = Clock.System.now()
+    var emptySince: Instant = Instant.now()
 ) : Entity<UUID> {
     constructor(
         world: ServerWorld,

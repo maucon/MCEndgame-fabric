@@ -14,14 +14,12 @@ import de.fuballer.mcendgame.main.util.extension.mixin.WorldMixinExtension.setDu
 import de.fuballer.mcendgame.main.util.extension.mixin.WorldMixinExtension.setOpener
 import de.maucon.mauconframework.di.annotation.Injectable
 import de.maucon.mauconframework.di.annotation.Logging
+import de.maucon.mauconframework.event.EventGateway
 import de.maucon.mauconframework.event.EventSubscriber
-import kotlinx.datetime.DateTimeUnit
-import kotlinx.datetime.plus
 import net.minecraft.entity.player.PlayerEntity
 import net.minecraft.server.world.ServerWorld
 import org.slf4j.Logger
-import kotlin.time.Clock
-import kotlin.time.ExperimentalTime
+import java.time.Instant
 
 @Injectable
 class DungeonWorldService(
@@ -61,7 +59,6 @@ class DungeonWorldService(
         return dungeonWorld
     }
 
-    @OptIn(ExperimentalTime::class)
     private fun deleteEmptyWorlds() {
         log.info("Checking for empty worlds")
 
@@ -70,22 +67,24 @@ class DungeonWorldService(
                 updateDeleteTimer(it)
                 dungeonWorldRepo.save(it)
             }
-            .filter { it.emptySince.plus(DungeonWorldSettings.MAX_EMPTY_TIME, DateTimeUnit.SECOND) < Clock.System.now() }
+            .filter { it.emptySince.plusSeconds(DungeonWorldSettings.MAX_EMPTY_TIME) < Instant.now() }
             .forEach {
                 log.warn("Dungeon world '${it.world.registryKey.value}' was empty for too long, deleting it!")
                 deleteWorld(it)
             }
     }
 
-    @OptIn(ExperimentalTime::class)
     private fun updateDeleteTimer(entity: DungeonWorldEntity) {
         if (entity.world.players.isNotEmpty()) {
-            entity.emptySince = Clock.System.now()
+            entity.emptySince = Instant.now()
         }
     }
 
     private fun deleteWorld(entity: DungeonWorldEntity) {
-        RuntimeConfig.FANTASY.tickDeleteWorld(entity.world) // is this enough?
+        RuntimeConfig.FANTASY.tickDeleteWorld(entity.world)
         dungeonWorldRepo.delete(entity)
+
+        val event = DungeonWorldClosedEvent(entity.world)
+        EventGateway.launchPublish(event)
     }
 }
