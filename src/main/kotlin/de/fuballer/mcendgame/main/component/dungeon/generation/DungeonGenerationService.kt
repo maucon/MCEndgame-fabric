@@ -1,11 +1,13 @@
 package de.fuballer.mcendgame.main.component.dungeon.generation
 
+import de.fuballer.mcendgame.main.component.block.dungeon_device.DungeonDeviceBlockEntity
 import de.fuballer.mcendgame.main.component.dungeon.enemy.EnemyGenerationService
 import de.fuballer.mcendgame.main.component.dungeon.enemy.boss.BossGenerationService
 import de.fuballer.mcendgame.main.component.dungeon.generation.builder.DungeonBuilderService
 import de.fuballer.mcendgame.main.component.dungeon.generation.encounter.DungeonEncounterGenerationService
 import de.fuballer.mcendgame.main.component.dungeon.seed.DungeonSeedService
 import de.fuballer.mcendgame.main.component.dungeon.world.DungeonWorldService
+import de.fuballer.mcendgame.main.component.item.custom.aspect.AspectItem
 import de.fuballer.mcendgame.main.component.item.custom.aspect.AspectService
 import de.fuballer.mcendgame.main.configuration.RuntimeConfig
 import de.fuballer.mcendgame.main.messaging.dungeon.DungeonGenerateCommand
@@ -34,7 +36,7 @@ class DungeonGenerationService(
         val player = event.player
         val originWorld = player.world as ServerWorld
         val dungeonDevicePos = event.blockEntity.pos
-        val affectingAspects = aspectService.getAffectingAspect(event.affectingItems)
+        val affectingAspects = getAffectingAspects(event.dungeonDeviceBlockEntity)
         val playerSeed = dungeonSeedService.rollSeed(player)
 
         val playerDungeonLevel = player.getDungeonLevel().level
@@ -63,5 +65,12 @@ class DungeonGenerationService(
             val dungeonGeneratedEvent = DungeonGeneratedEvent(originWorld, dungeonWorld, layout.spawnPos, dungeonDevicePos)
             EventGateway.launchPublish(dungeonGeneratedEvent)
         }
+    }
+
+    private fun getAffectingAspects(dungeonDeviceBlockEntity: DungeonDeviceBlockEntity): Map<AspectItem, Int> {
+        val affectingItems = dungeonDeviceBlockEntity.getItems()
+        val affectingAspects = aspectService.getAffectingAspects(affectingItems)
+        dungeonDeviceBlockEntity.markDirty()
+        return affectingAspects
     }
 }

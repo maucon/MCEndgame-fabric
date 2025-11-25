@@ -6,7 +6,7 @@ import net.minecraft.util.collection.DefaultedList
 
 @Injectable
 class AspectService {
-    fun getAffectingAspect(
+    fun getAffectingAspects(
         affectingItemStacks: DefaultedList<ItemStack>,
     ): Map<AspectItem, Int> {
         val aspectItemStacks = affectingItemStacks
