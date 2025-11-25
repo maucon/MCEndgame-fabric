@@ -2,6 +2,7 @@ package de.fuballer.mcendgame.main.component.item.custom.armor.item.wither_rose
 
 import de.fuballer.mcendgame.main.component.custom_attribute.data.DoubleBounds
 import de.fuballer.mcendgame.main.component.custom_attribute.data.RollableCustomAttribute
+import de.fuballer.mcendgame.main.component.custom_attribute.types.CustomAttributeTypes
 import de.fuballer.mcendgame.main.component.custom_attribute.types.VanillaAttributeTypes
 import de.fuballer.mcendgame.main.component.item.custom.UniqueAttributesItem
 import de.fuballer.mcendgame.main.component.item.custom.armor.interfaces.HidePlayerModelPartArmor
@@ -17,7 +18,8 @@ class WitherRoseLeggings(
     )
 
     override fun getCustomAttributes() = listOf(
-        RollableCustomAttribute(VanillaAttributeTypes.ARMOR, 0, DoubleBounds(1.0, 2.0))
+        RollableCustomAttribute(VanillaAttributeTypes.MAX_HEALTH, 0, DoubleBounds(2.0, 3.0)),
+        RollableCustomAttribute(CustomAttributeTypes.MORE_DAMAGE_TAKEN_PER_MAX_HEART_ABOVE_TEN, 0, DoubleBounds(-0.01, -0.01)),
     )
 
     override fun getAttributeModifierSlot() = AttributeModifierSlot.LEGS
