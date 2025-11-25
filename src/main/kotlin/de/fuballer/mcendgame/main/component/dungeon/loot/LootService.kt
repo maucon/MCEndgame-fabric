@@ -70,9 +70,8 @@ class LootService {
         val empoweredCrystalCount = baseCrystalCount * lootMultiplier
         val finalCrystalCount = empoweredCrystalCount.toInt() + if (Random.nextDouble() < empoweredCrystalCount % 1) 1 else 0
 
-        val levelAppropriateCrystals = LootSettings.CRYSTALS.filter { it.option.level <= level }
-        val crystalItems = RandomUtil.pickAllowRepeat(levelAppropriateCrystals, finalCrystalCount)
-        val itemStacks = crystalItems.map { it.item.defaultStack }
+        val crystalItems = RandomUtil.pickLevelLockedAllowRepeat(LootSettings.CRYSTALS, 1, level, finalCrystalCount)
+        val itemStacks = crystalItems.map { it.defaultStack }
 
         itemStacks.forEach { bossEntity.dropStack(serverWorld, it) }
     }

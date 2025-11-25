@@ -98,6 +98,21 @@ object RandomUtil {
         return pick(unlockedOptions, rolls, random).option
     }
 
+    fun <T> pickLevelLockedAllowRepeat(
+        options: List<LevelLockedRandomOption<T>>,
+        rolls: Int,
+        level: Int,
+        amount: Int,
+        random: Random = Random,
+    ): List<T> {
+        val unlockedOptions = options.filterNot { it.isLocked(level) }
+
+        val picked = mutableListOf<T>()
+        repeat(amount) { picked.add(pick(unlockedOptions, rolls, random).option) }
+
+        return picked
+    }
+
     private fun <T : RandomOption<*>> pickOption(
         options: List<T>,
         randomInt: Int
