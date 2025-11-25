@@ -14,6 +14,7 @@ import de.fuballer.mcendgame.main.util.extension.mixin.WorldMixinExtension.setDu
 import de.fuballer.mcendgame.main.util.extension.mixin.WorldMixinExtension.setOpener
 import de.maucon.mauconframework.di.annotation.Injectable
 import de.maucon.mauconframework.di.annotation.Logging
+import de.maucon.mauconframework.event.EventGateway
 import de.maucon.mauconframework.event.EventSubscriber
 import net.minecraft.entity.player.PlayerEntity
 import net.minecraft.server.world.ServerWorld
@@ -82,5 +83,8 @@ class DungeonWorldService(
     private fun deleteWorld(entity: DungeonWorldEntity) {
         RuntimeConfig.FANTASY.tickDeleteWorld(entity.world) // is this enough?
         dungeonWorldRepo.delete(entity)
+
+        val event = DungeonWorldClosedEvent(entity.world)
+        EventGateway.launchPublish(event)
     }
 }

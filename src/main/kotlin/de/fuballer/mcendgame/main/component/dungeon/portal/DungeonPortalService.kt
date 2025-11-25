@@ -1,5 +1,7 @@
 package de.fuballer.mcendgame.main.component.dungeon.portal
 
+import de.fuballer.mcendgame.main.component.block.dungeon_device.DungeonDeviceBrokenEvent
+import de.fuballer.mcendgame.main.component.dungeon.world.DungeonWorldClosedEvent
 import de.fuballer.mcendgame.main.component.portal.PortalEntity
 import de.fuballer.mcendgame.main.component.portal.Portals
 import de.fuballer.mcendgame.main.component.portal.teleport.TeleportLocation
@@ -61,6 +63,19 @@ class DungeonPortalService(
         Portals.spawn(world, spawnPosition.pos.toCenter(), dungeonPortalEntity.leaveLocation, rotation = spawnPosition.rot.toFloat())
     }
 
+    @EventSubscriber
+    fun on(event: DungeonWorldClosedEvent) {
+        val entity = dungeonPortalRepo.findByDungeonWorld(event.dungeonWorld) ?: return
+        clearPortals(entity)
+    }
+
+    @EventSubscriber
+    fun on(event: DungeonDeviceBrokenEvent) {
+        val id = event.blockEntity.pos.hashCode()
+        val entity = dungeonPortalRepo.findById(id) ?: return
+        clearPortals(entity)
+    }
+
     private fun spawnLeavePortal(
         leaveLocation: TeleportLocation,
         spawnPos: Vec3d,
@@ -68,7 +83,6 @@ class DungeonPortalService(
         dungeonWorld: ServerWorld
     ) {
         val portalLocation = spawnPos.subtract(0.5, 0.0, 0.0)
-
         Portals.spawn(dungeonWorld, portalLocation, leaveLocation, type = portalType, lookAt = spawnPos)
     }
 
