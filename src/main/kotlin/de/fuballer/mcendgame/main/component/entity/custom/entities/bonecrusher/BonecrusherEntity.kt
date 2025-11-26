@@ -174,15 +174,16 @@ class BonecrusherEntity(
     }
 
     private fun initDynamicGoals() {
-        goalSelector.add(1, attackGoal)
-        goalSelector.add(2, stayInMeleeRangeGoal)
-        goalSelector.add(3, lookAtPlayerGoal)
-        goalSelector.add(3, lookAroundGoal)
-        goalSelector.add(4, wanderGoal)
+        goalSelector.add(2, attackGoal)
+        goalSelector.add(3, stayInMeleeRangeGoal)
+        goalSelector.add(4, lookAtPlayerGoal)
+        goalSelector.add(4, lookAroundGoal)
+        goalSelector.add(5, wanderGoal)
     }
 
     override fun initGoals() {
         goalSelector.add(0, SwimGoal(this))
+        goalSelector.add(1, ChangeTargetGoal(this, probability = 0.4, tryIntervalTicks = 20, 100, { e -> e is PlayerEntity || e is VillagerEntity }))
 
         targetSelector.add(2, ActiveTargetGoal(this, PlayerEntity::class.java, true))
         targetSelector.add(3, ActiveTargetGoal(this, VillagerEntity::class.java, true))

@@ -399,15 +399,16 @@ class ElfDuelistEntity(
     }
 
     private fun initDynamicGoals() {
-        goalSelector.add(1, attackGoal)
-        goalSelector.add(2, stayInMeleeRangeGoal)
-        goalSelector.add(3, wanderGoal)
-        goalSelector.add(4, lookAtPlayerGoal)
-        goalSelector.add(4, lookAroundGoal)
+        goalSelector.add(2, attackGoal)
+        goalSelector.add(3, stayInMeleeRangeGoal)
+        goalSelector.add(4, wanderGoal)
+        goalSelector.add(5, lookAtPlayerGoal)
+        goalSelector.add(5, lookAroundGoal)
     }
 
     override fun initGoals() {
         goalSelector.add(0, SwimGoal(this))
+        goalSelector.add(1, ChangeTargetGoal(this, probability = 0.4, tryIntervalTicks = 20, 100, { e -> e is PlayerEntity || e is VillagerEntity }))
 
         targetSelector.add(0, RevengeGoal(this))
         targetSelector.add(1, ActiveTargetGoal(this, PlayerEntity::class.java, true))
