@@ -2,6 +2,7 @@ package de.fuballer.mcendgame.main.component.block.totem_statue
 
 import de.fuballer.mcendgame.main.component.block.CustomBlockEntityTypes
 import de.fuballer.mcendgame.main.component.dungeon.generation.encounter.encounters.totem.TotemEncounterSettings
+import de.fuballer.mcendgame.main.configuration.RuntimeConfig
 import de.fuballer.mcendgame.main.util.extension.mixin.WorldMixinExtension.getDungeonLevel
 import de.maucon.mauconframework.command.CommandGateway
 import net.minecraft.block.BlockState
@@ -158,7 +159,7 @@ class TotemStatueBlockEntity(
 
         val stack = TotemEncounterSettings.getTotemReward(world.getDungeonLevel())
         val itemEntity = ItemEntity(world, pos.x + 0.5, pos.y + 0.5, pos.z + 0.5, stack)
-        world.spawnEntity(itemEntity)
+        RuntimeConfig.SERVER.execute { world.spawnEntity(itemEntity) }
     }
 
     override fun writeNbt(nbt: NbtCompound, registries: RegistryWrapper.WrapperLookup) {

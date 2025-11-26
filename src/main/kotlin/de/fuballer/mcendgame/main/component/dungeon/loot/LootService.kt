@@ -2,6 +2,7 @@ package de.fuballer.mcendgame.main.component.dungeon.loot
 
 import de.fuballer.mcendgame.main.component.item.custom.UniqueAttributesItemInterface
 import de.fuballer.mcendgame.main.component.tags.CustomTags
+import de.fuballer.mcendgame.main.configuration.RuntimeConfig
 import de.fuballer.mcendgame.main.messaging.dungeon.DungeonBossDeathEvent
 import de.fuballer.mcendgame.main.messaging.dungeon.DungeonEnemyDeathEvent
 import de.fuballer.mcendgame.main.messaging.misc.LivingEntityDropCommand
@@ -55,7 +56,7 @@ class LootService {
                 Random.nextDouble() <= dropProbability
             }
             .onEach { setRandomDurability(it) }
-            .forEach { enemyEntity.dropStack(serverWorld, it) }
+            .forEach { RuntimeConfig.SERVER.execute { enemyEntity.dropStack(serverWorld, it) } }
     }
 
     @EventSubscriber
@@ -73,7 +74,7 @@ class LootService {
         val crystalItems = RandomUtil.pickLevelRestrictedWithRepeats(LootSettings.CRYSTALS, 1, level, finalCrystalCount)
         val itemStacks = crystalItems.map { it.defaultStack }
 
-        itemStacks.forEach { bossEntity.dropStack(serverWorld, it) }
+        RuntimeConfig.SERVER.execute { itemStacks.forEach { bossEntity.dropStack(serverWorld, it) } }
     }
 
     private fun getMagicFindFactor(entity: LivingEntity?): Double {
@@ -101,6 +102,6 @@ class LootService {
 
     private fun dropEliteLoot(serverWorld: ServerWorld, entity: LivingEntity) {
         val aspect = RandomUtil.pickOne(LootSettings.ASPECTS).option
-        entity.dropStack(serverWorld, aspect.defaultStack)
+        RuntimeConfig.SERVER.execute { entity.dropStack(serverWorld, aspect.defaultStack) }
     }
 }

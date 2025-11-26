@@ -29,6 +29,7 @@ class CustomBlockTagProvider(
             .forceAddTag(BlockTags.SAPLINGS)
             .forceAddTag(BlockTags.CAVE_VINES)
             .add(Blocks.FIRE)
+            .add(Blocks.SOUL_FIRE)
             .add(Blocks.COBWEB)
             .add(CustomBlocks.DECAYING_COBWEB)
             .add(Blocks.SHORT_GRASS)

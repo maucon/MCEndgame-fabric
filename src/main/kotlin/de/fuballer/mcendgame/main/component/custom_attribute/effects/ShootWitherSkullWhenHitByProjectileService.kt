@@ -3,6 +3,7 @@ package de.fuballer.mcendgame.main.component.custom_attribute.effects
 import de.fuballer.mcendgame.main.component.custom_attribute.CustomAttributesExtensions.asDoubleRoll
 import de.fuballer.mcendgame.main.component.custom_attribute.CustomAttributesExtensions.getAllCustomAttributes
 import de.fuballer.mcendgame.main.component.custom_attribute.types.CustomAttributeTypes
+import de.fuballer.mcendgame.main.configuration.RuntimeConfig
 import de.fuballer.mcendgame.main.messaging.misc.LivingEntityDamagedEvent
 import de.maucon.mauconframework.di.annotation.Injectable
 import de.maucon.mauconframework.event.EventSubscriber
@@ -48,6 +49,6 @@ class ShootWitherSkullWhenHitByProjectileService {
         }.normalize()
         skull.velocity = direction
 
-        world.spawnEntity(skull)
+        RuntimeConfig.SERVER.execute { world.spawnEntity(skull) }
     }
 }
