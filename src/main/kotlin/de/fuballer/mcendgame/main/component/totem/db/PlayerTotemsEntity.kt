@@ -15,7 +15,6 @@ data class PlayerTotemsEntity(
     var totems: List<ItemStack> = listOf(),
 ) : Entity<UUID> {
     companion object {
-
         val CODEC: Codec<PlayerTotemsEntity> =
             RecordCodecBuilder.create { instance ->
                 instance.group(

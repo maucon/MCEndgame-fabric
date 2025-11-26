@@ -69,11 +69,8 @@ open class PersistentMapRepository<ID, ENTITY : Entity<ID>>(
             val jsonArray = JsonArray()
 
             findAll()
-                .onEach { println(it) }
                 .map { codec.encodeStart(RuntimeConfig.REGISTRY_OPS, it) }
-                .onEach { println(it) }
                 .map { it.result() }
-                .onEach { println(it) }
                 .mapNotNull { it.getOrNull() }
                 .forEach { jsonArray.add(it) }
 
