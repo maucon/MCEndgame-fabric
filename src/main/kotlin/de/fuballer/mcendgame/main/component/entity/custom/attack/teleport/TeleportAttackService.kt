@@ -17,17 +17,17 @@ private const val TARGET_POS_ADJUST_TRIES = 5
 
 @Injectable
 class TeleportAttackService<T>(
-    val scheduler: Scheduler,
+    private val scheduler: Scheduler,
 ) where T : Entity, T : TeleportAttackMob {
     @EventSubscriber
     fun on(event: TeleportAttackEvent<T>) {
         val attacker = event.attacker
         val target = event.target
 
-        scheduler.simple(max(0, event.chosePositionDelayTicks - PREPARATION_PARTICLE_DURATION)) { createPreparationParticles(attacker) }
-        scheduler.simple(event.chosePositionDelayTicks) { choseTeleportPosition(attacker, target) }
+        scheduler.delayed(max(0, event.chosePositionDelayTicks - PREPARATION_PARTICLE_DURATION)) { createPreparationParticles(attacker) }
+        scheduler.delayed(event.chosePositionDelayTicks) { choseTeleportPosition(attacker, target) }
 
-        scheduler.simple(event.teleportDelayTicks) {
+        scheduler.delayed(event.teleportDelayTicks) {
             teleport(attacker)
             createArriveParticles(attacker)
         }

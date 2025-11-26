@@ -126,7 +126,7 @@ class ArachneEntity(
 
     override fun initGoals() {
         goalSelector.add(0, SwimGoal(this))
-        goalSelector.add(1, ChangeTargetGoal(this, probability = 0.4, tryIntervalTicks = 20, 100, { e -> e is PlayerEntity || e is VillagerEntity }))
+        goalSelector.add(1, ChangeTargetGoal(this, probability = 0.4, tryIntervalTicks = 20, 100, { it is PlayerEntity || it is VillagerEntity }))
 
         targetSelector.add(0, RevengeGoal(this))
         targetSelector.add(1, ActiveTargetGoal(this, PlayerEntity::class.java, true))

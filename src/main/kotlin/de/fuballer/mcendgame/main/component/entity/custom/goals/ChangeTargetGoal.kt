@@ -60,6 +60,6 @@ class ChangeTargetGoal<T : MobEntity>(
         val chosen = RandomUtil.pick(weightedOptions).option
         entity.target = chosen
 
-        cooldown = cooldownAfterChange
+        cooldown = getTickCount(cooldownAfterChange)
     }
 }

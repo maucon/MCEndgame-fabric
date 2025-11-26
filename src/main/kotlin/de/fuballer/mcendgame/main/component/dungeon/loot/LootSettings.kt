@@ -34,10 +34,10 @@ object LootSettings {
     fun getBossBaseCrystalCount(dungeonLevel: Int) = Random.nextDouble(dungeonLevel.toDouble() / 2)
 
     val CRYSTALS = listOf(
-        LevelLockedRandomOption(10, 0, 0, CrystalItems.PERMUTATION_CRYSTAL),
-        LevelLockedRandomOption(10, 0, 2, CrystalItems.CALIBRATION_CRYSTAL),
-        LevelLockedRandomOption(5, 0, 4, CrystalItems.REFORGE_CRYSTAL),
-        LevelLockedRandomOption(5, 0, 6, CrystalItems.CORRUPTION_CRYSTAL),
-        LevelLockedRandomOption(5, 0, 8, CrystalItems.SACRIFICIAL_CRYSTAL),
+        LevelLockedRandomOption(10, tier = 0, level = 0, CrystalItems.PERMUTATION_CRYSTAL),
+        LevelLockedRandomOption(10, tier = 0, level = 2, CrystalItems.CALIBRATION_CRYSTAL),
+        LevelLockedRandomOption(5, tier = 0, level = 4, CrystalItems.REFORGE_CRYSTAL),
+        LevelLockedRandomOption(5, tier = 0, level = 6, CrystalItems.CORRUPTION_CRYSTAL),
+        LevelLockedRandomOption(5, tier = 0, level = 8, CrystalItems.SACRIFICIAL_CRYSTAL),
     )
 }
