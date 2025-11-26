@@ -88,7 +88,7 @@ class BonecrusherEntity(
             TELEPORT_PRESS_DATA,
             totalDuration = 75,
             cooldown = 150,
-            DistanceTriggerCondition(8.0, 50.0),
+            DistanceTriggerCondition(6.0, 50.0),
             DelayedAttackDamage(TELEPORT_PRESS_DAMAGE, 44),
             teleportDelay = 35,
             choseLocationDelayTicks = 20,

@@ -8,9 +8,12 @@ import de.maucon.mauconframework.event.EventSubscriber
 import net.minecraft.entity.Entity
 import net.minecraft.particle.ParticleTypes
 import net.minecraft.server.world.ServerWorld
+import net.minecraft.util.math.Vec3d
+import net.minecraft.world.World
 import kotlin.math.max
 
 private const val PREPARATION_PARTICLE_DURATION = 40 // ticks
+private const val TARGET_POS_ADJUST_TRIES = 5
 
 @Injectable
 class TeleportAttackService<T>(
@@ -31,8 +34,30 @@ class TeleportAttackService<T>(
     }
 
     private fun choseTeleportPosition(attacker: T, target: Entity) {
-        if (attacker.world != target.world) return
-        attacker.teleportAttackTargetPosition = target.pos
+        val world = attacker.world
+        if (world != target.world) return
+
+        var targetPos = target.pos
+        val adjustDirection = attacker.pos.subtract(targetPos).normalize()
+
+        targetPos = targetPos.add(adjustDirection.multiply(0.5))
+        repeat(TARGET_POS_ADJUST_TRIES) {
+            if (isTeleportPositionSafe(world, attacker, targetPos)) {
+                attacker.teleportAttackTargetPosition = targetPos
+                return
+            }
+
+            targetPos = targetPos.add(adjustDirection)
+        }
+    }
+
+    private fun isTeleportPositionSafe(
+        world: World,
+        entity: Entity,
+        pos: Vec3d,
+    ): Boolean {
+        val box = entity.boundingBox.offset(pos.subtract(entity.pos))
+        return world.isSpaceEmpty(box)
     }
 
     private fun teleport(attacker: T) {
