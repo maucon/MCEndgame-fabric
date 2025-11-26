@@ -15,8 +15,15 @@ class Scheduler(
         taskRepo.findAll().forEach { task ->
             val tickDifference = event.server.ticks - task.startTick
             if (tickDifference < 0) return@forEach
-            if (tickDifference % task.period != 0) return@forEach
 
+            // not repeating tasks
+            if (task.period == -1) {
+                task.runnable.run()
+                taskRepo.delete(task)
+                return@forEach
+            }
+
+            if (tickDifference % task.period != 0) return@forEach
             task.runnable.run()
         }
     }
@@ -34,6 +41,17 @@ class Scheduler(
 
         val startTick = RuntimeConfig.SERVER.ticks + delay
         val task = Task(runnable, startTick, period)
+
+        return taskRepo.save(task).id
+    }
+
+    fun simple(delay: Int, runnable: Runnable): UUID {
+        return createSimple(delay, runnable)
+    }
+
+    private fun createSimple(delay: Int, runnable: Runnable): UUID {
+        val startTick = RuntimeConfig.SERVER.ticks + delay
+        val task = Task(runnable, startTick)
 
         return taskRepo.save(task).id
     }
