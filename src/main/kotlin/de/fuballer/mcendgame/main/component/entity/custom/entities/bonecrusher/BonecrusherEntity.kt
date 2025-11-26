@@ -51,7 +51,7 @@ class BonecrusherEntity(
         private val HIT_ANIM: RawAnimation = RawAnimation.begin().thenPlay("attack.hit")
         private const val HIT_ID = "Hit"
         private val HIT_AREA = AreaAttackDamage.DamageArea(3.8, 1.6, 1.5, -0.2, 0.5, 0.25)
-        private val HIT_ATTACK_DAMAGE = AreaAttackDamage(0.5F, 0.35, HIT_AREA, knockbackType = AreaAttackDamage.KnockbackType.FACING)
+        private val HIT_ATTACK_DAMAGE = AreaAttackDamage(0.7F, 0.35, HIT_AREA, knockbackType = AreaAttackDamage.KnockbackType.FACING)
         private val HIT_ANIMATION_DATA = AttackAnimationData(AttackPose.DEFAULT, AttackPose.DEFAULT, ATTACK_ANIM_CONTROLLER_ID, HIT_ID)
         private val HIT_ATTACK = Attack<BonecrusherEntity>(
             HIT_ANIMATION_DATA,
@@ -64,7 +64,7 @@ class BonecrusherEntity(
         private val SLAM_ANIM: RawAnimation = RawAnimation.begin().thenPlay("attack.slam")
         private const val SLAM_ID = "Slam"
         private val SLAM_AREA = AreaAttackDamage.DamageArea(6.0, 3.0, 1.5, 0.5, 0.0, 0.5)
-        private val SLAM_ATTACK_DAMAGE = AreaAttackDamage(1F, 1.0, SLAM_AREA, knockbackType = AreaAttackDamage.KnockbackType.AREA_CENTER)
+        private val SLAM_ATTACK_DAMAGE = AreaAttackDamage(1.2F, 1.0, SLAM_AREA, knockbackType = AreaAttackDamage.KnockbackType.AREA_CENTER)
             .setParticles(100, 0.25, ParticleTypes.CRIT, 0.5)
             .setSound(false, SoundEvents.ENTITY_GENERIC_EXPLODE.value(), 1F, 1F)
         private val SLAM_ANIMATION_DATA = AttackAnimationData(AttackPose.DEFAULT, AttackPose.DEFAULT, ATTACK_ANIM_CONTROLLER_ID, SLAM_ID)
