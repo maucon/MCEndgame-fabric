@@ -15,7 +15,7 @@ object TotemEncounterSettings {
         return 3 + additional
     }
 
-    fun getTotemReward(dungeonLevel: Int): ItemStack = RandomUtil.pick(TOTEM_OPTIONS.filter { it.value <= dungeonLevel }.keys.toList()).option.copy()
+    fun getTotemReward(dungeonLevel: Int): ItemStack = RandomUtil.pickOne(TOTEM_OPTIONS.filter { it.value <= dungeonLevel }.keys.toList()).option.copy()
 
     val TOTEM_OPTIONS = mapOf(
         RandomOption(15, TotemItems.TOTEM_OF_BASTION.getStack(0)) to 0,

@@ -1,8 +1,8 @@
 package de.fuballer.mcendgame.main.component.dungeon.loot
 
-import de.fuballer.mcendgame.main.component.dungeon.loot.data.LevelRestrictedItem
 import de.fuballer.mcendgame.main.component.item.custom.aspect.AspectItems
 import de.fuballer.mcendgame.main.component.item.custom.crystal.CrystalItems
+import de.fuballer.mcendgame.main.util.random.LevelRestrictedRandomOption
 import de.fuballer.mcendgame.main.util.random.RandomOption
 import kotlin.random.Random
 
@@ -34,10 +34,10 @@ object LootSettings {
     fun getBossBaseCrystalCount(dungeonLevel: Int) = Random.nextDouble(dungeonLevel.toDouble() / 2)
 
     val CRYSTALS = listOf(
-        RandomOption(10, LevelRestrictedItem(CrystalItems.PERMUTATION_CRYSTAL)),
-        RandomOption(10, LevelRestrictedItem(CrystalItems.CALIBRATION_CRYSTAL, 3)),
-        RandomOption(5, LevelRestrictedItem(CrystalItems.REFORGE_CRYSTAL, 5)),
-        RandomOption(5, LevelRestrictedItem(CrystalItems.SACRIFICIAL_CRYSTAL, 8)),
-        RandomOption(3, LevelRestrictedItem(CrystalItems.CORRUPTION_CRYSTAL, 10)),
+        LevelRestrictedRandomOption(10, tier = 0, requiredLevel = 0, CrystalItems.PERMUTATION_CRYSTAL),
+        LevelRestrictedRandomOption(10, tier = 0, requiredLevel = 2, CrystalItems.CALIBRATION_CRYSTAL),
+        LevelRestrictedRandomOption(5, tier = 0, requiredLevel = 4, CrystalItems.REFORGE_CRYSTAL),
+        LevelRestrictedRandomOption(5, tier = 0, requiredLevel = 6, CrystalItems.CORRUPTION_CRYSTAL),
+        LevelRestrictedRandomOption(5, tier = 0, requiredLevel = 8, CrystalItems.SACRIFICIAL_CRYSTAL),
     )
 }

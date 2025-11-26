@@ -42,6 +42,7 @@ class CustomBlockTagProvider(
             .add(Blocks.BIG_DRIPLEAF_STEM)
             .add(Blocks.WEEPING_VINES)
             .add(Blocks.WEEPING_VINES_PLANT)
+            .add(Blocks.TWISTING_VINES)
             .add(Blocks.TWISTING_VINES_PLANT)
             .add(Blocks.SEAGRASS)
             .add(Blocks.TALL_SEAGRASS)

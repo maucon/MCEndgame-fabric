@@ -15,9 +15,9 @@ class TotemOfFortressItem(
 
     override fun getCustomAttributes(tier: Int) =
         when (tier) {
-            0 -> listOf(CustomAttribute(CustomAttributeTypes.MORE_DAMAGE_TAKEN, tier, DoubleRoll(DoubleBounds(-0.02))))
-            1 -> listOf(CustomAttribute(CustomAttributeTypes.MORE_DAMAGE_TAKEN, tier, DoubleRoll(DoubleBounds(-0.04))))
-            2 -> listOf(CustomAttribute(CustomAttributeTypes.MORE_DAMAGE_TAKEN, tier, DoubleRoll(DoubleBounds(-0.06))))
+            0 -> listOf(CustomAttribute(CustomAttributeTypes.MORE_DAMAGE_TAKEN, 0, DoubleRoll(DoubleBounds(-0.02))))
+            1 -> listOf(CustomAttribute(CustomAttributeTypes.MORE_DAMAGE_TAKEN, 0, DoubleRoll(DoubleBounds(-0.04))))
+            2 -> listOf(CustomAttribute(CustomAttributeTypes.MORE_DAMAGE_TAKEN, 0, DoubleRoll(DoubleBounds(-0.06))))
             else -> listOf()
         }
 }

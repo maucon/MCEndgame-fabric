@@ -111,9 +111,9 @@ class EquipmentGenerationService(
         data: EquipmentGenerationData,
     ): ItemStack? {
         val options = if (isRanged) {
-            RandomUtil.pick(EquipmentGenerationSettings.RANGED_MAINHAND_PROBABILITIES, random).option
+            RandomUtil.pickOne(EquipmentGenerationSettings.RANGED_MAINHAND_PROBABILITIES, random).option
         } else {
-            RandomUtil.pick(EquipmentGenerationSettings.MAINHAND_PROBABILITIES, random).option
+            RandomUtil.pickOne(EquipmentGenerationSettings.MAINHAND_PROBABILITIES, random).option
         } ?: return null
 
         return createEquipmentSortable(level, options, server, random, data)
@@ -154,7 +154,7 @@ class EquipmentGenerationService(
         data: EquipmentGenerationData,
     ): ItemStack? {
         val rolls = EquipmentGenerationSettings.calculateEquipmentRollTries(level)
-        val equipment = RandomUtil.pick(equipmentOptions, rolls, random).option ?: return null
+        val equipment = RandomUtil.pickBestOf(equipmentOptions, rolls, random).option ?: return null
 
         return createEquipment(level, equipment, server, random, data)
     }
@@ -166,7 +166,7 @@ class EquipmentGenerationService(
         random: Random,
         data: EquipmentGenerationData,
     ): ItemStack? {
-        val equipment = RandomUtil.pick(equipmentOptions, random).option ?: return null
+        val equipment = RandomUtil.pickOne(equipmentOptions, random).option ?: return null
 
         return createEquipment(level, equipment, server, random, data)
     }
@@ -194,9 +194,9 @@ class EquipmentGenerationService(
         val materialRegistry = server.registryManager.getOrThrow(RegistryKeys.TRIM_MATERIAL)
         val patternRegistry = server.registryManager.getOrThrow(RegistryKeys.TRIM_PATTERN)
 
-        val materialKey = RandomUtil.pick(EquipmentGenerationSettings.LOOT_GOBLIN_ARMOR_TRIM_MATERIALS, random).option
+        val materialKey = RandomUtil.pickOne(EquipmentGenerationSettings.LOOT_GOBLIN_ARMOR_TRIM_MATERIALS, random).option
         val material = materialRegistry.getOrThrow(materialKey)
-        val patternKey = RandomUtil.pick(EquipmentGenerationSettings.LOOT_GOBLIN_ARMOR_TRIM_PATTERNS, random).option
+        val patternKey = RandomUtil.pickOne(EquipmentGenerationSettings.LOOT_GOBLIN_ARMOR_TRIM_PATTERNS, random).option
         val pattern = patternRegistry.getOrThrow(patternKey)
 
         return ArmorTrim(material, pattern)

@@ -3,112 +3,186 @@ package de.fuballer.mcendgame.main.util.random
 import kotlin.math.max
 import kotlin.random.Random
 
+/**
+ * Utility functions for performing weighted random selections.
+ *
+ * Supports:
+ * - Picking a single weighted option
+ * - Picking multiple unique options
+ * - Picking with repeats (forced or unrestricted)
+ * - Weighted rolling with "tiers" (multiple rolls selecting the best result)
+ * - Level-restricted option selection
+ */
 object RandomUtil {
-    fun <T : RandomOption<*>> pick(
+    /**
+     * Picks a single weighted option from the list.
+     *
+     * @param options List of weighted options.
+     * @param random Random generator.
+     * @return The selected option.
+     */
+    fun <T : RandomOption<*>> pickOne(
         options: List<T>,
         random: Random = Random
     ): T {
         val totalWeight = options.sumOf { it.weight }
-        val randomInt = random.nextInt(totalWeight)
-
-        return pickOption(options, randomInt)
+        val roll = random.nextInt(totalWeight)
+        return pickByRoll(options, roll)
     }
 
-    fun <T> pick(
+    /**
+     * Picks multiple unique weighted options (no repeats).
+     *
+     * Stops early if there are not enough options remaining.
+     *
+     * @param options List of weighted options.
+     * @param random Random generator.
+     * @param amount Maximum amount of options to pick.
+     */
+    fun <T> pickUnique(
         options: List<RandomOption<T>>,
         random: Random,
-        maxAmount: Int
+        amount: Int
     ): List<T> {
-        val remainingOptions = options.toMutableList()
+        val remaining = options.toMutableList()
         val picked = mutableListOf<T>()
 
-        repeat(maxAmount) {
-            if (remainingOptions.isEmpty()) return picked
+        repeat(amount) {
+            if (remaining.isEmpty()) return picked
 
-            val pick = pick(remainingOptions, random)
-            picked.add(pick.option)
-            remainingOptions.remove(pick)
+            val chosen = pickOne(remaining, random)
+            picked += chosen.option
+            remaining -= chosen
         }
 
         return picked
     }
 
-    fun <T> pickAllowRepeatIfNecessary(
+    /**
+     * Picks multiple options without repetition unless necessary.
+     *
+     * If the requested amount exceeds the number of available options,
+     * full sets of all options are added until only a remainder needs random picking.
+     */
+    fun <T> pickRepeatIfNeeded(
         options: List<RandomOption<T>>,
         random: Random,
-        maxAmount: Int
+        amount: Int
     ): List<T> {
-        val picked = List(maxAmount / options.size) { options.map { it.option } }.flatten().toMutableList()
-        picked.addAll(pick(options, random, maxAmount % options.size))
+        val fullCycles = amount / options.size
+        val remainder = amount % options.size
 
-        return picked
+        val result = MutableList(fullCycles * options.size) {
+            options[it % options.size].option
+        }
+
+        result += pickUnique(options, random, remainder)
+        return result
     }
 
-    fun <T> pickAllowRepeat(
+    /**
+     * Picks multiple weighted options, allowing repeats freely.
+     *
+     * @param options Weighted options list.
+     * @param amount How many to pick.
+     */
+    fun <T> pickWithRepeats(
         options: List<RandomOption<T>>,
         amount: Int,
         random: Random = Random,
-    ): List<T> {
-        val picked = mutableListOf<T>()
-        repeat(amount) { picked.add(pick(options, random).option) }
+    ): List<T> =
+        List(amount) { pickOne(options, random).option }
 
-        return picked
-    }
-
-    fun <T : SortableRandomOption<*>> pick(
+    /**
+     * Performs a weighted selection with multiple rolls, keeping the best roll.
+     *
+     * Higher rolls increase the chance of selecting higher-tier items.
+     *
+     * @param options List of sortable weighted options.
+     * @param rolls Number of rolls performed.
+     */
+    fun <T : SortableRandomOption<*>> pickBestOf(
         options: List<T>,
         rolls: Int,
         random: Random = Random
     ): T {
         val totalWeight = options.sumOf { it.weight }
 
-        var randomInt = 0
+        var bestRoll = 0
         repeat(rolls) {
-            randomInt = max(randomInt, random.nextInt(totalWeight))
+            bestRoll = max(bestRoll, random.nextInt(totalWeight))
         }
 
-        val sortedOptions = options.sortedBy { it.tier }
-        return pickOption(sortedOptions, randomInt)
+        val sorted = options.sortedBy { it.tier }
+        return pickByRoll(sorted, bestRoll)
     }
 
-    fun <T> shuffle(
+    /**
+     * Returns all options in a randomized order (weighted).
+     *
+     * Equivalent to repeatedly picking a weighted option without replacement.
+     */
+    fun <T> shuffleWeighted(
         options: List<RandomOption<T>>,
         random: Random = Random
     ): List<T> {
-        val leftOptions = options.toMutableList()
-        val shuffled = mutableListOf<T>()
+        val remaining = options.toMutableList()
+        val result = mutableListOf<T>()
 
-        while (leftOptions.isNotEmpty()) {
-            val picked = pick(leftOptions, random)
-
-            shuffled.add(picked.option)
-            leftOptions.remove(picked)
+        while (remaining.isNotEmpty()) {
+            val chosen = pickOne(remaining, random)
+            result += chosen.option
+            remaining -= chosen
         }
 
-        return shuffled
+        return result
     }
 
-    fun <T> pickLevelLocked(
-        options: List<LevelLockedRandomOption<T>>,
+    /**
+     * Picks a level-restricted option using weighted tiered rolling.
+     *
+     * @param options List of level-restricted weighted options.
+     * @param rolls Number of rolls to perform.
+     * @param level Player or context level.
+     */
+    fun <T> pickLevelRestricted(
+        options: List<LevelRestrictedRandomOption<T>>,
         rolls: Int,
         level: Int,
         random: Random = Random,
     ): T {
-        val unlockedOptions = options.filterNot { it.isLocked(level) }
-        return pick(unlockedOptions, rolls, random).option
+        val unlocked = options.filterNot { it.isLocked(level) }
+        return pickBestOf(unlocked, rolls, random).option
     }
 
-    private fun <T : RandomOption<*>> pickOption(
+    /**
+     * Picks multiple level-locked options with repeats allowed.
+     */
+    fun <T> pickLevelRestrictedWithRepeats(
+        options: List<LevelRestrictedRandomOption<T>>,
+        rolls: Int,
+        level: Int,
+        amount: Int,
+        random: Random = Random,
+    ): List<T> {
+        val unlocked = options.filterNot { it.isLocked(level) }
+        return List(amount) { pickBestOf(unlocked, rolls, random).option }
+    }
+
+    /**
+     * Internal helper that selects an option given a roll value.
+     *
+     * @throws IllegalStateException if no option can be matched.
+     */
+    private fun <T : RandomOption<*>> pickByRoll(
         options: List<T>,
-        randomInt: Int
+        roll: Int
     ): T {
-        var cumulatedWeight = 0
+        var cumulative = 0
 
         for (option in options) {
-            cumulatedWeight += option.weight
-            if (cumulatedWeight <= randomInt) continue
-
-            return option
+            cumulative += option.weight
+            if (roll < cumulative) return option
         }
 
         throw IllegalStateException("Could not complete random pick")

@@ -94,7 +94,7 @@ class EnemyGenerationService(
         val isLootGoblin = isForcedLootGoblin || EnemyGenerationSettings.randomLootGoblin(random)
 
         val validTypes = if (!isLootGoblin) types else types.filter { it.option.canHaveArmor }
-        val type = RandomUtil.pick(validTypes, random).option
+        val type = RandomUtil.pickOne(validTypes, random).option
         val enemyEntity = EntityUtil.spawnEntityWithStats(dungeonWorld, type, location, level)
 
         enemyEntity.setDungeonEnemy()

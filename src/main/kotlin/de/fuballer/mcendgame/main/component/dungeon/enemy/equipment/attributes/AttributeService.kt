@@ -4,7 +4,7 @@ import de.fuballer.mcendgame.main.component.custom_attribute.CustomAttributesExt
 import de.fuballer.mcendgame.main.component.custom_attribute.data.CustomAttribute
 import de.fuballer.mcendgame.main.component.custom_attribute.data.RollableCustomAttribute
 import de.fuballer.mcendgame.main.component.dungeon.enemy.equipment.EquipmentGenerationData
-import de.fuballer.mcendgame.main.util.random.LevelLockedRandomOption
+import de.fuballer.mcendgame.main.util.random.LevelRestrictedRandomOption
 import de.fuballer.mcendgame.main.util.random.RandomOption
 import de.fuballer.mcendgame.main.util.random.RandomUtil
 import de.maucon.mauconframework.di.annotation.Injectable
@@ -16,7 +16,7 @@ import kotlin.random.Random
 class AttributeService {
     fun applyAttributes(
         itemStack: ItemStack,
-        possibleAttributes: List<RandomOption<List<LevelLockedRandomOption<RollableCustomAttribute>>>>,
+        possibleAttributes: List<RandomOption<List<LevelRestrictedRandomOption<RollableCustomAttribute>>>>,
         level: Int,
         random: Random,
         slot: AttributeModifierSlot,
@@ -28,7 +28,7 @@ class AttributeService {
 
     private fun selectAttributes(
         level: Int,
-        possibleAttributes: List<RandomOption<List<LevelLockedRandomOption<RollableCustomAttribute>>>>,
+        possibleAttributes: List<RandomOption<List<LevelRestrictedRandomOption<RollableCustomAttribute>>>>,
         slot: AttributeModifierSlot,
         random: Random,
         data: EquipmentGenerationData,
@@ -42,7 +42,7 @@ class AttributeService {
 
     private fun getDistinctRolledAttributes(
         level: Int,
-        possibleAttributes: List<RandomOption<List<LevelLockedRandomOption<RollableCustomAttribute>>>>,
+        possibleAttributes: List<RandomOption<List<LevelRestrictedRandomOption<RollableCustomAttribute>>>>,
         slot: AttributeModifierSlot,
         random: Random,
         data: EquipmentGenerationData,
@@ -52,9 +52,9 @@ class AttributeService {
             if (random.nextDouble() < it) statAmount++
         }
 
-        val pickedAttributeTypes = RandomUtil.pick(possibleAttributes, random, statAmount)
+        val pickedAttributeTypes = RandomUtil.pickUnique(possibleAttributes, random, statAmount)
         val tierRolls = AttributeSettings.getAttributeTierRolls(level, random)
-        val pickedAttributes = pickedAttributeTypes.map { RandomUtil.pickLevelLocked(it, tierRolls, level, random) }
+        val pickedAttributes = pickedAttributeTypes.map { RandomUtil.pickLevelRestricted(it, tierRolls, level, random) }
 
         return rollAttributes(pickedAttributes, slot, random)
     }

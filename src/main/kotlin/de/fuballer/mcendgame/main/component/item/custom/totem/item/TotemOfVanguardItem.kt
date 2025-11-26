@@ -15,9 +15,9 @@ class TotemOfVanguardItem(
 
     override fun getCustomAttributes(tier: Int) =
         when (tier) {
-            0 -> listOf(CustomAttribute(VanillaAttributeTypes.ARMOR_TOUGHNESS, tier, DoubleRoll(DoubleBounds(0.8))))
-            1 -> listOf(CustomAttribute(VanillaAttributeTypes.ARMOR_TOUGHNESS, tier, DoubleRoll(DoubleBounds(1.4))))
-            2 -> listOf(CustomAttribute(VanillaAttributeTypes.ARMOR_TOUGHNESS, tier, DoubleRoll(DoubleBounds(2.0))))
+            0 -> listOf(CustomAttribute(VanillaAttributeTypes.ARMOR_TOUGHNESS, 0, DoubleRoll(DoubleBounds(0.8))))
+            1 -> listOf(CustomAttribute(VanillaAttributeTypes.ARMOR_TOUGHNESS, 0, DoubleRoll(DoubleBounds(1.4))))
+            2 -> listOf(CustomAttribute(VanillaAttributeTypes.ARMOR_TOUGHNESS, 0, DoubleRoll(DoubleBounds(2.0))))
             else -> listOf()
         }
 }

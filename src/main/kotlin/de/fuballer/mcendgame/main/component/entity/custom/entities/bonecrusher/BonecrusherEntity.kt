@@ -6,11 +6,13 @@ import de.fuballer.mcendgame.main.component.entity.custom.attack.damage.AreaAtta
 import de.fuballer.mcendgame.main.component.entity.custom.attack.damage.DelayedAttackDamage
 import de.fuballer.mcendgame.main.component.entity.custom.attack.damage.instance.AttackDamageInstance
 import de.fuballer.mcendgame.main.component.entity.custom.attack.data.AttackAnimationData
+import de.fuballer.mcendgame.main.component.entity.custom.attack.teleport.TeleportToTargetAttack
 import de.fuballer.mcendgame.main.component.entity.custom.attack.trigger_condition.DistanceTriggerCondition
 import de.fuballer.mcendgame.main.component.entity.custom.goals.*
 import de.fuballer.mcendgame.main.component.entity.custom.interfaces.BlockAbleMovementMob
 import de.fuballer.mcendgame.main.component.entity.custom.interfaces.CustomAttacksMob
 import de.fuballer.mcendgame.main.component.entity.custom.interfaces.DisableAbleGoalsMob
+import de.fuballer.mcendgame.main.component.entity.custom.interfaces.TeleportAttackMob
 import de.fuballer.mcendgame.main.util.random.RandomOption
 import net.minecraft.entity.EntityType
 import net.minecraft.entity.ai.goal.ActiveTargetGoal
@@ -24,6 +26,7 @@ import net.minecraft.entity.player.PlayerEntity
 import net.minecraft.particle.ParticleTypes
 import net.minecraft.server.world.ServerWorld
 import net.minecraft.sound.SoundEvents
+import net.minecraft.util.math.Vec3d
 import net.minecraft.world.World
 import software.bernie.geckolib.animatable.GeoAnimatable
 import software.bernie.geckolib.animatable.GeoEntity
@@ -38,7 +41,7 @@ import software.bernie.geckolib.util.GeckoLibUtil
 class BonecrusherEntity(
     type: EntityType<out BonecrusherEntity>,
     world: World,
-) : PathAwareEntity(type, world), GeoEntity, DisableAbleGoalsMob, BlockAbleMovementMob<BonecrusherEntity>, Monster, CustomAttacksMob<BonecrusherEntity> {
+) : PathAwareEntity(type, world), GeoEntity, DisableAbleGoalsMob, BlockAbleMovementMob<BonecrusherEntity>, Monster, CustomAttacksMob<BonecrusherEntity>, TeleportAttackMob {
     companion object {
         val WALK_ANIM: RawAnimation = RawAnimation.begin().thenLoop("movement.walk")
 
@@ -72,6 +75,24 @@ class BonecrusherEntity(
             DistanceTriggerCondition(1.5, 4.0),
             DelayedAttackDamage(SLAM_ATTACK_DAMAGE, 17),
             25,
+        )
+
+        private val TELEPORT_PRESS_ANIM: RawAnimation = RawAnimation.begin().thenPlay("attack.press")
+        private const val TELEPORT_PRESS_ID = "Teleport Press"
+        private val TELEPORT_PRESS_AREA = AreaAttackDamage.DamageArea(6.0, 3.0, 1.5, -2.6, 0.0, 0.5)
+        private val TELEPORT_PRESS_DAMAGE = AreaAttackDamage(1F, 1.0, TELEPORT_PRESS_AREA, knockbackType = AreaAttackDamage.KnockbackType.AREA_CENTER)
+            .setParticles(100, 0.25, ParticleTypes.CRIT, 0.5)
+            .setSound(false, SoundEvents.ENTITY_GENERIC_EXPLODE.value(), 1F, 1F)
+        private val TELEPORT_PRESS_DATA = AttackAnimationData(AttackPose.DEFAULT, AttackPose.DEFAULT, ATTACK_ANIM_CONTROLLER_ID, TELEPORT_PRESS_ID)
+        private val TELEPORT_PRESS_ATTACK = TeleportToTargetAttack<BonecrusherEntity>(
+            TELEPORT_PRESS_DATA,
+            totalDuration = 75,
+            cooldown = 150,
+            DistanceTriggerCondition(6.0, 50.0),
+            DelayedAttackDamage(TELEPORT_PRESS_DAMAGE, 44),
+            teleportDelay = 35,
+            choseLocationDelayTicks = 20,
+            blockMovementDuration = 60,
         )
 
         const val SPIN_ATTACK_ROTATIONS = 3
@@ -126,6 +147,7 @@ class BonecrusherEntity(
             RandomOption(5, HIT_ATTACK),
             RandomOption(2, SLAM_ATTACK),
             RandomOption(1, SPIN_ATTACK),
+            RandomOption(1, TELEPORT_PRESS_ATTACK),
         )
 
         fun createAttributes(): DefaultAttributeContainer.Builder {
@@ -159,6 +181,8 @@ class BonecrusherEntity(
     override val attackCooldowns: MutableMap<Attack<BonecrusherEntity>, Int> = mutableMapOf()
     override val attackDamageInstances = mutableListOf<AttackDamageInstance>()
 
+    override var teleportAttackTargetPosition: Vec3d? = null
+
     override var blockAbleMovementEntity = this
     override var blockedMovementTicks = 0
     override var blockedMovementAirborne = false
@@ -174,15 +198,16 @@ class BonecrusherEntity(
     }
 
     private fun initDynamicGoals() {
-        goalSelector.add(1, attackGoal)
-        goalSelector.add(2, stayInMeleeRangeGoal)
-        goalSelector.add(3, lookAtPlayerGoal)
-        goalSelector.add(3, lookAroundGoal)
-        goalSelector.add(4, wanderGoal)
+        goalSelector.add(2, attackGoal)
+        goalSelector.add(3, stayInMeleeRangeGoal)
+        goalSelector.add(4, lookAtPlayerGoal)
+        goalSelector.add(4, lookAroundGoal)
+        goalSelector.add(5, wanderGoal)
     }
 
     override fun initGoals() {
         goalSelector.add(0, SwimGoal(this))
+        goalSelector.add(1, ChangeTargetGoal(this, probability = 0.4, tryIntervalTicks = 20, 100, { e -> e is PlayerEntity || e is VillagerEntity }))
 
         targetSelector.add(2, ActiveTargetGoal(this, PlayerEntity::class.java, true))
         targetSelector.add(3, ActiveTargetGoal(this, VillagerEntity::class.java, true))
@@ -210,7 +235,8 @@ class BonecrusherEntity(
             AnimationController("Movement", 5, ::movementAnimationController),
             AnimationController<GeoAnimatable>(ATTACK_ANIM_CONTROLLER_ID, 0) { _ -> PlayState.STOP }
                 .triggerableAnim(HIT_ID, HIT_ANIM)
-                .triggerableAnim(SLAM_ID, SLAM_ANIM),
+                .triggerableAnim(SLAM_ID, SLAM_ANIM)
+                .triggerableAnim(TELEPORT_PRESS_ID, TELEPORT_PRESS_ANIM),
             AnimationController(SPIN_ANIM_CONTROLLER_ID, 0, ::spinAnimationController)
                 .triggerableAnim(SPIN_START_ID, SPIN_START_ANIM)
         )

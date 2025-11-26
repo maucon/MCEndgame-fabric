@@ -202,7 +202,7 @@ class LinearLayoutGenerator(
         existingBranches: Int,
         lastRoomType: RoomType?,
     ): List<RoomType> {
-        val possibleRooms = RandomUtil.shuffle(roomTypes, random).filter { it != lastRoomType }
+        val possibleRooms = RandomUtil.shuffleWeighted(roomTypes, random).filter { it != lastRoomType }
 
         if (isMainPath
             && existingBranches < branchingPoints.size

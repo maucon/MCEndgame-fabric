@@ -15,25 +15,35 @@ class Scheduler(
         taskRepo.findAll().forEach { task ->
             val tickDifference = event.server.ticks - task.startTick
             if (tickDifference < 0) return@forEach
-            if (tickDifference % task.period != 0) return@forEach
 
+            if (task.period == NOT_REPEATING) {
+                task.runnable.run()
+                taskRepo.delete(task)
+
+                return@forEach
+            }
+
+            if (tickDifference % task.period != 0) return@forEach
             task.runnable.run()
         }
-    }
-
-    fun repeating(delay: Int, period: Int, runnable: Runnable): UUID {
-        return createRepeating(delay, period, runnable)
     }
 
     fun repeating(period: Int, runnable: Runnable): UUID {
         return repeating(0, period, runnable)
     }
 
-    private fun createRepeating(delay: Int, period: Int, runnable: Runnable): UUID {
+    fun repeating(delay: Int, period: Int, runnable: Runnable): UUID {
         assert(period > 0)
 
         val startTick = RuntimeConfig.SERVER.ticks + delay
         val task = Task(runnable, startTick, period)
+
+        return taskRepo.save(task).id
+    }
+
+    fun delayed(delay: Int, runnable: Runnable): UUID {
+        val startTick = RuntimeConfig.SERVER.ticks + delay
+        val task = Task(runnable, startTick)
 
         return taskRepo.save(task).id
     }

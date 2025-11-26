@@ -20,7 +20,7 @@ object CorruptionService {
         stack: ItemStack,
     ): ItemStack {
         val possibleOutcomes = CorruptionSettings.CORRUPTION_OUTCOMES.filter { it.option.canApply(stack) }
-        val outcome = RandomUtil.pick(possibleOutcomes).option
+        val outcome = RandomUtil.pickOne(possibleOutcomes).option
 
         val result = outcome.apply(stack.copy())
         result.setCorrupted()
