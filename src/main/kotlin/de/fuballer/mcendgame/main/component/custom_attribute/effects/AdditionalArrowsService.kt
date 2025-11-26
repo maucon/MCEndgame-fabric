@@ -72,9 +72,7 @@ class AdditionalArrowsService {
             newArrows.add(arrow)
         }
 
-        RuntimeConfig.SERVER.execute {
-            newArrows.forEach { world.spawnEntity(it) }
-        }
+        RuntimeConfig.SERVER.execute { newArrows.forEach { world.spawnEntity(it) } }
     }
 
     private fun getArrowRotationDegree(arrowIndex: Int): Double {

@@ -7,6 +7,7 @@ import de.fuballer.mcendgame.main.component.portal.Portals
 import de.fuballer.mcendgame.main.component.portal.teleport.TeleportLocation
 import de.fuballer.mcendgame.main.component.portal.type.DefaultPortalType
 import de.fuballer.mcendgame.main.component.portal.type.PortalType
+import de.fuballer.mcendgame.main.configuration.RuntimeConfig
 import de.fuballer.mcendgame.main.messaging.dungeon.DungeonBossDeathEvent
 import de.fuballer.mcendgame.main.messaging.dungeon.DungeonGeneratedEvent
 import de.fuballer.mcendgame.main.messaging.dungeon.OpenDungeonButtonPressedEvent
@@ -37,10 +38,13 @@ class DungeonPortalService(
 
         val deviceId = event.dungeonDevicePos.hashCode()
         val dungeonTeleportLocation = TeleportLocation(dungeonWorld, centeredSpawnPos, 0f, startPos.rot.toFloat())
-        val portals = createEntryPortals(deviceCenterPos, portalType, event.originWorld, dungeonTeleportLocation)
 
-        val entity = DungeonPortalEntity(deviceId, dungeonWorld, leaveLocation, portals)
-        dungeonPortalRepo.save(entity)
+        RuntimeConfig.SERVER.execute {
+            val portals = createEntryPortals(deviceCenterPos, portalType, event.originWorld, dungeonTeleportLocation)
+
+            val entity = DungeonPortalEntity(deviceId, dungeonWorld, leaveLocation, portals)
+            dungeonPortalRepo.save(entity)
+        }
     }
 
     @EventSubscriber
@@ -60,7 +64,9 @@ class DungeonPortalService(
         val spawnPosition = event.bossEntity.getDungeonBossSpawnPosition()
         val dungeonPortalEntity = dungeonPortalRepo.findByDungeonWorld(world) ?: return
 
-        Portals.spawn(world, spawnPosition.pos.toCenter(), dungeonPortalEntity.leaveLocation, rotation = spawnPosition.rot.toFloat())
+        RuntimeConfig.SERVER.execute {
+            Portals.spawn(world, spawnPosition.pos.toCenter(), dungeonPortalEntity.leaveLocation, rotation = spawnPosition.rot.toFloat())
+        }
     }
 
     @EventSubscriber
@@ -83,7 +89,9 @@ class DungeonPortalService(
         dungeonWorld: ServerWorld
     ) {
         val portalLocation = spawnPos.subtract(0.5, 0.0, 0.0)
-        Portals.spawn(dungeonWorld, portalLocation, leaveLocation, type = portalType, lookAt = spawnPos)
+        RuntimeConfig.SERVER.execute {
+            Portals.spawn(dungeonWorld, portalLocation, leaveLocation, type = portalType, lookAt = spawnPos)
+        }
     }
 
     private fun createEntryPortals(

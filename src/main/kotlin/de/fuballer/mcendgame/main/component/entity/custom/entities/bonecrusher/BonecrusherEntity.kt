@@ -50,31 +50,31 @@ class BonecrusherEntity(
 
         private val HIT_ANIM: RawAnimation = RawAnimation.begin().thenPlay("attack.hit")
         private const val HIT_ID = "Hit"
-        private val HIT_AREA = AreaAttackDamage.DamageArea(3.5, 1.4, 1.5, 0.0, 0.5, 0.5)
-        private val HIT_ATTACK_DAMAGE = AreaAttackDamage(0.5F, 0.35, HIT_AREA, knockbackType = AreaAttackDamage.KnockbackType.FACING)
+        private val HIT_AREA = AreaAttackDamage.DamageArea(3.8, 1.6, 1.5, -0.2, 0.5, 0.25)
+        private val HIT_ATTACK_DAMAGE = AreaAttackDamage(0.7F, 0.35, HIT_AREA, knockbackType = AreaAttackDamage.KnockbackType.FACING)
         private val HIT_ANIMATION_DATA = AttackAnimationData(AttackPose.DEFAULT, AttackPose.DEFAULT, ATTACK_ANIM_CONTROLLER_ID, HIT_ID)
         private val HIT_ATTACK = Attack<BonecrusherEntity>(
             HIT_ANIMATION_DATA,
-            20,
-            0,
+            totalDuration = 16,
+            cooldown = 0,
             DistanceTriggerCondition(3.0),
-            DelayedAttackDamage(HIT_ATTACK_DAMAGE, 4),
+            DelayedAttackDamage(HIT_ATTACK_DAMAGE, 3),
         )
 
         private val SLAM_ANIM: RawAnimation = RawAnimation.begin().thenPlay("attack.slam")
         private const val SLAM_ID = "Slam"
-        private val SLAM_AREA = AreaAttackDamage.DamageArea(5.0, 2.5, 1.5, 1.0, 0.0, 0.5)
-        private val SLAM_ATTACK_DAMAGE = AreaAttackDamage(1F, 1.0, SLAM_AREA, knockbackType = AreaAttackDamage.KnockbackType.AREA_CENTER)
+        private val SLAM_AREA = AreaAttackDamage.DamageArea(6.0, 3.0, 1.5, 0.5, 0.0, 0.5)
+        private val SLAM_ATTACK_DAMAGE = AreaAttackDamage(1.2F, 1.0, SLAM_AREA, knockbackType = AreaAttackDamage.KnockbackType.AREA_CENTER)
             .setParticles(100, 0.25, ParticleTypes.CRIT, 0.5)
             .setSound(false, SoundEvents.ENTITY_GENERIC_EXPLODE.value(), 1F, 1F)
         private val SLAM_ANIMATION_DATA = AttackAnimationData(AttackPose.DEFAULT, AttackPose.DEFAULT, ATTACK_ANIM_CONTROLLER_ID, SLAM_ID)
         private val SLAM_ATTACK = Attack<BonecrusherEntity>(
             SLAM_ANIMATION_DATA,
-            40,
-            150,
+            totalDuration = 28,
+            cooldown = 100,
             DistanceTriggerCondition(1.5, 4.0),
-            DelayedAttackDamage(SLAM_ATTACK_DAMAGE, 17),
-            25,
+            DelayedAttackDamage(SLAM_ATTACK_DAMAGE, 14),
+            22,
         )
 
         private val TELEPORT_PRESS_ANIM: RawAnimation = RawAnimation.begin().thenPlay("attack.press")
@@ -86,13 +86,13 @@ class BonecrusherEntity(
         private val TELEPORT_PRESS_DATA = AttackAnimationData(AttackPose.DEFAULT, AttackPose.DEFAULT, ATTACK_ANIM_CONTROLLER_ID, TELEPORT_PRESS_ID)
         private val TELEPORT_PRESS_ATTACK = TeleportToTargetAttack<BonecrusherEntity>(
             TELEPORT_PRESS_DATA,
-            totalDuration = 75,
-            cooldown = 150,
+            totalDuration = 45,
+            cooldown = 0,
             DistanceTriggerCondition(6.0, 50.0),
-            DelayedAttackDamage(TELEPORT_PRESS_DAMAGE, 44),
-            teleportDelay = 35,
-            choseLocationDelayTicks = 20,
-            blockMovementDuration = 60,
+            DelayedAttackDamage(TELEPORT_PRESS_DAMAGE, 25),
+            teleportDelay = 20,
+            choseLocationDelayTicks = 12,
+            blockMovementDuration = 40,
         )
 
         const val SPIN_ATTACK_ROTATIONS = 3

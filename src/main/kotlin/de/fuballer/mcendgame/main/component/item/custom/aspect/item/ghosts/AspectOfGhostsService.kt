@@ -5,6 +5,7 @@ import de.fuballer.mcendgame.main.component.custom_attribute.types.CustomAttribu
 import de.fuballer.mcendgame.main.component.item.custom.UniqueAttributesItemInterface
 import de.fuballer.mcendgame.main.component.item.custom.armor.CustomArmorItems
 import de.fuballer.mcendgame.main.component.item.custom.aspect.AspectItems
+import de.fuballer.mcendgame.main.configuration.RuntimeConfig
 import de.fuballer.mcendgame.main.messaging.dungeon.DungeonEnemiesGeneratedEvent
 import de.fuballer.mcendgame.main.messaging.dungeon.DungeonEnemyDeathEvent
 import de.fuballer.mcendgame.main.messaging.dungeon.DungeonFinalBossDeathEvent
@@ -46,7 +47,7 @@ object AspectOfGhostsService {
         if (!event.enemyEntity.dropsAspectOfGhosts()) return
 
         val stack = AspectItems.ASPECT_OF_GHOSTS.defaultStack
-        event.enemyEntity.dropStack(serverWorld, stack)
+        RuntimeConfig.SERVER.execute { event.enemyEntity.dropStack(serverWorld, stack) }
     }
 
     @EventSubscriber
@@ -68,6 +69,6 @@ object AspectOfGhostsService {
 
         val item = CustomArmorItems.GEISTERGALOSCHEN
         val stack = if (item is UniqueAttributesItemInterface) item.getRolledStack(item) else ItemStack(item)
-        event.bossEntity.dropStack(serverWorld, stack)
+        RuntimeConfig.SERVER.execute { event.bossEntity.dropStack(serverWorld, stack) }
     }
 }
