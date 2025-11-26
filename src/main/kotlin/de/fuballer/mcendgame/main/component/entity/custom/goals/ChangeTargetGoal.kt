@@ -50,7 +50,6 @@ class ChangeTargetGoal<T : MobEntity>(
     }
 
     private fun changeTarget() {
-        println("change")
         val targets = entity.entityWorld.getEntitiesByClass(LivingEntity::class.java, entity.boundingBox.expand(range), targetFilter)
         if (targets.isEmpty()) return
 
