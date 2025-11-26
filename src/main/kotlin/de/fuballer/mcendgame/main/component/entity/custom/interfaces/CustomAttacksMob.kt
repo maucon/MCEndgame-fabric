@@ -89,7 +89,7 @@ interface CustomAttacksMob<T> where T : MobEntity, T : GeoEntity {
             .filter { !attackCooldowns.containsKey(it.option) }
             .filter { ignoreTriggerConditions || it.option.canStart(attacker, target) }
 
-        if (possibleAttacks.isNotEmpty()) return RandomUtil.pick(possibleAttacks).option
+        if (possibleAttacks.isNotEmpty()) return RandomUtil.pickOne(possibleAttacks).option
         return null
     }
 
@@ -97,7 +97,7 @@ interface CustomAttacksMob<T> where T : MobEntity, T : GeoEntity {
         val possibleAttacks = attacks
             .filter { it.option.animationData.startPose == attackPose }
             .filter { it.option.animationData.endPose == AttackPose.DEFAULT }
-        if (possibleAttacks.isNotEmpty()) return RandomUtil.pick(possibleAttacks).option
+        if (possibleAttacks.isNotEmpty()) return RandomUtil.pickOne(possibleAttacks).option
         return null
     }
 }

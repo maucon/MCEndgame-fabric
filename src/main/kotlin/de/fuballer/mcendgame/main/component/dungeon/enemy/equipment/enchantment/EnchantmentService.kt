@@ -36,7 +36,7 @@ class EnchantmentService {
 
         val pickedEnchantments = mutableMapOf<RegistryEntry<Enchantment>, Int>()
         repeat(EnchantmentSettings.calculateEnchantTries(level)) {
-            val potentialEnchant = RandomUtil.pick(enchants, random).option
+            val potentialEnchant = RandomUtil.pickOne(enchants, random).option
             val potentialEnchantEntry = enchantmentRegistry.getOrThrow(potentialEnchant.enchantment)
 
             val compatible = EnchantmentHelper.isCompatible(pickedEnchantments.keys, potentialEnchantEntry)

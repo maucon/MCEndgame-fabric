@@ -63,9 +63,9 @@ enum class DungeonType(
 
     fun roll(random: Random): RolledDungeonType =
         RolledDungeonType(
-            RandomUtil.pick(mapTypes, random).option,
+            RandomUtil.pickOne(mapTypes, random).option,
             entityTypes,
-            RandomUtil.pickAllowRepeatIfNecessary(bossEntityTypes, random, bossCount),
+            RandomUtil.pickRepeatIfNeeded(bossEntityTypes, random, bossCount),
             applyMisc,
         )
 

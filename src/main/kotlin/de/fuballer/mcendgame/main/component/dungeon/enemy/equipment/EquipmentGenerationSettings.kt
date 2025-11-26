@@ -81,7 +81,7 @@ object EquipmentGenerationSettings {
         else options.removeAll { !it.option.tags.containsAll(tags) }
 
         if (options.isEmpty()) return null
-        return RandomUtil.pick(options, random).option.equipment
+        return RandomUtil.pickOne(options, random).option.equipment
     }
 
     val HELMETS = listOf(

@@ -70,7 +70,7 @@ class LootService {
         val empoweredCrystalCount = baseCrystalCount * lootMultiplier
         val finalCrystalCount = empoweredCrystalCount.toInt() + if (Random.nextDouble() < empoweredCrystalCount % 1) 1 else 0
 
-        val crystalItems = RandomUtil.pickLevelLockedAllowRepeat(LootSettings.CRYSTALS, 1, level, finalCrystalCount)
+        val crystalItems = RandomUtil.pickLevelRestrictedWithRepeats(LootSettings.CRYSTALS, 1, level, finalCrystalCount)
         val itemStacks = crystalItems.map { it.defaultStack }
 
         itemStacks.forEach { bossEntity.dropStack(serverWorld, it) }
@@ -100,7 +100,7 @@ class LootService {
     }
 
     private fun dropEliteLoot(serverWorld: ServerWorld, entity: LivingEntity) {
-        val aspect = RandomUtil.pick(LootSettings.ASPECTS).option
+        val aspect = RandomUtil.pickOne(LootSettings.ASPECTS).option
         entity.dropStack(serverWorld, aspect.defaultStack)
     }
 }

@@ -15,14 +15,14 @@ class PotionEffectService {
         random: Random,
     ) {
         val effects = mutableListOf(
-            RandomUtil.pick(EnemyGenerationSettings.STRENGTH_EFFECTS, level, random).option,
-            RandomUtil.pick(EnemyGenerationSettings.RESISTANCE_EFFECTS, level, random).option,
-            RandomUtil.pick(EnemyGenerationSettings.SPEED_EFFECTS, level, random).option,
-            RandomUtil.pick(EnemyGenerationSettings.FIRE_RESISTANCE_EFFECT, level, random).option,
-            RandomUtil.pick(EnemyGenerationSettings.ON_DEATH_EFFECTS, random).option,
+            RandomUtil.pickBestOf(EnemyGenerationSettings.STRENGTH_EFFECTS, level, random).option,
+            RandomUtil.pickBestOf(EnemyGenerationSettings.RESISTANCE_EFFECTS, level, random).option,
+            RandomUtil.pickBestOf(EnemyGenerationSettings.SPEED_EFFECTS, level, random).option,
+            RandomUtil.pickBestOf(EnemyGenerationSettings.FIRE_RESISTANCE_EFFECT, level, random).option,
+            RandomUtil.pickOne(EnemyGenerationSettings.ON_DEATH_EFFECTS, random).option,
         )
         if (canBeInvisible) {
-            effects.add(RandomUtil.pick(EnemyGenerationSettings.INVISIBILITY_EFFECT, random).option)
+            effects.add(RandomUtil.pickOne(EnemyGenerationSettings.INVISIBILITY_EFFECT, random).option)
         }
 
         val effectInstances = effects.filterNotNull().map { it.getEffectInstance(false) }

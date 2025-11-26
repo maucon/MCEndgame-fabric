@@ -57,7 +57,7 @@ class ChangeTargetGoal<T : MobEntity>(
             val weight = max(1, (range - entity.distanceTo(target)).toInt())
             RandomOption(weight, target)
         }
-        val chosen = RandomUtil.pick(weightedOptions).option
+        val chosen = RandomUtil.pickOne(weightedOptions).option
         entity.target = chosen
 
         cooldown = getTickCount(cooldownAfterChange)
