@@ -222,7 +222,11 @@
 
   "error.mcendgame.teleport.failed": "Destination location invalid! Closing portal.",
 
-  "error.mcendgame.no_killer_found": "No killer found for %s!",
+  "commands.mcendgame.set_dungeon_level.no_player": "No player found!",
+  "commands.mcendgame.set_dungeon_level.success.single": "Set dungeon level for %s! (Level: %s, Progress: %s)",
+  "commands.mcendgame.set_dungeon_level.success.multiple": "Set dungeon level for %s players! (Level: %s, Progress: %s)",
+
+  "commands.mcendgame.killer.no_killer": "No killer found for %s!",
 
   "error.mcendgame.invalid_totem_tier": "Maximum tier of this totem is %s!",
 

@@ -16,7 +16,7 @@ import net.minecraft.util.Colors
 @Injectable
 class GiveTotemItemCommand {
     companion object {
-        private const val NAME = "give-totem"
+        private const val NAME = "givetotem"
         private const val TOTEM_ITEM_ARGUMENT = "totem-item"
         private const val TIER_ARGUMENT = "tier"
     }
@@ -25,6 +25,7 @@ class GiveTotemItemCommand {
     fun register() = CommandRegistrationCallback.EVENT.register(CommandRegistrationCallback { dispatcher, _, _ ->
         dispatcher.register(
             CommandManager.literal(NAME)
+                .requires { it.hasPermissionLevel(2) }
                 .then(
                     CommandManager.argument(TOTEM_ITEM_ARGUMENT, TotemItemArgumentType())
                         .suggests(TotemItemSuggestionProvider())

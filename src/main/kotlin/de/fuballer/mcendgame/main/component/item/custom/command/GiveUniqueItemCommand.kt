@@ -14,7 +14,7 @@ import net.minecraft.server.command.ServerCommandSource
 @Injectable
 class GiveUniqueItemCommand {
     companion object {
-        private const val NAME = "give-unique"
+        private const val NAME = "giveunique"
         private const val UNIQUE_ITEM_ARGUMENT = "unique-item"
         private const val DOUBLE_ROLLS_ARGUMENT = "rolls"
     }
@@ -23,6 +23,7 @@ class GiveUniqueItemCommand {
     fun register() = CommandRegistrationCallback.EVENT.register(CommandRegistrationCallback { dispatcher, _, _ ->
         dispatcher.register(
             CommandManager.literal(NAME)
+                .requires { it.hasPermissionLevel(2) }
                 .then(
                     CommandManager.argument(UNIQUE_ITEM_ARGUMENT, UniqueItemArgumentType())
                         .suggests(UniqueItemSuggestionProvider())
