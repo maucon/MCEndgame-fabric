@@ -4,6 +4,7 @@ import de.fuballer.mcendgame.main.component.block.CustomBlocks
 import de.fuballer.mcendgame.main.component.item.custom.armor.CustomArmorItems
 import de.fuballer.mcendgame.main.component.item.custom.aspect.AspectItems
 import de.fuballer.mcendgame.main.component.item.custom.crystal.CrystalItems
+import de.fuballer.mcendgame.main.component.item.custom.misc.CustomMiscItems
 import de.fuballer.mcendgame.main.component.item.custom.tool.CustomToolItems
 import de.fuballer.mcendgame.main.component.item.custom.totem.TotemItems
 import de.fuballer.mcendgame.main.util.minecraft.IdentifierUtil
@@ -94,6 +95,7 @@ object CustomItemGroups {
             itemGroup.add(CustomToolItems.WINDSTRING.defaultStack)
             itemGroup.add(CustomToolItems.HAILSTORM.defaultStack)
             itemGroup.add(CustomToolItems.DUSK_PIERCER.defaultStack)
+            itemGroup.add(CustomMiscItems.VERDANT_ECHO.defaultStack)
         }
         ItemGroupEvents.modifyEntriesEvent(ASPECTS_KEY).register { itemGroup ->
             itemGroup.add(AspectItems.ASPECT_OF_TYRANNY.defaultStack)

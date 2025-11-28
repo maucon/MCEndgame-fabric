@@ -19,4 +19,6 @@ object UniqueItemRegistry {
         NAME_MAP[name] = item
         return item
     }
+
+    fun registerMiscItem(factory: (Item.Settings) -> Item, settings: Item.Settings, name: String) = registerToolItem(factory, settings, name)
 }
