@@ -9,4 +9,5 @@ object CustomStatusEffects {
     val FURY = RegistryUtil.registerStatusEffect("fury", FuryEffect())
     val RESILIENCE = RegistryUtil.registerStatusEffect("resilience", ResilienceEffect())
     val SCORCH = RegistryUtil.registerStatusEffect("scorch", ScorchEffect())
+    val VERDANT_ECHO = RegistryUtil.registerStatusEffect("verdant_echo", VerdantEchoEffect())
 }
