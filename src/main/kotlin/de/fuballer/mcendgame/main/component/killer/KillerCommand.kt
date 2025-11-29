@@ -14,7 +14,7 @@ import net.minecraft.util.Formatting
 
 private const val NAME = "killer"
 private const val GAME_PROFILE_ARGUMENT = "game_profile"
-private const val NO_KILLER_KEY = "error.mcendgame.no_killer_found"
+private const val NO_KILLER_KEY = "commands.mcendgame.killer.no_killer"
 
 @Injectable
 class KillerCommand(
