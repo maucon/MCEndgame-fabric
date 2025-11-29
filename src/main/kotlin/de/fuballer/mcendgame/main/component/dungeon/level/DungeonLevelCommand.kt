@@ -1,12 +1,13 @@
 package de.fuballer.mcendgame.main.component.dungeon.level
 
+import com.mojang.brigadier.Command
 import com.mojang.brigadier.arguments.IntegerArgumentType
 import com.mojang.brigadier.context.CommandContext
+import de.fuballer.mcendgame.main.util.extension.ServerCommandSourceExtension.isOperator
 import de.fuballer.mcendgame.main.util.extension.mixin.PlayerEntityMixinExtension.setDungeonLevel
 import de.maucon.mauconframework.di.annotation.Injectable
 import de.maucon.mauconframework.initializer.Initializer
 import net.fabricmc.fabric.api.command.v2.CommandRegistrationCallback
-import net.minecraft.command.ControlFlowAware
 import net.minecraft.command.argument.EntityArgumentType
 import net.minecraft.server.command.CommandManager
 import net.minecraft.server.command.ServerCommandSource
@@ -29,7 +30,7 @@ class DungeonLevelCommand {
     fun register() = CommandRegistrationCallback.EVENT.register(CommandRegistrationCallback { dispatcher, _, _ ->
         dispatcher.register(
             CommandManager.literal(NAME)
-                .requires { it.hasPermissionLevel(2) }
+                .requires { it.isOperator() }
                 .then(
                     CommandManager.argument(PLAYER_ENTITIES_ARGUMENT, EntityArgumentType.players())
                         .then(
@@ -72,6 +73,6 @@ class DungeonLevelCommand {
         else Text.translatable(SET_LEVEL_MULTIPLE_KEY, players.size, level, progress)
         sender.sendMessage(message)
 
-        return ControlFlowAware.Command.SINGLE_SUCCESS
+        return Command.SINGLE_SUCCESS
     }
 }
