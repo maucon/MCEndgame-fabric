@@ -15,7 +15,7 @@ object BoundAbyssArmorMaterial : CustomArmorMaterial {
     override val instance = ArmorMaterial(
         baseDurability,
         mapOf(
-            EquipmentType.CHESTPLATE to 7,
+            EquipmentType.CHESTPLATE to 8,
         ),
         15,
         SoundEvents.ITEM_ARMOR_EQUIP_GENERIC,

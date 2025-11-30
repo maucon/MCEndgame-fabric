@@ -35,7 +35,9 @@ class VerdantEcho(
 
         val duration = (baseDuration * cmd.getDurationFactor()).toInt()
         val amplifier = if (cmd.isStronger) 1 else 0
-        val effectInstance = StatusEffectInstance(CustomStatusEffects.VERDANT_ECHO, duration, amplifier, false, true, true)
-        nearbyAllies.forEach { it.addStatusEffect(effectInstance) }
+        nearbyAllies.forEach {
+            val effectInstance = StatusEffectInstance(CustomStatusEffects.VERDANT_ECHO, duration, amplifier, false, true, true)
+            it.addStatusEffect(effectInstance)
+        }
     }
 }
