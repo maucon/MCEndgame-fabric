@@ -10,7 +10,9 @@ class Iceborne(
     settings: Settings,
 ) : UniqueAttributesItem(settings) {
     override fun getCustomAttributes() = listOf(
-        RollableCustomAttribute(CustomAttributeTypes.ELEMENTAL_DAMAGE, 0, DoubleBounds(0.05, 0.15))
+        RollableCustomAttribute(CustomAttributeTypes.STRONGER_HORNS, 0),
+        RollableCustomAttribute(CustomAttributeTypes.MORE_HORN_EFFECT_DURATION, 0, DoubleBounds(0.3, 0.5)),
+        RollableCustomAttribute(CustomAttributeTypes.MORE_HORN_COOLDOWN, 0, DoubleBounds(-0.3, -0.2)),
     )
 
     override fun getAttributeModifierSlot() = AttributeModifierSlot.HEAD

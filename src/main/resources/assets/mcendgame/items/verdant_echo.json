@@ -1,0 +1,14 @@
+{
+  "model": {
+    "type": "minecraft:condition",
+    "on_false": {
+      "type": "minecraft:model",
+      "model": "mcendgame:item/verdant_echo"
+    },
+    "on_true": {
+      "type": "minecraft:model",
+      "model": "mcendgame:item/tooting_verdant_echo"
+    },
+    "property": "minecraft:using_item"
+  }
+}
