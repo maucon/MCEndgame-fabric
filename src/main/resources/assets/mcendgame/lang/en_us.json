@@ -33,6 +33,13 @@
   "item.mcendgame.molten_roar": "Molten Roar",
   "item.mcendgame.frigid_cry": "Frigid Cry",
 
+  "item.mcendgame.horn.duration": " Duration: %ss",
+  "item.mcendgame.horn.range": " Range: %s",
+  "item.mcendgame.horn.cooldown": " Cooldown: %ss",
+  "item.mcendgame.horn.description.verdant_echo": " Grants Allies less Damage Taken and Regeneration",
+  "item.mcendgame.horn.description.molten_roar": " Grants Allies more Damage and Attack Speed",
+  "item.mcendgame.horn.description.frigid_cry": " Applies Slowness to Enemies",
+
   "item.mcendgame.aspect_of_tyranny": "Aspect of Tyranny",
   "item.mcendgame.aspect_of_greed": "Aspect of Greed",
   "item.mcendgame.aspect_of_dominion": "Aspect of Dominion",
@@ -193,7 +200,7 @@
   "attribute.mcendgame.more_damage_taken_per_nearby_enemy": " %s%% %s Damage Taken per Enemy within %s Blocks",
   "attribute.mcendgame.more_horn_effect_duration": " %s%% %s Horn Effect Duration",
   "attribute.mcendgame.more_horn_cooldown": " %s%% %s Horn Cooldown",
-  "attribute.mcendgame.stronger_horns": " Horns Effects are stronger",
+  "attribute.mcendgame.stronger_horns": " Horn Effects are stronger",
 
   "effect.mcendgame.fury": "Fury",
   "effect.mcendgame.resilience": "Resilience",

@@ -11,23 +11,24 @@ import net.minecraft.entity.effect.StatusEffects
 import net.minecraft.entity.player.PlayerEntity
 import net.minecraft.world.World
 
-private const val RANGE = 8.0
-private const val DURATION = 100
-
 class FrigidCry(
     settings: Settings,
 ) : UniqueAttributesHornItem(settings) {
+    override val id = "frigid_cry"
+
     override val baseCooldown = 600
+    override val baseDuration = 100
+    override val range = 8.0
 
     override fun getCustomAttributes(): List<RollableCustomAttribute> = listOf()
 
     override fun getAttributeModifierSlot() = AttributeModifierSlot.HAND
 
     override fun onUse(world: World, user: PlayerEntity, cmd: HornUseCommand) {
-        val nearbyEnemies = world.getEntitiesByClass(LivingEntity::class.java, user.boundingBox.expand(RANGE)) { user.isEnemy(it) && user.distanceTo(it) <= RANGE }
+        val nearbyEnemies = world.getEntitiesByClass(LivingEntity::class.java, user.boundingBox.expand(range)) { user.isEnemy(it) && user.distanceTo(it) <= range }
         if (nearbyEnemies.isEmpty()) return
 
-        val duration = (DURATION * cmd.getDurationFactor()).toInt()
+        val duration = (baseDuration * cmd.getDurationFactor()).toInt()
         val amplifier = if (cmd.isStronger) 2 else 1
         val effectInstance = StatusEffectInstance(StatusEffects.SLOWNESS, duration, amplifier, true, true, true)
         nearbyEnemies.forEach { it.addStatusEffect(effectInstance) }

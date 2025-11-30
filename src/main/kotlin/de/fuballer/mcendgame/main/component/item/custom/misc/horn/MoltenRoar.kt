@@ -11,22 +11,23 @@ import net.minecraft.entity.effect.StatusEffectInstance
 import net.minecraft.entity.player.PlayerEntity
 import net.minecraft.world.World
 
-private const val RANGE = 10.0
-private const val DURATION = 200
-
 class MoltenRoar(
     settings: Settings,
 ) : UniqueAttributesHornItem(settings) {
+    override val id = "molten_roar"
+
     override val baseCooldown = 600
+    override val baseDuration = 200
+    override val range = 10.0
 
     override fun getCustomAttributes(): List<RollableCustomAttribute> = listOf()
 
     override fun getAttributeModifierSlot() = AttributeModifierSlot.HAND
 
     override fun onUse(world: World, user: PlayerEntity, cmd: HornUseCommand) {
-        val nearbyAllies = world.getEntitiesByClass(LivingEntity::class.java, user.boundingBox.expand(RANGE)) { user.isAlly(it) && user.distanceTo(it) <= RANGE }
+        val nearbyAllies = world.getEntitiesByClass(LivingEntity::class.java, user.boundingBox.expand(range)) { user.isAlly(it) && user.distanceTo(it) <= range }
 
-        val duration = (DURATION * cmd.getDurationFactor()).toInt()
+        val duration = (baseDuration * cmd.getDurationFactor()).toInt()
         val amplifier = if (cmd.isStronger) 1 else 0
         val effectInstance = StatusEffectInstance(CustomStatusEffects.MOLTEN_ROAR, duration, amplifier, true, true, true)
         nearbyAllies.forEach { it.addStatusEffect(effectInstance) }
