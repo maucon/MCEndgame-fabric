@@ -171,6 +171,12 @@ object CustomAttributeTypes {
         AttributeAffinities.DETRIMENTAL, SignBasedKeywords.MORE
     )
 
+    val MORE_HORN_EFFECT_DURATION =
+        CustomAttributeType("more_horn_effect_duration", AttributeFormats.PERCENT_ROLL, AttributeFormats.PERCENT_BOUNDS, AttributeAffinities.BENEFICIAL, SignBasedKeywords.MORE)
+    val MORE_HORN_COOLDOWN =
+        CustomAttributeType("more_horn_cooldown", AttributeFormats.PERCENT_ROLL, AttributeFormats.PERCENT_BOUNDS, AttributeAffinities.DETRIMENTAL, SignBasedKeywords.MORE)
+    val STRONGER_HORNS = CustomAttributeType("stronger_horns", AttributeFormats.EMPTY_ROLL, AttributeFormats.EMPTY_BOUNDS, AttributeAffinities.BENEFICIAL)
+
     // for use on enemies (don't use for players)
     val DROP_INCREASED_LOOT =
         CustomAttributeType("drop_increased_loot", AttributeFormats.SIGNED_PERCENT_ROLL, AttributeFormats.PERCENT_BOUNDS, AttributeAffinities.EMPTY, SignBasedKeywords.INCREASED)

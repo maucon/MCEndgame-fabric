@@ -1,5 +1,7 @@
 package de.fuballer.mcendgame.main.component.item.custom
 
+import de.fuballer.mcendgame.main.component.item.custom.misc.horn.command.HornUseCommand
+import de.maucon.mauconframework.command.CommandGateway
 import net.minecraft.entity.player.PlayerEntity
 import net.minecraft.item.GoatHornItem
 import net.minecraft.item.ItemStack
@@ -11,7 +13,7 @@ import net.minecraft.world.World
 abstract class UniqueAttributesHornItem(
     val settings: Settings,
 ) : GoatHornItem(settings), UniqueAttributesItemInterface {
-    abstract val cooldownTicks: Int
+    abstract val baseCooldown: Int // ticks
 
     override fun getDefaultStack() = getRolledStack(this, true)
 
@@ -21,13 +23,17 @@ abstract class UniqueAttributesHornItem(
         val result = super.use(world, user, hand)
         if (result == ActionResult.FAIL) return result
 
-        onUse(world, user)
+        val command = HornUseCommand(user)
+        val cmd = CommandGateway.apply(command)
+
+        onUse(world, user, cmd)
 
         val itemStack = user.getStackInHand(hand)
-        user.itemCooldownManager.set(itemStack, cooldownTicks)
+        val cooldown = (baseCooldown * cmd.getCooldownFactor()).toInt()
+        user.itemCooldownManager.set(itemStack, cooldown)
 
         return result
     }
 
-    abstract fun onUse(world: World, user: PlayerEntity)
+    abstract fun onUse(world: World, user: PlayerEntity, cmd: HornUseCommand)
 }
