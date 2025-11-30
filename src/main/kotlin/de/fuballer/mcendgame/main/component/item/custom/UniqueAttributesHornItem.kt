@@ -11,6 +11,8 @@ import net.minecraft.world.World
 abstract class UniqueAttributesHornItem(
     val settings: Settings,
 ) : GoatHornItem(settings), UniqueAttributesItemInterface {
+    abstract val cooldownTicks: Int
+
     override fun getDefaultStack() = getRolledStack(this, true)
 
     override fun getName(stack: ItemStack): MutableText = super.getName(stack).copy().withColor(getNameColor())
@@ -20,6 +22,10 @@ abstract class UniqueAttributesHornItem(
         if (result == ActionResult.FAIL) return result
 
         onUse(world, user)
+
+        val itemStack = user.getStackInHand(hand)
+        user.itemCooldownManager.set(itemStack, cooldownTicks)
+
         return result
     }
 

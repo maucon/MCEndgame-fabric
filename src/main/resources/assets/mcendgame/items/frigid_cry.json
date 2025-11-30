@@ -1,0 +1,14 @@
+{
+  "model": {
+    "type": "minecraft:condition",
+    "on_false": {
+      "type": "minecraft:model",
+      "model": "mcendgame:item/frigid_cry"
+    },
+    "on_true": {
+      "type": "minecraft:model",
+      "model": "mcendgame:item/tooting_frigid_cry"
+    },
+    "property": "minecraft:using_item"
+  }
+}

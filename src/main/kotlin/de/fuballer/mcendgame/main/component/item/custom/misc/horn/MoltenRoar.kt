@@ -13,7 +13,7 @@ import net.minecraft.world.World
 private const val RANGE = 10.0
 private const val EFFECT_DURATION = 200 // ticks
 
-class VerdantEcho(
+class MoltenRoar(
     settings: Settings,
 ) : UniqueAttributesHornItem(settings) {
     override val cooldownTicks = 600
@@ -24,7 +24,7 @@ class VerdantEcho(
 
     override fun onUse(world: World, user: PlayerEntity) {
         val nearbyAllies = world.getEntitiesByClass(LivingEntity::class.java, user.boundingBox.expand(RANGE)) { user.isAlly(it) && user.distanceTo(it) <= RANGE }
-        val effectInstance = StatusEffectInstance(CustomStatusEffects.VERDANT_ECHO, EFFECT_DURATION, 0, true, true, true)
+        val effectInstance = StatusEffectInstance(CustomStatusEffects.MOLTEN_ROAR, EFFECT_DURATION, 0, true, true, true)
         nearbyAllies.forEach { it.addStatusEffect(effectInstance) }
     }
 }

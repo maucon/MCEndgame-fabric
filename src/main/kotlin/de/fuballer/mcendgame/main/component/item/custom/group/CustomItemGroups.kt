@@ -96,6 +96,8 @@ object CustomItemGroups {
             itemGroup.add(CustomToolItems.HAILSTORM.defaultStack)
             itemGroup.add(CustomToolItems.DUSK_PIERCER.defaultStack)
             itemGroup.add(CustomMiscItems.VERDANT_ECHO.defaultStack)
+            itemGroup.add(CustomMiscItems.MOLTEN_ROAR.defaultStack)
+            itemGroup.add(CustomMiscItems.FRIGID_CRY.defaultStack)
         }
         ItemGroupEvents.modifyEntriesEvent(ASPECTS_KEY).register { itemGroup ->
             itemGroup.add(AspectItems.ASPECT_OF_TYRANNY.defaultStack)

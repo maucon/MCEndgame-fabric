@@ -1,0 +1,14 @@
+{
+  "model": {
+    "type": "minecraft:condition",
+    "on_false": {
+      "type": "minecraft:model",
+      "model": "mcendgame:item/molten_roar"
+    },
+    "on_true": {
+      "type": "minecraft:model",
+      "model": "mcendgame:item/tooting_molten_roar"
+    },
+    "property": "minecraft:using_item"
+  }
+}
