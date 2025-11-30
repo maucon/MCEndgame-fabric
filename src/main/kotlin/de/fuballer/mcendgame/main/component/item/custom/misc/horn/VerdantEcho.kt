@@ -9,12 +9,18 @@ import net.minecraft.component.type.AttributeModifierSlot
 import net.minecraft.entity.LivingEntity
 import net.minecraft.entity.effect.StatusEffectInstance
 import net.minecraft.entity.player.PlayerEntity
+import net.minecraft.text.Text
 import net.minecraft.world.World
 
 class VerdantEcho(
     settings: Settings,
 ) : UniqueAttributesHornItem(settings) {
     override val id = "verdant_echo"
+
+    override val description = listOf(
+        Text.translatable(DESCRIPTION_KEY + id + "0"),
+        Text.translatable(DESCRIPTION_KEY + id + "1"),
+    )
 
     override val baseCooldown = 600
     override val baseDuration = 200
@@ -29,7 +35,7 @@ class VerdantEcho(
 
         val duration = (baseDuration * cmd.getDurationFactor()).toInt()
         val amplifier = if (cmd.isStronger) 1 else 0
-        val effectInstance = StatusEffectInstance(CustomStatusEffects.VERDANT_ECHO, duration, amplifier, true, true, true)
+        val effectInstance = StatusEffectInstance(CustomStatusEffects.VERDANT_ECHO, duration, amplifier, false, true, true)
         nearbyAllies.forEach { it.addStatusEffect(effectInstance) }
     }
 }

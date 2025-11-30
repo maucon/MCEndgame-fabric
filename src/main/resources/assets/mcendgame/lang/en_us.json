@@ -36,9 +36,10 @@
   "item.mcendgame.horn.duration": " Duration: %ss",
   "item.mcendgame.horn.range": " Range: %s",
   "item.mcendgame.horn.cooldown": " Cooldown: %ss",
-  "item.mcendgame.horn.description.verdant_echo": " Grants Allies less Damage Taken and Regeneration",
-  "item.mcendgame.horn.description.molten_roar": " Grants Allies more Damage and Attack Speed",
-  "item.mcendgame.horn.description.frigid_cry": " Applies Slowness to Enemies",
+  "item.mcendgame.horn.description.verdant_echo0": " Grants you and nearby Allies",
+  "item.mcendgame.horn.description.verdant_echo1": "  less Damage Taken and Life Regeneration",
+  "item.mcendgame.horn.description.molten_roar": " Grants you and nearby Allies more Damage and Attack Speed",
+  "item.mcendgame.horn.description.frigid_cry": " Applies Slowness to nearby Enemies",
 
   "item.mcendgame.aspect_of_tyranny": "Aspect of Tyranny",
   "item.mcendgame.aspect_of_greed": "Aspect of Greed",

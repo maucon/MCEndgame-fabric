@@ -28,6 +28,8 @@ abstract class UniqueAttributesHornItem(
 
     abstract val id: String
 
+    abstract val description: List<MutableText>
+
     abstract val baseCooldown: Int // ticks
     abstract val baseDuration: Int // ticks
     abstract val range: Double
@@ -35,13 +37,16 @@ abstract class UniqueAttributesHornItem(
     override fun getRolledStack(item: Item, rolls: List<Double>): ItemStack {
         val stack = super.getRolledStack(item, rolls)
 
-        val lore = listOf(
-            Text.translatable(DESCRIPTION_KEY + id),
-            Text.translatable(DURATION_KEY, (baseDuration / 20).toInt()),
-            Text.translatable(RANGE_KEY, (range).toInt()),
-            Text.translatable(COOLDOWN_KEY, (baseCooldown / 20).toInt()),
-        ).map { it.styled { style -> style.withItalic(false).withColor(Formatting.BLUE) } }
-        stack.set(DataComponentTypes.LORE, LoreComponent(lore))
+        val lore = description.toMutableList()
+        lore.addAll(
+            listOf(
+                Text.translatable(DURATION_KEY, (baseDuration / 20).toInt()),
+                Text.translatable(RANGE_KEY, (range).toInt()),
+                Text.translatable(COOLDOWN_KEY, (baseCooldown / 20).toInt()),
+            )
+        )
+        val styledLore = lore.map { it.styled { style -> style.withItalic(false).withColor(Formatting.BLUE) } }
+        stack.set(DataComponentTypes.LORE, LoreComponent(styledLore))
 
         return stack
     }

@@ -9,12 +9,17 @@ import net.minecraft.entity.LivingEntity
 import net.minecraft.entity.effect.StatusEffectInstance
 import net.minecraft.entity.effect.StatusEffects
 import net.minecraft.entity.player.PlayerEntity
+import net.minecraft.text.Text
 import net.minecraft.world.World
 
 class FrigidCry(
     settings: Settings,
 ) : UniqueAttributesHornItem(settings) {
     override val id = "frigid_cry"
+
+    override val description = listOf(
+        Text.translatable(DESCRIPTION_KEY + id),
+    )
 
     override val baseCooldown = 600
     override val baseDuration = 100
@@ -30,7 +35,7 @@ class FrigidCry(
 
         val duration = (baseDuration * cmd.getDurationFactor()).toInt()
         val amplifier = if (cmd.isStronger) 2 else 1
-        val effectInstance = StatusEffectInstance(StatusEffects.SLOWNESS, duration, amplifier, true, true, true)
+        val effectInstance = StatusEffectInstance(StatusEffects.SLOWNESS, duration, amplifier, false, true, true)
         nearbyEnemies.forEach { it.addStatusEffect(effectInstance) }
     }
 }
