@@ -34,7 +34,9 @@ class MoltenRoar(
 
         val duration = (baseDuration * cmd.getDurationFactor()).toInt()
         val amplifier = if (cmd.isStronger) 1 else 0
-        val effectInstance = StatusEffectInstance(CustomStatusEffects.MOLTEN_ROAR, duration, amplifier, false, true, true)
-        nearbyAllies.forEach { it.addStatusEffect(effectInstance) }
+        nearbyAllies.forEach {
+            val effectInstance = StatusEffectInstance(CustomStatusEffects.MOLTEN_ROAR, duration, amplifier, false, true, true)
+            it.addStatusEffect(effectInstance)
+        }
     }
 }

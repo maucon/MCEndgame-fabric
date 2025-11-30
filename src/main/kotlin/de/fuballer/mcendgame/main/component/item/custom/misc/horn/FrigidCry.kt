@@ -35,7 +35,9 @@ class FrigidCry(
 
         val duration = (baseDuration * cmd.getDurationFactor()).toInt()
         val amplifier = if (cmd.isStronger) 2 else 1
-        val effectInstance = StatusEffectInstance(StatusEffects.SLOWNESS, duration, amplifier, false, true, true)
-        nearbyEnemies.forEach { it.addStatusEffect(effectInstance) }
+        nearbyEnemies.forEach {
+            val effectInstance = StatusEffectInstance(StatusEffects.SLOWNESS, duration, amplifier, false, true, true)
+            it.addStatusEffect(effectInstance)
+        }
     }
 }
