@@ -24,11 +24,11 @@ enum class WolfCompanionType(
 ) {
     SLOWING(
         "Slowing", WolfVariants.SNOWY, DyeColor.LIGHT_BLUE, 1.05,
-        enemyAuraStatusEffects = listOf(AuraStatusEffect(StatusEffects.SLOWNESS, 1, 199, 15)),
+        enemyAuraStatusEffects = listOf(AuraStatusEffect(StatusEffects.SLOWNESS, 0, 199, 15)),
     ),
     GUARDING(
         "Guarding", WolfVariants.CHESTNUT, DyeColor.PURPLE, 1.1,
-        allyAuraStatusEffects = listOf(AuraStatusEffect(StatusEffects.RESISTANCE, 0, 199, 15)),
+        allyAuraStatusEffects = listOf(AuraStatusEffect(CustomStatusEffects.RESILIENCE, 3, 199, 15)),
     ),
     INTIMIDATING(
         "Intimidating", WolfVariants.BLACK, DyeColor.BLACK, 1.15,
@@ -44,7 +44,7 @@ enum class WolfCompanionType(
     ),
     REJUVENATING(
         "Rejuvenating", WolfVariants.WOODS, DyeColor.GREEN, 1.0,
-        allyAuraStatusEffects = listOf(AuraStatusEffect(StatusEffects.REGENERATION, 0, 199, 15)),
+        allyAuraStatusEffects = listOf(AuraStatusEffect(StatusEffects.REGENERATION, 1, 199, 15)),
     ),
     SCORCHING(
         "Scorching", WolfVariants.RUSTY, DyeColor.ORANGE, 0.95,

@@ -95,6 +95,8 @@
   "item.mcendgame.totem_of_swiftness": "Totem of Swiftness",
   "item.mcendgame.totem_of_thickness": "Totem of Thickness",
   "item.mcendgame.totem_of_vanguard": "Totem of Vanguard",
+  "item.mcendgame.totem_of_defiance": "Totem of Defiance",
+  "item.mcendgame.totem_of_recovery": "Totem of Recovery",
 
   "item.mcendgame.totem.tier": "Tier: %s",
 
@@ -202,6 +204,8 @@
   "attribute.mcendgame.more_horn_effect_duration": " %s%% %s Horn Effect Duration",
   "attribute.mcendgame.more_horn_cooldown": " %s%% %s Horn Cooldown",
   "attribute.mcendgame.stronger_horns": " Horn Effects are stronger",
+  "attribute.mcendgame.resistance_when_low_health": " Gain Resistance for %ss when Low Health",
+  "attribute.mcendgame.regeneration_when_hit_by_enemy": " Gain Regeneration %s for %ss when hit by an Enemy",
 
   "effect.mcendgame.fury": "Fury",
   "effect.mcendgame.resilience": "Resilience",

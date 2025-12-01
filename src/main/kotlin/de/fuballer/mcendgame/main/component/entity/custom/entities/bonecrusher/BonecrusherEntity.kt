@@ -87,7 +87,7 @@ class BonecrusherEntity(
         private val TELEPORT_PRESS_ATTACK = TeleportToTargetAttack<BonecrusherEntity>(
             TELEPORT_PRESS_DATA,
             totalDuration = 45,
-            cooldown = 0,
+            cooldown = 65,
             DistanceTriggerCondition(6.0, 50.0),
             DelayedAttackDamage(TELEPORT_PRESS_DAMAGE, 25),
             teleportDelay = 20,

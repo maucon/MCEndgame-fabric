@@ -92,16 +92,9 @@ public class LivingEntityAuraMixin implements LivingEntityAuraAccessor {
                 );
             }
 
-            var totalDuration = effect.getApplyDuration();
             for (LivingEntity affectedEntity : affectedEntities) {
                 var effectInstance = effect.getInstance();
-                var command = new GainStatusEffectCommand(affectedEntity, effectInstance);
-                var actualEffectInstance = CommandGateway.INSTANCE.apply(command).getEffect();
-
-                var activeEffect = affectedEntity.getStatusEffect(actualEffectInstance.getEffectType());
-                if (activeEffect != null && activeEffect.getAmplifier() >= effect.getAmplifier() && !activeEffect.isDurationBelow(totalDuration - 80)) continue;
-
-                affectedEntity.addStatusEffect(effect.getInstance(), entity);
+                EntityExtension.INSTANCE.applyPeriodicEffectIfTicksPassed(affectedEntity, effectInstance, 80, entity);
             }
         }
     }

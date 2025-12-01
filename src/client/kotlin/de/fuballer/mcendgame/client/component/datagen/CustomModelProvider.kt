@@ -83,6 +83,8 @@ class CustomModelProvider(
         generator.register(TotemItems.TOTEM_OF_SWIFTNESS, Models.GENERATED)
         generator.register(TotemItems.TOTEM_OF_THICKNESS, Models.GENERATED)
         generator.register(TotemItems.TOTEM_OF_VANGUARD, Models.GENERATED)
+        generator.register(TotemItems.TOTEM_OF_DEFIANCE, Models.GENERATED)
+        generator.register(TotemItems.TOTEM_OF_RECOVERY, Models.GENERATED)
 
         generator.register(CustomBlocks.TOTEM_STATUE.asItem(), Models.GENERATED)
     }

@@ -32,6 +32,8 @@ class EnchantmentService {
         server: MinecraftServer,
         random: Random,
     ): Map<RegistryEntry<Enchantment>, Int> {
+        if (enchants.isEmpty()) return mapOf()
+
         val enchantmentRegistry = server.registryManager.getOrThrow(RegistryKeys.ENCHANTMENT)
 
         val pickedEnchantments = mutableMapOf<RegistryEntry<Enchantment>, Int>()
