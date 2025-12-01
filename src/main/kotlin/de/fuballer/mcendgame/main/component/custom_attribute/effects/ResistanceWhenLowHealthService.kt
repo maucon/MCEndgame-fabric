@@ -4,7 +4,7 @@ import de.fuballer.mcendgame.main.component.custom_attribute.CustomAttributeUtil
 import de.fuballer.mcendgame.main.component.custom_attribute.CustomAttributesExtensions.asIntRoll
 import de.fuballer.mcendgame.main.component.custom_attribute.CustomAttributesExtensions.getAllCustomAttributes
 import de.fuballer.mcendgame.main.component.custom_attribute.types.CustomAttributeTypes
-import de.fuballer.mcendgame.main.messaging.misc.ServerLivingEntitiesEndTickEvent
+import de.fuballer.mcendgame.main.messaging.misc.ServerLivingEntitiesEveryFiveTicksEvent
 import de.fuballer.mcendgame.main.util.extension.EntityExtension.applyPeriodicEffectIfTicksPassed
 import de.maucon.mauconframework.di.annotation.Injectable
 import de.maucon.mauconframework.event.EventSubscriber
@@ -14,9 +14,7 @@ import net.minecraft.entity.effect.StatusEffects
 @Injectable
 class ResistanceWhenLowHealthService {
     @EventSubscriber
-    fun on(event: ServerLivingEntitiesEndTickEvent) {
-        if (event.world.time % 5 != 0L) return
-
+    fun on(event: ServerLivingEntitiesEveryFiveTicksEvent) {
         event.entities.forEach { entity ->
             if (!entity.isLowHealth()) return@forEach
 
