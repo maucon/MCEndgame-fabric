@@ -34,6 +34,7 @@
     "goal.BowAttackGoalAccessor",
     "goal.BowAttackGoalMixin",
     "item.ImmuneItemEntityMixin",
+    "item.ItemStackDamageMixin",
     "item.bow.BowItemDrawSpeedMixin",
     "knockback.LivingEntityKnockbackCommandMixin",
     "knockback.MobEntityKnockbackCommandMixin",
