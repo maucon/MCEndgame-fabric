@@ -66,6 +66,8 @@
     "server_player_entity.ServerPlayerEntityDeathNBTCopyMixin",
     "server_player_entity.ServerPlayerEntityTeleportEventMixin",
     "skeleton.AbstractSkeletonEntityBowMixin",
+    "smithing.ForgingScreenHandlerAccessor",
+    "smithing.SmithingScreenHandlerUpgradeAttributesMixin",
     "status_effect.PoisonStatusEffectMixin",
     "status_effect.WitherStatusEffectMixin",
     "wolf_entity.WolfEntityColorAndVariantMixin",
