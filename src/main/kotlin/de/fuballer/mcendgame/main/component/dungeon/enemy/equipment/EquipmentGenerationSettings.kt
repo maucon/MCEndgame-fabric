@@ -59,6 +59,10 @@ object EquipmentGenerationSettings {
         RandomOption(100, TaggedEquipment.forRangedWeapon(Bow.WINDSTRING)),
         RandomOption(100, TaggedEquipment.forRangedWeapon(Bow.HAILSTORM)),
         RandomOption(100, TaggedEquipment.forRangedWeapon(Bow.DUSK_PIERCER)),
+
+        RandomOption(100, TaggedEquipment(Horn.VERDANT_ECHO, EquipmentSlot.OFFHAND)),
+        RandomOption(100, TaggedEquipment(Horn.MOLTEN_ROAR, EquipmentSlot.OFFHAND)),
+        RandomOption(100, TaggedEquipment(Horn.FRIGID_CRY, EquipmentSlot.OFFHAND)),
     )
 
     fun getRandomUniqueEquipment(
