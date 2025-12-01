@@ -13,6 +13,6 @@ class EquipmentDurabilityService {
     @CommandHandler
     fun on(cmd: DamageItemStackCommand) {
         if (!cmd.world.isDungeonWorld()) return
-        cmd.baseDamage = min(cmd.baseDamage, MAX_DURABILITY_DAMAGE)
+        cmd.damage = min(cmd.damage, MAX_DURABILITY_DAMAGE)
     }
 }

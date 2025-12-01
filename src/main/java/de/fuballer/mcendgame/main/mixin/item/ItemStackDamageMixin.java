@@ -16,9 +16,9 @@ public class ItemStackDamageMixin {
             ordinal = 0,
             argsOnly = true
     )
-    int getBaseDamage(int baseDamage, int bD, ServerWorld serverWorld) { // second int (bD) is same as first (baseDamage)
+    int getBaseDamage(int baseDamage, int bD, ServerWorld serverWorld) { // bD duplicates baseDamage to match method signature for mixin injection
         var command = new DamageItemStackCommand(baseDamage, serverWorld);
         var cmd = CommandGateway.INSTANCE.apply(command);
-        return cmd.getBaseDamage();
+        return cmd.getDamage();
     }
 }

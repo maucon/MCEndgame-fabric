@@ -141,10 +141,10 @@ object EntityExtension {
         ticks: Int = 80,
         source: Entity? = null,
     ) {
-        var command = GainStatusEffectCommand(this, effectInstance)
-        var actualEffectInstance = CommandGateway.apply(command).effect
+        val command = GainStatusEffectCommand(this, effectInstance)
+        val actualEffectInstance = CommandGateway.apply(command).effect
 
-        var activeEffect = getStatusEffect(actualEffectInstance.effectType)
+        val activeEffect = getStatusEffect(actualEffectInstance.effectType)
         val maxDuration = effectInstance.duration
         if (activeEffect != null
             && activeEffect.amplifier >= effectInstance.amplifier

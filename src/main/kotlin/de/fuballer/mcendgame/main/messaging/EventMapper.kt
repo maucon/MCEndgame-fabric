@@ -151,10 +151,7 @@ object EventMapper {
 
     @Initializer
     fun onLivingEntityEndTick() = ServerTickEvents.END_WORLD_TICK.register { world ->
-        world.iterateEntities().filterIsInstance<LivingEntity>()
-            .forEach {
-                val event = ServerLivingEntityEndTickEvent(it, world)
-                EventGateway.launchPublish(event)
-            }
+        val event = ServerLivingEntitiesEndTickEvent(world.iterateEntities().filterIsInstance<LivingEntity>(), world)
+        EventGateway.launchPublish(event)
     }
 }
