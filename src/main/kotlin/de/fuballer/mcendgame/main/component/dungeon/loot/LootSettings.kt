@@ -31,7 +31,7 @@ object LootSettings {
         RandomOption(50, AspectItems.ASPECT_OF_ANCESTORS),
     )
 
-    fun getBossBaseCrystalCount(dungeonLevel: Int) = Random.nextDouble(dungeonLevel.toDouble() / 2)
+    fun getBossBaseCrystalCount(dungeonLevel: Int) = dungeonLevel / 5.0 + Random.nextDouble(dungeonLevel / 4.0)
 
     val CRYSTALS = listOf(
         LevelRestrictedRandomOption(10, tier = 0, requiredLevel = 0, CrystalItems.PERMUTATION_CRYSTAL),
