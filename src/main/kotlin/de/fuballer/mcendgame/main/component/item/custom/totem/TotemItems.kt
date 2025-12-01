@@ -5,6 +5,7 @@ import de.maucon.mauconframework.di.annotation.Injectable
 
 @Injectable
 object TotemItems {
+    // basic
     val TOTEM_OF_BASTION = TotemItemRegistry.registerTotemItem(::TotemOfBastionItem, "totem_of_bastion")
     val TOTEM_OF_FORCE = TotemItemRegistry.registerTotemItem(::TotemOfForceItem, "totem_of_force")
     val TOTEM_OF_FORTRESS = TotemItemRegistry.registerTotemItem(::TotemOfFortressItem, "totem_of_fortress")
@@ -14,4 +15,7 @@ object TotemItems {
     val TOTEM_OF_SWIFTNESS = TotemItemRegistry.registerTotemItem(::TotemOfSwiftnessItem, "totem_of_swiftness")
     val TOTEM_OF_THICKNESS = TotemItemRegistry.registerTotemItem(::TotemOfThicknessItem, "totem_of_thickness")
     val TOTEM_OF_VANGUARD = TotemItemRegistry.registerTotemItem(::TotemOfVanguardItem, "totem_of_vanguard")
+
+    // effect
+    val TOTEM_OF_DEFIANCE = TotemItemRegistry.registerTotemItem(::TotemOfDefianceItem, "totem_of_defiance")
 }

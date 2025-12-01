@@ -148,4 +148,13 @@ object EventMapper {
         val dungeonItemDropEvent = DungeonItemDropEvent.of(event)
         EventGateway.launchPublish(dungeonItemDropEvent)
     }
+
+    @Initializer
+    fun onLivingEntityEndTick() = ServerTickEvents.END_WORLD_TICK.register { world ->
+        world.iterateEntities().filterIsInstance<LivingEntity>()
+            .forEach {
+                val event = ServerLivingEntityEndTickEvent(it, world)
+                EventGateway.launchPublish(event)
+            }
+    }
 }

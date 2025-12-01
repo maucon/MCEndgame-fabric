@@ -144,5 +144,6 @@ class CustomItemTagProvider(
             .add(TotemItems.TOTEM_OF_SWIFTNESS)
             .add(TotemItems.TOTEM_OF_THICKNESS)
             .add(TotemItems.TOTEM_OF_VANGUARD)
+            .add(TotemItems.TOTEM_OF_DEFIANCE)
     }
 }

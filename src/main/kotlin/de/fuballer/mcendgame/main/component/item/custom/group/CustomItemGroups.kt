@@ -131,6 +131,7 @@ object CustomItemGroups {
             itemGroup.add(TotemItems.TOTEM_OF_SWIFTNESS.defaultStack)
             itemGroup.add(TotemItems.TOTEM_OF_THICKNESS.defaultStack)
             itemGroup.add(TotemItems.TOTEM_OF_VANGUARD.defaultStack)
+            itemGroup.add(TotemItems.TOTEM_OF_DEFIANCE.defaultStack)
         }
         ItemGroupEvents.modifyEntriesEvent(CUSTOM_BLOCKS_KEY).register { itemGroup ->
             itemGroup.add(CustomBlocks.DUNGEON_DEVICE)
