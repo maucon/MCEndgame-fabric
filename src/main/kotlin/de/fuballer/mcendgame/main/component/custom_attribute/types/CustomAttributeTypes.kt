@@ -178,6 +178,7 @@ object CustomAttributeTypes {
     val STRONGER_HORNS = CustomAttributeType("stronger_horns", AttributeFormats.EMPTY_ROLL, AttributeFormats.EMPTY_BOUNDS, AttributeAffinities.BENEFICIAL)
 
     val RESISTANCE_WHEN_LOW_HEALTH = CustomAttributeType("resistance_when_low_health", AttributeFormats.INT_ROLL, AttributeFormats.INT_BOUNDS, AttributeAffinities.BENEFICIAL)
+    val REGENERATION_WHEN_HIT_BY_ENEMY = CustomAttributeType("regeneration_when_hit_by_enemy", AttributeFormats.TWO_INT_ROLL, AttributeFormats.TWO_INT_BOUNDS, AttributeAffinities.BENEFICIAL)
 
     // for use on enemies (don't use for players)
     val DROP_INCREASED_LOOT =

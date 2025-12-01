@@ -18,4 +18,5 @@ object TotemItems {
 
     // effect
     val TOTEM_OF_DEFIANCE = TotemItemRegistry.registerTotemItem(::TotemOfDefianceItem, "totem_of_defiance")
+    val TOTEM_OF_RECOVERY = TotemItemRegistry.registerTotemItem(::TotemOfRecoveryItem, "totem_of_recovery")
 }
