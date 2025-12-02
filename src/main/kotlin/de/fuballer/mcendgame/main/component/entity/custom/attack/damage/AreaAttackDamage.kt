@@ -22,6 +22,7 @@ class AreaAttackDamage(
     private val area: DamageArea,
     private val applyScale: Boolean = true,
     private val knockbackType: KnockbackType = KnockbackType.DAMAGER_CENTER,
+    private val blockable: Boolean = true
 ) : AttackDamage(damageFactor, knockbackFactor) {
     private var createParticles: Boolean = false
     private var particleCount: Int = 0
@@ -48,7 +49,7 @@ class AreaAttackDamage(
 
         val slamCenter = area.getCenter(damager, scale, forward, sideways)
 
-        dealDamage(world, targets, damager, scale, forward, slamCenter)
+        dealDamage(targets, damager, scale, forward, slamCenter, blockable)
 
         if (createParticles) createParticles(world, slamCenter, forward, sideways, scale)
 
@@ -71,18 +72,18 @@ class AreaAttackDamage(
     }
 
     private fun dealDamage(
-        world: ServerWorld,
         targets: List<LivingEntity>,
         damager: MobEntity,
         scale: Double,
         forward: Vec3d,
         slamCenter: Vec3d,
+        blockable: Boolean
     ) {
         val damage = getDamage(damager)
         val knockback = getKnockback(damager)
 
         targets.forEach {
-            it.dealGenericAttackDamage(damage, damager)
+            it.dealGenericAttackDamage(damage, damager, blockable)
             applyKnockback(it, damager, knockback, scale, forward, slamCenter)
         }
     }

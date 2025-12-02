@@ -19,5 +19,8 @@ class CustomDamageTypeTagProvider(
     override fun configure(arg: RegistryWrapper.WrapperLookup) {
         getOrCreateTagBuilder(DamageTypeTags.NO_KNOCKBACK)
             .addOptional(CustomDamageTypes.ELEMENTAL)
+
+        getOrCreateTagBuilder(DamageTypeTags.BYPASSES_SHIELD)
+            .addOptional(CustomDamageTypes.GENERIC_ATTACK_UNBLOCKABLE)
     }
 }
