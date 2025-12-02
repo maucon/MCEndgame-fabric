@@ -20,7 +20,7 @@ import net.minecraft.registry.RegistryKey
 import kotlin.random.Random
 
 object EquipmentGenerationSettings {
-    private const val EQUIPMENT_ROLL_TRIES_PER_TIER = 0.25
+    private const val EQUIPMENT_ROLL_TRIES_PER_TIER = 0.5
     fun calculateEquipmentRollTries(mapTier: Int) = 1 + (mapTier * EQUIPMENT_ROLL_TRIES_PER_TIER).toInt()
 
     const val UNIQUE_EQUIPMENT_PROBABILITY = 0.0005
