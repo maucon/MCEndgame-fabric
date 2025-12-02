@@ -24,7 +24,7 @@ class CustomDamageTypeProvider(
             generateDamageTypeJSON("mob") // default mob attack death message
                 .let { DataProvider.writeToPath(writer, it, getPath(CustomDamageTypes.GENERIC_ATTACK.value.path)) },
 
-             generateDamageTypeJSON("mob") // default mob attack death message
+            generateDamageTypeJSON("mob") // default mob attack death message
                 .let { DataProvider.writeToPath(writer, it, getPath(CustomDamageTypes.GENERIC_ATTACK_UNBLOCKABLE.value.path)) },
         ).toTypedArray()
 

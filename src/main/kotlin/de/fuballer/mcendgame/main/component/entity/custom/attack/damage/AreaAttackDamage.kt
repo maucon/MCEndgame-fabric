@@ -77,7 +77,7 @@ class AreaAttackDamage(
         scale: Double,
         forward: Vec3d,
         slamCenter: Vec3d,
-        blockable:Boolean
+        blockable: Boolean
     ) {
         val damage = getDamage(damager)
         val knockback = getKnockback(damager)

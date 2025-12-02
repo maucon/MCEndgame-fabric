@@ -2,7 +2,6 @@ package de.fuballer.mcendgame.main.component.damage.dealing
 
 import de.fuballer.mcendgame.main.component.damage.custom_type.CustomDamageTypes
 import net.minecraft.entity.Entity
-import net.minecraft.item.AxeItem
 import net.minecraft.server.world.ServerWorld
 
 object DamageDealingService {
