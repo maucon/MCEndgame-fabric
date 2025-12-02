@@ -14,6 +14,7 @@ import de.fuballer.mcendgame.main.component.entity.custom.interfaces.MeleeAttack
 import de.fuballer.mcendgame.main.util.extension.mixin.EntityMixinExtension.setWebbed
 import net.minecraft.block.BlockState
 import net.minecraft.block.Blocks
+import net.minecraft.component.DataComponentTypes
 import net.minecraft.entity.AnimationState
 import net.minecraft.entity.EntityType
 import net.minecraft.entity.LivingEntity
@@ -82,6 +83,7 @@ class ArachneEntity(
         private const val MAX_STAY_MELEE_RANGE = 10.0
         const val MIN_MELEE_TICKS = 100
         const val RANDOM_STOP_MELEE_PROBABILITY = 0.002 // per tick
+        private const val MELEE_SHIELD_DISABLE_TIME = 5f // seconds
 
         const val MELEE_PURSUE_DISTANCE = 2.8
         const val MELEE_ATTACK_RANGE = 3.3
@@ -285,7 +287,7 @@ class ArachneEntity(
     ) {
         val serverWorld = world as? ServerWorld ?: return
         val projectile = WebshotEntity(CustomEntities.WEBSHOT, serverWorld, this)
-        projectile.setDamage(getAttributeValue(EntityAttributes.ATTACK_DAMAGE))
+        projectile.setDamage(getAttributeValue(EntityAttributes.ATTACK_DAMAGE) / 2.0)
         shootAt(target, projectile)
     }
 
@@ -415,6 +417,13 @@ class ArachneEntity(
 
         targets.forEach {
             it.dealGenericAttackDamage(damage, this)
+
+            if (it is PlayerEntity && world is ServerWorld) {
+                val itemStack = it.blockingItem
+                val blocksAttacksComponent = itemStack?.get(DataComponentTypes.BLOCKS_ATTACKS)
+                blocksAttacksComponent?.applyShieldCooldown(world as ServerWorld, it, MELEE_SHIELD_DISABLE_TIME, itemStack)
+            }
+
             it.velocityModified = true
             it.takeKnockbackFrom(this, knockBackStrength, -knockBackDirection.x, -knockBackDirection.z) //takeKnockback inverts it
         }

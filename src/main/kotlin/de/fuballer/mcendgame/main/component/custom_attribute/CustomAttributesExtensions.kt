@@ -111,17 +111,16 @@ object CustomAttributesExtensions {
     fun AttributeBounds<*>.asStringBounds() = this as StringBounds
     fun AttributeBounds<*>.asIntBounds() = this as IntBounds
 
-    private fun addNonModAttributes(attributeModifierComponent: AttributeModifiersComponent, newA: AttributeModifiersComponent.Builder) {
+    private fun addNonModAttributes(attributeModifierComponent: AttributeModifiersComponent, builder: AttributeModifiersComponent.Builder) {
         for (modifier in attributeModifierComponent.modifiers) {
             if (modifier.modifier.id.namespace == MCEndgame.MOD_ID) continue
-
-            newA.add(modifier.attribute, modifier.modifier, modifier.slot)
+            builder.add(modifier.attribute, modifier.modifier, modifier.slot)
         }
     }
 
     private fun addVanillaTypeAttributes(
         customAttributes: List<CustomAttribute>,
-        newA: AttributeModifiersComponent.Builder,
+        builder: AttributeModifiersComponent.Builder,
         slot: AttributeModifierSlot
     ) {
         customAttributes
@@ -130,7 +129,7 @@ object CustomAttributesExtensions {
                 val vanillaAttributeType = it.type as VanillaAttributeType
                 val attribute = vanillaAttributeType.attribute
                 val modifier = EntityAttributeModifier(IdentifierUtil.defaultRandom(), it.rolls[0].asDoubleRoll().getValue(), vanillaAttributeType.scaleType)
-                newA.add(attribute, modifier, slot)
+                builder.add(attribute, modifier, slot)
             }
     }
 }

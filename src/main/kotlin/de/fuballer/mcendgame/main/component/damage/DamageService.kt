@@ -15,6 +15,7 @@ import net.minecraft.entity.LivingEntity
 import net.minecraft.entity.attribute.EntityAttributes
 import net.minecraft.entity.damage.DamageSource
 import net.minecraft.entity.effect.StatusEffects
+import net.minecraft.entity.player.PlayerEntity
 import net.minecraft.registry.tag.DamageTypeTags
 import net.minecraft.server.network.ServerPlayerEntity
 import net.minecraft.server.world.ServerWorld
@@ -95,7 +96,7 @@ object DamageService {
     ): Boolean {
         val key = source.typeRegistryEntry.getKey()
         if (key.isEmpty) return false
-        if (!DodgeSettings.DODGEABLE_DAMAGE_TYPES.contains(key.get())) return false
+        if (DodgeSettings.BYPASS_DODGE.contains(key.get())) return false
 
         val dodgeCalculationCommand = DodgeCalculationCommand.of(entity, source)
             .let { CommandGateway.apply(it) }
