@@ -31,6 +31,7 @@ class MovementSpeedModifiersAffectDamageService {
                     cmd.moreDamage.add(more)
                 }
 
+                // ADD_VALUE can be ignored since we don't use flat movement speed and conversion is scuffed
                 else -> {}
             }
         }
