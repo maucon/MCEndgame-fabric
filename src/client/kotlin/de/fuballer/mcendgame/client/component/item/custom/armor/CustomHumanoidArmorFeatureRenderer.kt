@@ -8,6 +8,7 @@ import de.fuballer.mcendgame.client.component.item.custom.armor.model.druids.Dru
 import de.fuballer.mcendgame.client.component.item.custom.armor.model.druids.DruidsLeggingsModel
 import de.fuballer.mcendgame.client.component.item.custom.armor.model.emberchant.EmberchantModel
 import de.fuballer.mcendgame.client.component.item.custom.armor.model.geistergaloschen.GeistergaloschenModel
+import de.fuballer.mcendgame.client.component.item.custom.armor.model.gilded_tempest.GildedTempestModel
 import de.fuballer.mcendgame.client.component.item.custom.armor.model.iceborne.IceborneModel
 import de.fuballer.mcendgame.client.component.item.custom.armor.model.lamias_gift.LamiasGiftModel
 import de.fuballer.mcendgame.client.component.item.custom.armor.model.moonshadow.MoonshadowModel
@@ -151,6 +152,10 @@ class CustomHumanoidArmorFeatureRenderer<S : BipedEntityRenderState, M : BipedEn
         texturedArmorModels[CustomArmorItems.ABYSSAL_MASK] = TexturedArmorModel(
             AbyssalMaskModel(ctx.getPart(AbyssalMaskModel.MODEL_LAYER)),
             IdentifierUtil.default("textures/entity/equipment/custom_humanoid/abyssal_mask.png"),
+        )
+        texturedArmorModels[CustomArmorItems.GILDED_TEMPEST] = TexturedArmorModel(
+            GildedTempestModel(ctx.getPart(GildedTempestModel.MODEL_LAYER)),
+            IdentifierUtil.default("textures/entity/equipment/custom_humanoid/gilded_tempest.png"),
         )
     }
 

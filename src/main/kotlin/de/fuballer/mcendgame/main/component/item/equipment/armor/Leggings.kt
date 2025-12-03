@@ -48,6 +48,9 @@ enum class Leggings(
     ),
     STONEWARD(
         CustomArmorItems.STONEWARD,
+    ),
+    GILDED_TEMPEST(
+        CustomArmorItems.GILDED_TEMPEST,
     );
 
     override val slot = AttributeModifierSlot.LEGS
