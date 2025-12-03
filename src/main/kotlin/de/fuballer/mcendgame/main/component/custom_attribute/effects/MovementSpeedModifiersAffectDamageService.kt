@@ -19,10 +19,7 @@ class MovementSpeedModifiersAffectDamageService {
         val effectiveness = attributes.sumOf { it.rolls[0].asDoubleRoll().getValue() }
 
         val movementSpeedInstance = damager.getAttributeInstance(EntityAttributes.MOVEMENT_SPEED) ?: return
-        val modifiers = movementSpeedInstance.modifiers
-        if (modifiers.isEmpty()) return
-
-        modifiers.forEach { modifier ->
+        movementSpeedInstance.modifiers.forEach { modifier ->
             when (modifier.operation) {
                 EntityAttributeModifier.Operation.ADD_MULTIPLIED_BASE -> {
                     val increase = modifier.value * effectiveness
