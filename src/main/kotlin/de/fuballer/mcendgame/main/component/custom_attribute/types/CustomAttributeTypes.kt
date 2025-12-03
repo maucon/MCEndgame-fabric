@@ -180,6 +180,8 @@ object CustomAttributeTypes {
     val RESISTANCE_WHEN_LOW_HEALTH = CustomAttributeType("resistance_when_low_health", AttributeFormats.INT_ROLL, AttributeFormats.INT_BOUNDS, AttributeAffinities.BENEFICIAL)
     val REGENERATION_WHEN_HIT_BY_ENEMY = CustomAttributeType("regeneration_when_hit_by_enemy", AttributeFormats.TWO_INT_ROLL, AttributeFormats.TWO_INT_BOUNDS, AttributeAffinities.BENEFICIAL)
 
+    val MOVEMENT_SPEED_MODIFIERS_AFFECT_DAMAGE = CustomAttributeType("movement_speed_modifiers_affect_damage", AttributeFormats.PERCENT_ROLL, AttributeFormats.PERCENT_BOUNDS, AttributeAffinities.BENEFICIAL)
+
     // for use on enemies (don't use for players)
     val DROP_INCREASED_LOOT =
         CustomAttributeType("drop_increased_loot", AttributeFormats.SIGNED_PERCENT_ROLL, AttributeFormats.PERCENT_BOUNDS, AttributeAffinities.EMPTY, SignBasedKeywords.INCREASED)

@@ -9,6 +9,7 @@ import de.fuballer.mcendgame.main.component.item.custom.armor.item.druids.Druids
 import de.fuballer.mcendgame.main.component.item.custom.armor.item.druids.DruidsLeggings
 import de.fuballer.mcendgame.main.component.item.custom.armor.item.emberchant.Emberchant
 import de.fuballer.mcendgame.main.component.item.custom.armor.item.geistergaloschen.Geistergaloschen
+import de.fuballer.mcendgame.main.component.item.custom.armor.item.gilded_tempest.GildedTempest
 import de.fuballer.mcendgame.main.component.item.custom.armor.item.iceborne.Iceborne
 import de.fuballer.mcendgame.main.component.item.custom.armor.item.lamias_gift.LamiasGift
 import de.fuballer.mcendgame.main.component.item.custom.armor.item.moonshadow.Moonshadow
@@ -49,4 +50,5 @@ object CustomArmorItems {
     val GEISTERGALOSCHEN = UniqueItemRegistry.registerArmorItem(::Geistergaloschen, GeistergaloschenArmorMaterial, EquipmentType.BOOTS, "geistergaloschen")
     val VOIDWEAVER = UniqueItemRegistry.registerArmorItem(::Voidweaver, VoidweaverArmorMaterial, EquipmentType.CHESTPLATE, "voidweaver")
     val ABYSSAL_MASK = UniqueItemRegistry.registerArmorItem(::AbyssalMask, AbyssalMaskArmorMaterial, EquipmentType.HELMET, "abyssal_mask")
+    val GILDED_TEMPEST = UniqueItemRegistry.registerArmorItem(::GildedTempest, GildedTempestArmorMaterial, EquipmentType.LEGGINGS, "gilded_tempest")
 }

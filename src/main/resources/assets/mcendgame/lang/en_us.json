@@ -20,6 +20,7 @@
   "item.mcendgame.geistergaloschen": "Geistergaloschen",
   "item.mcendgame.voidweaver": "Voidweaver",
   "item.mcendgame.abyssal_mask": "Abyssal Mask",
+  "item.mcendgame.gilded_tempest": "Gilded Tempest",
 
   "item.mcendgame.bloodharvest": "Bloodharvest",
   "item.mcendgame.twinfire": "Twinfire",
@@ -206,6 +207,7 @@
   "attribute.mcendgame.stronger_horns": " Horn Effects are stronger",
   "attribute.mcendgame.resistance_when_low_health": " Gain Resistance for %ss when Low Health",
   "attribute.mcendgame.regeneration_when_hit_by_enemy": " Gain Regeneration %s for %ss when hit by an Enemy",
+  "attribute.mcendgame.movement_speed_modifiers_affect_damage": " Modifiers to Movement Speed also affect Damage at %s%% Effectiveness",
 
   "effect.mcendgame.fury": "Fury",
   "effect.mcendgame.resilience": "Resilience",
