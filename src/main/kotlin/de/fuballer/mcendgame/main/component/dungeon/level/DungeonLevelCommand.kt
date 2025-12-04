@@ -65,8 +65,10 @@ class DungeonLevelCommand {
             return 0
         }
 
-        val dungeonLevel = PlayerDungeonLevel(level, progress)
-        players.forEach { it.setDungeonLevel(dungeonLevel) }
+        players.forEach {
+            val dungeonLevel = PlayerDungeonLevel(level, progress)
+            it.setDungeonLevel(dungeonLevel)
+        }
 
         val count = players.size
         val message = if (count == 1) Text.translatable(SET_LEVEL_SINGLE_KEY, players.first().nameForScoreboard, level, progress)
