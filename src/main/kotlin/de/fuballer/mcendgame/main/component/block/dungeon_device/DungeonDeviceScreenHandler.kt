@@ -23,7 +23,7 @@ class DungeonDeviceScreenHandler(
         // Our inventory
         for (row in 0..1) {
             for (col in 0..1) {
-                this.addSlot(Slot(inventory, col + row * 2, 70 + col * 18, 26 + row * 18))
+                this.addSlot(Slot(inventory, col + row * 2, 71 + col * 18, 26 + row * 18))
             }
         }
 
