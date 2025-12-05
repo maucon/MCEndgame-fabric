@@ -61,8 +61,9 @@ object CustomAttributesExtensions {
     }
 
     fun LivingEntity.getAllCustomAttributes(): Map<CustomAttributeType, List<CustomAttribute>> {
-        val customAttributes = mutableListOf<CustomAttribute>()
+        if (isSpectator) return mapOf()
 
+        val customAttributes = mutableListOf<CustomAttribute>()
         customAttributes.addAll(getCustomAttributes())
         customAttributes.addAll(getCustomAttributesOfItems())
 
