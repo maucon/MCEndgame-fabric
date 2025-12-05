@@ -5,16 +5,17 @@ import de.fuballer.mcendgame.main.component.custom_attribute.types.CustomAttribu
 import de.fuballer.mcendgame.main.component.damage.DamageCalculationCommand
 import de.maucon.mauconframework.command.CommandHandler
 import de.maucon.mauconframework.di.annotation.Injectable
+import kotlin.math.max
 
 @Injectable
-class MoreDamageTakenPerMaxHeartAboveTenService {
+class MoreDamageTakenPerMaxHealthAboveTwentyService {
     @CommandHandler
     fun on(cmd: DamageCalculationCommand) {
-        val attributes = cmd.damagedAttributes[CustomAttributeTypes.MORE_DAMAGE_TAKEN_PER_MAX_HEART_ABOVE_TEN] ?: return
+        val attributes = cmd.damagedAttributes[CustomAttributeTypes.MORE_DAMAGE_TAKEN_PER_MAX_HEALTH_ABOVE_TWENTY] ?: return
 
-        val extraHearts = (cmd.damaged.maxHealth / 2 - 10).toInt()
+        val extraHealth = max((cmd.damaged.maxHealth - 20).toInt(), 0)
         for (attribute in attributes) {
-            val moreDamageTaken = attribute.rolls[0].asDoubleRoll().getValue() * extraHearts
+            val moreDamageTaken = attribute.rolls[0].asDoubleRoll().getValue() * extraHealth
             cmd.moreDamageTaken.add(moreDamageTaken)
         }
     }

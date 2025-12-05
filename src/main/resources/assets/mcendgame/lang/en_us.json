@@ -200,7 +200,7 @@
   "attribute.mcendgame.heal_on_linked_enemy_killed": " Heal %s Health when a Linked Enemy dies",
   "attribute.mcendgame.twinfire_more_damage": "%s%% %s Damage while Dual Wielding Twinfire",
   "attribute.mcendgame.change_gained_status_effect": "Gain %s instead of %s",
-  "attribute.mcendgame.more_damage_taken_per_max_heart_above_ten": " %s%% %s Damage Taken per Max Heart above Ten",
+  "attribute.mcendgame.more_damage_taken_per_max_health_above_twenty": " %s%% %s Damage Taken per Max Health above Twenty",
   "attribute.mcendgame.more_damage_taken_per_nearby_enemy": " %s%% %s Damage Taken per Enemy within %s Blocks",
   "attribute.mcendgame.more_horn_effect_duration": " %s%% %s Horn Effect Duration",
   "attribute.mcendgame.more_horn_cooldown": " %s%% %s Horn Cooldown",
