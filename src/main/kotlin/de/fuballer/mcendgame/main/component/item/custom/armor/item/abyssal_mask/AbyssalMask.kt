@@ -1,5 +1,6 @@
 package de.fuballer.mcendgame.main.component.item.custom.armor.item.abyssal_mask
 
+import de.fuballer.mcendgame.main.component.custom_attribute.data.DoubleBounds
 import de.fuballer.mcendgame.main.component.custom_attribute.data.RollableCustomAttribute
 import de.fuballer.mcendgame.main.component.custom_attribute.data.StringBounds
 import de.fuballer.mcendgame.main.component.custom_attribute.effects.change_gained_status_effect.ChangeGainedStatusEffectSettings
@@ -14,7 +15,9 @@ class AbyssalMask(
 ) : UniqueAttributesItem(settings), HidePlayerModelPartArmor {
     override fun getCustomAttributes(): List<RollableCustomAttribute> {
         val chosenConversions = ChangeGainedStatusEffectSettings.getStatusEffectPairs(2)
-        val attributes = mutableListOf<RollableCustomAttribute>()
+        val attributes = mutableListOf<RollableCustomAttribute>(
+            RollableCustomAttribute(CustomAttributeTypes.MORE_DAMAGE_TAKEN, 0, DoubleBounds(-0.06, -0.04))
+        )
 
         chosenConversions.forEach { conversion ->
             attributes.add(

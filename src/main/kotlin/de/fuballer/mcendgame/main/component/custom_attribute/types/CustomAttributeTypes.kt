@@ -161,8 +161,8 @@ object CustomAttributeTypes {
     val CHANGE_GAINED_STATUS_EFFECT =
         CustomAttributeType("change_gained_status_effect", AttributeFormats.TWO_STRING_ROLL, AttributeFormats.TWO_STRING_SHOW_ALL_OPTIONS, AttributeAffinities.EMPTY)
 
-    val MORE_DAMAGE_TAKEN_PER_MAX_HEART_ABOVE_TEN = CustomAttributeType(
-        "more_damage_taken_per_max_heart_above_ten", AttributeFormats.PERCENT_ROLL, AttributeFormats.PERCENT_BOUNDS,
+    val MORE_DAMAGE_TAKEN_PER_MAX_HEALTH_ABOVE_TWENTY = CustomAttributeType(
+        "more_damage_taken_per_max_health_above_twenty", AttributeFormats.PERCENT_ROLL, AttributeFormats.PERCENT_BOUNDS,
         AttributeAffinities.DETRIMENTAL, SignBasedKeywords.MORE
     )
 

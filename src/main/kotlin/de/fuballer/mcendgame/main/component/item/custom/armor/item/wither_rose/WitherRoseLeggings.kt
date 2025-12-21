@@ -19,7 +19,7 @@ class WitherRoseLeggings(
 
     override fun getCustomAttributes() = listOf(
         RollableCustomAttribute(VanillaAttributeTypes.MAX_HEALTH, 0, DoubleBounds(2.0, 3.0)),
-        RollableCustomAttribute(CustomAttributeTypes.MORE_DAMAGE_TAKEN_PER_MAX_HEART_ABOVE_TEN, 0, DoubleBounds(-0.01, -0.01)),
+        RollableCustomAttribute(CustomAttributeTypes.MORE_DAMAGE_TAKEN_PER_MAX_HEALTH_ABOVE_TWENTY, 0, DoubleBounds(-0.01, -0.01)),
     )
 
     override fun getAttributeModifierSlot() = AttributeModifierSlot.LEGS
