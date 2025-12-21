@@ -103,7 +103,7 @@ object AttributeFormats {
         return formatted
     }
 
-    private fun formatDoubleSigned(value: Double): String {
+    fun formatDoubleSigned(value: Double): String {
         val formatted = "%+.1f".format(value)
         if (formatted.endsWith("0")) {
             return "%+.0f".format(value)

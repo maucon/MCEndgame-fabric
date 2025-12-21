@@ -20,7 +20,7 @@ class CorruptionRenderer {
 
         val texts = cmd.texts
         if (cmd.tooltipType.isAdvanced) {
-            texts.add(texts.size - 3, CORRUPTION_TEXT)
+            texts.add(texts.size - 2, CORRUPTION_TEXT)
         } else {
             texts.add(CORRUPTION_TEXT)
         }
