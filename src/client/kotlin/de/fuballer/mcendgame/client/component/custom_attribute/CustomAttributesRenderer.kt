@@ -1,8 +1,10 @@
 package de.fuballer.mcendgame.client.component.custom_attribute
 
 import de.fuballer.mcendgame.client.messaging.RenderItemTooltipCommand
+import de.fuballer.mcendgame.main.component.custom_attribute.AttributeFormats
 import de.fuballer.mcendgame.main.component.custom_attribute.CustomAttributesExtensions.getCustomAttributes
 import de.fuballer.mcendgame.main.component.custom_attribute.data.AttributeRoll
+import de.fuballer.mcendgame.main.component.custom_attribute.data.AttributeType
 import de.fuballer.mcendgame.main.component.custom_attribute.data.CustomAttribute
 import de.fuballer.mcendgame.main.component.custom_attribute.sign_based_keyword.SignBasedKeyword
 import de.fuballer.mcendgame.main.util.NumberUtil
@@ -40,29 +42,47 @@ class CustomAttributesRenderer {
         val flipSign = signBasedKeywords.zip(rolls).map { it.first != null && it.second.isNegative() }
 
         val flippedRolls = flipRollSigns(rolls, flipSign)
-        val formattedRolls = type.formatRolls(flippedRolls)
         if (!detailed) {
-            val array = getWithSignBasedKeywords(formattedRolls.map { Text.literal(it) }, signBasedKeywords, flipSign).toTypedArray()
+            val dominantEnhancementColors = flippedRolls.map { it.getDominantEnhancementColor() }
+            val rollTexts = type.formatRolls(flippedRolls).mapIndexed { i, formattedRoll ->
+                Text.literal(formattedRoll).apply { dominantEnhancementColors[i]?.let { formatted(it) } }
+            }
+            val array = getWithSignBasedKeywords(rollTexts, signBasedKeywords, flipSign).toTypedArray()
             return Text.translatable("$LANGUAGE_KEY_PREFIX${type.key}", *array)
                 .formatted(ATTRIBUTE_LINE_COLOR)
         }
 
-        val formattedBounds = type.formatBounds(flippedRolls.map { it.bounds })
-        val formattedRollsWithBounds = formattedRolls.zip(formattedBounds)
-            .map {
-                val boundsDetails = Text.literal(it.second)
-                    .formatted(ATTRIBUTE_LINE_DETAILS_COLOR)
-
-                Text.literal(it.first)
-                    .formatted(ATTRIBUTE_LINE_COLOR)
-                    .append(boundsDetails)
-            }
+        val notEnhancedRolls = flippedRolls.map(AttributeRoll<*>::getWithoutEnhancement)
+        val formattedRolls = type.formatRolls(notEnhancedRolls)
+        val boundsTexts = getFormattedBoundsTexts(type, flippedRolls)
+        val enhancementTexts = getFormattedEnhancementTexts(rolls)
+        val formattedRollsWithBounds = formattedRolls.indices.map { i ->
+            Text.literal(formattedRolls[i])
+                .formatted(ATTRIBUTE_LINE_COLOR)
+                .append(boundsTexts[i])
+                .append(enhancementTexts[i])
+        }
         val array = getWithSignBasedKeywords(formattedRollsWithBounds, signBasedKeywords, flipSign).toTypedArray()
 
         return Text.translatable("$LANGUAGE_KEY_PREFIX${type.key}", *array)
             .formatted(ATTRIBUTE_LINE_COLOR)
             .append(getFormattedTier(attribute.tier))
     }
+
+    private fun getFormattedBoundsTexts(
+        type: AttributeType,
+        rolls: List<AttributeRoll<*>>,
+    ) = type.formatBounds(rolls.map { it.bounds }).map { Text.literal(it).formatted(ATTRIBUTE_LINE_DETAILS_COLOR) }
+
+    private fun getFormattedEnhancementTexts(rolls: List<AttributeRoll<*>>) =
+        rolls.map { roll ->
+            roll.enhancements.entries.map { (type, value) ->
+                val formattedValue = AttributeFormats.formatDoubleSigned(value * 100)
+                Text.literal("($formattedValue%)").formatted(type.color)
+            }.reduceOrNull { first, second ->
+                first.append(second)
+            } ?: Text.empty()
+        }
 
     private fun flipRollSigns(rolls: List<AttributeRoll<*>>, flip: List<Boolean>) =
         rolls.mapIndexed { i, roll ->

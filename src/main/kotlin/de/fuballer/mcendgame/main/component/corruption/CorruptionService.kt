@@ -3,6 +3,7 @@ package de.fuballer.mcendgame.main.component.corruption
 import de.fuballer.mcendgame.main.component.corruption.CorruptionExtensions.setCorrupted
 import de.fuballer.mcendgame.main.component.custom_attribute.CustomAttributesExtensions.getCustomAttributes
 import de.fuballer.mcendgame.main.component.custom_attribute.CustomAttributesExtensions.updateCustomAttributes
+import de.fuballer.mcendgame.main.component.custom_attribute.data.AttributeRoll
 import de.fuballer.mcendgame.main.component.item.equipment.Equipment
 import de.fuballer.mcendgame.main.configuration.RuntimeConfig
 import de.fuballer.mcendgame.main.util.random.RandomUtil
@@ -32,7 +33,7 @@ object CorruptionService {
 
     fun canAddCurseEnchant(stack: ItemStack) = getNotPresentCurseEnchants(stack).isNotEmpty()
 
-    fun canChangeAttributeRoll(stack: ItemStack) = stack.getCustomAttributes().any { it.hasNonZeroRangePercentRoll() }
+    fun canChangeAttributeRoll(stack: ItemStack) = stack.getCustomAttributes().any { it.canBeEnhanced() }
 
     fun increaseEnchantLevel(stack: ItemStack) = changeRandomEnchantLevel(stack, 1)
 
@@ -98,10 +99,10 @@ object CorruptionService {
         value: Double,
     ): ItemStack {
         val oldAttributes = stack.getCustomAttributes()
-        val possibleAttributes = oldAttributes.filter { it.hasNonZeroRangePercentRoll() }
-        val chosenAttribute = possibleAttributes.random()
+        val possibleAttributes = oldAttributes.filter { it.canBeEnhanced() }
+        val chosenAttribute = possibleAttributes.randomOrNull() ?: return stack
 
-        val enhancedAttribute = chosenAttribute.getSingleRollEnhanced(value)
+        val enhancedAttribute = chosenAttribute.getSingleRollEnhanced(value, AttributeRoll.EnhancementType.CORRUPTION)
 
         val newAttributes = oldAttributes.toMutableList()
         val chosenAttributeIndex = oldAttributes.indexOf(chosenAttribute)
