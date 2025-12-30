@@ -145,6 +145,11 @@ object EntityMixinExtension {
         accessor.`mcendgame$addCustomAttribute`(customAttribute)
     }
 
+    fun LivingEntity.addCustomAttributes(customAttributes: List<CustomAttribute>) {
+        val accessor = this as LivingEntityCustomAttributesAccessor
+        customAttributes.forEach { accessor.`mcendgame$addCustomAttribute`(it) }
+    }
+
     fun LivingEntity.getCustomAttributes(): List<CustomAttribute> {
         val accessor = this as LivingEntityCustomAttributesAccessor
         return accessor.`mcendgame$getCustomAttributes`()

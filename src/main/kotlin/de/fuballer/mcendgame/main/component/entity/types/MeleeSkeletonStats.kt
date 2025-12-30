@@ -12,11 +12,8 @@ object MeleeSkeletonStats : EntityTypeStats {
     override val canHaveArmor = true
     override val canBeInvisible = true
 
-    override val baseHealth = 18.0
-    override val healthPerTier = 0.0
-    override val baseDamage = 5.0
-    override val damagePerTier = 2.5
-    override val baseSpeed = 0.25
-    override val speedPerTier = 0.0
+    override val health = 18.0
+    override val attackDamage = 5.0
+    override val movementSpeed = 0.25
     override val knockbackResistance = 0.0
 }

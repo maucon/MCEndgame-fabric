@@ -7,6 +7,7 @@ import de.fuballer.mcendgame.main.component.custom_attribute.data.AttributeRoll
 import de.fuballer.mcendgame.main.component.custom_attribute.data.AttributeType
 import de.fuballer.mcendgame.main.component.custom_attribute.data.CustomAttribute
 import de.fuballer.mcendgame.main.component.custom_attribute.sign_based_keyword.SignBasedKeyword
+import de.fuballer.mcendgame.main.messaging.misc.GetCustomAttributesTextsCommand
 import de.fuballer.mcendgame.main.util.NumberUtil
 import de.maucon.mauconframework.command.CommandHandler
 import de.maucon.mauconframework.di.annotation.Injectable
@@ -33,6 +34,11 @@ class CustomAttributesRenderer {
             .reversed()
             .map { attribute -> buildAttributeLine(attribute, Screen.hasShiftDown()) }
             .forEach { cmd.texts.add(1, it) }
+    }
+
+    @CommandHandler
+    fun on(cmd: GetCustomAttributesTextsCommand) {
+        cmd.texts = cmd.attributes.map { buildAttributeLine(it, cmd.detailed) }
     }
 
     private fun buildAttributeLine(attribute: CustomAttribute, detailed: Boolean): Text {

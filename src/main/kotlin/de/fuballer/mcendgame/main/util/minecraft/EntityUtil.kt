@@ -12,7 +12,6 @@ object EntityUtil {
         world: ServerWorld,
         type: EntityTypeStats,
         location: SpawnPosition,
-        level: Int,
     ): MobEntity {
         val entity = type.type.spawn(world, location.blockPos(), SpawnReason.STRUCTURE)
             ?: throw Exception("Couldn't  spawn entity of type: ${type.type}, in world: $world")
@@ -24,7 +23,7 @@ object EntityUtil {
             location.rot.toFloat(),
             0F
         )
-        setStats(entity, type, level)
+        setStats(entity, type)
 
         type.applyMisc(entity)
 
@@ -34,18 +33,13 @@ object EntityUtil {
     private fun setStats(
         entity: MobEntity,
         type: EntityTypeStats,
-        level: Int,
     ) {
-        val newMaxHealth = type.baseHealth + level * type.healthPerTier
+        val newMaxHealth = type.health
         entity.getAttributeInstance(EntityAttributes.MAX_HEALTH)?.baseValue = newMaxHealth
         entity.health = newMaxHealth.toFloat()
 
-        val newAttackDamage = type.baseDamage + level * type.damagePerTier
-        entity.getAttributeInstance(EntityAttributes.ATTACK_DAMAGE)?.baseValue = newAttackDamage
-
-        val newMovementSpeed = type.baseSpeed + level * type.speedPerTier
-        entity.getAttributeInstance(EntityAttributes.MOVEMENT_SPEED)?.baseValue = newMovementSpeed
-
+        entity.getAttributeInstance(EntityAttributes.ATTACK_DAMAGE)?.baseValue = type.attackDamage
+        entity.getAttributeInstance(EntityAttributes.MOVEMENT_SPEED)?.baseValue = type.movementSpeed
         entity.getAttributeInstance(EntityAttributes.KNOCKBACK_RESISTANCE)?.baseValue = type.knockbackResistance
     }
 }

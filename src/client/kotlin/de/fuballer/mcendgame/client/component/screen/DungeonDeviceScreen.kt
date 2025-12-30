@@ -3,8 +3,12 @@ package de.fuballer.mcendgame.client.component.screen
 import com.mojang.logging.LogUtils
 import de.fuballer.mcendgame.main.component.block.CustomBlocks
 import de.fuballer.mcendgame.main.component.block.dungeon_device.DungeonDeviceScreenHandler
+import de.fuballer.mcendgame.main.component.custom_attribute.data.CustomAttribute
+import de.fuballer.mcendgame.main.component.dungeon.enemy.EnemyLevelScalingSettings
 import de.fuballer.mcendgame.main.component.dungeon.level.DungeonLevelSettings
+import de.fuballer.mcendgame.main.messaging.misc.GetCustomAttributesTextsCommand
 import de.fuballer.mcendgame.main.util.minecraft.IdentifierUtil
+import de.maucon.mauconframework.command.CommandGateway
 import net.fabricmc.api.EnvType
 import net.fabricmc.api.Environment
 import net.fabricmc.fabric.api.client.networking.v1.ClientPlayNetworking
@@ -16,9 +20,24 @@ import net.minecraft.client.render.RenderLayer
 import net.minecraft.entity.player.PlayerInventory
 import net.minecraft.text.Text
 import net.minecraft.util.Identifier
+import kotlin.math.ceil
+import kotlin.math.min
 
 private val TEXTURE = IdentifierUtil.default("textures/gui/container/dungeon_device.png")
 private val OPEN_DUNGEON_BUTTON_TEXT = Text.translatable("container.mcendgame.dungeon_device.open")
+private val ENEMY_ATTRIBUTES_TEXT = Text.translatable("container.mcendgame.dungeon_device.enemy_attributes")
+private val BOSS_ATTRIBUTES_TEXT = Text.translatable("container.mcendgame.dungeon_device.boss_attributes")
+
+private const val SHOW_ATTRIBUTES_BUTTON_WIDTH = 10
+private const val SHOW_ATTRIBUTES_BUTTON_HEIGHT = 20
+private val SHOW_ATTRIBUTES_BUTTON_TEXT = Text.literal(">")
+private val HIDE_ATTRIBUTES_BUTTON_TEXT = Text.literal("<")
+
+private const val ATTRIBUTE_PANEL_MAX_WIDTH = 150
+private const val ATTRIBUTE_HEADER_WIDGET_HEIGHT = 10
+private const val ATTRIBUTE_TEXT_WIDGET_SCALE = 0.75f
+private const val ATTRIBUTE_TEXT_WIDGET_HEIGHT = 10
+private const val ATTRIBUTE_TEXT_WIDGET_Y_OFFSET = 10
 
 @Environment(EnvType.CLIENT)
 class DungeonDeviceScreen(
@@ -27,6 +46,8 @@ class DungeonDeviceScreen(
     title: Text,
 ) : HandledScreen<DungeonDeviceScreenHandler>(handler, inventory, title) {
     private val log = LogUtils.getLogger()
+    private var showLevelAttributes = false
+    private var levelScalingTextWidgets = mutableListOf<TextWidget>()
 
     private val createDungeonButton = ButtonWidget
         .builder(OPEN_DUNGEON_BUTTON_TEXT, ::onCreateDungeonButtonPress)
@@ -66,12 +87,107 @@ class DungeonDeviceScreen(
             ).alignLeft()
         )
 
+        addDrawableChild(
+            ButtonWidget.builder(SHOW_ATTRIBUTES_BUTTON_TEXT) { toggleButton ->
+                showLevelAttributes = !showLevelAttributes
+                toggleButton.x = getToggleButtonX()
+                toggleButton.message = if (showLevelAttributes) HIDE_ATTRIBUTES_BUTTON_TEXT else SHOW_ATTRIBUTES_BUTTON_TEXT
+            }.dimensions(
+                getToggleButtonX(),
+                (height - SHOW_ATTRIBUTES_BUTTON_HEIGHT) / 2,
+                SHOW_ATTRIBUTES_BUTTON_WIDTH,
+                SHOW_ATTRIBUTES_BUTTON_HEIGHT
+            ).build()
+        )
+
         addDrawableChild(createDungeonButton)
+
+        initLevelScalingDetails(playerDungeonLevel.level)
+    }
+
+    private fun getToggleButtonX(): Int {
+        val hiddenX = (width + backgroundWidth) / 2
+        if (!showLevelAttributes) return hiddenX
+        return min(width - SHOW_ATTRIBUTES_BUTTON_WIDTH - 5, hiddenX + ATTRIBUTE_PANEL_MAX_WIDTH)
+    }
+
+    private fun initLevelScalingDetails(dungeonLevel: Int) {
+        levelScalingTextWidgets = mutableListOf<TextWidget>()
+
+        val x = (width + backgroundWidth) / 2 + 5
+        var y = (height - backgroundHeight) / 2 + 5
+        val width = getLevelScalingTextWidgetWidth()
+
+        val enemyAttributes = EnemyLevelScalingSettings.getEnemyLevelAttributes(dungeonLevel)
+        if (enemyAttributes.isNotEmpty()) {
+            y += initLevelScalingHeader(ENEMY_ATTRIBUTES_TEXT, x, y, width) + 3
+            y += initLevelScalingAttributeTextsPart(enemyAttributes, x, y, width)
+            y += 5
+        }
+
+        val bossAttributes = EnemyLevelScalingSettings.getBossLevelAttributes(dungeonLevel)
+        if (bossAttributes.isNotEmpty()) {
+            y += initLevelScalingHeader(BOSS_ATTRIBUTES_TEXT, x, y, width) + 3
+            y += initLevelScalingAttributeTextsPart(bossAttributes, x, y, width)
+            y += 5
+        }
+    }
+
+    private fun getLevelScalingTextWidgetWidth(): Int {
+        val xStart = (width + backgroundWidth) / 2 + 5
+        val widgetWidth = ((width - SHOW_ATTRIBUTES_BUTTON_WIDTH - 10) - xStart)
+        return min(widgetWidth, ATTRIBUTE_PANEL_MAX_WIDTH - 10)
+    }
+
+    private fun initLevelScalingHeader(
+        text: Text,
+        x: Int,
+        y: Int,
+        width: Int,
+    ): Int {
+        levelScalingTextWidgets.add(
+            ScalableTextWidget(x, y, width, ATTRIBUTE_HEADER_WIDGET_HEIGHT, text, textRenderer, 1f)
+                .alignLeft()
+        )
+        return ATTRIBUTE_HEADER_WIDGET_HEIGHT
+    }
+
+    private fun initLevelScalingAttributeTextsPart(
+        attributes: List<CustomAttribute>,
+        xStart: Int,
+        yStart: Int,
+        width: Int,
+    ): Int {
+        if (attributes.isEmpty()) return 0
+
+        val attributeTextCommand = GetCustomAttributesTextsCommand(attributes)
+        val cmd = CommandGateway.apply(attributeTextCommand)
+
+        val widgetWidth = (width / ATTRIBUTE_TEXT_WIDGET_SCALE).toInt()
+
+        for ((index, text) in cmd.texts.withIndex()) {
+            levelScalingTextWidgets.add(
+                ScalableTextWidget(
+                    xStart,
+                    yStart + index * ATTRIBUTE_TEXT_WIDGET_Y_OFFSET,
+                    widgetWidth,
+                    ATTRIBUTE_TEXT_WIDGET_HEIGHT,
+                    text,
+                    textRenderer,
+                    ATTRIBUTE_TEXT_WIDGET_SCALE
+                ).alignLeft()
+            )
+        }
+
+        return (attributes.size - 1) * ATTRIBUTE_TEXT_WIDGET_Y_OFFSET + ceil(ATTRIBUTE_TEXT_WIDGET_HEIGHT * ATTRIBUTE_TEXT_WIDGET_SCALE).toInt()
     }
 
     override fun render(context: DrawContext, mouseX: Int, mouseY: Int, delta: Float) {
+        if (showLevelAttributes) renderAttributesPanel(context, mouseX, mouseY, delta)
+
         super.render(context, mouseX, mouseY, delta)
         drawMouseoverTooltip(context, mouseX, mouseY)
+
     }
 
     override fun drawBackground(context: DrawContext, delta: Float, mouseX: Int, mouseY: Int) {
@@ -92,6 +208,31 @@ class DungeonDeviceScreen(
             256,
             256
         )
+    }
+
+    private fun renderAttributesPanel(
+        context: DrawContext,
+        mouseX: Int,
+        mouseY: Int,
+        delta: Float,
+    ) {
+        val x1 = (width + backgroundWidth) / 2
+        val y1 = (height - backgroundHeight) / 2
+        var x2 = width - SHOW_ATTRIBUTES_BUTTON_WIDTH - 5
+        val y2 = (height + backgroundHeight) / 2
+
+        val w = min(x2 - x1, ATTRIBUTE_PANEL_MAX_WIDTH)
+        x2 = x1 + w
+
+        context.fill(
+            x1 - 3, // -3 to fill the corners of the main inventory texture
+            y1,
+            x2,
+            y2,
+            0xAA000000.toInt()
+        )
+
+        levelScalingTextWidgets.forEach { it.render(context, mouseX, mouseY, delta) }
     }
 
     private fun onCreateDungeonButtonPress(button: ButtonWidget) {

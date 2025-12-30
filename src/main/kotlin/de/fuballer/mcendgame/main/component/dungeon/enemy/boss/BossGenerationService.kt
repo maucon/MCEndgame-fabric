@@ -20,7 +20,6 @@ import kotlin.random.Random
 class BossGenerationService {
     fun generate(
         dungeonWorld: ServerWorld,
-        level: Int,
         types: List<EntityTypeStats>,
         applyMisc: (List<LivingEntity>) -> Unit,
         locations: List<SpawnPosition>,
@@ -29,7 +28,7 @@ class BossGenerationService {
         val shuffledTypes = types.shuffled(random)
         val bosses = locations.mapIndexed { index, pos ->
             val type = shuffledTypes[index % shuffledTypes.size]
-            spawnBoss(dungeonWorld, level, type, pos, random)
+            spawnBoss(dungeonWorld, type, pos, random)
         }
 
         applyMisc(bosses)
@@ -42,12 +41,11 @@ class BossGenerationService {
 
     private fun spawnBoss(
         dungeonWorld: ServerWorld,
-        level: Int,
         type: EntityTypeStats,
         spawnPosition: SpawnPosition,
         random: Random,
     ): MobEntity {
-        val bossEntity = EntityUtil.spawnEntityWithStats(dungeonWorld, type, spawnPosition, level)
+        val bossEntity = EntityUtil.spawnEntityWithStats(dungeonWorld, type, spawnPosition)
 
         bossEntity.setPersistent()
         setScale(bossEntity, random)

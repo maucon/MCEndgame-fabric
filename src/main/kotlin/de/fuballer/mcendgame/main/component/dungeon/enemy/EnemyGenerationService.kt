@@ -6,6 +6,7 @@ import de.fuballer.mcendgame.main.component.dungeon.generation.data.SpawnPositio
 import de.fuballer.mcendgame.main.component.entity.EntityTypeStats
 import de.fuballer.mcendgame.main.messaging.dungeon.DungeonEnemiesGeneratedEvent
 import de.fuballer.mcendgame.main.messaging.dungeon.DungeonGenerateEnemiesCommand
+import de.fuballer.mcendgame.main.util.extension.mixin.EntityMixinExtension.addCustomAttributes
 import de.fuballer.mcendgame.main.util.extension.mixin.EntityMixinExtension.setDungeonEnemy
 import de.fuballer.mcendgame.main.util.extension.mixin.EntityMixinExtension.setElite
 import de.fuballer.mcendgame.main.util.extension.mixin.EntityMixinExtension.setLootGoblin
@@ -95,7 +96,7 @@ class EnemyGenerationService(
 
         val validTypes = if (!isLootGoblin) types else types.filter { it.option.canHaveArmor }
         val type = RandomUtil.pickOne(validTypes, random).option
-        val enemyEntity = EntityUtil.spawnEntityWithStats(dungeonWorld, type, location, level)
+        val enemyEntity = EntityUtil.spawnEntityWithStats(dungeonWorld, type, location)
 
         enemyEntity.setDungeonEnemy()
         enemyEntity.setPersistent()

@@ -36,6 +36,26 @@ object VanillaAttributeTypes {
             AttributeFormats.DOUBLE_BOUNDS,
             AttributeAffinities.BENEFICIAL
         )
+    val INCREASED_MAX_HEALTH =
+        VanillaAttributeType(
+            EntityAttributes.MAX_HEALTH,
+            EntityAttributeModifier.Operation.ADD_MULTIPLIED_BASE,
+            "increased_max_health",
+            AttributeFormats.SIGNED_PERCENT_ROLL,
+            AttributeFormats.PERCENT_BOUNDS,
+            AttributeAffinities.BENEFICIAL,
+            SignBasedKeywords.INCREASED
+        )
+    val MORE_MAX_HEALTH =
+        VanillaAttributeType(
+            EntityAttributes.MAX_HEALTH,
+            EntityAttributeModifier.Operation.ADD_MULTIPLIED_TOTAL,
+            "more_max_health",
+            AttributeFormats.PERCENT_ROLL,
+            AttributeFormats.PERCENT_BOUNDS,
+            AttributeAffinities.BENEFICIAL,
+            SignBasedKeywords.MORE
+        )
 
     // OFFENSE
     val ATTACK_DAMAGE = VanillaAttributeType(
