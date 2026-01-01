@@ -112,6 +112,8 @@
   "block.mcendgame.dungeon_device": "Dungeon Device",
   "container.mcendgame.dungeon_device.title": "Dungeon Device",
   "container.mcendgame.dungeon_device.open": "Open",
+  "container.mcendgame.dungeon_device.enemy_attributes": "Enemy Attributes",
+  "container.mcendgame.dungeon_device.boss_attributes": "Boss Attributes",
 
   "block.mcendgame.crystal_forge": "Crystal Forge",
   "container.mcendgame.crystal_forge.title": "Crystal Forge",
@@ -139,6 +141,8 @@
   "attribute.mcendgame.armor": "%s Armor",
   "attribute.mcendgame.armor_toughness": "%s Armor Toughness",
   "attribute.mcendgame.max_health": "%s Max Health",
+  "attribute.mcendgame.increased_max_health": "%s%% %s Max Health",
+  "attribute.mcendgame.more_max_health": " %s%% %s Max Health",
   "attribute.mcendgame.attack_damage": "%s Attack Damage",
   "attribute.mcendgame.increased_attack_damage": "%s%% %s Attack Damage",
   "attribute.mcendgame.increased_attack_speed": "%s%% %s Attack Speed",

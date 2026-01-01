@@ -13,11 +13,8 @@ object BonecrusherBossStats : EntityTypeStats {
     override val canHaveArmor = false
     override val canBeInvisible = false
 
-    override val baseHealth = 100.0
-    override val healthPerTier = 10.0
-    override val baseDamage = 10.0
-    override val damagePerTier = 2.5
-    override val baseSpeed = 0.25
-    override val speedPerTier = 0.0
+    override val health = 100.0
+    override val attackDamage = 10.0
+    override val movementSpeed = 0.25
     override val knockbackResistance = 0.8
 }

@@ -13,11 +13,8 @@ object ElfDuelistBossStats : EntityTypeStats {
     override val canHaveArmor = false
     override val canBeInvisible = false
 
-    override val baseHealth = 100.0
-    override val healthPerTier = 10.0
-    override val baseDamage = 5.0
-    override val damagePerTier = 1.5
-    override val baseSpeed = 0.33
-    override val speedPerTier = 0.0
+    override val health = 100.0
+    override val attackDamage = 10.0
+    override val movementSpeed = 0.33
     override val knockbackResistance = 0.8
 }

@@ -60,7 +60,7 @@ class ElfDuelistEntity(
 
         private const val ATTACK_ANIM_CONTROLLER_ID = "Attack"
 
-        private val ATTACK_DAMAGE = BasicAttackDamage(1F, 1.0, 3.5)
+        private val ATTACK_DAMAGE = BasicAttackDamage(0.6F, 1.0, 3.5)
 
         private val STAB_RIGHT_ANIM: RawAnimation = RawAnimation.begin().thenPlayAndHold("attack.stab_right")
         private const val STAB_RIGHT_ID = "Stab Right"

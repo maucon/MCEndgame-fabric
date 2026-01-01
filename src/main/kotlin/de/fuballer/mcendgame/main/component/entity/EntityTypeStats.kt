@@ -12,12 +12,9 @@ interface EntityTypeStats {
     val canHaveArmor: Boolean
     val canBeInvisible: Boolean
 
-    val baseHealth: Double
-    val healthPerTier: Double
-    val baseDamage: Double
-    val damagePerTier: Double
-    val baseSpeed: Double
-    val speedPerTier: Double
+    val health: Double
+    val attackDamage: Double
+    val movementSpeed: Double
     val knockbackResistance: Double
 
     fun applyMisc(entity: Entity) {}
