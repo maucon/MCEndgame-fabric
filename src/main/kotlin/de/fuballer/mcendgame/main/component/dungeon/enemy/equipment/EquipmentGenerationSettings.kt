@@ -64,6 +64,8 @@ object EquipmentGenerationSettings {
         RandomOption(100, TaggedEquipment(Horn.VERDANT_ECHO, EquipmentSlot.OFFHAND)),
         RandomOption(100, TaggedEquipment(Horn.MOLTEN_ROAR, EquipmentSlot.OFFHAND)),
         RandomOption(100, TaggedEquipment(Horn.FRIGID_CRY, EquipmentSlot.OFFHAND)),
+
+        RandomOption(100, TaggedEquipment(Shield.GRUDGEBEARER, EquipmentSlot.OFFHAND)),
     )
 
     fun getRandomUniqueEquipment(
@@ -182,9 +184,9 @@ object EquipmentGenerationSettings {
         SortableRandomOption(50, 0, Miscellaneous.MACE)
     )
     const val OFFHAND_OTHER_OVER_MAINHAND_PROBABILITY = 0.25
-    val OTHER_ITEMS = listOf(
+    val OTHER_ITEMS = listOf<RandomOption<out Equipment>>(
         RandomOption(10, Miscellaneous.FISHING_ROD),
-        RandomOption(50, Miscellaneous.SHIELD)
+        RandomOption(50, Shield.SHIELD),
     )
     val MAINHAND_PROBABILITIES = listOf<RandomOption<List<SortableRandomOption<out Equipment>>?>>(
         RandomOption(10, null),
