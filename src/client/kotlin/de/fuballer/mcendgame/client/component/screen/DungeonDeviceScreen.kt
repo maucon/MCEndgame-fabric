@@ -1,6 +1,5 @@
 package de.fuballer.mcendgame.client.component.screen
 
-import com.mojang.blaze3d.systems.RenderSystem
 import com.mojang.logging.LogUtils
 import de.fuballer.mcendgame.main.component.block.CustomBlocks
 import de.fuballer.mcendgame.main.component.block.dungeon_device.DungeonDeviceScreenHandler
@@ -18,7 +17,6 @@ import net.minecraft.client.gui.screen.ingame.HandledScreen
 import net.minecraft.client.gui.widget.ButtonWidget
 import net.minecraft.client.gui.widget.TextWidget
 import net.minecraft.client.render.RenderLayer
-import net.minecraft.client.render.model.UnbakedModel
 import net.minecraft.entity.player.PlayerInventory
 import net.minecraft.text.Text
 import net.minecraft.util.Identifier

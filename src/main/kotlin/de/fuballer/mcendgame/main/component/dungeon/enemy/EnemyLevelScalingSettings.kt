@@ -8,7 +8,6 @@ import de.fuballer.mcendgame.main.component.custom_attribute.types.VanillaAttrib
 object EnemyLevelScalingSettings {
     fun getEnemyLevelAttributes(level: Int) = listOf(
         CustomAttribute(VanillaAttributeTypes.ATTACK_DAMAGE, roll = DoubleRoll(DoubleBounds(2.5 * level))),
-        //CustomAttribute(CustomAttributeTypes.MORE_DAMAGE, roll = DoubleRoll(DoubleBounds(0.1 * level))),
     )
 
     fun getBossLevelAttributes(level: Int) = listOf(
