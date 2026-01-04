@@ -32,8 +32,6 @@ class CustomModelProvider(
         registerCustomBow(generator, CustomToolItems.HAILSTORM)
         registerCustomBow(generator, CustomToolItems.DUSK_PIERCER)
 
-        generator.register(CustomToolItems.GRUDGEBEARER, Models.HANDHELD)
-
         generator.register(CustomArmorItems.BOUND_ABYSS, Models.GENERATED)
         generator.register(CustomArmorItems.DRUIDS_BOOTS, Models.GENERATED)
         generator.register(CustomArmorItems.DRUIDS_CHESTPLATE, Models.GENERATED)

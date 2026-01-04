@@ -1,0 +1,14 @@
+{
+  "model": {
+    "type": "minecraft:condition",
+    "on_false": {
+      "type": "minecraft:model",
+      "model": "mcendgame:item/grudgebearer"
+    },
+    "on_true": {
+      "type": "minecraft:model",
+      "model": "mcendgame:item/grudgebearer_blocking"
+    },
+    "property": "minecraft:using_item"
+  }
+}
