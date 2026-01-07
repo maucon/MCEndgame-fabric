@@ -5,11 +5,13 @@ import de.fuballer.mcendgame.main.component.custom_attribute.CustomAttributesExt
 import de.fuballer.mcendgame.main.component.custom_attribute.CustomAttributesExtensions.getAllCustomAttributes
 import de.fuballer.mcendgame.main.component.custom_attribute.CustomAttributesExtensions.isBlockPhasing
 import de.fuballer.mcendgame.main.component.custom_attribute.types.CustomAttributeTypes
+import de.fuballer.mcendgame.main.component.tags.CustomTags
 import de.fuballer.mcendgame.main.messaging.misc.GainStatusEffectCommand
 import de.fuballer.mcendgame.main.util.extension.Vec3dExtension.angleDeg
 import de.fuballer.mcendgame.main.util.extension.WorldExtension.isDungeonWorld
 import de.fuballer.mcendgame.main.util.extension.mixin.EntityMixinExtension.isDungeonEnemy
 import de.maucon.mauconframework.command.CommandGateway
+import net.minecraft.component.DataComponentTypes
 import net.minecraft.entity.Entity
 import net.minecraft.entity.LivingEntity
 import net.minecraft.entity.Tameable
@@ -20,6 +22,8 @@ import net.minecraft.entity.passive.AnimalEntity
 import net.minecraft.entity.passive.IronGolemEntity
 import net.minecraft.entity.passive.VillagerEntity
 import net.minecraft.entity.player.PlayerEntity
+import net.minecraft.registry.Registries
+import net.minecraft.server.world.ServerWorld
 import net.minecraft.util.function.BooleanBiFunction
 import net.minecraft.util.math.BlockPos
 import net.minecraft.util.math.Box
@@ -152,5 +156,15 @@ object EntityExtension {
         ) return
 
         addStatusEffect(effectInstance, source)
+    }
+
+    fun PlayerEntity.setShieldsCooldown(cooldown: Float) {
+        val serverWorld = world as? ServerWorld ?: return
+
+        Registries.ITEM.iterateEntries(CustomTags.SHIELD).forEach { entry ->
+            val stack = entry.value().defaultStack
+            var blocksAttacksComponent = stack.get(DataComponentTypes.BLOCKS_ATTACKS) ?: return@forEach
+            blocksAttacksComponent.applyShieldCooldown(serverWorld, this, cooldown, stack)
+        }
     }
 }

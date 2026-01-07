@@ -9,7 +9,7 @@ import de.maucon.mauconframework.di.annotation.Injectable
 import kotlin.math.max
 
 @Injectable
-class ShieldDisabledOnBlockingHit {
+class ShieldDisabledOnBlockingHitService {
     @CommandHandler
     fun on(cmd: PlayerTakeShieldHitCommand) {
         val attributes = cmd.player.getAllCustomAttributes()[CustomAttributeTypes.SHIELD_DISABLED_ON_BLOCKING_HIT]

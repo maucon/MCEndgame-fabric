@@ -1,16 +1,13 @@
 package de.fuballer.mcendgame.main.mixin.player;
 
-import de.fuballer.mcendgame.main.component.tags.CustomTags;
 import de.fuballer.mcendgame.main.messaging.misc.PlayerTakeShieldHitCommand;
+import de.fuballer.mcendgame.main.util.extension.EntityExtension;
 import de.maucon.mauconframework.command.CommandGateway;
 import net.minecraft.component.DataComponentTypes;
 import net.minecraft.component.type.BlocksAttacksComponent;
 import net.minecraft.entity.LivingEntity;
 import net.minecraft.entity.player.PlayerEntity;
-import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
-import net.minecraft.registry.Registries;
-import net.minecraft.registry.entry.RegistryEntry;
 import net.minecraft.server.world.ServerWorld;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.injection.At;
@@ -56,12 +53,7 @@ public class PlayerEntityDisableShieldMixin {
             float cooldown
     ) {
         var playerEntity = (PlayerEntity) (Object) this;
-
-        for (RegistryEntry<Item> entry : Registries.ITEM.iterateEntries(CustomTags.INSTANCE.getSHIELD())) {
-            var stack = entry.value().getDefaultStack();
-            blocksAttacksComponent.applyShieldCooldown(world, playerEntity, cooldown, stack);
-        }
-
+        EntityExtension.INSTANCE.setShieldsCooldown(playerEntity, cooldown);
         ci.cancel();
     }
 }

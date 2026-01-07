@@ -11,10 +11,10 @@ import de.fuballer.mcendgame.main.component.entity.custom.goals.*
 import de.fuballer.mcendgame.main.component.entity.custom.interfaces.CustomPosesEntity
 import de.fuballer.mcendgame.main.component.entity.custom.interfaces.HookAttackMob
 import de.fuballer.mcendgame.main.component.entity.custom.interfaces.MeleeAttackMob
+import de.fuballer.mcendgame.main.util.extension.EntityExtension.setShieldsCooldown
 import de.fuballer.mcendgame.main.util.extension.mixin.EntityMixinExtension.setWebbed
 import net.minecraft.block.BlockState
 import net.minecraft.block.Blocks
-import net.minecraft.component.DataComponentTypes
 import net.minecraft.entity.AnimationState
 import net.minecraft.entity.EntityType
 import net.minecraft.entity.LivingEntity
@@ -409,8 +409,6 @@ class ArachneEntity(
                     || isInAttackArea(it.eyePos.subtract(pos), forward, sideways)
         }
 
-        //debugAttackAreaParticles(forward, sideways)
-
         val damage = getAttributeValue(EntityAttributes.ATTACK_DAMAGE).toFloat()
         val knockBackDirection = getRotationVector(pitch, bodyYaw).horizontal.normalize()
         val knockBackStrength = getAttributeValue(EntityAttributes.ATTACK_KNOCKBACK) * getAttributeValue(EntityAttributes.SCALE)
@@ -418,11 +416,7 @@ class ArachneEntity(
         targets.forEach {
             it.dealGenericAttackDamage(damage, this)
 
-            if (it is PlayerEntity && world is ServerWorld) {
-                val itemStack = it.blockingItem
-                val blocksAttacksComponent = itemStack?.get(DataComponentTypes.BLOCKS_ATTACKS)
-                blocksAttacksComponent?.applyShieldCooldown(world as ServerWorld, it, MELEE_SHIELD_DISABLE_TIME, itemStack)
-            }
+            if (it is PlayerEntity && world is ServerWorld) it.setShieldsCooldown(MELEE_SHIELD_DISABLE_TIME)
 
             it.velocityModified = true
             it.takeKnockbackFrom(this, knockBackStrength, -knockBackDirection.x, -knockBackDirection.z) //takeKnockback inverts it
