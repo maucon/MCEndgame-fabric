@@ -29,6 +29,7 @@
   "item.mcendgame.windstring": "Windstring",
   "item.mcendgame.hailstorm": "Hailstorm",
   "item.mcendgame.dusk_piercer": "Dusk Piercer",
+  "item.mcendgame.grudgebearer": "Grudgebearer",
 
   "item.mcendgame.verdant_echo": "Verdant Echo",
   "item.mcendgame.molten_roar": "Molten Roar",
@@ -213,6 +214,8 @@
   "attribute.mcendgame.resistance_when_low_health": " Gain Resistance for %ss when Low Health",
   "attribute.mcendgame.regeneration_when_hit_by_enemy": " Gain Regeneration %s for %ss when hit by an Enemy",
   "attribute.mcendgame.movement_speed_modifiers_affect_damage": " Modifiers to Movement Speed also affect Damage at %s%% Effectiveness",
+  "attribute.mcendgame.shield_disabled_on_blocking_hit": " Blocking a Hit disables your Shield for %ss",
+  "attribute.mcendgame.increased_damage_while_shield_disabled": "%s%% %s Damage while your Shield is disabled",
 
   "effect.mcendgame.fury": "Fury",
   "effect.mcendgame.resilience": "Resilience",

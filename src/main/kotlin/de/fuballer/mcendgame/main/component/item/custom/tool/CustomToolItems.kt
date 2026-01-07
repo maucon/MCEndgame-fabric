@@ -3,7 +3,12 @@ package de.fuballer.mcendgame.main.component.item.custom.tool
 import de.fuballer.mcendgame.main.component.item.custom.UniqueItemRegistry
 import de.fuballer.mcendgame.main.component.item.custom.tool.item.*
 import de.maucon.mauconframework.di.annotation.Injectable
+import net.minecraft.component.DataComponentTypes
+import net.minecraft.component.type.BlocksAttacksComponent
 import net.minecraft.item.Item
+import net.minecraft.registry.tag.DamageTypeTags
+import net.minecraft.sound.SoundEvents
+import java.util.*
 
 @Injectable
 object CustomToolItems {
@@ -41,5 +46,24 @@ object CustomToolItems {
         ::DuskPiercer,
         Item.Settings().maxDamage(500),
         "dusk_piercer"
+    )
+    val GRUDGEBEARER = UniqueItemRegistry.registerToolItem(
+        ::Grudgebearer,
+        Item.Settings()
+            .maxDamage(336)
+            .component(
+                DataComponentTypes.BLOCKS_ATTACKS,
+                BlocksAttacksComponent(
+                    0.25F,
+                    1.0F,
+                    listOf(BlocksAttacksComponent.DamageReduction(90.0F, Optional.empty(), 0.0F, 1.0F)),
+                    BlocksAttacksComponent.ItemDamage(3.0F, 1.0F, 1.0F),
+                    Optional.of(DamageTypeTags.BYPASSES_SHIELD),
+                    Optional.of(SoundEvents.ITEM_SHIELD_BLOCK),
+                    Optional.of(SoundEvents.ITEM_SHIELD_BREAK),
+                )
+            )
+            .component(DataComponentTypes.BREAK_SOUND, SoundEvents.ITEM_SHIELD_BREAK),
+        "grudgebearer"
     )
 }

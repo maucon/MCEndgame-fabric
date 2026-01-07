@@ -33,6 +33,7 @@ interface Equipment {
                 putAll(Hoe.entries.associateBy { it.item })
                 putAll(Bow.entries.associateBy { it.item })
                 putAll(Horn.entries.associateBy { it.item })
+                putAll(Shield.entries.associateBy { it.item })
                 putAll(Miscellaneous.entries.associateBy { it.item })
             }
 

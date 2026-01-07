@@ -64,8 +64,13 @@ class CustomItemTagProvider(
         getOrCreateTagBuilder(ItemTags.BOW_ENCHANTABLE)
             .forceAddTag(CustomTags.BOW)
 
+        getOrCreateTagBuilder(CustomTags.SHIELD)
+            .add(Items.SHIELD)
+            .add(CustomToolItems.GRUDGEBEARER)
+
         getOrCreateTagBuilder(ItemTags.DURABILITY_ENCHANTABLE)
             .forceAddTag(CustomTags.BOW)
+            .forceAddTag(CustomTags.SHIELD)
 
         getOrCreateTagBuilder(ItemTags.DYEABLE)
             .add(CustomArmorItems.SUEDE_HELMET)
