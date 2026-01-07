@@ -61,8 +61,8 @@
 			"scale": [0.25, 0.25, 0.25]
 		},
 		"gui": {
-			"rotation": [0, 180, 0],
-			"translation": [0, -2, 0],
+			"rotation": [15, 155, 5],
+			"translation": [0.5, -1.5, 0],
 			"scale": [0.65, 0.65, 0.65]
 		},
 		"head": {
@@ -73,7 +73,7 @@
 			"scale": [0.55, 0.55, 0.55]
 		},
 		"on_shelf": {
-			"rotation": [0, 180, 0]
+			"rotation": [0, -180, 0]
 		}
 	},
 	"groups": [

@@ -58,6 +58,7 @@
     "phasing.BlockCollisionSpliteratorBlockPhasingMixin",
     "phasing.LivingEntityBlockPhasingMixin",
     "phasing.LivingEntityEntityPhasingMixin",
+    "player.PlayerEntityDisableShieldMixin",
     "player.PlayerEntityDungeonLevelMixin",
     "player.PlayerEntityDungeonSeedMixin",
     "projectile.PersistentProjectileEntityDamageMixin",
