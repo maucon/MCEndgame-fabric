@@ -56,7 +56,8 @@ object CustomToolItems {
                 BlocksAttacksComponent(
                     0.25F,
                     1.0F,
-                    listOf(BlocksAttacksComponent.DamageReduction(90.0F, Optional.empty(), 0.0F, 1.0F)), BlocksAttacksComponent.ItemDamage(3.0F, 1.0F, 1.0F),
+                    listOf(BlocksAttacksComponent.DamageReduction(90.0F, Optional.empty(), 0.0F, 1.0F)),
+                    BlocksAttacksComponent.ItemDamage(3.0F, 1.0F, 1.0F),
                     Optional.of(DamageTypeTags.BYPASSES_SHIELD),
                     Optional.of(SoundEvents.ITEM_SHIELD_BLOCK),
                     Optional.of(SoundEvents.ITEM_SHIELD_BREAK),
