@@ -106,7 +106,7 @@ public abstract class LivingEntityDamageMixin {
         amount -= blockedAmount;
         boolean bl2 = bl = blockedAmount > 0.0f;
         ///////////////////////////////////////////////////////////////////////////////////
-        var shieldBlocked = bl && this_.getActiveItem().get(DataComponentTypes.BLOCKS_ATTACKS) != null;
+        var shieldBlocked = bl;
         ///////////////////////////////////////////////////////////////////////////////////
 
         if (source.isIn(DamageTypeTags.IS_FREEZING) && this_.getType().isIn(EntityTypeTags.FREEZE_HURTS_EXTRA_TYPES)) {
