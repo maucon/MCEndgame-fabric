@@ -105,9 +105,6 @@ public abstract class LivingEntityDamageMixin {
         float blockedAmount = this_.getDamageBlockedAmount(world, source, amount);
         amount -= blockedAmount;
         boolean bl2 = bl = blockedAmount > 0.0f;
-        ///////////////////////////////////////////////////////////////////////////////////
-        var shieldBlocked = bl && this_.getActiveItem().get(DataComponentTypes.BLOCKS_ATTACKS) != null;
-        ///////////////////////////////////////////////////////////////////////////////////
 
         if (source.isIn(DamageTypeTags.IS_FREEZING) && this_.getType().isIn(EntityTypeTags.FREEZE_HURTS_EXTRA_TYPES)) {
             amount *= 5.0f;
@@ -144,7 +141,7 @@ public abstract class LivingEntityDamageMixin {
 
         damageCalculationConfig.getVanillaMoreDamage().addAll(vanillaMoreDamage);
         damageCalculationConfig.getVanillaMoreDamageTaken().addAll(vanillaMoreDamageTaken);
-        damageCalculationConfig.setShieldBlocked(shieldBlocked);
+        damageCalculationConfig.setShieldBlocked(bl);
 
         var result = DamageService.INSTANCE.calculateFinalDamage(this_, world, extendedSource, amount);
         if (!result.isApplying()) {
