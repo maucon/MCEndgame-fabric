@@ -42,6 +42,12 @@ enum class Sword(
     ),
     SERPENTS_FANG(
         CustomToolItems.SERPENTS_FANG,
+    ),
+    NIGHTREAVER(
+        CustomToolItems.NIGHTREAVER,
+    ),
+    RADIANT_DAWN(
+        CustomToolItems.RADIANT_DAWN,
     );
 
     override val slot = AttributeModifierSlot.HAND

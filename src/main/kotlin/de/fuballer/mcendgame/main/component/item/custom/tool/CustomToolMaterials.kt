@@ -36,4 +36,20 @@ object CustomToolMaterials {
         22,
         ItemTags.REPAIRS_NETHERITE_ARMOR,
     )
+    val NIGHTREAVER = ToolMaterialUtil.of(
+        BlockTags.INCORRECT_FOR_NETHERITE_TOOL,
+        2031,
+        0.0F,
+        0.0F,
+        22,
+        ItemTags.REPAIRS_NETHERITE_ARMOR,
+    )
+    val RADIANT_DAWN = ToolMaterialUtil.of(
+        BlockTags.INCORRECT_FOR_NETHERITE_TOOL,
+        2031,
+        0.0F,
+        0.0F,
+        22,
+        ItemTags.REPAIRS_NETHERITE_ARMOR,
+    )
 }

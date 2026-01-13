@@ -21,6 +21,8 @@ class CustomItemTagProvider(
             .add(CustomToolItems.TWINFIRE)
             .add(CustomToolItems.BLOODHARVEST)
             .add(CustomToolItems.SERPENTS_FANG)
+            .add(CustomToolItems.NIGHTREAVER)
+            .add(CustomToolItems.RADIANT_DAWN)
 
         getOrCreateTagBuilder(ItemTags.AXES)
             .add(CustomToolItems.FATESPLITTER)
