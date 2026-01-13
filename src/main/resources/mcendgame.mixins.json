@@ -33,6 +33,7 @@
     "filter.ItemEntityFilterMixin",
     "goal.BowAttackGoalAccessor",
     "goal.BowAttackGoalMixin",
+    "goal.LookAtEntityGoalPredicateMixin",
     "item.ImmuneItemEntityMixin",
     "item.ItemStackDamageMixin",
     "item.bow.BowItemDrawSpeedMixin",

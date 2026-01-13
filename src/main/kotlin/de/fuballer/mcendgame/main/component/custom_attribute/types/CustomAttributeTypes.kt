@@ -39,6 +39,7 @@ object CustomAttributeTypes {
         CustomAttributeType("more_projectile_damage", AttributeFormats.PERCENT_ROLL, AttributeFormats.PERCENT_BOUNDS, AttributeAffinities.BENEFICIAL, SignBasedKeywords.MORE)
     val MORE_BACKSTAB_DAMAGE =
         CustomAttributeType("more_backstab_damage", AttributeFormats.PERCENT_ROLL, AttributeFormats.PERCENT_BOUNDS, AttributeAffinities.BENEFICIAL, SignBasedKeywords.MORE)
+    val CRITICAL_HIT_MULTIPLIER = CustomAttributeType("critical_hit_multiplier", AttributeFormats.SIGNED_PERCENT_ROLL, AttributeFormats.PERCENT_BOUNDS, AttributeAffinities.BENEFICIAL)
 
     // BOW
     val BOW_PULL_TICKS = CustomAttributeType("bow_pull_ticks", AttributeFormats.SIGNED_INT_ROLL, AttributeFormats.INT_BOUNDS, AttributeAffinities.DETRIMENTAL)
@@ -188,6 +189,16 @@ object CustomAttributeTypes {
         "increased_damage_while_shield_disabled", AttributeFormats.SIGNED_PERCENT_ROLL, AttributeFormats.PERCENT_BOUNDS,
         AttributeAffinities.BENEFICIAL, SignBasedKeywords.INCREASED
     )
+
+    val INCREASED_MOVEMENT_SPEED_ON_KILL = CustomAttributeType(
+        "increased_movement_speed_on_kill",
+        AttributeFormats.SIGNED_PERCENT_AND_INT_ROLL,
+        AttributeFormats.PERCENT_AND_INT_BOUNDS,
+        AttributeAffinities.BENEFICIAL_CONDITIONAL_BENEFICIAL,
+        SignBasedKeywords.INCREASED
+    )
+
+    val STEALTH = CustomAttributeType("stealth", AttributeFormats.EMPTY_ROLL, AttributeFormats.EMPTY_BOUNDS, AttributeAffinities.BENEFICIAL)
 
     // for use on enemies (don't use for players)
     val DROP_INCREASED_LOOT =

@@ -1,6 +1,7 @@
 package de.fuballer.mcendgame.main.component.item.custom.tool.item
 
 import de.fuballer.mcendgame.main.component.custom_attribute.data.DoubleBounds
+import de.fuballer.mcendgame.main.component.custom_attribute.data.IntBounds
 import de.fuballer.mcendgame.main.component.custom_attribute.data.RollableCustomAttribute
 import de.fuballer.mcendgame.main.component.custom_attribute.types.CustomAttributeTypes
 import de.fuballer.mcendgame.main.component.item.custom.UniqueAttributesItem
@@ -10,7 +11,9 @@ class Nightreaver(
     settings: Settings,
 ) : UniqueAttributesItem(settings) {
     override fun getCustomAttributes() = listOf(
-        RollableCustomAttribute(CustomAttributeTypes.DODGE, 0, DoubleBounds(0.05, 0.08)),
+        RollableCustomAttribute(CustomAttributeTypes.CRITICAL_HIT_MULTIPLIER, 0, DoubleBounds(0.15, 0.25)),
+        RollableCustomAttribute(CustomAttributeTypes.INCREASED_MOVEMENT_SPEED_ON_KILL, 0, DoubleBounds(0.2, 0.3), IntBounds(3, 3)),
+        RollableCustomAttribute(CustomAttributeTypes.STEALTH, 0),
     )
 
     override fun getAttributeModifierSlot() = AttributeModifierSlot.HAND

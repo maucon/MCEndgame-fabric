@@ -169,6 +169,7 @@
   "attribute.mcendgame.increased_projectile_damage": "%s%% %s Projectile Damage",
   "attribute.mcendgame.more_projectile_damage": " %s%% %s Projectile Damage",
   "attribute.mcendgame.more_backstab_damage": " %s%% %s Backstab Damage",
+  "attribute.mcendgame.critical_hit_multiplier": "%s%% Critical Hit Multiplier",
   "attribute.mcendgame.increased_damage_against_full_health": "%s%% %s Damage against Full Health Enemies",
   "attribute.mcendgame.increased_damage_while_low_health": "%s%% %s Damage while Low Health",
   "attribute.mcendgame.more_damage_taken_while_high_health": " %s%% %s Damage taken while High Health",
@@ -218,6 +219,8 @@
   "attribute.mcendgame.movement_speed_modifiers_affect_damage": " Modifiers to Movement Speed also affect Damage at %s%% Effectiveness",
   "attribute.mcendgame.shield_disabled_on_blocking_hit": " Blocking a Hit disables your Shield for %ss",
   "attribute.mcendgame.increased_damage_while_shield_disabled": "%s%% %s Damage while your Shield is disabled",
+  "attribute.mcendgame.increased_movement_speed_on_kill": "%s%% %s Movement Speed for %ss on Kill",
+  "attribute.mcendgame.stealth": " Stealth",
 
   "effect.mcendgame.fury": "Fury",
   "effect.mcendgame.resilience": "Resilience",
