@@ -221,6 +221,7 @@
   "attribute.mcendgame.increased_damage_while_shield_disabled": "%s%% %s Damage while your Shield is disabled",
   "attribute.mcendgame.increased_movement_speed_on_kill": "%s%% %s Movement Speed for %ss on Kill",
   "attribute.mcendgame.stealth": " Stealth",
+  "attribute.mcendgame.more_damage_against_isolated": " %s%% %s Damage against Isolated Targets",
 
   "effect.mcendgame.fury": "Fury",
   "effect.mcendgame.resilience": "Resilience",

@@ -199,6 +199,8 @@ object CustomAttributeTypes {
     )
 
     val STEALTH = CustomAttributeType("stealth", AttributeFormats.EMPTY_ROLL, AttributeFormats.EMPTY_BOUNDS, AttributeAffinities.BENEFICIAL)
+    val MORE_DAMAGE_AGAINST_ISOLATED =
+        CustomAttributeType("more_damage_against_isolated", AttributeFormats.PERCENT_ROLL, AttributeFormats.PERCENT_BOUNDS, AttributeAffinities.BENEFICIAL, SignBasedKeywords.MORE)
 
     // for use on enemies (don't use for players)
     val DROP_INCREASED_LOOT =
