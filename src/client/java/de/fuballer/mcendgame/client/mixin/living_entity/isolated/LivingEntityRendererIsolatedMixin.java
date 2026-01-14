@@ -1,4 +1,4 @@
-package de.fuballer.mcendgame.client.mixin.living_entity;
+package de.fuballer.mcendgame.client.mixin.living_entity.isolated;
 
 import de.fuballer.mcendgame.client.accessor.LivingEntityRenderStateIsolatedAccessor;
 import de.fuballer.mcendgame.main.component.custom_attribute.CustomAttributeUtil;
