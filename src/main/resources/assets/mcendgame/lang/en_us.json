@@ -222,6 +222,8 @@
   "attribute.mcendgame.increased_movement_speed_on_kill": "%s%% %s Movement Speed for %ss on Kill",
   "attribute.mcendgame.stealth": " Stealth",
   "attribute.mcendgame.more_damage_against_isolated": " %s%% %s Damage against Isolated Targets",
+  "attribute.mcendgame.heal_nearby_allies_on_hit": " Heal Allies within %s blocks for %s%% of Heal Power on Hit",
+  "attribute.mcendgame.heal_power_per_elemental_damage": " Gain %s%% of Elemental Damage as Heal Power",
 
   "effect.mcendgame.fury": "Fury",
   "effect.mcendgame.resilience": "Resilience",

@@ -208,6 +208,15 @@ object CustomAttributeTypes {
     val DROP_MORE_LOOT =
         CustomAttributeType("drop_more_loot", AttributeFormats.SIGNED_PERCENT_ROLL, AttributeFormats.PERCENT_BOUNDS, AttributeAffinities.EMPTY, SignBasedKeywords.MORE)
 
+    val HEAL_NEARBY_ALLIES_ON_HIT = CustomAttributeType(
+        "heal_nearby_allies_on_hit",
+        AttributeFormats.INT_AND_PERCENT_ROLL,
+        AttributeFormats.INT_AND_PERCENT_BOUNDS,
+        AttributeAffinities.BENEFICIAL_CONDITIONAL_BENEFICIAL
+    )
+    val HEAL_POWER_PER_ELEMENTAL_DAMAGE =
+        CustomAttributeType("heal_power_per_elemental_damage", AttributeFormats.PERCENT_ROLL, AttributeFormats.PERCENT_BOUNDS, AttributeAffinities.BENEFICIAL)
+
     // region get by key
     fun getByKey(key: String): CustomAttributeType {
         return attributeTypes[key] ?: ERROR
