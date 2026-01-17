@@ -208,8 +208,8 @@ object CustomAttributeTypes {
     val DROP_MORE_LOOT =
         CustomAttributeType("drop_more_loot", AttributeFormats.SIGNED_PERCENT_ROLL, AttributeFormats.PERCENT_BOUNDS, AttributeAffinities.EMPTY, SignBasedKeywords.MORE)
 
-    val HEAL_NEARBY_ALLIES_ON_HIT = CustomAttributeType(
-        "heal_nearby_allies_on_hit",
+    val HEAL_NEARBY_ALLIES_ON_MELEE_HIT = CustomAttributeType(
+        "heal_nearby_allies_on_melee_hit",
         AttributeFormats.INT_AND_PERCENT_ROLL,
         AttributeFormats.INT_AND_PERCENT_BOUNDS,
         AttributeAffinities.BENEFICIAL_CONDITIONAL_BENEFICIAL
