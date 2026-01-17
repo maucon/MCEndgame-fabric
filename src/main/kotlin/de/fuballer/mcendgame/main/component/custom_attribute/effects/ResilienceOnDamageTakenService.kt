@@ -13,6 +13,8 @@ import kotlin.math.min
 class ResilienceOnDamageTakenService {
     @EventSubscriber
     fun on(event: LivingEntityDamagedEvent) {
+        if (event.amount <= 0) return
+
         val damaged = event.damaged
         val attributes = damaged.getAllCustomAttributes()[CustomAttributeTypes.RESILIENCE_ON_DAMAGE_TAKEN] ?: return
 

@@ -19,6 +19,8 @@ import net.minecraft.sound.SoundEvents
 class ExplodeWhenTakingDamageService {
     @EventSubscriber
     fun on(event: LivingEntityDamagedEvent) {
+        if (event.amount <= 0) return
+
         val damaged = event.damaged
         val serverWorld = damaged.world as? ServerWorld ?: return
         val attributes = damaged.getAllCustomAttributes()[CustomAttributeTypes.EXPLODE_WHEN_TAKING_DAMAGE] ?: return
