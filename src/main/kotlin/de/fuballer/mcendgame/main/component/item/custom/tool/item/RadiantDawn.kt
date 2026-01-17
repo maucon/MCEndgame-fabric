@@ -18,5 +18,5 @@ class RadiantDawn(
         RollableCustomAttribute(VanillaAttributeTypes.INCREASED_ENTITY_INTERACTION_RANGE, 0, DoubleBounds(0.15, 0.15)),
     )
 
-    override fun getAttributeModifierSlot() = AttributeModifierSlot.HAND
+    override fun getAttributeModifierSlot() = AttributeModifierSlot.MAINHAND
 }
