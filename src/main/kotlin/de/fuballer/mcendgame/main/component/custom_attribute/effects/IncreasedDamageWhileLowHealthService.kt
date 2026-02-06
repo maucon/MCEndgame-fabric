@@ -28,8 +28,8 @@ class IncreasedDamageWhileLowHealthService {
         entity: LivingEntity,
         attributes: Map<CustomAttributeType, List<CustomAttribute>>,
     ): List<Double> {
-        val attributes = attributes[CustomAttributeTypes.INCREASED_DAMAGE_WHILE_LOW_HEALTH] ?: return listOf()
+        val attr = attributes[CustomAttributeTypes.INCREASED_DAMAGE_WHILE_LOW_HEALTH] ?: return listOf()
         if (!entity.isLowHealth()) return listOf()
-        return attributes.map { it.rolls[0].asDoubleRoll().getValue() }
+        return attr.map { it.rolls[0].asDoubleRoll().getValue() }
     }
 }

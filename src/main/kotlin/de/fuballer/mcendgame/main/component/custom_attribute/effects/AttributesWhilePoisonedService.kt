@@ -45,7 +45,7 @@ class AttributesWhilePoisonedService {
         attributes: Map<CustomAttributeType, List<CustomAttribute>>,
         attributeType: CustomAttributeType,
     ): List<Double> {
-        var attr = attributes[attributeType] ?: return listOf()
+        val attr = attributes[attributeType] ?: return listOf()
         return attr.map { it.rolls[0].asDoubleRoll().getValue() }
     }
 

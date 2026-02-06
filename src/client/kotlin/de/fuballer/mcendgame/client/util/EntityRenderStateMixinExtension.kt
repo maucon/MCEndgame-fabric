@@ -17,9 +17,9 @@ object EntityRenderStateMixinExtension {
         return accessor.`mcendgame$isWebbed`()
     }
 
-    fun LivingEntityRenderState.setIsolated(webbed: Boolean = true) {
+    fun LivingEntityRenderState.setIsolated(isolated: Boolean = true) {
         val accessor = this as LivingEntityRenderStateIsolatedAccessor
-        accessor.`mcendgame$setIsolated`(webbed)
+        accessor.`mcendgame$setIsolated`(isolated)
     }
 
     fun LivingEntityRenderState.isIsolated(): Boolean {

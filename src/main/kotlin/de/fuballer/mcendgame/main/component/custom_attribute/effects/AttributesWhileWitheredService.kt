@@ -17,7 +17,7 @@ class AttributesWhileWitheredService {
     fun on(cmd: DamageCalculationCommand) {
         val damager = cmd.damager as? LivingEntity ?: return
         if (!damager.hasStatusEffect(StatusEffects.WITHER)) return
-        cmd.increasedDamage.addAll(getDoubleValues(cmd.damagedAttributes, CustomAttributeTypes.INCREASED_DAMAGE_WHILE_WITHERED))
+        cmd.increasedDamage.addAll(getDoubleValues(cmd.damagerAttributes, CustomAttributeTypes.INCREASED_DAMAGE_WHILE_WITHERED))
     }
 
     @CommandHandler
@@ -30,7 +30,7 @@ class AttributesWhileWitheredService {
         attributes: Map<CustomAttributeType, List<CustomAttribute>>,
         attributeType: CustomAttributeType,
     ): List<Double> {
-        var attr = attributes[attributeType] ?: return listOf()
+        val attr = attributes[attributeType] ?: return listOf()
         return attr.map { it.rolls[0].asDoubleRoll().getValue() }
     }
 }
