@@ -2,8 +2,11 @@ package de.fuballer.mcendgame.main.component.custom_attribute.effects
 
 import de.fuballer.mcendgame.main.component.custom_attribute.CustomAttributeUtil.isLowHealth
 import de.fuballer.mcendgame.main.component.custom_attribute.CustomAttributesExtensions.asDoubleRoll
+import de.fuballer.mcendgame.main.component.custom_attribute.data.CustomAttribute
+import de.fuballer.mcendgame.main.component.custom_attribute.data.CustomAttributeType
 import de.fuballer.mcendgame.main.component.custom_attribute.types.CustomAttributeTypes
 import de.fuballer.mcendgame.main.component.damage.DamageCalculationCommand
+import de.fuballer.mcendgame.main.messaging.collectAttribute.CollectGenericIncreasedDamageCommand
 import de.maucon.mauconframework.command.CommandHandler
 import de.maucon.mauconframework.di.annotation.Injectable
 import net.minecraft.entity.LivingEntity
@@ -12,14 +15,21 @@ import net.minecraft.entity.LivingEntity
 class IncreasedDamageWhileLowHealthService {
     @CommandHandler
     fun on(cmd: DamageCalculationCommand) {
-        val livingDamager = cmd.damager as? LivingEntity ?: return
+        val damager = cmd.damager as? LivingEntity ?: return
+        cmd.increasedDamage.addAll(getIncreasedDamage(damager, cmd.damagerAttributes))
+    }
 
-        val attributes = cmd.damagerAttributes[CustomAttributeTypes.INCREASED_DAMAGE_WHILE_LOW_HEALTH] ?: return
-        if (!livingDamager.isLowHealth()) return
+    @CommandHandler
+    fun on(cmd: CollectGenericIncreasedDamageCommand) {
+        cmd.increased.addAll(getIncreasedDamage(cmd.entity, cmd.attributes))
+    }
 
-        attributes.forEach { attribute ->
-            val increasedDamage = attribute.rolls[0].asDoubleRoll().getValue()
-            cmd.increasedDamage.add(increasedDamage)
-        }
+    private fun getIncreasedDamage(
+        entity: LivingEntity,
+        attributes: Map<CustomAttributeType, List<CustomAttribute>>,
+    ): List<Double> {
+        val attr = attributes[CustomAttributeTypes.INCREASED_DAMAGE_WHILE_LOW_HEALTH] ?: return listOf()
+        if (!entity.isLowHealth()) return listOf()
+        return attr.map { it.rolls[0].asDoubleRoll().getValue() }
     }
 }

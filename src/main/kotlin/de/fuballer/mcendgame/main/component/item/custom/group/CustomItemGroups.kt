@@ -93,6 +93,8 @@ object CustomItemGroups {
             itemGroup.add(CustomToolItems.TWINFIRE.defaultStack)
             itemGroup.add(CustomToolItems.FATESPLITTER.defaultStack)
             itemGroup.add(CustomToolItems.SERPENTS_FANG.defaultStack)
+            itemGroup.add(CustomToolItems.NIGHTREAVER.defaultStack)
+            itemGroup.add(CustomToolItems.RADIANT_DAWN.defaultStack)
             itemGroup.add(CustomToolItems.WINDSTRING.defaultStack)
             itemGroup.add(CustomToolItems.HAILSTORM.defaultStack)
             itemGroup.add(CustomToolItems.DUSK_PIERCER.defaultStack)

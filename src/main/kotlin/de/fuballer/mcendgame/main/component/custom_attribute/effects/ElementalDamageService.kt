@@ -1,8 +1,11 @@
 package de.fuballer.mcendgame.main.component.custom_attribute.effects
 
 import de.fuballer.mcendgame.main.component.custom_attribute.CustomAttributesExtensions.asDoubleRoll
+import de.fuballer.mcendgame.main.component.custom_attribute.data.CustomAttribute
+import de.fuballer.mcendgame.main.component.custom_attribute.data.CustomAttributeType
 import de.fuballer.mcendgame.main.component.custom_attribute.types.CustomAttributeTypes
 import de.fuballer.mcendgame.main.component.damage.DamageCalculationCommand
+import de.fuballer.mcendgame.main.messaging.collectAttribute.CollectElementalDamageCommand
 import de.maucon.mauconframework.command.CommandHandler
 import de.maucon.mauconframework.di.annotation.Injectable
 
@@ -10,11 +13,18 @@ import de.maucon.mauconframework.di.annotation.Injectable
 class ElementalDamageService {
     @CommandHandler
     fun on(cmd: DamageCalculationCommand) {
-        val attributes = cmd.damagerAttributes[CustomAttributeTypes.ELEMENTAL_DAMAGE] ?: return
+        cmd.elementalDamage.addAll(getDamage(cmd.damagerAttributes))
+    }
 
-        attributes.forEach { attribute ->
-            val elementalDamage = attribute.rolls[0].asDoubleRoll().getValue()
-            cmd.elementalDamage.add(elementalDamage)
-        }
+    @CommandHandler
+    fun on(cmd: CollectElementalDamageCommand) {
+        cmd.flat.addAll(getDamage(cmd.attributes))
+    }
+
+    private fun getDamage(
+        attributes: Map<CustomAttributeType, List<CustomAttribute>>,
+    ): List<Double> {
+        val attr = attributes[CustomAttributeTypes.ELEMENTAL_DAMAGE] ?: return listOf()
+        return attr.map { it.rolls[0].asDoubleRoll().getValue() }
     }
 }

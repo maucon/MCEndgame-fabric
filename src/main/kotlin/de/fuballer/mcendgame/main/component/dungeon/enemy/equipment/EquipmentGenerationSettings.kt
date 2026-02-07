@@ -29,6 +29,8 @@ object EquipmentGenerationSettings {
         RandomOption(100, TaggedEquipment.forBothHands(Sword.TWINFIRE)),
         RandomOption(100, TaggedEquipment.forBothHands(Sword.BLOODHARVEST)),
         RandomOption(100, TaggedEquipment.forBothHands(Sword.SERPENTS_FANG)),
+        RandomOption(100, TaggedEquipment.forBothHands(Sword.NIGHTREAVER)),
+        RandomOption(100, TaggedEquipment.forBothHands(Sword.RADIANT_DAWN)),
         RandomOption(100, TaggedEquipment.forBothHands(Axe.FATESPLITTER)),
 
         RandomOption(100, TaggedEquipment(Helmet.ICEBORNE, EquipmentSlot.HEAD)),

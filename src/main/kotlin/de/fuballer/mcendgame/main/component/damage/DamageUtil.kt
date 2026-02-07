@@ -62,7 +62,7 @@ object DamageUtil {
         event: DamageCalculationCommand
     ): Double {
         var damageIncrease = 1 + event.increasedDamage.sum()
-        damageIncrease *= 1 + event.increasedAttackDamage.sum()
+        damageIncrease += event.increasedAttackDamage.sum()
 
         var moreDamage = event.moreDamage.fold(1.0) { a, b -> a * (b + 1) }
         moreDamage *= event.moreAttackDamage.fold(1.0) { a, b -> a * (b + 1) }
@@ -70,11 +70,11 @@ object DamageUtil {
         return damageIncrease * moreDamage
     }
 
-     fun calculateElementalDamageMultiplier(
+    fun calculateElementalDamageMultiplier(
         event: DamageCalculationCommand
     ): Double {
         var damageIncrease = 1 + event.increasedDamage.sum()
-        damageIncrease *= 1 + event.increasedElementalDamage.sum()
+        damageIncrease += event.increasedElementalDamage.sum()
 
         var moreDamage = event.moreDamage.fold(1.0) { a, b -> a * (b + 1) }
         moreDamage *= event.moreElementalDamage.fold(1.0) { a, b -> a * (b + 1) }
@@ -89,7 +89,6 @@ object DamageUtil {
         val moreDamage = event.moreDamage.fold(1.0) { a, b -> a * (b + 1) }
         return damageIncrease * moreDamage
     }
-
 
     fun calculateEnchantmentDamage(
         attacker: LivingEntity,

@@ -2,6 +2,7 @@ package de.fuballer.mcendgame.client.util
 
 import de.fuballer.mcendgame.client.accessor.LivingEntityRenderStateAccessor
 import de.fuballer.mcendgame.client.accessor.LivingEntityRenderStateGhostlyAccessor
+import de.fuballer.mcendgame.client.accessor.LivingEntityRenderStateIsolatedAccessor
 import de.fuballer.mcendgame.client.accessor.LivingEntityRenderStateWebbedAccessor
 import net.minecraft.client.render.entity.state.LivingEntityRenderState
 
@@ -14,6 +15,16 @@ object EntityRenderStateMixinExtension {
     fun LivingEntityRenderState.isWebbed(): Boolean {
         val accessor = this as LivingEntityRenderStateWebbedAccessor
         return accessor.`mcendgame$isWebbed`()
+    }
+
+    fun LivingEntityRenderState.setIsolated(isolated: Boolean = true) {
+        val accessor = this as LivingEntityRenderStateIsolatedAccessor
+        accessor.`mcendgame$setIsolated`(isolated)
+    }
+
+    fun LivingEntityRenderState.isIsolated(): Boolean {
+        val accessor = this as LivingEntityRenderStateIsolatedAccessor
+        return accessor.`mcendgame$isIsolated`()
     }
 
     fun LivingEntityRenderState.setHealth(health: Float) {

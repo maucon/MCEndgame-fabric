@@ -4,8 +4,8 @@ import de.fuballer.mcendgame.main.component.custom_attribute.CustomAttributesExt
 import de.fuballer.mcendgame.main.component.custom_attribute.CustomAttributesExtensions.asIntRoll
 import de.fuballer.mcendgame.main.component.custom_attribute.CustomAttributesExtensions.getAllCustomAttributes
 import de.fuballer.mcendgame.main.component.custom_attribute.types.CustomAttributeTypes
-import de.fuballer.mcendgame.main.util.extension.mixin.EntityMixinExtension.addTemporaryAttributeModifier
 import de.fuballer.mcendgame.main.messaging.misc.LivingEntityDodgedEvent
+import de.fuballer.mcendgame.main.util.extension.mixin.EntityMixinExtension.addTemporaryAttributeModifier
 import de.fuballer.mcendgame.main.util.minecraft.IdentifierUtil.defaultJava
 import de.maucon.mauconframework.di.annotation.Injectable
 import de.maucon.mauconframework.event.EventSubscriber
@@ -22,6 +22,8 @@ class IncreasedMovementSpeedAfterDodgingService {
         val entity = event.entity
 
         val customAttributes = entity.getAllCustomAttributes()[CustomAttributeTypes.INCREASED_MOVEMENT_SPEED_AFTER_DODGING] ?: return
+
+        // TODO #180 add each attribute separate (requires attributes to have ids)
         val movementSpeed = customAttributes.sumOf { it.rolls[0].asDoubleRoll().getValue() }
         val duration = customAttributes.maxOf { it.rolls[1].asIntRoll().getValue() } * 20
 

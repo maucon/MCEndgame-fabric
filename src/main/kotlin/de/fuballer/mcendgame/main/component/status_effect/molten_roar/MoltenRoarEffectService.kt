@@ -2,6 +2,7 @@ package de.fuballer.mcendgame.main.component.status_effect.molten_roar
 
 import de.fuballer.mcendgame.main.component.damage.DamageCalculationCommand
 import de.fuballer.mcendgame.main.component.status_effect.CustomStatusEffects
+import de.fuballer.mcendgame.main.messaging.collectAttribute.CollectGenericMoreDamageCommand
 import de.maucon.mauconframework.command.CommandHandler
 import de.maucon.mauconframework.di.annotation.Injectable
 import net.minecraft.entity.LivingEntity
@@ -14,7 +15,16 @@ class MoltenRoarEffectService {
     @CommandHandler
     fun on(cmd: DamageCalculationCommand) {
         val damager = cmd.damager as? LivingEntity ?: return
-        val amplifier = damager.getStatusEffect(CustomStatusEffects.MOLTEN_ROAR)?.amplifier ?: return
-        cmd.moreDamage.add(BASE_MORE_DAMAGE + (amplifier * MORE_DAMAGE_PER_AMPLIFIER))
+        getValue(damager)?.let { cmd.moreDamage.add(it) }
+    }
+
+    @CommandHandler
+    fun on(cmd: CollectGenericMoreDamageCommand) {
+        getValue(cmd.entity)?.let { cmd.more.add(it) }
+    }
+
+    private fun getValue(entity: LivingEntity): Double? {
+        val amplifier = entity.getStatusEffect(CustomStatusEffects.MOLTEN_ROAR)?.amplifier ?: return null
+        return BASE_MORE_DAMAGE + (amplifier * MORE_DAMAGE_PER_AMPLIFIER)
     }
 }

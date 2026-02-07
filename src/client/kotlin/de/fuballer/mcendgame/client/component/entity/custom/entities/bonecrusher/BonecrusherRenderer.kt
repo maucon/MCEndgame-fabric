@@ -1,5 +1,6 @@
 package de.fuballer.mcendgame.client.component.entity.custom.entities.bonecrusher
 
+import de.fuballer.mcendgame.client.component.entity.custom.feature.isolated.IsolatedGeoLayer
 import de.fuballer.mcendgame.main.component.entity.custom.entities.bonecrusher.BonecrusherEntity
 import net.minecraft.client.render.entity.EntityRendererFactory
 import net.minecraft.client.render.entity.state.LivingEntityRenderState
@@ -8,4 +9,8 @@ import software.bernie.geckolib.renderer.base.GeoRenderState
 
 class BonecrusherRenderer<R>(
     context: EntityRendererFactory.Context
-) : GeoEntityRenderer<BonecrusherEntity, R>(context, BonecrusherModel()) where R : LivingEntityRenderState, R : GeoRenderState
+) : GeoEntityRenderer<BonecrusherEntity, R>(context, BonecrusherModel()) where R : LivingEntityRenderState, R : GeoRenderState {
+    init {
+        addRenderLayer(IsolatedGeoLayer(this))
+    }
+}

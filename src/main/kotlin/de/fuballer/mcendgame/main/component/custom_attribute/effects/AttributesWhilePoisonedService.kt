@@ -1,9 +1,13 @@
 package de.fuballer.mcendgame.main.component.custom_attribute.effects
 
 import de.fuballer.mcendgame.main.component.custom_attribute.CustomAttributesExtensions.asDoubleRoll
+import de.fuballer.mcendgame.main.component.custom_attribute.data.CustomAttribute
+import de.fuballer.mcendgame.main.component.custom_attribute.data.CustomAttributeType
 import de.fuballer.mcendgame.main.component.custom_attribute.types.CustomAttributeTypes
 import de.fuballer.mcendgame.main.component.damage.DamageCalculationCommand
 import de.fuballer.mcendgame.main.component.damage.dodge.DodgeCalculationCommand
+import de.fuballer.mcendgame.main.messaging.collectAttribute.CollectElementalDamageCommand
+import de.fuballer.mcendgame.main.messaging.collectAttribute.CollectGenericIncreasedDamageCommand
 import de.maucon.mauconframework.command.CommandHandler
 import de.maucon.mauconframework.di.annotation.Injectable
 import net.minecraft.entity.LivingEntity
@@ -14,35 +18,35 @@ import kotlin.random.Random
 class AttributesWhilePoisonedService {
     @CommandHandler
     fun on(cmd: DamageCalculationCommand) {
-        offensive(cmd)
-        defensive(cmd)
-    }
+        if (cmd.damaged.hasStatusEffect(StatusEffects.POISON)) {
+            cmd.moreDamageTaken.addAll(getDoubleValues(cmd.damagedAttributes, CustomAttributeTypes.MORE_DAMAGE_TAKEN_WHILE_POISONED))
+        }
 
-    private fun offensive(cmd: DamageCalculationCommand) {
         val damager = cmd.damager as? LivingEntity ?: return
         if (!damager.hasStatusEffect(StatusEffects.POISON)) return
 
-        var attributes = cmd.damagerAttributes[CustomAttributeTypes.INCREASED_DAMAGE_WHILE_POISONED] ?: return
-        attributes.forEach { attribute ->
-            val increasedDamage = attribute.rolls[0].asDoubleRoll().getValue()
-            cmd.increasedDamage.add(increasedDamage)
-        }
-
-        attributes = cmd.damagerAttributes[CustomAttributeTypes.INCREASED_ELEMENTAL_DAMAGE_WHILE_POISONED] ?: return
-        attributes.forEach { attribute ->
-            val increasedDamage = attribute.rolls[0].asDoubleRoll().getValue()
-            cmd.increasedElementalDamage.add(increasedDamage)
-        }
+        cmd.increasedDamage.addAll(getDoubleValues(cmd.damagerAttributes, CustomAttributeTypes.INCREASED_DAMAGE_WHILE_POISONED))
+        cmd.increasedElementalDamage.addAll(getDoubleValues(cmd.damagerAttributes, CustomAttributeTypes.INCREASED_ELEMENTAL_DAMAGE_WHILE_POISONED))
     }
 
-    private fun defensive(cmd: DamageCalculationCommand) {
-        if (!cmd.damaged.hasStatusEffect(StatusEffects.POISON)) return
+    @CommandHandler
+    fun on(cmd: CollectGenericIncreasedDamageCommand) {
+        if (!cmd.entity.hasStatusEffect(StatusEffects.POISON)) return
+        cmd.increased.addAll(getDoubleValues(cmd.attributes, CustomAttributeTypes.INCREASED_DAMAGE_WHILE_POISONED))
+    }
 
-        val attributes = cmd.damagedAttributes[CustomAttributeTypes.MORE_DAMAGE_TAKEN_WHILE_POISONED] ?: return
-        attributes.forEach { attribute ->
-            val moreDamage = attribute.rolls[0].asDoubleRoll().getValue()
-            cmd.moreDamageTaken.add(moreDamage)
-        }
+    @CommandHandler
+    fun on(cmd: CollectElementalDamageCommand) {
+        if (!cmd.entity.hasStatusEffect(StatusEffects.POISON)) return
+        cmd.increased.addAll(getDoubleValues(cmd.attributes, CustomAttributeTypes.INCREASED_ELEMENTAL_DAMAGE_WHILE_POISONED))
+    }
+
+    private fun getDoubleValues(
+        attributes: Map<CustomAttributeType, List<CustomAttribute>>,
+        attributeType: CustomAttributeType,
+    ): List<Double> {
+        val attr = attributes[attributeType] ?: return listOf()
+        return attr.map { it.rolls[0].asDoubleRoll().getValue() }
     }
 
     @CommandHandler
