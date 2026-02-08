@@ -9,6 +9,8 @@ import net.minecraft.component.type.AttributeModifierSlot
 import net.minecraft.entity.data.TrackedDataHandler
 import net.minecraft.network.codec.PacketCodec
 import net.minecraft.network.codec.PacketCodecs
+import net.minecraft.util.Uuids
+import java.util.*
 
 data class RollableCustomAttribute(
     val type: AttributeType,
@@ -35,13 +37,15 @@ data class CustomAttribute(
     val tier: Int = 0,
     val rolls: List<AttributeRoll<*>> = listOf(),
     val slot: AttributeModifierSlot = AttributeModifierSlot.ANY,
+    val id: UUID = UUID.randomUUID(),
 ) {
     constructor(
         type: AttributeType,
         tier: Int = 0,
         roll: AttributeRoll<*>,
         slot: AttributeModifierSlot = AttributeModifierSlot.ANY,
-    ) : this(type, tier, listOf(roll), slot)
+        id: UUID = UUID.randomUUID(),
+    ) : this(type, tier, listOf(roll), slot, id)
 
     companion object {
         val CODEC: Codec<CustomAttribute> =
@@ -51,7 +55,10 @@ data class CustomAttribute(
                     Codec.INT.fieldOf("tier").forGetter(CustomAttribute::tier),
                     AttributeRoll.CODEC.listOf().fieldOf("rolls").forGetter(CustomAttribute::rolls),
                     AttributeModifierSlot.CODEC.fieldOf("slot").forGetter(CustomAttribute::slot),
-                ).apply(instance, ::CustomAttribute)
+                    Uuids.CODEC.optionalFieldOf("id").forGetter { Optional.of(it.id) },
+                ).apply(instance) { type, tier, rolls, slot, idOpt ->
+                    CustomAttribute(type, tier, rolls, slot, idOpt.orElseGet { UUID.randomUUID() })
+                }
             }
 
         val PACKET_CODEC: PacketCodec<ByteBuf, CustomAttribute> = PacketCodecs.codec(CODEC)
@@ -69,7 +76,7 @@ data class CustomAttribute(
 
     fun canBeEnhanced() = enhanceableRollCount() > 0
 
-    fun getRerolled() = CustomAttribute(type, tier, rolls.map { it.getRerolled() }, slot)
+    fun getRerolled() = CustomAttribute(type, tier, rolls.map { it.getRerolled() }, slot, id)
 
     fun getAffinityBasedRollPercentage(): Double {
         if (rolls.isEmpty()) return AttributeRoll.DEFAULT_AFFINITY_BASED_ROLL_PERCENTAGE
@@ -86,7 +93,7 @@ data class CustomAttribute(
         val newRolls = rolls.toMutableList()
         newRolls[chosenRollIndex] = rolls[chosenRollIndex].getEnhanced(value, enhancementType, beneficial)
 
-        return CustomAttribute(type, tier, newRolls, slot)
+        return CustomAttribute(type, tier, newRolls, slot, id)
     }
 
     fun getNonZeroRangePercentRollCount() = rolls.count { it.hasNonZeroRange() && it.hasPercentRoll() }
@@ -101,6 +108,6 @@ data class CustomAttribute(
             if (!it.hasNonZeroRange()) it
             else it.getWithPercentRoll(percentages[percentagesUsed++])
         }
-        return CustomAttribute(type, tier, newRolls, slot)
+        return CustomAttribute(type, tier, newRolls, slot, id)
     }
 }
