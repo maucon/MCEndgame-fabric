@@ -25,7 +25,7 @@ class IncreasedMovementSpeedOnKillService {
         customAttributes.forEach { customAttribute ->
             val movementSpeed = customAttribute.rolls[0].asDoubleRoll().getValue()
             val duration = customAttribute.rolls[1].asIntRoll().getValue() * 20
-            val identifier = defaultJava(attributeModifierIdentifierBase)
+            val identifier = defaultJava(attributeModifierIdentifierBase + customAttribute.id)
 
             killer.addTemporaryAttributeModifier(
                 EntityAttributes.MOVEMENT_SPEED,

@@ -55,8 +55,10 @@ data class CustomAttribute(
                     Codec.INT.fieldOf("tier").forGetter(CustomAttribute::tier),
                     AttributeRoll.CODEC.listOf().fieldOf("rolls").forGetter(CustomAttribute::rolls),
                     AttributeModifierSlot.CODEC.fieldOf("slot").forGetter(CustomAttribute::slot),
-                    Uuids.CODEC.optionalFieldOf("id", UUID.randomUUID()).forGetter(CustomAttribute::id),
-                ).apply(instance, ::CustomAttribute)
+                    Uuids.CODEC.optionalFieldOf("id").forGetter { Optional.of(it.id) },
+                ).apply(instance) { type, tier, rolls, slot, idOpt ->
+                    CustomAttribute(type, tier, rolls, slot, idOpt.orElseGet { UUID.randomUUID() })
+                }
             }
 
         val PACKET_CODEC: PacketCodec<ByteBuf, CustomAttribute> = PacketCodecs.codec(CODEC)
