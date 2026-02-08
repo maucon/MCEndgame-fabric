@@ -11,11 +11,10 @@ import de.maucon.mauconframework.di.annotation.Injectable
 import de.maucon.mauconframework.event.EventSubscriber
 import net.minecraft.entity.attribute.EntityAttributeModifier
 import net.minecraft.entity.attribute.EntityAttributes
-import net.minecraft.util.Identifier
 
 @Injectable
 class IncreasedMovementSpeedAfterDodgingService {
-    private val attributeModifierIdentifier: Identifier = defaultJava("increased_movement_speed_after_dodging")
+    private val attributeModifierIdentifierBase = "increased_movement_speed_after_dodging_"
 
     @EventSubscriber
     fun on(event: LivingEntityDodgedEvent) {
@@ -23,16 +22,18 @@ class IncreasedMovementSpeedAfterDodgingService {
 
         val customAttributes = entity.getAllCustomAttributes()[CustomAttributeTypes.INCREASED_MOVEMENT_SPEED_AFTER_DODGING] ?: return
 
-        // TODO #180 add each attribute separate (requires attributes to have ids)
-        val movementSpeed = customAttributes.sumOf { it.rolls[0].asDoubleRoll().getValue() }
-        val duration = customAttributes.maxOf { it.rolls[1].asIntRoll().getValue() } * 20
+        customAttributes.forEach { customAttribute ->
+            val movementSpeed = customAttribute.rolls[0].asDoubleRoll().getValue()
+            val duration = customAttribute.rolls[1].asIntRoll().getValue() * 20
+            val identifier = defaultJava(attributeModifierIdentifierBase + customAttribute.id)
 
-        entity.addTemporaryAttributeModifier(
-            EntityAttributes.MOVEMENT_SPEED,
-            attributeModifierIdentifier,
-            duration,
-            movementSpeed,
-            EntityAttributeModifier.Operation.ADD_MULTIPLIED_BASE
-        )
+            entity.addTemporaryAttributeModifier(
+                EntityAttributes.MOVEMENT_SPEED,
+                identifier,
+                duration,
+                movementSpeed,
+                EntityAttributeModifier.Operation.ADD_MULTIPLIED_BASE
+            )
+        }
     }
 }
