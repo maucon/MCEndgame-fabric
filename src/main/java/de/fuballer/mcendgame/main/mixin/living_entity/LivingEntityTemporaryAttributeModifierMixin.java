@@ -29,7 +29,6 @@ public class LivingEntityTemporaryAttributeModifierMixin implements LivingEntity
         if (entity.age % checkInterval != 0) return;
 
         var iterator = toRemoveModifiers.object2IntEntrySet().iterator();
-
         while (iterator.hasNext()) {
             var entry = iterator.next();
 
