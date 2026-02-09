@@ -45,7 +45,7 @@ class DungeonWorldService(
         dungeonType: DungeonType,
     ): ServerWorld {
         val dungeonWorld = RuntimeConfig.FANTASY
-            .openTemporaryWorld(DungeonWorldSettings.generateIdentifier(), DungeonWorldSettings.WORLD_CONFIG)
+            .openTemporaryWorld(DungeonWorldSettings.generateIdentifier(), DungeonWorldSettings.getWorldConfig())
             .asWorld()
 
         dungeonWorld.setDungeonLevel(dungeonLevel)
