@@ -34,10 +34,7 @@ class DungeonLeaveService {
         player.setInsideDungeon(false)
 
         val world = player.world as? ServerWorld ?: return@register
-        if (world.isDungeonWorld()) {
-            teleportToDungeonExitPos(player, world)
-            return@register
-        }
+        if (world.isDungeonWorld() && teleportToDungeonExitPos(player, world)) return@register
 
         val respawnTarget = player.getRespawnTarget(true) {}
         player.teleportTo(respawnTarget)
@@ -51,9 +48,9 @@ class DungeonLeaveService {
     private fun teleportToDungeonExitPos(
         player: PlayerEntity,
         dungeonWorld: ServerWorld,
-    ) {
+    ): Boolean {
         val exitPos = dungeonWorld.getDungeonExitPos()
-        val targetWorld = RuntimeConfig.SERVER.getWorld(exitPos.dimension) ?: return
+        val targetWorld = RuntimeConfig.SERVER.getWorld(exitPos.dimension) ?: return false
 
         val teleportTarget = TeleportTarget(
             targetWorld,
@@ -64,5 +61,6 @@ class DungeonLeaveService {
         ) {}
 
         player.teleportTo(teleportTarget)
+        return true
     }
 }
