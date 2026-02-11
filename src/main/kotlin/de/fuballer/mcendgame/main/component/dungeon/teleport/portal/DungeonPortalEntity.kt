@@ -1,4 +1,4 @@
-package de.fuballer.mcendgame.main.component.dungeon.portal
+package de.fuballer.mcendgame.main.component.dungeon.teleport.portal
 
 import de.fuballer.mcendgame.main.component.portal.PortalEntity
 import de.fuballer.mcendgame.main.component.portal.teleport.TeleportLocation

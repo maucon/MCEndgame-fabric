@@ -1,0 +1,68 @@
+package de.fuballer.mcendgame.main.component.dungeon.teleport
+
+import de.fuballer.mcendgame.main.configuration.RuntimeConfig
+import de.fuballer.mcendgame.main.messaging.misc.PlayerAfterDimensionChangeEvent
+import de.fuballer.mcendgame.main.util.extension.BlockPosExtension.toVec3d
+import de.fuballer.mcendgame.main.util.extension.WorldExtension.isDungeonWorld
+import de.fuballer.mcendgame.main.util.extension.mixin.PlayerEntityMixinExtension.isInsideDungeon
+import de.fuballer.mcendgame.main.util.extension.mixin.PlayerEntityMixinExtension.setInsideDungeon
+import de.fuballer.mcendgame.main.util.extension.mixin.WorldMixinExtension.getDungeonExitPos
+import de.maucon.mauconframework.di.annotation.Injectable
+import de.maucon.mauconframework.event.EventSubscriber
+import de.maucon.mauconframework.initializer.Initializer
+import net.fabricmc.fabric.api.entity.event.v1.ServerPlayerEvents
+import net.fabricmc.fabric.api.networking.v1.ServerPlayConnectionEvents
+import net.minecraft.entity.player.PlayerEntity
+import net.minecraft.server.world.ServerWorld
+import net.minecraft.util.math.Vec3d
+import net.minecraft.world.TeleportTarget
+
+@Injectable
+class DungeonLeaveService {
+    @Initializer
+    fun afterPlayerRespawn() = ServerPlayerEvents.AFTER_RESPAWN.register { oldPlayer, newPlayer, alive ->
+        val oldWorld = oldPlayer.world as? ServerWorld ?: return@register
+        if (!oldWorld.isDungeonWorld()) return@register
+
+        teleportToDungeonExitPos(newPlayer, oldWorld)
+    }
+
+    @Initializer
+    fun onPlayerJoin() = ServerPlayConnectionEvents.JOIN.register { handler, _, _ ->
+        val player = handler.player
+        if (!player.isInsideDungeon()) return@register
+        player.setInsideDungeon(false)
+
+        val world = player.world as? ServerWorld ?: return@register
+        if (world.isDungeonWorld()) {
+            teleportToDungeonExitPos(player, world)
+            return@register
+        }
+
+        val respawnTarget = player.getRespawnTarget(true) {}
+        player.teleportTo(respawnTarget)
+    }
+
+    @EventSubscriber
+    fun on(event: PlayerAfterDimensionChangeEvent) {
+        event.player.setInsideDungeon(event.newWorld.isDungeonWorld())
+    }
+
+    private fun teleportToDungeonExitPos(
+        player: PlayerEntity,
+        dungeonWorld: ServerWorld,
+    ) {
+        val exitPos = dungeonWorld.getDungeonExitPos()
+        val targetWorld = RuntimeConfig.SERVER.getWorld(exitPos.dimension) ?: return
+
+        val teleportTarget = TeleportTarget(
+            targetWorld,
+            exitPos.pos.toVec3d().add(0.5, 1.0, 0.5),
+            Vec3d.ZERO,
+            0.0F,
+            0.0F,
+        ) {}
+
+        player.teleportTo(teleportTarget)
+    }
+}

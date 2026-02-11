@@ -3,6 +3,7 @@ package de.fuballer.mcendgame.main.accessor;
 import de.fuballer.mcendgame.main.component.dungeon.type.DungeonType;
 import de.fuballer.mcendgame.main.component.item.custom.aspect.AspectItem;
 import net.minecraft.entity.player.PlayerEntity;
+import net.minecraft.util.math.GlobalPos;
 
 import java.util.Map;
 
@@ -34,4 +35,8 @@ public interface DungeonWorldAccessor {
     void mcendgame$setDungeonType(DungeonType type);
 
     DungeonType mcendgame$getDungeonType();
+
+    void mcendgame$setDungeonExitPos(GlobalPos pos);
+
+    GlobalPos mcendgame$getDungeonExitPos();
 }

@@ -5,6 +5,9 @@ import de.fuballer.mcendgame.main.component.dungeon.type.DungeonType;
 import de.fuballer.mcendgame.main.component.item.custom.aspect.AspectItem;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.server.world.ServerWorld;
+import net.minecraft.util.math.BlockPos;
+import net.minecraft.util.math.GlobalPos;
+import net.minecraft.world.World;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.Unique;
 
@@ -29,6 +32,8 @@ public class DungeonWorldMixin implements DungeonWorldAccessor {
     private Map<AspectItem, Integer> aspects = new HashMap<>();
     @Unique
     private DungeonType dungeonType = DungeonType.STRONGHOLD;
+    @Unique
+    private GlobalPos dungeonExitPos = new GlobalPos(World.OVERWORLD, new BlockPos(0, 0, 0));
 
     @Override
     public boolean mcendgame$isCompleted() {
@@ -98,5 +103,15 @@ public class DungeonWorldMixin implements DungeonWorldAccessor {
     @Override
     public DungeonType mcendgame$getDungeonType() {
         return dungeonType;
+    }
+
+    @Override
+    public void mcendgame$setDungeonExitPos(GlobalPos pos) {
+        this.dungeonExitPos = pos;
+    }
+
+    @Override
+    public GlobalPos mcendgame$getDungeonExitPos() {
+        return dungeonExitPos;
     }
 }

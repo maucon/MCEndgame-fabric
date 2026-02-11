@@ -2,6 +2,7 @@ package de.fuballer.mcendgame.main.util.extension.mixin
 
 import de.fuballer.mcendgame.main.accessor.PlayerEntityDungeonLevelAccessor
 import de.fuballer.mcendgame.main.accessor.PlayerEntityDungeonSeedAccessor
+import de.fuballer.mcendgame.main.accessor.PlayerEntityInsideDungeonAccessor
 import de.fuballer.mcendgame.main.accessor.PlayerEntityMixinAccessor
 import de.fuballer.mcendgame.main.component.dungeon.level.PlayerDungeonLevel
 import de.fuballer.mcendgame.main.component.dungeon.seed.PlayerDungeonSeed
@@ -41,5 +42,15 @@ object PlayerEntityMixinExtension {
     fun PlayerEntity.wasLastAttackCritical(): Boolean {
         val accessor = this as PlayerEntityMixinAccessor
         return accessor.`mcendgame$getLastAttackWasCritical`()
+    }
+
+    fun PlayerEntity.isInsideDungeon(): Boolean {
+        val accessor = this as PlayerEntityInsideDungeonAccessor
+        return accessor.`mcendgame$isInsideDungeon`()
+    }
+
+    fun PlayerEntity.setInsideDungeon(insideDungeon: Boolean) {
+        val accessor = this as PlayerEntityInsideDungeonAccessor
+        return accessor.`mcendgame$setInsideDungeon`(insideDungeon)
     }
 }

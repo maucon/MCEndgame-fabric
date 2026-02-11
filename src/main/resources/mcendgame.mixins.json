@@ -62,6 +62,7 @@
     "player.PlayerEntityDisableShieldMixin",
     "player.PlayerEntityDungeonLevelMixin",
     "player.PlayerEntityDungeonSeedMixin",
+    "player.PlayerEntityInsideDungeonMixin",
     "projectile.PersistentProjectileEntityDamageMixin",
     "projectile.PersistentProjectileEntityIsAdditionalMixin",
     "projectile.PersistentProjectileEntityPierceLevelMixin",

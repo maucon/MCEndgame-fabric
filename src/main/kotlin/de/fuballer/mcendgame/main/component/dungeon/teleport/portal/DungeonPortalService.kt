@@ -1,4 +1,4 @@
-package de.fuballer.mcendgame.main.component.dungeon.portal
+package de.fuballer.mcendgame.main.component.dungeon.teleport.portal
 
 import de.fuballer.mcendgame.main.component.block.dungeon_device.DungeonDeviceBrokenEvent
 import de.fuballer.mcendgame.main.component.dungeon.world.DungeonWorldClosedEvent
