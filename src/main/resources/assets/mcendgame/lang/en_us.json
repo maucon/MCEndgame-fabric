@@ -110,13 +110,16 @@
 
   "container.mcendgame.totem.title": "Totems",
 
-  "container.mcendgame.filter.title": "Dungeon Filter (Blacklist)",
+  "container.mcendgame.filter.title": "Dungeon Filter / Blacklist",
 
   "block.mcendgame.dungeon_device": "Dungeon Device",
   "container.mcendgame.dungeon_device.title": "Dungeon Device",
   "container.mcendgame.dungeon_device.open": "Open",
   "container.mcendgame.dungeon_device.enemy_attributes": "Enemy Attributes",
   "container.mcendgame.dungeon_device.boss_attributes": "Boss Attributes",
+  "container.mcendgame.dungeon_device.totems_tooltip": "Dungeon Totems",
+  "container.mcendgame.dungeon_device.filter_tooltip": "Dungeon Filter",
+  "container.mcendgame.dungeon_device.killer_tooltip": "Latest Killer",
 
   "block.mcendgame.crystal_forge": "Crystal Forge",
   "container.mcendgame.crystal_forge.title": "Crystal Forge",
