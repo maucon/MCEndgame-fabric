@@ -9,7 +9,7 @@ import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.Redirect;
 
 @Mixin(targets = "net.minecraft.entity.effect.InstantHealthOrDamageStatusEffect")
-public class HealInstantHealthOrDamageStatusEffectMixin {
+public class ApplyHealingFactorInstantHealthOrDamageStatusEffectMixin {
     @Redirect(
             method = "applyInstantEffect",
             at = @At(value = "INVOKE", target = "Lnet/minecraft/entity/LivingEntity;heal(F)V")

@@ -71,7 +71,7 @@
     "skeleton.AbstractSkeletonEntityBowMixin",
     "smithing.ForgingScreenHandlerAccessor",
     "smithing.SmithingScreenHandlerUpgradeAttributesMixin",
-    "status_effect.HealInstantHealthOrDamageStatusEffectMixin",
+    "status_effect.ApplyHealingFactorInstantHealthOrDamageStatusEffectMixin",
     "status_effect.PoisonStatusEffectMixin",
     "status_effect.WitherStatusEffectMixin",
     "wolf_entity.WolfEntityColorAndVariantMixin",
