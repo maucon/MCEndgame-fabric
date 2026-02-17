@@ -1,6 +1,7 @@
 package de.fuballer.mcendgame.main.component.custom_attribute.effects
 
 import de.fuballer.mcendgame.main.component.custom_attribute.CustomAttributesExtensions.getAllCustomAttributes
+import de.fuballer.mcendgame.main.component.custom_attribute.CustomAttributesExtensions.getHealingFactor
 import de.fuballer.mcendgame.main.component.custom_attribute.data.DoubleRoll
 import de.fuballer.mcendgame.main.component.custom_attribute.effects.link.LinkSettings
 import de.fuballer.mcendgame.main.component.custom_attribute.types.CustomAttributeTypes
@@ -35,7 +36,9 @@ class HealOnLinkedEnemyKilledService {
             val linkConnectionTime = LinkSettings.getLinkConnectingTime(distance)
             if (linkDuration < linkConnectionTime) return@forEach
 
-            linkOriginEntity.heal(healSum.toFloat())
+            val healFactor = linkOriginEntity.getHealingFactor()
+            val totalHeal = healSum * healFactor
+            linkOriginEntity.heal(totalHeal.toFloat())
         }
     }
 }

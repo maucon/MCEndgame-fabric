@@ -34,12 +34,12 @@ object CustomToolItems {
     )
     val NIGHTREAVER = UniqueItemRegistry.registerToolItem(
         ::Nightreaver,
-        Item.Settings().sword(CustomToolMaterials.NIGHTREAVER, 4F, -2F),
+        Item.Settings().sword(CustomToolMaterials.NIGHTREAVER, 5F, -2F),
         "nightreaver"
     )
     val RADIANT_DAWN = UniqueItemRegistry.registerToolItem(
         ::RadiantDawn,
-        Item.Settings().sword(CustomToolMaterials.RADIANT_DAWN, 8F, -3.2F),
+        Item.Settings().sword(CustomToolMaterials.RADIANT_DAWN, 7F, -3.2F),
         "radiant_dawn"
     )
     val WINDSTRING = UniqueItemRegistry.registerToolItem(

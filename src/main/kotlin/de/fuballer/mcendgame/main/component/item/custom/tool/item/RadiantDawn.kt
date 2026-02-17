@@ -12,8 +12,8 @@ class RadiantDawn(
     settings: Settings,
 ) : UniqueAttributesItem(settings) {
     override fun getCustomAttributes() = listOf(
-        RollableCustomAttribute(CustomAttributeTypes.HEAL_NEARBY_ALLIES_ON_MELEE_HIT, 0, IntBounds(10, 10), DoubleBounds(0.4, 0.5)),
-        RollableCustomAttribute(CustomAttributeTypes.HEAL_POWER_PER_ELEMENTAL_DAMAGE, 0, DoubleBounds(0.1, 0.15)),
+        RollableCustomAttribute(CustomAttributeTypes.HEAL_NEARBY_ALLIES_ON_MELEE_HIT, 0, IntBounds(10, 10), DoubleBounds(0.8, 1.2)),
+        RollableCustomAttribute(CustomAttributeTypes.INCREASED_HEALING_PER_ELEMENTAL_DAMAGE, 0, DoubleBounds(0.03, 0.05)),
         RollableCustomAttribute(CustomAttributeTypes.ELEMENTAL_DAMAGE, 0, DoubleBounds(2.0, 4.0)),
         RollableCustomAttribute(VanillaAttributeTypes.INCREASED_ENTITY_INTERACTION_RANGE, 0, DoubleBounds(0.15, 0.15)),
     )
