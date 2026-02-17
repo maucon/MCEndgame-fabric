@@ -16,6 +16,7 @@ import net.fabricmc.api.Environment
 import net.fabricmc.fabric.api.client.networking.v1.ClientPlayNetworking
 import net.minecraft.client.MinecraftClient
 import net.minecraft.client.gui.DrawContext
+import net.minecraft.client.gui.ScreenRect
 import net.minecraft.client.gui.screen.ButtonTextures
 import net.minecraft.client.gui.screen.ingame.HandledScreen
 import net.minecraft.client.gui.tooltip.Tooltip
@@ -35,7 +36,6 @@ private val ENEMY_ATTRIBUTES_TEXT = Text.translatable("container.mcendgame.dunge
 private val BOSS_ATTRIBUTES_TEXT = Text.translatable("container.mcendgame.dungeon_device.boss_attributes")
 
 private val PROGRESS_TEXTURE = IdentifierUtil.default("textures/gui/sprites/dungeon_device/progress.png")
-private val PROGRESS_TEXTURE_2 = IdentifierUtil.default("textures/gui/sprites/dungeon_device/progress2.png")
 
 private val ATTRIBUTE_PANEL_TEXTURE = IdentifierUtil.default("textures/gui/container/dungeon_device_attribute_panel.png")
 private const val ATTRIBUTE_PANEL_TEXTURE_EDGE_WIDTH = 4
@@ -213,13 +213,13 @@ class DungeonDeviceScreen(
         super.render(context, mouseX, mouseY, delta)
         if (showLevelAttributes) renderAttributesPanel(context, mouseX, mouseY, delta)
 
+        val progressScreenRect = getProgressScreenRect()
         context.drawTexture(
             { texture: Identifier -> RenderLayer.getGuiTextured(texture) },
             PROGRESS_TEXTURE,
-            (width - backgroundWidth) / 2 + 9,
-            (height - backgroundHeight) / 2 + 45,
+            progressScreenRect.left, progressScreenRect.top,
             0F, 8F * handler.payload.playerDungeonLevel.levelProgress,
-            30, 8,
+            progressScreenRect.width, progressScreenRect.height,
             30, 24,
         )
 
@@ -243,6 +243,27 @@ class DungeonDeviceScreen(
             256
         )
     }
+
+    override fun drawMouseoverTooltip(drawContext: DrawContext, mouseX: Int, mouseY: Int) {
+        super.drawMouseoverTooltip(drawContext, x, y)
+
+        val progressScreenRect = getProgressScreenRect()
+        if (mouseX < progressScreenRect.left || mouseX > progressScreenRect.right ||
+            mouseY < progressScreenRect.top || mouseY > progressScreenRect.bottom
+        ) return
+        drawContext.drawTooltip(
+            this.textRenderer,
+            Text.translatable(
+                "container.mcendgame.dungeon_device.progress_tooltip",
+                handler.payload.playerDungeonLevel.levelProgress + 1,
+                DungeonLevelSettings.LEVEL_INCREASE_THRESHOLD
+            ),
+            mouseX,
+            mouseY,
+        )
+    }
+
+    private fun getProgressScreenRect() = ScreenRect((width - backgroundWidth) / 2 + 9, (height - backgroundHeight) / 2 + 45, 30, 8)
 
     private fun renderAttributesPanel(
         context: DrawContext,

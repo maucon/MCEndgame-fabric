@@ -120,6 +120,7 @@
   "container.mcendgame.dungeon_device.totems_tooltip": "Dungeon Totems",
   "container.mcendgame.dungeon_device.filter_tooltip": "Dungeon Filter",
   "container.mcendgame.dungeon_device.killer_tooltip": "Latest Killer",
+  "container.mcendgame.dungeon_device.progress_tooltip": "Progress: %s/%s",
 
   "block.mcendgame.crystal_forge": "Crystal Forge",
   "container.mcendgame.crystal_forge.title": "Crystal Forge",
@@ -260,7 +261,6 @@
   "text.mcendgame.dungeon_level.regress": " You are now Level: %s",
 
   "text.mcendgame.dungeon.device.level": "Level: %s",
-  "text.mcendgame.dungeon.device.progress": "Progress: %s/%s",
 
   "error.mcendgame.teleport.failed": "Destination location invalid! Closing portal.",
 
