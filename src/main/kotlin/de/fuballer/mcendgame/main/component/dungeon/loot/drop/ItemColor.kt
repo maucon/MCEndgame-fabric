@@ -11,5 +11,5 @@ enum class ItemColor(
     CRYSTAL(Color(208, 0, 255).toInt()),
     TOTEM_BASIC(Color(30, 240, 20).toInt()),
     TOTEM_EFFECT(Color(240, 240, 20).toInt()),
-    TOTEM_ABILITY(Color(240, 30, 20).toInt()),
+    TOTEM_ULTIMATE(Color(240, 30, 20).toInt()),
 }

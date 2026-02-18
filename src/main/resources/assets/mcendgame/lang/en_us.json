@@ -101,12 +101,13 @@
   "item.mcendgame.totem_of_vanguard": "Totem of Vanguard",
   "item.mcendgame.totem_of_defiance": "Totem of Defiance",
   "item.mcendgame.totem_of_recovery": "Totem of Recovery",
+  "item.mcendgame.totem_of_volley": "Totem of Volley",
 
   "item.mcendgame.totem.tier": "Tier: %s",
 
   "item.mcendgame.totem.type.basic": "Type: Basic",
   "item.mcendgame.totem.type.effect": "Type: Effect",
-  "item.mcendgame.totem.type.ability": "Type: Ability",
+  "item.mcendgame.totem.type.ultimate": "Type: Ultimate",
 
   "container.mcendgame.totem.title": "Totems",
 

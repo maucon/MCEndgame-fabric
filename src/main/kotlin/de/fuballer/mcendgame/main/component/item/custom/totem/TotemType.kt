@@ -12,7 +12,7 @@ enum class TotemType(
 ) {
     BASIC("basic", ItemColor.TOTEM_BASIC),
     EFFECT("effect", ItemColor.TOTEM_EFFECT),
-    ABILITY("ability", ItemColor.TOTEM_ABILITY);
+    ULTIMATE("ultimate", ItemColor.TOTEM_ULTIMATE);
 
     fun getLore(): MutableText = Text.translatable("$TRANSLATABLE_BASE_KEY$id")
 }

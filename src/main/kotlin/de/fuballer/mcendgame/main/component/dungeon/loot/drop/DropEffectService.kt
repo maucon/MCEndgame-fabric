@@ -21,8 +21,8 @@ private val EFFECTS = mapOf(
     DungeonDropSelectors.TOTEM_BASIC to DungeonDropEffects.TOTEM_BASIC,
     DungeonDropSelectors.TOTEM_EFFECT_PLAYER_DROPPED to DungeonDropEffects.TOTEM_EFFECT_PLAYER_DROPPED,
     DungeonDropSelectors.TOTEM_EFFECT to DungeonDropEffects.TOTEM_EFFECT,
-    DungeonDropSelectors.TOTEM_ABILITY_PLAYER_DROPPED to DungeonDropEffects.TOTEM_ABILITY_PLAYER_DROPPED,
-    DungeonDropSelectors.TOTEM_ABILITY to DungeonDropEffects.TOTEM_ABILITY,
+    DungeonDropSelectors.TOTEM_ULTIMATE_PLAYER_DROPPED to DungeonDropEffects.TOTEM_ULTIMATE_PLAYER_DROPPED,
+    DungeonDropSelectors.TOTEM_ULTIMATE to DungeonDropEffects.TOTEM_ULTIMATE,
 )
 
 @Injectable

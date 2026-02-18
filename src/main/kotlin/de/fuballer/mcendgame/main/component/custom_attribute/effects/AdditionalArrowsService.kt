@@ -12,6 +12,7 @@ import de.fuballer.mcendgame.main.util.extension.mixin.PersistentProjectileEntit
 import de.fuballer.mcendgame.main.util.extension.mixin.PersistentProjectileEntityMixinExtension.setPierceLevel
 import de.maucon.mauconframework.di.annotation.Injectable
 import de.maucon.mauconframework.event.EventSubscriber
+import net.minecraft.entity.Entity
 import net.minecraft.entity.EntityType
 import net.minecraft.entity.LivingEntity
 import net.minecraft.entity.projectile.ArrowEntity
@@ -51,16 +52,16 @@ class AdditionalArrowsService {
         val originalVelocity = original.velocity
         val rotationVector = getRotationVector(originalVelocity, owner.pitch, owner.yaw)
 
+        var rotation = -ROTATION_PER_ARROW * (count / 2.0)
         val newArrows = mutableListOf<ArrowEntity>()
-        for (index in 1..count) {
+        repeat(count + 1) {
             val arrow = ArrowEntity(EntityType.ARROW, world)
 
             arrow.owner = owner
             arrow.setPosition(original.pos)
             arrow.yaw = original.yaw
             arrow.pitch = original.pitch
-            val degree = getArrowRotationDegree(index)
-            arrow.velocity = getRotatedAroundAxis(originalVelocity, rotationVector, degree)
+            arrow.velocity = getRotatedAroundAxis(originalVelocity, rotationVector, rotation)
             arrow.velocityDirty = true
             arrow.isCritical = original.isCritical
             arrow.isOnFire = original.isOnFire
@@ -70,15 +71,13 @@ class AdditionalArrowsService {
             arrow.setIsAdditional()
 
             newArrows.add(arrow)
+
+            rotation += ROTATION_PER_ARROW
         }
 
-        RuntimeConfig.SERVER.execute { newArrows.forEach { world.spawnEntity(it) } }
-    }
+        original.remove(Entity.RemovalReason.DISCARDED)
 
-    private fun getArrowRotationDegree(arrowIndex: Int): Double {
-        val degree = ((arrowIndex + 1) / 2) * ROTATION_PER_ARROW
-        val direction = if (arrowIndex % 2 == 0) 1 else -1
-        return degree * direction
+        RuntimeConfig.SERVER.execute { newArrows.forEach { world.spawnEntity(it) } }
     }
 
     private fun getRotationVector(velocity: Vec3d, shooterPitch: Float, shooterYaw: Float): Vec3d {
