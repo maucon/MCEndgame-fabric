@@ -139,6 +139,7 @@ object CustomItemGroups {
             itemGroup.add(TotemItems.TOTEM_OF_RECOVERY.defaultStack)
             itemGroup.add(TotemItems.TOTEM_OF_VOLLEY.defaultStack)
             itemGroup.add(TotemItems.TOTEM_OF_REACH.defaultStack)
+            itemGroup.add(TotemItems.TOTEM_OF_GIGANTISM.defaultStack)
         }
         ItemGroupEvents.modifyEntriesEvent(CUSTOM_BLOCKS_KEY).register { itemGroup ->
             itemGroup.add(CustomBlocks.DUNGEON_DEVICE)

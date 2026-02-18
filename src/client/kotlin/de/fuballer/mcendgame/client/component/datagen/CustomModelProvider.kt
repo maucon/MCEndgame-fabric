@@ -89,6 +89,7 @@ class CustomModelProvider(
         generator.register(TotemItems.TOTEM_OF_RECOVERY, Models.GENERATED)
         generator.register(TotemItems.TOTEM_OF_VOLLEY, Models.GENERATED)
         generator.register(TotemItems.TOTEM_OF_REACH, Models.GENERATED)
+        generator.register(TotemItems.TOTEM_OF_GIGANTISM, Models.GENERATED)
 
         generator.register(CustomBlocks.TOTEM_STATUE.asItem(), Models.GENERATED)
     }
