@@ -155,5 +155,6 @@ class CustomItemTagProvider(
             .add(TotemItems.TOTEM_OF_DEFIANCE)
             .add(TotemItems.TOTEM_OF_RECOVERY)
             .add(TotemItems.TOTEM_OF_VOLLEY)
+            .add(TotemItems.TOTEM_OF_REACH)
     }
 }

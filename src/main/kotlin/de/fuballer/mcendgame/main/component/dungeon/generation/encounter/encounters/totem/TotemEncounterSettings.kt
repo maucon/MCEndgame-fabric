@@ -59,5 +59,8 @@ object TotemEncounterSettings {
         RandomOption(35, TotemItems.TOTEM_OF_VOLLEY.getStack(0)) to 8,
         RandomOption(10, TotemItems.TOTEM_OF_VOLLEY.getStack(1)) to 12,
         RandomOption(2, TotemItems.TOTEM_OF_VOLLEY.getStack(2)) to 16,
+        RandomOption(35, TotemItems.TOTEM_OF_REACH.getStack(0)) to 8,
+        RandomOption(10, TotemItems.TOTEM_OF_REACH.getStack(1)) to 12,
+        RandomOption(2, TotemItems.TOTEM_OF_REACH.getStack(2)) to 16,
     )
 }

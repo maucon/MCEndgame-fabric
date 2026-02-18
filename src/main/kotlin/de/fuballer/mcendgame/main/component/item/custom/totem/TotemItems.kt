@@ -22,4 +22,5 @@ object TotemItems {
 
     // ultimate
     val TOTEM_OF_VOLLEY = TotemItemRegistry.registerTotemItem(::TotemOfVolleyItem, "totem_of_volley")
+    val TOTEM_OF_REACH = TotemItemRegistry.registerTotemItem(::TotemOfReachItem, "totem_of_reach")
 }
