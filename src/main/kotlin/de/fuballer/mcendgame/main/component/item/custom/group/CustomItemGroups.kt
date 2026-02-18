@@ -137,6 +137,7 @@ object CustomItemGroups {
             itemGroup.add(TotemItems.TOTEM_OF_VANGUARD.defaultStack)
             itemGroup.add(TotemItems.TOTEM_OF_DEFIANCE.defaultStack)
             itemGroup.add(TotemItems.TOTEM_OF_RECOVERY.defaultStack)
+            itemGroup.add(TotemItems.TOTEM_OF_RIME.defaultStack)
             itemGroup.add(TotemItems.TOTEM_OF_VOLLEY.defaultStack)
             itemGroup.add(TotemItems.TOTEM_OF_REACH.defaultStack)
             itemGroup.add(TotemItems.TOTEM_OF_GIGANTISM.defaultStack)

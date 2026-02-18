@@ -198,16 +198,6 @@ object CustomAttributeTypes {
         SignBasedKeywords.INCREASED
     )
 
-    val STEALTH = CustomAttributeType("stealth", AttributeFormats.EMPTY_ROLL, AttributeFormats.EMPTY_BOUNDS, AttributeAffinities.BENEFICIAL)
-    val MORE_DAMAGE_AGAINST_ISOLATED =
-        CustomAttributeType("more_damage_against_isolated", AttributeFormats.PERCENT_ROLL, AttributeFormats.PERCENT_BOUNDS, AttributeAffinities.BENEFICIAL, SignBasedKeywords.MORE)
-
-    // for use on enemies (don't use for players)
-    val DROP_INCREASED_LOOT =
-        CustomAttributeType("drop_increased_loot", AttributeFormats.SIGNED_PERCENT_ROLL, AttributeFormats.PERCENT_BOUNDS, AttributeAffinities.EMPTY, SignBasedKeywords.INCREASED)
-    val DROP_MORE_LOOT =
-        CustomAttributeType("drop_more_loot", AttributeFormats.PERCENT_ROLL, AttributeFormats.PERCENT_BOUNDS, AttributeAffinities.EMPTY, SignBasedKeywords.MORE)
-
     val HEAL_NEARBY_ALLIES_ON_MELEE_HIT = CustomAttributeType(
         "heal_nearby_allies_on_melee_hit",
         AttributeFormats.INT_AND_DOUBLE_ROLL,
@@ -222,6 +212,18 @@ object CustomAttributeTypes {
             AttributeAffinities.BENEFICIAL,
             SignBasedKeywords.INCREASED
         )
+
+    val STEALTH = CustomAttributeType("stealth", AttributeFormats.EMPTY_ROLL, AttributeFormats.EMPTY_BOUNDS, AttributeAffinities.BENEFICIAL)
+    val MORE_DAMAGE_AGAINST_ISOLATED =
+        CustomAttributeType("more_damage_against_isolated", AttributeFormats.PERCENT_ROLL, AttributeFormats.PERCENT_BOUNDS, AttributeAffinities.BENEFICIAL, SignBasedKeywords.MORE)
+
+    val SLOWNESS_ON_HIT = CustomAttributeType("slowness_on_hit", AttributeFormats.TWO_INT_ROLL, AttributeFormats.TWO_INT_BOUNDS, AttributeAffinities.BENEFICIAL_CONDITIONAL_BENEFICIAL)
+
+    // for use on enemies (don't use for players)
+    val DROP_INCREASED_LOOT =
+        CustomAttributeType("drop_increased_loot", AttributeFormats.SIGNED_PERCENT_ROLL, AttributeFormats.PERCENT_BOUNDS, AttributeAffinities.EMPTY, SignBasedKeywords.INCREASED)
+    val DROP_MORE_LOOT =
+        CustomAttributeType("drop_more_loot", AttributeFormats.PERCENT_ROLL, AttributeFormats.PERCENT_BOUNDS, AttributeAffinities.EMPTY, SignBasedKeywords.MORE)
 
     // region get by key
     fun getByKey(key: String): CustomAttributeType {
