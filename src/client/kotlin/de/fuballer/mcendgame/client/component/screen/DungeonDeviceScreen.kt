@@ -245,7 +245,7 @@ class DungeonDeviceScreen(
     }
 
     override fun drawMouseoverTooltip(drawContext: DrawContext, mouseX: Int, mouseY: Int) {
-        super.drawMouseoverTooltip(drawContext, x, y)
+        super.drawMouseoverTooltip(drawContext, mouseX, mouseY)
 
         val progressScreenRect = getProgressScreenRect()
         if (mouseX < progressScreenRect.left || mouseX > progressScreenRect.right ||
