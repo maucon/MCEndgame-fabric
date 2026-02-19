@@ -9,6 +9,7 @@ import de.fuballer.mcendgame.main.functional.scheduler.Scheduler
 import de.fuballer.mcendgame.main.messaging.server.ServerStartedEvent
 import de.fuballer.mcendgame.main.messaging.server.ServerStoppingEvent
 import de.fuballer.mcendgame.main.util.extension.mixin.WorldMixinExtension.setDungeonAspects
+import de.fuballer.mcendgame.main.util.extension.mixin.WorldMixinExtension.setDungeonExitPos
 import de.fuballer.mcendgame.main.util.extension.mixin.WorldMixinExtension.setDungeonLevel
 import de.fuballer.mcendgame.main.util.extension.mixin.WorldMixinExtension.setDungeonType
 import de.fuballer.mcendgame.main.util.extension.mixin.WorldMixinExtension.setOpener
@@ -18,6 +19,7 @@ import de.maucon.mauconframework.event.EventGateway
 import de.maucon.mauconframework.event.EventSubscriber
 import net.minecraft.entity.player.PlayerEntity
 import net.minecraft.server.world.ServerWorld
+import net.minecraft.util.math.GlobalPos
 import org.slf4j.Logger
 import java.time.Instant
 
@@ -43,15 +45,17 @@ class DungeonWorldService(
         opener: PlayerEntity,
         affectingAspects: Map<AspectItem, Int>,
         dungeonType: DungeonType,
+        dungeonExitPos: GlobalPos,
     ): ServerWorld {
         val dungeonWorld = RuntimeConfig.FANTASY
-            .openTemporaryWorld(DungeonWorldSettings.generateIdentifier(), DungeonWorldSettings.WORLD_CONFIG)
+            .openTemporaryWorld(DungeonWorldSettings.generateIdentifier(), DungeonWorldSettings.getWorldConfig())
             .asWorld()
 
         dungeonWorld.setDungeonLevel(dungeonLevel)
         dungeonWorld.setOpener(opener)
         dungeonWorld.setDungeonAspects(affectingAspects)
         dungeonWorld.setDungeonType(dungeonType)
+        dungeonWorld.setDungeonExitPos(dungeonExitPos)
 
         val entity = DungeonWorldEntity(dungeonWorld)
         dungeonWorldRepo.save(entity)

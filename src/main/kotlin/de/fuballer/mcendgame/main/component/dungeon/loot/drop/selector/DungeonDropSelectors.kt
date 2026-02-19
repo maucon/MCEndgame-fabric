@@ -25,6 +25,6 @@ object DungeonDropSelectors {
     val TOTEM_BASIC_PLAYER_DROPPED: (ItemStack, ItemEntity) -> Boolean = { itemStack, itemEntity -> TOTEM_BASIC(itemStack, itemEntity) && PLAYER_DROPPED(itemStack, itemEntity) }
     val TOTEM_EFFECT: (ItemStack, ItemEntity) -> Boolean = { itemStack, _ -> (itemStack.item as? TotemItem)?.type == TotemType.EFFECT }
     val TOTEM_EFFECT_PLAYER_DROPPED: (ItemStack, ItemEntity) -> Boolean = { itemStack, itemEntity -> TOTEM_EFFECT(itemStack, itemEntity) && PLAYER_DROPPED(itemStack, itemEntity) }
-    val TOTEM_ABILITY: (ItemStack, ItemEntity) -> Boolean = { itemStack, _ -> (itemStack.item as? TotemItem)?.type == TotemType.ABILITY }
-    val TOTEM_ABILITY_PLAYER_DROPPED: (ItemStack, ItemEntity) -> Boolean = { itemStack, itemEntity -> TOTEM_ABILITY(itemStack, itemEntity) && PLAYER_DROPPED(itemStack, itemEntity) }
+    val TOTEM_ULTIMATE: (ItemStack, ItemEntity) -> Boolean = { itemStack, _ -> (itemStack.item as? TotemItem)?.type == TotemType.ULTIMATE }
+    val TOTEM_ULTIMATE_PLAYER_DROPPED: (ItemStack, ItemEntity) -> Boolean = { itemStack, itemEntity -> TOTEM_ULTIMATE(itemStack, itemEntity) && PLAYER_DROPPED(itemStack, itemEntity) }
 }

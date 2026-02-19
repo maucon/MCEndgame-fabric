@@ -5,6 +5,7 @@ import de.fuballer.mcendgame.main.component.dungeon.type.DungeonType
 import de.fuballer.mcendgame.main.component.item.custom.aspect.AspectItem
 import net.minecraft.entity.player.PlayerEntity
 import net.minecraft.server.world.ServerWorld
+import net.minecraft.util.math.GlobalPos
 
 object WorldMixinExtension {
     fun ServerWorld.setDungeonCompleted(completed: Boolean = true) {
@@ -75,5 +76,15 @@ object WorldMixinExtension {
     fun ServerWorld.getDungeonType(): DungeonType {
         val accessor = this as DungeonWorldAccessor
         return accessor.`mcendgame$getDungeonType`()
+    }
+
+    fun ServerWorld.setDungeonExitPos(pos: GlobalPos) {
+        val accessor = this as DungeonWorldAccessor
+        accessor.`mcendgame$setDungeonExitPos`(pos)
+    }
+
+    fun ServerWorld.getDungeonExitPos(): GlobalPos {
+        val accessor = this as DungeonWorldAccessor
+        return accessor.`mcendgame$getDungeonExitPos`()
     }
 }

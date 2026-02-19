@@ -1,6 +1,6 @@
 package de.fuballer.mcendgame.main.mixin.living_entity;
 
-import de.fuballer.mcendgame.main.messaging.misc.LivingEntityHealCommand;
+import de.fuballer.mcendgame.main.messaging.misc.LivingEntityHealthRecoveryCommand;
 import de.maucon.mauconframework.command.CommandGateway;
 import net.minecraft.entity.LivingEntity;
 import org.spongepowered.asm.mixin.Mixin;
@@ -13,7 +13,7 @@ public class LivingEntityHealMixin {
     float heal(float amount) {
         var entity = (LivingEntity) (Object) this;
 
-        var command = new LivingEntityHealCommand(entity, amount);
+        var command = new LivingEntityHealthRecoveryCommand(entity, amount);
         var cmd = CommandGateway.INSTANCE.apply(command);
 
         return cmd.getFinalAmount();

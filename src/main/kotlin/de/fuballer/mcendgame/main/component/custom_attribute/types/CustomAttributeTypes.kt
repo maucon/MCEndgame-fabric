@@ -140,10 +140,10 @@ object CustomAttributeTypes {
     val BURNING_ENEMIES_EXPLODE_WHEN_KILLED =
         CustomAttributeType("burning_enemies_explode_when_killed", AttributeFormats.PERCENT_ROLL, AttributeFormats.PERCENT_BOUNDS, AttributeAffinities.BENEFICIAL)
 
-    val INCREASED_HEALING_RECEIVED =
-        CustomAttributeType("increased_healing_received", AttributeFormats.SIGNED_PERCENT_ROLL, AttributeFormats.PERCENT_BOUNDS, AttributeAffinities.BENEFICIAL, SignBasedKeywords.INCREASED)
-    val MORE_HEALING_RECEIVED =
-        CustomAttributeType("more_healing_received", AttributeFormats.PERCENT_ROLL, AttributeFormats.PERCENT_BOUNDS, AttributeAffinities.BENEFICIAL, SignBasedKeywords.MORE)
+    val INCREASED_HEALTH_RECOVERY =
+        CustomAttributeType("increased_health_recovery", AttributeFormats.SIGNED_PERCENT_ROLL, AttributeFormats.PERCENT_BOUNDS, AttributeAffinities.BENEFICIAL, SignBasedKeywords.INCREASED)
+    val MORE_HEALTH_RECOVERY =
+        CustomAttributeType("more_health_recovery", AttributeFormats.PERCENT_ROLL, AttributeFormats.PERCENT_BOUNDS, AttributeAffinities.BENEFICIAL, SignBasedKeywords.MORE)
 
     val FURY_ON_KILL = CustomAttributeType("fury_on_kill", AttributeFormats.EMPTY_ROLL, AttributeFormats.EMPTY_BOUNDS, AttributeAffinities.EMPTY)
     val RESILIENCE_ON_DAMAGE_TAKEN = CustomAttributeType("resilience_on_damage_taken", AttributeFormats.EMPTY_ROLL, AttributeFormats.EMPTY_BOUNDS, AttributeAffinities.EMPTY)
@@ -198,24 +198,35 @@ object CustomAttributeTypes {
         SignBasedKeywords.INCREASED
     )
 
+    val HEAL_NEARBY_ALLIES_ON_MELEE_HIT = CustomAttributeType(
+        "heal_nearby_allies_on_melee_hit",
+        AttributeFormats.INT_AND_DOUBLE_ROLL,
+        AttributeFormats.INT_AND_DOUBLE_BOUNDS,
+        AttributeAffinities.BENEFICIAL_CONDITIONAL_BENEFICIAL
+    )
+    val INCREASED_HEALING_PER_ELEMENTAL_DAMAGE =
+        CustomAttributeType(
+            "increased_healing_per_elemental_damage",
+            AttributeFormats.SIGNED_PERCENT_ROLL,
+            AttributeFormats.PERCENT_BOUNDS,
+            AttributeAffinities.BENEFICIAL,
+            SignBasedKeywords.INCREASED
+        )
+
     val STEALTH = CustomAttributeType("stealth", AttributeFormats.EMPTY_ROLL, AttributeFormats.EMPTY_BOUNDS, AttributeAffinities.BENEFICIAL)
     val MORE_DAMAGE_AGAINST_ISOLATED =
         CustomAttributeType("more_damage_against_isolated", AttributeFormats.PERCENT_ROLL, AttributeFormats.PERCENT_BOUNDS, AttributeAffinities.BENEFICIAL, SignBasedKeywords.MORE)
+
+    val SLOWNESS_ON_HIT = CustomAttributeType("slowness_on_hit", AttributeFormats.TWO_INT_ROLL, AttributeFormats.TWO_INT_BOUNDS, AttributeAffinities.BENEFICIAL_CONDITIONAL_BENEFICIAL)
+    val STRENGTH_ON_KILL = CustomAttributeType("strength_on_kill", AttributeFormats.TWO_INT_ROLL, AttributeFormats.TWO_INT_BOUNDS, AttributeAffinities.BENEFICIAL_CONDITIONAL_BENEFICIAL)
+    val SPEED_ON_KILL = CustomAttributeType("speed_on_kill", AttributeFormats.TWO_INT_ROLL, AttributeFormats.TWO_INT_BOUNDS, AttributeAffinities.BENEFICIAL_CONDITIONAL_BENEFICIAL)
+    val HASTE_ON_KILL = CustomAttributeType("haste_on_kill", AttributeFormats.TWO_INT_ROLL, AttributeFormats.TWO_INT_BOUNDS, AttributeAffinities.BENEFICIAL_CONDITIONAL_BENEFICIAL)
 
     // for use on enemies (don't use for players)
     val DROP_INCREASED_LOOT =
         CustomAttributeType("drop_increased_loot", AttributeFormats.SIGNED_PERCENT_ROLL, AttributeFormats.PERCENT_BOUNDS, AttributeAffinities.EMPTY, SignBasedKeywords.INCREASED)
     val DROP_MORE_LOOT =
-        CustomAttributeType("drop_more_loot", AttributeFormats.SIGNED_PERCENT_ROLL, AttributeFormats.PERCENT_BOUNDS, AttributeAffinities.EMPTY, SignBasedKeywords.MORE)
-
-    val HEAL_NEARBY_ALLIES_ON_MELEE_HIT = CustomAttributeType(
-        "heal_nearby_allies_on_melee_hit",
-        AttributeFormats.INT_AND_PERCENT_ROLL,
-        AttributeFormats.INT_AND_PERCENT_BOUNDS,
-        AttributeAffinities.BENEFICIAL_CONDITIONAL_BENEFICIAL
-    )
-    val HEAL_POWER_PER_ELEMENTAL_DAMAGE =
-        CustomAttributeType("heal_power_per_elemental_damage", AttributeFormats.PERCENT_ROLL, AttributeFormats.PERCENT_BOUNDS, AttributeAffinities.BENEFICIAL)
+        CustomAttributeType("drop_more_loot", AttributeFormats.PERCENT_ROLL, AttributeFormats.PERCENT_BOUNDS, AttributeAffinities.EMPTY, SignBasedKeywords.MORE)
 
     // region get by key
     fun getByKey(key: String): CustomAttributeType {

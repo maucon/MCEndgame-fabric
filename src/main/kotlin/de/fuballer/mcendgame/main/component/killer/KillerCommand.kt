@@ -12,7 +12,6 @@ import net.minecraft.server.command.ServerCommandSource
 import net.minecraft.text.Text
 import net.minecraft.util.Formatting
 
-private const val NAME = "killer"
 private const val GAME_PROFILE_ARGUMENT = "game_profile"
 private const val NO_KILLER_KEY = "commands.mcendgame.killer.no_killer"
 
@@ -20,6 +19,10 @@ private const val NO_KILLER_KEY = "commands.mcendgame.killer.no_killer"
 class KillerCommand(
     private val killerService: KillerService,
 ) {
+    companion object {
+        const val NAME = "killer"
+    }
+
     @Initializer
     fun register() = CommandRegistrationCallback.EVENT.register(CommandRegistrationCallback { dispatcher, _, _ ->
         dispatcher.register(

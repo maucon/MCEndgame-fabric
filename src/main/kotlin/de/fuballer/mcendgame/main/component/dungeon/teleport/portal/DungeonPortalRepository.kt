@@ -1,4 +1,4 @@
-package de.fuballer.mcendgame.main.component.dungeon.portal
+package de.fuballer.mcendgame.main.component.dungeon.teleport.portal
 
 import de.maucon.mauconframework.di.annotation.Injectable
 import de.maucon.mauconframework.stereotype.extension.InMemoryMapRepository

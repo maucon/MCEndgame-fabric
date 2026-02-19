@@ -29,7 +29,7 @@ class TotemScreenHandler(
         for (i in 0..4) addSlot(TotemSlot(totemInventory, i, 26 + 27 * i, 56, TotemType.BASIC))
         addSlot(TotemSlot(totemInventory, 5, 48, 29, TotemType.EFFECT))
         addSlot(TotemSlot(totemInventory, 6, 112, 29, TotemType.EFFECT))
-        addSlot(TotemSlot(totemInventory, 7, 80, 20, TotemType.ABILITY))
+        addSlot(TotemSlot(totemInventory, 7, 80, 20, TotemType.ULTIMATE))
     }
 
     private fun fillTotemSlots(totems: List<ItemStack>) {

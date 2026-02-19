@@ -19,4 +19,11 @@ object TotemItems {
     // effect
     val TOTEM_OF_DEFIANCE = TotemItemRegistry.registerTotemItem(::TotemOfDefianceItem, "totem_of_defiance")
     val TOTEM_OF_RECOVERY = TotemItemRegistry.registerTotemItem(::TotemOfRecoveryItem, "totem_of_recovery")
+    val TOTEM_OF_RIME = TotemItemRegistry.registerTotemItem(::TotemOfRimeItem, "totem_of_rime")
+    val TOTEM_OF_ONSLAUGHT = TotemItemRegistry.registerTotemItem(::TotemOfOnslaughtItem, "totem_of_onslaught")
+
+    // ultimate
+    val TOTEM_OF_VOLLEY = TotemItemRegistry.registerTotemItem(::TotemOfVolleyItem, "totem_of_volley")
+    val TOTEM_OF_REACH = TotemItemRegistry.registerTotemItem(::TotemOfReachItem, "totem_of_reach")
+    val TOTEM_OF_GIGANTISM = TotemItemRegistry.registerTotemItem(::TotemOfGigantismItem, "totem_of_gigantism")
 }

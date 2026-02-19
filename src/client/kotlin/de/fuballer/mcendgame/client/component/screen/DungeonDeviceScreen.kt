@@ -1,21 +1,28 @@
 package de.fuballer.mcendgame.client.component.screen
 
 import com.mojang.logging.LogUtils
-import de.fuballer.mcendgame.main.component.block.CustomBlocks
 import de.fuballer.mcendgame.main.component.block.dungeon_device.DungeonDeviceScreenHandler
 import de.fuballer.mcendgame.main.component.custom_attribute.data.CustomAttribute
 import de.fuballer.mcendgame.main.component.dungeon.enemy.EnemyLevelScalingSettings
 import de.fuballer.mcendgame.main.component.dungeon.level.DungeonLevelSettings
+import de.fuballer.mcendgame.main.component.item_filter.ItemFilterCommand
+import de.fuballer.mcendgame.main.component.killer.KillerCommand
+import de.fuballer.mcendgame.main.component.totem.TotemCommand
 import de.fuballer.mcendgame.main.messaging.misc.GetCustomAttributesTextsCommand
 import de.fuballer.mcendgame.main.util.minecraft.IdentifierUtil
 import de.maucon.mauconframework.command.CommandGateway
 import net.fabricmc.api.EnvType
 import net.fabricmc.api.Environment
 import net.fabricmc.fabric.api.client.networking.v1.ClientPlayNetworking
+import net.minecraft.client.MinecraftClient
 import net.minecraft.client.gui.DrawContext
+import net.minecraft.client.gui.ScreenRect
+import net.minecraft.client.gui.screen.ButtonTextures
 import net.minecraft.client.gui.screen.ingame.HandledScreen
+import net.minecraft.client.gui.tooltip.Tooltip
 import net.minecraft.client.gui.widget.ButtonWidget
 import net.minecraft.client.gui.widget.TextWidget
+import net.minecraft.client.gui.widget.TexturedButtonWidget
 import net.minecraft.client.render.RenderLayer
 import net.minecraft.entity.player.PlayerInventory
 import net.minecraft.text.Text
@@ -27,6 +34,8 @@ private val TEXTURE = IdentifierUtil.default("textures/gui/container/dungeon_dev
 private val OPEN_DUNGEON_BUTTON_TEXT = Text.translatable("container.mcendgame.dungeon_device.open")
 private val ENEMY_ATTRIBUTES_TEXT = Text.translatable("container.mcendgame.dungeon_device.enemy_attributes")
 private val BOSS_ATTRIBUTES_TEXT = Text.translatable("container.mcendgame.dungeon_device.boss_attributes")
+
+private val PROGRESS_TEXTURE = IdentifierUtil.default("textures/gui/sprites/dungeon_device/progress.png")
 
 private val ATTRIBUTE_PANEL_TEXTURE = IdentifierUtil.default("textures/gui/container/dungeon_device_attribute_panel.png")
 private const val ATTRIBUTE_PANEL_TEXTURE_EDGE_WIDTH = 4
@@ -40,6 +49,14 @@ private const val SHOW_ATTRIBUTES_BUTTON_WIDTH = 10
 private const val SHOW_ATTRIBUTES_BUTTON_HEIGHT = 20
 private val SHOW_ATTRIBUTES_BUTTON_TEXT = Text.literal(">")
 private val HIDE_ATTRIBUTES_BUTTON_TEXT = Text.literal("<")
+
+private const val COMMAND_BUTTONS_OFFSET = 2
+private val TOTEMS_BUTTON_TEXTURES = ButtonTextures(IdentifierUtil.default("dungeon_device/totems"), IdentifierUtil.default("dungeon_device/totems_highlighted"))
+private val TOTEMS_BUTTON_TOOLTIP_TEXT = Text.translatable("container.mcendgame.dungeon_device.totems_tooltip")
+private val FILTER_BUTTON_TEXTURES = ButtonTextures(IdentifierUtil.default("dungeon_device/filter"), IdentifierUtil.default("dungeon_device/filter_highlighted"))
+private val FILTER_BUTTON_TOOLTIP_TEXT = Text.translatable("container.mcendgame.dungeon_device.filter_tooltip")
+private val KILLER_BUTTON_TEXTURES = ButtonTextures(IdentifierUtil.default("dungeon_device/killer"), IdentifierUtil.default("dungeon_device/killer_highlighted"))
+private val KILLER_BUTTON_TOOLTIP_TEXT = Text.translatable("container.mcendgame.dungeon_device.killer_tooltip")
 
 @Environment(EnvType.CLIENT)
 class DungeonDeviceScreen(
@@ -61,6 +78,7 @@ class DungeonDeviceScreen(
         titleX = (backgroundWidth - textRenderer.getWidth(title)) / 2
 
         createDungeonButton.setPosition((width - backgroundWidth) / 2 + 70, (height - backgroundHeight) / 2 + 62)
+        addDrawableChild(createDungeonButton)
 
         val playerDungeonLevel = handler.payload.playerDungeonLevel
         addDrawableChild(
@@ -71,21 +89,6 @@ class DungeonDeviceScreen(
                 10,
                 Text.translatable("text.mcendgame.dungeon.device.level", playerDungeonLevel.level),
                 textRenderer
-            ).alignLeft()
-        )
-        addDrawableChild(
-            ScalableTextWidget(
-                (width - backgroundWidth) / 2 + 8,
-                (height - backgroundHeight) / 2 + 45,
-                100,
-                10,
-                Text.translatable(
-                    "text.mcendgame.dungeon.device.progress",
-                    playerDungeonLevel.levelProgress,
-                    DungeonLevelSettings.LEVEL_INCREASE_THRESHOLD
-                ),
-                textRenderer,
-                0.75f
             ).alignLeft()
         )
 
@@ -102,7 +105,29 @@ class DungeonDeviceScreen(
             ).build()
         )
 
-        addDrawableChild(createDungeonButton)
+        val commandButtonsX = (width - backgroundWidth) / 2 - 20 - COMMAND_BUTTONS_OFFSET
+        val commandButtonsY = (height - backgroundHeight) / 2
+        addDrawableChild(
+            TexturedButtonWidget(commandButtonsX, commandButtonsY, 20, 18, TOTEMS_BUTTON_TEXTURES) { button ->
+                MinecraftClient.getInstance().networkHandler?.sendChatCommand(TotemCommand.NAME)
+            }.apply {
+                tooltip = Tooltip.of(TOTEMS_BUTTON_TOOLTIP_TEXT)
+            }
+        )
+        addDrawableChild(
+            TexturedButtonWidget(commandButtonsX, commandButtonsY + (18 + COMMAND_BUTTONS_OFFSET), 20, 18, FILTER_BUTTON_TEXTURES) { button ->
+                MinecraftClient.getInstance().networkHandler?.sendChatCommand(ItemFilterCommand.NAME)
+            }.apply {
+                tooltip = Tooltip.of(FILTER_BUTTON_TOOLTIP_TEXT)
+            }
+        )
+        addDrawableChild(
+            TexturedButtonWidget(commandButtonsX, commandButtonsY + 2 * (18 + COMMAND_BUTTONS_OFFSET), 20, 18, KILLER_BUTTON_TEXTURES) { button ->
+                MinecraftClient.getInstance().networkHandler?.sendChatCommand(KillerCommand.NAME)
+            }.apply {
+                tooltip = Tooltip.of(KILLER_BUTTON_TOOLTIP_TEXT)
+            }
+        )
 
         initLevelScalingDetails(playerDungeonLevel.level)
     }
@@ -187,14 +212,23 @@ class DungeonDeviceScreen(
     override fun render(context: DrawContext, mouseX: Int, mouseY: Int, delta: Float) {
         super.render(context, mouseX, mouseY, delta)
         if (showLevelAttributes) renderAttributesPanel(context, mouseX, mouseY, delta)
+
+        val progressScreenRect = getProgressScreenRect()
+        context.drawTexture(
+            { texture: Identifier -> RenderLayer.getGuiTextured(texture) },
+            PROGRESS_TEXTURE,
+            progressScreenRect.left, progressScreenRect.top,
+            0F, 8F * handler.payload.playerDungeonLevel.levelProgress,
+            progressScreenRect.width, progressScreenRect.height,
+            30, 24,
+        )
+
         drawMouseoverTooltip(context, mouseX, mouseY)
     }
 
     override fun drawBackground(context: DrawContext, delta: Float, mouseX: Int, mouseY: Int) {
         val textureX = (width - backgroundWidth) / 2
         val textureY = (height - backgroundHeight) / 2
-
-        context.drawItem(CustomBlocks.DUNGEON_DEVICE.asItem().defaultStack, textureX + 8, textureY + 8)
 
         context.drawTexture(
             { texture: Identifier -> RenderLayer.getGuiTextured(texture) },
@@ -209,6 +243,27 @@ class DungeonDeviceScreen(
             256
         )
     }
+
+    override fun drawMouseoverTooltip(drawContext: DrawContext, mouseX: Int, mouseY: Int) {
+        super.drawMouseoverTooltip(drawContext, mouseX, mouseY)
+
+        val progressScreenRect = getProgressScreenRect()
+        if (mouseX < progressScreenRect.left || mouseX > progressScreenRect.right ||
+            mouseY < progressScreenRect.top || mouseY > progressScreenRect.bottom
+        ) return
+        drawContext.drawTooltip(
+            this.textRenderer,
+            Text.translatable(
+                "container.mcendgame.dungeon_device.progress_tooltip",
+                handler.payload.playerDungeonLevel.levelProgress + 1,
+                DungeonLevelSettings.LEVEL_INCREASE_THRESHOLD
+            ),
+            mouseX,
+            mouseY,
+        )
+    }
+
+    private fun getProgressScreenRect() = ScreenRect((width - backgroundWidth) / 2 + 9, (height - backgroundHeight) / 2 + 45, 30, 8)
 
     private fun renderAttributesPanel(
         context: DrawContext,

@@ -44,6 +44,9 @@ object AttributeFormats {
     val INT_AND_PERCENT_ROLL = { rolls: List<AttributeRoll<*>> ->
         listOf(rolls[0].getValue().toString(), formatDouble(rolls[1].asDoubleRoll().getValue() * 100))
     }
+    val INT_AND_DOUBLE_ROLL = { rolls: List<AttributeRoll<*>> ->
+        listOf(rolls[0].getValue().toString(), formatDouble(rolls[1].asDoubleRoll().getValue()))
+    }
     val SIGNED_PERCENT_AND_INT_ROLL = { rolls: List<AttributeRoll<*>> ->
         listOf(formatDoubleSigned(rolls[0].asDoubleRoll().getValue() * 100), rolls[1].getValue().toString())
     }
@@ -92,6 +95,14 @@ object AttributeFormats {
         listOf(
             getRangeOrValue(bound1.min.toString(), bound1.max.toString()),
             getRangeOrValue(formatDouble(bound2.min * 100), formatDouble(bound2.max * 100)),
+        )
+    }
+    val INT_AND_DOUBLE_BOUNDS = { bounds: List<AttributeBounds<*>> ->
+        val bound1 = bounds[0].asIntBounds()
+        val bound2 = bounds[1].asDoubleBounds()
+        listOf(
+            getRangeOrValue(bound1.min.toString(), bound1.max.toString()),
+            getRangeOrValue(formatDouble(bound2.min), formatDouble(bound2.max)),
         )
     }
 

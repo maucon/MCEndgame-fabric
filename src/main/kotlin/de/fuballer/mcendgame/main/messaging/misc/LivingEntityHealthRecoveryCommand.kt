@@ -2,7 +2,7 @@ package de.fuballer.mcendgame.main.messaging.misc
 
 import net.minecraft.entity.LivingEntity
 
-data class LivingEntityHealCommand(
+data class LivingEntityHealthRecoveryCommand(
     val entity: LivingEntity,
     val originalAmount: Float,
     val increase: MutableList<Float> = mutableListOf(),

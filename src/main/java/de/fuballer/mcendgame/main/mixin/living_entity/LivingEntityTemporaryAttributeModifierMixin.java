@@ -1,6 +1,7 @@
 package de.fuballer.mcendgame.main.mixin.living_entity;
 
 import de.fuballer.mcendgame.main.accessor.LivingEntityTemporaryAttributeModifierAccessor;
+import it.unimi.dsi.fastutil.objects.Object2IntOpenHashMap;
 import kotlin.Pair;
 import net.minecraft.entity.LivingEntity;
 import net.minecraft.entity.attribute.EntityAttribute;
@@ -13,15 +14,12 @@ import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.Inject;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 
-import java.util.HashMap;
-import java.util.Map;
-
 @Mixin(LivingEntity.class)
 public class LivingEntityTemporaryAttributeModifierMixin implements LivingEntityTemporaryAttributeModifierAccessor {
     @Unique
     private static final int checkInterval = 4;
     @Unique
-    private final Map<Pair<RegistryEntry<EntityAttribute>, Identifier>, Integer> toRemoveModifiers = new HashMap<>();
+    private final Object2IntOpenHashMap<Pair<RegistryEntry<EntityAttribute>, Identifier>> toRemoveModifiers = new Object2IntOpenHashMap<>();
 
     @Inject(method = "tick", at = @At("HEAD"))
     void tick(CallbackInfo ci) {
@@ -30,14 +28,18 @@ public class LivingEntityTemporaryAttributeModifierMixin implements LivingEntity
 
         if (entity.age % checkInterval != 0) return;
 
-        for (Pair<RegistryEntry<EntityAttribute>, Identifier> modifier : toRemoveModifiers.keySet()) {
+        var iterator = toRemoveModifiers.object2IntEntrySet().iterator();
+        while (iterator.hasNext()) {
+            var entry = iterator.next();
 
-            var newDelay = toRemoveModifiers.get(modifier) - checkInterval;
-            if (newDelay > 0) {
-                toRemoveModifiers.put(modifier, newDelay);
+            var updatedRemainingTicks = entry.getIntValue() - checkInterval;
+            if (updatedRemainingTicks > 0) {
+                entry.setValue(updatedRemainingTicks);
                 continue;
             }
-            toRemoveModifiers.remove(modifier);
+
+            var modifier = entry.getKey();
+            iterator.remove();
 
             var attributeInstance = entity.getAttributeInstance(modifier.getFirst());
             if (attributeInstance == null) continue;

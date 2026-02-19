@@ -54,5 +54,22 @@ object TotemEncounterSettings {
         RandomOption(100, TotemItems.TOTEM_OF_RECOVERY.getStack(0)) to 6,
         RandomOption(33, TotemItems.TOTEM_OF_RECOVERY.getStack(1)) to 10,
         RandomOption(7, TotemItems.TOTEM_OF_RECOVERY.getStack(2)) to 14,
+        RandomOption(100, TotemItems.TOTEM_OF_RIME.getStack(0)) to 6,
+        RandomOption(33, TotemItems.TOTEM_OF_RIME.getStack(1)) to 10,
+        RandomOption(7, TotemItems.TOTEM_OF_RIME.getStack(2)) to 14,
+        RandomOption(100, TotemItems.TOTEM_OF_ONSLAUGHT.getStack(0)) to 6,
+        RandomOption(33, TotemItems.TOTEM_OF_ONSLAUGHT.getStack(1)) to 10,
+        RandomOption(7, TotemItems.TOTEM_OF_ONSLAUGHT.getStack(2)) to 14,
+
+        // ultimate
+        RandomOption(35, TotemItems.TOTEM_OF_VOLLEY.getStack(0)) to 8,
+        RandomOption(10, TotemItems.TOTEM_OF_VOLLEY.getStack(1)) to 12,
+        RandomOption(2, TotemItems.TOTEM_OF_VOLLEY.getStack(2)) to 16,
+        RandomOption(35, TotemItems.TOTEM_OF_REACH.getStack(0)) to 8,
+        RandomOption(10, TotemItems.TOTEM_OF_REACH.getStack(1)) to 12,
+        RandomOption(2, TotemItems.TOTEM_OF_REACH.getStack(2)) to 16,
+        RandomOption(35, TotemItems.TOTEM_OF_GIGANTISM.getStack(0)) to 8,
+        RandomOption(10, TotemItems.TOTEM_OF_GIGANTISM.getStack(1)) to 12,
+        RandomOption(2, TotemItems.TOTEM_OF_GIGANTISM.getStack(2)) to 16,
     )
 }

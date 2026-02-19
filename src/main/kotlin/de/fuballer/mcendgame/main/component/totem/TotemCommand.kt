@@ -8,12 +8,14 @@ import net.fabricmc.fabric.api.command.v2.CommandRegistrationCallback
 import net.minecraft.server.command.CommandManager
 import net.minecraft.server.command.ServerCommandSource
 
-private const val NAME = "totems"
-
 @Injectable
 class TotemCommand(
     private val totemService: TotemService,
 ) {
+    companion object {
+        const val NAME = "totems"
+    }
+
     @Initializer
     fun register() = CommandRegistrationCallback.EVENT.register(CommandRegistrationCallback { dispatcher, _, _ ->
         dispatcher.register(

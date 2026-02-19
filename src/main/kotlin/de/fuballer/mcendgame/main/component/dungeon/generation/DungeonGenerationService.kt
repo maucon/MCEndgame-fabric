@@ -19,6 +19,7 @@ import de.maucon.mauconframework.di.annotation.Injectable
 import de.maucon.mauconframework.event.EventGateway
 import de.maucon.mauconframework.event.EventSubscriber
 import net.minecraft.server.world.ServerWorld
+import net.minecraft.util.math.GlobalPos
 import kotlin.random.Random
 
 @Injectable
@@ -36,6 +37,7 @@ class DungeonGenerationService(
         val player = event.player
         val originWorld = player.world as ServerWorld
         val dungeonDevicePos = event.blockEntity.pos
+        val dungeonDeviceGlobalPos = GlobalPos(originWorld.registryKey, dungeonDevicePos)
         val affectingAspects = getAffectingAspects(event.dungeonDeviceBlockEntity)
         val playerSeed = dungeonSeedService.rollSeed(player)
 
@@ -54,7 +56,7 @@ class DungeonGenerationService(
         val layout = layoutGenerator.generateDungeon(random, dungeonLevel, bossCount)
 
         RuntimeConfig.SERVER.execute {
-            val dungeonWorld = dungeonWorldService.create(dungeonLevel, player, affectingAspects, dungeonType)
+            val dungeonWorld = dungeonWorldService.create(dungeonLevel, player, affectingAspects, dungeonType, dungeonDeviceGlobalPos)
 
             dungeonBuilderService.build(dungeonWorld, layout.rooms)
             dungeonEncounterGenerationService.generate(dungeonWorld, dungeonLevel, layout.encounterPos, affectingAspects, random)
