@@ -155,6 +155,7 @@ class CustomItemTagProvider(
             .add(TotemItems.TOTEM_OF_DEFIANCE)
             .add(TotemItems.TOTEM_OF_RECOVERY)
             .add(TotemItems.TOTEM_OF_RIME)
+            .add(TotemItems.TOTEM_OF_ONSLAUGHT)
             .add(TotemItems.TOTEM_OF_VOLLEY)
             .add(TotemItems.TOTEM_OF_REACH)
             .add(TotemItems.TOTEM_OF_GIGANTISM)

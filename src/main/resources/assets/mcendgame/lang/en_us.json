@@ -102,6 +102,7 @@
   "item.mcendgame.totem_of_defiance": "Totem of Defiance",
   "item.mcendgame.totem_of_recovery": "Totem of Recovery",
   "item.mcendgame.totem_of_rime": "Totem of Rime",
+  "item.mcendgame.totem_of_onslaught": "Totem of Onslaught",
   "item.mcendgame.totem_of_volley": "Totem of Volley",
   "item.mcendgame.totem_of_reach": "Totem of Reach",
   "item.mcendgame.totem_of_gigantism": "Totem of Gigantism",
@@ -233,6 +234,9 @@
   "attribute.mcendgame.heal_nearby_allies_on_melee_hit": " Heal Allies within %s Blocks for %s Health on Melee Hit",
   "attribute.mcendgame.increased_healing_per_elemental_damage": "%s%% %s Healing per Elemental Damage",
   "attribute.mcendgame.slowness_on_hit": " Apply Slowness %s for %ss on Hit",
+  "attribute.mcendgame.strength_on_kill": " Gain Strength %s for %ss on Kill",
+  "attribute.mcendgame.speed_on_kill": " Gain Speed %s for %ss on Kill",
+  "attribute.mcendgame.haste_on_kill": " Gain Haste %s for %ss on Kill",
 
   "effect.mcendgame.fury": "Fury",
   "effect.mcendgame.resilience": "Resilience",

@@ -45,4 +45,6 @@ abstract class TotemItem(
     override fun getName(stack: ItemStack): MutableText = super.getName(stack).copy().withColor(type.color.intColor)
 
     override fun getDefaultStack() = getStack()
+
+    fun getMaxTierStack() = getStack(maxTier)
 }
