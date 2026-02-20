@@ -16,11 +16,14 @@ private val CORRUPTION_TEXT = Text.translatable("mcendgame.corrupted").formatted
 class CorruptionRenderer {
     @CommandHandler
     fun on(cmd: RenderItemTooltipCommand) {
-        if (!cmd.itemStack.isCorrupted()) return
+        val stack = cmd.itemStack
+        if (!stack.isCorrupted()) return
 
         val texts = cmd.texts
         if (cmd.tooltipType.isAdvanced) {
-            texts.add(texts.size - 2, CORRUPTION_TEXT)
+            val hasDurabilityLine = stack.damage > 0
+            val offset = if (hasDurabilityLine) 3 else 2
+            texts.add(texts.size - offset, CORRUPTION_TEXT)
         } else {
             texts.add(CORRUPTION_TEXT)
         }
