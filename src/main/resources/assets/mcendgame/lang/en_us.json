@@ -99,6 +99,7 @@
   "item.mcendgame.totem_of_swiftness": "Totem of Swiftness",
   "item.mcendgame.totem_of_thickness": "Totem of Thickness",
   "item.mcendgame.totem_of_vanguard": "Totem of Vanguard",
+  "item.mcendgame.totem_of_renewal": "Totem of Renewal",
   "item.mcendgame.totem_of_defiance": "Totem of Defiance",
   "item.mcendgame.totem_of_recovery": "Totem of Recovery",
   "item.mcendgame.totem_of_rime": "Totem of Rime",
@@ -106,6 +107,7 @@
   "item.mcendgame.totem_of_volley": "Totem of Volley",
   "item.mcendgame.totem_of_reach": "Totem of Reach",
   "item.mcendgame.totem_of_gigantism": "Totem of Gigantism",
+  "item.mcendgame.totem_of_restoration": "Totem of Restoration",
 
   "item.mcendgame.totem.tier": "Tier: %s",
 
@@ -237,6 +239,9 @@
   "attribute.mcendgame.strength_on_kill": " Gain Strength %s for %ss on Kill",
   "attribute.mcendgame.speed_on_kill": " Gain Speed %s for %ss on Kill",
   "attribute.mcendgame.haste_on_kill": " Gain Haste %s for %ss on Kill",
+  "attribute.mcendgame.increased_healing": "%s%% %s Healing",
+  "attribute.mcendgame.more_healing": " %s%% %s Healing",
+  "attribute.mcendgame.chance_to_heal_more": " %s%% Chance to Heal %s%% %s",
 
   "effect.mcendgame.fury": "Fury",
   "effect.mcendgame.resilience": "Resilience",

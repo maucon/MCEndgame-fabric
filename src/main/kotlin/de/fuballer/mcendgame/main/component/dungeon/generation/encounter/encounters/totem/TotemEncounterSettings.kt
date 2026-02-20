@@ -46,6 +46,9 @@ object TotemEncounterSettings {
         RandomOption(150, TotemItems.TOTEM_OF_VANGUARD.getStack(0)) to 0,
         RandomOption(50, TotemItems.TOTEM_OF_VANGUARD.getStack(1)) to 5,
         RandomOption(10, TotemItems.TOTEM_OF_VANGUARD.getStack(2)) to 10,
+        RandomOption(150, TotemItems.TOTEM_OF_RENEWAL.getStack(0)) to 0,
+        RandomOption(50, TotemItems.TOTEM_OF_RENEWAL.getStack(1)) to 5,
+        RandomOption(10, TotemItems.TOTEM_OF_RENEWAL.getStack(2)) to 10,
 
         // effect
         RandomOption(100, TotemItems.TOTEM_OF_DEFIANCE.getStack(0)) to 6,
@@ -71,5 +74,8 @@ object TotemEncounterSettings {
         RandomOption(35, TotemItems.TOTEM_OF_GIGANTISM.getStack(0)) to 8,
         RandomOption(10, TotemItems.TOTEM_OF_GIGANTISM.getStack(1)) to 12,
         RandomOption(2, TotemItems.TOTEM_OF_GIGANTISM.getStack(2)) to 16,
+        RandomOption(35, TotemItems.TOTEM_OF_RESTORATION.getStack(0)) to 8,
+        RandomOption(10, TotemItems.TOTEM_OF_RESTORATION.getStack(1)) to 12,
+        RandomOption(2, TotemItems.TOTEM_OF_RESTORATION.getStack(2)) to 16,
     )
 }

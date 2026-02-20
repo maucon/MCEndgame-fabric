@@ -135,6 +135,7 @@ object CustomItemGroups {
             itemGroup.add(TotemItems.TOTEM_OF_SWIFTNESS.getMaxTierStack())
             itemGroup.add(TotemItems.TOTEM_OF_THICKNESS.getMaxTierStack())
             itemGroup.add(TotemItems.TOTEM_OF_VANGUARD.getMaxTierStack())
+            itemGroup.add(TotemItems.TOTEM_OF_RENEWAL.getMaxTierStack())
             itemGroup.add(TotemItems.TOTEM_OF_DEFIANCE.getMaxTierStack())
             itemGroup.add(TotemItems.TOTEM_OF_RECOVERY.getMaxTierStack())
             itemGroup.add(TotemItems.TOTEM_OF_RIME.getMaxTierStack())
@@ -142,6 +143,7 @@ object CustomItemGroups {
             itemGroup.add(TotemItems.TOTEM_OF_VOLLEY.getMaxTierStack())
             itemGroup.add(TotemItems.TOTEM_OF_REACH.getMaxTierStack())
             itemGroup.add(TotemItems.TOTEM_OF_GIGANTISM.getMaxTierStack())
+            itemGroup.add(TotemItems.TOTEM_OF_RESTORATION.getMaxTierStack())
         }
         ItemGroupEvents.modifyEntriesEvent(CUSTOM_BLOCKS_KEY).register { itemGroup ->
             itemGroup.add(CustomBlocks.DUNGEON_DEVICE)

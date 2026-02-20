@@ -15,6 +15,7 @@ object TotemItems {
     val TOTEM_OF_SWIFTNESS = TotemItemRegistry.registerTotemItem(::TotemOfSwiftnessItem, "totem_of_swiftness")
     val TOTEM_OF_THICKNESS = TotemItemRegistry.registerTotemItem(::TotemOfThicknessItem, "totem_of_thickness")
     val TOTEM_OF_VANGUARD = TotemItemRegistry.registerTotemItem(::TotemOfVanguardItem, "totem_of_vanguard")
+    val TOTEM_OF_RENEWAL = TotemItemRegistry.registerTotemItem(::TotemOfRenewalItem, "totem_of_renewal")
 
     // effect
     val TOTEM_OF_DEFIANCE = TotemItemRegistry.registerTotemItem(::TotemOfDefianceItem, "totem_of_defiance")
@@ -26,4 +27,5 @@ object TotemItems {
     val TOTEM_OF_VOLLEY = TotemItemRegistry.registerTotemItem(::TotemOfVolleyItem, "totem_of_volley")
     val TOTEM_OF_REACH = TotemItemRegistry.registerTotemItem(::TotemOfReachItem, "totem_of_reach")
     val TOTEM_OF_GIGANTISM = TotemItemRegistry.registerTotemItem(::TotemOfGigantismItem, "totem_of_gigantism")
+    val TOTEM_OF_RESTORATION = TotemItemRegistry.registerTotemItem(::TotemOfRestorationItem, "totem_of_restoration")
 }

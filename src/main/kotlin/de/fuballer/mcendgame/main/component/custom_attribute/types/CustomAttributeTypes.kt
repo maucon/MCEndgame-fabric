@@ -213,6 +213,19 @@ object CustomAttributeTypes {
             SignBasedKeywords.INCREASED
         )
 
+    val INCREASED_HEALING =
+        CustomAttributeType("increased_healing", AttributeFormats.SIGNED_PERCENT_ROLL, AttributeFormats.PERCENT_BOUNDS, AttributeAffinities.BENEFICIAL, SignBasedKeywords.INCREASED)
+    val MORE_HEALING =
+        CustomAttributeType("more_healing", AttributeFormats.PERCENT_ROLL, AttributeFormats.PERCENT_BOUNDS, AttributeAffinities.BENEFICIAL, SignBasedKeywords.MORE)
+    val CHANCE_TO_HEAL_MORE =
+        CustomAttributeType(
+            "chance_to_heal_more",
+            AttributeFormats.TWO_PERCENT_ROLL,
+            AttributeFormats.TWO_PERCENT_BOUNDS,
+            AttributeAffinities.BENEFICIAL_CONDITIONAL_BENEFICIAL,
+            SignBasedKeywords.EMPTY_MORE,
+        )
+
     val STEALTH = CustomAttributeType("stealth", AttributeFormats.EMPTY_ROLL, AttributeFormats.EMPTY_BOUNDS, AttributeAffinities.BENEFICIAL)
     val MORE_DAMAGE_AGAINST_ISOLATED =
         CustomAttributeType("more_damage_against_isolated", AttributeFormats.PERCENT_ROLL, AttributeFormats.PERCENT_BOUNDS, AttributeAffinities.BENEFICIAL, SignBasedKeywords.MORE)
