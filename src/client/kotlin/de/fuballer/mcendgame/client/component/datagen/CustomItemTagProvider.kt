@@ -152,12 +152,17 @@ class CustomItemTagProvider(
             .add(TotemItems.TOTEM_OF_SWIFTNESS)
             .add(TotemItems.TOTEM_OF_THICKNESS)
             .add(TotemItems.TOTEM_OF_VANGUARD)
+            .add(TotemItems.TOTEM_OF_RENEWAL)
+            .add(TotemItems.TOTEM_OF_TEMPEST)
             .add(TotemItems.TOTEM_OF_DEFIANCE)
             .add(TotemItems.TOTEM_OF_RECOVERY)
             .add(TotemItems.TOTEM_OF_RIME)
             .add(TotemItems.TOTEM_OF_ONSLAUGHT)
+            .add(TotemItems.TOTEM_OF_RESILIENCE)
+            .add(TotemItems.TOTEM_OF_FURY)
             .add(TotemItems.TOTEM_OF_VOLLEY)
             .add(TotemItems.TOTEM_OF_REACH)
             .add(TotemItems.TOTEM_OF_GIGANTISM)
+            .add(TotemItems.TOTEM_OF_RESTORATION)
     }
 }
