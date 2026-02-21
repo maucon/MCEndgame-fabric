@@ -19,7 +19,7 @@ import java.util.*
 
 @Injectable
 class StackingMoreAttackSpeedOnHitService {
-    private val attributeModifierIdentifierBase = "stacking_more_attack_speed_on_hit_"
+    private val attributeModifierIdentifierBase = "stacking_more_attack_speed_on_melee_hit_"
 
     @EventSubscriber
     fun on(event: LivingEntityDamagedEvent) {
