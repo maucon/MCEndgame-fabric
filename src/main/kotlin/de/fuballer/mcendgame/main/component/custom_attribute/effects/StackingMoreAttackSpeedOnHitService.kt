@@ -1,0 +1,46 @@
+package de.fuballer.mcendgame.main.component.custom_attribute.effects
+
+import de.fuballer.mcendgame.main.component.custom_attribute.CustomAttributesExtensions.asDoubleRoll
+import de.fuballer.mcendgame.main.component.custom_attribute.CustomAttributesExtensions.asIntRoll
+import de.fuballer.mcendgame.main.component.custom_attribute.CustomAttributesExtensions.getAllCustomAttributes
+import de.fuballer.mcendgame.main.component.custom_attribute.types.CustomAttributeTypes
+import de.fuballer.mcendgame.main.component.tags.CustomTags
+import de.fuballer.mcendgame.main.messaging.misc.LivingEntityDamagedEvent
+import de.fuballer.mcendgame.main.util.extension.mixin.EntityMixinExtension.addTemporaryAttributeModifier
+import de.fuballer.mcendgame.main.util.extension.mixin.PlayerEntityMixinExtension.getAttackCooldownMultiplier
+import de.fuballer.mcendgame.main.util.minecraft.IdentifierUtil.defaultJava
+import de.maucon.mauconframework.di.annotation.Injectable
+import de.maucon.mauconframework.event.EventSubscriber
+import net.minecraft.entity.LivingEntity
+import net.minecraft.entity.attribute.EntityAttributeModifier
+import net.minecraft.entity.attribute.EntityAttributes
+import net.minecraft.entity.player.PlayerEntity
+import java.util.*
+
+@Injectable
+class StackingMoreAttackSpeedOnHitService {
+    private val attributeModifierIdentifierBase = "stacking_more_attack_speed_on_melee_hit_"
+
+    @EventSubscriber
+    fun on(event: LivingEntityDamagedEvent) {
+        if (!event.damageSource.isIn(CustomTags.MELEE_ATTACK)) return
+
+        val attacker = event.damageSource.attacker as? LivingEntity ?: return
+        val attackCooldownMultiplier = (attacker as? PlayerEntity)?.getAttackCooldownMultiplier() ?: 1F
+
+        val attributes = attacker.getAllCustomAttributes()[CustomAttributeTypes.STACKING_MORE_ATTACK_SPEED_ON_MELEE_HIT] ?: return
+        attributes.forEach { attribute ->
+            val moreAttackSpeed = attribute.rolls[0].asDoubleRoll().getValue() * attackCooldownMultiplier
+            val duration = attribute.rolls[1].asIntRoll().getValue() * 20
+            val identifier = defaultJava(attributeModifierIdentifierBase + attribute.id + "_" + UUID.randomUUID())
+
+            attacker.addTemporaryAttributeModifier(
+                EntityAttributes.ATTACK_SPEED,
+                identifier,
+                duration,
+                moreAttackSpeed,
+                EntityAttributeModifier.Operation.ADD_MULTIPLIED_TOTAL
+            )
+        }
+    }
+}

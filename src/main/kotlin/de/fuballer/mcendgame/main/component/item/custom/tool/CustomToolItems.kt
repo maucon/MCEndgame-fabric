@@ -29,7 +29,7 @@ object CustomToolItems {
     )
     val SERPENTS_FANG = UniqueItemRegistry.registerToolItem(
         ::SerpentsFang,
-        Item.Settings().sword(CustomToolMaterials.SERPENTS_FANG, 7F, -2.4F),
+        Item.Settings().sword(CustomToolMaterials.SERPENTS_FANG, 5F, -2.2F),
         "serpents_fang"
     )
     val NIGHTREAVER = UniqueItemRegistry.registerToolItem(
