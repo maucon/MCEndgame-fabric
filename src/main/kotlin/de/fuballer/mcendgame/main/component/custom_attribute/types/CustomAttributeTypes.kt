@@ -230,6 +230,14 @@ object CustomAttributeTypes {
     val MORE_DAMAGE_AGAINST_ISOLATED =
         CustomAttributeType("more_damage_against_isolated", AttributeFormats.PERCENT_ROLL, AttributeFormats.PERCENT_BOUNDS, AttributeAffinities.BENEFICIAL, SignBasedKeywords.MORE)
 
+    val STACKING_MORE_ATTACK_SPEED_ON_MELEE_HIT = CustomAttributeType(
+        "stacking_more_attack_speed_on_melee_hit",
+        AttributeFormats.PERCENT_AND_INT_ROLL,
+        AttributeFormats.PERCENT_AND_INT_BOUNDS,
+        AttributeAffinities.BENEFICIAL_CONDITIONAL_BENEFICIAL,
+        SignBasedKeywords.MORE,
+    )
+
     val SLOWNESS_ON_HIT = CustomAttributeType("slowness_on_hit", AttributeFormats.TWO_INT_ROLL, AttributeFormats.TWO_INT_BOUNDS, AttributeAffinities.BENEFICIAL_CONDITIONAL_BENEFICIAL)
     val STRENGTH_ON_KILL = CustomAttributeType("strength_on_kill", AttributeFormats.TWO_INT_ROLL, AttributeFormats.TWO_INT_BOUNDS, AttributeAffinities.BENEFICIAL_CONDITIONAL_BENEFICIAL)
     val SPEED_ON_KILL = CustomAttributeType("speed_on_kill", AttributeFormats.TWO_INT_ROLL, AttributeFormats.TWO_INT_BOUNDS, AttributeAffinities.BENEFICIAL_CONDITIONAL_BENEFICIAL)

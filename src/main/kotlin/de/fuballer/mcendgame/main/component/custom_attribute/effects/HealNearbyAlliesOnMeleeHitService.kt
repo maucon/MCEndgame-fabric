@@ -5,27 +5,20 @@ import de.fuballer.mcendgame.main.component.custom_attribute.CustomAttributesExt
 import de.fuballer.mcendgame.main.component.custom_attribute.data.DoubleRoll
 import de.fuballer.mcendgame.main.component.custom_attribute.data.IntRoll
 import de.fuballer.mcendgame.main.component.custom_attribute.types.CustomAttributeTypes
+import de.fuballer.mcendgame.main.component.tags.CustomTags
 import de.fuballer.mcendgame.main.messaging.misc.LivingEntityDamagedEvent
 import de.fuballer.mcendgame.main.util.extension.EntityExtension.isAlly
 import de.fuballer.mcendgame.main.util.extension.mixin.PlayerEntityMixinExtension.getAttackCooldownMultiplier
 import de.maucon.mauconframework.di.annotation.Injectable
 import de.maucon.mauconframework.event.EventSubscriber
 import net.minecraft.entity.LivingEntity
-import net.minecraft.entity.damage.DamageTypes
 import net.minecraft.entity.player.PlayerEntity
-import kotlin.jvm.optionals.getOrNull
-
-private val VALID_DAMAGE_TYPES = listOf(
-    DamageTypes.PLAYER_ATTACK,
-    DamageTypes.MOB_ATTACK,
-)
 
 @Injectable
 class HealNearbyAlliesOnMeleeHitService {
     @EventSubscriber
     fun on(event: LivingEntityDamagedEvent) {
-        val registryKey = event.damageSource.typeRegistryEntry.key.getOrNull() ?: return
-        if (!VALID_DAMAGE_TYPES.contains(registryKey)) return
+        if (!event.damageSource.isIn(CustomTags.MELEE_ATTACK)) return
 
         val attacker = event.damageSource.attacker as? LivingEntity ?: return
 
