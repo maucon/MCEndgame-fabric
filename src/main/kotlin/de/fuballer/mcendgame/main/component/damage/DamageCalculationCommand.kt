@@ -24,7 +24,7 @@ data class DamageCalculationCommand(
     val world: ServerWorld,
     val isProjectile: Boolean,
     val isShieldBlocking: Boolean,
-    val isDamageCritical: Boolean,
+    val isCritical: Boolean,
 
     // === custom properties ===
     val increasedDamage: MutableList<Double> = mutableListOf(),
@@ -40,6 +40,9 @@ data class DamageCalculationCommand(
     val increasedDamageTaken: MutableList<Double> = mutableListOf(),
     val moreDamageTaken: MutableList<Double> = mutableListOf(),
     val ward: MutableList<Double> = mutableListOf(),
+
+    val criticalDamageMulti: MutableList<Double> = mutableListOf(),
+    val applyCritToElementalDamage: Boolean = false,
 ) {
     companion object {
         fun of(

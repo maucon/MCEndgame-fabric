@@ -31,8 +31,8 @@ object PersistentProjectileCalculator : DamageCalculator {
         val damageMulti = DamageUtil.calculateAttackDamageMultiplier(event)
 
         val arrowDamage = ceil(projectileSpeedMulti * (baseDamage + enchantmentDamage))
-        val critBonus = calculateCriticalBonus(event, arrowDamage)
-        return ((arrowDamage + critBonus) * damageMulti).toFloat()
+        val criticalDamage = calculateCriticalDamage(event, arrowDamage)
+        return ((arrowDamage + criticalDamage) * damageMulti).toFloat()
     }
 
     override fun calculateElementalDamage(
@@ -45,10 +45,11 @@ object PersistentProjectileCalculator : DamageCalculator {
 
         val baseDamage = calculateBaseElementalDamage(event)
         val damageMulti = DamageUtil.calculateAttackDamageMultiplier(event)
-        // TODO can elemental damage crit?
         val projectileSpeedMulti = calculateOtherMultiplier(source)
 
-        return (baseDamage * damageMulti * projectileSpeedMulti).toFloat()
+        val arrowDamage = ceil(projectileSpeedMulti * baseDamage)
+        val criticalDamage = if (event.applyCritToElementalDamage) calculateCriticalDamage(event, arrowDamage) else 0
+        return ((arrowDamage + criticalDamage) * damageMulti).toFloat()
     }
 
     private fun calculateBaseAttackDamage(source: DamageSource): Double {
@@ -63,10 +64,10 @@ object PersistentProjectileCalculator : DamageCalculator {
         return EnchantmentHelper.getDamage(attacker.world as ServerWorld, weaponStack, attacked, source, 0.0F).toDouble()
     }
 
-    // TODO ISSUE: #74
-    private fun calculateCriticalBonus(event: DamageCalculationCommand, amount: Double): Int {
-        if (!event.isDamageCritical) return 0
-        return Random.nextInt(amount.toInt() / 2 + 2)
+    private fun calculateCriticalDamage(event: DamageCalculationCommand, amount: Double): Int {
+        if (!event.isCritical) return 0
+        val critMultiDamage = amount * event.criticalDamageMulti.sum()
+        return Random.nextInt(amount.toInt() / 2 + 2) + critMultiDamage.toInt()
     }
 
     private fun calculateOtherMultiplier(source: DamageSource): Double {

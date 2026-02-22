@@ -23,5 +23,5 @@ object MagicDamageCalculator : DamageCalculator {
         attacked: LivingEntity,
         source: ExtendedDamageSource,
         event: DamageCalculationCommand
-    ) = originalDamage // TODO think about if ward protects against magic damage & also magic damage increases
+    ) = originalDamage
 }

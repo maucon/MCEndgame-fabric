@@ -39,7 +39,8 @@ object CustomAttributeTypes {
         CustomAttributeType("more_projectile_damage", AttributeFormats.PERCENT_ROLL, AttributeFormats.PERCENT_BOUNDS, AttributeAffinities.BENEFICIAL, SignBasedKeywords.MORE)
     val MORE_BACKSTAB_DAMAGE =
         CustomAttributeType("more_backstab_damage", AttributeFormats.PERCENT_ROLL, AttributeFormats.PERCENT_BOUNDS, AttributeAffinities.BENEFICIAL, SignBasedKeywords.MORE)
-    val CRITICAL_HIT_MULTIPLIER = CustomAttributeType("critical_hit_multiplier", AttributeFormats.SIGNED_PERCENT_ROLL, AttributeFormats.PERCENT_BOUNDS, AttributeAffinities.BENEFICIAL)
+    val CRITICAL_DAMAGE_MULTIPLIER =
+        CustomAttributeType("critical_damage_multiplier", AttributeFormats.SIGNED_PERCENT_ROLL, AttributeFormats.PERCENT_BOUNDS, AttributeAffinities.BENEFICIAL)
 
     // BOW
     val BOW_PULL_TICKS = CustomAttributeType("bow_pull_ticks", AttributeFormats.SIGNED_INT_ROLL, AttributeFormats.INT_BOUNDS, AttributeAffinities.DETRIMENTAL)

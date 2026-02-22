@@ -21,7 +21,6 @@
   "item.mcendgame.voidweaver": "Voidweaver",
   "item.mcendgame.abyssal_mask": "Abyssal Mask",
   "item.mcendgame.gilded_tempest": "Gilded Tempest",
-
   "item.mcendgame.bloodharvest": "Bloodharvest",
   "item.mcendgame.twinfire": "Twinfire",
   "item.mcendgame.fatesplitter": "Fatesplitter",
@@ -32,11 +31,9 @@
   "item.mcendgame.hailstorm": "Hailstorm",
   "item.mcendgame.dusk_piercer": "Dusk Piercer",
   "item.mcendgame.grudgebearer": "Grudgebearer",
-
   "item.mcendgame.verdant_echo": "Verdant Echo",
   "item.mcendgame.molten_roar": "Molten Roar",
   "item.mcendgame.frigid_cry": "Frigid Cry",
-
   "item.mcendgame.horn.duration": " Duration: %ss",
   "item.mcendgame.horn.range": " Range: %s",
   "item.mcendgame.horn.cooldown": " Cooldown: %ss",
@@ -44,7 +41,6 @@
   "item.mcendgame.horn.description.verdant_echo1": "  less Damage Taken and Life Regeneration",
   "item.mcendgame.horn.description.molten_roar": " Grants you and nearby Allies more Damage and Attack Speed",
   "item.mcendgame.horn.description.frigid_cry": " Applies Slowness to nearby Enemies",
-
   "item.mcendgame.aspect_of_tyranny": "Aspect of Tyranny",
   "item.mcendgame.aspect_of_greed": "Aspect of Greed",
   "item.mcendgame.aspect_of_dominion": "Aspect of Dominion",
@@ -58,7 +54,6 @@
   "item.mcendgame.aspect_of_savagery": "Aspect of Savagery",
   "item.mcendgame.aspect_of_eminence": "Aspect of Eminence",
   "item.mcendgame.aspect_of_ancestors": "Aspect of Ancestors",
-
   "item.mcendgame.aspect.limit": "Limit: %s",
   "item.mcendgame.aspect.description.tyranny": "Dungeon contains %s additional Elites",
   "item.mcendgame.aspect.description.greed": "Dungeon contains %s additional Loot Goblins",
@@ -77,19 +72,16 @@
   "item.mcendgame.aspect.description.savagery_1": "Enemies drop %s%% increased Loot",
   "item.mcendgame.aspect.description.eminence": "Normal Equipment has a %s%% chance for an additional Attribute",
   "item.mcendgame.aspect.description.ancestors": "Dungeon contains an additional Totem Encounter",
-
   "item.mcendgame.calibration_crystal": "Calibration Crystal",
   "item.mcendgame.sacrifice_crystal": "Sacrifice Crystal",
   "item.mcendgame.permutation_crystal": "Permutation Crystal",
   "item.mcendgame.reforge_crystal": "Reforge Crystal",
   "item.mcendgame.corruption_crystal": "Corruption Crystal",
-
   "item.mcendgame.crystal.description.calibration": "Randomize all values of an item's attributes",
   "item.mcendgame.crystal.description.sacrifice": "Enhances an attribute by removing another",
   "item.mcendgame.crystal.description.permutation": "Shuffles the rolls of attributes",
   "item.mcendgame.crystal.description.reforge": "Reforges a unique item into a different one",
   "item.mcendgame.crystal.description.corruption": "Corrupts an item with varying results",
-
   "item.mcendgame.totem_of_bastion": "Totem of Bastion",
   "item.mcendgame.totem_of_force": "Totem of Force",
   "item.mcendgame.totem_of_fortress": "Totem of Fortress",
@@ -111,17 +103,12 @@
   "item.mcendgame.totem_of_reach": "Totem of Reach",
   "item.mcendgame.totem_of_gigantism": "Totem of Gigantism",
   "item.mcendgame.totem_of_restoration": "Totem of Restoration",
-
   "item.mcendgame.totem.tier": "Tier: %s",
-
   "item.mcendgame.totem.type.basic": "Type: Basic",
   "item.mcendgame.totem.type.effect": "Type: Effect",
   "item.mcendgame.totem.type.ultimate": "Type: Ultimate",
-
   "container.mcendgame.totem.title": "Totems",
-
   "container.mcendgame.filter.title": "Dungeon Filter / Blacklist",
-
   "block.mcendgame.dungeon_device": "Dungeon Device",
   "container.mcendgame.dungeon_device.title": "Dungeon Device",
   "container.mcendgame.dungeon_device.open": "Open",
@@ -131,7 +118,6 @@
   "container.mcendgame.dungeon_device.filter_tooltip": "Dungeon Filter",
   "container.mcendgame.dungeon_device.killer_tooltip": "Latest Killer",
   "container.mcendgame.dungeon_device.progress_tooltip": "Progress: %s/%s",
-
   "block.mcendgame.crystal_forge": "Crystal Forge",
   "container.mcendgame.crystal_forge.title": "Crystal Forge",
   "container.mcendgame.crystal_forge.forge_button": "Forge",
@@ -146,14 +132,11 @@
   "container.mcendgame.crystal_forge.forge_error.no_enhanceable_attribute": "No attribute can be enhanced.",
   "container.mcendgame.crystal_forge.forge_error.not_enough_rolls_to_shuffle": "Not enough rolls to shuffle.",
   "container.mcendgame.crystal_forge.forge_error.all_rolls_equal": "All rolls are equal.",
-
   "mcendgame.corrupted": "Corrupted",
-
   "attribute.mcendgame.more": "more",
   "attribute.mcendgame.less": "less",
   "attribute.mcendgame.increased": "increased",
   "attribute.mcendgame.reduced": "reduced",
-
   "attribute.mcendgame.error": " Could not load attribute type",
   "attribute.mcendgame.armor": "%s Armor",
   "attribute.mcendgame.armor_toughness": "%s Armor Toughness",
@@ -183,7 +166,7 @@
   "attribute.mcendgame.increased_projectile_damage": "%s%% %s Projectile Damage",
   "attribute.mcendgame.more_projectile_damage": " %s%% %s Projectile Damage",
   "attribute.mcendgame.more_backstab_damage": " %s%% %s Backstab Damage",
-  "attribute.mcendgame.critical_hit_multiplier": "%s%% Critical Hit Multiplier",
+  "attribute.mcendgame.critical_damage_multiplier": "%s%% Critical Damage Multiplier",
   "attribute.mcendgame.increased_damage_against_full_health": "%s%% %s Damage against Full Health Enemies",
   "attribute.mcendgame.increased_damage_while_low_health": "%s%% %s Damage while Low Health",
   "attribute.mcendgame.more_damage_taken_while_high_health": " %s%% %s Damage taken while High Health",
@@ -246,13 +229,11 @@
   "attribute.mcendgame.increased_healing": "%s%% %s Healing",
   "attribute.mcendgame.more_healing": " %s%% %s Healing",
   "attribute.mcendgame.chance_to_heal_more": " %s%% Chance to Heal %s%% %s",
-
   "effect.mcendgame.fury": "Fury",
   "effect.mcendgame.resilience": "Resilience",
   "effect.mcendgame.scorch": "Scorch",
   "effect.mcendgame.verdant_echo": "Verdant Echo",
   "effect.mcendgame.molten_roar": "Molten Roar",
-
   "entity.mcendgame.unknown": "Unknown",
   "entity.mcendgame.swamp_golem": "Swamp Golem",
   "entity.mcendgame.elf_duelist": "Elf Duelist",
@@ -261,34 +242,25 @@
   "entity.mcendgame.webhook": "Webhook",
   "entity.mcendgame.portal": "Portal",
   "entity.mcendgame.bonecrusher": "Bonecrusher",
-
   "block.mcendgame.decaying_cobweb": "Decaying Cobweb",
   "block.mcendgame.totem_statue": "Totem Statue",
-
   "item_group.mcendgame.armor": "MCEndgame Armor",
   "item_group.mcendgame.tools": "MCEndgame Weapons & Tools",
   "item_group.mcendgame.aspects": "MCEndgame Aspects",
   "item_group.mcendgame.crystals": "MCEndgame Crystals",
   "item_group.mcendgame.totems": "MCEndgame Totems",
   "item_group.mcendgame.blocks": "MCEndgame Blocks",
-
   "text.mcendgame.dungeon_level.dungeon_completed": "Dungeon completed!",
   "text.mcendgame.dungeon_level.dungeon_death": "You died!",
   "text.mcendgame.dungeon_level.no_progress": " Dungeon level is too low to grant progress!",
   "text.mcendgame.dungeon_level.progress": " You are now Level: %s, Progress %s/%s",
   "text.mcendgame.dungeon_level.regress": " You are now Level: %s",
-
   "text.mcendgame.dungeon.device.level": "Level: %s",
-
   "error.mcendgame.teleport.failed": "Destination location invalid! Closing portal.",
-
   "commands.mcendgame.set_dungeon_level.no_player": "No player found!",
   "commands.mcendgame.set_dungeon_level.success.single": "Set dungeon level for %s! (Level: %s, Progress: %s)",
   "commands.mcendgame.set_dungeon_level.success.multiple": "Set dungeon level for %s players! (Level: %s, Progress: %s)",
-
   "commands.mcendgame.killer.no_killer": "No killer found for %s!",
-
   "error.mcendgame.invalid_totem_tier": "Maximum tier of this totem is %s!",
-
   "death.attack.elemental": "%s fell to the elemental power of %s"
 }

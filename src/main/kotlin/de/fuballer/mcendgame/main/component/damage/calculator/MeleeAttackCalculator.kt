@@ -42,11 +42,11 @@ object MeleeAttackCalculator : DamageCalculator {
 
         val baseDamage = calculateBaseElementalDamage(event)
         val damageMulti = DamageUtil.calculateElementalDamageMultiplier(event)
-        // TODO can elemental damage crit?
+        val critMulti = if (event.applyCritToElementalDamage) calculateCriticalMultiplier(event) else 1.0
         val attackCooldown = getAttackCooldown(source)
         val attackDamageMulti = calculateAttackCooldownMulti(attackCooldown)
 
-        return ((baseDamage * attackDamageMulti) * damageMulti).toFloat()
+        return (baseDamage * attackDamageMulti * critMulti * damageMulti).toFloat()
     }
 
     private fun calculateBaseAttackDamage(
@@ -64,7 +64,8 @@ object MeleeAttackCalculator : DamageCalculator {
     }
 
     private fun calculateCriticalMultiplier(event: DamageCalculationCommand): Double {
-        return if (event.isDamageCritical) 1.5 else 1.0 // TODO ISSUE: #74
+        if (!event.isCritical) return 1.0
+        return 1.5 + event.criticalDamageMulti.sum()
     }
 
     private fun getAttackCooldown(source: DamageSource): Double {

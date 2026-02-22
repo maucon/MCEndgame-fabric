@@ -150,7 +150,7 @@ object DamageService {
         return DamageUtil.applyDamageTakenAttributes(attackDamage, cmd)
     }
 
-    private fun calculateElementalDamageReduction( // TODO apply protection DR to damage?
+    private fun calculateElementalDamageReduction(
         damage: Float,
         attacked: LivingEntity,
         source: DamageSource,
@@ -183,9 +183,6 @@ object DamageService {
         cmd: DamageCalculationCommand,
         entity: LivingEntity
     ): Float {
-        // if (source.isIn(DamageTypeTags.BYPASSES_ARMOR)) return amount; //TODO DECIDE IF APPLY
-        // attacked.damageArmor(source, amount);
-
         var amount = amount
         val ward = cmd.ward.sum().toFloat()
         amount = DamageUtil.reduceElementalDamageByWard(entity, amount, source, ward)

@@ -11,7 +11,7 @@ class Nightreaver(
     settings: Settings,
 ) : UniqueAttributesItem(settings) {
     override fun getCustomAttributes() = listOf(
-        RollableCustomAttribute(CustomAttributeTypes.CRITICAL_HIT_MULTIPLIER, 0, DoubleBounds(0.15, 0.25)),
+        RollableCustomAttribute(CustomAttributeTypes.CRITICAL_DAMAGE_MULTIPLIER, 0, DoubleBounds(0.15, 0.25)),
         RollableCustomAttribute(CustomAttributeTypes.INCREASED_MOVEMENT_SPEED_ON_KILL, 0, DoubleBounds(0.2, 0.3), IntBounds(3, 3)),
         RollableCustomAttribute(CustomAttributeTypes.MORE_DAMAGE_AGAINST_ISOLATED, 0, DoubleBounds(0.1, 0.2)),
         RollableCustomAttribute(CustomAttributeTypes.STEALTH, 0),
