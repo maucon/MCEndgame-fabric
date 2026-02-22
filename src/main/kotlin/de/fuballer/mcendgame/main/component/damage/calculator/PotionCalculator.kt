@@ -26,5 +26,5 @@ object PotionCalculator : DamageCalculator {
         attacked: LivingEntity,
         source: ExtendedDamageSource,
         event: DamageCalculationCommand
-    ) = originalDamage // TODO think about if ward protects against splash potions
+    ) = originalDamage
 }

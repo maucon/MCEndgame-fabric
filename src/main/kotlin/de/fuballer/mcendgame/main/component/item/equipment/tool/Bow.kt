@@ -29,7 +29,7 @@ enum class Bow(
         CustomToolItems.DUSK_PIERCER,
     );
 
-    override val slot = AttributeModifierSlot.HAND
+    override val slot = AttributeModifierSlot.MAINHAND
 
     override val rollableCustomAttributes = listOf(
         RandomOption(

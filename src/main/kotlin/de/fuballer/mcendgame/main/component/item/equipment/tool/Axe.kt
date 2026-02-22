@@ -38,7 +38,7 @@ enum class Axe(
         CustomToolItems.FATESPLITTER,
     );
 
-    override val slot = AttributeModifierSlot.HAND
+    override val slot = AttributeModifierSlot.MAINHAND
 
     override val rollableCustomAttributes = listOf(
         RandomOption(

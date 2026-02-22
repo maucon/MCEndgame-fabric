@@ -23,7 +23,7 @@ enum class Shield(
         CustomToolItems.GRUDGEBEARER,
     );
 
-    override val slot = AttributeModifierSlot.OFFHAND
+    override val slot = AttributeModifierSlot.HAND
 
     override val rollableCustomAttributes = listOf(
         RandomOption(

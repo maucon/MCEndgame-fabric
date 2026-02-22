@@ -21,7 +21,7 @@ enum class Miscellaneous(
 ) : Equipment {
     TRIDENT(
         Items.TRIDENT,
-        AttributeModifierSlot.HAND,
+        AttributeModifierSlot.MAINHAND,
         listOf(
             RandomOption(
                 weight = 1,
@@ -124,7 +124,7 @@ enum class Miscellaneous(
     ),
     MACE(
         Items.MACE,
-        AttributeModifierSlot.HAND,
+        AttributeModifierSlot.MAINHAND,
         listOf(
             RandomOption(
                 weight = 1,
@@ -266,7 +266,7 @@ enum class Miscellaneous(
     ),
     CROSSBOW(
         Items.CROSSBOW,
-        AttributeModifierSlot.HAND,
+        AttributeModifierSlot.MAINHAND,
         listOf(
             RandomOption(
                 weight = 1,

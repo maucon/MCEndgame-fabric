@@ -183,7 +183,7 @@
   "attribute.mcendgame.increased_projectile_damage": "%s%% %s Projectile Damage",
   "attribute.mcendgame.more_projectile_damage": " %s%% %s Projectile Damage",
   "attribute.mcendgame.more_backstab_damage": " %s%% %s Backstab Damage",
-  "attribute.mcendgame.critical_hit_multiplier": "%s%% Critical Hit Multiplier",
+  "attribute.mcendgame.critical_damage_multiplier": "%s%% Critical Damage Multiplier",
   "attribute.mcendgame.increased_damage_against_full_health": "%s%% %s Damage against Full Health Enemies",
   "attribute.mcendgame.increased_damage_while_low_health": "%s%% %s Damage while Low Health",
   "attribute.mcendgame.more_damage_taken_while_high_health": " %s%% %s Damage taken while High Health",

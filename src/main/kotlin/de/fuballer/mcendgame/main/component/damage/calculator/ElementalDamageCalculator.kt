@@ -28,12 +28,18 @@ object ElementalDamageCalculator : DamageCalculator {
         val damageMulti = DamageUtil.calculateElementalDamageMultiplier(event)
         val damageFactor = source.damageCalculationConfig.damageFactor
 
-        return (baseDamage * damageMulti * damageFactor).toFloat()
+        val critMulti = calculateCriticalMultiplier(event)
+        return (baseDamage * critMulti * damageMulti * damageFactor).toFloat()
     }
 
     private fun calculateBaseElementalDamage(
         event: DamageCalculationCommand
     ): Double {
         return event.elementalDamage.sum()
+    }
+
+    private fun calculateCriticalMultiplier(event: DamageCalculationCommand): Double {
+        if (!event.isCritical || !event.applyCritToElementalDamage) return 1.0
+        return 1.5 + event.criticalDamageMulti.sum()
     }
 }

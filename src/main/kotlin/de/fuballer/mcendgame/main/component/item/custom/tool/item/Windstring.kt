@@ -13,5 +13,5 @@ class Windstring(
         RollableCustomAttribute(CustomAttributeTypes.BOW_PULL_TICKS, 0, IntBounds(-6, -4)),
     )
 
-    override fun getAttributeModifierSlot() = AttributeModifierSlot.HAND
+    override fun getAttributeModifierSlot() = AttributeModifierSlot.MAINHAND
 }

@@ -177,7 +177,7 @@ data class StringRoll(
 
     override fun getEnhanced(
         value: Double,
-        type: AttributeRoll.EnhancementType,
+        enhancementType: AttributeRoll.EnhancementType,
         affinity: Affinity,
     ) = copy()
 

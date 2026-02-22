@@ -45,7 +45,7 @@ object DamageUtil {
         damageSource: DamageSource,
         ward: Float,
     ): Float {
-        val wardReduction = 0.33F * damageAmount //TODO find reasonable values
+        val wardReduction = 0.33F * damageAmount
         val effectiveWard = MathHelper.clamp(ward - wardReduction, ward / 5.0F, 10F)
         var damageReduction = effectiveWard / 12.5F
 
