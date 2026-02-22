@@ -50,7 +50,7 @@ enum class Sword(
         CustomToolItems.RADIANT_DAWN,
     );
 
-    override val slot = AttributeModifierSlot.HAND
+    override val slot = AttributeModifierSlot.MAINHAND
 
     override val rollableCustomAttributes = listOf(
         RandomOption(

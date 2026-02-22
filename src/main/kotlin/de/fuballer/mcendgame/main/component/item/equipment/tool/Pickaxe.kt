@@ -34,7 +34,7 @@ enum class Pickaxe(
         Items.NETHERITE_PICKAXE,
     );
 
-    override val slot = AttributeModifierSlot.HAND
+    override val slot = AttributeModifierSlot.MAINHAND
 
     override val rollableCustomAttributes = listOf(
         RandomOption(

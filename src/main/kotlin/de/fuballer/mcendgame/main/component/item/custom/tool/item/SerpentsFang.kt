@@ -17,5 +17,5 @@ class SerpentsFang(
         RollableCustomAttribute(CustomAttributeTypes.INCREASED_MOVEMENT_SPEED_WHILE_POISONED, 0, listOf(DoubleBounds(0.15, 0.2))),
     )
 
-    override fun getAttributeModifierSlot() = AttributeModifierSlot.HAND
+    override fun getAttributeModifierSlot() = AttributeModifierSlot.MAINHAND
 }

@@ -16,5 +16,5 @@ class Bloodharvest(
         RollableCustomAttribute(CustomAttributeTypes.MORE_ATTACK_KNOCKBACK, 0, DoubleBounds(-0.5, -0.5)),
     )
 
-    override fun getAttributeModifierSlot() = AttributeModifierSlot.HAND
+    override fun getAttributeModifierSlot() = AttributeModifierSlot.MAINHAND
 }

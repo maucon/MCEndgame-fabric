@@ -17,5 +17,5 @@ class Nightreaver(
         RollableCustomAttribute(CustomAttributeTypes.STEALTH, 0),
     )
 
-    override fun getAttributeModifierSlot() = AttributeModifierSlot.HAND
+    override fun getAttributeModifierSlot() = AttributeModifierSlot.MAINHAND
 }

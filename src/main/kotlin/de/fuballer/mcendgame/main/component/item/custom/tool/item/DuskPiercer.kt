@@ -16,5 +16,5 @@ class DuskPiercer(
         RollableCustomAttribute(CustomAttributeTypes.MORE_PROJECTILE_DAMAGE, 0, DoubleBounds(-0.3, -0.3)),
     )
 
-    override fun getAttributeModifierSlot() = AttributeModifierSlot.HAND
+    override fun getAttributeModifierSlot() = AttributeModifierSlot.MAINHAND
 }

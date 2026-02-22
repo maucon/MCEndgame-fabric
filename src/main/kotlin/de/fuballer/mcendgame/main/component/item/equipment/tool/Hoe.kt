@@ -34,7 +34,7 @@ enum class Hoe(
         Items.NETHERITE_HOE,
     );
 
-    override val slot = AttributeModifierSlot.HAND
+    override val slot = AttributeModifierSlot.MAINHAND
 
     override val rollableCustomAttributes = listOf(
         RandomOption(

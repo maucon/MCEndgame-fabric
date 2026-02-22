@@ -34,7 +34,7 @@ enum class Shovel(
         Items.NETHERITE_SHOVEL,
     );
 
-    override val slot = AttributeModifierSlot.HAND
+    override val slot = AttributeModifierSlot.MAINHAND
 
     override val rollableCustomAttributes = listOf(
         RandomOption(

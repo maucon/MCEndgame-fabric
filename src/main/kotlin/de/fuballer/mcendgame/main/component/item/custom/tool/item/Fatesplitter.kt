@@ -16,5 +16,5 @@ class Fatesplitter(
         RollableCustomAttribute(CustomAttributeTypes.MORE_DAMAGE_PER_MISSING_HEART, 0, DoubleBounds(0.03, 0.04)),
     )
 
-    override fun getAttributeModifierSlot() = AttributeModifierSlot.HAND
+    override fun getAttributeModifierSlot() = AttributeModifierSlot.MAINHAND
 }
