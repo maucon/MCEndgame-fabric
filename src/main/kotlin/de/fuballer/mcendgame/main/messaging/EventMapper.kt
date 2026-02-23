@@ -41,7 +41,7 @@ object EventMapper {
     @EventSubscriber
     fun onDungeonPlayerDeath(event: PlayerEntityDeathEvent) {
         val player = event.player
-        if (!player.world.isDungeonWorld()) return
+        if (!player.entityWorld.isDungeonWorld()) return
 
         val dungeonPlayerDeathEvent = DungeonPlayerDeathEvent(event.isClient, player, event.killer)
         EventGateway.launchPublish(dungeonPlayerDeathEvent)
@@ -50,7 +50,7 @@ object EventMapper {
     @EventSubscriber
     fun onDungeonEntityDeath(event: LivingEntityDeathEvent) {
         val entity = event.entity
-        if (!entity.world.isDungeonWorld()) return
+        if (!entity.entityWorld.isDungeonWorld()) return
 
         val dungeonEntityDeathEvent = DungeonEntityDeathEvent(event.isClient, event.world, event.entity, event.killer)
         EventGateway.launchPublish(dungeonEntityDeathEvent)

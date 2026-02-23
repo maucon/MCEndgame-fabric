@@ -3,7 +3,7 @@ package de.fuballer.mcendgame.main.component.dungeon.level
 import com.mojang.brigadier.Command
 import com.mojang.brigadier.arguments.IntegerArgumentType
 import com.mojang.brigadier.context.CommandContext
-import de.fuballer.mcendgame.main.util.extension.ServerCommandSourceExtension.isOperator
+import de.fuballer.mcendgame.main.util.extension.ServerCommandSourceExtension.isModerator
 import de.fuballer.mcendgame.main.util.extension.mixin.PlayerEntityMixinExtension.setDungeonLevel
 import de.maucon.mauconframework.di.annotation.Injectable
 import de.maucon.mauconframework.initializer.Initializer
@@ -30,7 +30,7 @@ class DungeonLevelCommand {
     fun register() = CommandRegistrationCallback.EVENT.register(CommandRegistrationCallback { dispatcher, _, _ ->
         dispatcher.register(
             CommandManager.literal(NAME)
-                .requires { it.isOperator() }
+                .requires { it.isModerator() }
                 .then(
                     CommandManager.argument(PLAYER_ENTITIES_ARGUMENT, EntityArgumentType.players())
                         .then(

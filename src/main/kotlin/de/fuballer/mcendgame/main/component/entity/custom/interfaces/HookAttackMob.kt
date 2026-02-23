@@ -29,7 +29,7 @@ interface HookAttackMob {
         }
         hookedEntityUuidMap[hookedUuid] = Pair(0, 0)
 
-        val serverWorld = hooker.world as? ServerWorld ?: return
+        val serverWorld = hooker.entityWorld as? ServerWorld ?: return
 
         val hookedEntity = serverWorld.getEntity(hookedUuid) ?: return
         for (player in PlayerLookup.tracking(serverWorld, hookedEntity.blockPos)) {
@@ -40,7 +40,7 @@ interface HookAttackMob {
     fun removeHookedEntity(hookedUuid: UUID) {
         hookedEntityUuidMap.remove(hookedUuid)
 
-        val serverWorld = hooker.world as? ServerWorld ?: return
+        val serverWorld = hooker.entityWorld as? ServerWorld ?: return
         val hookedEntity = serverWorld.getEntity(hookedUuid) ?: return
 
         for (player in PlayerLookup.tracking(serverWorld, hookedEntity.blockPos)) {
@@ -57,7 +57,7 @@ interface HookAttackMob {
     }
 
     fun tickHooks() {
-        val world = hooker.world as? ServerWorld ?: return
+        val world = hooker.entityWorld as? ServerWorld ?: return
         updateHookedEntities(world)
     }
 
@@ -100,6 +100,6 @@ interface HookAttackMob {
         val normalizedDirection = direction.normalize()
         val velocity = normalizedDirection.multiply(hookPullStrength)
         hooked.setVelocity(velocity.x, velocity.y + hookPullAdditionalY, velocity.z)
-        if (hooked is PlayerEntity) hooked.velocityModified = true
+        if (hooked is PlayerEntity) hooked.velocityDirty = true
     }
 }

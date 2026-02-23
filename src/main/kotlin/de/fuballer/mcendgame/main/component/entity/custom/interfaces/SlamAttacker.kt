@@ -25,7 +25,7 @@ interface SlamAttacker : CustomPosesEntity {
     fun shouldDamage(target: LivingEntity): Boolean
 
     fun slam() {
-        val world = slamAttacker.world as? ServerWorld ?: return
+        val world = slamAttacker.entityWorld as? ServerWorld ?: return
 
         val scale = if (applyScale) slamAttacker.getAttributeValue(EntityAttributes.SCALE) else 1.0
         val scaledRadius = slamRadius * scale
@@ -33,11 +33,11 @@ interface SlamAttacker : CustomPosesEntity {
         val scaledOffset = slamCenterFacingOffset * scale
 
         val offset = slamAttacker.rotationVector.normalize().multiply(scaledOffset)
-        val damageCenter = slamAttacker.pos.add(offset)
+        val damageCenter = slamAttacker.entityPos.add(offset)
 
         val box = Box(damageCenter, Vec3d.ZERO).expand(scaledRadius) //TODO is this box even used
         val targets = world.getEntitiesByClass(LivingEntity::class.java, box) { it != slamAttacker && shouldDamage(it) }
-            .filter { damageCenter.distanceTo(it.pos) <= scaledRadius }
+            .filter { damageCenter.distanceTo(it.entityPos) <= scaledRadius }
 
         damageTargets(
             targets,
@@ -61,7 +61,7 @@ interface SlamAttacker : CustomPosesEntity {
         val attackDamage = slamAttacker.getAttributeValue(EntityAttributes.ATTACK_DAMAGE).toFloat()
 
         for (target in targets) {
-            val distanceVector = target.pos.subtract(damageCenter)
+            val distanceVector = target.entityPos.subtract(damageCenter)
             val distancePercent = max(1 - (distanceVector.length() / scaledRadius), 0.0)
 
             val damage = getDistanceScaled(attackDamage.toDouble(), distancePercent).toFloat()

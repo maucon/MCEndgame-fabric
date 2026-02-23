@@ -10,6 +10,6 @@ data class ItemDropEvent(
     val world: World,
 ) {
     companion object {
-        fun of(entity: ItemEntity) = ItemDropEvent(entity, entity.stack, entity.world)
+        fun of(entity: ItemEntity) = ItemDropEvent(entity, entity.stack, entity.entityWorld)
     }
 }

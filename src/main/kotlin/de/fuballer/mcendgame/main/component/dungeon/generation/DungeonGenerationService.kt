@@ -35,7 +35,7 @@ class DungeonGenerationService(
     @EventSubscriber
     fun on(event: OpenDungeonButtonPressedEvent) {
         val player = event.player
-        val originWorld = player.world as ServerWorld
+        val originWorld = player.entityWorld as ServerWorld
         val dungeonDevicePos = event.blockEntity.pos
         val dungeonDeviceGlobalPos = GlobalPos(originWorld.registryKey, dungeonDevicePos)
         val affectingAspects = getAffectingAspects(event.dungeonDeviceBlockEntity)

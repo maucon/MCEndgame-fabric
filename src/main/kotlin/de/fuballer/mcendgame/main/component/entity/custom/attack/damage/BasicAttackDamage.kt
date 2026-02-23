@@ -26,7 +26,7 @@ class BasicAttackDamage(
         target.dealGenericAttackDamage(damage, damager)
 
         val knockback = getKnockback(damager)
-        val knockbackDirection = target.pos.subtract(damager.pos).normalize()
+        val knockbackDirection = target.entityPos.subtract(damager.entityPos).normalize()
         target.takeKnockbackFrom(damager, knockback, -knockbackDirection.x, -knockbackDirection.z)
 
         return true

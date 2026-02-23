@@ -34,11 +34,11 @@ class TeleportAttackService<T>(
     }
 
     private fun choseTeleportPosition(attacker: T, target: Entity) {
-        val world = attacker.world
-        if (world != target.world) return
+        val world = attacker.entityWorld
+        if (world != target.entityWorld) return
 
-        var targetPos = target.pos
-        val adjustDirection = attacker.pos.subtract(targetPos).normalize()
+        var targetPos = target.entityPos
+        val adjustDirection = attacker.entityPos.subtract(targetPos).normalize()
 
         targetPos = targetPos.add(adjustDirection.multiply(0.5))
         repeat(TARGET_POS_ADJUST_TRIES) {
@@ -56,7 +56,7 @@ class TeleportAttackService<T>(
         entity: Entity,
         pos: Vec3d,
     ): Boolean {
-        val box = entity.boundingBox.offset(pos.subtract(entity.pos))
+        val box = entity.boundingBox.offset(pos.subtract(entity.entityPos))
         return world.isSpaceEmpty(box)
     }
 
@@ -67,7 +67,7 @@ class TeleportAttackService<T>(
     }
 
     private fun createPreparationParticles(attacker: Entity) {
-        val world = attacker.world as? ServerWorld ?: return
+        val world = attacker.entityWorld as? ServerWorld ?: return
         val pos = attacker.centerPos()
         world.spawnParticles(
             ParticleTypes.PORTAL,
@@ -83,7 +83,7 @@ class TeleportAttackService<T>(
     }
 
     private fun createArriveParticles(attacker: Entity) {
-        val world = attacker.world as? ServerWorld ?: return
+        val world = attacker.entityWorld as? ServerWorld ?: return
         val pos = attacker.centerPos()
         world.spawnParticles(
             ParticleTypes.REVERSE_PORTAL,

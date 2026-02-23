@@ -50,7 +50,7 @@ object DungeonBossService {
     }
 
     fun enhanceBoss(boss: MobEntity) {
-        val world = boss.world as? ServerWorld ?: return
+        val world = boss.entityWorld as? ServerWorld ?: return
         val killedBosses = world.getBossesKilled()
         if (killedBosses == 0) return
 

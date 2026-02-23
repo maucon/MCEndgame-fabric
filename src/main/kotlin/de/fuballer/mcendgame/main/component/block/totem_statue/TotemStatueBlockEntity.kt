@@ -1,5 +1,7 @@
 package de.fuballer.mcendgame.main.component.block.totem_statue
 
+import com.mojang.serialization.Codec
+import com.mojang.serialization.codecs.RecordCodecBuilder
 import de.fuballer.mcendgame.main.component.block.CustomBlockEntityTypes
 import de.fuballer.mcendgame.main.component.dungeon.generation.encounter.encounters.totem.TotemEncounterSettings
 import de.fuballer.mcendgame.main.configuration.RuntimeConfig
@@ -10,8 +12,6 @@ import net.minecraft.block.Blocks
 import net.minecraft.block.entity.BlockEntity
 import net.minecraft.entity.ItemEntity
 import net.minecraft.nbt.NbtCompound
-import net.minecraft.nbt.NbtList
-import net.minecraft.nbt.NbtString
 import net.minecraft.network.listener.ClientPlayPacketListener
 import net.minecraft.network.packet.Packet
 import net.minecraft.network.packet.s2c.play.BlockEntityUpdateS2CPacket
@@ -20,13 +20,15 @@ import net.minecraft.registry.RegistryWrapper
 import net.minecraft.server.world.ServerWorld
 import net.minecraft.sound.SoundCategory
 import net.minecraft.sound.SoundEvents
+import net.minecraft.storage.ReadView
+import net.minecraft.storage.WriteView
+import net.minecraft.util.Uuids
 import net.minecraft.util.math.BlockPos
 import net.minecraft.util.math.Vec3i
 import net.minecraft.world.World
 import java.util.*
 
-private const val ACTIVE_TICKS_KEY = "active_ticks"
-private const val ACTIVE_ENEMIES_KEY = "active_enemies"
+private const val DATA_KEY = "totem_statue_data"
 
 private const val SPAWN_PREPARATION_PARTICLE_DELAY = 50
 private const val SPAWN_DELAY = 100
@@ -45,7 +47,21 @@ class TotemStatueBlockEntity(
 ) : BlockEntity(CustomBlockEntityTypes.TOTEM_STATUE, pos, state) {
     private var activeTicks = -1
     private var spawnPositions = listOf<BlockPos>()
-    private val activeEnemies = mutableListOf<UUID>()
+    private var activeEnemies = mutableListOf<UUID>()
+
+    private data class TotemStatueBlockEntityData(
+        val activeTicks: Int = -1,
+        val activeEnemies: MutableList<UUID> = mutableListOf(),
+    ) {
+        companion object {
+            val CODEC: Codec<TotemStatueBlockEntityData> = RecordCodecBuilder.create { instance ->
+                instance.group(
+                    Codec.INT.fieldOf("active_ticks").forGetter(TotemStatueBlockEntityData::activeTicks),
+                    Uuids.CODEC.listOf().fieldOf("active_enemies").forGetter(TotemStatueBlockEntityData::activeEnemies),
+                ).apply(instance, ::TotemStatueBlockEntityData)
+            }
+        }
+    }
 
     companion object {
         private const val NEARBY = 2
@@ -162,23 +178,18 @@ class TotemStatueBlockEntity(
         RuntimeConfig.SERVER.execute { world.spawnEntity(itemEntity) }
     }
 
-    override fun writeNbt(nbt: NbtCompound, registries: RegistryWrapper.WrapperLookup) {
-        super.writeNbt(nbt, registries)
-        nbt.putInt(ACTIVE_TICKS_KEY, activeTicks)
-
-        val activeEnemiesNbtList = NbtList()
-        activeEnemiesNbtList.addAll(activeEnemies.map { NbtString.of(it.toString()) })
-        nbt.put(ACTIVE_ENEMIES_KEY, activeEnemiesNbtList)
+    override fun writeData(view: WriteView) {
+        super.writeData(view)
+        view.put(DATA_KEY, TotemStatueBlockEntityData.CODEC, TotemStatueBlockEntityData(activeTicks, activeEnemies))
     }
 
-    override fun readNbt(nbt: NbtCompound, registries: RegistryWrapper.WrapperLookup) {
-        super.readNbt(nbt, registries)
-        activeTicks = nbt.getInt(ACTIVE_TICKS_KEY, -1)
+    override fun readData(view: ReadView) {
+        super.readData(view)
 
-        activeEnemies.clear()
-        val activeEnemiesNbtList = nbt.getListOrEmpty(ACTIVE_ENEMIES_KEY)
-        val uuids = activeEnemiesNbtList.map { UUID.fromString((it.asString().orElse(""))) }
-        activeEnemies.addAll(uuids)
+        val data = view.read<TotemStatueBlockEntityData>(DATA_KEY, TotemStatueBlockEntityData.CODEC)
+            .orElseGet { TotemStatueBlockEntityData() }
+        activeTicks = data.activeTicks
+        activeEnemies = data.activeEnemies
     }
 
     override fun toUpdatePacket(): Packet<ClientPlayPacketListener> = BlockEntityUpdateS2CPacket.create(this)

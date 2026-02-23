@@ -22,7 +22,7 @@ object CustomAttributeUtil {
     fun LivingEntity.canSeeIsolated() = getAllCustomAttributes().keys.any { it in ISOLATED_ATTRIBUTE_TYPES }
 
     fun LivingEntity.isIsolated(attacker: LivingEntity) =
-        world.getOtherEntities(this, boundingBox.expand(ISOLATED_RADIUS))
+        entityWorld.getOtherEntities(this, boundingBox.expand(ISOLATED_RADIUS))
         { it != attacker && it is MobEntity && it.squaredDistanceTo(this) <= ISOLATED_RADIUS_SQUARED }
             .isEmpty()
 }

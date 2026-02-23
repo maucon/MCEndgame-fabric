@@ -32,10 +32,10 @@ import software.bernie.geckolib.animatable.GeoAnimatable
 import software.bernie.geckolib.animatable.GeoEntity
 import software.bernie.geckolib.animatable.instance.AnimatableInstanceCache
 import software.bernie.geckolib.animatable.manager.AnimatableManager
-import software.bernie.geckolib.animatable.processing.AnimationController
-import software.bernie.geckolib.animatable.processing.AnimationTest
-import software.bernie.geckolib.animation.PlayState
+import software.bernie.geckolib.animation.AnimationController
 import software.bernie.geckolib.animation.RawAnimation
+import software.bernie.geckolib.animation.`object`.PlayState
+import software.bernie.geckolib.animation.state.AnimationTest
 import software.bernie.geckolib.util.GeckoLibUtil
 
 class BonecrusherEntity(
@@ -226,7 +226,7 @@ class BonecrusherEntity(
         super.tick()
         tickBlockedMovement()
 
-        val world = world as? ServerWorld ?: return
+        val world = entityWorld as? ServerWorld ?: return
         tickAttacks(world, this)
     }
 
@@ -272,7 +272,7 @@ class BonecrusherEntity(
                         spinAttackState = SpinAttackState.END
                         return animTest.setAndContinue(SPIN_END_ANIM)
                     }
-                    controller.forceAnimationReset()
+                    //controller.forceAnimationReset()
                 }
                 return animTest.setAndContinue(SPIN_ANIM)
             }

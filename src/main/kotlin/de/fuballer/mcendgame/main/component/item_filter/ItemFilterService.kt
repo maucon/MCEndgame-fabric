@@ -19,7 +19,7 @@ class ItemFilterService(
     @CommandHandler
     fun on(cmd: PlayerItemPickupCommand) {
         val player = cmd.player
-        if (!player.world.isDungeonWorld()) return
+        if (!player.entityWorld.isDungeonWorld()) return
 
         val uuid = player.uuid
         val filter = itemFilterRepo.findById(uuid)?.items ?: return

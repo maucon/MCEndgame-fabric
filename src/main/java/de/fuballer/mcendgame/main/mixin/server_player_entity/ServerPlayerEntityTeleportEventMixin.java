@@ -18,7 +18,7 @@ public class ServerPlayerEntityTeleportEventMixin {
     )
     void teleportCrossDimension(TeleportTarget teleportTarget, CallbackInfoReturnable<ServerPlayerEntity> cir) {
         var entity = (ServerPlayerEntity) (Object) this;
-        if (!(entity.getWorld() instanceof ServerWorld world)) return;
+        if (!(entity.getEntityWorld() instanceof ServerWorld world)) return;
 
         var event = new PlayerBeforeDimensionChangeEvent(entity, world, teleportTarget);
         EventGateway.INSTANCE.launchPublish(event);

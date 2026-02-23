@@ -21,7 +21,7 @@ import net.minecraft.world.TeleportTarget
 class DungeonLeaveService {
     @Initializer
     fun afterPlayerRespawn() = ServerPlayerEvents.AFTER_RESPAWN.register { oldPlayer, newPlayer, alive ->
-        val oldWorld = oldPlayer.world as? ServerWorld ?: return@register
+        val oldWorld = oldPlayer.entityWorld
         if (!oldWorld.isDungeonWorld()) return@register
 
         teleportToDungeonExitPos(newPlayer, oldWorld)
@@ -33,7 +33,7 @@ class DungeonLeaveService {
         if (!player.isInsideDungeon()) return@register
         player.setInsideDungeon(false)
 
-        val world = player.world as? ServerWorld ?: return@register
+        val world = player.entityWorld
         if (world.isDungeonWorld() && teleportToDungeonExitPos(player, world)) return@register
 
         val respawnTarget = player.getRespawnTarget(true) {}

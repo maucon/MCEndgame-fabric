@@ -3,7 +3,7 @@ package de.fuballer.mcendgame.main.component.custom_attribute
 import de.fuballer.mcendgame.main.MCEndgame
 import de.fuballer.mcendgame.main.component.custom_attribute.data.*
 import de.fuballer.mcendgame.main.component.custom_attribute.types.CustomAttributeTypes
-import de.fuballer.mcendgame.main.messaging.collectAttribute.CollectHealFactorCommand
+import de.fuballer.mcendgame.main.messaging.collect_attribute.CollectHealFactorCommand
 import de.fuballer.mcendgame.main.messaging.misc.CollectCustomAttributesCommand
 import de.fuballer.mcendgame.main.util.extension.SlotExtension.isOrIsChildOf
 import de.fuballer.mcendgame.main.util.extension.mixin.EntityMixinExtension.getCustomAttributes

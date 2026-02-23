@@ -38,12 +38,12 @@ class ShootWitherSkullWhenHitByProjectileService {
         shooter: LivingEntity,
         target: Entity?,
     ) {
-        val world = shooter.world as? ServerWorld ?: return
+        val world = shooter.entityWorld as? ServerWorld ?: return
 
         val skull = WitherSkullEntity(world, shooter, Vec3d.ZERO)
         skull.setPosition(shooter.eyePos)
         val direction = if (target != null && target !is ProjectileEntity) {
-            target.pos.add(0.0, target.height / 2.0, 0.0).subtract(skull.pos).normalize()
+            target.entityPos.add(0.0, target.height / 2.0, 0.0).subtract(skull.entityPos).normalize()
         } else {
             shooter.rotationVector
         }.normalize()

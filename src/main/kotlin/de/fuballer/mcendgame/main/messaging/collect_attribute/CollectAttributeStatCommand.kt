@@ -1,4 +1,4 @@
-package de.fuballer.mcendgame.main.messaging.collectAttribute
+package de.fuballer.mcendgame.main.messaging.collect_attribute
 
 import de.fuballer.mcendgame.main.component.custom_attribute.data.CustomAttribute
 import de.fuballer.mcendgame.main.component.custom_attribute.data.CustomAttributeType

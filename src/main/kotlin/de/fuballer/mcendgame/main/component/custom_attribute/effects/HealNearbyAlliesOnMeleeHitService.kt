@@ -30,7 +30,7 @@ class HealNearbyAlliesOnMeleeHitService {
         healFactor *= (attacker as? PlayerEntity)?.getAttackCooldownMultiplier() ?: 1F
 
         attributesValues.forEach { range, baseHeal ->
-            val allies = attacker.world.getEntitiesByClass(LivingEntity::class.java, attacker.boundingBox.expand(range.toDouble())) { attacker.isAlly(it) }
+            val allies = attacker.entityWorld.getEntitiesByClass(LivingEntity::class.java, attacker.boundingBox.expand(range.toDouble())) { attacker.isAlly(it) }
             val heal = (baseHeal * healFactor).toFloat()
             allies.forEach { it.heal(heal) }
         }

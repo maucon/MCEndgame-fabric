@@ -37,7 +37,7 @@ abstract class DirectionalMovementEntity(
     }
 
     override fun onTrackedDataSet(data: TrackedData<*>) {
-        if (data == MOVEMENT_POSE && world.isClient) {
+        if (data == MOVEMENT_POSE && entityWorld.isClient) {
             when (dataTracker.get(MOVEMENT_POSE)) {
                 CustomPosesEntity.CustomPose.IDLING -> startMovementAnimation(idleAnimationState)
                 CustomPosesEntity.CustomPose.WALKING -> startMovementAnimation(walkAnimationState)
@@ -71,7 +71,7 @@ abstract class DirectionalMovementEntity(
     }
 
     open fun updateMovementState() {
-        if (world.isClient) return
+        if (entityWorld.isClient) return
 
         updateMovementPose()
         updateAnimationMovementSpeed()

@@ -10,5 +10,5 @@ data class LivingEntityDeathEvent(
     val killer: LivingEntity?,
 ) {
     constructor(entity: LivingEntity)
-            : this(entity.world.isClient, entity.world, entity, entity.attacker)
+            : this(entity.entityWorld.isClient, entity.entityWorld, entity, entity.attacker)
 }

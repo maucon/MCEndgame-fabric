@@ -47,15 +47,15 @@ class WebshotEntity(
     }
 
     private fun spawnParticles() {
-        if (!world.isClient) return
+        if (!entityWorld.isClient) return
         if (particleTimer-- > 0) return
         particleTimer = PARTICLE_COOLDOWN
 
-        world.addParticleClient(ParticleTypes.CLOUD, getParticleX(0.5), randomBodyY, getParticleZ(0.5), 0.0, 0.0, 0.0)
+        entityWorld.addParticleClient(ParticleTypes.CLOUD, getParticleX(0.5), randomBodyY, getParticleZ(0.5), 0.0, 0.0, 0.0)
     }
 
     override fun onEntityHit(entityHitResult: EntityHitResult) {
-        val serverWorld = world as? ServerWorld ?: return
+        val serverWorld = entityWorld as? ServerWorld ?: return
         val attacker = owner as? LivingEntity ?: return
         val entity = entityHitResult.entity
 
@@ -66,15 +66,15 @@ class WebshotEntity(
             EnchantmentHelper.onTargetDamaged(serverWorld, entity, damageSource)
         }
 
-        if (world.isClient) return
+        if (entityWorld.isClient) return
         discard()
     }
 
     override fun onBlockHit(blockHitResult: BlockHitResult) {
-        val blockState = world.getBlockState(blockHitResult.blockPos)
-        blockState.onProjectileHit(world, blockState, blockHitResult, this)
+        val blockState = entityWorld.getBlockState(blockHitResult.blockPos)
+        blockState.onProjectileHit(entityWorld, blockState, blockHitResult, this)
 
-        if (world.isClient) return
+        if (entityWorld.isClient) return
         discard()
 
         generateDecayingCobwebs(blockHitResult.blockPos)
@@ -94,21 +94,21 @@ class WebshotEntity(
             val pos = blockPos.add(random.nextBetween(-2, 2), random.nextBetween(-2, 2), random.nextBetween(-2, 2))
             if (!isValidCobwebPos(pos)) continue
             successCount++
-            world.setBlockState(pos, CustomBlocks.DECAYING_COBWEB.defaultState)
-            world.scheduleBlockTick(pos, CustomBlocks.DECAYING_COBWEB, DecayingCobwebBlock.TICK_INTERVAL)
+            entityWorld.setBlockState(pos, CustomBlocks.DECAYING_COBWEB.defaultState)
+            entityWorld.scheduleBlockTick(pos, CustomBlocks.DECAYING_COBWEB, DecayingCobwebBlock.TICK_INTERVAL)
         }
     }
 
     private fun isValidCobwebPos(blockPos: BlockPos): Boolean {
-        val blockState = world.getBlockState(blockPos)
+        val blockState = entityWorld.getBlockState(blockPos)
         if (!blockState.isAir) return false
 
-        if (!world.getBlockState(blockPos.up()).isAir) return true
-        if (!world.getBlockState(blockPos.down()).isAir) return true
-        if (!world.getBlockState(blockPos.north()).isAir) return true
-        if (!world.getBlockState(blockPos.east()).isAir) return true
-        if (!world.getBlockState(blockPos.south()).isAir) return true
-        if (!world.getBlockState(blockPos.west()).isAir) return true
+        if (!entityWorld.getBlockState(blockPos.up()).isAir) return true
+        if (!entityWorld.getBlockState(blockPos.down()).isAir) return true
+        if (!entityWorld.getBlockState(blockPos.north()).isAir) return true
+        if (!entityWorld.getBlockState(blockPos.east()).isAir) return true
+        if (!entityWorld.getBlockState(blockPos.south()).isAir) return true
+        if (!entityWorld.getBlockState(blockPos.west()).isAir) return true
 
         return false
     }

@@ -17,5 +17,5 @@ data class LivingEntityDropCommand(
     var dropExperience: Boolean = true,
 ) {
     constructor(entity: LivingEntity, causedByPlayer: Boolean)
-            : this(entity.world, entity, causedByPlayer)
+            : this(entity.entityWorld, entity, causedByPlayer)
 }

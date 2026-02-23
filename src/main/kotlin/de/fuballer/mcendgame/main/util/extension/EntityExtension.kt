@@ -52,7 +52,7 @@ object EntityExtension {
     fun Entity.isValidSecondaryTarget(primaryTarget: Entity, attacker: Entity): Boolean {
         if (this == attacker || this == primaryTarget) return false
 
-        if (world.isDungeonWorld()) {
+        if (entityWorld.isDungeonWorld()) {
             return isValidSecondaryTargetInDungeon(primaryTarget)
         }
         return isValidSecondaryTargetOutsideDungeon(primaryTarget, attacker)
@@ -87,7 +87,7 @@ object EntityExtension {
         return clazz.isInstance(owner)
     }
 
-    fun Entity.centerPos(): Vec3d = pos.add(0.0, height.toDouble(), 0.0)
+    fun Entity.centerPos(): Vec3d = entityPos.add(0.0, height.toDouble(), 0.0)
 
     const val DEFAULT_BOW_FULL_PULL_TICKS = 20
     fun LivingEntity.getBowFullPullTicks(): Int {
@@ -107,10 +107,10 @@ object EntityExtension {
         val eyeBoxShape = VoxelShapes.cuboid(eyeBox)
 
         return BlockPos.stream(eyeBox).anyMatch { blockPos ->
-            val blockState = world.getBlockState(blockPos)
+            val blockState = entityWorld.getBlockState(blockPos)
             if (blockState.isAir) return@anyMatch false
 
-            val collisionShape = blockState.getCollisionShape(world, blockPos).offset(blockPos)
+            val collisionShape = blockState.getCollisionShape(entityWorld, blockPos).offset(blockPos)
             VoxelShapes.matchesAnywhere(collisionShape, eyeBoxShape, BooleanBiFunction.AND)
         }
     }
@@ -119,7 +119,7 @@ object EntityExtension {
         other: Entity,
         maxAngle: Double = 90.0,
     ): Boolean {
-        val distanceVec = other.pos.subtract(pos).normalize()
+        val distanceVec = other.entityPos.subtract(entityPos).normalize()
         val damagedRotationVec = other.getRotationVec(1F).normalize()
 
         val angle = distanceVec.angleDeg(damagedRotationVec)
@@ -138,7 +138,7 @@ object EntityExtension {
         return increasedFactor * moreFactor
     }
 
-    fun Entity.isInDungeonWorld() = world.isDungeonWorld()
+    fun Entity.isInDungeonWorld() = entityWorld.isDungeonWorld()
 
     fun LivingEntity.applyPeriodicEffectIfTicksPassed(
         effectInstance: StatusEffectInstance,
@@ -159,7 +159,7 @@ object EntityExtension {
     }
 
     fun PlayerEntity.setShieldsCooldown(cooldown: Float) {
-        val serverWorld = world as? ServerWorld ?: return
+        val serverWorld = entityWorld as? ServerWorld ?: return
 
         Registries.ITEM.iterateEntries(CustomTags.SHIELD).forEach { entry ->
             val stack = entry.value().defaultStack

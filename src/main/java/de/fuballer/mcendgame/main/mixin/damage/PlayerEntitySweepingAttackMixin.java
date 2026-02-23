@@ -15,12 +15,12 @@ public abstract class PlayerEntitySweepingAttackMixin {
             method = "attack",
             at = @At(
                     value = "INVOKE",
-                    target = "Lnet/minecraft/entity/LivingEntity;damage(Lnet/minecraft/server/world/ServerWorld;Lnet/minecraft/entity/damage/DamageSource;F)Z"
+                    target = "Lnet/minecraft/entity/player/PlayerEntity;doSweepingAttack(Lnet/minecraft/entity/Entity;FLnet/minecraft/entity/damage/DamageSource;F)V"
             ),
-            index = 1
+            index = 2
     )
     private DamageSource modifyServerAttack(DamageSource original) {
-        var world = Objects.requireNonNull(original.getAttacker()).getWorld();
+        var world = Objects.requireNonNull(original.getAttacker()).getEntityWorld();
 
         return CustomDamageTypes.INSTANCE.of(
                 world,

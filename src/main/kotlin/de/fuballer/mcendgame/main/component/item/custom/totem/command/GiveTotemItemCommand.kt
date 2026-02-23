@@ -4,7 +4,7 @@ import com.mojang.brigadier.Command
 import com.mojang.brigadier.arguments.IntegerArgumentType
 import com.mojang.brigadier.context.CommandContext
 import de.fuballer.mcendgame.main.component.item.custom.totem.TotemItem
-import de.fuballer.mcendgame.main.util.extension.ServerCommandSourceExtension.isOperator
+import de.fuballer.mcendgame.main.util.extension.ServerCommandSourceExtension.isModerator
 import de.maucon.mauconframework.di.annotation.Injectable
 import de.maucon.mauconframework.initializer.Initializer
 import net.fabricmc.fabric.api.command.v2.CommandRegistrationCallback
@@ -26,7 +26,7 @@ class GiveTotemItemCommand {
     fun register() = CommandRegistrationCallback.EVENT.register(CommandRegistrationCallback { dispatcher, _, _ ->
         dispatcher.register(
             CommandManager.literal(NAME)
-                .requires {  it.isOperator() }
+                .requires {  it.isModerator() }
                 .then(
                     CommandManager.argument(TOTEM_ITEM_ARGUMENT, TotemItemArgumentType())
                         .suggests(TotemItemSuggestionProvider())

@@ -9,6 +9,6 @@ data class EntityConversionCommand(
     var canConvert: Boolean = true,
 ) {
     companion object {
-        fun of(entity: LivingEntity) = EntityConversionCommand(entity.world, entity)
+        fun of(entity: LivingEntity) = EntityConversionCommand(entity.entityWorld, entity)
     }
 }

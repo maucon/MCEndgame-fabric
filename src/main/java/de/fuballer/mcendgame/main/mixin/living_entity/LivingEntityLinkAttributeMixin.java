@@ -88,7 +88,7 @@ public abstract class LivingEntityLinkAttributeMixin implements LivingEntityLink
     @Inject(method = "tick", at = @At("HEAD"))
     void tick(CallbackInfo ci) {
         var entity = (LivingEntity) (Object) this;
-        if (entity.getWorld().isClient) return;
+        if (entity.getEntityWorld().isClient()) return;
 
         if (entity.age % LinkSettings.LINK_UPDATE_INTERVAL == 0) updateLinkedEntities(entity);
         if (entity.age % LinkSettings.LINK_DAMAGE_INTERVAL == 0) damageLinkedEntities(entity);
@@ -110,7 +110,7 @@ public abstract class LivingEntityLinkAttributeMixin implements LivingEntityLink
             return;
         }
 
-        var world = (ServerWorld) entity.getWorld();
+        var world = (ServerWorld) entity.getEntityWorld();
 
         var paddedDistance = distance + LinkSettings.LINK_DISTANCE_BREAK_PADDING;
         var enemiesInPaddedRange = getEnemiesInRange(world, entity, paddedDistance);
@@ -188,7 +188,7 @@ public abstract class LivingEntityLinkAttributeMixin implements LivingEntityLink
         if (linkAttributes == null || linkAttributes.isEmpty()) return;
         var sum = linkAttributes.stream().mapToDouble(attribute -> ((DoubleRoll) attribute.getRolls().getFirst()).getValue()).sum();
 
-        var world = (ServerWorld) entity.getWorld();
+        var world = (ServerWorld) entity.getEntityWorld();
         var time = world.getTime();
         var linkedEntities = entity.getDataTracker().get(LINKED_ENTITIES)
                 .stream()

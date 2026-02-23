@@ -33,7 +33,7 @@ class SlamAttackGoal<T>(
     }
 
     override fun canStart(): Boolean {
-        val time = mob.world.time
+        val time = mob.entityWorld.time
         if (time - lastUpdateTime < 20) return false
         lastUpdateTime = time
 
@@ -50,7 +50,7 @@ class SlamAttackGoal<T>(
         val target = mob.target ?: return false
         if (!target.isAlive) return false
 
-        if (!mob.isInWalkTargetRange(target.blockPos)) return false
+        if (!mob.isInPositionTargetRange(target.blockPos)) return false
         return target !is PlayerEntity || (!target.isSpectator && !target.isCreative)
     }
 
@@ -113,7 +113,7 @@ class SlamAttackGoal<T>(
         if (!mob.visibilityCache.canSee(target)) return false
 
         if (targetX == 0.0 && targetY == 0.0 && targetZ == 0.0) return true
-        if (target.pos.distanceTo(Vec3d(targetX, targetY, targetZ)) > 1) return true
+        if (target.entityPos.distanceTo(Vec3d(targetX, targetY, targetZ)) > 1) return true
         if (mob.navigation.isIdle && mob.distanceTo(target) > 1) return true
 
         return mob.random.nextFloat() < 0.05

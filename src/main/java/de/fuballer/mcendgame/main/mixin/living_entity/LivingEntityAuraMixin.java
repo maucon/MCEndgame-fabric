@@ -2,16 +2,15 @@ package de.fuballer.mcendgame.main.mixin.living_entity;
 
 import de.fuballer.mcendgame.main.accessor.LivingEntityAuraAccessor;
 import de.fuballer.mcendgame.main.component.custom_attribute.effects.data.AuraStatusEffect;
-import de.fuballer.mcendgame.main.messaging.misc.GainStatusEffectCommand;
 import de.fuballer.mcendgame.main.util.extension.EntityExtension;
-import de.maucon.mauconframework.command.CommandGateway;
 import net.minecraft.entity.LivingEntity;
 import net.minecraft.entity.effect.StatusEffect;
-import net.minecraft.nbt.NbtCompound;
 import net.minecraft.nbt.NbtElement;
 import net.minecraft.nbt.NbtOps;
 import net.minecraft.registry.RegistryOps;
 import net.minecraft.registry.entry.RegistryEntry;
+import net.minecraft.storage.ReadView;
+import net.minecraft.storage.WriteView;
 import net.minecraft.util.TypeFilter;
 import net.minecraft.world.World;
 import org.spongepowered.asm.mixin.Mixin;
@@ -57,8 +56,8 @@ public class LivingEntityAuraMixin implements LivingEntityAuraAccessor {
     @Inject(method = "tick", at = @At("HEAD"))
     void tick(CallbackInfo ci) {
         var entity = (LivingEntity) (Object) this;
-        var world = entity.getWorld();
-        if (world.isClient) return;
+        var world = entity.getEntityWorld();
+        if (world.isClient()) return;
         if (entity.age % 10 != 0) return;
 
         applyAuraStatusEffects(entity, world, allyAuraStatusEffects, true);
@@ -99,31 +98,25 @@ public class LivingEntityAuraMixin implements LivingEntityAuraAccessor {
         }
     }
 
-    @Inject(method = "writeCustomDataToNbt", at = @At("TAIL"))
-    void writeNBT(NbtCompound nbt, CallbackInfo ci) {
-        var entity = (LivingEntity) (Object) this;
-        RegistryOps<NbtElement> registryOps = entity.getRegistryManager().getOps(NbtOps.INSTANCE);
-
+    @Inject(method = "writeCustomData", at = @At("TAIL"))
+    void writeNBT(WriteView view, CallbackInfo ci) {
         if (!allyAuraStatusEffects.isEmpty()) {
-            nbt.put(ALLY_AURA_STATUS_EFFECTS_NBT, AuraStatusEffect.Companion.getCODEC().listOf(), registryOps, List.copyOf(allyAuraStatusEffects.values()));
+            view.put(ALLY_AURA_STATUS_EFFECTS_NBT, AuraStatusEffect.Companion.getCODEC().listOf(), List.copyOf(allyAuraStatusEffects.values()));
         }
         if (!enemyAuraStatusEffects.isEmpty()) {
-            nbt.put(ENEMY_AURA_STATUS_EFFECTS_NBT, AuraStatusEffect.Companion.getCODEC().listOf(), registryOps, List.copyOf(enemyAuraStatusEffects.values()));
+            view.put(ENEMY_AURA_STATUS_EFFECTS_NBT, AuraStatusEffect.Companion.getCODEC().listOf(), List.copyOf(enemyAuraStatusEffects.values()));
         }
     }
 
-    @Inject(method = "readCustomDataFromNbt", at = @At("TAIL"))
-    void readNBT(NbtCompound nbt, CallbackInfo ci) {
-        var entity = (LivingEntity) (Object) this;
-
-        RegistryOps<NbtElement> registryOps = entity.getRegistryManager().getOps(NbtOps.INSTANCE);
-        List<AuraStatusEffect> allyEffects = nbt.get(ALLY_AURA_STATUS_EFFECTS_NBT, AuraStatusEffect.Companion.getCODEC().listOf(), registryOps).orElse(List.of());
+    @Inject(method = "readCustomData", at = @At("TAIL"))
+    void readNBT(ReadView view, CallbackInfo ci) {
+        List<AuraStatusEffect> allyEffects = view.read(ALLY_AURA_STATUS_EFFECTS_NBT, AuraStatusEffect.Companion.getCODEC().listOf()).orElse(List.of());
         allyAuraStatusEffects.clear();
         for (AuraStatusEffect auraStatusEffect : allyEffects) {
             allyAuraStatusEffects.put(auraStatusEffect.getType(), auraStatusEffect);
         }
 
-        List<AuraStatusEffect> enemyEffects = nbt.get(ENEMY_AURA_STATUS_EFFECTS_NBT, AuraStatusEffect.Companion.getCODEC().listOf(), registryOps).orElse(List.of());
+        List<AuraStatusEffect> enemyEffects = view.read(ENEMY_AURA_STATUS_EFFECTS_NBT, AuraStatusEffect.Companion.getCODEC().listOf()).orElse(List.of());
         enemyAuraStatusEffects.clear();
         for (AuraStatusEffect auraStatusEffect : enemyEffects) {
             enemyAuraStatusEffects.put(auraStatusEffect.getType(), auraStatusEffect);

@@ -42,7 +42,7 @@ object Portals {
             entity.dataTracker.set(PortalEntity.TYPE, type.getId())
             entity.setPosition(pos)
             entity.lookAt(EntityAnchorArgumentType.EntityAnchor.FEET, lookAt)
-            rotation?.let { entity.rotate(it, 0f) }
+            rotation?.let { entity.rotate(it, false, 0f, false) }
             entity.singleUse = singleUse
             entity.type = type
             entity.teleportLocation = teleportLocation

@@ -214,7 +214,7 @@ public abstract class LivingEntityDamageMixin {
         boolean bl4 = bl3 = !bl || amount > 0.0f;
         if (bl3) {
             this.lastDamageSource = source;
-            this.lastDamageTime = this_.getWorld().getTime();
+            this.lastDamageTime = this_.getEntityWorld().getTime();
             for (StatusEffectInstance statusEffectInstance : this_.getStatusEffects()) {
                 statusEffectInstance.onEntityDamage(world, this_, source, amount);
             }

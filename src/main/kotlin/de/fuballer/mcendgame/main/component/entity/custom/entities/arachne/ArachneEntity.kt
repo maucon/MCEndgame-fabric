@@ -175,7 +175,7 @@ class ArachneEntity(
     override fun tick() {
         super.tick()
 
-        if (world.isClient) return
+        if (entityWorld.isClient) return
         tickChangeToRanged()
         updateAttackPose()
         updateBlockMovementTicks()
@@ -237,7 +237,7 @@ class ArachneEntity(
     }
 
     private fun updateAttackPose() {
-        if (world.isClient) return
+        if (entityWorld.isClient) return
         if (attackAnimationTicks <= 0) return
         if (--attackAnimationTicks > 0) return
 
@@ -263,7 +263,7 @@ class ArachneEntity(
         target: LivingEntity,
         projectile: ProjectileEntity,
     ) {
-        val serverWorld = world as? ServerWorld ?: return
+        val serverWorld = entityWorld as? ServerWorld ?: return
 
         val xDistance = target.x - x
         val zDistance = target.z - z
@@ -285,7 +285,7 @@ class ArachneEntity(
         target: LivingEntity,
         pullProgress: Float,
     ) {
-        val serverWorld = world as? ServerWorld ?: return
+        val serverWorld = entityWorld as? ServerWorld ?: return
         val projectile = WebshotEntity(CustomEntities.WEBSHOT, serverWorld, this)
         projectile.setDamage(getAttributeValue(EntityAttributes.ATTACK_DAMAGE) / 2.0)
         shootAt(target, projectile)
@@ -294,7 +294,7 @@ class ArachneEntity(
     override fun shootHookAt(
         target: LivingEntity,
     ) {
-        val serverWorld = world as? ServerWorld ?: return
+        val serverWorld = entityWorld as? ServerWorld ?: return
         val projectile = WebhookEntity(CustomEntities.WEBHOOK, serverWorld, this)
         projectile.setDamage(1.0)
         shootAt(target, projectile)
@@ -337,7 +337,7 @@ class ArachneEntity(
     ) {
         if (!state.fluidState.isEmpty) return
 
-        val blockState = world.getBlockState(pos.up())
+        val blockState = entityWorld.getBlockState(pos.up())
         val blockSoundGroup = if (blockState.isOf(Blocks.SNOW)) blockState.soundGroup else state.soundGroup
 
         playSound(SoundEvents.ENTITY_SPIDER_STEP, blockSoundGroup.getVolume() * 0.15f, blockSoundGroup.getPitch())
@@ -348,7 +348,7 @@ class ArachneEntity(
     override fun addHookedEntity(hookedUuid: UUID) {
         super.addHookedEntity(hookedUuid)
 
-        val world = world as? ServerWorld ?: return
+        val world = entityWorld as? ServerWorld ?: return
         val entity = world.getEntity(hookedUuid) as? LivingEntity ?: return
 
         triggerMeleeOnHook(entity)
@@ -368,7 +368,7 @@ class ArachneEntity(
     override fun removeHookedEntity(hookedUuid: UUID) {
         super.removeHookedEntity(hookedUuid)
 
-        val world = world as? ServerWorld ?: return
+        val world = entityWorld as? ServerWorld ?: return
         val entity = world.getEntity(hookedUuid) ?: return
 
         if (entity !is LivingEntity) return
@@ -378,7 +378,7 @@ class ArachneEntity(
     override fun onDeath(damageSource: DamageSource?) {
         super.onDeath(damageSource)
 
-        val serverWorld = world as? ServerWorld ?: return
+        val serverWorld = entityWorld as? ServerWorld ?: return
         hookedEntityUuidMap.keys.forEach { uuid ->
             val entity = serverWorld.getEntity(uuid) as? LivingEntity ?: return@forEach
             entity.setWebbed(false)
@@ -395,7 +395,7 @@ class ArachneEntity(
     }
 
     private fun dealAttackDamage() {
-        val serverWorld = world as? ServerWorld ?: return
+        val serverWorld = entityWorld as? ServerWorld ?: return
 
         var targets = serverWorld.getEntitiesByClass(
             LivingEntity::class.java,
@@ -405,8 +405,8 @@ class ArachneEntity(
         val forward = getRotationVector(pitch, bodyYaw).horizontal.normalize()
         val sideways = forward.crossProduct(Vec3d(0.0, 1.0, 0.0))
         targets = targets.filter {
-            isInAttackArea(it.pos.subtract(pos), forward, sideways)
-                    || isInAttackArea(it.eyePos.subtract(pos), forward, sideways)
+            isInAttackArea(it.entityPos.subtract(entityPos), forward, sideways)
+                    || isInAttackArea(it.eyePos.subtract(entityPos), forward, sideways)
         }
 
         val damage = getAttributeValue(EntityAttributes.ATTACK_DAMAGE).toFloat()
@@ -416,9 +416,9 @@ class ArachneEntity(
         targets.forEach {
             it.dealGenericAttackDamage(damage, this)
 
-            if (it is PlayerEntity && world is ServerWorld) it.setShieldsCooldown(MELEE_SHIELD_DISABLE_TIME)
+            if (it is PlayerEntity && entityWorld is ServerWorld) it.setShieldsCooldown(MELEE_SHIELD_DISABLE_TIME)
 
-            it.velocityModified = true
+            it.velocityDirty = true
             it.takeKnockbackFrom(this, knockBackStrength, -knockBackDirection.x, -knockBackDirection.z) //takeKnockback inverts it
         }
     }

@@ -12,6 +12,6 @@ data class IgnoreDamageCommand(
 ) {
     companion object {
         fun of(entity: LivingEntity, damageSource: DamageSource) =
-            IgnoreDamageCommand(entity.world, entity, damageSource)
+            IgnoreDamageCommand(entity.entityWorld, entity, damageSource)
     }
 }

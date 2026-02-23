@@ -2,7 +2,7 @@ package de.fuballer.mcendgame.main.component.status_effect.molten_roar
 
 import de.fuballer.mcendgame.main.component.damage.DamageCalculationCommand
 import de.fuballer.mcendgame.main.component.status_effect.CustomStatusEffects
-import de.fuballer.mcendgame.main.messaging.collectAttribute.CollectGenericMoreDamageCommand
+import de.fuballer.mcendgame.main.messaging.collect_attribute.CollectGenericMoreDamageCommand
 import de.maucon.mauconframework.command.CommandHandler
 import de.maucon.mauconframework.di.annotation.Injectable
 import net.minecraft.entity.LivingEntity
