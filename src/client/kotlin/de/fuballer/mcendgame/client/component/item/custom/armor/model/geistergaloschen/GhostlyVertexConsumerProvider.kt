@@ -4,6 +4,7 @@ import de.fuballer.mcendgame.client.mixin.ghostly_appearance.accessors.RenderLay
 import de.fuballer.mcendgame.client.mixin.ghostly_appearance.accessors.RenderLayerMultiPhaseParametersAccessorMixin
 import de.fuballer.mcendgame.client.mixin.ghostly_appearance.accessors.RenderPhaseTextureAccessorMixin
 import net.minecraft.client.render.RenderLayer
+import net.minecraft.client.render.RenderLayers
 import net.minecraft.client.render.VertexConsumer
 import net.minecraft.client.render.VertexConsumerProvider
 import net.minecraft.util.Identifier
@@ -38,12 +39,12 @@ class GhostlyVertexConsumerProvider(
             "entity_cutout_no_cull",
             "entity_cutout_no_cull_z_offset",
             "entity_solid_z_offset_forward",
-            "entity_smooth_cutout" -> delegate.getBuffer(RenderLayer.getEntityTranslucent(texture))
+            "entity_smooth_cutout" -> delegate.getBuffer(RenderLayers.entityTranslucent(texture))
 
             "item_entity_translucent_cull" -> delegate.getBuffer(layer)
 
             "armor_translucent" -> delegate.getBuffer(layer)
-            "armor_cutout_no_cull" -> delegate.getBuffer(RenderLayer.createArmorTranslucent(texture))
+            "armor_cutout_no_cull" -> delegate.getBuffer(RenderLayers.armorTranslucent(texture))
 
             else -> delegate.getBuffer(layer)
         }

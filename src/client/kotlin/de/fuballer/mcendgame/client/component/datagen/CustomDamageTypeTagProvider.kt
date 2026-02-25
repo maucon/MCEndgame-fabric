@@ -19,20 +19,20 @@ class CustomDamageTypeTagProvider(
     override fun getName() = "${MCEndgame.MOD_ID}DamageTypeTagProvider"
 
     override fun configure(arg: RegistryWrapper.WrapperLookup) {
-        getOrCreateTagBuilder(DamageTypeTags.NO_KNOCKBACK)
-            .addOptional(CustomDamageTypes.ELEMENTAL)
+        getTagBuilder(DamageTypeTags.NO_KNOCKBACK)
+            .addOptional(CustomDamageTypes.ELEMENTAL.value)
 
-        getOrCreateTagBuilder(DamageTypeTags.BYPASSES_SHIELD)
-            .addOptional(CustomDamageTypes.GENERIC_ATTACK_UNBLOCKABLE)
+        getTagBuilder(DamageTypeTags.BYPASSES_SHIELD)
+            .addOptional(CustomDamageTypes.GENERIC_ATTACK_UNBLOCKABLE.value)
 
-        getOrCreateTagBuilder(CustomTags.MELEE_ATTACK)
-            .add(DamageTypes.PLAYER_ATTACK)
-            .add(DamageTypes.MOB_ATTACK)
-            .add(DamageTypes.MOB_ATTACK_NO_AGGRO)
-            .add(DamageTypes.STING)
-            .add(DamageTypes.MACE_SMASH)
-            .addOptional(CustomDamageTypes.GENERIC_ATTACK)
-            .addOptional(CustomDamageTypes.GENERIC_ATTACK_UNBLOCKABLE)
-            .addOptional(CustomDamageTypes.SWEEPING)
+        getTagBuilder(CustomTags.MELEE_ATTACK)
+            .add(DamageTypes.PLAYER_ATTACK.value)
+            .add(DamageTypes.MOB_ATTACK.value)
+            .add(DamageTypes.MOB_ATTACK_NO_AGGRO.value)
+            .add(DamageTypes.STING.value)
+            .add(DamageTypes.MACE_SMASH.value)
+            .addOptional(CustomDamageTypes.GENERIC_ATTACK.value)
+            .addOptional(CustomDamageTypes.GENERIC_ATTACK_UNBLOCKABLE.value)
+            .addOptional(CustomDamageTypes.SWEEPING.value)
     }
 }

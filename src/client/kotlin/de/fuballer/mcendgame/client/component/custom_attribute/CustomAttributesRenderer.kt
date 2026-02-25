@@ -13,7 +13,7 @@ import de.maucon.mauconframework.command.CommandHandler
 import de.maucon.mauconframework.di.annotation.Injectable
 import net.fabricmc.api.EnvType
 import net.fabricmc.api.Environment
-import net.minecraft.client.gui.screen.Screen
+import net.minecraft.client.MinecraftClient
 import net.minecraft.text.Text
 import net.minecraft.util.Formatting
 
@@ -32,7 +32,7 @@ class CustomAttributesRenderer {
 
         customAttributes
             .reversed()
-            .map { attribute -> buildAttributeLine(attribute, Screen.hasShiftDown()) }
+            .map { attribute -> buildAttributeLine(attribute, MinecraftClient.getInstance().isShiftPressed) }
             .forEach { cmd.texts.add(1, it) }
     }
 

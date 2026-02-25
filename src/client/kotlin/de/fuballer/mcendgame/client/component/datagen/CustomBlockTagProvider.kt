@@ -14,15 +14,15 @@ class CustomBlockTagProvider(
     registryLookup: CompletableFuture<RegistryWrapper.WrapperLookup>,
 ) : FabricTagProvider.BlockTagProvider(dataOutput, registryLookup) {
     override fun configure(wrapperLookup: RegistryWrapper.WrapperLookup) {
-        getOrCreateTagBuilder(BlockTags.PICKAXE_MINEABLE)
+        valueLookupBuilder(BlockTags.PICKAXE_MINEABLE)
             .add(CustomBlocks.DUNGEON_DEVICE)
             .add(CustomBlocks.CRYSTAL_FORGE)
             .add(CustomBlocks.TOTEM_STATUE)
 
-        getOrCreateTagBuilder(BlockTags.SWORD_EFFICIENT)
+        valueLookupBuilder(BlockTags.SWORD_EFFICIENT)
             .add(CustomBlocks.DECAYING_COBWEB)
 
-        getOrCreateTagBuilder(CustomTags.DUNGEON_BREAKABLE)
+        valueLookupBuilder(CustomTags.DUNGEON_BREAKABLE)
             .forceAddTag(BlockTags.FLOWERS)
             .forceAddTag(BlockTags.CORALS)
             .forceAddTag(BlockTags.WALL_CORALS)
@@ -79,7 +79,7 @@ class CustomBlockTagProvider(
             .add(Blocks.LILY_PAD)
             .add(Blocks.BAMBOO_SAPLING)
 
-        getOrCreateTagBuilder(CustomTags.PHASING_BLOCKING)
+        valueLookupBuilder(CustomTags.PHASING_BLOCKING)
             .add(Blocks.BARRIER)
             .add(Blocks.BEDROCK)
     }

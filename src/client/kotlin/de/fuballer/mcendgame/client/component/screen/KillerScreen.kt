@@ -5,11 +5,11 @@ import de.fuballer.mcendgame.main.component.killer.KillerScreenHandler
 import de.fuballer.mcendgame.main.component.killer.db.KillerEntity
 import de.fuballer.mcendgame.main.util.minecraft.IdentifierUtil
 import net.minecraft.client.MinecraftClient
+import net.minecraft.client.gl.RenderPipelines
 import net.minecraft.client.gui.DrawContext
 import net.minecraft.client.gui.screen.ingame.HandledScreen
 import net.minecraft.client.gui.screen.ingame.InventoryScreen
 import net.minecraft.client.network.OtherClientPlayerEntity
-import net.minecraft.client.render.RenderLayer
 import net.minecraft.entity.EntityType
 import net.minecraft.entity.LivingEntity
 import net.minecraft.entity.SpawnReason
@@ -17,7 +17,6 @@ import net.minecraft.entity.effect.StatusEffectInstance
 import net.minecraft.entity.player.PlayerInventory
 import net.minecraft.registry.Registries
 import net.minecraft.text.Text
-import net.minecraft.util.Identifier
 import kotlin.jvm.optionals.getOrNull
 
 private val TEXTURE = IdentifierUtil.default("textures/gui/container/killer.png")
@@ -104,7 +103,7 @@ class KillerScreen(
         val textureY = (height - backgroundHeight) / 2
 
         context.drawTexture(
-            { texture: Identifier -> RenderLayer.getGuiTextured(texture) },
+            RenderPipelines.GUI_TEXTURED,
             TEXTURE,
             textureX,
             textureY,

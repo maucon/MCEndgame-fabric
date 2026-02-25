@@ -67,7 +67,7 @@ class ArachneRenderer(
         webHookData.offset = entity.getLeashOffset(tickDelta).rotateY(-yaw)
         webHookData.originEntity.pos = entity.getLeashPos(tickDelta)
 
-        val world = entity.world
+        val world = entity.entityWorld
 
         val blockPos = BlockPos.ofFloored(entity.getCameraPosVec(tickDelta))
         webHookData.originEntity.blockLight = getBlockLight(entity, blockPos)
@@ -117,7 +117,7 @@ class ArachneRenderer(
 
             matrices.push()
             matrices.translate(webHookData.offset)
-            val vertexConsumer = vertexConsumers.getBuffer(RenderLayer.getLeash())
+            val vertexConsumer = vertexConsumers.getBuffer(RenderLayers.leash())
             val matrix4f = matrices.peek().positionMatrix
 
             for (segment in 0..24) {
@@ -210,7 +210,7 @@ class ArachneRenderer(
     ): Boolean {
         if (super.shouldRender(entity, frustum, x, y, z)) return true
 
-        val world = entity.world
+        val world = entity.entityWorld
         for (hookedId in entity.hookedEntityIds) {
             val hookedEntity = world.getEntityById(hookedId) ?: continue
             if (frustum.isVisible(hookedEntity.boundingBox)) return true

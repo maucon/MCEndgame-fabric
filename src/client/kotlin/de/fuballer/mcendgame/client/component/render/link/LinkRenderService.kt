@@ -8,7 +8,7 @@ import de.fuballer.mcendgame.main.accessor.LivingEntityLinkAttributeAccessor
 import de.fuballer.mcendgame.main.component.custom_attribute.effects.link.LinkSettings
 import de.maucon.mauconframework.command.CommandHandler
 import de.maucon.mauconframework.di.annotation.Injectable
-import net.fabricmc.fabric.api.client.rendering.v1.WorldRenderContext
+import net.fabricmc.fabric.api.client.rendering.v1.world.WorldRenderContext
 import net.minecraft.client.MinecraftClient
 import net.minecraft.client.network.ClientPlayerEntity
 import net.minecraft.client.render.LightmapTextureManager
@@ -33,8 +33,8 @@ class LinkRenderService {
     fun on(cmd: AfterEntitiesRenderCommand) {
         val context = cmd.context
         val client = MinecraftClient.getInstance()
-        val cameraPos = context.camera().pos
-        val tickDelta = context.tickCounter().getTickProgress(false)
+        val cameraPos = client.cameraEntity?.entityPos ?: return // context.gameRenderer().camera.cameraPos
+        val tickDelta = client.renderTickCounter.getTickProgress(false)
 
         val player = client.player
         val firstPerson = client.options.perspective.isFirstPerson
@@ -56,8 +56,8 @@ class LinkRenderService {
 
         val data = MultipleEntityConnectionData()
         data.offset = Vec3d(0.0, entity.height * LinkSettings.LINK_CONNECTION_HEIGHT, 0.0)
-        data.originEntity = getLinkOriginEntityData(entity, tickDelta, entity.world)
-        data.connectedEntities = getLinkedEntitiesData(linkedEntities, tickDelta, entity.world)
+        data.originEntity = getLinkOriginEntityData(entity, tickDelta, entity.entityWorld)
+        data.connectedEntities = getLinkedEntitiesData(linkedEntities, tickDelta, entity.entityWorld)
 
         if (firstPerson && entity == player) {
             val yawRadians = Math.toRadians(player.getLerpedYaw(tickDelta).toDouble())
@@ -71,8 +71,8 @@ class LinkRenderService {
         val cameraOffset = entity.getLerpedPos(tickDelta).subtract(cameraPos)
         data.offset = data.offset.add(cameraOffset)
 
-        val matrixStack = context.matrixStack() ?: return
-        val vertexConsumerProvider = context.consumers() ?: return
+        val matrixStack = context.matrices()
+        val vertexConsumerProvider = context.consumers()
         val age = entity.age + tickDelta
 
         renderLinks(matrixStack, vertexConsumerProvider, data, age)

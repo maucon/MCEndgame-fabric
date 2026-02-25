@@ -17,17 +17,17 @@ class CustomItemTagProvider(
     registryLookup: CompletableFuture<RegistryWrapper.WrapperLookup>,
 ) : FabricTagProvider.ItemTagProvider(dataOutput, registryLookup) {
     override fun configure(wrapperLookup: RegistryWrapper.WrapperLookup) {
-        getOrCreateTagBuilder(ItemTags.SWORDS)
+        valueLookupBuilder(ItemTags.SWORDS)
             .add(CustomToolItems.TWINFIRE)
             .add(CustomToolItems.BLOODHARVEST)
             .add(CustomToolItems.SERPENTS_FANG)
             .add(CustomToolItems.NIGHTREAVER)
             .add(CustomToolItems.RADIANT_DAWN)
 
-        getOrCreateTagBuilder(ItemTags.AXES)
+        valueLookupBuilder(ItemTags.AXES)
             .add(CustomToolItems.FATESPLITTER)
 
-        getOrCreateTagBuilder(ItemTags.HEAD_ARMOR)
+        valueLookupBuilder(ItemTags.HEAD_ARMOR)
             .add(CustomArmorItems.DRUIDS_HELMET)
             .add(CustomArmorItems.ICEBORNE)
             .add(CustomArmorItems.SUEDE_HELMET)
@@ -35,14 +35,14 @@ class CustomItemTagProvider(
             .add(CustomArmorItems.EMBERCHANT)
             .add(CustomArmorItems.ABYSSAL_MASK)
 
-        getOrCreateTagBuilder(ItemTags.CHEST_ARMOR)
+        valueLookupBuilder(ItemTags.CHEST_ARMOR)
             .add(CustomArmorItems.BOUND_ABYSS)
             .add(CustomArmorItems.DRUIDS_CHESTPLATE)
             .add(CustomArmorItems.SUEDE_CHESTPLATE)
             .add(CustomArmorItems.VOIDWEAVER)
             .add(CustomArmorItems.WITHER_ROSE_CHESTPLATE)
 
-        getOrCreateTagBuilder(ItemTags.LEG_ARMOR)
+        valueLookupBuilder(ItemTags.LEG_ARMOR)
             .add(CustomArmorItems.LAMIAS_GIFT)
             .add(CustomArmorItems.DRUIDS_LEGGINGS)
             .add(CustomArmorItems.SUEDE_LEGGINGS)
@@ -50,37 +50,37 @@ class CustomItemTagProvider(
             .add(CustomArmorItems.STONEWARD)
             .add(CustomArmorItems.GILDED_TEMPEST)
 
-        getOrCreateTagBuilder(ItemTags.FOOT_ARMOR)
+        valueLookupBuilder(ItemTags.FOOT_ARMOR)
             .add(CustomArmorItems.DRUIDS_BOOTS)
             .add(CustomArmorItems.GEISTERGALOSCHEN)
             .add(CustomArmorItems.MOONSHADOW)
             .add(CustomArmorItems.SUEDE_BOOTS)
             .add(CustomArmorItems.WITHER_ROSE_BOOTS)
 
-        getOrCreateTagBuilder(CustomTags.BOW)
+        valueLookupBuilder(CustomTags.BOW)
             .add(Items.BOW)
             .add(CustomToolItems.WINDSTRING)
             .add(CustomToolItems.HAILSTORM)
             .add(CustomToolItems.DUSK_PIERCER)
 
-        getOrCreateTagBuilder(ItemTags.BOW_ENCHANTABLE)
+        valueLookupBuilder(ItemTags.BOW_ENCHANTABLE)
             .forceAddTag(CustomTags.BOW)
 
-        getOrCreateTagBuilder(CustomTags.SHIELD)
+        valueLookupBuilder(CustomTags.SHIELD)
             .add(Items.SHIELD)
             .add(CustomToolItems.GRUDGEBEARER)
 
-        getOrCreateTagBuilder(ItemTags.DURABILITY_ENCHANTABLE)
+        valueLookupBuilder(ItemTags.DURABILITY_ENCHANTABLE)
             .forceAddTag(CustomTags.BOW)
             .forceAddTag(CustomTags.SHIELD)
 
-        getOrCreateTagBuilder(ItemTags.DYEABLE)
+        valueLookupBuilder(ItemTags.DYEABLE)
             .add(CustomArmorItems.SUEDE_HELMET)
             .add(CustomArmorItems.SUEDE_CHESTPLATE)
             .add(CustomArmorItems.SUEDE_LEGGINGS)
             .add(CustomArmorItems.SUEDE_BOOTS)
 
-        getOrCreateTagBuilder(CustomTags.DIAMOND_GEAR)
+        valueLookupBuilder(CustomTags.DIAMOND_GEAR)
             .add(Items.DIAMOND_HELMET)
             .add(Items.DIAMOND_CHESTPLATE)
             .add(Items.DIAMOND_LEGGINGS)
@@ -91,7 +91,7 @@ class CustomItemTagProvider(
             .add(Items.DIAMOND_SHOVEL)
             .add(Items.DIAMOND_HOE)
 
-        getOrCreateTagBuilder(CustomTags.NETHERITE_GEAR)
+        valueLookupBuilder(CustomTags.NETHERITE_GEAR)
             .add(Items.NETHERITE_HELMET)
             .add(Items.NETHERITE_CHESTPLATE)
             .add(Items.NETHERITE_LEGGINGS)
@@ -102,11 +102,11 @@ class CustomItemTagProvider(
             .add(Items.NETHERITE_SHOVEL)
             .add(Items.NETHERITE_HOE)
 
-        getOrCreateTagBuilder(CustomTags.DUNGEON_DROP_DISABLED)
+        valueLookupBuilder(CustomTags.DUNGEON_DROP_DISABLED)
             .add(Items.TRIDENT)
             .add(Items.MACE)
 
-        getOrCreateTagBuilder(CustomTags.DUNGEON_DISABLED)
+        valueLookupBuilder(CustomTags.DUNGEON_DISABLED)
             .forceAddTag(ItemTags.BOATS)
             .forceAddTag(ItemTags.EGGS)
             .add(Items.ENDER_PEARL)
@@ -135,14 +135,14 @@ class CustomItemTagProvider(
             .add(Items.ITEM_FRAME)
             .add(Items.GLOW_ITEM_FRAME)
 
-        getOrCreateTagBuilder(CustomTags.CRYSTAL)
+        valueLookupBuilder(CustomTags.CRYSTAL)
             .add(CrystalItems.REFORGE_CRYSTAL)
             .add(CrystalItems.CORRUPTION_CRYSTAL)
             .add(CrystalItems.CALIBRATION_CRYSTAL)
             .add(CrystalItems.PERMUTATION_CRYSTAL)
             .add(CrystalItems.SACRIFICIAL_CRYSTAL)
 
-        getOrCreateTagBuilder(CustomTags.TOTEM)
+        valueLookupBuilder(CustomTags.TOTEM)
             .add(TotemItems.TOTEM_OF_BASTION)
             .add(TotemItems.TOTEM_OF_FORCE)
             .add(TotemItems.TOTEM_OF_FORTRESS)

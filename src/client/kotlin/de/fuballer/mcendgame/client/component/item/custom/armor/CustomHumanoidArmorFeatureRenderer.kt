@@ -31,7 +31,7 @@ import de.fuballer.mcendgame.main.component.item.custom.armor.CustomArmorItems
 import de.fuballer.mcendgame.main.util.minecraft.IdentifierUtil
 import net.minecraft.client.model.Model
 import net.minecraft.client.render.OverlayTexture
-import net.minecraft.client.render.RenderLayer
+import net.minecraft.client.render.RenderLayers
 import net.minecraft.client.render.VertexConsumerProvider
 import net.minecraft.client.render.entity.EntityRendererFactory
 import net.minecraft.client.render.entity.feature.FeatureRenderer
@@ -285,7 +285,7 @@ class CustomHumanoidArmorFeatureRenderer<S : BipedEntityRenderState, M : BipedEn
         color: Int = -1,
         translucent: Boolean = false,
     ) {
-        var renderLayer = if (translucent || bipedEntityRenderState.isGhostly()) RenderLayer.getEntityTranslucent(texture) else RenderLayer.getArmorCutoutNoCull(texture)
+        var renderLayer = if (translucent || bipedEntityRenderState.isGhostly()) RenderLayers.entityTranslucent(texture) else RenderLayers.armorCutoutNoCull(texture)
 
         var vertexConsumer = ItemRenderer.getArmorGlintConsumer(
             vertexConsumerProvider,
