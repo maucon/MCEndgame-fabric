@@ -1,13 +1,14 @@
 package de.fuballer.mcendgame.client.component.block.totem_statue
 
+import de.fuballer.mcendgame.client.component.block.totem_statue.TotemStatueBlockEntityModel.TotemStatueModelState
 import de.fuballer.mcendgame.main.util.minecraft.IdentifierUtil
 import net.minecraft.client.model.*
-import net.minecraft.client.render.RenderLayer
+import net.minecraft.client.render.RenderLayers
 import net.minecraft.client.render.entity.model.EntityModelLayer
 
 class TotemStatueBlockEntityModel(
     root: ModelPart,
-) : Model(root, RenderLayer::getEntityTranslucent) {
+) : Model<TotemStatueModelState>(root, RenderLayers::entityTranslucent) {
     companion object {
         val MODEL_LAYER = EntityModelLayer(IdentifierUtil.default("totem_statue"), "main")
 
@@ -29,4 +30,6 @@ class TotemStatueBlockEntityModel(
             return TexturedModelData.of(modelData, 32, 64)
         }
     }
+
+    class TotemStatueModelState()
 }

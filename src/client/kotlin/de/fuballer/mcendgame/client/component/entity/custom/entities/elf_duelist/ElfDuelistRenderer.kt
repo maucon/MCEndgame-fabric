@@ -4,13 +4,31 @@ import de.fuballer.mcendgame.client.component.entity.custom.feature.isolated.Iso
 import de.fuballer.mcendgame.main.component.entity.custom.entities.elf_duelist.ElfDuelistEntity
 import net.minecraft.client.render.entity.EntityRendererFactory
 import net.minecraft.client.render.entity.state.LivingEntityRenderState
+import software.bernie.geckolib.constant.DataTickets
 import software.bernie.geckolib.renderer.GeoEntityRenderer
+import software.bernie.geckolib.renderer.base.BoneSnapshots
 import software.bernie.geckolib.renderer.base.GeoRenderState
+import software.bernie.geckolib.renderer.base.RenderPassInfo
+import kotlin.math.PI
 
 class ElfDuelistRenderer<R>(
     context: EntityRendererFactory.Context
 ) : GeoEntityRenderer<ElfDuelistEntity, R>(context, ElfDuelistModel()) where R : LivingEntityRenderState, R : GeoRenderState {
     init {
-        addRenderLayer(IsolatedGeoLayer(this))
+        withRenderLayer(IsolatedGeoLayer(this))
+    }
+
+    override fun adjustModelBonesForRender(renderPassInfo: RenderPassInfo<R>, snapshots: BoneSnapshots) {
+        super.adjustModelBonesForRender(renderPassInfo, snapshots)
+
+        snapshots.get("head").ifPresent {
+            var pitch = renderPassInfo.getOrDefaultGeckolibData(DataTickets.ENTITY_PITCH, 0F)
+            pitch = Math.clamp(pitch, -35F, 35F)
+            it.rotX = -pitch * PI.toFloat() / 180F
+
+            var yaw = renderPassInfo.getOrDefaultGeckolibData(DataTickets.ENTITY_YAW, 0F)
+            yaw = Math.clamp(yaw, -45F, 45F)
+            it.rotY = -yaw * PI.toFloat() / 180F
+        }
     }
 }

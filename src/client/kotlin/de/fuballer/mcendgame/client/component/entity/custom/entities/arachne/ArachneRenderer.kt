@@ -6,8 +6,10 @@ import de.fuballer.mcendgame.main.component.entity.custom.entities.arachne.Arach
 import de.fuballer.mcendgame.main.component.entity.custom.entities.mount.DirectionalMovementEntity
 import de.fuballer.mcendgame.main.util.minecraft.IdentifierUtil
 import net.minecraft.client.render.*
+import net.minecraft.client.render.command.OrderedRenderCommandQueue
 import net.minecraft.client.render.entity.EntityRendererFactory
 import net.minecraft.client.render.entity.MobEntityRenderer
+import net.minecraft.client.render.state.CameraRenderState
 import net.minecraft.client.util.math.MatrixStack
 import net.minecraft.util.Identifier
 import net.minecraft.util.math.BlockPos
@@ -93,18 +95,18 @@ class ArachneRenderer(
     override fun render(
         state: ArachneRenderState,
         matrices: MatrixStack,
-        vertexConsumers: VertexConsumerProvider,
-        light: Int,
+        orderedRenderCommandQueue: OrderedRenderCommandQueue,
+        cameraRenderState: CameraRenderState,
     ) {
-        super.render(state, matrices, vertexConsumers, light)
+        super.render(state, matrices, orderedRenderCommandQueue, cameraRenderState)
 
         val webHookData = state.webHookData ?: return
-        renderWebHook(matrices, vertexConsumers, webHookData)
+        renderWebHook(matrices, orderedRenderCommandQueue, webHookData)
     }
 
     private fun renderWebHook(
         matrices: MatrixStack,
-        vertexConsumers: VertexConsumerProvider,
+        orderedRenderCommandQueue: OrderedRenderCommandQueue,
         webHookData: MultipleEntityConnectionData,
     ) {
         for (hookedData in webHookData.connectedEntities) {

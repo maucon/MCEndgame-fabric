@@ -2,6 +2,7 @@ package de.fuballer.mcendgame.client.component.entity.custom.entities.swamp_gole
 
 import de.fuballer.mcendgame.main.util.minecraft.IdentifierUtil
 import net.minecraft.client.model.*
+import net.minecraft.client.render.entity.animation.Animation
 import net.minecraft.client.render.entity.model.EntityModel
 import net.minecraft.client.render.entity.model.EntityModelLayer
 
@@ -24,6 +25,10 @@ class SwampGolemEntityModel(
     val rightLeg = lowerBody.getChild("right_leg")
     val upperRightLeg = rightLeg.getChild("upper_right_leg")
     val lowerRightLeg = upperRightLeg.getChild("lower_right_leg")
+
+    val walkingAnimation: Animation = SwampGolemAnimations.WALKING.createAnimation(modelPart)
+    val idleAnimation: Animation = SwampGolemAnimations.IDLE.createAnimation(modelPart)
+    val slamAnimation: Animation = SwampGolemAnimations.SLAM.createAnimation(modelPart)
 
     companion object {
         val SWAMP_GOLEM = EntityModelLayer(IdentifierUtil.default("swamp_golem"), "main")
@@ -132,9 +137,9 @@ class SwampGolemEntityModel(
     ) {
         super.setAngles(renderState)
 
-        animate(renderState.slamAnimationState, SwampGolemAnimation.SLAM, renderState.age, 1F)
-        animate(renderState.idleAnimationState, SwampGolemAnimation.IDLE, renderState.age, 1F)
-        animate(renderState.walkAnimationState, SwampGolemAnimation.WALK, renderState.age, 1F)
+        slamAnimation.apply(renderState.slamAnimationState, renderState.age)
+        idleAnimation.apply(renderState.idleAnimationState, renderState.age)
+        walkingAnimation.apply(renderState.walkAnimationState, renderState.age)
 
         setHeadAngles(renderState)
     }

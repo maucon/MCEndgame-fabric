@@ -3,12 +3,12 @@ package de.fuballer.mcendgame.client.component.entity.custom.entities.portal
 import de.fuballer.mcendgame.client.component.entity.custom.entities.portal.type.PortalRenderType
 import de.fuballer.mcendgame.main.component.portal.PortalEntity
 import net.minecraft.client.render.RenderLayer
-import net.minecraft.client.render.VertexConsumerProvider
+import net.minecraft.client.render.command.OrderedRenderCommandQueue
 import net.minecraft.client.render.entity.EntityRendererFactory
 import net.minecraft.client.render.entity.LivingEntityRenderer
 import net.minecraft.client.render.entity.model.EntityModel
+import net.minecraft.client.render.state.CameraRenderState
 import net.minecraft.client.util.math.MatrixStack
-import net.minecraft.text.Text
 import net.minecraft.util.Identifier
 
 class PortalRenderer(
@@ -22,7 +22,7 @@ class PortalRenderer(
         PortalRenderState()
 
     // do not render the name label
-    override fun renderLabelIfPresent(state: PortalRenderState, text: Text, matrices: MatrixStack, vertexConsumers: VertexConsumerProvider, light: Int) {}
+    override fun renderLabelIfPresent(state: PortalRenderState, matrices: MatrixStack, queue: OrderedRenderCommandQueue, cameraRenderState: CameraRenderState) {}
 
     override fun getTexture(state: PortalRenderState): Identifier = state.type.getTexture(state.age)
 
@@ -49,8 +49,10 @@ class PortalRenderer(
         state.closeAnimationState.copyFrom(entity.type.closeAnimationState)
     }
 
-    override fun render(state: PortalRenderState, matrixStack: MatrixStack, vertexConsumerProvider: VertexConsumerProvider, i: Int) {
+    override fun render(
+        state: PortalRenderState, matrixStack: MatrixStack, queue: OrderedRenderCommandQueue, cameraRenderState: CameraRenderState
+    ) {
         this.model = state.type.getModel(context)
-        super.render(state, matrixStack, vertexConsumerProvider, i)
+        super.render(state, matrixStack, queue, cameraRenderState)
     }
 }

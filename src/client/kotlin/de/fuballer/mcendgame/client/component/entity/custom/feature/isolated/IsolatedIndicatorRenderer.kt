@@ -5,7 +5,7 @@ import de.fuballer.mcendgame.main.component.custom_attribute.CustomAttributeUtil
 import de.fuballer.mcendgame.main.util.minecraft.IdentifierUtil
 import net.minecraft.client.MinecraftClient
 import net.minecraft.client.render.OverlayTexture
-import net.minecraft.client.render.RenderLayer
+import net.minecraft.client.render.RenderLayers
 import net.minecraft.client.render.VertexConsumerProvider
 import net.minecraft.client.render.entity.state.LivingEntityRenderState
 import net.minecraft.client.util.math.MatrixStack
@@ -48,7 +48,7 @@ object IsolatedIndicatorRenderer {
         matrices.multiply(RotationAxis.NEGATIVE_Y.rotationDegrees(state.bodyYaw - camera.yaw))
         matrices.multiply(RotationAxis.POSITIVE_X.rotationDegrees(camera.pitch))
 
-        val buffer = vertexConsumers.getBuffer(RenderLayer.getEntityCutoutNoCull(ICON_TEXTURE))
+        val buffer = vertexConsumers.getBuffer(RenderLayers.entityCutoutNoCull(ICON_TEXTURE))
         val matrix = matrices.peek().positionMatrix
 
         buffer.vertex(matrix, -0.2f, -0.2f, 0f)

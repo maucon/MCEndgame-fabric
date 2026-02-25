@@ -2,12 +2,14 @@ package de.fuballer.mcendgame.client.component.block.totem_statue
 
 import de.fuballer.mcendgame.main.component.block.totem_statue.TotemStatueBlockEntity
 import de.fuballer.mcendgame.main.util.minecraft.IdentifierUtil
-import net.minecraft.client.model.Model
+import net.minecraft.client.MinecraftClient
 import net.minecraft.client.render.OverlayTexture
-import net.minecraft.client.render.RenderLayer
-import net.minecraft.client.render.VertexConsumerProvider
+import net.minecraft.client.render.RenderLayers
 import net.minecraft.client.render.block.entity.BlockEntityRenderer
 import net.minecraft.client.render.block.entity.BlockEntityRendererFactory
+import net.minecraft.client.render.command.ModelCommandRenderer
+import net.minecraft.client.render.command.OrderedRenderCommandQueue
+import net.minecraft.client.render.state.CameraRenderState
 import net.minecraft.client.util.math.MatrixStack
 import net.minecraft.state.property.Properties
 import net.minecraft.util.math.RotationAxis
@@ -36,50 +38,12 @@ private const val DEG_ROTATION_PER_TICK = 5F
 
 class TotemStatueBlockEntityRenderer(
     context: BlockEntityRendererFactory.Context,
-) : BlockEntityRenderer<TotemStatueBlockEntity> {
-    private val model: Model
+) : BlockEntityRenderer<TotemStatueBlockEntity, TotemStatueBlockEntityRenderState> {
+    private val model: TotemStatueBlockEntityModel
 
     init {
         val loadedModels = context.loadedEntityModels
         model = TotemStatueBlockEntityModel(loadedModels.getModelPart(TotemStatueBlockEntityModel.MODEL_LAYER))
-    }
-
-    override fun render(
-        entity: TotemStatueBlockEntity,
-        tickProgress: Float,
-        matrices: MatrixStack,
-        vertexConsumers: VertexConsumerProvider,
-        light: Int,
-        overlay: Int,
-        cameraPos: Vec3d,
-    ) {
-        matrices.push()
-        matrices.translate(0.5F, 0.0F, 0.5F)
-        matrices.scale(-1.0F, -1.0F, 1.0F)
-
-        val state = entity.cachedState
-        val rotation = state.get(Properties.ROTATION)
-        val rotationDeg = RotationPropertyHelper.toDegrees(rotation)
-        matrices.multiply(RotationAxis.POSITIVE_Y.rotationDegrees(rotationDeg))
-
-        val activeTicks = entity.getActiveTicks()
-        if (activeTicks > 0) {
-            val preciseTick = activeTicks + tickProgress
-
-            val hoverOffset = getHoverOffset(preciseTick)
-            matrices.translate(0.0, -hoverOffset, 0.0)
-
-            val hoverRot = getHoverRotation(preciseTick)
-            matrices.multiply(RotationAxis.POSITIVE_Y.rotationDegrees(hoverRot))
-        }
-
-        val texture = if (entity.isActive()) ACTIVE_TEXTURE else TEXTURE
-        val renderLayer = RenderLayer.getEntityCutout(texture)
-        val vertexConsumer = vertexConsumers.getBuffer(renderLayer)
-
-        model.render(matrices, vertexConsumer, light, OverlayTexture.DEFAULT_UV)
-
-        matrices.pop()
     }
 
     private fun getHoverOffset(ticks: Float): Double {
@@ -98,5 +62,64 @@ class TotemStatueBlockEntityRenderer(
         val deg = ticks * DEG_ROTATION_PER_TICK
         val slowStartFactor = 1 - exp(-ticks * 0.01F)
         return deg * slowStartFactor
+    }
+
+    override fun createRenderState(): TotemStatueBlockEntityRenderState = TotemStatueBlockEntityRenderState()
+
+    override fun updateRenderState(
+        blockEntity: TotemStatueBlockEntity,
+        state: TotemStatueBlockEntityRenderState,
+        tickProgress: Float,
+        cameraPos: Vec3d,
+        crumblingOverlay: ModelCommandRenderer.CrumblingOverlayCommand?
+    ) {
+        super.updateRenderState(blockEntity, state, tickProgress, cameraPos, crumblingOverlay)
+
+        state.rotation = blockEntity.cachedState.get(Properties.ROTATION)
+        state.activeTicks = blockEntity.getActiveTicks()
+    }
+
+    override fun render(
+        state: TotemStatueBlockEntityRenderState,
+        matrices: MatrixStack,
+        queue: OrderedRenderCommandQueue,
+        cameraState: CameraRenderState,
+    ) {
+        matrices.push()
+        matrices.translate(0.5F, 0.0F, 0.5F)
+        matrices.scale(-1.0F, -1.0F, 1.0F)
+
+        val rotation = state.rotation
+        val rotationDeg = RotationPropertyHelper.toDegrees(rotation)
+        matrices.multiply(RotationAxis.POSITIVE_Y.rotationDegrees(rotationDeg))
+
+        val activeTicks = state.activeTicks
+        if (activeTicks > 0) {
+            val preciseTick = activeTicks + MinecraftClient.getInstance().renderTickCounter.getTickProgress(false)
+
+            val hoverOffset = getHoverOffset(preciseTick)
+            matrices.translate(0.0, -hoverOffset, 0.0)
+
+            val hoverRot = getHoverRotation(preciseTick)
+            matrices.multiply(RotationAxis.POSITIVE_Y.rotationDegrees(hoverRot))
+        }
+
+        val modelState = TotemStatueBlockEntityModel.TotemStatueModelState()
+        val texture = if (activeTicks >= 0) ACTIVE_TEXTURE else TEXTURE
+        val renderLayer = RenderLayers.entityCutout(texture)
+        queue.submitModel(
+            model,
+            modelState,
+            matrices,
+            renderLayer,
+            state.lightmapCoordinates,
+            OverlayTexture.DEFAULT_UV,
+            -1,
+            null,
+            0,
+            state.crumblingOverlay
+        )
+
+        matrices.pop()
     }
 }

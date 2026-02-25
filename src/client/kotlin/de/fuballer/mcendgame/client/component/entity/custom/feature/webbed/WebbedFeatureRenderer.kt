@@ -3,8 +3,8 @@ package de.fuballer.mcendgame.client.component.entity.custom.feature.webbed
 import de.fuballer.mcendgame.client.util.EntityRenderStateMixinExtension.isWebbed
 import de.fuballer.mcendgame.main.util.minecraft.IdentifierUtil
 import net.minecraft.client.render.OverlayTexture
-import net.minecraft.client.render.RenderLayer
-import net.minecraft.client.render.VertexConsumerProvider
+import net.minecraft.client.render.RenderLayers
+import net.minecraft.client.render.command.OrderedRenderCommandQueue
 import net.minecraft.client.render.entity.EntityRendererFactory
 import net.minecraft.client.render.entity.feature.FeatureRenderer
 import net.minecraft.client.render.entity.feature.FeatureRendererContext
@@ -26,7 +26,7 @@ class WebbedFeatureRenderer<T : LivingEntityRenderState, M : EntityModel<T>>(
 
     override fun render(
         matrices: MatrixStack,
-        vertexConsumers: VertexConsumerProvider,
+        queue: OrderedRenderCommandQueue,
         light: Int,
         state: T,
         limbAngle: Float,
@@ -49,8 +49,16 @@ class WebbedFeatureRenderer<T : LivingEntityRenderState, M : EntityModel<T>>(
         val scaleY = state.standingEyeHeight * 0.75F * invScale * (2F / 3F) // model is 1.5 blocks
         matrices.scale(scaleX, scaleY, scaleX)
 
-        val vertexConsumer = vertexConsumers.getBuffer(RenderLayer.getEntityCutout(TEXTURE))
-        model.render(matrices, vertexConsumer, light, OverlayTexture.DEFAULT_UV)
+        queue.submitModel(
+            model,
+            WebbedModel.WebbedData(),
+            matrices,
+            RenderLayers.entityCutout(TEXTURE),
+            light,
+            OverlayTexture.DEFAULT_UV,
+            state.outlineColor,
+            null,
+        )
 
         matrices.pop()
     }

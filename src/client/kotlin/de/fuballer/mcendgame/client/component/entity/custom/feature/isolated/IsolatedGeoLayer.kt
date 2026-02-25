@@ -6,12 +6,12 @@ import net.minecraft.client.render.VertexConsumerProvider
 import net.minecraft.client.render.entity.state.LivingEntityRenderState
 import net.minecraft.client.util.math.MatrixStack
 import software.bernie.geckolib.animatable.GeoAnimatable
-import software.bernie.geckolib.cache.`object`.BakedGeoModel
+import software.bernie.geckolib.cache.model.BakedGeoModel
 import software.bernie.geckolib.renderer.base.GeoRenderState
 import software.bernie.geckolib.renderer.base.GeoRenderer
 import software.bernie.geckolib.renderer.layer.GeoRenderLayer
 
-class IsolatedGeoLayer<T : GeoAnimatable, O, R : GeoRenderState>(
+class IsolatedGeoLayer<T : GeoAnimatable, O : Any, R : GeoRenderState>(
     renderer: GeoRenderer<T, O, R>,
 ) : GeoRenderLayer<T, O, R>(renderer) {
 

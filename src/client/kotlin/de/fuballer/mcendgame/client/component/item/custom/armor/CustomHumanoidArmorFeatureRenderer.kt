@@ -32,14 +32,17 @@ import de.fuballer.mcendgame.main.util.minecraft.IdentifierUtil
 import net.minecraft.client.model.Model
 import net.minecraft.client.render.OverlayTexture
 import net.minecraft.client.render.RenderLayers
-import net.minecraft.client.render.VertexConsumerProvider
+import net.minecraft.client.render.command.OrderedRenderCommandQueue
 import net.minecraft.client.render.entity.EntityRendererFactory
+import net.minecraft.client.render.entity.equipment.EquipmentModel
+import net.minecraft.client.render.entity.equipment.EquipmentRenderer
 import net.minecraft.client.render.entity.feature.FeatureRenderer
 import net.minecraft.client.render.entity.feature.FeatureRendererContext
 import net.minecraft.client.render.entity.model.BipedEntityModel
 import net.minecraft.client.render.entity.state.BipedEntityRenderState
 import net.minecraft.client.render.item.ItemRenderer
 import net.minecraft.client.util.math.MatrixStack
+import net.minecraft.component.DataComponentTypes
 import net.minecraft.component.type.DyedColorComponent
 import net.minecraft.entity.Entity
 import net.minecraft.entity.EntityType
@@ -51,6 +54,7 @@ import net.minecraft.util.Identifier
 class CustomHumanoidArmorFeatureRenderer<S : BipedEntityRenderState, M : BipedEntityModel<S>>(
     featureContext: FeatureRendererContext<S, M>,
     ctx: EntityRendererFactory.Context,
+    val equipmentRenderer: EquipmentRenderer = ctx.equipmentRenderer,
 ) : FeatureRenderer<S, M>(featureContext) {
     private val armorTransformers: Map<EntityType<out Entity>, EntityArmorTransformer> = mapOf(
         EntityType.HUSK to ScaleArmorTransformer(1.0625f),
@@ -159,62 +163,10 @@ class CustomHumanoidArmorFeatureRenderer<S : BipedEntityRenderState, M : BipedEn
         )
     }
 
-    override fun render(
-        matrixStack: MatrixStack,
-        vertexConsumerProvider: VertexConsumerProvider,
-        light: Int,
-        bipedEntityRenderState: S,
-        limbAngle: Float,
-        limbDistance: Float
-    ) {
-        val hiddenArmor = bipedEntityRenderState.getHiddenArmor()
-
-        if (!hiddenArmor.contains(EquipmentSlot.HEAD)) {
-            renderArmor(
-                bipedEntityRenderState,
-                matrixStack,
-                vertexConsumerProvider,
-                bipedEntityRenderState.equippedHeadStack,
-                light,
-                EquipmentSlot.HEAD,
-            )
-        }
-        if (!hiddenArmor.contains(EquipmentSlot.CHEST)) {
-            renderArmor(
-                bipedEntityRenderState,
-                matrixStack,
-                vertexConsumerProvider,
-                bipedEntityRenderState.equippedChestStack,
-                light,
-                EquipmentSlot.CHEST,
-            )
-        }
-        if (!hiddenArmor.contains(EquipmentSlot.LEGS)) {
-            renderArmor(
-                bipedEntityRenderState,
-                matrixStack,
-                vertexConsumerProvider,
-                bipedEntityRenderState.equippedLegsStack,
-                light,
-                EquipmentSlot.LEGS,
-            )
-        }
-        if (!hiddenArmor.contains(EquipmentSlot.FEET)) {
-            renderArmor(
-                bipedEntityRenderState,
-                matrixStack,
-                vertexConsumerProvider,
-                bipedEntityRenderState.equippedFeetStack,
-                light,
-                EquipmentSlot.FEET,
-            )
-        }
-    }
-
     private fun renderArmor(
         bipedEntityRenderState: S,
         matrices: MatrixStack,
-        vertexConsumerProvider: VertexConsumerProvider,
+        queue: OrderedRenderCommandQueue,
         itemStack: ItemStack,
         light: Int,
         slot: EquipmentSlot,
@@ -239,9 +191,10 @@ class CustomHumanoidArmorFeatureRenderer<S : BipedEntityRenderState, M : BipedEn
                 model,
                 texturedArmorModel.texture,
                 matrices,
-                vertexConsumerProvider,
+                queue,
                 light,
                 itemStack.hasGlint(),
+                itemStack,
             )
         }
 
@@ -251,9 +204,10 @@ class CustomHumanoidArmorFeatureRenderer<S : BipedEntityRenderState, M : BipedEn
                 model,
                 texturedArmorModel.colorAbleTexture,
                 matrices,
-                vertexConsumerProvider,
+                queue,
                 light,
                 itemStack.hasGlint(),
+                itemStack,
                 DyedColorComponent.getColor(itemStack, texturedArmorModel.defaultColor),
             )
         }
@@ -264,9 +218,10 @@ class CustomHumanoidArmorFeatureRenderer<S : BipedEntityRenderState, M : BipedEn
                 model,
                 texturedArmorModel.translucentTexture,
                 matrices,
-                vertexConsumerProvider,
+                queue,
                 light,
                 itemStack.hasGlint(),
+                itemStack,
                 translucent = true,
             )
         }
@@ -276,27 +231,79 @@ class CustomHumanoidArmorFeatureRenderer<S : BipedEntityRenderState, M : BipedEn
 
     private fun renderModel(
         bipedEntityRenderState: S,
-        model: Model,
+        model: Model<S>,
         texture: Identifier,
         matrices: MatrixStack,
-        vertexConsumerProvider: VertexConsumerProvider,
+        queue: OrderedRenderCommandQueue,
         light: Int,
         glint: Boolean,
+        stack: ItemStack,
         color: Int = -1,
         translucent: Boolean = false,
     ) {
-        var renderLayer = if (translucent || bipedEntityRenderState.isGhostly()) RenderLayers.entityTranslucent(texture) else RenderLayers.armorCutoutNoCull(texture)
-
-        var vertexConsumer = ItemRenderer.getArmorGlintConsumer(
-            vertexConsumerProvider,
-            renderLayer,
-            glint
+        val equippableComponent = stack.get(DataComponentTypes.EQUIPPABLE) ?: return
+        equipmentRenderer.render(
+            EquipmentModel.LayerType.HUMANOID,
+            equippableComponent.assetId().orElseThrow(),
+            model,
+            bipedEntityRenderState,
+            stack,
+            matrices,
+            queue,
+            light,
+            bipedEntityRenderState.outlineColor,
         )
+    }
 
-        if (model is CustomVertexConsumer) {
-            vertexConsumer = model.getVertexConsumer(bipedEntityRenderState, vertexConsumerProvider, vertexConsumer)
+    override fun render(
+        matrixStack: MatrixStack,
+        queue: OrderedRenderCommandQueue,
+        light: Int,
+        bipedEntityRenderState: S,
+        limbAngle: Float,
+        limbDistance: Float,
+    ) {
+        val hiddenArmor = bipedEntityRenderState.getHiddenArmor()
+
+        if (!hiddenArmor.contains(EquipmentSlot.HEAD)) {
+            renderArmor(
+                bipedEntityRenderState,
+                matrixStack,
+                queue,
+                bipedEntityRenderState.equippedHeadStack,
+                light,
+                EquipmentSlot.HEAD,
+            )
         }
-
-        model.render(matrices, vertexConsumer, light, OverlayTexture.DEFAULT_UV, color)
+        if (!hiddenArmor.contains(EquipmentSlot.CHEST)) {
+            renderArmor(
+                bipedEntityRenderState,
+                matrixStack,
+                queue,
+                bipedEntityRenderState.equippedChestStack,
+                light,
+                EquipmentSlot.CHEST,
+            )
+        }
+        if (!hiddenArmor.contains(EquipmentSlot.LEGS)) {
+            renderArmor(
+                bipedEntityRenderState,
+                matrixStack,
+                queue,
+                bipedEntityRenderState.equippedLegsStack,
+                light,
+                EquipmentSlot.LEGS,
+            )
+        }
+        if (!hiddenArmor.contains(EquipmentSlot.FEET)) {
+            renderArmor(
+                bipedEntityRenderState,
+                matrixStack,
+                queue,
+                bipedEntityRenderState.equippedFeetStack,
+                light,
+                EquipmentSlot.FEET,
+            )
+        }
     }
 }
