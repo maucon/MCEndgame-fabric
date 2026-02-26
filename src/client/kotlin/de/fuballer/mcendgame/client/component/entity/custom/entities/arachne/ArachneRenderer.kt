@@ -5,7 +5,10 @@ import de.fuballer.mcendgame.client.component.entity.custom.data.MultipleEntityC
 import de.fuballer.mcendgame.main.component.entity.custom.entities.arachne.ArachneEntity
 import de.fuballer.mcendgame.main.component.entity.custom.entities.mount.DirectionalMovementEntity
 import de.fuballer.mcendgame.main.util.minecraft.IdentifierUtil
-import net.minecraft.client.render.*
+import net.minecraft.client.render.Frustum
+import net.minecraft.client.render.LightmapTextureManager
+import net.minecraft.client.render.RenderLayers
+import net.minecraft.client.render.VertexConsumer
 import net.minecraft.client.render.command.OrderedRenderCommandQueue
 import net.minecraft.client.render.entity.EntityRendererFactory
 import net.minecraft.client.render.entity.MobEntityRenderer
@@ -106,7 +109,7 @@ class ArachneRenderer(
 
     private fun renderWebHook(
         matrices: MatrixStack,
-        orderedRenderCommandQueue: OrderedRenderCommandQueue,
+        queue: OrderedRenderCommandQueue,
         webHookData: MultipleEntityConnectionData,
     ) {
         for (hookedData in webHookData.connectedEntities) {
@@ -119,41 +122,41 @@ class ArachneRenderer(
 
             matrices.push()
             matrices.translate(webHookData.offset)
-            val vertexConsumer = vertexConsumers.getBuffer(RenderLayers.leash())
-            val matrix4f = matrices.peek().positionMatrix
 
-            for (segment in 0..24) {
-                renderWebHookSegment(
-                    vertexConsumer,
-                    matrix4f,
-                    hookedOffset,
-                    hookedData.blockLight,
-                    webHookData.originEntity.blockLight,
-                    hookedData.skyLight,
-                    webHookData.originEntity.skyLight,
-                    segmentSize,
-                    segmentSizeZ,
-                    segmentSizeX,
-                    segment,
-                    false,
-                )
-            }
+            queue.submitCustom(matrices, RenderLayers.leash()) { entry, vertexConsumer ->
+                for (segment in 0..24) {
+                    renderWebHookSegment(
+                        vertexConsumer,
+                        entry.positionMatrix,
+                        hookedOffset,
+                        hookedData.blockLight,
+                        webHookData.originEntity.blockLight,
+                        hookedData.skyLight,
+                        webHookData.originEntity.skyLight,
+                        segmentSize,
+                        segmentSizeZ,
+                        segmentSizeX,
+                        segment,
+                        false,
+                    )
+                }
 
-            for (segment in 24 downTo 0) {
-                renderWebHookSegment(
-                    vertexConsumer,
-                    matrix4f,
-                    hookedOffset,
-                    hookedData.blockLight,
-                    webHookData.originEntity.blockLight,
-                    hookedData.skyLight,
-                    webHookData.originEntity.skyLight,
-                    segmentSize,
-                    segmentSizeZ,
-                    segmentSizeX,
-                    segment,
-                    true,
-                )
+                for (segment in 24 downTo 0) {
+                    renderWebHookSegment(
+                        vertexConsumer,
+                        entry.positionMatrix,
+                        hookedOffset,
+                        hookedData.blockLight,
+                        webHookData.originEntity.blockLight,
+                        hookedData.skyLight,
+                        webHookData.originEntity.skyLight,
+                        segmentSize,
+                        segmentSizeZ,
+                        segmentSizeX,
+                        segment,
+                        true,
+                    )
+                }
             }
 
             matrices.pop()
