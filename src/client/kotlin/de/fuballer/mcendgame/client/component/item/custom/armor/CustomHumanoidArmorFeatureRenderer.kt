@@ -24,7 +24,6 @@ import de.fuballer.mcendgame.client.component.item.custom.armor.model.wither_ros
 import de.fuballer.mcendgame.client.component.item.custom.armor.model.wither_rose.WitherRoseLeggingsModel
 import de.fuballer.mcendgame.client.component.item.custom.armor.transformer.EntityArmorTransformer
 import de.fuballer.mcendgame.client.component.item.custom.armor.transformer.PiglinArmorTransformer
-import de.fuballer.mcendgame.client.component.item.custom.armor.transformer.ScaleArmorTransformer
 import de.fuballer.mcendgame.client.util.BipedEntityRenderStateMixinExtension.getHiddenArmor
 import de.fuballer.mcendgame.client.util.EntityRenderStateMixinExtension.isGhostly
 import de.fuballer.mcendgame.main.component.item.custom.armor.CustomArmorItems
@@ -34,7 +33,6 @@ import net.minecraft.client.render.OverlayTexture
 import net.minecraft.client.render.RenderLayers
 import net.minecraft.client.render.command.OrderedRenderCommandQueue
 import net.minecraft.client.render.entity.EntityRendererFactory
-import net.minecraft.client.render.entity.equipment.EquipmentRenderer
 import net.minecraft.client.render.entity.feature.FeatureRenderer
 import net.minecraft.client.render.entity.feature.FeatureRendererContext
 import net.minecraft.client.render.entity.model.BipedEntityModel
@@ -51,11 +49,8 @@ import net.minecraft.util.Identifier
 class CustomHumanoidArmorFeatureRenderer<S : BipedEntityRenderState, M : BipedEntityModel<S>>(
     featureContext: FeatureRendererContext<S, M>,
     ctx: EntityRendererFactory.Context,
-    val equipmentRenderer: EquipmentRenderer = ctx.equipmentRenderer,
 ) : FeatureRenderer<S, M>(featureContext) {
     private val armorTransformers: Map<EntityType<out Entity>, EntityArmorTransformer> = mapOf(
-        EntityType.HUSK to ScaleArmorTransformer(1.0625f),
-        EntityType.WITHER_SKELETON to ScaleArmorTransformer(1.2f),
         EntityType.PIGLIN to PiglinArmorTransformer(),
         EntityType.PIGLIN_BRUTE to PiglinArmorTransformer(),
         EntityType.ZOMBIFIED_PIGLIN to PiglinArmorTransformer(),
@@ -175,9 +170,7 @@ class CustomHumanoidArmorFeatureRenderer<S : BipedEntityRenderState, M : BipedEn
         val texturedArmorModel = texturedArmorModels[item] ?: return
 
         val model = texturedArmorModel.model
-        contextModel.copyTransforms(model)
-
-        model.setAngles(bipedEntityRenderState)
+        model.copyTransforms(contextModel)
 
         matrices.push()
         armorTransformers[bipedEntityRenderState.entityType]?.transform(slot, matrices)
