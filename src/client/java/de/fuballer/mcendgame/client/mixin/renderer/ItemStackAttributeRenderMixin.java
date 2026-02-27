@@ -1,61 +1,39 @@
 package de.fuballer.mcendgame.client.mixin.renderer;
 
+import com.llamalad7.mixinextras.injector.wrapoperation.Operation;
+import com.llamalad7.mixinextras.injector.wrapoperation.WrapOperation;
 import de.fuballer.mcendgame.main.MCEndgame;
-import net.minecraft.component.DataComponentTypes;
 import net.minecraft.component.type.AttributeModifierSlot;
-import net.minecraft.component.type.TooltipDisplayComponent;
+import net.minecraft.component.type.AttributeModifiersComponent;
 import net.minecraft.entity.attribute.EntityAttribute;
 import net.minecraft.entity.attribute.EntityAttributeModifier;
-import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.item.ItemStack;
 import net.minecraft.registry.entry.RegistryEntry;
-import net.minecraft.screen.ScreenTexts;
-import net.minecraft.text.Text;
-import net.minecraft.util.Formatting;
-import org.apache.commons.lang3.mutable.MutableBoolean;
-import org.jetbrains.annotations.Nullable;
+import org.apache.commons.lang3.function.TriConsumer;
 import org.spongepowered.asm.mixin.Mixin;
-import org.spongepowered.asm.mixin.Shadow;
 import org.spongepowered.asm.mixin.injection.At;
-import org.spongepowered.asm.mixin.injection.Inject;
-import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
-
-import java.util.function.Consumer;
 
 @Mixin(ItemStack.class)
 public abstract class ItemStackAttributeRenderMixin {
-    @Shadow
-    protected abstract void appendAttributeModifierTooltip(Consumer<Text> textConsumer, @Nullable PlayerEntity player, RegistryEntry<EntityAttribute> attribute, EntityAttributeModifier modifier);
-
-    @Inject(at = @At("HEAD"), method = "appendAttributeModifiersTooltip", cancellable = true) // TODO make less invasive
-    protected void appendAttributeModifiersTooltip(
-            Consumer<Text> textConsumer,
-            TooltipDisplayComponent displayComponent,
-            PlayerEntity player,
-            CallbackInfo ci
+    @WrapOperation(
+            method = "appendAttributeModifiersTooltip",
+            at = @At(
+                    value = "INVOKE",
+                    target = "Lnet/minecraft/item/ItemStack;applyAttributeModifier(Lnet/minecraft/component/type/AttributeModifierSlot;Lorg/apache/commons/lang3/function/TriConsumer;)V"
+            )
+    )
+    private void filterCustomModifiers(
+            ItemStack instance,
+            AttributeModifierSlot slot,
+            TriConsumer<RegistryEntry<EntityAttribute>, EntityAttributeModifier, AttributeModifiersComponent.Display> attributeModifierConsumer,
+            Operation<Void> original
     ) {
-        var itemStack = (ItemStack) (Object) this;
+        TriConsumer<RegistryEntry<EntityAttribute>, EntityAttributeModifier, AttributeModifiersComponent.Display> wrappedConsumer
+                = (attribute, modifier, display) -> {
+            if (modifier.id().getNamespace().equals(MCEndgame.MOD_ID)) return;
 
-        if (displayComponent.shouldDisplay(DataComponentTypes.ATTRIBUTE_MODIFIERS)) {
-            AttributeModifierSlot[] var4 = AttributeModifierSlot.values();
-
-            for (AttributeModifierSlot attributeModifierSlot : var4) {
-                MutableBoolean mutableBoolean = new MutableBoolean(true);
-                itemStack.applyAttributeModifier(attributeModifierSlot, (attribute, modifier) -> {
-                    if (!modifier.id().getNamespace().equals(MCEndgame.MOD_ID)) { // added line
-                        if (mutableBoolean.isTrue()) {
-                            textConsumer.accept(ScreenTexts.EMPTY);
-                            textConsumer.accept(Text.translatable("item.modifiers." + attributeModifierSlot.asString()).formatted(Formatting.GRAY));
-                            mutableBoolean.setFalse();
-                        }
-
-                        this.appendAttributeModifierTooltip(textConsumer, player, attribute, modifier);
-                    } // added line
-                });
-            }
-
-        }
-
-        ci.cancel();
+            attributeModifierConsumer.accept(attribute, modifier, display);
+        };
+        original.call(instance, slot, wrappedConsumer);
     }
 }
