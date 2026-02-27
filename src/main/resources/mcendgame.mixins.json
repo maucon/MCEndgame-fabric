@@ -38,7 +38,6 @@
     "item.ItemStackDamageMixin",
     "item.bow.BowItemDrawSpeedMixin",
     "knockback.LivingEntityKnockbackCommandMixin",
-    "knockback.MobEntityKnockbackCommandMixin",
     "knockback.PlayerEntityKnockbackCommandMixin",
     "knockback.RamImpactTaskKnockbackCommandMixin",
     "living_entity.LivingEntityAttributeWhilePoisonedMixin",
