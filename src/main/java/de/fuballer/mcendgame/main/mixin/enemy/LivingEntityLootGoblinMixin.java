@@ -2,7 +2,8 @@ package de.fuballer.mcendgame.main.mixin.enemy;
 
 import de.fuballer.mcendgame.main.accessor.LivingEntityLootGoblinAccessor;
 import net.minecraft.entity.LivingEntity;
-import net.minecraft.nbt.NbtCompound;
+import net.minecraft.storage.ReadView;
+import net.minecraft.storage.WriteView;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.Unique;
 import org.spongepowered.asm.mixin.injection.At;
@@ -26,14 +27,14 @@ public class LivingEntityLootGoblinMixin implements LivingEntityLootGoblinAccess
         this.isLootGoblin = isLootGoblin;
     }
 
-    @Inject(method = "writeCustomDataToNbt", at = @At("TAIL"))
-    private void writeNBT(NbtCompound nbt, CallbackInfo ci) {
+    @Inject(method = "writeCustomData", at = @At("TAIL"))
+    private void writeNBT(WriteView view, CallbackInfo ci) {
         if (!isLootGoblin) return;
-        nbt.putBoolean(LOOT_GOBLIN_NBT, true);
+        view.putBoolean(LOOT_GOBLIN_NBT, true);
     }
 
-    @Inject(method = "readCustomDataFromNbt", at = @At("TAIL"))
-    private void readNBT(NbtCompound nbt, CallbackInfo ci) {
-        isLootGoblin = nbt.getBoolean(LOOT_GOBLIN_NBT).orElse(false);
+    @Inject(method = "readCustomData", at = @At("TAIL"))
+    private void readNBT(ReadView view, CallbackInfo ci) {
+        isLootGoblin = view.getBoolean(LOOT_GOBLIN_NBT, false);
     }
 }
