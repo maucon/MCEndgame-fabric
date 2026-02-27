@@ -34,15 +34,12 @@ import net.minecraft.client.render.OverlayTexture
 import net.minecraft.client.render.RenderLayers
 import net.minecraft.client.render.command.OrderedRenderCommandQueue
 import net.minecraft.client.render.entity.EntityRendererFactory
-import net.minecraft.client.render.entity.equipment.EquipmentModel
 import net.minecraft.client.render.entity.equipment.EquipmentRenderer
 import net.minecraft.client.render.entity.feature.FeatureRenderer
 import net.minecraft.client.render.entity.feature.FeatureRendererContext
 import net.minecraft.client.render.entity.model.BipedEntityModel
 import net.minecraft.client.render.entity.state.BipedEntityRenderState
-import net.minecraft.client.render.item.ItemRenderer
 import net.minecraft.client.util.math.MatrixStack
-import net.minecraft.component.DataComponentTypes
 import net.minecraft.component.type.DyedColorComponent
 import net.minecraft.entity.Entity
 import net.minecraft.entity.EntityType
@@ -230,7 +227,7 @@ class CustomHumanoidArmorFeatureRenderer<S : BipedEntityRenderState, M : BipedEn
     }
 
     private fun renderModel(
-        bipedEntityRenderState: S,
+        state: S,
         model: Model<S>,
         texture: Identifier,
         matrices: MatrixStack,
@@ -241,18 +238,15 @@ class CustomHumanoidArmorFeatureRenderer<S : BipedEntityRenderState, M : BipedEn
         color: Int = -1,
         translucent: Boolean = false,
     ) {
-        val equippableComponent = stack.get(DataComponentTypes.EQUIPPABLE) ?: return
-        equipmentRenderer.render(
-            EquipmentModel.LayerType.HUMANOID,
-            equippableComponent.assetId().orElseThrow(),
-            model,
-            bipedEntityRenderState,
-            stack,
-            matrices,
-            queue,
-            light,
-            bipedEntityRenderState.outlineColor,
-        )
+        /*
+        if (model is CustomVertexConsumer) {
+            vertexConsumer = model.getVertexConsumer(bipedEntityRenderState, vertexConsumerProvider, vertexConsumer)
+        }
+        */
+        var renderLayer = if (translucent || state.isGhostly()) RenderLayers.entityTranslucent(texture) else RenderLayers.armorCutoutNoCull(texture)
+
+        queue.submitModel(model, state, matrices, renderLayer, light, OverlayTexture.DEFAULT_UV, color, null, state.outlineColor, null)
+        if (stack.hasGlint()) queue.submitModel(model, state, matrices, RenderLayers.armorEntityGlint(), light, OverlayTexture.DEFAULT_UV, color, null, state.outlineColor, null)
     }
 
     override fun render(
