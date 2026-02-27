@@ -2,7 +2,8 @@ package de.fuballer.mcendgame.main.mixin.projectile;
 
 import de.fuballer.mcendgame.main.accessor.PersistentProjectileEntityIsAdditionalAccessor;
 import net.minecraft.entity.projectile.PersistentProjectileEntity;
-import net.minecraft.nbt.NbtCompound;
+import net.minecraft.storage.ReadView;
+import net.minecraft.storage.WriteView;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.Unique;
 import org.spongepowered.asm.mixin.injection.At;
@@ -41,16 +42,15 @@ public class PersistentProjectileEntityIsAdditionalMixin implements PersistentPr
         return isAdditional;
     }
 
-
-    @Inject(method = "writeCustomDataToNbt", at = @At("TAIL"))
-    private void writeNBT(NbtCompound nbt, CallbackInfo ci) {
-        if (loadProcessed) nbt.putBoolean(LOAD_PROCESSED_NBT, true);
-        if (isAdditional) nbt.putBoolean(IS_ADDITIONAL, true);
+    @Inject(method = "writeCustomData", at = @At("TAIL"))
+    private void writeNBT(WriteView view, CallbackInfo ci) {
+        if (loadProcessed) view.putBoolean(LOAD_PROCESSED_NBT, true);
+        if (isAdditional) view.putBoolean(IS_ADDITIONAL, true);
     }
 
-    @Inject(method = "readCustomDataFromNbt", at = @At("TAIL"))
-    private void readNBT(NbtCompound nbt, CallbackInfo ci) {
-        loadProcessed = nbt.getBoolean(LOAD_PROCESSED_NBT).orElse(false);
-        isAdditional = nbt.getBoolean(IS_ADDITIONAL).orElse(false);
+    @Inject(method = "readCustomData", at = @At("TAIL"))
+    private void readNBT(ReadView view, CallbackInfo ci) {
+        loadProcessed = view.getBoolean(LOAD_PROCESSED_NBT, false);
+        isAdditional = view.getBoolean(IS_ADDITIONAL, false);
     }
 }
