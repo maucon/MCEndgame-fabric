@@ -2,7 +2,7 @@ package de.fuballer.mcendgame.client.mixin.player;
 
 import de.fuballer.mcendgame.main.component.item.custom.armor.interfaces.HidePlayerModelPartArmor;
 import net.minecraft.entity.EquipmentSlot;
-import net.minecraft.entity.player.PlayerEntity;
+import net.minecraft.entity.PlayerLikeEntity;
 import net.minecraft.entity.player.PlayerModelPart;
 import net.minecraft.item.Item;
 import org.spongepowered.asm.mixin.Mixin;
@@ -12,17 +12,17 @@ import org.spongepowered.asm.mixin.injection.callback.CallbackInfoReturnable;
 
 import java.util.List;
 
-@Mixin(PlayerEntity.class)
-public class PlayerEntityMixin {
-    @Inject(method = "isPartVisible", at = @At("HEAD"), cancellable = true)
-    public void isPartVisible(PlayerModelPart modelPart, CallbackInfoReturnable<Boolean> cir) {
-        var playerEntity = (PlayerEntity) (Object) this;
+@Mixin(PlayerLikeEntity.class)
+public class PlayerLikeEntityMixin {
+    @Inject(method = "isModelPartVisible", at = @At("HEAD"), cancellable = true)
+    public void isModelPartVisible(PlayerModelPart modelPart, CallbackInfoReturnable<Boolean> cir) {
+        var playerLikeEntity = (PlayerLikeEntity) (Object) this;
 
         var armorItems = List.of(
-                playerEntity.getEquippedStack(EquipmentSlot.HEAD).getItem(),
-                playerEntity.getEquippedStack(EquipmentSlot.CHEST).getItem(),
-                playerEntity.getEquippedStack(EquipmentSlot.LEGS).getItem(),
-                playerEntity.getEquippedStack(EquipmentSlot.FEET).getItem()
+                playerLikeEntity.getEquippedStack(EquipmentSlot.HEAD).getItem(),
+                playerLikeEntity.getEquippedStack(EquipmentSlot.CHEST).getItem(),
+                playerLikeEntity.getEquippedStack(EquipmentSlot.LEGS).getItem(),
+                playerLikeEntity.getEquippedStack(EquipmentSlot.FEET).getItem()
         );
 
         for (Item item : armorItems) {

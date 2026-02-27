@@ -20,7 +20,7 @@
     "phasing.BackgroundRendererBlockPhasingMixin",
     "phasing.InGameOverlayRendererBlockPhasingMixin",
     "phasing.WorldRendererBlockPhasingMixin",
-    "player.PlayerEntityMixin",
+    "player.PlayerLikeEntityMixin",
     "renderer.ArmorFeatureRendererMixin",
     "renderer.ItemStackAttributeRenderMixin",
     "renderer.SkullBlockEntityRendererAccessorMixin"
