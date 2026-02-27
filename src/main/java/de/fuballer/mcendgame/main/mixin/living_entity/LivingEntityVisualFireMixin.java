@@ -5,7 +5,8 @@ import net.minecraft.entity.LivingEntity;
 import net.minecraft.entity.data.DataTracker;
 import net.minecraft.entity.data.TrackedData;
 import net.minecraft.entity.data.TrackedDataHandlerRegistry;
-import net.minecraft.nbt.NbtCompound;
+import net.minecraft.storage.ReadView;
+import net.minecraft.storage.WriteView;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.Unique;
 import org.spongepowered.asm.mixin.injection.At;
@@ -37,13 +38,13 @@ public class LivingEntityVisualFireMixin implements LivingEntityVisualFireAccess
         return entity.getDataTracker().get(VISUAL_FIRE);
     }
 
-    @Inject(method = "writeCustomDataToNbt", at = @At("TAIL"))
-    void writeNBT(NbtCompound nbt, CallbackInfo ci) {
-        if (mcendgame$hasVisualFire()) nbt.putBoolean(VISUAL_FIRE_NBT, true);
+    @Inject(method = "writeCustomData", at = @At("TAIL"))
+    void writeNBT(WriteView view, CallbackInfo ci) {
+        if (mcendgame$hasVisualFire()) view.putBoolean(VISUAL_FIRE_NBT, true);
     }
 
-    @Inject(method = "readCustomDataFromNbt", at = @At("TAIL"))
-    private void readNBT(NbtCompound nbt, CallbackInfo ci) {
-        mcendgame$setVisualFire(nbt.getBoolean(VISUAL_FIRE_NBT).orElse(false));
+    @Inject(method = "readCustomData", at = @At("TAIL"))
+    private void readNBT(ReadView view, CallbackInfo ci) {
+        mcendgame$setVisualFire(view.getBoolean(VISUAL_FIRE_NBT, false));
     }
 }
