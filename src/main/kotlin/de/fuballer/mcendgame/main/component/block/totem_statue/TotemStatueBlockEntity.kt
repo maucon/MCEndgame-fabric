@@ -58,7 +58,9 @@ class TotemStatueBlockEntity(
                 instance.group(
                     Codec.INT.fieldOf("active_ticks").forGetter(TotemStatueBlockEntityData::activeTicks),
                     Uuids.CODEC.listOf().fieldOf("active_enemies").forGetter(TotemStatueBlockEntityData::activeEnemies),
-                ).apply(instance, ::TotemStatueBlockEntityData)
+                ).apply(instance) { activeTicks, activeEnemies ->
+                    TotemStatueBlockEntityData(activeTicks, activeEnemies.toMutableList())
+                }
             }
         }
     }
