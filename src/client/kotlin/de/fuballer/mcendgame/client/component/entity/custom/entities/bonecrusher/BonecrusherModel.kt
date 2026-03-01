@@ -7,9 +7,9 @@ import software.bernie.geckolib.renderer.base.GeoRenderState
 
 class BonecrusherModel : GeoModel<BonecrusherEntity>() {
     companion object {
-        val MODEL_IDENTIFIER = IdentifierUtil.default("geckolib/models/entity/bonecrusher.geo.json")
+        val MODEL_IDENTIFIER = IdentifierUtil.default("entity/bonecrusher")
         val TEXTURE_IDENTIFIER = IdentifierUtil.default("textures/entity/bonecrusher/bonecrusher.png")
-        val ANIMATION_IDENTIFIER = IdentifierUtil.default("geckolib/animations/entity/bonecrusher.animation.json")
+        val ANIMATION_IDENTIFIER = IdentifierUtil.default("entity/bonecrusher")
     }
 
     override fun getModelResource(renderState: GeoRenderState) = MODEL_IDENTIFIER

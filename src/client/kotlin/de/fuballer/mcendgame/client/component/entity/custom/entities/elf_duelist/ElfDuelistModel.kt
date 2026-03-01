@@ -7,9 +7,9 @@ import software.bernie.geckolib.renderer.base.GeoRenderState
 
 class ElfDuelistModel : GeoModel<ElfDuelistEntity>() {
     companion object {
-        val MODEL_IDENTIFIER = IdentifierUtil.default("geckolib/models/entity/elf_duelist.geo.json")
+        val MODEL_IDENTIFIER = IdentifierUtil.default("entity/elf_duelist")
         val TEXTURE_IDENTIFIER = IdentifierUtil.default("textures/entity/elf_duelist/elf_duelist.png")
-        val ANIMATION_IDENTIFIER = IdentifierUtil.default("geckolib/animations/entity/elf_duelist.animation.json")
+        val ANIMATION_IDENTIFIER = IdentifierUtil.default("entity/elf_duelist")
     }
 
     override fun getModelResource(renderState: GeoRenderState) = MODEL_IDENTIFIER

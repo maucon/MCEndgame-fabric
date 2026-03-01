@@ -184,7 +184,6 @@ class CustomHumanoidArmorFeatureRenderer<S : BipedEntityRenderState, M : BipedEn
                 queue,
                 light,
                 itemStack.hasGlint(),
-                itemStack,
             )
         }
 
@@ -197,7 +196,6 @@ class CustomHumanoidArmorFeatureRenderer<S : BipedEntityRenderState, M : BipedEn
                 queue,
                 light,
                 itemStack.hasGlint(),
-                itemStack,
                 DyedColorComponent.getColor(itemStack, texturedArmorModel.defaultColor),
             )
         }
@@ -211,7 +209,6 @@ class CustomHumanoidArmorFeatureRenderer<S : BipedEntityRenderState, M : BipedEn
                 queue,
                 light,
                 itemStack.hasGlint(),
-                itemStack,
                 translucent = true,
             )
         }
@@ -227,7 +224,6 @@ class CustomHumanoidArmorFeatureRenderer<S : BipedEntityRenderState, M : BipedEn
         queue: OrderedRenderCommandQueue,
         light: Int,
         glint: Boolean,
-        stack: ItemStack,
         color: Int = -1,
         translucent: Boolean = false,
     ) {
@@ -239,7 +235,7 @@ class CustomHumanoidArmorFeatureRenderer<S : BipedEntityRenderState, M : BipedEn
         var renderLayer = if (translucent || state.isGhostly()) RenderLayers.entityTranslucent(texture) else RenderLayers.armorCutoutNoCull(texture)
 
         queue.submitModel(model, state, matrices, renderLayer, light, OverlayTexture.DEFAULT_UV, color, null, state.outlineColor, null)
-        if (stack.hasGlint()) queue.submitModel(model, state, matrices, RenderLayers.armorEntityGlint(), light, OverlayTexture.DEFAULT_UV, color, null, state.outlineColor, null)
+        if (glint) queue.submitModel(model, state, matrices, RenderLayers.armorEntityGlint(), light, OverlayTexture.DEFAULT_UV, color, null, state.outlineColor, null)
     }
 
     override fun render(
