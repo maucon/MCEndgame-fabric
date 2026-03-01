@@ -3,7 +3,9 @@ package de.fuballer.mcendgame.main.component.entity.custom.entities.webshot
 import de.fuballer.mcendgame.main.component.block.CustomBlocks
 import de.fuballer.mcendgame.main.component.block.DecayingCobwebBlock
 import net.minecraft.enchantment.EnchantmentHelper
+import net.minecraft.entity.Entity
 import net.minecraft.entity.EntityType
+import net.minecraft.entity.LazyEntityReference
 import net.minecraft.entity.LivingEntity
 import net.minecraft.entity.projectile.PersistentProjectileEntity
 import net.minecraft.item.ItemStack
@@ -56,7 +58,7 @@ class WebshotEntity(
 
     override fun onEntityHit(entityHitResult: EntityHitResult) {
         val serverWorld = entityWorld as? ServerWorld ?: return
-        val attacker = owner as? LivingEntity ?: return
+        val attacker = LazyEntityReference.getEntity(owner, serverWorld) as? LivingEntity ?: return
         val entity = entityHitResult.entity
 
         generateDecayingCobwebs(entity.blockPos)
