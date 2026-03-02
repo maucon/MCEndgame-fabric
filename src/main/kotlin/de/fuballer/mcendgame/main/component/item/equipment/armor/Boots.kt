@@ -19,6 +19,9 @@ enum class Boots(
     LEATHER(
         Items.LEATHER_BOOTS,
     ),
+    COPPER(
+        Items.COPPER_BOOTS,
+    ),
     GOLDEN(
         Items.GOLDEN_BOOTS,
     ),

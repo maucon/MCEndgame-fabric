@@ -25,6 +25,9 @@ enum class Axe(
     STONE(
         Items.STONE_AXE,
     ),
+    COPPER(
+        Items.COPPER_AXE,
+    ),
     IRON(
         Items.IRON_AXE,
     ),

@@ -24,6 +24,9 @@ enum class Shovel(
     STONE(
         Items.STONE_SHOVEL,
     ),
+    COPPER(
+        Items.COPPER_SHOVEL,
+    ),
     IRON(
         Items.IRON_SHOVEL,
     ),

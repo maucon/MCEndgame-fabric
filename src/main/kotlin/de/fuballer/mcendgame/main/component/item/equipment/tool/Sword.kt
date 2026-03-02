@@ -25,6 +25,9 @@ enum class Sword(
     STONE(
         Items.STONE_SWORD,
     ),
+    COPPER(
+        Items.COPPER_SWORD,
+    ),
     IRON(
         Items.IRON_SWORD,
     ),

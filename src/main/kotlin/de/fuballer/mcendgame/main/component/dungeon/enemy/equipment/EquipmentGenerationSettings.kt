@@ -96,39 +96,43 @@ object EquipmentGenerationSettings {
     val HELMETS = listOf(
         SortableRandomOption(500, 0, null),
         SortableRandomOption(500, 1, Helmet.LEATHER),
-        SortableRandomOption(500, 2, Helmet.GOLDEN),
-        SortableRandomOption(500, 3, Helmet.CHAINMAIL),
-        SortableRandomOption(500, 4, Helmet.IRON),
-        SortableRandomOption(100, 5, Helmet.TURTLE),
-        SortableRandomOption(800, 6, Helmet.DIAMOND),
-        SortableRandomOption(500, 7, Helmet.NETHERITE),
+        SortableRandomOption(500, 2, Helmet.COPPER),
+        SortableRandomOption(500, 3, Helmet.GOLDEN),
+        SortableRandomOption(500, 4, Helmet.CHAINMAIL),
+        SortableRandomOption(500, 5, Helmet.IRON),
+        SortableRandomOption(100, 6, Helmet.TURTLE),
+        SortableRandomOption(800, 7, Helmet.DIAMOND),
+        SortableRandomOption(500, 8, Helmet.NETHERITE),
     )
     val CHESTPLATES = listOf(
         SortableRandomOption(500, 0, null),
         SortableRandomOption(500, 1, Chestplate.LEATHER),
-        SortableRandomOption(500, 2, Chestplate.GOLDEN),
-        SortableRandomOption(500, 3, Chestplate.CHAINMAIL),
-        SortableRandomOption(500, 4, Chestplate.IRON),
-        SortableRandomOption(800, 6, Chestplate.DIAMOND),
-        SortableRandomOption(500, 7, Chestplate.NETHERITE)
+        SortableRandomOption(500, 2, Chestplate.COPPER),
+        SortableRandomOption(500, 3, Chestplate.GOLDEN),
+        SortableRandomOption(500, 4, Chestplate.CHAINMAIL),
+        SortableRandomOption(500, 5, Chestplate.IRON),
+        SortableRandomOption(800, 7, Chestplate.DIAMOND),
+        SortableRandomOption(500, 8, Chestplate.NETHERITE)
     )
     val LEGGINGS = listOf(
         SortableRandomOption(500, 0, null),
         SortableRandomOption(500, 1, Leggings.LEATHER),
-        SortableRandomOption(500, 2, Leggings.GOLDEN),
-        SortableRandomOption(500, 3, Leggings.CHAINMAIL),
-        SortableRandomOption(500, 4, Leggings.IRON),
-        SortableRandomOption(800, 6, Leggings.DIAMOND),
-        SortableRandomOption(500, 7, Leggings.NETHERITE)
+        SortableRandomOption(500, 2, Leggings.COPPER),
+        SortableRandomOption(500, 3, Leggings.GOLDEN),
+        SortableRandomOption(500, 4, Leggings.CHAINMAIL),
+        SortableRandomOption(500, 5, Leggings.IRON),
+        SortableRandomOption(800, 7, Leggings.DIAMOND),
+        SortableRandomOption(500, 8, Leggings.NETHERITE)
     )
     val BOOTS = listOf(
         SortableRandomOption(500, 0, null),
         SortableRandomOption(500, 1, Boots.LEATHER),
-        SortableRandomOption(500, 2, Boots.GOLDEN),
-        SortableRandomOption(500, 3, Boots.CHAINMAIL),
-        SortableRandomOption(500, 4, Boots.IRON),
-        SortableRandomOption(800, 6, Boots.DIAMOND),
-        SortableRandomOption(500, 7, Boots.NETHERITE)
+        SortableRandomOption(500, 2, Boots.COPPER),
+        SortableRandomOption(500, 3, Boots.GOLDEN),
+        SortableRandomOption(500, 4, Boots.CHAINMAIL),
+        SortableRandomOption(500, 5, Boots.IRON),
+        SortableRandomOption(800, 7, Boots.DIAMOND),
+        SortableRandomOption(500, 8, Boots.NETHERITE)
     )
 
     val ARMORSLOT_EQUIPMENT_MAP = mapOf<EquipmentSlot, List<SortableRandomOption<out Equipment?>>>(
@@ -142,41 +146,55 @@ object EquipmentGenerationSettings {
         SortableRandomOption(500, 1, Sword.WOODEN),
         SortableRandomOption(500, 2, Sword.GOLDEN),
         SortableRandomOption(500, 3, Sword.STONE),
-        SortableRandomOption(500, 4, Sword.IRON),
-        SortableRandomOption(800, 5, Sword.DIAMOND),
-        SortableRandomOption(500, 6, Sword.NETHERITE),
+        SortableRandomOption(500, 4, Sword.COPPER),
+        SortableRandomOption(500, 5, Sword.IRON),
+        SortableRandomOption(800, 6, Sword.DIAMOND),
+        SortableRandomOption(500, 7, Sword.NETHERITE),
+    )
+    private val SPEARS = listOf(
+        SortableRandomOption(500, 1, Spear.WOODEN),
+        SortableRandomOption(500, 2, Spear.GOLDEN),
+        SortableRandomOption(500, 3, Spear.STONE),
+        SortableRandomOption(500, 4, Spear.COPPER),
+        SortableRandomOption(500, 5, Spear.IRON),
+        SortableRandomOption(800, 6, Spear.DIAMOND),
+        SortableRandomOption(500, 7, Spear.NETHERITE),
     )
     private val AXES = listOf(
         SortableRandomOption(500, 1, Axe.WOODEN),
         SortableRandomOption(500, 2, Axe.GOLDEN),
         SortableRandomOption(500, 3, Axe.STONE),
-        SortableRandomOption(500, 4, Axe.IRON),
-        SortableRandomOption(800, 5, Axe.DIAMOND),
-        SortableRandomOption(500, 6, Axe.NETHERITE)
+        SortableRandomOption(500, 4, Axe.COPPER),
+        SortableRandomOption(500, 5, Axe.IRON),
+        SortableRandomOption(800, 6, Axe.DIAMOND),
+        SortableRandomOption(500, 7, Axe.NETHERITE)
     )
     private val PICKAXES = listOf(
         SortableRandomOption(500, 1, Pickaxe.WOODEN),
         SortableRandomOption(500, 2, Pickaxe.GOLDEN),
         SortableRandomOption(500, 3, Pickaxe.STONE),
-        SortableRandomOption(500, 4, Pickaxe.IRON),
-        SortableRandomOption(800, 5, Pickaxe.DIAMOND),
-        SortableRandomOption(500, 6, Pickaxe.NETHERITE)
+        SortableRandomOption(500, 4, Pickaxe.COPPER),
+        SortableRandomOption(500, 5, Pickaxe.IRON),
+        SortableRandomOption(800, 6, Pickaxe.DIAMOND),
+        SortableRandomOption(500, 7, Pickaxe.NETHERITE)
     )
     private val SHOVELS = listOf(
         SortableRandomOption(500, 1, Shovel.WOODEN),
         SortableRandomOption(500, 2, Shovel.GOLDEN),
         SortableRandomOption(500, 3, Shovel.STONE),
-        SortableRandomOption(500, 4, Shovel.IRON),
-        SortableRandomOption(800, 5, Shovel.DIAMOND),
-        SortableRandomOption(500, 6, Shovel.NETHERITE),
+        SortableRandomOption(500, 4, Shovel.COPPER),
+        SortableRandomOption(500, 5, Shovel.IRON),
+        SortableRandomOption(800, 6, Shovel.DIAMOND),
+        SortableRandomOption(500, 7, Shovel.NETHERITE),
     )
     private val HOES = listOf(
         SortableRandomOption(500, 1, Hoe.WOODEN),
         SortableRandomOption(500, 2, Hoe.GOLDEN),
         SortableRandomOption(500, 3, Hoe.STONE),
-        SortableRandomOption(500, 4, Hoe.IRON),
-        SortableRandomOption(800, 5, Hoe.DIAMOND),
-        SortableRandomOption(500, 6, Hoe.NETHERITE),
+        SortableRandomOption(500, 4, Hoe.COPPER),
+        SortableRandomOption(500, 5, Hoe.IRON),
+        SortableRandomOption(800, 6, Hoe.DIAMOND),
+        SortableRandomOption(500, 7, Hoe.NETHERITE),
     )
     private val BOWS = listOf(
         SortableRandomOption(100, 0, Bow.BOW)
@@ -193,6 +211,7 @@ object EquipmentGenerationSettings {
     val MAINHAND_PROBABILITIES = listOf<RandomOption<List<SortableRandomOption<out Equipment>>?>>(
         RandomOption(10, null),
         RandomOption(10, SWORDS),
+        RandomOption(10, SPEARS),
         RandomOption(10, AXES),
         RandomOption(10, PICKAXES),
         RandomOption(10, SHOVELS),

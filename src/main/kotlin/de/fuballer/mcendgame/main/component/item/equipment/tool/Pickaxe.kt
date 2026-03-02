@@ -24,6 +24,9 @@ enum class Pickaxe(
     STONE(
         Items.STONE_PICKAXE,
     ),
+    COPPER(
+        Items.COPPER_PICKAXE,
+    ),
     IRON(
         Items.IRON_PICKAXE,
     ),
@@ -86,7 +89,7 @@ enum class Pickaxe(
             )
         ),
     )
-    
+
     override val rollableEnchants = listOf(
         RandomOption(10, EquipmentEnchantment.MENDING),
         RandomOption(20, EquipmentEnchantment.UNBREAKING_1),
