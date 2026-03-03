@@ -124,6 +124,12 @@ class PortalEntity(
     override fun readCustomData(view: ReadView) {
         super.readCustomData(view)
 
+        if (!view.contains(DATA_KEY)) {
+            log.info("Marking outdated portal to be removed: $uuid")
+            removed = true
+            return
+        }
+
         val data = view.read(DATA_KEY, PortalEntityData.CODEC).orElseThrow()
         type = PortalType.getById(data.typeId)
         dataTracker.set(TYPE, data.typeId)
