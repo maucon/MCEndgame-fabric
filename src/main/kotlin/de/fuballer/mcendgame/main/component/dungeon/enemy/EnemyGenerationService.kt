@@ -115,7 +115,7 @@ class EnemyGenerationService(
             enemyEntity,
             type,
             level,
-            dungeonWorld.server,
+            dungeonWorld.server!!,
             isLootGoblin,
             random,
             generateEnemiesCommand,

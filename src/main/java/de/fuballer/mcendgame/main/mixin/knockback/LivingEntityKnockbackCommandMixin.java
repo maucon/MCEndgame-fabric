@@ -16,7 +16,14 @@ public class LivingEntityKnockbackCommandMixin {
     }
 
     @Redirect(method = "knockback", at = @At(value = "INVOKE", target = "Lnet/minecraft/entity/LivingEntity;takeKnockback(DDD)V"))
-    void redirectTakeKnockbackInKnockback(LivingEntity instance, double strength, double x, double z, LivingEntity target) {
-        AttackKnockbackUtil.INSTANCE.takeKnockbackFrom(target, instance, strength, x, z);
+    void redirectTakeKnockbackInKnockback(LivingEntity instance, double strength, double x, double z) {
+        var self = (LivingEntity) (Object) this;
+        AttackKnockbackUtil.INSTANCE.takeKnockbackFrom(instance, self, strength, x, z);
+    }
+
+    @Redirect(method = "knockbackTarget", at = @At(value = "INVOKE", target = "Lnet/minecraft/entity/LivingEntity;takeKnockback(DDD)V"))
+    void redirectTakeKnockbackInKnockbackTarget(LivingEntity instance, double strength, double x, double z) {
+        var self = (LivingEntity) (Object) this;
+        AttackKnockbackUtil.INSTANCE.takeKnockbackFrom(instance, self, strength, x, z);
     }
 }

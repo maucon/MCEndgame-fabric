@@ -51,10 +51,10 @@ class LeapAttack<T>(
         attacker.lookControl.lookAt(existingTarget)
         attacker.bodyYaw = attacker.yaw
 
-        val distanceVector = existingTarget.pos.subtract(attacker.pos)
+        val distanceVector = existingTarget.entityPos.subtract(attacker.entityPos)
         val newVelocity = leapType.calculateVelocity(distanceVector)
-        attacker.velocityModified = true
         attacker.velocity = newVelocity
+        attacker.velocityDirty = true
 
         val blockAbleMovementMob = attacker as? BlockAbleMovementMob<*> ?: return
         blockAbleMovementMob.setAirborneBlocked()

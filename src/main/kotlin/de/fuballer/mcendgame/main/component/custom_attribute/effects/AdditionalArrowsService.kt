@@ -47,7 +47,7 @@ class AdditionalArrowsService {
         count: Int,
     ) {
         if (count <= 0) return
-        val world = original.world as? ServerWorld ?: return
+        val world = original.entityWorld as? ServerWorld ?: return
 
         val originalVelocity = original.velocity
         val rotationVector = getRotationVector(originalVelocity, owner.pitch, owner.yaw)
@@ -58,7 +58,7 @@ class AdditionalArrowsService {
             val arrow = ArrowEntity(EntityType.ARROW, world)
 
             arrow.owner = owner
-            arrow.setPosition(original.pos)
+            arrow.setPosition(original.entityPos)
             arrow.yaw = original.yaw
             arrow.pitch = original.pitch
             arrow.velocity = getRotatedAroundAxis(originalVelocity, rotationVector, rotation)

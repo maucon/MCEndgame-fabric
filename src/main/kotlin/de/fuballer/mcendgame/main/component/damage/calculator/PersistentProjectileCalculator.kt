@@ -61,7 +61,7 @@ object PersistentProjectileCalculator : DamageCalculator {
         val projectile = source.source as ProjectileEntity
         val weaponStack = projectile.weaponStack ?: return 0.0
 
-        return EnchantmentHelper.getDamage(attacker.world as ServerWorld, weaponStack, attacked, source, 0.0F).toDouble()
+        return EnchantmentHelper.getDamage(attacker.entityWorld as ServerWorld, weaponStack, attacked, source, 0.0F).toDouble()
     }
 
     private fun calculateCriticalDamage(event: DamageCalculationCommand, amount: Double): Int {

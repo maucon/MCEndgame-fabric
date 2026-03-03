@@ -11,6 +11,6 @@ data class ItemEntityDamageCommand(
     var ignoresDamage: Boolean = false,
 ) {
     companion object {
-        fun of(entity: ItemEntity, source: DamageSource) = ItemEntityDamageCommand(entity.world, entity, source)
+        fun of(entity: ItemEntity, source: DamageSource) = ItemEntityDamageCommand(entity.entityWorld, entity, source)
     }
 }

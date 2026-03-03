@@ -2,7 +2,7 @@ package de.fuballer.mcendgame.main.component.custom_attribute.effects
 
 import de.fuballer.mcendgame.main.component.custom_attribute.CustomAttributesExtensions.asDoubleRoll
 import de.fuballer.mcendgame.main.component.custom_attribute.types.CustomAttributeTypes
-import de.fuballer.mcendgame.main.messaging.collectAttribute.CollectHealFactorCommand
+import de.fuballer.mcendgame.main.messaging.collect_attribute.CollectHealFactorCommand
 import de.maucon.mauconframework.command.CommandHandler
 import de.maucon.mauconframework.di.annotation.Injectable
 import kotlin.random.Random

@@ -4,6 +4,7 @@ import de.fuballer.mcendgame.main.component.block.CustomBlocks
 import de.fuballer.mcendgame.main.component.entity.custom.interfaces.HookAttackMob
 import net.minecraft.enchantment.EnchantmentHelper
 import net.minecraft.entity.EntityType
+import net.minecraft.entity.LazyEntityReference
 import net.minecraft.entity.LivingEntity
 import net.minecraft.entity.projectile.PersistentProjectileEntity
 import net.minecraft.item.ItemStack
@@ -21,7 +22,7 @@ class WebhookEntity(
 ) : PersistentProjectileEntity(type, world) {
     init {
         if (owner != null) {
-            this.owner = owner
+            setOwner(owner)
             setPosition(
                 owner.x - (owner.width + 1.0) * 0.5 * sin(owner.bodyYaw * (Math.PI / 180.0)),
                 owner.eyeY - 0.1f,
@@ -33,8 +34,8 @@ class WebhookEntity(
     override fun getGravity() = 0.06
 
     override fun onEntityHit(entityHitResult: EntityHitResult) {
-        val serverWorld = world as? ServerWorld ?: return
-        val attacker = owner as? LivingEntity ?: return
+        val serverWorld = entityWorld as? ServerWorld ?: return
+        val attacker = LazyEntityReference.getEntity(owner, serverWorld) as? LivingEntity ?: return
         val entity = entityHitResult.entity
 
         val damageSource = damageSources.mobProjectile(this, attacker)
@@ -44,15 +45,15 @@ class WebhookEntity(
 
         discard()
 
-        val hooker = owner as? HookAttackMob ?: return
+        val hooker = attacker as? HookAttackMob ?: return
         hooker.addHookedEntity(entity.uuid)
     }
 
     override fun onBlockHit(blockHitResult: BlockHitResult) {
-        val blockState = world.getBlockState(blockHitResult.blockPos)
-        blockState.onProjectileHit(world, blockState, blockHitResult, this)
+        val blockState = entityWorld.getBlockState(blockHitResult.blockPos)
+        blockState.onProjectileHit(entityWorld, blockState, blockHitResult, this)
 
-        if (world.isClient) return
+        if (entityWorld.isClient) return
         discard()
     }
 

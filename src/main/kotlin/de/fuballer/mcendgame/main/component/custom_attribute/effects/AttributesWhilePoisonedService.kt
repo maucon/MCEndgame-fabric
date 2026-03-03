@@ -6,8 +6,8 @@ import de.fuballer.mcendgame.main.component.custom_attribute.data.CustomAttribut
 import de.fuballer.mcendgame.main.component.custom_attribute.types.CustomAttributeTypes
 import de.fuballer.mcendgame.main.component.damage.DamageCalculationCommand
 import de.fuballer.mcendgame.main.component.damage.dodge.DodgeCalculationCommand
-import de.fuballer.mcendgame.main.messaging.collectAttribute.CollectElementalDamageCommand
-import de.fuballer.mcendgame.main.messaging.collectAttribute.CollectGenericIncreasedDamageCommand
+import de.fuballer.mcendgame.main.messaging.collect_attribute.CollectElementalDamageCommand
+import de.fuballer.mcendgame.main.messaging.collect_attribute.CollectGenericIncreasedDamageCommand
 import de.maucon.mauconframework.command.CommandHandler
 import de.maucon.mauconframework.di.annotation.Injectable
 import net.minecraft.entity.LivingEntity

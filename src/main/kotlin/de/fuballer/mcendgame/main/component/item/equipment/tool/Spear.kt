@@ -12,29 +12,29 @@ import net.minecraft.component.type.AttributeModifierSlot
 import net.minecraft.item.Item
 import net.minecraft.item.Items
 
-enum class Hoe(
+enum class Spear(
     override val item: Item,
 ) : Equipment {
     WOODEN(
-        Items.WOODEN_HOE,
+        Items.WOODEN_SPEAR,
     ),
     GOLDEN(
-        Items.GOLDEN_HOE,
+        Items.GOLDEN_SPEAR,
     ),
     STONE(
-        Items.STONE_HOE,
+        Items.STONE_SPEAR,
     ),
     COPPER(
-        Items.COPPER_HOE,
+        Items.COPPER_SPEAR,
     ),
     IRON(
-        Items.IRON_HOE,
+        Items.IRON_SPEAR,
     ),
     DIAMOND(
-        Items.DIAMOND_HOE,
+        Items.DIAMOND_SPEAR,
     ),
     NETHERITE(
-        Items.NETHERITE_HOE,
+        Items.NETHERITE_SPEAR,
     );
 
     override val slot = AttributeModifierSlot.MAINHAND
@@ -43,9 +43,9 @@ enum class Hoe(
         RandomOption(
             weight = 1,
             listOf(
-                LevelRestrictedRandomOption(weight = 50, tier = 1, requiredLevel = 0, RollableCustomAttribute(VanillaAttributeTypes.ATTACK_DAMAGE, 3, DoubleBounds(1.0, 2.5))),
-                LevelRestrictedRandomOption(weight = 10, tier = 2, requiredLevel = 5, RollableCustomAttribute(VanillaAttributeTypes.ATTACK_DAMAGE, 2, DoubleBounds(2.5, 4.0))),
-                LevelRestrictedRandomOption(weight = 1, tier = 3, requiredLevel = 10, RollableCustomAttribute(VanillaAttributeTypes.ATTACK_DAMAGE, 1, DoubleBounds(4.0, 5.0))),
+                LevelRestrictedRandomOption(weight = 50, tier = 1, requiredLevel = 0, RollableCustomAttribute(VanillaAttributeTypes.ATTACK_DAMAGE, 3, DoubleBounds(0.6, 1.4))),
+                LevelRestrictedRandomOption(weight = 10, tier = 2, requiredLevel = 5, RollableCustomAttribute(VanillaAttributeTypes.ATTACK_DAMAGE, 2, DoubleBounds(1.4, 2.2))),
+                LevelRestrictedRandomOption(weight = 1, tier = 3, requiredLevel = 10, RollableCustomAttribute(VanillaAttributeTypes.ATTACK_DAMAGE, 1, DoubleBounds(2.2, 3.0))),
             )
         ),
         RandomOption(
@@ -96,15 +96,18 @@ enum class Hoe(
         RandomOption(15, EquipmentEnchantment.UNBREAKING_2),
         RandomOption(10, EquipmentEnchantment.UNBREAKING_3),
         RandomOption(0, EquipmentEnchantment.CURSE_OF_VANISHING),
-        RandomOption(25, EquipmentEnchantment.EFFICIENCY_1),
-        RandomOption(20, EquipmentEnchantment.EFFICIENCY_2),
-        RandomOption(15, EquipmentEnchantment.EFFICIENCY_3),
-        RandomOption(10, EquipmentEnchantment.EFFICIENCY_4),
-        RandomOption(5, EquipmentEnchantment.EFFICIENCY_5),
-        RandomOption(10, EquipmentEnchantment.FORTUNE_1),
-        RandomOption(6, EquipmentEnchantment.FORTUNE_2),
-        RandomOption(3, EquipmentEnchantment.FORTUNE_3),
-        RandomOption(15, EquipmentEnchantment.SILK_TOUCH),
+        RandomOption(15, EquipmentEnchantment.BANE_OF_ARTHROPODS_1),
+        RandomOption(12, EquipmentEnchantment.BANE_OF_ARTHROPODS_2),
+        RandomOption(9, EquipmentEnchantment.BANE_OF_ARTHROPODS_3),
+        RandomOption(6, EquipmentEnchantment.BANE_OF_ARTHROPODS_4),
+        RandomOption(3, EquipmentEnchantment.BANE_OF_ARTHROPODS_5),
+        RandomOption(10, EquipmentEnchantment.FIRE_ASPECT_1),
+        RandomOption(5, EquipmentEnchantment.FIRE_ASPECT_2),
+        RandomOption(15, EquipmentEnchantment.LOOTING_1),
+        RandomOption(10, EquipmentEnchantment.LOOTING_2),
+        RandomOption(5, EquipmentEnchantment.LOOTING_3),
+        RandomOption(10, EquipmentEnchantment.KNOCKBACK_1),
+        RandomOption(5, EquipmentEnchantment.KNOCKBACK_2),
         RandomOption(25, EquipmentEnchantment.SHARPNESS_1),
         RandomOption(20, EquipmentEnchantment.SHARPNESS_2),
         RandomOption(15, EquipmentEnchantment.SHARPNESS_3),
@@ -115,10 +118,11 @@ enum class Hoe(
         RandomOption(9, EquipmentEnchantment.SMITE_3),
         RandomOption(6, EquipmentEnchantment.SMITE_4),
         RandomOption(3, EquipmentEnchantment.SMITE_5),
-        RandomOption(15, EquipmentEnchantment.BANE_OF_ARTHROPODS_1),
-        RandomOption(12, EquipmentEnchantment.BANE_OF_ARTHROPODS_2),
-        RandomOption(9, EquipmentEnchantment.BANE_OF_ARTHROPODS_3),
-        RandomOption(6, EquipmentEnchantment.BANE_OF_ARTHROPODS_4),
-        RandomOption(3, EquipmentEnchantment.BANE_OF_ARTHROPODS_5),
+        RandomOption(15, EquipmentEnchantment.SWEEPING_EDGE_1),
+        RandomOption(10, EquipmentEnchantment.SWEEPING_EDGE_2),
+        RandomOption(5, EquipmentEnchantment.SWEEPING_EDGE_3),
+        RandomOption(15, EquipmentEnchantment.LUNGE_1),
+        RandomOption(10, EquipmentEnchantment.LUNGE_2),
+        RandomOption(5, EquipmentEnchantment.LUNGE_3),
     )
 }

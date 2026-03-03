@@ -2,7 +2,6 @@ package de.fuballer.mcendgame.main.component.block.dungeon_device
 
 import de.fuballer.mcendgame.main.component.block.CustomBlockEntityTypes
 import de.fuballer.mcendgame.main.component.block.dungeon_device.networking.DungeonDevicePayload
-import de.fuballer.mcendgame.main.component.block.dungeon_device.DungeonDeviceScreenHandler
 import de.fuballer.mcendgame.main.functional.inventory.ImplementedInventory
 import de.fuballer.mcendgame.main.util.extension.mixin.PlayerEntityMixinExtension.getDungeonLevel
 import net.fabricmc.fabric.api.screenhandler.v1.ExtendedScreenHandlerFactory
@@ -12,9 +11,9 @@ import net.minecraft.entity.player.PlayerEntity
 import net.minecraft.entity.player.PlayerInventory
 import net.minecraft.inventory.Inventories
 import net.minecraft.item.ItemStack
-import net.minecraft.nbt.NbtCompound
-import net.minecraft.registry.RegistryWrapper.WrapperLookup
 import net.minecraft.server.network.ServerPlayerEntity
+import net.minecraft.storage.ReadView
+import net.minecraft.storage.WriteView
 import net.minecraft.text.Text
 import net.minecraft.util.collection.DefaultedList
 import net.minecraft.util.math.BlockPos
@@ -40,13 +39,13 @@ class DungeonDeviceBlockEntity(
 
     override fun markDirty() = super<ImplementedInventory>.markDirty(world, pos)
 
-    override fun readNbt(nbt: NbtCompound, registryLookup: WrapperLookup) {
-        super.readNbt(nbt, registryLookup)
-        Inventories.readNbt(nbt, this.inventory, registryLookup)
+    override fun readData(view: ReadView) {
+        super.readData(view)
+        Inventories.readData(view, this.inventory)
     }
 
-    override fun writeNbt(nbt: NbtCompound, registryLookup: WrapperLookup) {
-        super.writeNbt(nbt, registryLookup)
-        Inventories.writeNbt(nbt, this.inventory, registryLookup)
+    override fun writeData(view: WriteView) {
+        super.writeData(view)
+        Inventories.writeData(view, this.inventory)
     }
 }

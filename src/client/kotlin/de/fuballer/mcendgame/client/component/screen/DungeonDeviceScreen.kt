@@ -15,6 +15,7 @@ import net.fabricmc.api.EnvType
 import net.fabricmc.api.Environment
 import net.fabricmc.fabric.api.client.networking.v1.ClientPlayNetworking
 import net.minecraft.client.MinecraftClient
+import net.minecraft.client.gl.RenderPipelines
 import net.minecraft.client.gui.DrawContext
 import net.minecraft.client.gui.ScreenRect
 import net.minecraft.client.gui.screen.ButtonTextures
@@ -23,10 +24,8 @@ import net.minecraft.client.gui.tooltip.Tooltip
 import net.minecraft.client.gui.widget.ButtonWidget
 import net.minecraft.client.gui.widget.TextWidget
 import net.minecraft.client.gui.widget.TexturedButtonWidget
-import net.minecraft.client.render.RenderLayer
 import net.minecraft.entity.player.PlayerInventory
 import net.minecraft.text.Text
-import net.minecraft.util.Identifier
 import kotlin.math.ceil
 import kotlin.math.min
 
@@ -89,7 +88,7 @@ class DungeonDeviceScreen(
                 10,
                 Text.translatable("text.mcendgame.dungeon.device.level", playerDungeonLevel.level),
                 textRenderer
-            ).alignLeft()
+            )
         )
 
         addDrawableChild(
@@ -111,21 +110,21 @@ class DungeonDeviceScreen(
             TexturedButtonWidget(commandButtonsX, commandButtonsY, 20, 18, TOTEMS_BUTTON_TEXTURES) { button ->
                 MinecraftClient.getInstance().networkHandler?.sendChatCommand(TotemCommand.NAME)
             }.apply {
-                tooltip = Tooltip.of(TOTEMS_BUTTON_TOOLTIP_TEXT)
+                setTooltip(Tooltip.of(TOTEMS_BUTTON_TOOLTIP_TEXT))
             }
         )
         addDrawableChild(
             TexturedButtonWidget(commandButtonsX, commandButtonsY + (18 + COMMAND_BUTTONS_OFFSET), 20, 18, FILTER_BUTTON_TEXTURES) { button ->
                 MinecraftClient.getInstance().networkHandler?.sendChatCommand(ItemFilterCommand.NAME)
             }.apply {
-                tooltip = Tooltip.of(FILTER_BUTTON_TOOLTIP_TEXT)
+                setTooltip(Tooltip.of(FILTER_BUTTON_TOOLTIP_TEXT))
             }
         )
         addDrawableChild(
             TexturedButtonWidget(commandButtonsX, commandButtonsY + 2 * (18 + COMMAND_BUTTONS_OFFSET), 20, 18, KILLER_BUTTON_TEXTURES) { button ->
                 MinecraftClient.getInstance().networkHandler?.sendChatCommand(KillerCommand.NAME)
             }.apply {
-                tooltip = Tooltip.of(KILLER_BUTTON_TOOLTIP_TEXT)
+                setTooltip(Tooltip.of(KILLER_BUTTON_TOOLTIP_TEXT))
             }
         )
 
@@ -174,7 +173,6 @@ class DungeonDeviceScreen(
     ): Int {
         levelScalingTextWidgets.add(
             ScalableTextWidget(x, y, width, ATTRIBUTE_HEADER_WIDGET_HEIGHT, text, textRenderer, 1f)
-                .alignLeft()
         )
         return ATTRIBUTE_HEADER_WIDGET_HEIGHT
     }
@@ -202,7 +200,7 @@ class DungeonDeviceScreen(
                     text,
                     textRenderer,
                     ATTRIBUTE_TEXT_WIDGET_SCALE
-                ).alignLeft()
+                )
             )
         }
 
@@ -215,7 +213,7 @@ class DungeonDeviceScreen(
 
         val progressScreenRect = getProgressScreenRect()
         context.drawTexture(
-            { texture: Identifier -> RenderLayer.getGuiTextured(texture) },
+            RenderPipelines.GUI_TEXTURED,
             PROGRESS_TEXTURE,
             progressScreenRect.left, progressScreenRect.top,
             0F, 8F * handler.payload.playerDungeonLevel.levelProgress,
@@ -231,7 +229,7 @@ class DungeonDeviceScreen(
         val textureY = (height - backgroundHeight) / 2
 
         context.drawTexture(
-            { texture: Identifier -> RenderLayer.getGuiTextured(texture) },
+            RenderPipelines.GUI_TEXTURED,
             TEXTURE,
             textureX,
             textureY,
@@ -279,7 +277,7 @@ class DungeonDeviceScreen(
         x2 = x1 + w
 
         context.drawTexture(
-            { texture: Identifier -> RenderLayer.getGuiTextured(texture) },
+            RenderPipelines.GUI_TEXTURED,
             ATTRIBUTE_PANEL_TEXTURE,
             x1,
             y1,
@@ -292,7 +290,7 @@ class DungeonDeviceScreen(
         )
 
         context.drawTexture(
-            { texture: Identifier -> RenderLayer.getGuiTextured(texture) },
+            RenderPipelines.GUI_TEXTURED,
             ATTRIBUTE_PANEL_TEXTURE,
             x1 + ATTRIBUTE_PANEL_TEXTURE_EDGE_WIDTH,
             y1,
@@ -305,7 +303,7 @@ class DungeonDeviceScreen(
         )
 
         context.drawTexture(
-            { texture: Identifier -> RenderLayer.getGuiTextured(texture) },
+            RenderPipelines.GUI_TEXTURED,
             ATTRIBUTE_PANEL_TEXTURE,
             x2 - ATTRIBUTE_PANEL_TEXTURE_EDGE_WIDTH,
             y1,

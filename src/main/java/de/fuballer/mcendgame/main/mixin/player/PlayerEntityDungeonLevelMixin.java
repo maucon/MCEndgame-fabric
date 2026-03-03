@@ -4,6 +4,8 @@ import de.fuballer.mcendgame.main.accessor.PlayerEntityDungeonLevelAccessor;
 import de.fuballer.mcendgame.main.component.dungeon.level.PlayerDungeonLevel;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.nbt.NbtCompound;
+import net.minecraft.storage.ReadView;
+import net.minecraft.storage.WriteView;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.Unique;
 import org.spongepowered.asm.mixin.injection.At;
@@ -25,13 +27,13 @@ public class PlayerEntityDungeonLevelMixin implements PlayerEntityDungeonLevelAc
         this.playerDungeonLevel = dungeonLevel;
     }
 
-    @Inject(method = "writeCustomDataToNbt", at = @At("TAIL"))
-    private void writeNBT(NbtCompound nbt, CallbackInfo ci) {
-        PlayerDungeonLevel.Companion.write(playerDungeonLevel, nbt);
+    @Inject(method = "writeCustomData", at = @At("TAIL"))
+    private void writeData(WriteView view, CallbackInfo ci) {
+        PlayerDungeonLevel.Companion.write(playerDungeonLevel, view);
     }
 
-    @Inject(method = "readCustomDataFromNbt", at = @At("TAIL"))
-    private void readNBT(NbtCompound nbt, CallbackInfo ci) {
-        playerDungeonLevel = PlayerDungeonLevel.Companion.read(nbt);
+    @Inject(method = "readCustomData", at = @At("TAIL"))
+    private void readData(ReadView view, CallbackInfo ci) {
+        playerDungeonLevel = PlayerDungeonLevel.Companion.read(view);
     }
 }

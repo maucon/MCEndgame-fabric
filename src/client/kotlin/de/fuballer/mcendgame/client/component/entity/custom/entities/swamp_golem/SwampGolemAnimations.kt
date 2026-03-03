@@ -1,12 +1,12 @@
 package de.fuballer.mcendgame.client.component.entity.custom.entities.swamp_golem
 
-import net.minecraft.client.render.entity.animation.Animation
+import net.minecraft.client.render.entity.animation.AnimationDefinition
 import net.minecraft.client.render.entity.animation.AnimationHelper
 import net.minecraft.client.render.entity.animation.Keyframe
 import net.minecraft.client.render.entity.animation.Transformation
 
-object SwampGolemAnimation {
-    val SLAM: Animation = Animation.Builder.create(1.25f)
+object SwampGolemAnimations {
+    val SLAM: AnimationDefinition = AnimationDefinition.Builder.create(1.25f)
         .addBoneAnimation(
             "lower_body", Transformation(
                 Transformation.Targets.ROTATE,
@@ -324,7 +324,7 @@ object SwampGolemAnimation {
         )
         .build()
 
-    val IDLE: Animation = Animation.Builder.create(3.0f).looping()
+    val IDLE: AnimationDefinition = AnimationDefinition.Builder.create(3.0f).looping()
         .addBoneAnimation(
             "upper_body", Transformation(
                 Transformation.Targets.ROTATE,
@@ -387,7 +387,7 @@ object SwampGolemAnimation {
         )
         .build()
 
-    val WALK: Animation = Animation.Builder.create(3.625f).looping()
+    val WALKING: AnimationDefinition = AnimationDefinition.Builder.create(3.625f).looping()
         .addBoneAnimation(
             "lower_body", Transformation(
                 Transformation.Targets.ROTATE,

@@ -5,6 +5,7 @@ import de.fuballer.mcendgame.client.component.entity.custom.entities.portal.Port
 import de.fuballer.mcendgame.client.component.entity.custom.entities.portal.type.PortalRenderType
 import de.fuballer.mcendgame.main.util.minecraft.IdentifierUtil
 import net.minecraft.client.render.RenderLayer
+import net.minecraft.client.render.RenderLayers
 import net.minecraft.client.render.entity.EntityRendererFactory
 import net.minecraft.client.render.entity.model.EntityModel
 import net.minecraft.util.Identifier
@@ -35,6 +36,6 @@ class DefaultPortalRenderType : PortalRenderType {
     }
 
     override fun getRenderLayer(renderer: PortalRenderer, state: PortalRenderState, showBody: Boolean, translucent: Boolean, showOutline: Boolean): RenderLayer {
-        return RenderLayer.getEntityTranslucent(getTexture(state.age), false)
+        return RenderLayers.entityTranslucent(getTexture(state.age), false)
     }
 }

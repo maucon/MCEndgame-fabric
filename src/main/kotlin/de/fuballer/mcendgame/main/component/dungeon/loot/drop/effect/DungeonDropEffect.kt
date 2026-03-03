@@ -4,6 +4,7 @@ import de.fuballer.mcendgame.main.component.dungeon.loot.drop.ItemColor
 import de.fuballer.mcendgame.main.util.extension.mixin.EntityMixinExtension.setForcedGlowColor
 import net.minecraft.entity.Entity
 import net.minecraft.entity.ItemEntity
+import net.minecraft.particle.ParticleEffect
 import net.minecraft.particle.SimpleParticleType
 import net.minecraft.server.world.ServerWorld
 import net.minecraft.sound.SoundCategory
@@ -13,7 +14,7 @@ import kotlin.random.Random
 
 class DungeonDropEffect(
     val sound: SoundEvent? = null,
-    val particleType: SimpleParticleType? = null,
+    val particleType: ParticleEffect? = null,
     val glowColor: ItemColor? = null,
 ) {
     private var soundCategory = SoundCategory.MASTER

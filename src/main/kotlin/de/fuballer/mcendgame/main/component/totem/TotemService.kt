@@ -48,7 +48,7 @@ class TotemService(
     @CommandHandler
     fun on(cmd: CollectCustomAttributesCommand) {
         val player = cmd.entity as? PlayerEntity ?: return
-        if (!player.world.isDungeonWorld()) return
+        if (!player.entityWorld.isDungeonWorld()) return
 
         val attributes = getPlayerTotemAttributes(player)
         cmd.customAttributes.addAll(attributes)

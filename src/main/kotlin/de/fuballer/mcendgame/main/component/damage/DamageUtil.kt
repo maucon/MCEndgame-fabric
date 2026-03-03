@@ -18,8 +18,8 @@ object DamageUtil {
         val effectiveArmor = MathHelper.clamp(armor - damageAmount / armorReductionReduction, armor * 0.2f, 20.0f)
         var damageReduction = effectiveArmor / 25.0f
         val itemStack = damageSource.weaponStack
-        if (itemStack != null && armorWearer.world is ServerWorld) {
-            damageReduction = MathHelper.clamp(EnchantmentHelper.getArmorEffectiveness(armorWearer.world as ServerWorld, itemStack, armorWearer, damageSource, damageReduction), 0.0f, 1.0f)
+        if (itemStack != null && armorWearer.entityWorld is ServerWorld) {
+            damageReduction = MathHelper.clamp(EnchantmentHelper.getArmorEffectiveness(armorWearer.entityWorld as ServerWorld, itemStack, armorWearer, damageSource, damageReduction), 0.0f, 1.0f)
         }
 
         val damageMultiplier = 1.0f - damageReduction
@@ -50,8 +50,8 @@ object DamageUtil {
         var damageReduction = effectiveWard / 12.5F
 
         val itemStack = damageSource.weaponStack
-        if (itemStack != null && armorWearer.world is ServerWorld) {
-            damageReduction = MathHelper.clamp(EnchantmentHelper.getArmorEffectiveness(armorWearer.world as ServerWorld, itemStack, armorWearer, damageSource, damageReduction), 0.0f, 1.0f)
+        if (itemStack != null && armorWearer.entityWorld is ServerWorld) {
+            damageReduction = MathHelper.clamp(EnchantmentHelper.getArmorEffectiveness(armorWearer.entityWorld as ServerWorld, itemStack, armorWearer, damageSource, damageReduction), 0.0f, 1.0f)
         }
 
         val damageMultiplier = 1.0f - damageReduction
@@ -95,6 +95,6 @@ object DamageUtil {
         attacked: LivingEntity,
         source: DamageSource
     ): Double {
-        return EnchantmentHelper.getDamage(attacker.world as ServerWorld, attacker.weaponStack, attacked, source, 0.0F).toDouble()
+        return EnchantmentHelper.getDamage(attacker.entityWorld as ServerWorld, attacker.weaponStack, attacked, source, 0.0F).toDouble()
     }
 }

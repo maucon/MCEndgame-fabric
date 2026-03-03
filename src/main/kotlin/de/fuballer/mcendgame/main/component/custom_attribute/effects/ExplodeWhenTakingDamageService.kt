@@ -22,7 +22,7 @@ class ExplodeWhenTakingDamageService {
         if (event.amount <= 0) return
 
         val damaged = event.damaged
-        val serverWorld = damaged.world as? ServerWorld ?: return
+        val serverWorld = damaged.entityWorld as? ServerWorld ?: return
         val attributes = damaged.getAllCustomAttributes()[CustomAttributeTypes.EXPLODE_WHEN_TAKING_DAMAGE] ?: return
 
         if (damaged.hurtTime != damaged.maxHurtTime) return

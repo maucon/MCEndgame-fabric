@@ -54,7 +54,7 @@ public class BlockCollisionSpliteratorBlockPhasingMixin<T> {
             CallbackInfo ci
     ) {
         if (!(entity instanceof LivingEntity livingEntity)) return;
-        if (WorldExtension.INSTANCE.isDungeonWorld(livingEntity.getWorld())) return;
+        if (WorldExtension.INSTANCE.isDungeonWorld(livingEntity.getEntityWorld())) return;
         blockPhasing = CustomAttributesExtensions.INSTANCE.isBlockPhasing(livingEntity);
         entityPitch = livingEntity.getPitch();
     }

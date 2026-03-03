@@ -8,7 +8,7 @@ import net.minecraft.entity.Entity;
 import net.minecraft.entity.LivingEntity;
 import net.minecraft.entity.damage.DamageSource;
 import net.minecraft.server.world.ServerWorld;
-import net.minecraft.world.GameRules;
+import net.minecraft.world.rule.GameRules;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.Shadow;
 import org.spongepowered.asm.mixin.injection.At;
@@ -30,7 +30,7 @@ public abstract class LivingEntityEventsMixin {
     protected abstract void dropInventory(ServerWorld world);
 
     @Shadow
-    protected abstract boolean shouldDropLoot();
+    protected abstract boolean shouldDropLoot(ServerWorld world);
 
     @Shadow
     protected abstract void dropLoot(ServerWorld world, DamageSource damageSource, boolean bl);
@@ -53,7 +53,7 @@ public abstract class LivingEntityEventsMixin {
         var cmd = new LivingEntityDropCommand(livingEntity, causedByPlayer);
         CommandGateway.INSTANCE.apply(cmd);
 
-        if (this.shouldDropLoot() && world.getGameRules().getBoolean(GameRules.DO_MOB_LOOT)) {
+        if (this.shouldDropLoot(world) && world.getGameRules().getValue(GameRules.DO_MOB_LOOT)) {
             if (cmd.getDropLoot()) this.dropLoot(world, damageSource, causedByPlayer);
             if (cmd.getDropEquipment()) this.dropEquipment(world, damageSource, causedByPlayer);
         }

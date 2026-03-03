@@ -9,7 +9,10 @@ import org.spongepowered.asm.mixin.injection.Redirect;
 
 @Mixin(PlayerEntity.class)
 public class PlayerEntityKnockbackCommandMixin {
-    @Redirect(method = "attack", at = @At(value = "INVOKE", target = "Lnet/minecraft/entity/LivingEntity;takeKnockback(DDD)V"))
+    @Redirect(
+            method = "knockbackTarget",
+            at = @At(value = "INVOKE", target = "Lnet/minecraft/entity/LivingEntity;takeKnockback(DDD)V")
+    )
     void redirectTakeKnockback(LivingEntity instance, double strength, double x, double z) {
         var player = (PlayerEntity) (Object) this;
         AttackKnockbackUtil.INSTANCE.takeKnockbackFrom(instance, player, strength, x, z);

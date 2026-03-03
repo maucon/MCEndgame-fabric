@@ -2,12 +2,11 @@ package de.fuballer.mcendgame.client.component.screen
 
 import de.fuballer.mcendgame.main.component.totem.TotemScreenHandler
 import de.fuballer.mcendgame.main.util.minecraft.IdentifierUtil
+import net.minecraft.client.gl.RenderPipelines
 import net.minecraft.client.gui.DrawContext
 import net.minecraft.client.gui.screen.ingame.HandledScreen
-import net.minecraft.client.render.RenderLayer
 import net.minecraft.entity.player.PlayerInventory
 import net.minecraft.text.Text
-import net.minecraft.util.Identifier
 
 private val TEXTURE = IdentifierUtil.default("textures/gui/container/totem.png")
 
@@ -37,7 +36,7 @@ class TotemScreen(
         val textureY = (height - backgroundHeight) / 2
 
         context.drawTexture(
-            { texture: Identifier -> RenderLayer.getGuiTextured(texture) },
+            RenderPipelines.GUI_TEXTURED,
             TEXTURE,
             textureX,
             textureY,

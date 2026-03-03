@@ -2,8 +2,8 @@ package de.fuballer.mcendgame.main.component.custom_attribute.effects
 
 import de.fuballer.mcendgame.main.component.custom_attribute.data.DoubleRoll
 import de.fuballer.mcendgame.main.component.custom_attribute.types.CustomAttributeTypes
-import de.fuballer.mcendgame.main.messaging.collectAttribute.CollectElementalDamageCommand
-import de.fuballer.mcendgame.main.messaging.collectAttribute.CollectHealFactorCommand
+import de.fuballer.mcendgame.main.messaging.collect_attribute.CollectElementalDamageCommand
+import de.fuballer.mcendgame.main.messaging.collect_attribute.CollectHealFactorCommand
 import de.maucon.mauconframework.command.CommandGateway
 import de.maucon.mauconframework.command.CommandHandler
 import de.maucon.mauconframework.di.annotation.Injectable

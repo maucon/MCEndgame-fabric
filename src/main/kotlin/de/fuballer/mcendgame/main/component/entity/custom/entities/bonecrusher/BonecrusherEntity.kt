@@ -32,10 +32,10 @@ import software.bernie.geckolib.animatable.GeoAnimatable
 import software.bernie.geckolib.animatable.GeoEntity
 import software.bernie.geckolib.animatable.instance.AnimatableInstanceCache
 import software.bernie.geckolib.animatable.manager.AnimatableManager
-import software.bernie.geckolib.animatable.processing.AnimationController
-import software.bernie.geckolib.animatable.processing.AnimationTest
-import software.bernie.geckolib.animation.PlayState
+import software.bernie.geckolib.animation.AnimationController
 import software.bernie.geckolib.animation.RawAnimation
+import software.bernie.geckolib.animation.`object`.PlayState
+import software.bernie.geckolib.animation.state.AnimationTest
 import software.bernie.geckolib.util.GeckoLibUtil
 
 class BonecrusherEntity(
@@ -96,10 +96,11 @@ class BonecrusherEntity(
         )
 
         const val SPIN_ATTACK_ROTATIONS = 3
-        private val SPIN_START_ANIM: RawAnimation = RawAnimation.begin().thenPlay("attack.spin.start")
-        private val SPIN_ANIM: RawAnimation = RawAnimation.begin().thenPlay("attack.spin")
-        private val SPIN_END_ANIM: RawAnimation = RawAnimation.begin().thenPlay("attack.spin.end")
-        private const val SPIN_START_ID = "Start Spin"
+        private val SPIN_ANIM: RawAnimation = RawAnimation.begin()
+            .thenPlay("attack.spin.start")
+            .thenPlayXTimes("attack.spin", SPIN_ATTACK_ROTATIONS)
+            .thenPlay("attack.spin.end")
+        private const val SPIN_ID = "Spin"
         private val SPIN_FRONT_AREA = AreaAttackDamage.DamageArea(4.0, 3.0, 1.0, 0.0, 0.0, 0.5)
         private val SPIN_FRONT_DAMAGE = AreaAttackDamage(1F, 0.25, SPIN_FRONT_AREA, knockbackType = AreaAttackDamage.KnockbackType.DAMAGER_CENTER)
         private val SPIN_BACK_AREA = AreaAttackDamage.DamageArea(4.0, 3.0, 1.0, -4.0, 0.0, 0.5)
@@ -108,7 +109,7 @@ class BonecrusherEntity(
         private val SPIN_LEFT_DAMAGE = AreaAttackDamage(1F, 0.25, SPIN_LEFT_AREA, knockbackType = AreaAttackDamage.KnockbackType.DAMAGER_CENTER)
         private val SPIN_RIGHT_AREA = AreaAttackDamage.DamageArea(6.0, 2.0, 1.0, -3.0, 2.0, 0.5)
         private val SPIN_RIGHT_DAMAGE = AreaAttackDamage(1F, 0.25, SPIN_RIGHT_AREA, knockbackType = AreaAttackDamage.KnockbackType.DAMAGER_CENTER)
-        private val SPIN_ANIMATION_DATA = AttackAnimationData(AttackPose.DEFAULT, AttackPose.DEFAULT, SPIN_ANIM_CONTROLLER_ID, SPIN_START_ID)
+        private val SPIN_ANIMATION_DATA = AttackAnimationData(AttackPose.DEFAULT, AttackPose.DEFAULT, SPIN_ANIM_CONTROLLER_ID, SPIN_ID)
         private val SPIN_ATTACK = Attack<BonecrusherEntity>(
             SPIN_ANIMATION_DATA,
             50 + 13 * SPIN_ATTACK_ROTATIONS,
@@ -165,16 +166,6 @@ class BonecrusherEntity(
     private val cache: AnimatableInstanceCache = GeckoLibUtil.createInstanceCache(this)
     override fun getAnimatableInstanceCache() = cache
 
-    private enum class SpinAttackState {
-        NONE,
-        START,
-        SPIN,
-        END,
-    }
-
-    private var spinAttackState = SpinAttackState.NONE
-    private var spinRotationCount = 0
-
     override var attackPose = AttackPose.DEFAULT
     override var attackDuration = 0
     override val attacks = ATTACKS
@@ -226,7 +217,7 @@ class BonecrusherEntity(
         super.tick()
         tickBlockedMovement()
 
-        val world = world as? ServerWorld ?: return
+        val world = entityWorld as? ServerWorld ?: return
         tickAttacks(world, this)
     }
 
@@ -237,55 +228,13 @@ class BonecrusherEntity(
                 .triggerableAnim(HIT_ID, HIT_ANIM)
                 .triggerableAnim(SLAM_ID, SLAM_ANIM)
                 .triggerableAnim(TELEPORT_PRESS_ID, TELEPORT_PRESS_ANIM),
-            AnimationController(SPIN_ANIM_CONTROLLER_ID, 0, ::spinAnimationController)
-                .triggerableAnim(SPIN_START_ID, SPIN_START_ANIM)
+            AnimationController<GeoAnimatable>(SPIN_ANIM_CONTROLLER_ID, 0) { _ -> PlayState.STOP }
+                .triggerableAnim(SPIN_ID, SPIN_ANIM)
         )
     }
 
     private fun movementAnimationController(animTest: AnimationTest<BonecrusherEntity>): PlayState {
-        if (spinAttackState != SpinAttackState.NONE) return PlayState.STOP
         if (animTest.isMoving) return animTest.setAndContinue(WALK_ANIM)
         return PlayState.STOP
-    }
-
-    private fun spinAnimationController(animTest: AnimationTest<BonecrusherEntity>): PlayState {
-        val controller = animTest.controller
-
-        if (controller.currentRawAnimation == SPIN_START_ANIM && spinAttackState == SpinAttackState.NONE) {
-            spinAttackState = SpinAttackState.START
-            controller.stopTriggeredAnimation()
-        }
-
-        when (spinAttackState) {
-            SpinAttackState.START -> {
-                if (controller.currentRawAnimation == SPIN_START_ANIM && controller.hasAnimationFinished()) {
-                    spinAttackState = SpinAttackState.SPIN
-                    return animTest.setAndContinue(SPIN_ANIM)
-                }
-                return animTest.setAndContinue(SPIN_START_ANIM)
-            }
-
-            SpinAttackState.SPIN -> {
-                if (controller.hasAnimationFinished()) {
-                    if (++spinRotationCount >= SPIN_ATTACK_ROTATIONS) {
-                        spinRotationCount = 0
-                        spinAttackState = SpinAttackState.END
-                        return animTest.setAndContinue(SPIN_END_ANIM)
-                    }
-                    controller.forceAnimationReset()
-                }
-                return animTest.setAndContinue(SPIN_ANIM)
-            }
-
-            SpinAttackState.END -> {
-                if (controller.hasAnimationFinished()) {
-                    spinAttackState = SpinAttackState.NONE
-                    return PlayState.STOP
-                }
-                return animTest.setAndContinue(SPIN_END_ANIM)
-            }
-
-            else -> return PlayState.STOP
-        }
     }
 }

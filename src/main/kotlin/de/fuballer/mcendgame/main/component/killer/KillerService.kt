@@ -34,7 +34,7 @@ class KillerService(
     @EventSubscriber
     fun on(event: PlayerEntityDeathEvent) {
         val player = event.player
-        if (player.world.isClient) return
+        if (player.entityWorld.isClient) return
         val killer = event.killer ?: return
 
         killerRepo.save(KillerEntity.of(player, killer))

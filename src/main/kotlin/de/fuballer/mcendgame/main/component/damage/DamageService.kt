@@ -217,7 +217,7 @@ object DamageService {
 
         if (amount <= 0.0f) return 0.0f
         if (source.isIn(DamageTypeTags.BYPASSES_ENCHANTMENTS)) return amount
-        val serverWorld = entity.world as? ServerWorld ?: return amount
+        val serverWorld = entity.entityWorld as? ServerWorld ?: return amount
 
         val protectionAmount = EnchantmentHelper.getProtectionAmount(serverWorld, entity, source)
         amount = VanillaDamageUtil.getInflictedDamage(amount, protectionAmount)

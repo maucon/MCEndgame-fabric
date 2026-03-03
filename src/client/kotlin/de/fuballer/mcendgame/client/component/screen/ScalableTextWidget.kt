@@ -16,12 +16,13 @@ class ScalableTextWidget(
 ) : TextWidget(x, y, width, height, text, textRenderer) {
     override fun renderWidget(context: DrawContext, mouseX: Int, mouseY: Int, deltaTicks: Float) {
         val matrices = context.matrices
-        matrices.push()
-        matrices.translate(x.toDouble() * (1 - scale), y.toDouble() * (1 - scale), 0.0)
-        matrices.scale(scale, scale, 1f)
+
+        matrices.pushMatrix()
+        matrices.translate(x * (1 - scale), y * (1 - scale))
+        matrices.scale(scale, scale)
 
         super.renderWidget(context, mouseX, mouseY, deltaTicks)
 
-        matrices.pop()
+        matrices.popMatrix()
     }
 }

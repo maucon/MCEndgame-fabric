@@ -1,8 +1,8 @@
 package de.fuballer.mcendgame.client.mixin.phasing;
 
+import com.mojang.blaze3d.buffers.GpuBufferSlice;
 import de.fuballer.mcendgame.main.util.extension.EntityExtension;
 import net.minecraft.client.render.Camera;
-import net.minecraft.client.render.Fog;
 import net.minecraft.client.render.FrameGraphBuilder;
 import net.minecraft.client.render.WorldRenderer;
 import org.spongepowered.asm.mixin.Mixin;
@@ -19,8 +19,7 @@ public class WorldRendererBlockPhasingMixin {
     void renderSky(
             FrameGraphBuilder frameGraphBuilder,
             Camera camera,
-            float tickProgress,
-            Fog fog,
+            GpuBufferSlice fogBuffer,
             CallbackInfo ci
     ) {
         var entity = camera.getFocusedEntity();

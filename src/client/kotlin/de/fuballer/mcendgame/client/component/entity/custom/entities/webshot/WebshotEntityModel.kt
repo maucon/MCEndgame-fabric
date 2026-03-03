@@ -8,7 +8,7 @@ import net.minecraft.client.render.entity.model.EntityModelLayer
 class WebshotEntityModel(
     modelPart: ModelPart,
 ) : EntityModel<WebshotRenderState>(modelPart) {
-    val webshot = root.getChild("webshot")
+    val webshot: ModelPart = root.getChild("webshot")
 
     companion object {
         val WEBSHOT = EntityModelLayer(IdentifierUtil.default("webshot"), "main")

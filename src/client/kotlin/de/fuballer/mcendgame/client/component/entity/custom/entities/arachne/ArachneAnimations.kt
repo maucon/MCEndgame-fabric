@@ -1,12 +1,12 @@
 package de.fuballer.mcendgame.client.component.entity.custom.entities.arachne
 
-import net.minecraft.client.render.entity.animation.Animation
+import net.minecraft.client.render.entity.animation.AnimationDefinition
 import net.minecraft.client.render.entity.animation.AnimationHelper
 import net.minecraft.client.render.entity.animation.Keyframe
 import net.minecraft.client.render.entity.animation.Transformation
 
-object ArachneAnimation {
-    val WALK: Animation = Animation.Builder.create(1.1667f).looping()
+object ArachneAnimations {
+    val WALKING: AnimationDefinition = AnimationDefinition.Builder.create(1.1667f).looping()
         .addBoneAnimation(
             "temurLeft1", Transformation(
                 Transformation.Targets.ROTATE,
@@ -297,7 +297,7 @@ object ArachneAnimation {
         )
         .build()
 
-    val IDLE: Animation = Animation.Builder.create(4.0f).looping()
+    val IDLE: AnimationDefinition = AnimationDefinition.Builder.create(4.0f).looping()
         .addBoneAnimation(
             "cephalothorax", Transformation(
                 Transformation.Targets.MOVE_ORIGIN,
@@ -540,7 +540,7 @@ object ArachneAnimation {
         )
         .build()
 
-    val WALK_BW: Animation = Animation.Builder.create(1.1667f).looping()
+    val WALKING_BACKWARDS: AnimationDefinition = AnimationDefinition.Builder.create(1.1667f).looping()
         .addBoneAnimation(
             "temurLeft1", Transformation(
                 Transformation.Targets.ROTATE,
@@ -831,7 +831,7 @@ object ArachneAnimation {
         )
         .build()
 
-    val SPIT: Animation = Animation.Builder.create(0.4167f)
+    val SPIT: AnimationDefinition = AnimationDefinition.Builder.create(0.4167f)
         .addBoneAnimation(
             "upperbody", Transformation(
                 Transformation.Targets.ROTATE,
@@ -888,7 +888,7 @@ object ArachneAnimation {
         )
         .build()
 
-    val ATTACK: Animation = Animation.Builder.create(0.7083f)
+    val ATTACK: AnimationDefinition = AnimationDefinition.Builder.create(0.7083f)
         .addBoneAnimation(
             "temurLeft1", Transformation(
                 Transformation.Targets.ROTATE,

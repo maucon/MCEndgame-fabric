@@ -50,7 +50,8 @@ class DecayingCobwebBlock(
         world: World,
         pos: BlockPos,
         entity: Entity,
-        handler: EntityCollisionHandler
+        handler: EntityCollisionHandler,
+        moved: Boolean,
     ) {
         var vec3d = Vec3d(0.25, 0.05, 0.25)
         if (entity is LivingEntity && entity.hasStatusEffect(StatusEffects.WEAVING)) {

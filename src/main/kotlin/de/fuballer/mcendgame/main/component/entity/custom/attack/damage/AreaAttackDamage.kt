@@ -43,8 +43,8 @@ class AreaAttackDamage(
         val scale = getScale(damager)
 
         val targets = getTargets(world, damager, scale).filter {
-            area.contains(it.pos.subtract(damager.pos), forward, sideways, scale)
-                    || area.contains(it.pos.add(0.0, it.height.toDouble(), 0.0).subtract(damager.pos), forward, sideways, scale)
+            area.contains(it.entityPos.subtract(damager.entityPos), forward, sideways, scale)
+                    || area.contains(it.entityPos.add(0.0, it.height.toDouble(), 0.0).subtract(damager.entityPos), forward, sideways, scale)
         }
 
         val slamCenter = area.getCenter(damager, scale, forward, sideways)
@@ -97,18 +97,18 @@ class AreaAttackDamage(
         slamCenter: Vec3d,
     ) {
         val knockBackStrength = knockback * if (applyScale) scale else 1.0
-        target.velocityModified = true
+        target.velocityDirty = true
 
         when (knockbackType) {
             KnockbackType.FACING -> target.takeKnockbackFrom(damager, knockBackStrength, -forward.x, -forward.z)
 
             KnockbackType.AREA_CENTER -> {
-                val knockbackDirection = target.pos.subtract(slamCenter).normalize()
+                val knockbackDirection = target.entityPos.subtract(slamCenter).normalize()
                 target.takeKnockbackFrom(damager, knockBackStrength, -knockbackDirection.x, -knockbackDirection.z)
             }
 
             KnockbackType.DAMAGER_CENTER -> {
-                val knockbackDirection = target.pos.subtract(damager.pos).normalize()
+                val knockbackDirection = target.entityPos.subtract(damager.entityPos).normalize()
                 target.takeKnockbackFrom(damager, knockBackStrength, -knockbackDirection.x, -knockbackDirection.z)
             }
         }
@@ -229,7 +229,7 @@ class AreaAttackDamage(
             forward: Vec3d,
             sideways: Vec3d,
         ): Vec3d {
-            var center = damager.pos
+            var center = damager.entityPos
 
             val forwardCenter = (forwardOffset + forwardRange / 2) * scale
             center = center.add(forward.multiply(forwardCenter))

@@ -5,8 +5,9 @@ import de.fuballer.mcendgame.main.component.dungeon.enemy.boss.DungeonBossServic
 import de.fuballer.mcendgame.main.component.dungeon.generation.data.SpawnPosition;
 import net.minecraft.entity.mob.MobEntity;
 import net.minecraft.entity.player.PlayerEntity;
-import net.minecraft.nbt.NbtCompound;
 import net.minecraft.server.world.ServerWorld;
+import net.minecraft.storage.ReadView;
+import net.minecraft.storage.WriteView;
 import org.jetbrains.annotations.Nullable;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.Unique;
@@ -53,7 +54,7 @@ public class MobEntityDungeonBossMixin implements MobEntityDungeonBossAccessor {
         if (!isDungeonBoss) return;
         var entity = (MobEntity) (Object) this;
         if (!entity.isAiDisabled()) return;
-        if (!(entity.getWorld() instanceof ServerWorld serverWorld)) return;
+        if (!(entity.getEntityWorld() instanceof ServerWorld serverWorld)) return;
 
         var players = serverWorld.getNonSpectatingEntities(PlayerEntity.class, entity.getBoundingBox().expand(20.0, 5.0, 20.0));
         players = players.stream().filter(player -> !player.isInCreativeMode()).toList();
@@ -66,17 +67,17 @@ public class MobEntityDungeonBossMixin implements MobEntityDungeonBossAccessor {
         }
     }
 
-    @Inject(method = "writeCustomDataToNbt", at = @At("TAIL"))
-    private void writeNBT(NbtCompound nbt, CallbackInfo ci) {
-        if (isDungeonBoss) nbt.putBoolean(DUNGEON_BOSS_NBT, true);
+    @Inject(method = "writeCustomData", at = @At("TAIL"))
+    private void writeCustomData(WriteView view, CallbackInfo ci) {
+        if (isDungeonBoss) view.putBoolean(DUNGEON_BOSS_NBT, true);
         if (spawnPosition != null) {
-            nbt.put(SPAWN_POSITION_NBT, SpawnPosition.Companion.getCODEC(), spawnPosition);
+            view.put(SPAWN_POSITION_NBT, SpawnPosition.Companion.getCODEC(), spawnPosition);
         }
     }
 
-    @Inject(method = "readCustomDataFromNbt", at = @At("TAIL"))
-    private void readNBT(NbtCompound nbt, CallbackInfo ci) {
-        isDungeonBoss = nbt.getBoolean(DUNGEON_BOSS_NBT).orElse(false);
-        spawnPosition = nbt.get(SPAWN_POSITION_NBT, SpawnPosition.Companion.getCODEC()).orElse(null);
+    @Inject(method = "readCustomData", at = @At("TAIL"))
+    private void readNBT(ReadView view, CallbackInfo ci) {
+        isDungeonBoss = view.getBoolean(DUNGEON_BOSS_NBT, false);
+        spawnPosition = view.read(SPAWN_POSITION_NBT, SpawnPosition.Companion.getCODEC()).orElse(null);
     }
 }

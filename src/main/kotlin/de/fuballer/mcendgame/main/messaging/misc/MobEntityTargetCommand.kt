@@ -11,6 +11,6 @@ data class MobEntityTargetCommand(
     var canTarget: Boolean = true,
 ) {
     companion object {
-        fun of(entity: MobEntity, target: LivingEntity?) = MobEntityTargetCommand(entity.world, entity, target)
+        fun of(entity: MobEntity, target: LivingEntity?) = MobEntityTargetCommand(entity.entityWorld, entity, target)
     }
 }

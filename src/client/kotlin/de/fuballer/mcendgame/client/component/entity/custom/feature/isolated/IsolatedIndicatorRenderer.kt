@@ -5,8 +5,8 @@ import de.fuballer.mcendgame.main.component.custom_attribute.CustomAttributeUtil
 import de.fuballer.mcendgame.main.util.minecraft.IdentifierUtil
 import net.minecraft.client.MinecraftClient
 import net.minecraft.client.render.OverlayTexture
-import net.minecraft.client.render.RenderLayer
-import net.minecraft.client.render.VertexConsumerProvider
+import net.minecraft.client.render.RenderLayers
+import net.minecraft.client.render.command.OrderedRenderCommandQueue
 import net.minecraft.client.render.entity.state.LivingEntityRenderState
 import net.minecraft.client.util.math.MatrixStack
 import net.minecraft.util.math.RotationAxis
@@ -17,7 +17,7 @@ object IsolatedIndicatorRenderer {
     fun tryRender(
         state: LivingEntityRenderState,
         matrices: MatrixStack,
-        vertexConsumers: VertexConsumerProvider,
+        queue: OrderedRenderCommandQueue,
         light: Int,
         isGeoEntity: Boolean = false,
     ) {
@@ -27,13 +27,13 @@ object IsolatedIndicatorRenderer {
         val player = MinecraftClient.getInstance().player ?: return
         if (!player.canSeeIsolated()) return
 
-        renderIcon(state, matrices, vertexConsumers, light, isGeoEntity)
+        renderIcon(state, matrices, queue, light, isGeoEntity)
     }
 
     private fun renderIcon(
         state: LivingEntityRenderState,
         matrices: MatrixStack,
-        vertexConsumers: VertexConsumerProvider,
+        queue: OrderedRenderCommandQueue,
         light: Int,
         isGeoEntity: Boolean,
     ) {
@@ -48,36 +48,37 @@ object IsolatedIndicatorRenderer {
         matrices.multiply(RotationAxis.NEGATIVE_Y.rotationDegrees(state.bodyYaw - camera.yaw))
         matrices.multiply(RotationAxis.POSITIVE_X.rotationDegrees(camera.pitch))
 
-        val buffer = vertexConsumers.getBuffer(RenderLayer.getEntityCutoutNoCull(ICON_TEXTURE))
-        val matrix = matrices.peek().positionMatrix
+        queue.submitCustom(matrices, RenderLayers.entityCutoutNoCull(ICON_TEXTURE)) { entry, vertexConsumer ->
+            val matrix = entry.positionMatrix
 
-        buffer.vertex(matrix, -0.2f, -0.2f, 0f)
-            .color(255, 255, 255, 255)
-            .texture(0f, 0f)
-            .overlay(OverlayTexture.DEFAULT_UV)
-            .light(light)
-            .normal(0f, 0f, 1f)
+            vertexConsumer.vertex(matrix, -0.2f, -0.2f, 0f)
+                .color(255, 255, 255, 255)
+                .texture(0f, 0f)
+                .overlay(OverlayTexture.DEFAULT_UV)
+                .light(light)
+                .normal(0f, 0f, 1f)
 
-        buffer.vertex(matrix, 0.2f, -0.2f, 0f)
-            .color(255, 255, 255, 255)
-            .texture(1f, 0f)
-            .overlay(OverlayTexture.DEFAULT_UV)
-            .light(light)
-            .normal(0f, 0f, 1f)
+            vertexConsumer.vertex(matrix, 0.2f, -0.2f, 0f)
+                .color(255, 255, 255, 255)
+                .texture(1f, 0f)
+                .overlay(OverlayTexture.DEFAULT_UV)
+                .light(light)
+                .normal(0f, 0f, 1f)
 
-        buffer.vertex(matrix, 0.2f, 0.2f, 0f)
-            .color(255, 255, 255, 255)
-            .texture(1f, 1f)
-            .overlay(OverlayTexture.DEFAULT_UV)
-            .light(light)
-            .normal(0f, 0f, 1f)
+            vertexConsumer.vertex(matrix, 0.2f, 0.2f, 0f)
+                .color(255, 255, 255, 255)
+                .texture(1f, 1f)
+                .overlay(OverlayTexture.DEFAULT_UV)
+                .light(light)
+                .normal(0f, 0f, 1f)
 
-        buffer.vertex(matrix, -0.2f, 0.2f, 0f)
-            .color(255, 255, 255, 255)
-            .texture(0f, 1f)
-            .overlay(OverlayTexture.DEFAULT_UV)
-            .light(light)
-            .normal(0f, 0f, 1f)
+            vertexConsumer.vertex(matrix, -0.2f, 0.2f, 0f)
+                .color(255, 255, 255, 255)
+                .texture(0f, 1f)
+                .overlay(OverlayTexture.DEFAULT_UV)
+                .light(light)
+                .normal(0f, 0f, 1f)
+        }
 
         matrices.pop()
     }

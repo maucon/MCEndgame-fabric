@@ -27,7 +27,7 @@ public abstract class LivingEntityAttributeWhileWitheredMixin {
     @Inject(method = "tick", at = @At("HEAD"))
     void tick(CallbackInfo ci) {
         var entity = (LivingEntity) (Object) this;
-        if (entity.getWorld().isClient) return;
+        if (entity.getEntityWorld().isClient()) return;
 
         if (entity.age % 10 != 0) return;
 

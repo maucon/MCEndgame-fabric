@@ -2,12 +2,12 @@ package de.fuballer.mcendgame.client.component.entity.custom.feature.webbed
 
 import de.fuballer.mcendgame.main.util.minecraft.IdentifierUtil
 import net.minecraft.client.model.*
-import net.minecraft.client.render.RenderLayer
+import net.minecraft.client.render.RenderLayers
 import net.minecraft.client.render.entity.model.EntityModelLayer
 
 class WebbedModel(
     modelPart: ModelPart,
-) : Model(modelPart, RenderLayer::getEntityCutoutNoCull) {
+) : Model<WebbedModel.WebbedData>(modelPart, RenderLayers::entityCutoutNoCull) {
     companion object {
         val WEBBED_LAYER = EntityModelLayer(IdentifierUtil.default("webbed"), "main")
 
@@ -23,4 +23,6 @@ class WebbedModel(
             return TexturedModelData.of(modelData, 128, 64)
         }
     }
+
+    class WebbedData()
 }

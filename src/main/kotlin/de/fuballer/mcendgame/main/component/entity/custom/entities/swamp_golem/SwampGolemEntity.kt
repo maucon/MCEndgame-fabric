@@ -63,7 +63,7 @@ class SwampGolemEntity(
     }
 
     private fun tickWalking() {
-        if (world.isClient) return
+        if (entityWorld.isClient) return
         if (navigation.isFollowingPath) {
             if (dataTracker.get(CUSTOM_POSE) != CustomPosesEntity.CustomPose.IDLING) return
             dataTracker.set(CUSTOM_POSE, CustomPosesEntity.CustomPose.WALKING)
@@ -103,9 +103,9 @@ class SwampGolemEntity(
         super.onTrackedDataSet(data)
     }
 
-    override fun rotate(yaw: Float, pitch: Float) {
+    override fun rotate(yaw: Float, relativeYaw: Boolean, pitch: Float, relativePitch: Boolean) {
         if (isRotationLocked()) return
-        super.rotate(yaw, pitch)
+        super.rotate(yaw, relativeYaw, pitch, relativePitch)
     }
 
     override fun setYaw(yaw: Float) {

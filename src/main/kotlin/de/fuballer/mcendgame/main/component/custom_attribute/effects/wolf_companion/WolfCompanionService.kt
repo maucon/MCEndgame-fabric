@@ -79,7 +79,7 @@ class WolfCompanionService {
     private fun summonWolfCompanions(
         player: PlayerEntity,
     ) {
-        val world = player.world as? ServerWorld ?: return
+        val world = player.entityWorld as? ServerWorld ?: return
         summonWolfCompanions(player, world)
     }
 
@@ -103,7 +103,7 @@ class WolfCompanionService {
         registry: Registry<WolfVariant>,
     ) {
         val wolf = WolfEntity(EntityType.WOLF, world)
-        wolf.setPosition(player.pos)
+        wolf.setPosition(player.entityPos)
 
         wolf.setTamedBy(player)
         wolf.setCompanion()
@@ -141,7 +141,7 @@ class WolfCompanionService {
     private fun removeWolfCompanions(
         player: PlayerEntity,
     ) {
-        val world = player.world as? ServerWorld ?: return
+        val world = player.entityWorld as? ServerWorld ?: return
         removeWolfCompanions(player, world)
     }
 

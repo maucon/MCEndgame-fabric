@@ -2,6 +2,7 @@ package de.fuballer.mcendgame.client.component.entity.custom.entities.arachne
 
 import de.fuballer.mcendgame.main.util.minecraft.IdentifierUtil
 import net.minecraft.client.model.*
+import net.minecraft.client.render.entity.animation.Animation
 import net.minecraft.client.render.entity.model.EntityModel
 import net.minecraft.client.render.entity.model.EntityModelLayer
 
@@ -63,6 +64,12 @@ class ArachneEntityModel(
     val armRight = chest.getChild("armRight")
     val armRightLower = armRight.getChild("armRightLower")
     val abdomen = cephalothorax.getChild("abdomen")
+
+    val walkingAnimation: Animation = ArachneAnimations.WALKING.createAnimation(modelPart)
+    val walkingBackwardsAnimation: Animation = ArachneAnimations.WALKING_BACKWARDS.createAnimation(modelPart)
+    val idleAnimation: Animation = ArachneAnimations.IDLE.createAnimation(modelPart)
+    val spitAnimation: Animation = ArachneAnimations.SPIT.createAnimation(modelPart)
+    val attackAnimation: Animation = ArachneAnimations.ATTACK.createAnimation(modelPart)
 
     companion object {
         val ARACHNE = EntityModelLayer(IdentifierUtil.default("arachne"), "main")
@@ -483,13 +490,14 @@ class ArachneEntityModel(
     ) {
         super.setAngles(renderState)
 
-        animate(renderState.idleAnimationState, ArachneAnimation.IDLE, renderState.age, 1.0F)
-        val walkAnimSpeed = renderState.moveSpeed * 6F / renderState.baseScale
-        animate(renderState.walkAnimationState, ArachneAnimation.WALK, renderState.age, walkAnimSpeed)
-        animate(renderState.walkBWAnimationState, ArachneAnimation.WALK_BW, renderState.age, walkAnimSpeed)
+        idleAnimation.apply(renderState.idleAnimationState, renderState.age)
 
-        animate(renderState.spitAnimationState, ArachneAnimation.SPIT, renderState.age, 1.0F)
-        animate(renderState.meleeAttackAnimationState, ArachneAnimation.ATTACK, renderState.age, 1.0F)
+        val walkAnimSpeed = renderState.moveSpeed * 6F / renderState.baseScale
+        walkingAnimation.apply(renderState.walkAnimationState, renderState.age, walkAnimSpeed)
+        walkingBackwardsAnimation.apply(renderState.walkBWAnimationState, renderState.age, walkAnimSpeed)
+
+        spitAnimation.apply(renderState.spitAnimationState, renderState.age)
+        attackAnimation.apply(renderState.meleeAttackAnimationState, renderState.age)
 
         setHeadAngles(renderState)
     }

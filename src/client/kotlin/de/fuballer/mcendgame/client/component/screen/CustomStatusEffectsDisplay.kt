@@ -1,9 +1,10 @@
 package de.fuballer.mcendgame.client.component.screen
 
 import net.minecraft.client.MinecraftClient
+import net.minecraft.client.gl.RenderPipelines
 import net.minecraft.client.gui.DrawContext
+import net.minecraft.client.gui.hud.InGameHud
 import net.minecraft.client.gui.screen.ingame.HandledScreen
-import net.minecraft.client.render.RenderLayer
 import net.minecraft.entity.effect.StatusEffect
 import net.minecraft.entity.effect.StatusEffectInstance
 import net.minecraft.entity.effect.StatusEffectUtil
@@ -101,8 +102,8 @@ class CustomStatusEffectsDisplay(
         yBase: Int,
         wide: Boolean,
     ) {
-        if (wide) context.drawGuiTexture(RenderLayer::getGuiTextured, EFFECT_BACKGROUND_LARGE_TEXTURE, x, yBase, wideWidth, backgroundHeight)
-        else context.drawGuiTexture(RenderLayer::getGuiTextured, EFFECT_BACKGROUND_SMALL_TEXTURE, x, yBase, smallWidth, backgroundHeight)
+        if (wide) context.drawGuiTexture(RenderPipelines.GUI_TEXTURED, EFFECT_BACKGROUND_LARGE_TEXTURE, x, yBase, wideWidth, backgroundHeight)
+        else context.drawGuiTexture(RenderPipelines.GUI_TEXTURED, EFFECT_BACKGROUND_SMALL_TEXTURE, x, yBase, smallWidth, backgroundHeight)
     }
 
     private fun drawStatusEffectSprite(
@@ -112,11 +113,8 @@ class CustomStatusEffectsDisplay(
         statusEffect: StatusEffectInstance,
         wide: Boolean,
     ) {
-        val statusEffectSpriteManager = client.statusEffectSpriteManager
-
-        val entry = statusEffect.effectType
-        val sprite = statusEffectSpriteManager.getSprite(entry)
-        context.drawSpriteStretched(RenderLayer::getGuiTextured, sprite, x + spriteXOffset(wide), yBase + spriteYOffset, spriteSize, spriteSize)
+        val sprite = InGameHud.getEffectTexture(statusEffect.effectType)
+        context.drawGuiTexture(RenderPipelines.GUI_TEXTURED, sprite, x + spriteXOffset(wide), yBase + spriteYOffset, spriteSize, spriteSize)
     }
 
     private fun drawStatusEffectDescription(

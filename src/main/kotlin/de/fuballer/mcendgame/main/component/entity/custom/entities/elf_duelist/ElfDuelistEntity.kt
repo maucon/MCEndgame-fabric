@@ -32,9 +32,9 @@ import software.bernie.geckolib.animatable.GeoAnimatable
 import software.bernie.geckolib.animatable.GeoEntity
 import software.bernie.geckolib.animatable.instance.AnimatableInstanceCache
 import software.bernie.geckolib.animatable.manager.AnimatableManager
-import software.bernie.geckolib.animatable.processing.AnimationController
-import software.bernie.geckolib.animation.PlayState
+import software.bernie.geckolib.animation.AnimationController
 import software.bernie.geckolib.animation.RawAnimation
+import software.bernie.geckolib.animation.`object`.PlayState
 import software.bernie.geckolib.constant.DefaultAnimations
 import software.bernie.geckolib.util.GeckoLibUtil
 import kotlin.math.abs
@@ -426,7 +426,7 @@ class ElfDuelistEntity(
 
     override fun tick() {
         super.tick()
-        val world = world as? ServerWorld ?: return
+        val world = entityWorld as? ServerWorld ?: return
         tickBlockedMovement()
         tickAttacks(world, this)
         tickEars()
@@ -443,7 +443,7 @@ class ElfDuelistEntity(
     ): ProjectileDeflection {
         if (!canAttack()) return ProjectileDeflection.NONE
 
-        val distanceVector = projectile.pos.subtract(pos)
+        val distanceVector = projectile.entityPos.subtract(entityPos)
         val yawToProj = distanceVector.getYaw()
         val yawDifference = abs(bodyYaw - yawToProj) % 360
         val angle = min(yawDifference, 360 - yawDifference)

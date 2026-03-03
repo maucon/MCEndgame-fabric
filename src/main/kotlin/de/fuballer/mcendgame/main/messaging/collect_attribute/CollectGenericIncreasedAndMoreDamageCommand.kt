@@ -1,19 +1,22 @@
-package de.fuballer.mcendgame.main.messaging.collectAttribute
+package de.fuballer.mcendgame.main.messaging.collect_attribute
 
 import de.fuballer.mcendgame.main.component.custom_attribute.CustomAttributesExtensions.getAllCustomAttributes
 import de.fuballer.mcendgame.main.component.custom_attribute.data.CustomAttribute
 import de.fuballer.mcendgame.main.component.custom_attribute.data.CustomAttributeType
+import de.maucon.mauconframework.command.CommandGateway
 import net.minecraft.entity.LivingEntity
 
-data class CollectHealFactorCommand(
+data class CollectGenericIncreasedAndMoreDamageCommand (
     val entity: LivingEntity,
     val attributes: Map<CustomAttributeType, List<CustomAttribute>> = entity.getAllCustomAttributes(),
     val increased: MutableList<Double> = mutableListOf(),
     val more: MutableList<Double> = mutableListOf(),
-) {
-    companion object {
-        fun forEntity(entity: LivingEntity) = CollectHealFactorCommand(entity)
-    }
+){
+    init {
+        val genericIncreasedCommand = CollectGenericIncreasedDamageCommand(entity, attributes)
+        increased.addAll(CommandGateway.apply(genericIncreasedCommand).increased)
 
-    fun getFactor() = (1 + increased.sum()) * more.fold(1.0) { a, b -> a * (1 + b) }
+        val genericMoreCommand = CollectGenericMoreDamageCommand(entity, attributes)
+        more.addAll(CommandGateway.apply(genericMoreCommand).more)
+    }
 }

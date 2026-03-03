@@ -5,9 +5,14 @@ import de.fuballer.mcendgame.client.component.entity.custom.data.MultipleEntityC
 import de.fuballer.mcendgame.main.component.entity.custom.entities.arachne.ArachneEntity
 import de.fuballer.mcendgame.main.component.entity.custom.entities.mount.DirectionalMovementEntity
 import de.fuballer.mcendgame.main.util.minecraft.IdentifierUtil
-import net.minecraft.client.render.*
+import net.minecraft.client.render.Frustum
+import net.minecraft.client.render.LightmapTextureManager
+import net.minecraft.client.render.RenderLayers
+import net.minecraft.client.render.VertexConsumer
+import net.minecraft.client.render.command.OrderedRenderCommandQueue
 import net.minecraft.client.render.entity.EntityRendererFactory
 import net.minecraft.client.render.entity.MobEntityRenderer
+import net.minecraft.client.render.state.CameraRenderState
 import net.minecraft.client.util.math.MatrixStack
 import net.minecraft.util.Identifier
 import net.minecraft.util.math.BlockPos
@@ -67,7 +72,7 @@ class ArachneRenderer(
         webHookData.offset = entity.getLeashOffset(tickDelta).rotateY(-yaw)
         webHookData.originEntity.pos = entity.getLeashPos(tickDelta)
 
-        val world = entity.world
+        val world = entity.entityWorld
 
         val blockPos = BlockPos.ofFloored(entity.getCameraPosVec(tickDelta))
         webHookData.originEntity.blockLight = getBlockLight(entity, blockPos)
@@ -93,18 +98,18 @@ class ArachneRenderer(
     override fun render(
         state: ArachneRenderState,
         matrices: MatrixStack,
-        vertexConsumers: VertexConsumerProvider,
-        light: Int,
+        orderedRenderCommandQueue: OrderedRenderCommandQueue,
+        cameraRenderState: CameraRenderState,
     ) {
-        super.render(state, matrices, vertexConsumers, light)
+        super.render(state, matrices, orderedRenderCommandQueue, cameraRenderState)
 
         val webHookData = state.webHookData ?: return
-        renderWebHook(matrices, vertexConsumers, webHookData)
+        renderWebHook(matrices, orderedRenderCommandQueue, webHookData)
     }
 
     private fun renderWebHook(
         matrices: MatrixStack,
-        vertexConsumers: VertexConsumerProvider,
+        queue: OrderedRenderCommandQueue,
         webHookData: MultipleEntityConnectionData,
     ) {
         for (hookedData in webHookData.connectedEntities) {
@@ -117,41 +122,41 @@ class ArachneRenderer(
 
             matrices.push()
             matrices.translate(webHookData.offset)
-            val vertexConsumer = vertexConsumers.getBuffer(RenderLayer.getLeash())
-            val matrix4f = matrices.peek().positionMatrix
 
-            for (segment in 0..24) {
-                renderWebHookSegment(
-                    vertexConsumer,
-                    matrix4f,
-                    hookedOffset,
-                    hookedData.blockLight,
-                    webHookData.originEntity.blockLight,
-                    hookedData.skyLight,
-                    webHookData.originEntity.skyLight,
-                    segmentSize,
-                    segmentSizeZ,
-                    segmentSizeX,
-                    segment,
-                    false,
-                )
-            }
+            queue.submitCustom(matrices, RenderLayers.leash()) { entry, vertexConsumer ->
+                for (segment in 0..24) {
+                    renderWebHookSegment(
+                        vertexConsumer,
+                        entry.positionMatrix,
+                        hookedOffset,
+                        hookedData.blockLight,
+                        webHookData.originEntity.blockLight,
+                        hookedData.skyLight,
+                        webHookData.originEntity.skyLight,
+                        segmentSize,
+                        segmentSizeZ,
+                        segmentSizeX,
+                        segment,
+                        false,
+                    )
+                }
 
-            for (segment in 24 downTo 0) {
-                renderWebHookSegment(
-                    vertexConsumer,
-                    matrix4f,
-                    hookedOffset,
-                    hookedData.blockLight,
-                    webHookData.originEntity.blockLight,
-                    hookedData.skyLight,
-                    webHookData.originEntity.skyLight,
-                    segmentSize,
-                    segmentSizeZ,
-                    segmentSizeX,
-                    segment,
-                    true,
-                )
+                for (segment in 24 downTo 0) {
+                    renderWebHookSegment(
+                        vertexConsumer,
+                        entry.positionMatrix,
+                        hookedOffset,
+                        hookedData.blockLight,
+                        webHookData.originEntity.blockLight,
+                        hookedData.skyLight,
+                        webHookData.originEntity.skyLight,
+                        segmentSize,
+                        segmentSizeZ,
+                        segmentSizeX,
+                        segment,
+                        true,
+                    )
+                }
             }
 
             matrices.pop()
@@ -210,7 +215,7 @@ class ArachneRenderer(
     ): Boolean {
         if (super.shouldRender(entity, frustum, x, y, z)) return true
 
-        val world = entity.world
+        val world = entity.entityWorld
         for (hookedId in entity.hookedEntityIds) {
             val hookedEntity = world.getEntityById(hookedId) ?: continue
             if (frustum.isVisible(hookedEntity.boundingBox)) return true

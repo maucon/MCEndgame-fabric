@@ -1,32 +1,21 @@
 package de.fuballer.mcendgame.client.component.entity.custom.feature.isolated
 
-import net.minecraft.client.render.RenderLayer
-import net.minecraft.client.render.VertexConsumer
-import net.minecraft.client.render.VertexConsumerProvider
+import net.minecraft.client.render.command.OrderedRenderCommandQueue
 import net.minecraft.client.render.entity.state.LivingEntityRenderState
-import net.minecraft.client.util.math.MatrixStack
 import software.bernie.geckolib.animatable.GeoAnimatable
-import software.bernie.geckolib.cache.`object`.BakedGeoModel
 import software.bernie.geckolib.renderer.base.GeoRenderState
 import software.bernie.geckolib.renderer.base.GeoRenderer
+import software.bernie.geckolib.renderer.base.RenderPassInfo
 import software.bernie.geckolib.renderer.layer.GeoRenderLayer
 
-class IsolatedGeoLayer<T : GeoAnimatable, O, R : GeoRenderState>(
+class IsolatedGeoLayer<T : GeoAnimatable, O : Any, R : GeoRenderState>(
     renderer: GeoRenderer<T, O, R>,
 ) : GeoRenderLayer<T, O, R>(renderer) {
+    override fun submitRenderTask(renderPassInfo: RenderPassInfo<R>, renderTasks: OrderedRenderCommandQueue) {
+        super.submitRenderTask(renderPassInfo, renderTasks)
 
-    override fun render(
-        renderState: R,
-        poseStack: MatrixStack,
-        bakedModel: BakedGeoModel,
-        renderType: RenderLayer?,
-        bufferSource: VertexConsumerProvider,
-        buffer: VertexConsumer?,
-        packedLight: Int,
-        packedOverlay: Int,
-        renderColor: Int
-    ) {
+        val renderState = renderPassInfo.renderState()
         val livingEntityRenderState = renderState as? LivingEntityRenderState ?: return
-        IsolatedIndicatorRenderer.tryRender(livingEntityRenderState, poseStack, bufferSource, packedLight, true)
+        IsolatedIndicatorRenderer.tryRender(livingEntityRenderState, renderPassInfo.poseStack(), renderTasks, renderState.light, true)
     }
 }
