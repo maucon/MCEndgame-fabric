@@ -416,7 +416,7 @@ class ArachneEntity(
         targets.forEach {
             it.dealGenericAttackDamage(damage, this)
 
-            if (it is PlayerEntity && entityWorld is ServerWorld) it.setShieldsCooldown(MELEE_SHIELD_DISABLE_TIME)
+            if (it is PlayerEntity && it.isBlocking && entityWorld is ServerWorld) it.setShieldsCooldown(MELEE_SHIELD_DISABLE_TIME)
 
             it.velocityDirty = true
             it.takeKnockbackFrom(this, knockBackStrength, -knockBackDirection.x, -knockBackDirection.z) //takeKnockback inverts it
