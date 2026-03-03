@@ -211,7 +211,7 @@ object EquipmentGenerationSettings {
     val MAINHAND_PROBABILITIES = listOf<RandomOption<List<SortableRandomOption<out Equipment>>?>>(
         RandomOption(10, null),
         RandomOption(10, SWORDS),
-        RandomOption(10, SPEARS),
+        RandomOption(4, SPEARS),
         RandomOption(10, AXES),
         RandomOption(10, PICKAXES),
         RandomOption(10, SHOVELS),
