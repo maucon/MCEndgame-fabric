@@ -17,6 +17,7 @@ import de.fuballer.mcendgame.main.util.extension.WorldExtension.isDungeonWorld
 import de.fuballer.mcendgame.main.util.extension.mixin.EntityMixinExtension.getDungeonBossSpawnPosition
 import de.maucon.mauconframework.di.annotation.Injectable
 import de.maucon.mauconframework.event.EventSubscriber
+import net.minecraft.entity.LazyEntityReference
 import net.minecraft.server.world.ServerWorld
 import net.minecraft.util.math.Vec3d
 
@@ -41,6 +42,8 @@ class DungeonPortalService(
 
         RuntimeConfig.SERVER.execute {
             val portals = createEntryPortals(deviceCenterPos, portalType, event.originWorld, dungeonTeleportLocation)
+                .mapNotNull { LazyEntityReference.of(it) }
+                .toMutableList()
 
             val entity = DungeonPortalEntity(deviceId, dungeonWorld, leaveLocation, portals)
             dungeonPortalRepo.save(entity)
@@ -116,9 +119,11 @@ class DungeonPortalService(
     }
 
     private fun clearPortalsAndDeleteEntity(dungeonPortalEntity: DungeonPortalEntity) {
-        dungeonPortalEntity.portals
-            .onEach { it.discard() }
-            .clear()
+        val world = dungeonPortalEntity.leaveLocation.world
+
+        dungeonPortalEntity.portals.onEach {
+            LazyEntityReference.resolve(it, world, PortalEntity::class.java)?.discard()
+        }.clear()
 
         dungeonPortalRepo.delete(dungeonPortalEntity)
     }
