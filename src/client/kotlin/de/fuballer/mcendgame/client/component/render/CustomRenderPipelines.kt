@@ -8,7 +8,7 @@ import net.minecraft.client.render.VertexFormats
 
 object CustomRenderPipelines {
     val LINK_PIPELINE: RenderPipeline = RenderPipelines.register(
-        RenderPipeline.builder()
+        RenderPipeline.builder(RenderPipelines.TRANSFORMS_PROJECTION_FOG_SNIPPET)
             .withLocation("pipeline/link")
             .withVertexShader("core/position_color")
             .withFragmentShader("core/position_color")

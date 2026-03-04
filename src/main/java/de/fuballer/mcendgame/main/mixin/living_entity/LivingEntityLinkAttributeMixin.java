@@ -208,16 +208,17 @@ public abstract class LivingEntityLinkAttributeMixin implements LivingEntityLink
 
     @Override
     public void mcendgame$addLinkedBy(UUID uuid) {
-        linkedBy.add(uuid);
+        mcendgame$getLinkedBy().add(uuid);
     }
 
     @Override
     public void mcendgame$removeLinkedBy(UUID uuid) {
-        linkedBy.remove(uuid);
+        mcendgame$getLinkedBy().remove(uuid);
     }
 
     @Override
     public HashSet<UUID> mcendgame$getLinkedBy() {
+        if (linkedBy == null) linkedBy = new HashSet<>();
         return linkedBy;
     }
 }

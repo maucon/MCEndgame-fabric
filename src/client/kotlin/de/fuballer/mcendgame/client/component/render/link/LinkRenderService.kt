@@ -13,8 +13,7 @@ import net.minecraft.client.MinecraftClient
 import net.minecraft.client.network.ClientPlayerEntity
 import net.minecraft.client.render.LightmapTextureManager
 import net.minecraft.client.render.VertexConsumer
-import net.minecraft.client.render.VertexConsumerProvider
-import net.minecraft.client.util.math.MatrixStack
+import net.minecraft.entity.Entity
 import net.minecraft.entity.LivingEntity
 import net.minecraft.util.math.BlockPos
 import net.minecraft.util.math.MathHelper
@@ -33,7 +32,7 @@ class LinkRenderService {
     fun on(cmd: AfterEntitiesRenderCommand) {
         val context = cmd.context
         val client = MinecraftClient.getInstance()
-        val cameraPos = client.cameraEntity?.entityPos ?: return // context.gameRenderer().camera.cameraPos
+        val cameraPos = context.gameRenderer().camera.cameraPos ?: return
         val tickDelta = client.renderTickCounter.getTickProgress(false)
 
         val player = client.player
@@ -51,13 +50,7 @@ class LinkRenderService {
         player: ClientPlayerEntity?,
         firstPerson: Boolean,
     ) {
-        val linkedEntities = (entity as? LivingEntityLinkAttributeAccessor)?.`mcendgame$getLinkedEntities`() ?: return
-        if (linkedEntities.isEmpty()) return
-
-        val data = MultipleEntityConnectionData()
-        data.offset = Vec3d(0.0, entity.height * LinkSettings.LINK_CONNECTION_HEIGHT, 0.0)
-        data.originEntity = getLinkOriginEntityData(entity, tickDelta, entity.entityWorld)
-        data.connectedEntities = getLinkedEntitiesData(linkedEntities, tickDelta, entity.entityWorld)
+        val data = getLinkData(entity, tickDelta) ?: return
 
         if (firstPerson && entity == player) {
             val yawRadians = Math.toRadians(player.getLerpedYaw(tickDelta).toDouble())
@@ -71,29 +64,39 @@ class LinkRenderService {
         val cameraOffset = entity.getLerpedPos(tickDelta).subtract(cameraPos)
         data.offset = data.offset.add(cameraOffset)
 
-        val matrixStack = context.matrices()
-        val vertexConsumerProvider = context.consumers()
         val age = entity.age + tickDelta
 
-        renderLinks(matrixStack, vertexConsumerProvider, data, age)
+        renderLinks(context, data, age)
     }
 
-    private fun getLinkOriginEntityData(
-        entity: LivingEntity,
+    private fun getLinkData(entity: LivingEntity, tickDelta: Float): MultipleEntityConnectionData? {
+        val linkedEntities = (entity as? LivingEntityLinkAttributeAccessor)?.`mcendgame$getLinkedEntities`() ?: return null
+        if (linkedEntities.isEmpty()) return null
+
+        val data = MultipleEntityConnectionData()
+        data.offset = Vec3d(0.0, entity.height * LinkSettings.LINK_CONNECTION_HEIGHT, 0.0)
+        data.originEntity = getMainEntityConnectionPoint(entity, tickDelta, entity.entityWorld)
+        data.connectedEntities = getLinkedEntitiesConnectionPoints(linkedEntities, tickDelta, entity.entityWorld)
+
+        return data
+    }
+
+    private fun getMainEntityConnectionPoint(
+        entity: Entity,
         tickDelta: Float,
         world: World,
     ): EntityConnectionPointData {
-        val originEntity = EntityConnectionPointData()
-        originEntity.pos = entity.getLerpedPos(tickDelta).add(0.0, entity.height * LinkSettings.LINK_CONNECTION_HEIGHT, 0.0)
+        val entityData = EntityConnectionPointData()
+        entityData.pos = entity.getLerpedPos(tickDelta).add(0.0, entity.height * LinkSettings.LINK_CONNECTION_HEIGHT, 0.0)
 
         val blockPos = BlockPos.ofFloored(entity.getCameraPosVec(tickDelta))
-        originEntity.blockLight = world.getLightLevel(LightType.BLOCK, blockPos)
-        originEntity.skyLight = world.getLightLevel(LightType.SKY, blockPos)
+        entityData.blockLight = world.getLightLevel(LightType.BLOCK, blockPos)
+        entityData.skyLight = world.getLightLevel(LightType.SKY, blockPos)
 
-        return originEntity
+        return entityData
     }
 
-    private fun getLinkedEntitiesData(
+    private fun getLinkedEntitiesConnectionPoints(
         entities: Map<UUID, Long>,
         tickDelta: Float,
         world: World,
@@ -102,15 +105,9 @@ class LinkRenderService {
 
         val currentTime = world.time
         for ((uuid, connectionTime) in entities) {
-            val entity = world.getEntity(uuid)
-            if (entity == null) continue
+            val entity = world.getEntity(uuid) ?: continue
 
-            val entityData = EntityConnectionPointData()
-            entityData.pos = entity.getLerpedPos(tickDelta).add(0.0, entity.height * LinkSettings.LINK_CONNECTION_HEIGHT, 0.0)
-
-            val blockPos = BlockPos.ofFloored(entity.getCameraPosVec(tickDelta))
-            entityData.blockLight = world.getLightLevel(LightType.BLOCK, blockPos)
-            entityData.skyLight = world.getLightLevel(LightType.SKY, blockPos)
+            val entityData = getMainEntityConnectionPoint(entity, tickDelta, world)
             entityData.connectionDuration = currentTime + tickDelta - connectionTime
 
             data.add(entityData)
@@ -120,25 +117,31 @@ class LinkRenderService {
     }
 
     private fun renderLinks(
-        matrixStack: MatrixStack,
-        vertexConsumerProvider: VertexConsumerProvider,
+        context: WorldRenderContext,
         data: MultipleEntityConnectionData,
         age: Float,
     ) {
-        data.connectedEntities.forEach { renderLink(matrixStack, vertexConsumerProvider, data.originEntity, it, data.offset, age) }
+        val matrixStack = context.matrices()
+        matrixStack.push()
+        matrixStack.translate(data.offset)
+
+        val queue = context.commandQueue()
+        queue.submitCustom(matrixStack, CustomRenderLayers.LINK) { entry, vertexConsumer ->
+            data.connectedEntities.forEach {
+                renderLink(entry.positionMatrix, vertexConsumer, data.originEntity, it, age)
+            }
+        }
+
+        matrixStack.pop()
     }
 
     private fun renderLink(
-        matrixStack: MatrixStack,
-        vertexConsumerProvider: VertexConsumerProvider,
+        matrix: Matrix4f,
+        vertexConsumer: VertexConsumer,
         origin: EntityConnectionPointData,
         linked: EntityConnectionPointData,
-        offset: Vec3d,
         age: Float,
     ) {
-        matrixStack.push()
-        matrixStack.translate(offset)
-
         val targetDistanceVector = linked.pos.subtract(origin.pos)
         val targetDistance = targetDistanceVector.length()
         val distancePercent = (linked.connectionDuration.toDouble() / LinkSettings.getLinkConnectingTime(targetDistance)).coerceAtMost(1.0)
@@ -146,9 +149,6 @@ class LinkRenderService {
         val segmentCount = linkDistance.length() / LinkSettings.LINK_RENDER_SEGMENT_LENGTH
 
         val perpendicularVector = linkDistance.horizontal.rotateY(Math.toRadians(90.0).toFloat()).normalize()
-
-        val vertexConsumer = vertexConsumerProvider.getBuffer(CustomRenderLayers.LINK)
-        val matrix = matrixStack.peek().positionMatrix
 
         val linkLength = linkDistance.length()
 
@@ -183,8 +183,6 @@ class LinkRenderService {
 
         vertexData.forEach { data -> addVertices(vertexConsumer, matrix, data, widthOffset, false) }
         vertexData.reversed().forEach { data -> addVertices(vertexConsumer, matrix, data, widthOffset, true) }
-
-        matrixStack.pop()
     }
 
     private fun addVertices(

@@ -10,11 +10,12 @@ import net.minecraft.entity.effect.StatusEffectInstance
 import net.minecraft.entity.effect.StatusEffectUtil
 import net.minecraft.screen.ScreenTexts
 import net.minecraft.text.Text
+import net.minecraft.util.Colors
 import net.minecraft.util.Identifier
 import java.util.*
 
-private val EFFECT_BACKGROUND_LARGE_TEXTURE: Identifier = Identifier.ofVanilla("container/inventory/effect_background_large");
-private val EFFECT_BACKGROUND_SMALL_TEXTURE: Identifier = Identifier.ofVanilla("container/inventory/effect_background_small");
+private val EFFECT_BACKGROUND_TEXTURE: Identifier = Identifier.ofVanilla("container/inventory/effect_background")
+private val AMBIENT_EFFECT_BACKGROUND_TEXTURE: Identifier = Identifier.ofVanilla("container/inventory/effect_background_ambient")
 
 class CustomStatusEffectsDisplay(
     val parent: HandledScreen<*>,
@@ -31,9 +32,9 @@ class CustomStatusEffectsDisplay(
 
     var textXOffset = 28
     var descriptionTextYOffset = 6
-    var descriptionTextColor = 16777215
+    var descriptionTextColor = Colors.WHITE
     var durationTextYOffset = 16
-    var durationTextColor = 8355711
+    var durationTextColor = Colors.GRAY
     var renderDurationText = true
 
     var enableTooltip = true
@@ -53,12 +54,12 @@ class CustomStatusEffectsDisplay(
         if (statusEffects.isEmpty()) return
 
         val wide = isWide(space)
-        var yOffsetPerEffect = yOffsetPerEffect(statusEffects.size)
+        val yOffsetPerEffect = yOffsetPerEffect(statusEffects.size)
 
         val sortedEffects = statusEffects.sortedBy { it }
         var effectY = y
         sortedEffects.forEach {
-            drawStatusEffectBackground(context, x, effectY, wide)
+            drawStatusEffectBackground(context, x, effectY, wide, it.isAmbient)
             drawStatusEffectSprite(context, x, effectY, it, wide)
 
             if (wide) drawStatusEffectDescription(context, x, effectY, it)
@@ -101,9 +102,16 @@ class CustomStatusEffectsDisplay(
         x: Int,
         yBase: Int,
         wide: Boolean,
+        ambient: Boolean,
     ) {
-        if (wide) context.drawGuiTexture(RenderPipelines.GUI_TEXTURED, EFFECT_BACKGROUND_LARGE_TEXTURE, x, yBase, wideWidth, backgroundHeight)
-        else context.drawGuiTexture(RenderPipelines.GUI_TEXTURED, EFFECT_BACKGROUND_SMALL_TEXTURE, x, yBase, smallWidth, backgroundHeight)
+        context.drawGuiTexture(
+            RenderPipelines.GUI_TEXTURED,
+            if (ambient) AMBIENT_EFFECT_BACKGROUND_TEXTURE else EFFECT_BACKGROUND_TEXTURE,
+            x,
+            yBase,
+            if (wide) wideWidth else smallWidth,
+            backgroundHeight
+        )
     }
 
     private fun drawStatusEffectSprite(
@@ -124,19 +132,19 @@ class CustomStatusEffectsDisplay(
         statusEffect: StatusEffectInstance,
     ) {
         val descriptionText = getStatusEffectDescription(statusEffect)
-        context.drawTextWithShadow(parent.getTextRenderer(), descriptionText, x + textXOffset, yBase + descriptionTextYOffset, descriptionTextColor)
+        context.drawTextWithShadow(parent.textRenderer, descriptionText, x + textXOffset, yBase + descriptionTextYOffset, descriptionTextColor)
 
-        if (!renderDurationText) return
-
-        val durationText = StatusEffectUtil.getDurationText(statusEffect, 1.0F, client.world!!.tickManager.getTickRate())
-        context.drawTextWithShadow(parent.getTextRenderer(), durationText, x + textXOffset, yBase + durationTextYOffset, durationTextColor)
+        if (renderDurationText) {
+            val durationText = StatusEffectUtil.getDurationText(statusEffect, 1.0F, client.world!!.tickManager.getTickRate())
+            context.drawTextWithShadow(parent.textRenderer, durationText, x + textXOffset, yBase + durationTextYOffset, durationTextColor)
+        }
     }
 
     private fun getStatusEffectDescription(
         statusEffect: StatusEffectInstance,
     ): Text {
         val text = (statusEffect.effectType.value() as StatusEffect).name.copy()
-        if (statusEffect.amplifier < 1 || statusEffect.amplifier > 9) return text
+        if (statusEffect.amplifier !in 1..9) return text
         return text.append(ScreenTexts.SPACE).append(Text.translatable("enchantment.level." + (statusEffect.amplifier + 1)))
     }
 }
