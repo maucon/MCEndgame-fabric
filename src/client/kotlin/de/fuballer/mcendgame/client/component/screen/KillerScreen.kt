@@ -13,7 +13,6 @@ import net.minecraft.client.network.OtherClientPlayerEntity
 import net.minecraft.entity.EntityType
 import net.minecraft.entity.LivingEntity
 import net.minecraft.entity.SpawnReason
-import net.minecraft.entity.effect.StatusEffectInstance
 import net.minecraft.entity.player.PlayerInventory
 import net.minecraft.registry.Registries
 import net.minecraft.text.Text
@@ -81,7 +80,7 @@ class KillerScreen(
         deltaTicks: Float
     ) {
         super.render(context, mouseX, mouseY, deltaTicks)
-        val effects = handler.killerEntity?.statusEffects ?: listOf<StatusEffectInstance>()
+        val effects = handler.killerEntity?.statusEffects ?: listOf()
         statusEffectsDisplay.drawStatusEffects(
             context,
             x + backgroundWidth + 1,
