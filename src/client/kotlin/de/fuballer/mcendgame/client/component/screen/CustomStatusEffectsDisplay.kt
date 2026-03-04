@@ -10,6 +10,7 @@ import net.minecraft.entity.effect.StatusEffectInstance
 import net.minecraft.entity.effect.StatusEffectUtil
 import net.minecraft.screen.ScreenTexts
 import net.minecraft.text.Text
+import net.minecraft.util.Colors
 import net.minecraft.util.Identifier
 import java.util.*
 
@@ -31,9 +32,9 @@ class CustomStatusEffectsDisplay(
 
     var textXOffset = 28
     var descriptionTextYOffset = 6
-    var descriptionTextColor = 16777215
+    var descriptionTextColor = Colors.WHITE
     var durationTextYOffset = 16
-    var durationTextColor = 8355711
+    var durationTextColor = Colors.GRAY
     var renderDurationText = true
 
     var enableTooltip = true
