@@ -60,7 +60,10 @@ public abstract class BackgroundRendererBlockPhasingMixin {
             float cloudEnd,
             @Local Entity entity
     ) {
-        if (entity == null || !EntityExtension.INSTANCE.isPhasingThroughWall(entity)) return;
-        applyFog(buffer, bufPos, fogColor, 0F, 4F, 0F, 4F, 0F, 4F);
+        if (entity == null || !EntityExtension.INSTANCE.isPhasingThroughWall(entity)) {
+            applyFog(buffer, bufPos, fogColor, environmentalStart, environmentalEnd, renderDistanceStart, renderDistanceEnd, skyEnd, cloudEnd);
+        } else {
+            applyFog(buffer, bufPos, fogColor, 0F, 4F, 0F, 4F, 4F, 4F);
+        }
     }
 }
