@@ -21,7 +21,7 @@ import org.spongepowered.asm.mixin.injection.At;
 @Mixin(AbstractBlock.class)
 public class AbstractBlockBlockPhasingMixin {
     @Unique
-    private final static double MIN_PITCH_FOR_GROUND_PHASING = 85;
+    private static final double MIN_PITCH_FOR_GROUND_PHASING = 85;
 
     @ModifyReturnValue(method = "getCollisionShape", at = @At("RETURN"))
     VoxelShape getBlockPhasingCollisionShape(
