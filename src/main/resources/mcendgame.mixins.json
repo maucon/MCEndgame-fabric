@@ -55,7 +55,7 @@
     "living_entity.LivingEntityWebbedMixin",
     "living_entity.LivingEntityWitherDamageImmunityMixin",
     "mob_entity.MobEntityTargetCommandMixin",
-    "phasing.AbstractBlockBlockPhasingMixin",
+    "phasing.AbstractBlockStateBlockPhasingMixin",
     "phasing.LivingEntityBlockPhasingMixin",
     "phasing.LivingEntityEntityPhasingMixin",
     "player.PlayerEntityDisableShieldMixin",
