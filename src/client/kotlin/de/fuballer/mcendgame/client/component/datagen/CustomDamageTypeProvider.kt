@@ -15,24 +15,30 @@ class CustomDamageTypeProvider(
 
     override fun run(writer: DataWriter): CompletableFuture<*> {
         val damageTypes = listOf(
-            generateDamageTypeJSON("mob") // default mob attack death message
+            generateDamageTypeJSON()
                 .let { DataProvider.writeToPath(writer, it, getPath(CustomDamageTypes.SWEEPING.value.path)) },
 
             generateDamageTypeJSON(CustomDamageTypes.ELEMENTAL.value.path)
                 .let { DataProvider.writeToPath(writer, it, getPath(CustomDamageTypes.ELEMENTAL.value.path)) },
 
-            generateDamageTypeJSON("mob") // default mob attack death message
+            generateDamageTypeJSON()
                 .let { DataProvider.writeToPath(writer, it, getPath(CustomDamageTypes.GENERIC_ATTACK.value.path)) },
 
-            generateDamageTypeJSON("mob") // default mob attack death message
+            generateDamageTypeJSON()
                 .let { DataProvider.writeToPath(writer, it, getPath(CustomDamageTypes.GENERIC_ATTACK_UNBLOCKABLE.value.path)) },
+
+            generateDamageTypeJSON()
+                .let { DataProvider.writeToPath(writer, it, getPath(CustomDamageTypes.PIERCE_ATTACK.value.path)) },
+
+            generateDamageTypeJSON()
+                .let { DataProvider.writeToPath(writer, it, getPath(CustomDamageTypes.KINETIC_ATTACK.value.path)) },
         ).toTypedArray()
 
         return CompletableFuture.allOf(*damageTypes)
     }
 
     private fun generateDamageTypeJSON(
-        messageId: String,
+        messageId: String = "mob",
         exhaustion: Double = 0.1,
         scaleWithDifficulty: String = "when_caused_by_living_non_player",
         deathMessageType: String = "default",

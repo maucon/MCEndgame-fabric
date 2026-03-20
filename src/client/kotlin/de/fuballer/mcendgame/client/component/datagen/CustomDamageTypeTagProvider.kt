@@ -33,6 +33,7 @@ class CustomDamageTypeTagProvider(
             .add(DamageTypes.MACE_SMASH.value)
             .addOptional(CustomDamageTypes.GENERIC_ATTACK.value)
             .addOptional(CustomDamageTypes.GENERIC_ATTACK_UNBLOCKABLE.value)
-            .addOptional(CustomDamageTypes.SWEEPING.value)
+            .addOptional(CustomDamageTypes.PIERCE_ATTACK.value)
+            .addOptional(CustomDamageTypes.KINETIC_ATTACK.value)
     }
 }
