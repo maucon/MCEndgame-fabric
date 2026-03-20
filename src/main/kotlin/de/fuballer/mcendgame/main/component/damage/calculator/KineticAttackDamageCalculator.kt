@@ -43,12 +43,5 @@ object KineticAttackDamageCalculator : DamageCalculator {
         attacked: LivingEntity,
         source: ExtendedDamageSource,
         event: DamageCalculationCommand
-    ): Float { // TODO
-        if (source.attacker !is LivingEntity) return 0.0F
-
-        val baseDamage = event.elementalDamage.sum()
-        val damageMulti = DamageUtil.calculateElementalDamageMultiplier(event)
-
-        return (baseDamage * damageMulti).toFloat()
-    }
+    ) = 0f
 }
