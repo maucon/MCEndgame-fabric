@@ -15,7 +15,6 @@ import net.minecraft.entity.LivingEntity
 import net.minecraft.entity.attribute.EntityAttributes
 import net.minecraft.entity.damage.DamageSource
 import net.minecraft.entity.effect.StatusEffects
-import net.minecraft.entity.player.PlayerEntity
 import net.minecraft.registry.tag.DamageTypeTags
 import net.minecraft.server.network.ServerPlayerEntity
 import net.minecraft.server.world.ServerWorld
@@ -26,6 +25,8 @@ import kotlin.math.roundToInt
 typealias VanillaDamageUtil = net.minecraft.entity.DamageUtil
 
 private val DAMAGE_CALCULATORS = listOf(
+    PierceAttackDamageCalculator,
+    KineticAttackDamageCalculator,
     ElementalDamageCalculator,
     EnderDragonCalculator,
     WitherSkullCalculator,
