@@ -6,11 +6,7 @@ import de.fuballer.mcendgame.main.component.damage.custom_type.CustomDamageTypes
 import de.fuballer.mcendgame.main.component.damage.dealing.ExtendedDamageSource
 import de.fuballer.mcendgame.main.util.extension.DamageTypeExtension.isOf
 import de.fuballer.mcendgame.main.util.extension.mixin.PlayerEntityMixinExtension.getAttackCooldownMultiplier
-import net.minecraft.advancement.criterion.SpearMobsCriterion
-import net.minecraft.component.type.KineticWeaponComponent
 import net.minecraft.entity.LivingEntity
-import net.minecraft.entity.ai.brain.task.SpearAttackTask
-import net.minecraft.entity.ai.brain.task.SpearChargeTask
 import net.minecraft.entity.attribute.EntityAttributes
 import net.minecraft.entity.damage.DamageSource
 import net.minecraft.entity.player.PlayerEntity

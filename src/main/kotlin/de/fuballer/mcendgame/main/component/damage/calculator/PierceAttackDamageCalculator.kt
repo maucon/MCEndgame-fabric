@@ -8,7 +8,6 @@ import de.fuballer.mcendgame.main.util.extension.DamageTypeExtension.isOf
 import net.minecraft.entity.LivingEntity
 import net.minecraft.entity.attribute.EntityAttributes
 import net.minecraft.entity.damage.DamageSource
-import net.minecraft.entity.damage.DamageTypes
 
 object PierceAttackDamageCalculator : DamageCalculator {
     override fun isActive(source: DamageSource) = source.type.isOf(CustomDamageTypes.PIERCE_ATTACK)

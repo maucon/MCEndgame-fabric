@@ -5,8 +5,6 @@ import de.fuballer.mcendgame.main.component.damage.DamageUtil
 import de.fuballer.mcendgame.main.component.damage.custom_type.CustomDamageTypes
 import de.fuballer.mcendgame.main.component.damage.dealing.ExtendedDamageSource
 import de.fuballer.mcendgame.main.util.extension.DamageTypeExtension.isOf
-import net.minecraft.component.type.KineticWeaponComponent
-import net.minecraft.component.type.PiercingWeaponComponent
 import net.minecraft.entity.LivingEntity
 import net.minecraft.entity.damage.DamageSource
 
