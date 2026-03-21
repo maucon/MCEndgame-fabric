@@ -35,7 +35,7 @@ import software.bernie.geckolib.animatable.manager.AnimatableManager
 import software.bernie.geckolib.animation.AnimationController
 import software.bernie.geckolib.animation.RawAnimation
 import software.bernie.geckolib.animation.`object`.PlayState
-import software.bernie.geckolib.animation.state.AnimationTest
+import software.bernie.geckolib.constant.DefaultAnimations
 import software.bernie.geckolib.util.GeckoLibUtil
 
 class BonecrusherEntity(
@@ -223,7 +223,8 @@ class BonecrusherEntity(
 
     override fun registerControllers(controllers: AnimatableManager.ControllerRegistrar) {
         controllers.add(
-            AnimationController("Movement", 5, ::movementAnimationController),
+            AnimationController<GeoAnimatable>("Walk/Idle", 5)
+            { test -> test.setAndContinue(if (test.isMoving) WALK_ANIM else DefaultAnimations.IDLE) },
             AnimationController<GeoAnimatable>(ATTACK_ANIM_CONTROLLER_ID, 0) { _ -> PlayState.STOP }
                 .triggerableAnim(HIT_ID, HIT_ANIM)
                 .triggerableAnim(SLAM_ID, SLAM_ANIM)
@@ -231,10 +232,5 @@ class BonecrusherEntity(
             AnimationController<GeoAnimatable>(SPIN_ANIM_CONTROLLER_ID, 0) { _ -> PlayState.STOP }
                 .triggerableAnim(SPIN_ID, SPIN_ANIM)
         )
-    }
-
-    private fun movementAnimationController(animTest: AnimationTest<BonecrusherEntity>): PlayState {
-        if (animTest.isMoving) return animTest.setAndContinue(WALK_ANIM)
-        return PlayState.STOP
     }
 }
