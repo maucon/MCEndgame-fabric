@@ -99,7 +99,7 @@ object EntityExtension {
         return attributes.sumOf { it.rolls[0].asIntRoll().getValue() }
     }
 
-    fun Entity.isPhasingThroughWall(): Boolean {
+    fun Entity.isBlockPhasingAtEyes(): Boolean {
         if (this !is LivingEntity) return false
         if (!isBlockPhasing()) return false
 
@@ -109,6 +109,7 @@ object EntityExtension {
         return BlockPos.stream(eyeBox).anyMatch { blockPos ->
             val blockState = entityWorld.getBlockState(blockPos)
             if (blockState.isAir) return@anyMatch false
+            if (blockState.isIn(CustomTags.NO_PHASING_FOG)) return@anyMatch false
 
             val collisionShape = blockState.getCollisionShape(entityWorld, blockPos).offset(blockPos)
             VoxelShapes.matchesAnywhere(collisionShape, eyeBoxShape, BooleanBiFunction.AND)

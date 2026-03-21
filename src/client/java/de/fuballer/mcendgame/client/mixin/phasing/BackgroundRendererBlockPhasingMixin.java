@@ -39,7 +39,7 @@ public abstract class BackgroundRendererBlockPhasingMixin {
             CallbackInfoReturnable<Vector4f> cir
     ) {
         Entity entity = camera.getFocusedEntity();
-        if (!EntityExtension.INSTANCE.isPhasingThroughWall(entity)) return;
+        if (!EntityExtension.INSTANCE.isBlockPhasingAtEyes(entity)) return;
         cir.setReturnValue(PHASING_FOG_COLOR);
     }
 
@@ -60,7 +60,7 @@ public abstract class BackgroundRendererBlockPhasingMixin {
             float cloudEnd,
             @Local Entity entity
     ) {
-        if (entity == null || !EntityExtension.INSTANCE.isPhasingThroughWall(entity)) {
+        if (entity == null || !EntityExtension.INSTANCE.isBlockPhasingAtEyes(entity)) {
             applyFog(buffer, bufPos, fogColor, environmentalStart, environmentalEnd, renderDistanceStart, renderDistanceEnd, skyEnd, cloudEnd);
         } else {
             applyFog(buffer, bufPos, fogColor, 0F, 4F, 0F, 4F, 4F, 4F);
