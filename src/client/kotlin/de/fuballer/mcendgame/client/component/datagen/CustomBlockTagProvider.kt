@@ -82,5 +82,8 @@ class CustomBlockTagProvider(
         valueLookupBuilder(CustomTags.PHASING_BLOCKING)
             .add(Blocks.BARRIER)
             .add(Blocks.BEDROCK)
+
+        valueLookupBuilder(CustomTags.NO_PHASING_FOG)
+            .add(Blocks.SCAFFOLDING)
     }
 }

@@ -23,7 +23,7 @@ public class WorldRendererBlockPhasingMixin {
             CallbackInfo ci
     ) {
         var entity = camera.getFocusedEntity();
-        if (!EntityExtension.INSTANCE.isPhasingThroughWall(entity)) return;
+        if (!EntityExtension.INSTANCE.isBlockPhasingAtEyes(entity)) return;
         ci.cancel();
     }
 }
