@@ -18,12 +18,15 @@ import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.Unique;
 import org.spongepowered.asm.mixin.injection.At;
 
-@Mixin(AbstractBlock.class)
-public class AbstractBlockBlockPhasingMixin {
+@Mixin(AbstractBlock.AbstractBlockState.class)
+public class AbstractBlockStateBlockPhasingMixin {
     @Unique
     private static final double MIN_PITCH_FOR_GROUND_PHASING = 85;
 
-    @ModifyReturnValue(method = "getCollisionShape", at = @At("RETURN"))
+    @ModifyReturnValue(
+            method = "getCollisionShape(Lnet/minecraft/world/BlockView;Lnet/minecraft/util/math/BlockPos;Lnet/minecraft/block/ShapeContext;)Lnet/minecraft/util/shape/VoxelShape;",
+            at = @At("RETURN")
+    )
     VoxelShape getBlockPhasingCollisionShape(
             VoxelShape original,
             @Local(argsOnly = true) BlockView world,
@@ -33,7 +36,7 @@ public class AbstractBlockBlockPhasingMixin {
         if (!(context instanceof EntityShapeContext entityContext)) return original;
         if (!(entityContext.getEntity() instanceof LivingEntity entity)) return original;
         if (WorldExtension.INSTANCE.isDungeonWorld(entity.getEntityWorld())) return original;
-        if (!CustomAttributesExtensions.INSTANCE.isBlockPhasing(entity)) return original;
+        if (!CustomAttributesExtensions.INSTANCE.hasBlockPhasing(entity)) return original;
 
         var blockState = world.getBlockState(pos);
         if (blockState.isIn(CustomTags.INSTANCE.getPHASING_BLOCKING())) return original;

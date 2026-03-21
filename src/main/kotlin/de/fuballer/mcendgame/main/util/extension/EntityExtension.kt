@@ -3,7 +3,7 @@ package de.fuballer.mcendgame.main.util.extension
 import de.fuballer.mcendgame.main.component.custom_attribute.CustomAttributesExtensions.asDoubleRoll
 import de.fuballer.mcendgame.main.component.custom_attribute.CustomAttributesExtensions.asIntRoll
 import de.fuballer.mcendgame.main.component.custom_attribute.CustomAttributesExtensions.getAllCustomAttributes
-import de.fuballer.mcendgame.main.component.custom_attribute.CustomAttributesExtensions.isBlockPhasing
+import de.fuballer.mcendgame.main.component.custom_attribute.CustomAttributesExtensions.hasBlockPhasing
 import de.fuballer.mcendgame.main.component.custom_attribute.types.CustomAttributeTypes
 import de.fuballer.mcendgame.main.component.tags.CustomTags
 import de.fuballer.mcendgame.main.messaging.misc.GainStatusEffectCommand
@@ -27,6 +27,7 @@ import net.minecraft.server.world.ServerWorld
 import net.minecraft.util.function.BooleanBiFunction
 import net.minecraft.util.math.BlockPos
 import net.minecraft.util.math.Box
+import net.minecraft.util.math.MathHelper
 import net.minecraft.util.math.Vec3d
 import net.minecraft.util.shape.VoxelShapes
 
@@ -99,20 +100,44 @@ object EntityExtension {
         return attributes.sumOf { it.rolls[0].asIntRoll().getValue() }
     }
 
-    fun Entity.isPhasingThroughWall(): Boolean {
+    fun Entity.isBlockPhasingAtEyes(): Boolean {
         if (this !is LivingEntity) return false
-        if (!isBlockPhasing()) return false
+        if (!hasBlockPhasing()) return false
 
         val eyeBox = Box.of(eyePos, 0.2, 0.2, 0.2)
-        val eyeBoxShape = VoxelShapes.cuboid(eyeBox)
+        return collidesPhasing(eyeBox)
+    }
 
-        return BlockPos.stream(eyeBox).anyMatch { blockPos ->
-            val blockState = entityWorld.getBlockState(blockPos)
-            if (blockState.isAir) return@anyMatch false
+    fun Entity.isBlockPhasing(): Boolean {
+        if (this !is LivingEntity) return false
+        if (!hasBlockPhasing()) return false
+        return collidesPhasing(boundingBox)
+    }
 
-            val collisionShape = blockState.getCollisionShape(entityWorld, blockPos).offset(blockPos)
-            VoxelShapes.matchesAnywhere(collisionShape, eyeBoxShape, BooleanBiFunction.AND)
+    private fun Entity.collidesPhasing(box: Box): Boolean {
+        val boxShape = VoxelShapes.cuboid(box)
+        val minX = MathHelper.floor(box.minX)
+        val minY = MathHelper.floor(box.minY)
+        val minZ = MathHelper.floor(box.minZ)
+        val maxX = MathHelper.floor(box.maxX)
+        val maxY = MathHelper.floor(box.maxY)
+        val maxZ = MathHelper.floor(box.maxZ)
+
+        val mutable = BlockPos.Mutable()
+        for (x in minX..maxX) {
+            for (y in minY..maxY) {
+                for (z in minZ..maxZ) {
+                    mutable.set(x, y, z)
+                    val blockState = entityWorld.getBlockState(mutable)
+                    if (blockState.isAir) continue
+                    if (blockState.isIn(CustomTags.NO_PHASING_SLOW_AND_FOG)) continue
+
+                    val collisionShape = blockState.getCollisionShape(entityWorld, mutable).offset(mutable)
+                    if (VoxelShapes.matchesAnywhere(collisionShape, boxShape, BooleanBiFunction.AND)) return true
+                }
+            }
         }
+        return false
     }
 
     fun Entity.isBehind(
