@@ -5,12 +5,12 @@ import de.fuballer.mcendgame.main.util.extension.mixin.WorldMixinExtension.getDu
 import net.minecraft.entity.LivingEntity
 import net.minecraft.server.world.ServerWorld
 
-data class DungeonEnemiesGeneratedEvent(
+data class DungeonEnemiesGeneratedCommand(
     val world: ServerWorld,
     val enemies: List<LivingEntity>,
     val aspects: Map<AspectItem, Int>,
 ) {
     companion object {
-        fun of(world: ServerWorld, enemies: List<LivingEntity>) = DungeonEnemiesGeneratedEvent(world, enemies, world.getDungeonAspects())
+        fun of(world: ServerWorld, enemies: List<LivingEntity>) = DungeonEnemiesGeneratedCommand(world, enemies, world.getDungeonAspects())
     }
 }

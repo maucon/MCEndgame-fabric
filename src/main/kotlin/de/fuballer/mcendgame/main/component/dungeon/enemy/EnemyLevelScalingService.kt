@@ -1,6 +1,6 @@
 package de.fuballer.mcendgame.main.component.dungeon.enemy
 
-import de.fuballer.mcendgame.main.messaging.dungeon.DungeonEnemiesGeneratedEvent
+import de.fuballer.mcendgame.main.messaging.dungeon.DungeonEnemiesGeneratedCommand
 import de.fuballer.mcendgame.main.util.extension.mixin.EntityMixinExtension.addCustomAttributes
 import de.fuballer.mcendgame.main.util.extension.mixin.EntityMixinExtension.isDungeonBoss
 import de.fuballer.mcendgame.main.util.extension.mixin.WorldMixinExtension.getDungeonLevel
@@ -10,11 +10,11 @@ import de.maucon.mauconframework.event.EventSubscriber
 @Injectable
 class EnemyLevelScalingService {
     @EventSubscriber
-    fun on(event: DungeonEnemiesGeneratedEvent) {
-        val level = event.world.getDungeonLevel()
+    fun on(command: DungeonEnemiesGeneratedCommand) {
+        val level = command.world.getDungeonLevel()
 
         val levelAttributes = EnemyLevelScalingSettings.getEnemyLevelAttributes(level)
-        val enemies = event.enemies
+        val enemies = command.enemies
         enemies.forEach { it.addCustomAttributes(levelAttributes) }
 
         val bosses = enemies.filter { it.isDungeonBoss() }

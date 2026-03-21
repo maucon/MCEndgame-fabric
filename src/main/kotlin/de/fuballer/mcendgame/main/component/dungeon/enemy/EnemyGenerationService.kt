@@ -4,9 +4,8 @@ import de.fuballer.mcendgame.main.component.dungeon.enemy.equipment.EquipmentGen
 import de.fuballer.mcendgame.main.component.dungeon.enemy.potion_effect.PotionEffectService
 import de.fuballer.mcendgame.main.component.dungeon.generation.data.SpawnPosition
 import de.fuballer.mcendgame.main.component.entity.EntityTypeStats
-import de.fuballer.mcendgame.main.messaging.dungeon.DungeonEnemiesGeneratedEvent
+import de.fuballer.mcendgame.main.messaging.dungeon.DungeonEnemiesGeneratedCommand
 import de.fuballer.mcendgame.main.messaging.dungeon.DungeonGenerateEnemiesCommand
-import de.fuballer.mcendgame.main.util.extension.mixin.EntityMixinExtension.addCustomAttributes
 import de.fuballer.mcendgame.main.util.extension.mixin.EntityMixinExtension.setDungeonEnemy
 import de.fuballer.mcendgame.main.util.extension.mixin.EntityMixinExtension.setElite
 import de.fuballer.mcendgame.main.util.extension.mixin.EntityMixinExtension.setLootGoblin
@@ -76,8 +75,8 @@ class EnemyGenerationService(
 
         applyMisc(entities)
 
-        val event = DungeonEnemiesGeneratedEvent.of(dungeonWorld, entities)
-        EventGateway.launchPublish(event)
+        val command = DungeonEnemiesGeneratedCommand.of(dungeonWorld, entities)
+        CommandGateway.apply(command)
 
         return entities
     }
