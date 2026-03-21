@@ -52,8 +52,7 @@ public class GeoEntityRendererGhostlyMixin<T extends Entity & GeoAnimatable, R e
 
     @ModifyVariable(
             method = "getRenderColor(Lnet/minecraft/entity/Entity;Ljava/lang/Void;F)I",
-            at = @At("STORE"),
-            name = "color"
+            at = @At("STORE")
     )
     int modifyRenderColor(int color, T animatable) {
         if (!(animatable instanceof LivingEntity livingEntity)) return color;

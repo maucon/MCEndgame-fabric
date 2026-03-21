@@ -40,5 +40,7 @@ class CustomDamageTypeTagProvider(
             .add(DamageTypes.IN_WALL.value)
             .add(DamageTypes.CACTUS.value)
             .add(DamageTypes.SWEET_BERRY_BUSH.value)
+            .add(DamageTypes.FALLING_ANVIL.value)
+            .add(DamageTypes.FALLING_STALACTITE.value)
     }
 }
