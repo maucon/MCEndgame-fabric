@@ -27,6 +27,7 @@ import net.minecraft.server.world.ServerWorld
 import net.minecraft.util.function.BooleanBiFunction
 import net.minecraft.util.math.BlockPos
 import net.minecraft.util.math.Box
+import net.minecraft.util.math.MathHelper
 import net.minecraft.util.math.Vec3d
 import net.minecraft.util.shape.VoxelShapes
 
@@ -115,15 +116,29 @@ object EntityExtension {
 
     private fun Entity.collidesPhasing(box: Box): Boolean {
         val boxShape = VoxelShapes.cuboid(box)
+        val mutable = BlockPos.Mutable()
 
-        return BlockPos.stream(box).anyMatch { blockPos ->
-            val blockState = entityWorld.getBlockState(blockPos)
-            if (blockState.isAir) return@anyMatch false
-            if (blockState.isIn(CustomTags.NO_PHASING_SLOW_AND_FOG)) return@anyMatch false
+        val minX = MathHelper.floor(box.minX)
+        val minY = MathHelper.floor(box.minY)
+        val minZ = MathHelper.floor(box.minZ)
+        val maxX = MathHelper.floor(box.maxX)
+        val maxY = MathHelper.floor(box.maxY)
+        val maxZ = MathHelper.floor(box.maxZ)
 
-            val collisionShape = blockState.getCollisionShape(entityWorld, blockPos).offset(blockPos)
-            VoxelShapes.matchesAnywhere(collisionShape, boxShape, BooleanBiFunction.AND)
+        for (x in minX..maxX) {
+            for (y in minY..maxY) {
+                for (z in minZ..maxZ) {
+                    mutable.set(x, y, z)
+                    val blockState = entityWorld.getBlockState(mutable)
+                    if (blockState.isAir) continue
+                    if (blockState.isIn(CustomTags.NO_PHASING_SLOW_AND_FOG)) continue
+
+                    val collisionShape = blockState.getCollisionShape(entityWorld, mutable).offset(mutable)
+                    if (VoxelShapes.matchesAnywhere(collisionShape, boxShape, BooleanBiFunction.AND)) return true
+                }
+            }
         }
+        return false
     }
 
     fun Entity.isBehind(
