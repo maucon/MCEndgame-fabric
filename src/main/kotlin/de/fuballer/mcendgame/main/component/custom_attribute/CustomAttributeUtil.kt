@@ -4,6 +4,7 @@ import de.fuballer.mcendgame.main.component.custom_attribute.CustomAttributesExt
 import de.fuballer.mcendgame.main.component.custom_attribute.types.CustomAttributeTypes
 import net.minecraft.entity.LivingEntity
 import net.minecraft.entity.mob.MobEntity
+import net.minecraft.entity.player.PlayerEntity
 import kotlin.math.abs
 
 private const val ISOLATED_RADIUS = 5.0
@@ -23,6 +24,6 @@ object CustomAttributeUtil {
 
     fun LivingEntity.isIsolated(attacker: LivingEntity) =
         entityWorld.getOtherEntities(this, boundingBox.expand(ISOLATED_RADIUS))
-        { it != attacker && it is MobEntity && it.squaredDistanceTo(this) <= ISOLATED_RADIUS_SQUARED }
+        { it != attacker && (it is MobEntity || it is PlayerEntity) && it.squaredDistanceTo(this) <= ISOLATED_RADIUS_SQUARED }
             .isEmpty()
 }
