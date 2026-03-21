@@ -103,8 +103,8 @@ object CustomAttributesExtensions {
     }
 
     fun LivingEntity.isGhostly() = getAllCustomAttributes().contains(CustomAttributeTypes.GHOSTLY_APPEARANCE)
-    fun LivingEntity.isEntityPhasing() = getAllCustomAttributes().contains(CustomAttributeTypes.ENTITY_PHASING)
-    fun LivingEntity.isBlockPhasing() = getAllCustomAttributes().contains(CustomAttributeTypes.BLOCK_PHASING)
+    fun LivingEntity.hasEntityPhasing() = getAllCustomAttributes().contains(CustomAttributeTypes.ENTITY_PHASING)
+    fun LivingEntity.hasBlockPhasing() = getAllCustomAttributes().contains(CustomAttributeTypes.BLOCK_PHASING)
 
     fun AttributeRoll<*>.asDoubleRoll() = this as DoubleRoll
     fun AttributeRoll<*>.asStringRoll() = this as StringRoll

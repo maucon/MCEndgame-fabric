@@ -3,7 +3,7 @@ package de.fuballer.mcendgame.main.util.extension
 import de.fuballer.mcendgame.main.component.custom_attribute.CustomAttributesExtensions.asDoubleRoll
 import de.fuballer.mcendgame.main.component.custom_attribute.CustomAttributesExtensions.asIntRoll
 import de.fuballer.mcendgame.main.component.custom_attribute.CustomAttributesExtensions.getAllCustomAttributes
-import de.fuballer.mcendgame.main.component.custom_attribute.CustomAttributesExtensions.isBlockPhasing
+import de.fuballer.mcendgame.main.component.custom_attribute.CustomAttributesExtensions.hasBlockPhasing
 import de.fuballer.mcendgame.main.component.custom_attribute.types.CustomAttributeTypes
 import de.fuballer.mcendgame.main.component.tags.CustomTags
 import de.fuballer.mcendgame.main.messaging.misc.GainStatusEffectCommand
@@ -101,18 +101,28 @@ object EntityExtension {
 
     fun Entity.isBlockPhasingAtEyes(): Boolean {
         if (this !is LivingEntity) return false
-        if (!isBlockPhasing()) return false
+        if (!hasBlockPhasing()) return false
 
         val eyeBox = Box.of(eyePos, 0.2, 0.2, 0.2)
-        val eyeBoxShape = VoxelShapes.cuboid(eyeBox)
+        return collidesPhasing(eyeBox)
+    }
 
-        return BlockPos.stream(eyeBox).anyMatch { blockPos ->
+    fun Entity.isBlockPhasing(): Boolean {
+        if (this !is LivingEntity) return false
+        if (!hasBlockPhasing()) return false
+        return collidesPhasing(boundingBox)
+    }
+
+    private fun Entity.collidesPhasing(box: Box): Boolean {
+        val boxShape = VoxelShapes.cuboid(box)
+
+        return BlockPos.stream(box).anyMatch { blockPos ->
             val blockState = entityWorld.getBlockState(blockPos)
             if (blockState.isAir) return@anyMatch false
-            if (blockState.isIn(CustomTags.NO_PHASING_FOG)) return@anyMatch false
+            if (blockState.isIn(CustomTags.NO_PHASING_SLOW_AND_FOG)) return@anyMatch false
 
             val collisionShape = blockState.getCollisionShape(entityWorld, blockPos).offset(blockPos)
-            VoxelShapes.matchesAnywhere(collisionShape, eyeBoxShape, BooleanBiFunction.AND)
+            VoxelShapes.matchesAnywhere(collisionShape, boxShape, BooleanBiFunction.AND)
         }
     }
 

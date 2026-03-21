@@ -36,7 +36,7 @@ public class AbstractBlockStateBlockPhasingMixin {
         if (!(context instanceof EntityShapeContext entityContext)) return original;
         if (!(entityContext.getEntity() instanceof LivingEntity entity)) return original;
         if (WorldExtension.INSTANCE.isDungeonWorld(entity.getEntityWorld())) return original;
-        if (!CustomAttributesExtensions.INSTANCE.isBlockPhasing(entity)) return original;
+        if (!CustomAttributesExtensions.INSTANCE.hasBlockPhasing(entity)) return original;
 
         var blockState = world.getBlockState(pos);
         if (blockState.isIn(CustomTags.INSTANCE.getPHASING_BLOCKING())) return original;

@@ -34,5 +34,10 @@ class CustomDamageTypeTagProvider(
             .addOptional(CustomDamageTypes.GENERIC_ATTACK.value)
             .addOptional(CustomDamageTypes.GENERIC_ATTACK_UNBLOCKABLE.value)
             .addOptional(CustomDamageTypes.SWEEPING.value)
+
+        getTagBuilder(CustomTags.BLOCK_PHASING_IMMUNE)
+            .add(DamageTypes.IN_WALL.value)
+            .add(DamageTypes.CACTUS.value)
+            .add(DamageTypes.SWEET_BERRY_BUSH.value)
     }
 }
