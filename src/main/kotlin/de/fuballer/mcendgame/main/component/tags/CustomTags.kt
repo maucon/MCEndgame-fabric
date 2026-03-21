@@ -21,9 +21,10 @@ object CustomTags {
 
     val DUNGEON_BREAKABLE: TagKey<Block> = createBlockTag("dungeon_breakable")
     val PHASING_BLOCKING: TagKey<Block> = createBlockTag("phasing_blocking")
-    val NO_PHASING_FOG: TagKey<Block> = createBlockTag("no_phasing_fog")
+    val NO_PHASING_SLOW_AND_FOG: TagKey<Block> = createBlockTag("no_phasing_slow_and_fog")
 
     val MELEE_ATTACK: TagKey<DamageType> = createDamageTypeTag("melee_attack")
+    val BLOCK_PHASING_IMMUNE: TagKey<DamageType> = createDamageTypeTag("block_phasing_immune")
 
     private fun createItemTag(id: String) = TagKey.of(RegistryKeys.ITEM, IdentifierUtil.default(id))
     private fun createBlockTag(id: String) = TagKey.of(RegistryKeys.BLOCK, IdentifierUtil.default(id))

@@ -1,9 +1,9 @@
 package de.fuballer.mcendgame.main.mixin.phasing;
 
 import de.fuballer.mcendgame.main.component.custom_attribute.CustomAttributesExtensions;
+import de.fuballer.mcendgame.main.component.tags.CustomTags;
 import net.minecraft.entity.LivingEntity;
 import net.minecraft.entity.damage.DamageSource;
-import net.minecraft.entity.damage.DamageTypes;
 import net.minecraft.server.world.ServerWorld;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.injection.At;
@@ -21,10 +21,10 @@ public class LivingEntityBlockPhasingMixin {
             DamageSource source,
             CallbackInfoReturnable<Boolean> cir
     ) {
-        if (!source.isOf(DamageTypes.IN_WALL)) return;
+        if (!source.isIn(CustomTags.INSTANCE.getBLOCK_PHASING_IMMUNE())) return;
 
         var livingEntity = (LivingEntity) (Object) this;
-        if (!CustomAttributesExtensions.INSTANCE.isBlockPhasing(livingEntity)) return;
+        if (!CustomAttributesExtensions.INSTANCE.hasBlockPhasing(livingEntity)) return;
         cir.setReturnValue(true);
     }
 }

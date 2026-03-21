@@ -30,6 +30,6 @@ public class LivingEntityEntityPhasingMixin {
     @Unique
     private boolean iSEntityPhasing() {
         var livingEntity = (LivingEntity) (Object) this;
-        return CustomAttributesExtensions.INSTANCE.isEntityPhasing(livingEntity);
+        return CustomAttributesExtensions.INSTANCE.hasEntityPhasing(livingEntity);
     }
 }

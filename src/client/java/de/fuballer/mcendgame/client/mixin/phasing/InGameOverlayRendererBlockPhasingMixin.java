@@ -18,7 +18,7 @@ public class InGameOverlayRendererBlockPhasingMixin {
             boolean original,
             @Local PlayerEntity playerEntity
     ) {
-        if (CustomAttributesExtensions.INSTANCE.isBlockPhasing(playerEntity)) return true;
+        if (CustomAttributesExtensions.INSTANCE.hasBlockPhasing(playerEntity)) return true;
         return original;
     }
 }
