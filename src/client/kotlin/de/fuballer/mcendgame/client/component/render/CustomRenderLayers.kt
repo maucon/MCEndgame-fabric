@@ -1,6 +1,5 @@
 package de.fuballer.mcendgame.client.component.render
 
-import net.minecraft.client.gl.RenderPipelines
 import net.minecraft.client.render.OutputTarget
 import net.minecraft.client.render.RenderLayer
 import net.minecraft.client.render.RenderSetup
@@ -18,12 +17,11 @@ object CustomRenderLayers {
 
     fun ghostly(texture: Identifier) = GHOSTLY.apply(texture)
     val GHOSTLY: Function<Identifier, RenderLayer> = Util.memoize<Identifier, RenderLayer> { texture ->
-        val renderSetup = RenderSetup.builder(RenderPipelines.RENDERTYPE_ITEM_ENTITY_TRANSLUCENT_CULL)
+        val renderSetup = RenderSetup.builder(CustomRenderPipelines.GHOSTLY_PIPELINE)
             .texture("Sampler0", texture)
-            .outputTarget(OutputTarget.ITEM_ENTITY_TARGET)
+            .outputTarget(OutputTarget.MAIN_TARGET)
             .useLightmap()
             .useOverlay()
-            .crumbling()
             .translucent()
             .outlineMode(RenderSetup.OutlineMode.AFFECTS_OUTLINE)
             .build()
