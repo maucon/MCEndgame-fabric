@@ -4,12 +4,13 @@ import de.fuballer.mcendgame.main.messaging.dungeon.DungeonEnemiesGeneratedComma
 import de.fuballer.mcendgame.main.util.extension.mixin.EntityMixinExtension.addCustomAttributes
 import de.fuballer.mcendgame.main.util.extension.mixin.EntityMixinExtension.isDungeonBoss
 import de.fuballer.mcendgame.main.util.extension.mixin.WorldMixinExtension.getDungeonLevel
+import de.maucon.mauconframework.command.CommandHandler
 import de.maucon.mauconframework.di.annotation.Injectable
 import de.maucon.mauconframework.event.EventSubscriber
 
 @Injectable
 class EnemyLevelScalingService {
-    @EventSubscriber
+    @CommandHandler
     fun on(command: DungeonEnemiesGeneratedCommand) {
         val level = command.world.getDungeonLevel()
 

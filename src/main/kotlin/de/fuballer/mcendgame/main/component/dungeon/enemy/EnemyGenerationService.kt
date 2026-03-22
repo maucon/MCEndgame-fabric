@@ -14,7 +14,6 @@ import de.fuballer.mcendgame.main.util.random.RandomOption
 import de.fuballer.mcendgame.main.util.random.RandomUtil
 import de.maucon.mauconframework.command.CommandGateway
 import de.maucon.mauconframework.di.annotation.Injectable
-import de.maucon.mauconframework.event.EventGateway
 import net.minecraft.entity.LivingEntity
 import net.minecraft.entity.attribute.EntityAttributes
 import net.minecraft.entity.mob.MobEntity

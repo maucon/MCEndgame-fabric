@@ -5,7 +5,6 @@ import de.fuballer.mcendgame.main.component.custom_attribute.types.CustomAttribu
 import net.minecraft.entity.LivingEntity
 import net.minecraft.entity.PlayerLikeEntity
 import net.minecraft.entity.mob.MobEntity
-import net.minecraft.entity.player.PlayerEntity
 import kotlin.math.abs
 
 private const val ISOLATED_RADIUS = 5.0
