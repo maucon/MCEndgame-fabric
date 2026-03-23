@@ -6,7 +6,6 @@ import de.fuballer.mcendgame.main.util.extension.mixin.EntityMixinExtension.isDu
 import de.fuballer.mcendgame.main.util.extension.mixin.WorldMixinExtension.getDungeonLevel
 import de.maucon.mauconframework.command.CommandHandler
 import de.maucon.mauconframework.di.annotation.Injectable
-import de.maucon.mauconframework.event.EventSubscriber
 
 @Injectable
 class EnemyLevelScalingService {
