@@ -188,8 +188,6 @@ class CustomHumanoidArmorFeatureRenderer<S : BipedEntityRenderState, M : BipedEn
         }
 
         if (texturedArmorModel.colorAbleTexture != null) {
-            println("color: ${DyedColorComponent.getColor(itemStack, texturedArmorModel.defaultColor)}")
-            println("default: $texturedArmorModel.defaultColor")
             renderModel(
                 bipedEntityRenderState,
                 model,
