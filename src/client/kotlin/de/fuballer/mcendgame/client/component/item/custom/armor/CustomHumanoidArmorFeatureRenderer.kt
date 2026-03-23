@@ -26,6 +26,7 @@ import de.fuballer.mcendgame.client.component.item.custom.armor.transformer.Enti
 import de.fuballer.mcendgame.client.component.item.custom.armor.transformer.PiglinArmorTransformer
 import de.fuballer.mcendgame.client.util.BipedEntityRenderStateMixinExtension.getHiddenArmor
 import de.fuballer.mcendgame.main.component.item.custom.armor.CustomArmorItems
+import de.fuballer.mcendgame.main.util.ColorUtil
 import de.fuballer.mcendgame.main.util.minecraft.IdentifierUtil
 import net.minecraft.client.model.Model
 import net.minecraft.client.render.OverlayTexture
@@ -109,24 +110,24 @@ class CustomHumanoidArmorFeatureRenderer<S : BipedEntityRenderState, M : BipedEn
         texturedArmorModels[CustomArmorItems.SUEDE_HELMET] = TexturedArmorModel(
             { SuedeHelmetModel(ctx.getPart(SuedeHelmetModel.MODEL_LAYER)) },
             colorAbleTexture = IdentifierUtil.default("textures/entity/equipment/custom_humanoid/suede_color_able.png"),
-            defaultColor = 10511680,
+            defaultColor = ColorUtil.rgbaToInt(160, 101, 64, 255),
         )
         texturedArmorModels[CustomArmorItems.SUEDE_CHESTPLATE] = TexturedArmorModel(
             { SuedeChestplateModel(ctx.getPart(SuedeChestplateModel.MODEL_LAYER)) },
             IdentifierUtil.default("textures/entity/equipment/custom_humanoid/suede.png"),
             IdentifierUtil.default("textures/entity/equipment/custom_humanoid/suede_color_able.png"),
-            defaultColor = 10511680,
+            defaultColor = ColorUtil.rgbaToInt(160, 101, 64, 255),
         )
         texturedArmorModels[CustomArmorItems.SUEDE_LEGGINGS] = TexturedArmorModel(
             { SuedeLeggingsModel(ctx.getPart(SuedeLeggingsModel.MODEL_LAYER)) },
             IdentifierUtil.default("textures/entity/equipment/custom_humanoid/suede.png"),
             IdentifierUtil.default("textures/entity/equipment/custom_humanoid/suede_color_able.png"),
-            defaultColor = 10511680,
+            defaultColor = ColorUtil.rgbaToInt(160, 101, 64, 255),
         )
         texturedArmorModels[CustomArmorItems.SUEDE_BOOTS] = TexturedArmorModel(
             { SuedeBootsModel(ctx.getPart(SuedeBootsModel.MODEL_LAYER)) },
             colorAbleTexture = IdentifierUtil.default("textures/entity/equipment/custom_humanoid/suede_color_able.png"),
-            defaultColor = 10511680,
+            defaultColor = ColorUtil.rgbaToInt(160, 101, 64, 255),
         )
         texturedArmorModels[CustomArmorItems.STONEWARD] = TexturedArmorModel(
             { StonewardModel(ctx.getPart(StonewardModel.MODEL_LAYER)) },
@@ -187,6 +188,8 @@ class CustomHumanoidArmorFeatureRenderer<S : BipedEntityRenderState, M : BipedEn
         }
 
         if (texturedArmorModel.colorAbleTexture != null) {
+            println("color: ${DyedColorComponent.getColor(itemStack, texturedArmorModel.defaultColor)}")
+            println("default: $texturedArmorModel.defaultColor")
             renderModel(
                 bipedEntityRenderState,
                 model,
