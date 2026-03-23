@@ -25,8 +25,8 @@ import de.fuballer.mcendgame.client.component.item.custom.armor.model.wither_ros
 import de.fuballer.mcendgame.client.component.item.custom.armor.transformer.EntityArmorTransformer
 import de.fuballer.mcendgame.client.component.item.custom.armor.transformer.PiglinArmorTransformer
 import de.fuballer.mcendgame.client.util.BipedEntityRenderStateMixinExtension.getHiddenArmor
-import de.fuballer.mcendgame.client.util.EntityRenderStateMixinExtension.isGhostly
 import de.fuballer.mcendgame.main.component.item.custom.armor.CustomArmorItems
+import de.fuballer.mcendgame.main.util.ColorUtil
 import de.fuballer.mcendgame.main.util.minecraft.IdentifierUtil
 import net.minecraft.client.model.Model
 import net.minecraft.client.render.OverlayTexture
@@ -60,97 +60,97 @@ class CustomHumanoidArmorFeatureRenderer<S : BipedEntityRenderState, M : BipedEn
 
     init {
         texturedArmorModels[CustomArmorItems.ICEBORNE] = TexturedArmorModel(
-            IceborneModel(ctx.getPart(IceborneModel.MODEL_LAYER)),
+            { IceborneModel(ctx.getPart(IceborneModel.MODEL_LAYER)) },
             IdentifierUtil.default("textures/entity/equipment/custom_humanoid/iceborne.png"),
         )
         texturedArmorModels[CustomArmorItems.BOUND_ABYSS] = TexturedArmorModel(
-            BoundAbyssModel(ctx.getPart(BoundAbyssModel.MODEL_LAYER)),
+            { BoundAbyssModel(ctx.getPart(BoundAbyssModel.MODEL_LAYER)) },
             IdentifierUtil.default("textures/entity/equipment/custom_humanoid/bound_abyss.png"),
         )
         texturedArmorModels[CustomArmorItems.DRUIDS_HELMET] = TexturedArmorModel(
-            DruidsHelmetModel(ctx.getPart(DruidsHelmetModel.MODEL_LAYER)),
+            { DruidsHelmetModel(ctx.getPart(DruidsHelmetModel.MODEL_LAYER)) },
             IdentifierUtil.default("textures/entity/equipment/custom_humanoid/druids.png"),
         )
         texturedArmorModels[CustomArmorItems.DRUIDS_CHESTPLATE] = TexturedArmorModel(
-            DruidsChestplateModel(ctx.getPart(DruidsChestplateModel.MODEL_LAYER)),
+            { DruidsChestplateModel(ctx.getPart(DruidsChestplateModel.MODEL_LAYER)) },
             IdentifierUtil.default("textures/entity/equipment/custom_humanoid/druids.png"),
         )
         texturedArmorModels[CustomArmorItems.DRUIDS_LEGGINGS] = TexturedArmorModel(
-            DruidsLeggingsModel(ctx.getPart(DruidsLeggingsModel.MODEL_LAYER)),
+            { DruidsLeggingsModel(ctx.getPart(DruidsLeggingsModel.MODEL_LAYER)) },
             IdentifierUtil.default("textures/entity/equipment/custom_humanoid/druids.png"),
         )
         texturedArmorModels[CustomArmorItems.DRUIDS_BOOTS] = TexturedArmorModel(
-            DruidsBootsModel(ctx.getPart(DruidsBootsModel.MODEL_LAYER)),
+            { DruidsBootsModel(ctx.getPart(DruidsBootsModel.MODEL_LAYER)) },
             IdentifierUtil.default("textures/entity/equipment/custom_humanoid/druids.png"),
         )
         texturedArmorModels[CustomArmorItems.EMBERCHANT] = TexturedArmorModel(
-            EmberchantModel(ctx.getPart(EmberchantModel.MODEL_LAYER)),
+            { EmberchantModel(ctx.getPart(EmberchantModel.MODEL_LAYER)) },
             IdentifierUtil.default("textures/entity/equipment/custom_humanoid/emberchant.png"),
         )
         texturedArmorModels[CustomArmorItems.LAMIAS_GIFT] = TexturedArmorModel(
-            LamiasGiftModel(ctx.getPart(LamiasGiftModel.MODEL_LAYER)),
+            { LamiasGiftModel(ctx.getPart(LamiasGiftModel.MODEL_LAYER)) },
             IdentifierUtil.default("textures/entity/equipment/custom_humanoid/lamias_gift.png"),
         )
         texturedArmorModels[CustomArmorItems.WITHER_ROSE_HELMET] = TexturedArmorModel(
-            WitherRoseHelmetModel(ctx.getPart(WitherRoseHelmetModel.MODEL_LAYER)),
+            { WitherRoseHelmetModel(ctx.getPart(WitherRoseHelmetModel.MODEL_LAYER)) },
             IdentifierUtil.default("textures/entity/equipment/custom_humanoid/wither_rose.png"),
         )
         texturedArmorModels[CustomArmorItems.WITHER_ROSE_CHESTPLATE] = TexturedArmorModel(
-            WitherRoseChestplateModel(ctx.getPart(WitherRoseChestplateModel.MODEL_LAYER)),
+            { WitherRoseChestplateModel(ctx.getPart(WitherRoseChestplateModel.MODEL_LAYER)) },
             IdentifierUtil.default("textures/entity/equipment/custom_humanoid/wither_rose.png"),
         )
         texturedArmorModels[CustomArmorItems.WITHER_ROSE_LEGGINGS] = TexturedArmorModel(
-            WitherRoseLeggingsModel(ctx.getPart(WitherRoseLeggingsModel.MODEL_LAYER)),
+            { WitherRoseLeggingsModel(ctx.getPart(WitherRoseLeggingsModel.MODEL_LAYER)) },
             IdentifierUtil.default("textures/entity/equipment/custom_humanoid/wither_rose.png"),
         )
         texturedArmorModels[CustomArmorItems.WITHER_ROSE_BOOTS] = TexturedArmorModel(
-            WitherRoseBootsModel(ctx.getPart(WitherRoseBootsModel.MODEL_LAYER)),
+            { WitherRoseBootsModel(ctx.getPart(WitherRoseBootsModel.MODEL_LAYER)) },
             IdentifierUtil.default("textures/entity/equipment/custom_humanoid/wither_rose.png"),
         )
         texturedArmorModels[CustomArmorItems.SUEDE_HELMET] = TexturedArmorModel(
-            SuedeHelmetModel(ctx.getPart(SuedeHelmetModel.MODEL_LAYER)),
+            { SuedeHelmetModel(ctx.getPart(SuedeHelmetModel.MODEL_LAYER)) },
             colorAbleTexture = IdentifierUtil.default("textures/entity/equipment/custom_humanoid/suede_color_able.png"),
-            defaultColor = 10511680,
+            defaultColor = ColorUtil.rgbaToInt(160, 101, 64, 255),
         )
         texturedArmorModels[CustomArmorItems.SUEDE_CHESTPLATE] = TexturedArmorModel(
-            SuedeChestplateModel(ctx.getPart(SuedeChestplateModel.MODEL_LAYER)),
+            { SuedeChestplateModel(ctx.getPart(SuedeChestplateModel.MODEL_LAYER)) },
             IdentifierUtil.default("textures/entity/equipment/custom_humanoid/suede.png"),
             IdentifierUtil.default("textures/entity/equipment/custom_humanoid/suede_color_able.png"),
-            defaultColor = 10511680,
+            defaultColor = ColorUtil.rgbaToInt(160, 101, 64, 255),
         )
         texturedArmorModels[CustomArmorItems.SUEDE_LEGGINGS] = TexturedArmorModel(
-            SuedeLeggingsModel(ctx.getPart(SuedeLeggingsModel.MODEL_LAYER)),
+            { SuedeLeggingsModel(ctx.getPart(SuedeLeggingsModel.MODEL_LAYER)) },
             IdentifierUtil.default("textures/entity/equipment/custom_humanoid/suede.png"),
             IdentifierUtil.default("textures/entity/equipment/custom_humanoid/suede_color_able.png"),
-            defaultColor = 10511680,
+            defaultColor = ColorUtil.rgbaToInt(160, 101, 64, 255),
         )
         texturedArmorModels[CustomArmorItems.SUEDE_BOOTS] = TexturedArmorModel(
-            SuedeBootsModel(ctx.getPart(SuedeBootsModel.MODEL_LAYER)),
+            { SuedeBootsModel(ctx.getPart(SuedeBootsModel.MODEL_LAYER)) },
             colorAbleTexture = IdentifierUtil.default("textures/entity/equipment/custom_humanoid/suede_color_able.png"),
-            defaultColor = 10511680,
+            defaultColor = ColorUtil.rgbaToInt(160, 101, 64, 255),
         )
         texturedArmorModels[CustomArmorItems.STONEWARD] = TexturedArmorModel(
-            StonewardModel(ctx.getPart(StonewardModel.MODEL_LAYER)),
+            { StonewardModel(ctx.getPart(StonewardModel.MODEL_LAYER)) },
             IdentifierUtil.default("textures/entity/equipment/custom_humanoid/stoneward.png"),
         )
         texturedArmorModels[CustomArmorItems.MOONSHADOW] = TexturedArmorModel(
-            MoonshadowModel(ctx.getPart(MoonshadowModel.MODEL_LAYER)),
+            { MoonshadowModel(ctx.getPart(MoonshadowModel.MODEL_LAYER)) },
             IdentifierUtil.default("textures/entity/equipment/custom_humanoid/moonshadow.png"),
         )
         texturedArmorModels[CustomArmorItems.GEISTERGALOSCHEN] = TexturedArmorModel(
-            GeistergaloschenModel(ctx.getPart(GeistergaloschenModel.MODEL_LAYER)),
+            { GeistergaloschenModel(ctx.getPart(GeistergaloschenModel.MODEL_LAYER)) },
             translucentTexture = IdentifierUtil.default("textures/entity/equipment/custom_humanoid/geistergaloschen.png"),
         )
         texturedArmorModels[CustomArmorItems.VOIDWEAVER] = TexturedArmorModel(
-            VoidweaverModel(ctx.getPart(VoidweaverModel.MODEL_LAYER)),
+            { VoidweaverModel(ctx.getPart(VoidweaverModel.MODEL_LAYER)) },
             IdentifierUtil.default("textures/entity/equipment/custom_humanoid/voidweaver.png"),
         )
         texturedArmorModels[CustomArmorItems.ABYSSAL_MASK] = TexturedArmorModel(
-            AbyssalMaskModel(ctx.getPart(AbyssalMaskModel.MODEL_LAYER)),
+            { AbyssalMaskModel(ctx.getPart(AbyssalMaskModel.MODEL_LAYER)) },
             IdentifierUtil.default("textures/entity/equipment/custom_humanoid/abyssal_mask.png"),
         )
         texturedArmorModels[CustomArmorItems.GILDED_TEMPEST] = TexturedArmorModel(
-            GildedTempestModel(ctx.getPart(GildedTempestModel.MODEL_LAYER)),
+            { GildedTempestModel(ctx.getPart(GildedTempestModel.MODEL_LAYER)) },
             IdentifierUtil.default("textures/entity/equipment/custom_humanoid/gilded_tempest.png"),
         )
     }
@@ -164,12 +164,12 @@ class CustomHumanoidArmorFeatureRenderer<S : BipedEntityRenderState, M : BipedEn
         slot: EquipmentSlot,
     ) {
         // Note: rendering leggings and boots on endermen is disabled
-        if ((slot == EquipmentSlot.LEGS || slot == EquipmentSlot.FEET) && bipedEntityRenderState.entityType == EntityType.ENDERMAN) return
+        if (bipedEntityRenderState.entityType == EntityType.ENDERMAN && (slot == EquipmentSlot.LEGS || slot == EquipmentSlot.FEET)) return
 
         val item = itemStack.item
         val texturedArmorModel = texturedArmorModels[item] ?: return
 
-        val model = texturedArmorModel.model
+        val model = texturedArmorModel.modelProvider()
         model.copyTransforms(contextModel)
 
         matrices.push()
@@ -232,7 +232,7 @@ class CustomHumanoidArmorFeatureRenderer<S : BipedEntityRenderState, M : BipedEn
             vertexConsumer = model.getVertexConsumer(bipedEntityRenderState, vertexConsumerProvider, vertexConsumer)
         }
         */
-        var renderLayer = if (translucent || state.isGhostly()) RenderLayers.entityTranslucent(texture) else RenderLayers.armorCutoutNoCull(texture)
+        val renderLayer = if (translucent) RenderLayers.entityTranslucent(texture) else RenderLayers.armorCutoutNoCull(texture)
 
         queue.submitModel(model, state, matrices, renderLayer, light, OverlayTexture.DEFAULT_UV, color, null, state.outlineColor, null)
         if (glint) queue.submitModel(model, state, matrices, RenderLayers.armorEntityGlint(), light, OverlayTexture.DEFAULT_UV, color, null, state.outlineColor, null)

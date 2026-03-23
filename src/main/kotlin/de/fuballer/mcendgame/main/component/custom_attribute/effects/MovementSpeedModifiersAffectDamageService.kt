@@ -17,29 +17,56 @@ class MovementSpeedModifiersAffectDamageService {
     @CommandHandler
     fun on(cmd: DamageCalculationCommand) {
         val damager = cmd.damager as? LivingEntity ?: return
-        val factors = getFactors(damager, cmd.damagerAttributes)
-        factors[EntityAttributeModifier.Operation.ADD_MULTIPLIED_BASE]?.let { cmd.increasedDamage.addAll(it) }
-        factors[EntityAttributeModifier.Operation.ADD_MULTIPLIED_TOTAL]?.let { cmd.moreDamage.addAll(it) }
+
+        val increaseFactors = getFactors(
+            damager,
+            cmd.damagerAttributes,
+            CustomAttributeTypes.INCREASED_MOVEMENT_SPEED_MODIFIERS_AFFECT_DAMAGE,
+            EntityAttributeModifier.Operation.ADD_MULTIPLIED_BASE
+        )
+        cmd.increasedDamage.addAll(increaseFactors)
+
+        val moreFactors = getFactors(
+            damager,
+            cmd.damagerAttributes,
+            CustomAttributeTypes.MORE_MOVEMENT_SPEED_MODIFIERS_AFFECT_DAMAGE,
+            EntityAttributeModifier.Operation.ADD_MULTIPLIED_TOTAL
+        )
+        cmd.moreDamage.addAll(moreFactors)
     }
 
     @CommandHandler
     fun on(cmd: CollectGenericIncreasedAndMoreDamageCommand) {
-        val factors = getFactors(cmd.entity, cmd.attributes)
-        factors[EntityAttributeModifier.Operation.ADD_MULTIPLIED_BASE]?.let { cmd.increased.addAll(it) }
-        factors[EntityAttributeModifier.Operation.ADD_MULTIPLIED_TOTAL]?.let { cmd.more.addAll(it) }
+        val increaseFactors = getFactors(
+            cmd.entity,
+            cmd.attributes,
+            CustomAttributeTypes.INCREASED_MOVEMENT_SPEED_MODIFIERS_AFFECT_DAMAGE,
+            EntityAttributeModifier.Operation.ADD_MULTIPLIED_BASE
+        )
+        cmd.increased.addAll(increaseFactors)
+
+        val moreFactors = getFactors(
+            cmd.entity,
+            cmd.attributes,
+            CustomAttributeTypes.MORE_MOVEMENT_SPEED_MODIFIERS_AFFECT_DAMAGE,
+            EntityAttributeModifier.Operation.ADD_MULTIPLIED_TOTAL
+        )
+        cmd.more.addAll(moreFactors)
     }
 
     private fun getFactors(
         entity: LivingEntity,
         customAttributes: Map<CustomAttributeType, List<CustomAttribute>>,
-    ): Map<EntityAttributeModifier.Operation, List<Double>> {
-        val attr = customAttributes[CustomAttributeTypes.MOVEMENT_SPEED_MODIFIERS_AFFECT_DAMAGE] ?: return mapOf()
+        attributeType: CustomAttributeType,
+        operation: EntityAttributeModifier.Operation,
+    ): List<Double> {
+        val attr = customAttributes[attributeType] ?: return listOf()
         val effectiveness = attr.sumOf { it.rolls[0].asDoubleRoll().getValue() }
 
-        val movementSpeedInstance = entity.getAttributeInstance(EntityAttributes.MOVEMENT_SPEED) ?: return mapOf()
+        val movementSpeedInstance = entity.getAttributeInstance(EntityAttributes.MOVEMENT_SPEED) ?: return listOf()
         return movementSpeedInstance.modifiers
-            .filter { it.operation == EntityAttributeModifier.Operation.ADD_MULTIPLIED_BASE || it.operation == EntityAttributeModifier.Operation.ADD_MULTIPLIED_TOTAL }
-            .groupBy { it.operation }
-            .mapValues { (_, modifierList) -> modifierList.map { it.value * effectiveness } }
+            .filter { it.operation == operation }
+            .map { it.value * effectiveness }
+            .toList()
     }
 }

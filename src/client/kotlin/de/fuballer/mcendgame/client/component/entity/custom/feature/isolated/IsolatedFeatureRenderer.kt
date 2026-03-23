@@ -7,7 +7,6 @@ import net.minecraft.client.render.entity.model.EntityModel
 import net.minecraft.client.render.entity.state.LivingEntityRenderState
 import net.minecraft.client.util.math.MatrixStack
 
-
 class IsolatedFeatureRenderer<T : LivingEntityRenderState, M : EntityModel<T>>(
     featureContext: FeatureRendererContext<T, M>,
 ) : FeatureRenderer<T, M>(featureContext) {

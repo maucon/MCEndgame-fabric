@@ -4,7 +4,7 @@ import net.minecraft.client.model.Model
 import net.minecraft.util.Identifier
 
 data class TexturedArmorModel<T : Model<*>>(
-    val model: T,
+    val modelProvider: () -> T,
     val texture: Identifier? = null,
     val colorAbleTexture: Identifier? = null,
     val defaultColor: Int = -1,

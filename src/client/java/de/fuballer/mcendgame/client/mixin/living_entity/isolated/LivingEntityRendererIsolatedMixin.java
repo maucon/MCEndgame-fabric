@@ -6,6 +6,7 @@ import net.minecraft.client.MinecraftClient;
 import net.minecraft.client.render.entity.LivingEntityRenderer;
 import net.minecraft.client.render.entity.state.LivingEntityRenderState;
 import net.minecraft.entity.LivingEntity;
+import net.minecraft.entity.PlayerLikeEntity;
 import net.minecraft.entity.mob.MobEntity;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.injection.At;
@@ -16,7 +17,7 @@ import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 public class LivingEntityRendererIsolatedMixin<T extends LivingEntity, S extends LivingEntityRenderState> {
     @Inject(method = "updateRenderState(Lnet/minecraft/entity/LivingEntity;Lnet/minecraft/client/render/entity/state/LivingEntityRenderState;F)V", at = @At("HEAD"))
     void updateRenderState(T livingEntity, S livingEntityRenderState, float f, CallbackInfo ci) {
-        if (!(livingEntity instanceof MobEntity)) return;
+        if (!(livingEntity instanceof MobEntity || livingEntity instanceof PlayerLikeEntity)) return;
         if (!(livingEntityRenderState instanceof LivingEntityRenderStateIsolatedAccessor renderStateAccessor)) return;
 
         var player = MinecraftClient.getInstance().player;

@@ -3,6 +3,7 @@ package de.fuballer.mcendgame.main.component.custom_attribute
 import de.fuballer.mcendgame.main.component.custom_attribute.CustomAttributesExtensions.getAllCustomAttributes
 import de.fuballer.mcendgame.main.component.custom_attribute.types.CustomAttributeTypes
 import net.minecraft.entity.LivingEntity
+import net.minecraft.entity.PlayerLikeEntity
 import net.minecraft.entity.mob.MobEntity
 import kotlin.math.abs
 
@@ -23,6 +24,6 @@ object CustomAttributeUtil {
 
     fun LivingEntity.isIsolated(attacker: LivingEntity) =
         entityWorld.getOtherEntities(this, boundingBox.expand(ISOLATED_RADIUS))
-        { it != attacker && it is MobEntity && it.squaredDistanceTo(this) <= ISOLATED_RADIUS_SQUARED }
+        { it != attacker && (it is MobEntity || it is PlayerLikeEntity) && it.squaredDistanceTo(this) <= ISOLATED_RADIUS_SQUARED }
             .isEmpty()
 }

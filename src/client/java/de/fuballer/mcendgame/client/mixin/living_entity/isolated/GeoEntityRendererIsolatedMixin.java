@@ -6,6 +6,7 @@ import net.minecraft.client.MinecraftClient;
 import net.minecraft.client.item.ItemModelManager;
 import net.minecraft.client.render.entity.state.LivingEntityRenderState;
 import net.minecraft.entity.LivingEntity;
+import net.minecraft.entity.PlayerLikeEntity;
 import net.minecraft.entity.mob.MobEntity;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.injection.At;
@@ -26,7 +27,7 @@ public class GeoEntityRendererIsolatedMixin {
             ItemModelManager itemModelResolver,
             CallbackInfo ci
     ) {
-        if (!(entity instanceof MobEntity)) return;
+        if (!(entity instanceof MobEntity || entity instanceof PlayerLikeEntity)) return;
         if (!(renderState instanceof LivingEntityRenderStateIsolatedAccessor renderStateAccessor)) return;
 
         var player = MinecraftClient.getInstance().player;

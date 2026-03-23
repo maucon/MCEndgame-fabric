@@ -6,11 +6,13 @@ import de.fuballer.mcendgame.main.component.custom_attribute.data.RollableCustom
 import de.fuballer.mcendgame.main.component.custom_attribute.types.CustomAttributeTypes
 import de.fuballer.mcendgame.main.component.custom_attribute.types.VanillaAttributeTypes
 import de.fuballer.mcendgame.main.component.item.custom.UniqueAttributesItem
+import de.fuballer.mcendgame.main.component.item.custom.armor.interfaces.HidePlayerModelPartArmor
 import net.minecraft.component.type.AttributeModifierSlot
+import net.minecraft.entity.player.PlayerModelPart
 
 class SuedeBoots(
     settings: Settings,
-) : UniqueAttributesItem(settings) {
+) : UniqueAttributesItem(settings), HidePlayerModelPartArmor {
     override fun getCustomAttributes() = listOf(
         RollableCustomAttribute(CustomAttributeTypes.DODGE, 0, DoubleBounds(0.1, 0.15)),
         RollableCustomAttribute(CustomAttributeTypes.MAGIC_FIND, 0, IntBounds(3, 5)),
@@ -19,4 +21,9 @@ class SuedeBoots(
     )
 
     override fun getAttributeModifierSlot() = AttributeModifierSlot.FEET
+
+    override val hiddenPlayerModelParts = listOf(
+        PlayerModelPart.LEFT_PANTS_LEG,
+        PlayerModelPart.RIGHT_PANTS_LEG,
+    )
 }

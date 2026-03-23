@@ -45,8 +45,6 @@ public abstract class LivingEntityRendererGhostlyMixin<T extends LivingEntity, S
             at = @At("RETURN")
     )
     private RenderLayer modifyRenderLayer(@Nullable RenderLayer original, S state) {
-        if (original == null) return null;
-
         if (!(state instanceof LivingEntityRenderStateGhostlyAccessor accessor)) return original;
         if (!accessor.mcendgame$isGhostly()) return original;
 
