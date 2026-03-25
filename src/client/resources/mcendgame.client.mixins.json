@@ -6,6 +6,7 @@
     "biped.BipedEntityModelMixin",
     "biped.BipedEntityRendererMixin",
     "biped.BipedEntityRenderStateMixin",
+    "ghostly_appearance.FeatureRendererGhostlyMixin",
     "ghostly_appearance.GeoEntityRendererGhostlyMixin",
     "ghostly_appearance.LivingEntityRendererGhostlyMixin",
     "ghostly_appearance.LivingEntityRenderStateGhostlyMixin",
