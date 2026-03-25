@@ -253,7 +253,7 @@ class DungeonDeviceScreen(
             this.textRenderer,
             Text.translatable(
                 "container.mcendgame.dungeon_device.progress_tooltip",
-                handler.payload.playerDungeonLevel.levelProgress + 1,
+                handler.payload.playerDungeonLevel.levelProgress,
                 DungeonLevelSettings.LEVEL_INCREASE_THRESHOLD
             ),
             mouseX,
