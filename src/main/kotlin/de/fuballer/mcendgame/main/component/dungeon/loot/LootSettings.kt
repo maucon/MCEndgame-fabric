@@ -31,13 +31,13 @@ object LootSettings {
         RandomOption(50, AspectItems.ASPECT_OF_ANCESTORS),
     )
 
-    fun getBossBaseCrystalCount(dungeonLevel: Int) = dungeonLevel / 5.0 + Random.nextDouble(dungeonLevel / 4.0)
+    fun getBossBaseCrystalCount(dungeonLevel: Int) = dungeonLevel / 7.0 + Random.nextDouble(dungeonLevel / 5.0)
 
     val CRYSTALS = listOf(
-        LevelRestrictedRandomOption(10, tier = 0, requiredLevel = 0, CrystalItems.PERMUTATION_CRYSTAL),
-        LevelRestrictedRandomOption(10, tier = 0, requiredLevel = 2, CrystalItems.CALIBRATION_CRYSTAL),
+        LevelRestrictedRandomOption(15, tier = 0, requiredLevel = 0, CrystalItems.PERMUTATION_CRYSTAL),
+        LevelRestrictedRandomOption(15, tier = 0, requiredLevel = 2, CrystalItems.CALIBRATION_CRYSTAL),
         LevelRestrictedRandomOption(5, tier = 0, requiredLevel = 4, CrystalItems.REFORGE_CRYSTAL),
-        LevelRestrictedRandomOption(5, tier = 0, requiredLevel = 6, CrystalItems.CORRUPTION_CRYSTAL),
-        LevelRestrictedRandomOption(5, tier = 0, requiredLevel = 8, CrystalItems.SACRIFICIAL_CRYSTAL),
+        LevelRestrictedRandomOption(3, tier = 0, requiredLevel = 6, CrystalItems.CORRUPTION_CRYSTAL),
+        LevelRestrictedRandomOption(2, tier = 0, requiredLevel = 8, CrystalItems.SACRIFICIAL_CRYSTAL),
     )
 }
