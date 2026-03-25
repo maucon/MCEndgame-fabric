@@ -2,6 +2,7 @@ package de.fuballer.mcendgame.client.mixin.ghostly_appearance;
 
 import de.fuballer.mcendgame.client.accessor.LivingEntityRenderStateGhostlyAccessor;
 import de.fuballer.mcendgame.client.component.render.CustomRenderLayers;
+import de.fuballer.mcendgame.client.component.render.ghostly.GhostlySettings;
 import de.fuballer.mcendgame.main.component.custom_attribute.CustomAttributesExtensions;
 import de.fuballer.mcendgame.main.util.ColorUtil;
 import net.minecraft.client.item.ItemModelManager;
@@ -57,6 +58,6 @@ public class GeoEntityRendererGhostlyMixin<T extends Entity & GeoAnimatable, R e
     int modifyRenderColor(int color, T animatable) {
         if (!(animatable instanceof LivingEntity livingEntity)) return color;
         if (!CustomAttributesExtensions.INSTANCE.isGhostly(livingEntity)) return color;
-        return ColorUtil.INSTANCE.rgbaToInt(10, 235, 200, 120);
+        return GhostlySettings.INSTANCE.getCOLOR();
     }
 }

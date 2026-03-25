@@ -3,6 +3,7 @@ package de.fuballer.mcendgame.client.mixin.ghostly_appearance;
 import com.llamalad7.mixinextras.injector.ModifyReturnValue;
 import de.fuballer.mcendgame.client.accessor.LivingEntityRenderStateGhostlyAccessor;
 import de.fuballer.mcendgame.client.component.render.CustomRenderLayers;
+import de.fuballer.mcendgame.client.component.render.ghostly.GhostlySettings;
 import de.fuballer.mcendgame.main.component.custom_attribute.CustomAttributesExtensions;
 import de.fuballer.mcendgame.main.util.ColorUtil;
 import net.minecraft.client.render.RenderLayer;
@@ -60,6 +61,6 @@ public abstract class LivingEntityRendererGhostlyMixin<T extends LivingEntity, S
         if (!(state instanceof LivingEntityRenderStateGhostlyAccessor accessor)) return original;
         if (!accessor.mcendgame$isGhostly()) return original;
 
-        return ColorUtil.INSTANCE.rgbaToInt(10, 235, 200, 120);
+        return GhostlySettings.INSTANCE.getCOLOR();
     }
 }
