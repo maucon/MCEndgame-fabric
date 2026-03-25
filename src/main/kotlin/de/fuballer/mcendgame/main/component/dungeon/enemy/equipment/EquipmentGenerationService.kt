@@ -125,6 +125,8 @@ class EquipmentGenerationService(
         random: Random,
         data: EquipmentGenerationData,
     ): ItemStack? {
+        if (random.nextDouble() < EquipmentGenerationSettings.OFFHAND_EMPTY_PROBABILITY) return null
+
         if (random.nextDouble() < EquipmentGenerationSettings.OFFHAND_OTHER_OVER_MAINHAND_PROBABILITY) {
             return createEquipment(level, EquipmentGenerationSettings.OTHER_ITEMS, server, random, data)
         }
