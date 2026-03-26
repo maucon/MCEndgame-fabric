@@ -22,7 +22,7 @@ object NetherRoomTypes {
 
         ROOMS = listOf(
             RandomOption(7, RoomTypeLoader.load(templateManager, "dungeon/nether/small_connector")),
-            RandomOption(4, RoomTypeLoader.load(templateManager, "dungeon/nether/basalt-lava-pools_branching")),
+            RandomOption(4, RoomTypeLoader.load(templateManager, "dungeon/nether/soulsand-basalt-arena_branching")),
             RandomOption(3, RoomTypeLoader.load(templateManager, "dungeon/nether/bridge-over-warped_brewing-room_curve")),
             RandomOption(4, RoomTypeLoader.load(templateManager, "dungeon/nether/around-burning-soulsand_elevating_curve")),
             RandomOption(4, RoomTypeLoader.load(templateManager, "dungeon/nether/soulsand-basalt-arena_spiral_curve")),

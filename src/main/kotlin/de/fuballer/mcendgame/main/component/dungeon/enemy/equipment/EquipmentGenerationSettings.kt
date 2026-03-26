@@ -23,7 +23,7 @@ object EquipmentGenerationSettings {
     private const val EQUIPMENT_ROLL_TRIES_PER_TIER = 0.5
     fun calculateEquipmentRollTries(mapTier: Int) = 1 + (mapTier * EQUIPMENT_ROLL_TRIES_PER_TIER).toInt()
 
-    const val UNIQUE_EQUIPMENT_PROBABILITY = 0.0005
+    fun getUniqueEquipmentBaseProbability(level: Int) = 0.0005 + (level * 0.0000125)
 
     val UNIQUE_EQUIPMENT = listOf(
         RandomOption(100, TaggedEquipment.forBothHands(Sword.TWINFIRE)),
@@ -203,13 +203,13 @@ object EquipmentGenerationSettings {
         SortableRandomOption(100, 0, Miscellaneous.TRIDENT),
         SortableRandomOption(50, 0, Miscellaneous.MACE)
     )
-    const val OFFHAND_OTHER_OVER_MAINHAND_PROBABILITY = 0.25
+    const val OFFHAND_EMPTY_PROBABILITY = 0.2
+    const val OFFHAND_OTHER_OVER_MAINHAND_PROBABILITY = 0.35
     val OTHER_ITEMS = listOf<RandomOption<out Equipment>>(
-        RandomOption(10, Miscellaneous.FISHING_ROD),
-        RandomOption(50, Shield.SHIELD),
+        RandomOption(1, Miscellaneous.FISHING_ROD),
+        RandomOption(9, Shield.SHIELD),
     )
     val MAINHAND_PROBABILITIES = listOf<RandomOption<List<SortableRandomOption<out Equipment>>?>>(
-        RandomOption(10, null),
         RandomOption(12, SWORDS),
         RandomOption(3, SPEARS),
         RandomOption(10, AXES),

@@ -12,5 +12,7 @@ object EnemyLevelScalingSettings {
 
     fun getBossLevelAttributes(level: Int) = listOf(
         CustomAttribute(VanillaAttributeTypes.MORE_MAX_HEALTH, roll = DoubleRoll(DoubleBounds(0.1 * level))),
+        CustomAttribute(VanillaAttributeTypes.ARMOR, roll = DoubleRoll(DoubleBounds(15 + 0.5 * level))),
+        CustomAttribute(VanillaAttributeTypes.ARMOR_TOUGHNESS, roll = DoubleRoll(DoubleBounds(0.5 * level))),
     )
 }
