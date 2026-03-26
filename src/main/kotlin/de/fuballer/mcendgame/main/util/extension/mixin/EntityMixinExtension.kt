@@ -1,7 +1,6 @@
 package de.fuballer.mcendgame.main.util.extension.mixin
 
 import de.fuballer.mcendgame.main.accessor.*
-import de.fuballer.mcendgame.main.component.custom_attribute.data.CustomAttribute
 import de.fuballer.mcendgame.main.component.custom_attribute.effects.data.AuraStatusEffect
 import de.fuballer.mcendgame.main.component.dungeon.generation.data.SpawnPosition
 import net.minecraft.entity.Entity
@@ -138,21 +137,6 @@ object EntityMixinExtension {
     fun Entity.setForcedGlowColor(color: Int) {
         val accessor = this as EntityForcedGlowColorAccessor
         accessor.`mcendgame$setForcedGlowColor`(color)
-    }
-
-    fun LivingEntity.addCustomAttribute(customAttribute: CustomAttribute) {
-        val accessor = this as LivingEntityCustomAttributesAccessor
-        accessor.`mcendgame$addCustomAttribute`(customAttribute)
-    }
-
-    fun LivingEntity.addCustomAttributes(customAttributes: List<CustomAttribute>) {
-        val accessor = this as LivingEntityCustomAttributesAccessor
-        customAttributes.forEach { accessor.`mcendgame$addCustomAttribute`(it) }
-    }
-
-    fun LivingEntity.getCustomAttributes(): List<CustomAttribute> {
-        val accessor = this as LivingEntityCustomAttributesAccessor
-        return accessor.`mcendgame$getCustomAttributes`()
     }
 
     fun LivingEntity.getLinkedBy(): HashSet<UUID> = (this as LivingEntityLinkAttributeAccessor).`mcendgame$getLinkedBy`()

@@ -1,6 +1,7 @@
 package de.fuballer.mcendgame.main.util.minecraft
 
 import de.fuballer.mcendgame.main.MCEndgame
+import de.fuballer.mcendgame.main.component.custom_attribute.data.CustomAttribute
 import net.minecraft.util.Identifier
 import java.util.*
 
@@ -15,5 +16,9 @@ object IdentifierUtil {
 
     fun defaultRandom(): Identifier {
         return Identifier.of(MCEndgame.MOD_ID, UUID.randomUUID().toString())
+    }
+
+    fun defaultCustomAttribute(attribute: CustomAttribute): Identifier {
+        return Identifier.of(MCEndgame.MOD_ID, attribute.id.toString())
     }
 }

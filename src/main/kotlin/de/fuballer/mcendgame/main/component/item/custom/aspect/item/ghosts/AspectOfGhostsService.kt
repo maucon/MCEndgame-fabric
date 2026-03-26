@@ -1,5 +1,6 @@
 package de.fuballer.mcendgame.main.component.item.custom.aspect.item.ghosts
 
+import de.fuballer.mcendgame.main.component.custom_attribute.CustomAttributesExtensions.addCustomAttribute
 import de.fuballer.mcendgame.main.component.custom_attribute.data.CustomAttribute
 import de.fuballer.mcendgame.main.component.custom_attribute.types.CustomAttributeTypes
 import de.fuballer.mcendgame.main.component.item.custom.UniqueAttributesItemInterface
@@ -10,7 +11,6 @@ import de.fuballer.mcendgame.main.messaging.dungeon.DungeonEnemiesGeneratedComma
 import de.fuballer.mcendgame.main.messaging.dungeon.DungeonEnemyDeathEvent
 import de.fuballer.mcendgame.main.messaging.dungeon.DungeonFinalBossDeathEvent
 import de.fuballer.mcendgame.main.messaging.dungeon.DungeonGenerateCommand
-import de.fuballer.mcendgame.main.util.extension.mixin.EntityMixinExtension.addCustomAttribute
 import de.fuballer.mcendgame.main.util.extension.mixin.EntityMixinExtension.dropsAspectOfGhosts
 import de.fuballer.mcendgame.main.util.extension.mixin.EntityMixinExtension.setDropsAspectOfGhosts
 import de.fuballer.mcendgame.main.util.extension.mixin.WorldMixinExtension.getDungeonAspects
