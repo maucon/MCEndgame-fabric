@@ -23,7 +23,7 @@ object EquipmentGenerationSettings {
     private const val EQUIPMENT_ROLL_TRIES_PER_TIER = 0.5
     fun calculateEquipmentRollTries(mapTier: Int) = 1 + (mapTier * EQUIPMENT_ROLL_TRIES_PER_TIER).toInt()
 
-    const val UNIQUE_EQUIPMENT_PROBABILITY = 0.0005
+    fun getUniqueEquipmentBaseProbability(level: Int) = 0.0005 + (level * 0.00002)
 
     val UNIQUE_EQUIPMENT = listOf(
         RandomOption(100, TaggedEquipment.forBothHands(Sword.TWINFIRE)),

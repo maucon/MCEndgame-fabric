@@ -4,6 +4,7 @@ import de.fuballer.mcendgame.main.component.dungeon.enemy.equipment.EquipmentGen
 import de.fuballer.mcendgame.main.component.dungeon.generation.data.SpawnPosition
 import de.fuballer.mcendgame.main.component.item.custom.aspect.AspectItem
 import de.fuballer.mcendgame.main.util.extension.mixin.WorldMixinExtension.getDungeonAspects
+import de.fuballer.mcendgame.main.util.extension.mixin.WorldMixinExtension.getDungeonLevel
 import net.minecraft.server.world.ServerWorld
 
 data class DungeonGenerateEnemiesCommand(
@@ -13,7 +14,7 @@ data class DungeonGenerateEnemiesCommand(
     val isEncounter: Boolean,
     val eliteSpawnPositions: MutableList<SpawnPosition> = mutableListOf(),
     val lootGoblinSpawnPositions: MutableList<SpawnPosition> = mutableListOf(),
-    var uniqueEquipmentProbability: Double = EquipmentGenerationSettings.UNIQUE_EQUIPMENT_PROBABILITY,
+    var uniqueEquipmentProbability: Double = EquipmentGenerationSettings.getUniqueEquipmentBaseProbability(dungeonWorld.getDungeonLevel()),
     var lootGoblinLuckyAttributes: Boolean = false,
     var additionalAttributeProbabilities: MutableList<Double> = mutableListOf(),
 ) {
