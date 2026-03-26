@@ -15,11 +15,17 @@ class EnemyLevelScalingService {
 
         val levelAttributes = EnemyLevelScalingSettings.getEnemyLevelAttributes(level)
         val enemies = command.enemies
-        enemies.forEach { it.addCustomAttributes(levelAttributes) }
+        enemies.forEach {
+            it.addCustomAttributes(levelAttributes)
+            it.health = it.maxHealth
+        }
 
         val bosses = enemies.filter { it.isDungeonBoss() }
         if (bosses.isEmpty()) return
         val bossAttributes = EnemyLevelScalingSettings.getBossLevelAttributes(level)
-        bosses.forEach { it.addCustomAttributes(bossAttributes) }
+        bosses.forEach {
+            it.addCustomAttributes(bossAttributes)
+            it.health = it.maxHealth
+        }
     }
 }

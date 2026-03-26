@@ -1,7 +1,6 @@
 package de.fuballer.mcendgame.main.util.extension.mixin
 
 import de.fuballer.mcendgame.main.accessor.*
-import de.fuballer.mcendgame.main.component.custom_attribute.data.CustomAttribute
 import de.fuballer.mcendgame.main.component.custom_attribute.effects.data.AuraStatusEffect
 import de.fuballer.mcendgame.main.component.dungeon.generation.data.SpawnPosition
 import net.minecraft.entity.Entity
