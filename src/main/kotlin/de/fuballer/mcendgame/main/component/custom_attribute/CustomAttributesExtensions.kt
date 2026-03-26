@@ -1,12 +1,12 @@
 package de.fuballer.mcendgame.main.component.custom_attribute
 
 import de.fuballer.mcendgame.main.MCEndgame
+import de.fuballer.mcendgame.main.accessor.LivingEntityCustomAttributesAccessor
 import de.fuballer.mcendgame.main.component.custom_attribute.data.*
 import de.fuballer.mcendgame.main.component.custom_attribute.types.CustomAttributeTypes
 import de.fuballer.mcendgame.main.messaging.collect_attribute.CollectHealFactorCommand
 import de.fuballer.mcendgame.main.messaging.misc.CollectCustomAttributesCommand
 import de.fuballer.mcendgame.main.util.extension.SlotExtension.isOrIsChildOf
-import de.fuballer.mcendgame.main.util.extension.mixin.EntityMixinExtension.getCustomAttributes
 import de.fuballer.mcendgame.main.util.minecraft.IdentifierUtil
 import de.fuballer.mcendgame.main.util.minecraft.RegistryUtil
 import de.maucon.mauconframework.command.CommandGateway
@@ -130,10 +130,30 @@ object CustomAttributesExtensions {
             .forEach {
                 val vanillaAttributeType = it.type as VanillaAttributeType
                 val attribute = vanillaAttributeType.attribute
-                val modifier = EntityAttributeModifier(IdentifierUtil.defaultRandom(), it.rolls[0].asDoubleRoll().getValue(), vanillaAttributeType.scaleType)
+                val modifier = EntityAttributeModifier(IdentifierUtil.defaultCustomAttribute(it), it.rolls[0].asDoubleRoll().getValue(), vanillaAttributeType.scaleType)
                 builder.add(attribute, modifier, slot)
             }
     }
 
     fun LivingEntity.getHealingFactor() = CommandGateway.apply(CollectHealFactorCommand(this)).getFactor()
+
+    fun LivingEntity.addCustomAttribute(customAttribute: CustomAttribute) {
+        val accessor = this as LivingEntityCustomAttributesAccessor
+        accessor.`mcendgame$addCustomAttribute`(customAttribute)
+
+        val type = customAttribute.type
+        if (type !is VanillaAttributeType) return
+        val attributeInstance = getAttributeInstance(type.attribute) ?: return
+        val modifier = EntityAttributeModifier(IdentifierUtil.defaultCustomAttribute(customAttribute), customAttribute.rolls[0].asDoubleRoll().getValue(), type.scaleType)
+        attributeInstance.addPersistentModifier(modifier)
+    }
+
+    fun LivingEntity.addCustomAttributes(customAttributes: List<CustomAttribute>) {
+        customAttributes.forEach { addCustomAttribute(it) }
+    }
+
+    fun LivingEntity.getCustomAttributes(): List<CustomAttribute> {
+        val accessor = this as LivingEntityCustomAttributesAccessor
+        return accessor.`mcendgame$getCustomAttributes`()
+    }
 }

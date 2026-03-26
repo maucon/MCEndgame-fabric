@@ -140,21 +140,6 @@ object EntityMixinExtension {
         accessor.`mcendgame$setForcedGlowColor`(color)
     }
 
-    fun LivingEntity.addCustomAttribute(customAttribute: CustomAttribute) {
-        val accessor = this as LivingEntityCustomAttributesAccessor
-        accessor.`mcendgame$addCustomAttribute`(customAttribute)
-    }
-
-    fun LivingEntity.addCustomAttributes(customAttributes: List<CustomAttribute>) {
-        val accessor = this as LivingEntityCustomAttributesAccessor
-        customAttributes.forEach { accessor.`mcendgame$addCustomAttribute`(it) }
-    }
-
-    fun LivingEntity.getCustomAttributes(): List<CustomAttribute> {
-        val accessor = this as LivingEntityCustomAttributesAccessor
-        return accessor.`mcendgame$getCustomAttributes`()
-    }
-
     fun LivingEntity.getLinkedBy(): HashSet<UUID> = (this as LivingEntityLinkAttributeAccessor).`mcendgame$getLinkedBy`()
 
     fun LivingEntity.getLinkedEntities(): Map<UUID, Long> = (this as LivingEntityLinkAttributeAccessor).`mcendgame$getLinkedEntities`()

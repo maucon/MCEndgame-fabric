@@ -1,7 +1,7 @@
 package de.fuballer.mcendgame.main.component.dungeon.enemy
 
+import de.fuballer.mcendgame.main.component.custom_attribute.CustomAttributesExtensions.addCustomAttributes
 import de.fuballer.mcendgame.main.messaging.dungeon.DungeonEnemiesGeneratedCommand
-import de.fuballer.mcendgame.main.util.extension.mixin.EntityMixinExtension.addCustomAttributes
 import de.fuballer.mcendgame.main.util.extension.mixin.EntityMixinExtension.isDungeonBoss
 import de.fuballer.mcendgame.main.util.extension.mixin.WorldMixinExtension.getDungeonLevel
 import de.maucon.mauconframework.command.CommandHandler

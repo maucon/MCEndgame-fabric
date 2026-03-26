@@ -1,8 +1,8 @@
 package de.fuballer.mcendgame.main.component.item.custom.aspect.item.savagery
 
+import de.fuballer.mcendgame.main.component.custom_attribute.CustomAttributesExtensions.addCustomAttribute
 import de.fuballer.mcendgame.main.component.item.custom.aspect.AspectItems
 import de.fuballer.mcendgame.main.messaging.dungeon.DungeonEnemiesGeneratedCommand
-import de.fuballer.mcendgame.main.util.extension.mixin.EntityMixinExtension.addCustomAttribute
 import de.maucon.mauconframework.command.CommandHandler
 import de.maucon.mauconframework.di.annotation.Injectable
 

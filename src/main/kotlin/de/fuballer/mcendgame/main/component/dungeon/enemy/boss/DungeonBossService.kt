@@ -1,9 +1,9 @@
 package de.fuballer.mcendgame.main.component.dungeon.enemy.boss
 
+import de.fuballer.mcendgame.main.component.custom_attribute.CustomAttributesExtensions.addCustomAttribute
 import de.fuballer.mcendgame.main.messaging.dungeon.DungeonBossDeathEvent
 import de.fuballer.mcendgame.main.messaging.dungeon.DungeonFinalBossDeathEvent
 import de.fuballer.mcendgame.main.messaging.misc.LivingEntityDamagedEvent
-import de.fuballer.mcendgame.main.util.extension.mixin.EntityMixinExtension.addCustomAttribute
 import de.fuballer.mcendgame.main.util.extension.mixin.EntityMixinExtension.isDungeonBoss
 import de.fuballer.mcendgame.main.util.extension.mixin.WorldMixinExtension.getBossesKilled
 import de.fuballer.mcendgame.main.util.extension.mixin.WorldMixinExtension.getTotalBossCount
