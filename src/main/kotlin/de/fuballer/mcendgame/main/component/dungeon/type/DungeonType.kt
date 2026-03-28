@@ -25,12 +25,13 @@ enum class DungeonType(
             RandomOption(1, DungeonLayoutType.STRONGHOLD),
         ),
         listOf(
-            RandomOption(40, ZombieStats),
-            RandomOption(15, HuskStats),
+            RandomOption(45, ZombieStats),
+            RandomOption(18, HuskStats),
             RandomOption(15, SkeletonStats),
-            RandomOption(15, MeleeSkeletonStats),
+            RandomOption(18, MeleeSkeletonStats),
             RandomOption(8, StrayStats),
             RandomOption(8, BoggedStats),
+            RandomOption(8, ParchedStats),
             RandomOption(3, WitherSkeletonStats),
         ),
         listOf(
@@ -45,11 +46,12 @@ enum class DungeonType(
             RandomOption(1, DungeonLayoutType.NETHER),
         ),
         listOf(
-            RandomOption(25, ZombieStats),
-            RandomOption(20, HuskStats),
+            RandomOption(30, ZombieStats),
+            RandomOption(25, HuskStats),
             RandomOption(15, SkeletonStats),
             RandomOption(8, BoggedStats),
-            RandomOption(15, MeleeSkeletonStats),
+            RandomOption(15, ParchedStats),
+            RandomOption(20, MeleeSkeletonStats),
             RandomOption(5, WitherSkeletonStats),
         ),
         listOf(
