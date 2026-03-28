@@ -203,13 +203,9 @@ object EquipmentGenerationSettings {
         SortableRandomOption(100, 0, Miscellaneous.TRIDENT),
         SortableRandomOption(50, 0, Miscellaneous.MACE)
     )
-    const val OFFHAND_EMPTY_PROBABILITY = 0.2
-    const val OFFHAND_OTHER_OVER_MAINHAND_PROBABILITY = 0.35
-    val OTHER_ITEMS = listOf<RandomOption<out Equipment>>(
-        RandomOption(1, Miscellaneous.FISHING_ROD),
-        RandomOption(9, Shield.SHIELD),
-    )
-    val MAINHAND_PROBABILITIES = listOf<RandomOption<List<SortableRandomOption<out Equipment>>?>>(
+
+    const val OFFHAND_ITEM_PROBABILITY = 0.35
+    val MAINHAND_WEAPON_PROBABILITIES = listOf<RandomOption<List<SortableRandomOption<out Equipment>>?>>(
         RandomOption(12, SWORDS),
         RandomOption(3, SPEARS),
         RandomOption(10, AXES),
@@ -218,8 +214,21 @@ object EquipmentGenerationSettings {
         RandomOption(6, HOES),
         RandomOption(1, SPECIAL_WEAPONS),
     )
+    val OFFHAND_WEAPON_PROBABILITIES = listOf<RandomOption<List<SortableRandomOption<out Equipment>>?>>(
+        RandomOption(12, null),
+        RandomOption(12, SWORDS),
+        RandomOption(10, AXES),
+        RandomOption(6, PICKAXES),
+        RandomOption(6, SHOVELS),
+        RandomOption(6, HOES),
+        RandomOption(1, SPECIAL_WEAPONS),
+    )
     val RANGED_MAINHAND_PROBABILITIES = listOf<RandomOption<List<SortableRandomOption<out Equipment>>>>(
         RandomOption(100, BOWS),
+    )
+    val OFFHAND_ITEMS = listOf<RandomOption<out Equipment>>(
+        RandomOption(1, Miscellaneous.FISHING_ROD),
+        RandomOption(9, Shield.SHIELD),
     )
 
     val LOOT_GOBLIN_ARMOR_TRIM_MATERIALS = listOf<RandomOption<RegistryKey<ArmorTrimMaterial>>>(
