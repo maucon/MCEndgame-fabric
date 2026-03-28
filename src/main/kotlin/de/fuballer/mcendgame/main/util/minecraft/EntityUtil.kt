@@ -16,6 +16,8 @@ object EntityUtil {
         val entity = type.type.spawn(world, location.blockPos(), SpawnReason.STRUCTURE)
             ?: throw Exception("Couldn't  spawn entity of type: ${type.type}, in world: $world")
 
+        clearVehicleAndPassengers(entity)
+
         entity.refreshPositionAndAngles(
             location.pos.x + 0.5,
             location.pos.y.toDouble(),
@@ -41,5 +43,15 @@ object EntityUtil {
         entity.getAttributeInstance(EntityAttributes.ATTACK_DAMAGE)?.baseValue = type.attackDamage
         entity.getAttributeInstance(EntityAttributes.MOVEMENT_SPEED)?.baseValue = type.movementSpeed
         entity.getAttributeInstance(EntityAttributes.KNOCKBACK_RESISTANCE)?.baseValue = type.knockbackResistance
+    }
+
+    private fun clearVehicleAndPassengers(entity: MobEntity) {
+        entity.vehicle?.let { vehicle ->
+            entity.stopRiding()
+            vehicle.discard()
+        }
+        entity.passengerList.forEach { passenger ->
+            passenger.discard()
+        }
     }
 }
