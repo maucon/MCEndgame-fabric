@@ -4,6 +4,7 @@ import de.fuballer.mcendgame.main.component.custom_attribute.effects.knockback.A
 import de.fuballer.mcendgame.main.component.damage.dealing.DamageDealingService.dealGenericAttackDamage
 import de.fuballer.mcendgame.main.util.extension.EntityExtension.setShieldsCooldown
 import net.minecraft.entity.LivingEntity
+import net.minecraft.entity.PlayerLikeEntity
 import net.minecraft.entity.attribute.EntityAttributes
 import net.minecraft.entity.mob.MobEntity
 import net.minecraft.entity.player.PlayerEntity
@@ -24,9 +25,9 @@ class AreaAttackDamage(
     private val area: DamageArea,
     private val applyScale: Boolean = true,
     private val knockbackType: KnockbackType = KnockbackType.DAMAGER_CENTER,
-    private val blockable: Boolean = true,
-    private val disableBlockingShield: Float = 0.0F,
-) : AttackDamage(damageFactor, knockbackFactor) {
+    blockable: Boolean = true,
+    disableBlockingShield: Float = 0.0F,
+) : AttackDamage(damageFactor, knockbackFactor, blockable, disableBlockingShield) {
     private var createParticles: Boolean = false
     private var particleCount: Int = 0
     private var particleHeightOffset: Double = 0.0
@@ -52,7 +53,7 @@ class AreaAttackDamage(
 
         val slamCenter = area.getCenter(damager, scale, forward, sideways)
 
-        dealDamage(targets, damager, scale, forward, slamCenter, blockable, disableBlockingShield)
+        dealDamage(targets, damager, scale, forward, slamCenter)
 
         if (createParticles) createParticles(world, slamCenter, forward, sideways, scale)
 
@@ -80,15 +81,13 @@ class AreaAttackDamage(
         scale: Double,
         forward: Vec3d,
         slamCenter: Vec3d,
-        blockable: Boolean,
-        disableBlockingShieldSeconds: Float,
     ) {
         val damage = getDamage(damager)
         val knockback = getKnockback(damager)
 
         targets.forEach {
             it.dealGenericAttackDamage(damage, damager, blockable)
-            if (disableBlockingShieldSeconds > 0 && it is PlayerEntity && it.isBlocking) it.setShieldsCooldown(disableBlockingShieldSeconds)
+            if (disableBlockingShield > 0 && it is PlayerLikeEntity && it.isBlocking) it.setShieldsCooldown(disableBlockingShield)
             applyKnockback(it, damager, knockback, scale, forward, slamCenter)
         }
     }

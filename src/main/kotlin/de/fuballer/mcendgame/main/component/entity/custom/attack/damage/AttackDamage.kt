@@ -8,6 +8,8 @@ import net.minecraft.server.world.ServerWorld
 abstract class AttackDamage(
     private val damageFactor: Float,
     private val knockbackFactor: Double,
+    val blockable: Boolean = true,
+    val disableBlockingShield: Float = 0.0F,
 ) {
     abstract fun apply(world: ServerWorld, damager: MobEntity, target: LivingEntity?): Boolean
 
