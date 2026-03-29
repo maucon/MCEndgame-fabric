@@ -364,7 +364,7 @@ class ElfDuelistEntity(
             RandomOption(1, UPWARDS_SLICE_RIGHT_RESET_ATTACK),
             RandomOption(2, UPWARDS_SLICE_BOTH_ATTACK),
             RandomOption(1, UPWARDS_SLICE_BOTH_RESET_ATTACK),
-            RandomOption(1000, DOWNWARDS_SLICE_BOTH_ATTACK),
+            RandomOption(1000, DOWNWARDS_SLICE_BOTH_ATTACK), // should always be the follow up to upwards slice both
             RandomOption(1, DOWNWARDS_SLICE_BOTH_RESET_ATTACK),
             RandomOption(2, SWEEP_LEFT_ATTACK),
             RandomOption(1, SWEEP_LEFT_RESET_ATTACK),
