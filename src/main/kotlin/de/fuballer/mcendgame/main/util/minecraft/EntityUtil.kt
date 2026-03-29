@@ -50,7 +50,7 @@ object EntityUtil {
             entity.stopRiding()
             vehicle.discard()
         }
-        entity.passengerList.forEach { passenger ->
+        entity.passengerList.toList().forEach { passenger ->
             passenger.discard()
         }
     }
