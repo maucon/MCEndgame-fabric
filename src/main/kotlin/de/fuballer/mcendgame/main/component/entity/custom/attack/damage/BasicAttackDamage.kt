@@ -22,13 +22,9 @@ class BasicAttackDamage(
         damager: MobEntity,
         target: LivingEntity?
     ): Boolean {
-        if (disableBlockingShield > 0) println("DISABLE")
-
         if (target?.isAlive != true) return false
         val squaredDistance = min(damager.squaredDistanceTo(target), damager.squaredDistanceTo(target.eyePos))
         if (squaredDistance > squaredHitRange) return false
-
-        if (disableBlockingShield > 0) println("IN RANGE")
 
         val damage = getDamage(damager)
         target.dealGenericAttackDamage(damage, damager, blockable)
