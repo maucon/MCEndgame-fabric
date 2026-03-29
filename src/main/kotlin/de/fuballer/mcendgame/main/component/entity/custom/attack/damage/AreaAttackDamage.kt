@@ -7,7 +7,6 @@ import net.minecraft.entity.LivingEntity
 import net.minecraft.entity.PlayerLikeEntity
 import net.minecraft.entity.attribute.EntityAttributes
 import net.minecraft.entity.mob.MobEntity
-import net.minecraft.entity.player.PlayerEntity
 import net.minecraft.particle.ParticleTypes
 import net.minecraft.particle.SimpleParticleType
 import net.minecraft.server.world.ServerWorld
