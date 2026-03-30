@@ -2,18 +2,18 @@ package de.fuballer.mcendgame.main.component.entity.types
 
 import de.fuballer.mcendgame.main.component.entity.EntityTypeStats
 import net.minecraft.entity.EntityType
-import net.minecraft.entity.mob.PiglinEntity
+import net.minecraft.entity.mob.ParchedEntity
 
-object PiglinStats : EntityTypeStats {
-    override val type: EntityType<PiglinEntity> = EntityType.PIGLIN
+object ParchedStats : EntityTypeStats {
+    override val type: EntityType<ParchedEntity> = EntityType.PARCHED
 
     override val canHaveWeapons = true
-    override val isRanged = false
+    override val isRanged = true
     override val canHaveArmor = true
     override val canBeInvisible = true
 
-    override val health = 20.0
-    override val attackDamage = 5.0
-    override val movementSpeed = 0.23
+    override val health = 15.0
+    override val attackDamage = 4.0
+    override val movementSpeed = 0.25
     override val knockbackResistance = 0.0
 }

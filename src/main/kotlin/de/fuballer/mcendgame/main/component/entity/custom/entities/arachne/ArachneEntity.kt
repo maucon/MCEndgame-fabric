@@ -18,6 +18,7 @@ import net.minecraft.block.Blocks
 import net.minecraft.entity.AnimationState
 import net.minecraft.entity.EntityType
 import net.minecraft.entity.LivingEntity
+import net.minecraft.entity.PlayerLikeEntity
 import net.minecraft.entity.ai.RangedAttackMob
 import net.minecraft.entity.ai.goal.ActiveTargetGoal
 import net.minecraft.entity.ai.goal.RevengeGoal
@@ -416,7 +417,7 @@ class ArachneEntity(
         targets.forEach {
             it.dealGenericAttackDamage(damage, this)
 
-            if (it is PlayerEntity && it.isBlocking && entityWorld is ServerWorld) it.setShieldsCooldown(MELEE_SHIELD_DISABLE_TIME)
+            if (entityWorld is ServerWorld && it is PlayerLikeEntity && it.isBlocking) it.setShieldsCooldown(MELEE_SHIELD_DISABLE_TIME)
 
             it.velocityDirty = true
             it.takeKnockbackFrom(this, knockBackStrength, -knockBackDirection.x, -knockBackDirection.z) //takeKnockback inverts it

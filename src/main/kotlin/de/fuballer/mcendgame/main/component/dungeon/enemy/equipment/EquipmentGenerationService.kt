@@ -113,7 +113,7 @@ class EquipmentGenerationService(
         val options = if (isRanged) {
             RandomUtil.pickOne(EquipmentGenerationSettings.RANGED_MAINHAND_PROBABILITIES, random).option
         } else {
-            RandomUtil.pickOne(EquipmentGenerationSettings.MAINHAND_PROBABILITIES, random).option
+            RandomUtil.pickOne(EquipmentGenerationSettings.MAINHAND_WEAPON_PROBABILITIES, random).option
         } ?: return null
 
         return createEquipmentSortable(level, options, server, random, data)
@@ -125,13 +125,12 @@ class EquipmentGenerationService(
         random: Random,
         data: EquipmentGenerationData,
     ): ItemStack? {
-        if (random.nextDouble() < EquipmentGenerationSettings.OFFHAND_EMPTY_PROBABILITY) return null
-
-        if (random.nextDouble() < EquipmentGenerationSettings.OFFHAND_OTHER_OVER_MAINHAND_PROBABILITY) {
-            return createEquipment(level, EquipmentGenerationSettings.OTHER_ITEMS, server, random, data)
+        if (random.nextDouble() < EquipmentGenerationSettings.OFFHAND_ITEM_PROBABILITY) {
+            return createEquipment(level, EquipmentGenerationSettings.OFFHAND_ITEMS, server, random, data)
         }
 
-        return createMainHandItem(level, false, server, random, data)
+        val options = RandomUtil.pickOne(EquipmentGenerationSettings.OFFHAND_WEAPON_PROBABILITIES, random).option ?: return null
+        return createEquipmentSortable(level, options, server, random, data)
     }
 
     private fun createArmorEquipment(

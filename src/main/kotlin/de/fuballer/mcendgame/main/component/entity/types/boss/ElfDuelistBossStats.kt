@@ -16,5 +16,5 @@ object ElfDuelistBossStats : EntityTypeStats {
     override val health = 100.0
     override val attackDamage = 10.0
     override val movementSpeed = 0.33
-    override val knockbackResistance = 0.8
+    override val knockbackResistance = 0.0
 }

@@ -68,7 +68,7 @@ class ElfDuelistEntity(
         private val STAB_RIGHT_ATTACK =
             Attack<ElfDuelistEntity>(
                 STAB_RIGHT_ANIM_DATA,
-                5,
+                7,
                 0,
                 DistanceTriggerCondition(3.0),
                 DelayedAttackDamage(ATTACK_DAMAGE, 4),
@@ -80,7 +80,7 @@ class ElfDuelistEntity(
         private val STAB_RIGHT_RESET_ATTACK =
             Attack<ElfDuelistEntity>(
                 STAB_RIGHT_RESET_ANIM_DATA,
-                5,
+                7,
                 0,
                 AlwaysTrueTriggerCondition(),
                 null,
@@ -92,7 +92,7 @@ class ElfDuelistEntity(
         private val STAB_LEFT_ATTACK =
             Attack<ElfDuelistEntity>(
                 STAB_LEFT_ANIM_DATA,
-                5,
+                7,
                 0,
                 DistanceTriggerCondition(3.0),
                 DelayedAttackDamage(ATTACK_DAMAGE, 4),
@@ -104,7 +104,7 @@ class ElfDuelistEntity(
         private val STAB_LEFT_RESET_ATTACK =
             Attack<ElfDuelistEntity>(
                 STAB_LEFT_RESET_ANIM_DATA,
-                5,
+                7,
                 0,
                 AlwaysTrueTriggerCondition(),
                 null,
@@ -116,7 +116,7 @@ class ElfDuelistEntity(
         private val STAB_SWAP_LR_ATTACK =
             Attack<ElfDuelistEntity>(
                 STAB_SWAP_LR_ANIM_DATA,
-                5,
+                7,
                 0,
                 DistanceTriggerCondition(3.0),
                 DelayedAttackDamage(ATTACK_DAMAGE, 4),
@@ -128,7 +128,7 @@ class ElfDuelistEntity(
         private val STAB_SWAP_RL_ATTACK =
             Attack<ElfDuelistEntity>(
                 STAB_SWAP_RL_ANIM_DATA,
-                5,
+                7,
                 0,
                 DistanceTriggerCondition(3.0),
                 DelayedAttackDamage(ATTACK_DAMAGE, 4),
@@ -140,7 +140,7 @@ class ElfDuelistEntity(
         private val UPWARDS_SLICE_LEFT_ATTACK =
             Attack<ElfDuelistEntity>(
                 UPWARDS_SLICE_LEFT_ANIM_DATA,
-                5,
+                7,
                 0,
                 DistanceTriggerCondition(3.0),
                 DelayedAttackDamage(ATTACK_DAMAGE, 4),
@@ -152,7 +152,7 @@ class ElfDuelistEntity(
         private val UPWARDS_SLICE_LEFT_RESET_ATTACK =
             Attack<ElfDuelistEntity>(
                 UPWARDS_SLICE_LEFT_RESET_ANIM_DATA,
-                5,
+                7,
                 0,
                 AlwaysTrueTriggerCondition(),
                 DelayedAttackDamage(ATTACK_DAMAGE, 3),
@@ -164,7 +164,7 @@ class ElfDuelistEntity(
         private val UPWARDS_SLICE_RIGHT_ATTACK =
             Attack<ElfDuelistEntity>(
                 UPWARDS_SLICE_RIGHT_ANIM_DATA,
-                5,
+                7,
                 0,
                 DistanceTriggerCondition(3.0),
                 DelayedAttackDamage(ATTACK_DAMAGE, 4),
@@ -176,10 +176,61 @@ class ElfDuelistEntity(
         private val UPWARDS_SLICE_RIGHT_RESET_ATTACK =
             Attack<ElfDuelistEntity>(
                 UPWARDS_SLICE_RIGHT_RESET_ANIM_DATA,
-                5,
+                7,
                 0,
                 AlwaysTrueTriggerCondition(),
                 DelayedAttackDamage(ATTACK_DAMAGE, 3),
+            )
+
+        private val UPWARDS_SLICE_BOTH_ANIM: RawAnimation = RawAnimation.begin().thenPlayAndHold("attack.upwards_slice_both")
+        private const val UPWARDS_SLICE_BOTH_ID = "Upwards Slice Both"
+        private val UPWARDS_SLICE_BOTH_ANIM_DATA = AttackAnimationData(AttackPose.DEFAULT, AttackPose.UPWARDS_SLICE_BOTH, ATTACK_ANIM_CONTROLLER_ID, UPWARDS_SLICE_BOTH_ID)
+        private val UPWARDS_SLICE_BOTH_ATTACK =
+            Attack<ElfDuelistEntity>(
+                UPWARDS_SLICE_BOTH_ANIM_DATA,
+                15,
+                0,
+                DistanceTriggerCondition(3.0),
+                DelayedAttackDamage(ATTACK_DAMAGE, 4),
+            )
+
+        private val UPWARDS_SLICE_BOTH_RESET_ANIM: RawAnimation = RawAnimation.begin().thenPlayAndHold("attack.upwards_slice_both_reset")
+        private const val UPWARDS_SLICE_BOTH_RESET_ID = "Upwards Slice Both Reset"
+        private val UPWARDS_SLICE_BOTH_RESET_ANIM_DATA = AttackAnimationData(AttackPose.UPWARDS_SLICE_BOTH, AttackPose.DEFAULT, ATTACK_ANIM_CONTROLLER_ID, UPWARDS_SLICE_BOTH_RESET_ID)
+        private val UPWARDS_SLICE_BOTH_RESET_ATTACK =
+            Attack<ElfDuelistEntity>(
+                UPWARDS_SLICE_BOTH_RESET_ANIM_DATA,
+                7,
+                0,
+                AlwaysTrueTriggerCondition(),
+                DelayedAttackDamage(ATTACK_DAMAGE, 3),
+            )
+
+        private val DOWNWARDS_SLICE_BOTH_ANIM: RawAnimation = RawAnimation.begin().thenPlayAndHold("attack.downwards_slice_both")
+        private const val DOWNWARDS_SLICE_BOTH_ID = "Downwards Slice Both"
+        private val DOWNWARDS_SLICE_BOTH_ANIM_DATA = AttackAnimationData(AttackPose.UPWARDS_SLICE_BOTH, AttackPose.DOWNWARDS_SLICE_BOTH, ATTACK_ANIM_CONTROLLER_ID, DOWNWARDS_SLICE_BOTH_ID)
+        private val DOWNWARDS_SLICE_BOTH_ATTACK_DAMAGE = BasicAttackDamage(0.6F, 2.0, 20.0, disableBlockingShield = 5F)
+        private val DOWNWARDS_SLICE_BOTH_ATTACK =
+            LeapAttack<ElfDuelistEntity>(
+                DOWNWARDS_SLICE_BOTH_ANIM_DATA,
+                15,
+                0,
+                DistanceTriggerCondition(3.0),
+                DelayedAttackDamage(DOWNWARDS_SLICE_BOTH_ATTACK_DAMAGE, 0, 3),
+                LeapAttack.LeapType.JUMP_BACK,
+                10,
+            )
+
+        private val DOWNWARDS_SLICE_BOTH_RESET_ANIM: RawAnimation = RawAnimation.begin().thenPlayAndHold("attack.downwards_slice_both_reset")
+        private const val DOWNWARDS_SLICE_BOTH_RESET_ID = "Downwards Slice Both Reset"
+        private val DOWNWARDS_SLICE_BOTH_RESET_ANIM_DATA = AttackAnimationData(AttackPose.DOWNWARDS_SLICE_BOTH, AttackPose.DEFAULT, ATTACK_ANIM_CONTROLLER_ID, DOWNWARDS_SLICE_BOTH_RESET_ID)
+        private val DOWNWARDS_SLICE_BOTH_RESET_ATTACK =
+            Attack<ElfDuelistEntity>(
+                DOWNWARDS_SLICE_BOTH_RESET_ANIM_DATA,
+                7,
+                0,
+                AlwaysTrueTriggerCondition(),
+                null
             )
 
         private val SWEEP_LEFT_ANIM: RawAnimation = RawAnimation.begin().thenPlayAndHold("attack.sweep_left")
@@ -188,7 +239,7 @@ class ElfDuelistEntity(
         private val SWEEP_LEFT_ATTACK =
             Attack<ElfDuelistEntity>(
                 SWEEP_LEFT_ANIM_DATA,
-                5,
+                7,
                 0,
                 DistanceTriggerCondition(3.0),
                 DelayedAttackDamage(ATTACK_DAMAGE, 2),
@@ -200,7 +251,7 @@ class ElfDuelistEntity(
         private val SWEEP_LEFT_RESET_ATTACK =
             Attack<ElfDuelistEntity>(
                 SWEEP_LEFT_RESET_ANIM_DATA,
-                5,
+                7,
                 0,
                 AlwaysTrueTriggerCondition(),
                 null,
@@ -212,7 +263,7 @@ class ElfDuelistEntity(
         private val SWEEP_RIGHT_ATTACK =
             Attack<ElfDuelistEntity>(
                 SWEEP_RIGHT_ANIM_DATA,
-                5,
+                7,
                 0,
                 DistanceTriggerCondition(3.0),
                 DelayedAttackDamage(ATTACK_DAMAGE, 2),
@@ -224,7 +275,7 @@ class ElfDuelistEntity(
         private val SWEEP_RIGHT_RESET_ATTACK =
             Attack<ElfDuelistEntity>(
                 SWEEP_RIGHT_RESET_ANIM_DATA,
-                5,
+                7,
                 0,
                 AlwaysTrueTriggerCondition(),
                 null,
@@ -296,7 +347,7 @@ class ElfDuelistEntity(
                 200,
                 BACKFLIP_TRIGGER_CONDITION,
                 null,
-                LeapAttack.LeapType.JUMP_BACK,
+                LeapAttack.LeapType.BACKFLIP,
                 10
             )
 
@@ -311,6 +362,10 @@ class ElfDuelistEntity(
             RandomOption(1, UPWARDS_SLICE_LEFT_RESET_ATTACK),
             RandomOption(1, UPWARDS_SLICE_RIGHT_ATTACK),
             RandomOption(1, UPWARDS_SLICE_RIGHT_RESET_ATTACK),
+            RandomOption(2, UPWARDS_SLICE_BOTH_ATTACK),
+            RandomOption(1, UPWARDS_SLICE_BOTH_RESET_ATTACK),
+            RandomOption(1000, DOWNWARDS_SLICE_BOTH_ATTACK), // should always be the follow up to upwards slice both
+            RandomOption(1, DOWNWARDS_SLICE_BOTH_RESET_ATTACK),
             RandomOption(2, SWEEP_LEFT_ATTACK),
             RandomOption(1, SWEEP_LEFT_RESET_ATTACK),
             RandomOption(2, SWEEP_RIGHT_ATTACK),
@@ -362,6 +417,10 @@ class ElfDuelistEntity(
         .triggerableAnim(UPWARDS_SLICE_LEFT_RESET_ID, UPWARDS_SLICE_LEFT_RESET_ANIM)
         .triggerableAnim(UPWARDS_SLICE_RIGHT_ID, UPWARDS_SLICE_RIGHT_ANIM)
         .triggerableAnim(UPWARDS_SLICE_RIGHT_RESET_ID, UPWARDS_SLICE_RIGHT_RESET_ANIM)
+        .triggerableAnim(UPWARDS_SLICE_BOTH_ID, UPWARDS_SLICE_BOTH_ANIM)
+        .triggerableAnim(UPWARDS_SLICE_BOTH_RESET_ID, UPWARDS_SLICE_BOTH_RESET_ANIM)
+        .triggerableAnim(DOWNWARDS_SLICE_BOTH_ID, DOWNWARDS_SLICE_BOTH_ANIM)
+        .triggerableAnim(DOWNWARDS_SLICE_BOTH_RESET_ID, DOWNWARDS_SLICE_BOTH_RESET_ANIM)
         .triggerableAnim(SWEEP_LEFT_ID, SWEEP_LEFT_ANIM)
         .triggerableAnim(SWEEP_LEFT_RESET_ID, SWEEP_LEFT_RESET_ANIM)
         .triggerableAnim(SWEEP_RIGHT_ID, SWEEP_RIGHT_ANIM)

@@ -75,10 +75,15 @@ class LeapAttack<T>(
             { distance -> sqrt(abs(0.16 * distance)) },
             0.3,
         ),
-        JUMP_BACK(
+        BACKFLIP(
             { _ -> -1.0 },
             { _ -> 0.0 },
             0.6,
+        ),
+        JUMP_BACK(
+            { _ -> -2.0 },
+            { _ -> 0.0 },
+            0.4,
         );
 
         fun calculateVelocity(distanceVector: Vec3d): Vec3d {

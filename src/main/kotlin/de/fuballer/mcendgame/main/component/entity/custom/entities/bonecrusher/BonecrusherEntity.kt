@@ -102,13 +102,13 @@ class BonecrusherEntity(
             .thenPlay("attack.spin.end")
         private const val SPIN_ID = "Spin"
         private val SPIN_FRONT_AREA = AreaAttackDamage.DamageArea(4.0, 3.0, 1.0, 0.0, 0.0, 0.5)
-        private val SPIN_FRONT_DAMAGE = AreaAttackDamage(1F, 0.25, SPIN_FRONT_AREA, knockbackType = AreaAttackDamage.KnockbackType.DAMAGER_CENTER)
+        private val SPIN_FRONT_DAMAGE = AreaAttackDamage(1F, 0.25, SPIN_FRONT_AREA, knockbackType = AreaAttackDamage.KnockbackType.DAMAGER_CENTER, disableBlockingShield = 5F)
         private val SPIN_BACK_AREA = AreaAttackDamage.DamageArea(4.0, 3.0, 1.0, -4.0, 0.0, 0.5)
-        private val SPIN_BACK_DAMAGE = AreaAttackDamage(1F, 0.25, SPIN_BACK_AREA, knockbackType = AreaAttackDamage.KnockbackType.DAMAGER_CENTER)
+        private val SPIN_BACK_DAMAGE = AreaAttackDamage(1F, 0.25, SPIN_BACK_AREA, knockbackType = AreaAttackDamage.KnockbackType.DAMAGER_CENTER, disableBlockingShield = 5F)
         private val SPIN_LEFT_AREA = AreaAttackDamage.DamageArea(6.0, 2.0, 1.0, -3.0, -2.0, 0.5)
-        private val SPIN_LEFT_DAMAGE = AreaAttackDamage(1F, 0.25, SPIN_LEFT_AREA, knockbackType = AreaAttackDamage.KnockbackType.DAMAGER_CENTER)
+        private val SPIN_LEFT_DAMAGE = AreaAttackDamage(1F, 0.25, SPIN_LEFT_AREA, knockbackType = AreaAttackDamage.KnockbackType.DAMAGER_CENTER, disableBlockingShield = 5F)
         private val SPIN_RIGHT_AREA = AreaAttackDamage.DamageArea(6.0, 2.0, 1.0, -3.0, 2.0, 0.5)
-        private val SPIN_RIGHT_DAMAGE = AreaAttackDamage(1F, 0.25, SPIN_RIGHT_AREA, knockbackType = AreaAttackDamage.KnockbackType.DAMAGER_CENTER)
+        private val SPIN_RIGHT_DAMAGE = AreaAttackDamage(1F, 0.25, SPIN_RIGHT_AREA, knockbackType = AreaAttackDamage.KnockbackType.DAMAGER_CENTER, disableBlockingShield = 5F)
         private val SPIN_ANIMATION_DATA = AttackAnimationData(AttackPose.DEFAULT, AttackPose.DEFAULT, SPIN_ANIM_CONTROLLER_ID, SPIN_ID)
         private val SPIN_ATTACK = Attack<BonecrusherEntity>(
             SPIN_ANIMATION_DATA,
