@@ -5,7 +5,10 @@ import de.fuballer.mcendgame.main.component.custom_attribute.CustomAttributesExt
 import de.fuballer.mcendgame.main.component.custom_attribute.CustomAttributesExtensions.getCustomAttributes
 import de.fuballer.mcendgame.main.component.custom_attribute.types.CustomAttributeTypes
 import de.fuballer.mcendgame.main.configuration.RuntimeConfig
-import de.fuballer.mcendgame.main.messaging.misc.*
+import de.fuballer.mcendgame.main.messaging.misc.EquipmentChangeEvent
+import de.fuballer.mcendgame.main.messaging.misc.PlayerAfterDimensionChangeEvent
+import de.fuballer.mcendgame.main.messaging.misc.PlayerBeforeDimensionChangeCommand
+import de.fuballer.mcendgame.main.messaging.misc.PlayerEntityDeathCommand
 import de.fuballer.mcendgame.main.util.extension.SlotExtension.isOrIsChildOf
 import de.fuballer.mcendgame.main.util.extension.mixin.EntityMixinExtension.addAllyAuraStatusEffect
 import de.fuballer.mcendgame.main.util.extension.mixin.EntityMixinExtension.addEnemyAuraStatusEffect
@@ -34,19 +37,9 @@ import net.minecraft.util.TypeFilter
 
 @Injectable
 class WolfCompanionService {
-    @EventSubscriber
-    fun on(event: PlayerJoinEvent) {
-        summonWolfCompanions(event.player)
-    }
-
     @Initializer
     fun onPlayerDisconnect() = ServerPlayConnectionEvents.DISCONNECT.register { handler, _ ->
         removeWolfCompanions(handler.player)
-    }
-
-    @EventSubscriber
-    fun on(event: PlayerAfterDimensionChangeEvent) {
-        summonWolfCompanions(event.player, event.newWorld)
     }
 
     @CommandHandler
@@ -55,8 +48,8 @@ class WolfCompanionService {
     }
 
     @EventSubscriber
-    fun on(event: PlayerAfterRespawnEvent) {
-        summonWolfCompanions(event.newPlayer)
+    fun on(event: PlayerAfterDimensionChangeEvent) {
+        summonWolfCompanions(event.player, event.newWorld)
     }
 
     @CommandHandler
@@ -66,6 +59,7 @@ class WolfCompanionService {
         removeWolfCompanions(command.player, serverWorld)
     }
 
+    // this also gets triggered by respawn and join
     @EventSubscriber
     fun on(event: EquipmentChangeEvent) {
         val player = event.entity as? PlayerEntity ?: return
