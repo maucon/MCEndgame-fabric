@@ -51,6 +51,9 @@ public abstract class LivingEntityDamageMixin {
     protected abstract void becomeAngry(DamageSource damageSource);
 
     @Shadow
+    protected abstract void setAttacker(@Nullable LivingEntity attacker);
+
+    @Shadow
     protected abstract PlayerEntity setAttackingPlayer(DamageSource damageSource);
 
     @Shadow
@@ -152,6 +155,11 @@ public abstract class LivingEntityDamageMixin {
         }
         amount = result.getAmount();
         ///////////////////////////////////////////////////////////////////////////////////
+
+        Entity attackerEntity = source.getAttacker();
+        if (attackerEntity instanceof LivingEntity livingAttacker) {
+            this.setAttacker(livingAttacker);
+        }
 
         boolean bl22 = true;
         if ((float) this_.timeUntilRegen > 10.0f && !source.isIn(DamageTypeTags.BYPASSES_COOLDOWN)) {
