@@ -1,5 +1,6 @@
 package de.fuballer.mcendgame.main.mixin.event;
 
+import de.fuballer.mcendgame.main.messaging.misc.LivingEntityDeathCommand;
 import de.fuballer.mcendgame.main.messaging.misc.LivingEntityDeathEvent;
 import de.fuballer.mcendgame.main.messaging.misc.LivingEntityDropCommand;
 import de.maucon.mauconframework.command.CommandGateway;
@@ -42,6 +43,9 @@ public abstract class LivingEntityEventsMixin {
         if (entity.isDead() && entity.deathTime == 0) {
             var event = new LivingEntityDeathEvent(entity);
             EventGateway.INSTANCE.launchPublish(event);
+
+            var command = new LivingEntityDeathCommand(entity); // TODO #211
+            CommandGateway.INSTANCE.apply(command);
         }
     }
 
