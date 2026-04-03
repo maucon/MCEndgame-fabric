@@ -13,8 +13,11 @@ import de.fuballer.mcendgame.main.util.extension.mixin.EntityMixinExtension.isCo
 import de.fuballer.mcendgame.main.util.extension.mixin.EntityMixinExtension.setCompanion
 import de.fuballer.mcendgame.main.util.extension.mixin.WolfMixinExtension.setCollarColor
 import de.fuballer.mcendgame.main.util.extension.mixin.WolfMixinExtension.setVariant
+import de.maucon.mauconframework.command.CommandHandler
 import de.maucon.mauconframework.di.annotation.Injectable
 import de.maucon.mauconframework.event.EventSubscriber
+import de.maucon.mauconframework.initializer.Initializer
+import net.fabricmc.fabric.api.networking.v1.ServerPlayConnectionEvents
 import net.minecraft.component.type.AttributeModifierSlot
 import net.minecraft.entity.Entity
 import net.minecraft.entity.EntityType
@@ -36,9 +39,9 @@ class WolfCompanionService {
         summonWolfCompanions(event.player)
     }
 
-    @EventSubscriber
-    fun on(event: PlayerDisconnectEvent) {
-        removeWolfCompanions(event.player)
+    @Initializer
+    fun onPlayerDisconnect() = ServerPlayConnectionEvents.DISCONNECT.register { handler, _ ->
+        removeWolfCompanions(handler.player)
     }
 
     @EventSubscriber
@@ -46,8 +49,8 @@ class WolfCompanionService {
         summonWolfCompanions(event.player, event.newWorld)
     }
 
-    @EventSubscriber
-    fun on(event: PlayerBeforeDimensionChangeEvent) {
+    @CommandHandler
+    fun on(event: PlayerBeforeDimensionChangeCommand) {
         removeWolfCompanions(event.player, event.world)
     }
 
@@ -56,11 +59,11 @@ class WolfCompanionService {
         summonWolfCompanions(event.newPlayer)
     }
 
-    @EventSubscriber
-    fun on(event: PlayerEntityDeathEvent) {
-        if (event.isClient) return
-        val serverWorld = event.world as? ServerWorld ?: return
-        removeWolfCompanions(event.player, serverWorld)
+    @CommandHandler
+    fun on(command: PlayerEntityDeathCommand) {
+        if (command.isClient) return
+        val serverWorld = command.world as? ServerWorld ?: return
+        removeWolfCompanions(command.player, serverWorld)
     }
 
     @EventSubscriber

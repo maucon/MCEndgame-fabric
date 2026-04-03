@@ -71,7 +71,7 @@
     "projectile.PersistentProjectileEntityIsAdditionalMixin",
     "projectile.PersistentProjectileEntityPierceLevelMixin",
     "server_player_entity.ServerPlayerEntityDeathNBTCopyMixin",
-    "server_player_entity.ServerPlayerEntityTeleportEventMixin",
+    "server_player_entity.ServerPlayerEntityTeleportCommandMixin",
     "skeleton.AbstractSkeletonEntityBowMixin",
     "smithing.ForgingScreenHandlerAccessor",
     "smithing.SmithingScreenHandlerUpgradeAttributesMixin",

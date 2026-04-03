@@ -12,6 +12,8 @@ import de.fuballer.mcendgame.main.util.extension.ItemStackExtension.isSameIgnori
 import de.fuballer.mcendgame.main.util.extension.WorldExtension.isDungeonWorld
 import de.fuballer.mcendgame.main.util.extension.mixin.EntityMixinExtension.isDungeonBoss
 import de.fuballer.mcendgame.main.util.extension.mixin.EntityMixinExtension.isDungeonEnemy
+import de.maucon.mauconframework.command.CommandGateway
+import de.maucon.mauconframework.command.CommandHandler
 import de.maucon.mauconframework.di.annotation.Injectable
 import de.maucon.mauconframework.event.EventGateway
 import de.maucon.mauconframework.event.EventSubscriber
@@ -36,6 +38,13 @@ object EventMapper {
         val player = event.entity as? PlayerEntity ?: return
         val playerDeathEvent = PlayerEntityDeathEvent(event.isClient, event.world, player, event.killer)
         EventGateway.launchPublish(playerDeathEvent)
+    }
+
+    @CommandHandler
+    fun onPlayerDeathCommand(command: LivingEntityDeathCommand) {
+        val player = command.entity as? PlayerEntity ?: return
+        val playerDeathCommand = PlayerEntityDeathCommand(command.isClient, command.world, player, command.killer)
+        CommandGateway.apply(playerDeathCommand)
     }
 
     @EventSubscriber
