@@ -10,6 +10,7 @@ object MCEndgameDataGenerator : DataGeneratorEntrypoint {
 
         pack.addProvider { dataOutput, registryLookup -> CustomBlockTagProvider(dataOutput, registryLookup) }
         pack.addProvider { dataOutput, registryLookup -> CustomItemTagProvider(dataOutput, registryLookup) }
+        pack.addProvider { dataOutput, registryLookup -> CustomEntityTagProvider(dataOutput, registryLookup) }
         pack.addProvider { dataOutput, registryLookup -> CustomLootTableProvider(dataOutput, registryLookup) }
         pack.addProvider { dataOutput, _ -> CustomModelProvider(dataOutput) }
         pack.addProvider { dataOutput, _ -> CustomDimensionTypeProvider(dataOutput) }
