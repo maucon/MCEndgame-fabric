@@ -28,6 +28,8 @@ import net.minecraft.entity.attribute.EntityAttributes
 import net.minecraft.entity.damage.DamageSource
 import net.minecraft.entity.data.DataTracker
 import net.minecraft.entity.data.TrackedData
+import net.minecraft.entity.effect.StatusEffectInstance
+import net.minecraft.entity.effect.StatusEffects
 import net.minecraft.entity.mob.Monster
 import net.minecraft.entity.passive.VillagerEntity
 import net.minecraft.entity.player.PlayerEntity
@@ -447,5 +449,10 @@ class ArachneEntity(
 
         if (dataTracker.get(MOVEMENT_POSE) == CustomPosesEntity.CustomPose.IDLING) return
         dataTracker.set(MOVEMENT_POSE, CustomPosesEntity.CustomPose.IDLING)
+    }
+
+    override fun canHaveStatusEffect(effect: StatusEffectInstance): Boolean {
+        if (effect.effectType == StatusEffects.SLOWNESS) return false
+        return super.canHaveStatusEffect(effect)
     }
 }

@@ -36,7 +36,7 @@ object DungeonWorldSettings {
         .setGameRule(GameRules.SPECTATORS_GENERATE_CHUNKS, false)
         .setGameRule(GameRules.SPAWN_WARDENS, false)
         .setGameRule(GameRules.SPREAD_VINES, false)
-        .setGameRule(GameRules.UNIVERSAL_ANGER, true)
+        .setGameRule(GameRules.UNIVERSAL_ANGER, false)
 
     const val DUNGEON_WORLD_PREFIX = "dungeon-world"
     fun generateIdentifier() = IdentifierUtil.default("$DUNGEON_WORLD_PREFIX-${UUID.randomUUID()}")

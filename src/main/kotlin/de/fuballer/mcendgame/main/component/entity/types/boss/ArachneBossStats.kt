@@ -13,7 +13,7 @@ object ArachneBossStats : EntityTypeStats {
     override val canHaveArmor = false
     override val canBeInvisible = false
 
-    override val health = 100.0
+    override val health = 200.0
     override val attackDamage = 10.0
     override val movementSpeed = 0.3
     override val knockbackResistance = 0.8
