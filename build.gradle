@@ -62,9 +62,9 @@ dependencies {
 
     modImplementation "xyz.nucleoid:fantasy:0.7.0+1.21.11"
     modImplementation "software.bernie.geckolib:geckolib-fabric-${minecraft_version}:5.4.4"
-    implementation "de.maucon:maucon-framework:1.8.0"
+    implementation "de.maucon:maucon-framework:2.0.1"
 
-    include "de.maucon:maucon-framework:1.8.0"
+    include "de.maucon:maucon-framework:2.0.1"
     include "org.jetbrains.kotlin:kotlin-reflect"
     include "org.reflections:reflections:0.10.2"
     include "org.slf4j:slf4j-api:2.0.17"

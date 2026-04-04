@@ -104,7 +104,7 @@ object DamageService {
 
         if (dodgeCalculationCommand.isDodging) {
             val dodgeEvent = LivingEntityDodgedEvent(entity, source.attacker)
-            EventGateway.launchPublish(dodgeEvent)
+            EventGateway.publish(dodgeEvent)
             return true
         }
 

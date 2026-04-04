@@ -8,7 +8,7 @@ import de.fuballer.mcendgame.main.configuration.RuntimeConfig
 import de.fuballer.mcendgame.main.messaging.misc.EquipmentChangeEvent
 import de.fuballer.mcendgame.main.messaging.misc.PlayerAfterDimensionChangeEvent
 import de.fuballer.mcendgame.main.messaging.misc.PlayerBeforeDimensionChangeCommand
-import de.fuballer.mcendgame.main.messaging.misc.PlayerEntityDeathCommand
+import de.fuballer.mcendgame.main.messaging.misc.PlayerEntityDeathEvent
 import de.fuballer.mcendgame.main.util.extension.SlotExtension.isOrIsChildOf
 import de.fuballer.mcendgame.main.util.extension.mixin.EntityMixinExtension.addAllyAuraStatusEffect
 import de.fuballer.mcendgame.main.util.extension.mixin.EntityMixinExtension.addEnemyAuraStatusEffect
@@ -52,11 +52,11 @@ class WolfCompanionService {
         summonWolfCompanions(event.player, event.newWorld)
     }
 
-    @CommandHandler
-    fun on(command: PlayerEntityDeathCommand) {
-        if (command.isClient) return
-        val serverWorld = command.world as? ServerWorld ?: return
-        removeWolfCompanions(command.player, serverWorld)
+    @EventSubscriber(sync = true)
+    fun on(event: PlayerEntityDeathEvent) {
+        if (event.isClient) return
+        val serverWorld = event.world as? ServerWorld ?: return
+        removeWolfCompanions(event.player, serverWorld)
     }
 
     // this also gets triggered by respawn and join

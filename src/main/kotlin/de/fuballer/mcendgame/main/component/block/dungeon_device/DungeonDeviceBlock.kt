@@ -55,7 +55,7 @@ class DungeonDeviceBlock(
 
             blockEntity?.also {
                 val event = DungeonDeviceBrokenEvent(blockEntity)
-                EventGateway.launchPublish(event)
+                EventGateway.publish(event)
             }
         }
         return super.onBreak(world, pos, state, player)

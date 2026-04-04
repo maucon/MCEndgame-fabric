@@ -46,6 +46,6 @@ class TeleportToTargetAttack<T>(
         if (target == null) return
         if (attacker !is TeleportAttackMob) return
         val event = TeleportAttackEvent(attacker, target, choseLocationDelayTicks, teleportDelayTicks)
-        EventGateway.launchPublish(event)
+        EventGateway.publish(event)
     }
 }

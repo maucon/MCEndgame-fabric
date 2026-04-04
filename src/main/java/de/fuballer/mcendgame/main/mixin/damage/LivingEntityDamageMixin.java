@@ -233,7 +233,7 @@ public abstract class LivingEntityDamageMixin {
 
         ///////////////////////////////////////////////////////////////////////////////////
         var event = new LivingEntityDamagedEvent(this_, extendedSource, amount);
-        EventGateway.INSTANCE.launchPublish(event);
+        EventGateway.INSTANCE.publish(event);
         ///////////////////////////////////////////////////////////////////////////////////
 
         return bl3;

@@ -89,6 +89,6 @@ class DungeonWorldService(
         dungeonWorldRepo.delete(entity)
 
         val event = DungeonWorldClosedEvent(entity.world)
-        EventGateway.launchPublish(event)
+        EventGateway.publish(event)
     }
 }
