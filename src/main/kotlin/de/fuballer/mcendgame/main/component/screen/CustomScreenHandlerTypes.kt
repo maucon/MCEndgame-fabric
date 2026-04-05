@@ -26,7 +26,7 @@ object CustomScreenHandlerTypes {
         KillerEntityPayload.CODEC,
     ).also { RegistryUtil.registerScreenHandler("killer", it) }
 
-    val CRYSTAL_FORGE = ScreenHandlerType<CrystalForgeScreenHandler>(
+    val CRYSTAL_FORGE = ScreenHandlerType(
         ::CrystalForgeScreenHandler, FeatureFlags.VANILLA_FEATURES,
     ).also { RegistryUtil.registerScreenHandler(CrystalForgeBlock.ID, it) }
 

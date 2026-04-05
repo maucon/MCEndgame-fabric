@@ -40,13 +40,6 @@ object EventMapper {
     }
 
     @EventSubscriber(sync = true)
-    fun onPlayerDeathCommand(event: LivingEntityDeathEvent) {
-        val player = event.entity as? PlayerEntity ?: return
-        val playerDeathCommand = PlayerEntityDeathCommand(event.isClient, event.world, player, event.killer)
-        CommandGateway.apply(playerDeathCommand)
-    }
-
-    @EventSubscriber(sync = true)
     fun onDungeonPlayerDeath(event: PlayerEntityDeathEvent) {
         val player = event.player
         if (!player.entityWorld.isDungeonWorld()) return
