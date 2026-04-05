@@ -7,12 +7,12 @@ import de.fuballer.mcendgame.main.messaging.dungeon.DungeonPlayerDeathEvent
 import de.fuballer.mcendgame.main.messaging.misc.*
 import de.fuballer.mcendgame.main.messaging.server.ServerEndTickEvent
 import de.fuballer.mcendgame.main.messaging.server.ServerStartedEvent
+import de.fuballer.mcendgame.main.messaging.server.ServerStartingEvent
 import de.fuballer.mcendgame.main.messaging.server.ServerStoppingEvent
 import de.fuballer.mcendgame.main.util.extension.ItemStackExtension.isSameIgnoringDurability
 import de.fuballer.mcendgame.main.util.extension.WorldExtension.isDungeonWorld
 import de.fuballer.mcendgame.main.util.extension.mixin.EntityMixinExtension.isDungeonBoss
 import de.fuballer.mcendgame.main.util.extension.mixin.EntityMixinExtension.isDungeonEnemy
-import de.maucon.mauconframework.command.CommandGateway
 import de.maucon.mauconframework.di.annotation.Injectable
 import de.maucon.mauconframework.event.EventGateway
 import de.maucon.mauconframework.event.EventSubscriber
@@ -73,6 +73,12 @@ object EventMapper {
 
         val dungeonBossDeathEvent = DungeonBossDeathEvent(event.isClient, event.world, bossEntity, event.killer)
         EventGateway.publish(dungeonBossDeathEvent)
+    }
+
+    @Initializer
+    fun onServerStarting() = ServerLifecycleEvents.SERVER_STARTING.register {
+        val event = ServerStartingEvent(it)
+        EventGateway.publish(event)
     }
 
     @Initializer

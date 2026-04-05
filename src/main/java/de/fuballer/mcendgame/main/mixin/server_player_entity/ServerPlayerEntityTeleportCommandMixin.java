@@ -1,7 +1,7 @@
 package de.fuballer.mcendgame.main.mixin.server_player_entity;
 
-import de.fuballer.mcendgame.main.messaging.misc.PlayerBeforeDimensionChangeCommand;
-import de.maucon.mauconframework.command.CommandGateway;
+import de.fuballer.mcendgame.main.messaging.misc.PlayerBeforeDimensionChangeEvent;
+import de.maucon.mauconframework.event.EventGateway;
 import net.minecraft.server.network.ServerPlayerEntity;
 import net.minecraft.server.world.ServerWorld;
 import net.minecraft.world.TeleportTarget;
@@ -20,7 +20,7 @@ public class ServerPlayerEntityTeleportCommandMixin {
         var entity = (ServerPlayerEntity) (Object) this;
         if (!(entity.getEntityWorld() instanceof ServerWorld world)) return;
 
-        var command = new PlayerBeforeDimensionChangeCommand(entity, world, teleportTarget);
-        CommandGateway.INSTANCE.apply(command);
+        var event = new PlayerBeforeDimensionChangeEvent(entity, world, teleportTarget);
+        EventGateway.INSTANCE.publish(event);
     }
 }
