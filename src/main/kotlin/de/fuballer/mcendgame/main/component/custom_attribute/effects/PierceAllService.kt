@@ -9,7 +9,7 @@ import de.maucon.mauconframework.event.EventSubscriber
 
 @Injectable
 class PierceAllService {
-    @EventSubscriber()
+    @EventSubscriber(sync = true)
     fun on(event: EntityShotArrowEvent) {
         val pierceAttributes = event.owner.getAllCustomAttributes()[CustomAttributeTypes.PIERCE_ALL] ?: return
         if (pierceAttributes.isEmpty()) return

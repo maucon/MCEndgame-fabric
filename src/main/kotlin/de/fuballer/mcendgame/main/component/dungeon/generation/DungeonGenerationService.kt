@@ -32,7 +32,7 @@ class DungeonGenerationService(
     private val dungeonSeedService: DungeonSeedService,
     private val aspectService: AspectService
 ) {
-    @EventSubscriber
+    @EventSubscriber(sync = true)
     fun on(event: OpenDungeonButtonPressedEvent) {
         val player = event.player
         val originWorld = player.entityWorld as ServerWorld

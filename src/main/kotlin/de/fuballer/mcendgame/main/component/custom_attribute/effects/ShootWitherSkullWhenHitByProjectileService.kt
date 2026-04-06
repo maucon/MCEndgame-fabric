@@ -17,7 +17,7 @@ import kotlin.random.Random
 
 @Injectable
 class ShootWitherSkullWhenHitByProjectileService {
-    @EventSubscriber
+    @EventSubscriber(sync = true)
     fun on(event: LivingEntityDamagedEvent) {
         val damageSource = event.damageSource
         val projectile = damageSource.source ?: return

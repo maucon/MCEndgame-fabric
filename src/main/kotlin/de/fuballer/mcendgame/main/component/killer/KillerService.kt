@@ -31,7 +31,7 @@ class KillerService(
         return true
     }
 
-    @EventSubscriber
+    @EventSubscriber(sync = true)
     fun on(event: PlayerEntityDeathEvent) {
         val player = event.player
         if (player.entityWorld.isClient) return

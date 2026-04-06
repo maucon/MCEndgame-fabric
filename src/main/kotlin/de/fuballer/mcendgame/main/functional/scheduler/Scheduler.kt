@@ -10,7 +10,7 @@ import java.util.*
 class Scheduler(
     private val taskRepo: TaskRepository
 ) {
-    @EventSubscriber
+    @EventSubscriber(sync = true)
     fun on(event: ServerEndTickEvent) {
         taskRepo.findAll().forEach { task ->
             val tickDifference = event.server.ticks - task.startTick

@@ -40,7 +40,7 @@ class DungeonLeaveService {
         player.teleportTo(respawnTarget)
     }
 
-    @EventSubscriber
+    @EventSubscriber(sync = true)
     fun on(event: PlayerAfterDimensionChangeEvent) {
         event.player.setInsideDungeon(event.newWorld.isDungeonWorld())
     }

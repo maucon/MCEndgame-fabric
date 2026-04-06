@@ -41,7 +41,7 @@ object AspectOfGhostsService {
         enemy.addCustomAttribute(GHOSTLY_APPEARANCE_ATTRIBUTE)
     }
 
-    @EventSubscriber
+    @EventSubscriber(sync = true)
     fun on(event: DungeonEnemyDeathEvent) {
         val serverWorld = event.world as? ServerWorld ?: return
         if (!event.enemyEntity.dropsAspectOfGhosts()) return
@@ -62,7 +62,7 @@ object AspectOfGhostsService {
         cmd.dungeonLevel = AspectOfGhosts.FORCED_DUNGEON_LEVEL
     }
 
-    @EventSubscriber
+    @EventSubscriber(sync = true)
     fun onDungeonBossDeath(event: DungeonFinalBossDeathEvent) {
         val serverWorld = event.world as? ServerWorld ?: return
         if (!serverWorld.getDungeonAspects().contains(AspectItems.ASPECT_OF_GHOSTS)) return

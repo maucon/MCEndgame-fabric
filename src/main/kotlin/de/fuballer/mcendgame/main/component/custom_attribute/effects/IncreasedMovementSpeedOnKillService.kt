@@ -16,7 +16,7 @@ import net.minecraft.entity.attribute.EntityAttributes
 class IncreasedMovementSpeedOnKillService {
     private val attributeModifierIdentifierBase = "increased_movement_speed_on_kill_"
 
-    @EventSubscriber
+    @EventSubscriber(sync = true)
     fun on(event: LivingEntityDeathEvent) {
         val killer = event.killer ?: return
 

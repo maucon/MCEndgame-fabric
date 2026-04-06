@@ -56,7 +56,7 @@ class TotemService(
 
     private fun getPlayerTotemAttributes(player: PlayerEntity) = getPlayerTotems(player).flatMap { it.getCustomAttributes() }
 
-    @EventSubscriber
+    @EventSubscriber(sync = true)
     fun on(event: PlayerAfterDimensionChangeEvent) {
         val player = event.player
         removeTotemVanillaAttributes(player)

@@ -17,7 +17,7 @@ import net.minecraft.sound.SoundEvents
 
 @Injectable
 class ExplodeWhenTakingDamageService {
-    @EventSubscriber
+    @EventSubscriber(sync = true)
     fun on(event: LivingEntityDamagedEvent) {
         if (event.amount <= 0) return
 

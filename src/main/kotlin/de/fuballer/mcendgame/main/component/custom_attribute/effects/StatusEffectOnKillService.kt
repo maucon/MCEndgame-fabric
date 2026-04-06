@@ -17,7 +17,7 @@ private val EFFECTS = mapOf(
 
 @Injectable
 class StatusEffectOnKillService {
-    @EventSubscriber
+    @EventSubscriber(sync = true)
     fun on(event: LivingEntityDeathEvent) {
         val killer = event.killer ?: return
 

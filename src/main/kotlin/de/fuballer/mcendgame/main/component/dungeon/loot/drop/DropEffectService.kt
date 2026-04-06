@@ -27,7 +27,7 @@ private val EFFECTS = mapOf(
 
 @Injectable
 class DropEffectService {
-    @EventSubscriber
+    @EventSubscriber(sync = true)
     fun on(event: DungeonItemDropEvent) {
         val serverWorld = event.world as? ServerWorld ?: return
 

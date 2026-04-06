@@ -13,7 +13,7 @@ import net.minecraft.entity.effect.StatusEffects
 
 @Injectable
 class ResistanceWhenLowHealthService {
-    @EventSubscriber
+    @EventSubscriber(sync = true)
     fun on(event: ServerLivingEntitiesEveryFiveTicksEvent) {
         event.entities.forEach { entity ->
             if (!entity.isLowHealth()) return@forEach

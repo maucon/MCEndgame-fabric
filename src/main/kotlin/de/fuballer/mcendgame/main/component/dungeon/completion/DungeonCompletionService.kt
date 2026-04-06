@@ -10,7 +10,7 @@ import net.minecraft.server.world.ServerWorld
 
 @Injectable
 class DungeonCompletionService {
-    @EventSubscriber
+    @EventSubscriber(sync = true)
     fun on(event: DungeonBossDeathEvent) {
         val dungeonWorld = event.world
         if (dungeonWorld !is ServerWorld) return

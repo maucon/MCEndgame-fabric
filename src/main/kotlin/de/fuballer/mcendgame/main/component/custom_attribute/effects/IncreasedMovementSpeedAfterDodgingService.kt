@@ -16,7 +16,7 @@ import net.minecraft.entity.attribute.EntityAttributes
 class IncreasedMovementSpeedAfterDodgingService {
     private val attributeModifierIdentifierBase = "increased_movement_speed_after_dodging_"
 
-    @EventSubscriber
+    @EventSubscriber(sync = true)
     fun on(event: LivingEntityDodgedEvent) {
         val entity = event.entity
 
