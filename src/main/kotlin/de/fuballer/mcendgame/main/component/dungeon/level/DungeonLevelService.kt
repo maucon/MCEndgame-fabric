@@ -14,7 +14,7 @@ import kotlin.math.max
 
 @Injectable
 class DungeonLevelService {
-    @EventSubscriber
+    @EventSubscriber(sync = true)
     fun on(event: DungeonPlayerDeathEvent) {
         if (event.isClient) return
 
@@ -29,7 +29,7 @@ class DungeonLevelService {
         player.sendMessage(DungeonLevelSettings.getRegressMessage(playerDungeonLevel.level, playerDungeonLevel.levelProgress), false)
     }
 
-    @EventSubscriber
+    @EventSubscriber(sync = true)
     fun on(event: DungeonCompletedEvent) {
         val dungeonWorld = event.dungeonWorld
         val aspects = dungeonWorld.getDungeonAspects()

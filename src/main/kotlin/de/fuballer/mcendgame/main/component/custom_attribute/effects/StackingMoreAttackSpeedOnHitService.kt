@@ -21,7 +21,7 @@ import java.util.*
 class StackingMoreAttackSpeedOnHitService {
     private val attributeModifierIdentifierBase = "stacking_more_attack_speed_on_melee_hit_"
 
-    @EventSubscriber
+    @EventSubscriber(sync = true)
     fun on(event: LivingEntityDamagedEvent) {
         if (!event.damageSource.isIn(CustomTags.MELEE_ATTACK)) return
 

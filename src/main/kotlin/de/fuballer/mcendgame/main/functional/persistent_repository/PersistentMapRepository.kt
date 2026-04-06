@@ -24,18 +24,18 @@ open class PersistentMapRepository<ID, ENTITY : Entity<ID>>(
 ) : InMemoryMapRepository<ID, ENTITY>() {
     private val gson = GsonBuilder().setPrettyPrinting().create()
 
-    @EventSubscriber
+    @EventSubscriber(sync = true)
     fun on(event: ServerStartedEvent) {
         loadFromFile()
         Files.createDirectories(getFolderPath())
     }
 
-    @EventSubscriber
+    @EventSubscriber(sync = true)
     fun on(event: ServerStoppingEvent) {
         writeToFile()
     }
 
-    @EventSubscriber
+    @EventSubscriber(sync = true)
     fun on(event: PlayerDisconnectEvent) {
         writeToFile()
     }

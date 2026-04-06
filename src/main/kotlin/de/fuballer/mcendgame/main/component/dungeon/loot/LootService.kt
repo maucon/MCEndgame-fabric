@@ -36,7 +36,7 @@ class LootService {
         cmd.dropExperience = true
     }
 
-    @EventSubscriber
+    @EventSubscriber(sync = true)
     fun on(event: DungeonEnemyDeathEvent) {
         if (event.isClient) return
         val serverWorld = event.world as? ServerWorld ?: return
@@ -59,7 +59,7 @@ class LootService {
             .forEach { RuntimeConfig.SERVER.execute { enemyEntity.dropStack(serverWorld, it) } }
     }
 
-    @EventSubscriber
+    @EventSubscriber(sync = true)
     fun on(event: DungeonBossDeathEvent) {
         val serverWorld = event.world as? ServerWorld ?: return
 

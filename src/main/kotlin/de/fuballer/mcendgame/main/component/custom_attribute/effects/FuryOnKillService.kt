@@ -11,7 +11,7 @@ import kotlin.math.min
 
 @Injectable
 class FuryOnKillService {
-    @EventSubscriber
+    @EventSubscriber(sync = true)
     fun on(event: LivingEntityDeathEvent) {
         val killer = event.killer ?: return
         val attributes = killer.getAllCustomAttributes()[CustomAttributeTypes.FURY_ON_KILL] ?: return

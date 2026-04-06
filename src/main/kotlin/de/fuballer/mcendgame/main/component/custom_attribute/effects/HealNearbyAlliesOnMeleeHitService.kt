@@ -16,7 +16,7 @@ import net.minecraft.entity.player.PlayerEntity
 
 @Injectable
 class HealNearbyAlliesOnMeleeHitService {
-    @EventSubscriber
+    @EventSubscriber(sync = true)
     fun on(event: LivingEntityDamagedEvent) {
         if (!event.damageSource.isIn(CustomTags.MELEE_ATTACK)) return
 

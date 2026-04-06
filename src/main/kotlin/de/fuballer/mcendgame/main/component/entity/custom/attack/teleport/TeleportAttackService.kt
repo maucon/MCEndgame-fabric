@@ -19,7 +19,7 @@ private const val TARGET_POS_ADJUST_TRIES = 5
 class TeleportAttackService<T>(
     private val scheduler: Scheduler,
 ) where T : Entity, T : TeleportAttackMob {
-    @EventSubscriber
+    @EventSubscriber(sync = true)
     fun on(event: TeleportAttackEvent<T>) {
         val attacker = event.attacker
         val target = event.target

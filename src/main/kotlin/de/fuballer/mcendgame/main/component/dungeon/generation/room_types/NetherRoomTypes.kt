@@ -12,7 +12,7 @@ object NetherRoomTypes {
     lateinit var BOSS_ROOM: RoomType
     lateinit var ROOMS: List<RandomOption<RoomType>>
 
-    @EventSubscriber
+    @EventSubscriber(sync = true)
     fun on(event: ServerStartedEvent) {
         val templateManager = event.server.structureTemplateManager
 

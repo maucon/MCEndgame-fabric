@@ -15,7 +15,7 @@ import net.minecraft.server.world.ServerWorld
 
 @Injectable
 class HealOnLinkedEnemyKilledService {
-    @EventSubscriber
+    @EventSubscriber(sync = true)
     fun on(event: LivingEntityDeathEvent) {
         val world = event.world as? ServerWorld ?: return
         val linkedEntity = event.entity

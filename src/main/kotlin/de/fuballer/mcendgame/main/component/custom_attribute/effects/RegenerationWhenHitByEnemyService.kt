@@ -12,7 +12,7 @@ import net.minecraft.entity.effect.StatusEffects
 
 @Injectable
 class RegenerationWhenHitByEnemyService {
-    @EventSubscriber
+    @EventSubscriber(sync = true)
     fun on(event: LivingEntityDamagedEvent) {
         val damaged = event.damaged
         val attacker = event.damageSource.attacker ?: return

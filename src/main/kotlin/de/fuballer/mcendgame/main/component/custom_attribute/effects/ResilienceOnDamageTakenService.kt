@@ -11,7 +11,7 @@ import kotlin.math.min
 
 @Injectable
 class ResilienceOnDamageTakenService {
-    @EventSubscriber
+    @EventSubscriber(sync = true)
     fun on(event: LivingEntityDamagedEvent) {
         if (event.amount <= 0) return
 

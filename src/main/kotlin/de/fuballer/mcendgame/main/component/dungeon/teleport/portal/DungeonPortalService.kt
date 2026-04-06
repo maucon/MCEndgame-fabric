@@ -25,7 +25,7 @@ import net.minecraft.util.math.Vec3d
 class DungeonPortalService(
     private val dungeonPortalRepo: DungeonPortalRepository
 ) {
-    @EventSubscriber
+    @EventSubscriber(sync = true)
     fun on(event: DungeonGeneratedEvent) {
         val startPos = event.startPos
         val centeredSpawnPos = Vec3d.of(startPos.pos).add(0.5, 0.0, 0.5)
@@ -50,14 +50,14 @@ class DungeonPortalService(
         }
     }
 
-    @EventSubscriber
+    @EventSubscriber(sync = true)
     fun on(event: OpenDungeonButtonPressedEvent) {
         val id = event.blockEntity.pos.hashCode()
         val entity = dungeonPortalRepo.findById(id) ?: return
         clearPortalsAndDeleteEntity(entity)
     }
 
-    @EventSubscriber
+    @EventSubscriber(sync = true)
     fun on(event: DungeonBossDeathEvent) {
         if (event.isClient) return
 
@@ -72,13 +72,13 @@ class DungeonPortalService(
         }
     }
 
-    @EventSubscriber
+    @EventSubscriber(sync = true)
     fun on(event: DungeonWorldClosedEvent) {
         val entity = dungeonPortalRepo.findByDungeonWorld(event.dungeonWorld) ?: return
         clearPortalsAndDeleteEntity(entity)
     }
 
-    @EventSubscriber
+    @EventSubscriber(sync = true)
     fun on(event: DungeonDeviceBrokenEvent) {
         val id = event.blockEntity.pos.hashCode()
         val entity = dungeonPortalRepo.findById(id) ?: return

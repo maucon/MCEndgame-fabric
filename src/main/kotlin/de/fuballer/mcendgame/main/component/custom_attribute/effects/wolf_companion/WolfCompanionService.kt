@@ -59,7 +59,7 @@ class WolfCompanionService {
     }
 
     // this also gets triggered by respawn and join
-    @EventSubscriber
+    @EventSubscriber(sync = true)
     fun on(event: EquipmentChangeEvent) {
         val player = event.entity as? PlayerEntity ?: return
         val attributeSlot = AttributeModifierSlot.forEquipmentSlot(event.slot)

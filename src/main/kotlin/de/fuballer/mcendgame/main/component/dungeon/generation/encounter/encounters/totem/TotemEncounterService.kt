@@ -26,7 +26,7 @@ class TotemEncounterService(
         cmd.add(EncounterType.TOTEM)
     }
 
-    @EventSubscriber
+    @EventSubscriber(sync = true)
     fun on(event: GenerateDungeonEncountersEvent) {
         val amount = event.encounters[EncounterType.TOTEM] ?: return
         if (amount <= 0) return

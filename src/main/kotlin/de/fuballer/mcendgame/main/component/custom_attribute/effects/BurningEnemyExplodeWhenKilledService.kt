@@ -19,7 +19,7 @@ import net.minecraft.util.math.Vec3d
 
 @Injectable
 class BurningEnemyExplodeWhenKilledService {
-    @EventSubscriber
+    @EventSubscriber(sync = true)
     fun on(event: LivingEntityDeathEvent) {
         val serverWorld = event.world as? ServerWorld ?: return
 

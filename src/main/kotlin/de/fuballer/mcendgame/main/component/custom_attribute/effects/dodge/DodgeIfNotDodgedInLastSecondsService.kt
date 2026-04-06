@@ -31,7 +31,7 @@ class DodgeIfNotDodgedInLastSecondsService {
         }
     }
 
-    @EventSubscriber
+    @EventSubscriber(sync = true)
     fun on(event: LivingEntityDodgedEvent) {
         event.entity.updateDodged()
     }

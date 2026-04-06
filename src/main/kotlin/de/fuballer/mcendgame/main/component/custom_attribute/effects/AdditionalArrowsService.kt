@@ -28,7 +28,7 @@ private const val DEFAULT_ROTATION_PITCH_THRESHOLD = 85
 
 @Injectable
 class AdditionalArrowsService {
-    @EventSubscriber
+    @EventSubscriber(sync = true)
     fun on(event: EntityShotArrowEvent) {
         val originalArrow = event.arrow
         if (originalArrow.hasLoadBeenProcessed()) return

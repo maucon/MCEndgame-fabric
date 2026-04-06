@@ -17,7 +17,7 @@ import net.minecraft.server.world.ServerWorld
 
 @Injectable
 object DungeonBossService {
-    @EventSubscriber
+    @EventSubscriber(sync = true)
     fun on(event: DungeonBossDeathEvent) {
         val world = event.world as? ServerWorld ?: return
         world.increaseBossesKilled()
@@ -27,7 +27,7 @@ object DungeonBossService {
         EventGateway.publish(finalBossKilledEvent)
     }
 
-    @EventSubscriber
+    @EventSubscriber(sync = true)
     fun on(event: LivingEntityDamagedEvent) {
         if (!event.damaged.isDungeonBoss()) return
         val mobEntity = event.damaged as? MobEntity ?: return

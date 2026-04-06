@@ -29,12 +29,12 @@ class DungeonWorldService(
     private val dungeonWorldRepo: DungeonWorldRepository,
     private val scheduler: Scheduler
 ) {
-    @EventSubscriber
+    @EventSubscriber(sync = true)
     fun on(event: ServerStartedEvent) {
         scheduler.repeating(DungeonWorldSettings.EMPTY_WORLD_CHECK_PERIOD, ::deleteEmptyWorlds)
     }
 
-    @EventSubscriber
+    @EventSubscriber(sync = true)
     fun on(event: ServerStoppingEvent) {
         dungeonWorldRepo.findAll()
             .forEach { deleteWorld(it) }

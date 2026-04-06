@@ -36,6 +36,8 @@ repositories {
 }
 
 loom {
+    log4jConfigs.from(file("src/main/resources/log4j.xml"))
+
     splitEnvironmentSourceSets()
 
     mods {
@@ -101,8 +103,4 @@ jar {
     from("LICENSE") {
         rename { "${it}_${base.archivesName.get()}" }
     }
-}
-
-loom {
-    log4jConfigs.from(file("src/main/resources/log4j.xml"))
 }

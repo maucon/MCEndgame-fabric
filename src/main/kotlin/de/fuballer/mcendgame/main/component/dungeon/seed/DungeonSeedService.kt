@@ -26,7 +26,7 @@ class DungeonSeedService {
         return newSeed
     }
 
-    @EventSubscriber
+    @EventSubscriber(sync = true)
     fun on(event: DungeonCompletedEvent) {
         val dungeonWorld = event.dungeonWorld
         val opener = dungeonWorld.getOpener()

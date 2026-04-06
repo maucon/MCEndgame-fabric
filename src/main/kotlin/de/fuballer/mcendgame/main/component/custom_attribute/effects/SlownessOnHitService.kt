@@ -12,7 +12,7 @@ import net.minecraft.entity.effect.StatusEffects
 
 @Injectable
 class SlownessOnHitService {
-    @EventSubscriber
+    @EventSubscriber(sync = true)
     fun on(event: LivingEntityDamagedEvent) {
         val attacker = event.damageSource.attacker as? LivingEntity ?: return
 
