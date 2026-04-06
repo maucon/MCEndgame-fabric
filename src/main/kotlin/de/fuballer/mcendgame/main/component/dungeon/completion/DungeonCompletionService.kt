@@ -21,6 +21,6 @@ class DungeonCompletionService {
         dungeonWorld.setDungeonCompleted()
 
         val dungeonCompletedEvent = DungeonCompletedEvent(event.isClient, dungeonWorld, players)
-        EventGateway.launchPublish(dungeonCompletedEvent)
+        EventGateway.publish(dungeonCompletedEvent)
     }
 }

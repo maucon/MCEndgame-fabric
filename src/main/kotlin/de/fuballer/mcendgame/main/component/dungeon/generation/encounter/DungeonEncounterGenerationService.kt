@@ -23,6 +23,6 @@ class DungeonEncounterGenerationService {
         val cmd = CommandGateway.apply(collectCommand)
 
         val generateEvent = GenerateDungeonEncountersEvent(world, dungeonLevel, positions.toMutableList(), aspects, cmd.encounters)
-        EventGateway.launchPublish(generateEvent)
+        EventGateway.publish(generateEvent)
     }
 }

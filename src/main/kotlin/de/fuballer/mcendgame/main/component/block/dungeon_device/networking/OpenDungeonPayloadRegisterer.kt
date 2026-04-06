@@ -21,7 +21,7 @@ class OpenDungeonPayloadRegisterer {
 
             val dungeonDeviceEntity = blockEntity as DungeonDeviceBlockEntity
 
-            EventGateway.launchPublish(OpenDungeonButtonPressedEvent(blockEntity, playerEntity, dungeonDeviceEntity))
+            EventGateway.publish(OpenDungeonButtonPressedEvent(blockEntity, playerEntity, dungeonDeviceEntity))
         }
     }
 }

@@ -7,8 +7,8 @@ import de.fuballer.mcendgame.main.component.custom_attribute.types.CustomAttribu
 import de.fuballer.mcendgame.main.configuration.RuntimeConfig
 import de.fuballer.mcendgame.main.messaging.misc.EquipmentChangeEvent
 import de.fuballer.mcendgame.main.messaging.misc.PlayerAfterDimensionChangeEvent
-import de.fuballer.mcendgame.main.messaging.misc.PlayerBeforeDimensionChangeCommand
-import de.fuballer.mcendgame.main.messaging.misc.PlayerEntityDeathCommand
+import de.fuballer.mcendgame.main.messaging.misc.PlayerBeforeDimensionChangeEvent
+import de.fuballer.mcendgame.main.messaging.misc.PlayerEntityDeathEvent
 import de.fuballer.mcendgame.main.util.extension.SlotExtension.isOrIsChildOf
 import de.fuballer.mcendgame.main.util.extension.mixin.EntityMixinExtension.addAllyAuraStatusEffect
 import de.fuballer.mcendgame.main.util.extension.mixin.EntityMixinExtension.addEnemyAuraStatusEffect
@@ -16,7 +16,6 @@ import de.fuballer.mcendgame.main.util.extension.mixin.EntityMixinExtension.isCo
 import de.fuballer.mcendgame.main.util.extension.mixin.EntityMixinExtension.setCompanion
 import de.fuballer.mcendgame.main.util.extension.mixin.WolfMixinExtension.setCollarColor
 import de.fuballer.mcendgame.main.util.extension.mixin.WolfMixinExtension.setVariant
-import de.maucon.mauconframework.command.CommandHandler
 import de.maucon.mauconframework.di.annotation.Injectable
 import de.maucon.mauconframework.event.EventSubscriber
 import de.maucon.mauconframework.initializer.Initializer
@@ -42,21 +41,21 @@ class WolfCompanionService {
         removeWolfCompanions(handler.player)
     }
 
-    @CommandHandler
-    fun on(event: PlayerBeforeDimensionChangeCommand) {
+    @EventSubscriber(sync = true)
+    fun on(event: PlayerBeforeDimensionChangeEvent) {
         removeWolfCompanions(event.player, event.world)
     }
 
-    @EventSubscriber
+    @EventSubscriber(sync = true)
     fun on(event: PlayerAfterDimensionChangeEvent) {
         summonWolfCompanions(event.player, event.newWorld)
     }
 
-    @CommandHandler
-    fun on(command: PlayerEntityDeathCommand) {
-        if (command.isClient) return
-        val serverWorld = command.world as? ServerWorld ?: return
-        removeWolfCompanions(command.player, serverWorld)
+    @EventSubscriber(sync = true)
+    fun on(event: PlayerEntityDeathEvent) {
+        if (event.isClient) return
+        val serverWorld = event.world as? ServerWorld ?: return
+        removeWolfCompanions(event.player, serverWorld)
     }
 
     // this also gets triggered by respawn and join

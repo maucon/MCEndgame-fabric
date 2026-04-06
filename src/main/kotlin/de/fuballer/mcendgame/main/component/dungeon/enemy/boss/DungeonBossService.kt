@@ -24,7 +24,7 @@ object DungeonBossService {
 
         if (world.getBossesKilled() < world.getTotalBossCount()) return
         val finalBossKilledEvent = DungeonFinalBossDeathEvent.of(event)
-        EventGateway.launchPublish(finalBossKilledEvent)
+        EventGateway.publish(finalBossKilledEvent)
     }
 
     @EventSubscriber

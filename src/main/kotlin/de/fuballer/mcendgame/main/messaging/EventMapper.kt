@@ -7,13 +7,12 @@ import de.fuballer.mcendgame.main.messaging.dungeon.DungeonPlayerDeathEvent
 import de.fuballer.mcendgame.main.messaging.misc.*
 import de.fuballer.mcendgame.main.messaging.server.ServerEndTickEvent
 import de.fuballer.mcendgame.main.messaging.server.ServerStartedEvent
+import de.fuballer.mcendgame.main.messaging.server.ServerStartingEvent
 import de.fuballer.mcendgame.main.messaging.server.ServerStoppingEvent
 import de.fuballer.mcendgame.main.util.extension.ItemStackExtension.isSameIgnoringDurability
 import de.fuballer.mcendgame.main.util.extension.WorldExtension.isDungeonWorld
 import de.fuballer.mcendgame.main.util.extension.mixin.EntityMixinExtension.isDungeonBoss
 import de.fuballer.mcendgame.main.util.extension.mixin.EntityMixinExtension.isDungeonEnemy
-import de.maucon.mauconframework.command.CommandGateway
-import de.maucon.mauconframework.command.CommandHandler
 import de.maucon.mauconframework.di.annotation.Injectable
 import de.maucon.mauconframework.event.EventGateway
 import de.maucon.mauconframework.event.EventSubscriber
@@ -33,96 +32,95 @@ import net.minecraft.entity.projectile.SpectralArrowEntity
 
 @Injectable
 object EventMapper {
-    @EventSubscriber
+    @EventSubscriber(sync = true)
     fun onPlayerDeath(event: LivingEntityDeathEvent) {
         val player = event.entity as? PlayerEntity ?: return
         val playerDeathEvent = PlayerEntityDeathEvent(event.isClient, event.world, player, event.killer)
-        EventGateway.launchPublish(playerDeathEvent)
+        EventGateway.publish(playerDeathEvent)
     }
 
-    @CommandHandler
-    fun onPlayerDeathCommand(command: LivingEntityDeathCommand) {
-        val player = command.entity as? PlayerEntity ?: return
-        val playerDeathCommand = PlayerEntityDeathCommand(command.isClient, command.world, player, command.killer)
-        CommandGateway.apply(playerDeathCommand)
-    }
-
-    @EventSubscriber
+    @EventSubscriber(sync = true)
     fun onDungeonPlayerDeath(event: PlayerEntityDeathEvent) {
         val player = event.player
         if (!player.entityWorld.isDungeonWorld()) return
 
         val dungeonPlayerDeathEvent = DungeonPlayerDeathEvent(event.isClient, player, event.killer)
-        EventGateway.launchPublish(dungeonPlayerDeathEvent)
+        EventGateway.publish(dungeonPlayerDeathEvent)
     }
 
-    @EventSubscriber
+    @EventSubscriber(sync = true)
     fun onDungeonEntityDeath(event: LivingEntityDeathEvent) {
         val entity = event.entity
         if (!entity.entityWorld.isDungeonWorld()) return
 
         val dungeonEntityDeathEvent = DungeonEntityDeathEvent(event.isClient, event.world, event.entity, event.killer)
-        EventGateway.launchPublish(dungeonEntityDeathEvent)
+        EventGateway.publish(dungeonEntityDeathEvent)
     }
 
-    @EventSubscriber
+    @EventSubscriber(sync = true)
     fun onDungeonEnemyDeath(event: DungeonEntityDeathEvent) {
         val enemyEntity = event.entity
         if (!enemyEntity.isDungeonEnemy()) return
 
         val dungeonEnemyDeathEvent = DungeonEnemyDeathEvent(event.isClient, event.world, enemyEntity, event.killer)
-        EventGateway.launchPublish(dungeonEnemyDeathEvent)
+        EventGateway.publish(dungeonEnemyDeathEvent)
     }
 
-    @EventSubscriber
+    @EventSubscriber(sync = true)
     fun onDungeonBossDeath(event: DungeonEnemyDeathEvent) {
         val bossEntity = event.enemyEntity as? MobEntity ?: return
         if (!bossEntity.isDungeonBoss()) return
 
         val dungeonBossDeathEvent = DungeonBossDeathEvent(event.isClient, event.world, bossEntity, event.killer)
-        EventGateway.launchPublish(dungeonBossDeathEvent)
+        EventGateway.publish(dungeonBossDeathEvent)
+    }
+
+    @Initializer
+    fun onServerStarting() = ServerLifecycleEvents.SERVER_STARTING.register {
+        val event = ServerStartingEvent(it)
+        EventGateway.publish(event)
     }
 
     @Initializer
     fun onServerStarted() = ServerLifecycleEvents.SERVER_STARTED.register {
         val event = ServerStartedEvent(it)
-        EventGateway.launchPublish(event)
+        EventGateway.publish(event)
     }
 
     @Initializer
     fun onServerStopping() = ServerLifecycleEvents.SERVER_STOPPING.register {
         val event = ServerStoppingEvent(it)
-        EventGateway.launchPublish(event)
+        EventGateway.publish(event)
     }
 
     @Initializer
     fun onServerTickEnd() = ServerTickEvents.END_SERVER_TICK.register {
         val event = ServerEndTickEvent(it)
-        EventGateway.launchPublish(event)
+        EventGateway.publish(event)
     }
 
     @Initializer
     fun afterPlayerChangeWorld() = ServerEntityWorldChangeEvents.AFTER_PLAYER_CHANGE_WORLD.register { entity, oldWorld, newWorld ->
         val event = PlayerAfterDimensionChangeEvent(entity, oldWorld, newWorld)
-        EventGateway.launchPublish(event)
+        EventGateway.publish(event)
     }
 
     @Initializer
     fun afterPlayerRespawn() = ServerPlayerEvents.AFTER_RESPAWN.register { oldPlayer, newPlayer, alive -> // end portal is alive respawn
         val event = PlayerAfterRespawnEvent(oldPlayer, newPlayer, alive)
-        EventGateway.launchPublish(event)
+        EventGateway.publish(event)
     }
 
     @Initializer
     fun onPlayerJoin() = ServerPlayConnectionEvents.JOIN.register { handler, _, _ ->
         val event = PlayerJoinEvent(handler.player)
-        EventGateway.launchPublish(event)
+        EventGateway.publish(event)
     }
 
     @Initializer
     fun onPlayerDisconnect() = ServerPlayConnectionEvents.DISCONNECT.register { handler, _ ->
         val event = PlayerDisconnectEvent(handler.player)
-        EventGateway.launchPublish(event)
+        EventGateway.publish(event)
     }
 
     @Initializer
@@ -130,7 +128,7 @@ object EventMapper {
         if (oldStack.isSameIgnoringDurability(newStack)) return@register
 
         val event = EquipmentChangeEvent(entity, slot, oldStack, newStack)
-        EventGateway.launchPublish(event)
+        EventGateway.publish(event)
     }
 
     @Initializer
@@ -139,7 +137,7 @@ object EventMapper {
         val owner = entity.owner as? LivingEntity ?: return@register
 
         val event = EntityShotArrowEvent.of(entity, owner)
-        EventGateway.launchPublish(event)
+        EventGateway.publish(event)
     }
 
     @Initializer
@@ -147,21 +145,21 @@ object EventMapper {
         if (entity !is ItemEntity) return@register
 
         val event = ItemDropEvent.of(entity)
-        EventGateway.launchPublish(event)
+        EventGateway.publish(event)
     }
 
-    @EventSubscriber
+    @EventSubscriber(sync = true)
     fun onDungeonItemDrop(event: ItemDropEvent) {
         if (!event.world.isDungeonWorld()) return
 
         val dungeonItemDropEvent = DungeonItemDropEvent.of(event)
-        EventGateway.launchPublish(dungeonItemDropEvent)
+        EventGateway.publish(dungeonItemDropEvent)
     }
 
     @Initializer
     fun onLivingEntityEndTick() = ServerTickEvents.END_WORLD_TICK.register { world ->
         if (world.time % 5 != 0L) return@register
         val event = ServerLivingEntitiesEveryFiveTicksEvent(world.iterateEntities().filterIsInstance<LivingEntity>(), world)
-        EventGateway.launchPublish(event)
+        EventGateway.publish(event)
     }
 }
