@@ -1,7 +1,7 @@
 {
   "schemaVersion": 1,
   "id": "mcendgame",
-  "version": "1.0.0+1.21.11",
+  "version": "${version}",
   "name": "MCEndgame",
   "description": "MCEndgame is a Minecraft Mod that enhances the endgame experience by introducing new levels of progression.",
   "authors": [
