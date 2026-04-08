@@ -1,15 +1,15 @@
 {
   "schemaVersion": 1,
   "id": "mcendgame",
-  "version": "0.0.1",
+  "version": "1.0.0",
   "name": "MCEndgame",
-  "description": "This is the right outer channel!",
+  "description": "MCEndgame is a Minecraft Mod that enhances the endgame experience by introducing new levels of progression. ",
   "authors": [
-    "MauCon",
+    "maucon",
     "Moewe342"
   ],
   "contact": {
-    "homepage": "https://fabricmc.net/",
+    "homepage": "https://modrinth.com/project/mcendgame/",
     "sources": "https://github.com/maucon/MCEndgame-fabric"
   },
   "license": "CC0-1.0",
