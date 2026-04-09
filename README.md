@@ -1,6 +1,7 @@
 ![Minecraft Version](https://img.shields.io/badge/Minecraft-1.21.11-brightgreen)
 ![Mod Loader](https://img.shields.io/badge/Loader-Fabric-blue)
 [![Modrinth](https://img.shields.io/badge/Modrinth-MCEndgame-green)](https://modrinth.com/project/mcendgame/)
+[![build](https://github.com/maucon/MCEndgame-fabric/actions/workflows/build.yml/badge.svg)](https://github.com/maucon/MCEndgame-fabric/actions/workflows/build.yml)
 ![License](https://img.shields.io/badge/License-CC0--1.0-lightgrey)
 
 <!-- PROJECT LOGO -->
@@ -12,9 +13,9 @@
   <p align="center">
     <a href="https://modrinth.com/mod/mcendgame">Get it on Modrinth</a>
     &middot;
-    <a href="https://github.com/maucon/MCEndgame-fabric/issues/new?labels=bug&template=bug-report---.md">Report Bug</a>
+    <a href="https://github.com/maucon/MCEndgame-fabric/issues/new?labels=bug&template=bug-report.md">Report Bug</a>
     &middot;
-    <a href="https://github.com/maucon/MCEndgame-fabric/issues/new?labels=enhancement&template=feature-request---.md">Request Feature</a>
+    <a href="https://github.com/maucon/MCEndgame-fabric/issues/new?labels=enhancement&template=feature-request.md">Request Feature</a>
   </p>
 </div>
 
@@ -82,9 +83,10 @@ system.
 
 1. Install [Fabric Loader](https://fabricmc.net/use/) for Minecraft **1.21.11**
 2. Download [Fabric API](https://modrinth.com/mod/fabric-api)
-3. Download all [required dependencies](`#dependencies`)
-4. Place all `.jar` files into your `.minecraft/mods` folder
-5. Launch the game
+3. Download this mod from [Releases](https://github.com/maucon/MCEndgame-fabric/releases) or [Modrinth](https://modrinth.com/project/mcendgame/)
+4. Download all [required dependencies](#dependencies)
+5. Place all `.jar` files into your mods folder
+6. Launch the game
 
 ### Dependencies
 
