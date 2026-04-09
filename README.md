@@ -8,7 +8,6 @@
 <br />
 <div align="center">
   <img src="assets/images/icon.png" alt="Logo" width="128" height="128">
-  <h2 align="center">MCEndgame</h2>
 
   <p align="center">
     <a href="https://modrinth.com/mod/mcendgame">Get it on Modrinth</a>
