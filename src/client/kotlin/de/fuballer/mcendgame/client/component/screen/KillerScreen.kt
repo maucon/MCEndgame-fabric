@@ -3,6 +3,7 @@ package de.fuballer.mcendgame.client.component.screen
 import com.mojang.authlib.GameProfile
 import de.fuballer.mcendgame.main.component.killer.KillerScreenHandler
 import de.fuballer.mcendgame.main.component.killer.db.KillerEntity
+import de.fuballer.mcendgame.main.util.ColorUtil
 import de.fuballer.mcendgame.main.util.minecraft.IdentifierUtil
 import net.minecraft.client.MinecraftClient
 import net.minecraft.client.gl.RenderPipelines
@@ -19,6 +20,7 @@ import net.minecraft.text.Text
 import kotlin.jvm.optionals.getOrNull
 
 private val TEXTURE = IdentifierUtil.default("textures/gui/container/killer.png")
+private val TITLE_COLOR = ColorUtil.rgbaToInt(64, 64, 64, 255)
 private const val ENTITY_DRAW_PANEL_X = 26
 private const val ENTITY_DRAW_PANEL_WIDTH = 77
 private const val ENTITY_DRAW_PANEL_Y = 18
@@ -149,7 +151,7 @@ class KillerScreen(
         mouseY: Int
     ) {
         if (trimmedTitle == null) trimTitle()
-        context.drawText(textRenderer, trimmedTitle!!, titleX, titleY, 4210752, false)
+        context.drawText(textRenderer, trimmedTitle!!, titleX, titleY, TITLE_COLOR, false)
     }
 
     private fun trimTitle() {
