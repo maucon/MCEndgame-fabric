@@ -1,90 +1,78 @@
-# MCEndgame
-
 ![Minecraft Version](https://img.shields.io/badge/Minecraft-1.21.11-brightgreen)
 ![Mod Loader](https://img.shields.io/badge/Loader-Fabric-blue)
-![License](https://img.shields.io/badge/License-CC0--1.0-lightgrey)
 [![Modrinth](https://img.shields.io/badge/Modrinth-MCEndgame-green)](https://modrinth.com/project/mcendgame/)
+![License](https://img.shields.io/badge/License-CC0--1.0-lightgrey)
 
-**MCEndgame** is a Minecraft Fabric mod that enhances the endgame experience by introducing new layers of progression, challenging dungeons, powerful custom gear, and a deep itemization system.
+<!-- PROJECT LOGO -->
+<br />
+<div align="center">
+  <img src="assets/images/icon.png" alt="Logo" width="100" height="100">
+  <h3 align="center">MCEndgame</h3>
 
+  <p align="center">
+    <a href="https://modrinth.com/mod/mcendgame">Get it on Modrinth</a>
+    &middot;
+    <a href="https://github.com/maucon/MCEndgame-fabric/issues/new?labels=bug&template=bug-report---.md">Report Bug</a>
+    &middot;
+    <a href="https://github.com/maucon/MCEndgame-fabric/issues/new?labels=enhancement&template=feature-request---.md">Request Feature</a>
+  </p>
+</div>
 
----
+## About The Project
 
-## Features
+**MCEndgame** is a Minecraft Fabric mod that enhances the endgame experience by introducing new layers of progression, challenging dungeons, powerful custom gear, and a deep itemization
+system.
 
-- Procedurally generated **dungeons** with scaling difficulty
-- **Boss encounters** with unique AI, attacks, and animations
-- **Custom armor sets** with full 3D models powered by GeckoLib
-- **Unique equipment** with special properties and custom attributes
-- A deep **custom attribute system** with elemental damage, dodge, magic find, and much more
-- **Totem slots** for passive build-defining bonuses
-- A **Crystal Forge** to modify and improve your gear
-- **Aspects** – dungeon defining 
+### Features
 
+- Procedurally generated **dungeons** with adaptive difficulty scaling
+- **Boss** fights featuring unique AI, attack patterns, and animations
+- Custom-designed **armor sets**
+- **Unique equipment** with special effects and custom attributes
+- Dedicated **custom attribute system**
+- **Totem** slots that grant attributes active within dungeons
+- **Crystals** for additional gear modification, usable via the **Crystal Forge**
+- **Aspects** that alter and enhance the dungeon experience
 
-## 🏰 Dungeons
+### Commands
 
-Dungeons are procedurally generated pocket dimensions that you access through a **Dungeon Device** block. Each dungeon run scales with your **Dungeon Level**, increasing enemy difficulty and the quality of rewards.
+- `/dungeonfilter` – Configure which dungeon item type will not be picked up
+- `/killer` - See the equipment and status effects of your latest killer
+- `/totems` - Manage your currently equipped totems
+- `/giveunique` (Moderator) - Generate a unique item with custom rolls
+- `/dungeonlevel` (Moderator) - Set the current dungeon level and progress of a player
+- `/givetotem` (Moderator) - Generate a specific totem
 
-- **Dungeon Levels** – Track your progression and unlock harder content
-- **Room-based generation** – Rooms are assembled from templates
-- **Encounter types** – Combat encounters with waves of enemies, totem encounters, and boss rooms
-- **Dungeon Loot** – Equipment with randomized custom attributes
-- **Dungeon Completion** – Defeating the final boss closes the dungeon and grants rewards
+### Gallery
 
-## 👾 Enemies & Bosses
-
-Dungeons are populated with scaled versions of vanilla mobs and unique custom bosses, each with hand-crafted AI and GeckoLib animations.
-
-### Bosses
-
-| Boss | Description |
-|---|---|
-| **Arachne** | A giant spider with web-shot attacks and a hook ability |
-| **Bonecrusher** | A powerful melee bruiser with slam and leap attacks |
-| **Elf Duelist** | An agile fighter using teleport and melee attacks |
-
-### Elite Mobs
-
-Standard dungeon enemies can spawn as **Elite** variants with enhanced stats, custom equipment, and potion effects.
-
-## 🗡️ Items
-
-Custom Armor, Weapons, Tools
-
-### Totems
-
-Totems occupy dedicated **Totem Slots** (accessible via the Totem screen) and provide permanent passive bonuses while equipped.
-
-### Crystals & the Crystal Forge
-
-The **Crystal Forge** block allows you to use Crystals to modify your equipment.
-
-| Crystal | Effect |
-|---|---|
-| **Calibration Crystal** | Re-rolls attribute values on an item |
-| **Corruption Crystal** | Applies a Corruption effect with unpredictable outcomes |
-| **Permutation Crystal** | Swaps attribute types on an item |
-| **Reforge Crystal** | Completely re-rolls the attributes on an item |
-| **Sacrifice Crystal** | Destroys an item to extract resources |
-
-### Aspects
-
-Aspects are special items that provide unique, playstyle-defining passive or active effects.
-
-
-## 📊 Custom Attribute System
-
-Equipment found in dungeons is imbued with **Custom Attributes** that go beyond vanilla Minecraft. Attributes are divided into offensive, defensive, and utility categories.
-
-## 💫 Status Effects
-
-## 🧱 Custom Blocks
-
-## Commands
-
-- **Item Filter** – Configure which dungeon item rarities and types are automatically picked up
-- **Killer Screen** – Track kill counts and statistics
+<details>
+    <summary>Dungeon Device</summary>
+    <img src="assets/images/dungeons.png" alt="Logo">
+</details>
+<details>
+    <summary>Bosses</summary>
+    <img src="assets/images/bosses.png" alt="Logo">
+</details>
+<details>
+    <summary>Scaling Difficulty</summary>
+    <img src="assets/images/difficulty.png" alt="Logo">
+</details>
+<details>
+    <summary>Custom Items</summary>
+    <img src="assets/images/items.png" alt="Logo">
+</details>
+<details>
+    <summary>Custom Attribute System</summary>
+    <img src="assets/images/attributes.png" alt="Logo">
+</details>
+<details>
+    <summary>Crystals</summary>
+    <img src="assets/images/crystals.png" alt="Logo">
+</details>
+<details>
+    <summary>Aspects</summary>
+    <img src="assets/images/aspects.png" alt="Logo">
+</details>
 
 ---
 
@@ -100,21 +88,24 @@ Equipment found in dungeons is imbued with **Custom Attributes** that go beyond 
 
 ### Dependencies
 
-| Dependency | Version |
-|---|---|
-| [Fabric Loader](https://fabricmc.net/use/) | ≥ 0.18.4 |
-| [Fabric API](https://modrinth.com/mod/fabric-api) | ~0.141.3+1.21.11 |
+| Dependency                                                                | Version               |
+|---------------------------------------------------------------------------|-----------------------|
+| [Fabric Loader](https://fabricmc.net/use/)                                | ≥ 0.18.4              |
+| [Fabric API](https://modrinth.com/mod/fabric-api)                         | ~0.141.3+1.21.11      |
 | [Fabric Language Kotlin](https://modrinth.com/mod/fabric-language-kotlin) | ~1.13.9+kotlin.2.3.10 |
-| [Fantasy](https://github.com/NucleoidMC/fantasy) | ~0.7.0+1.21.11 |
-| [GeckoLib](https://modrinth.com/mod/geckolib) | ~5.4.4 |
+| [Fantasy](https://github.com/NucleoidMC/fantasy)                          | ~0.7.0+1.21.11        |
+| [GeckoLib](https://modrinth.com/mod/geckolib)                             | ~5.4.4                |
 
 ### Building from Source
+
+You can also build the mod yourself:
 
 ```bash
 git clone https://github.com/maucon/MCEndgame-fabric.git
 cd MCEndgame-fabric
 ./gradlew build
 ```
+
 The built mod `.jar` will be in `build/libs/`.
 > Note: Building requires a valid GitHub token set as the `MAUCONFRAMEWORK_REPO_KEY` environment variable.
 
@@ -130,11 +121,13 @@ If you have a feature request or found a bug, please open an issue. If you'd lik
 4. Push to the Branch (`git push origin feature/AmazingFeature`)
 5. Open a Pull Request
 
+## License
+
+This project is licensed under the CC0-1.0 License. See the [LICENSE](https://github.com/maucon/MCEndgame-fabric/blob/master/LICENSE) file for details.
+
 ## Contact
 
 Should you have any questions or encounter any difficulties, please don't hesitate to open an issue or join the `Discussions` section.
-
----
 
 ## Acknowledgments
 
@@ -142,9 +135,4 @@ Should you have any questions or encounter any difficulties, please don't hesita
 * [Geckolib](https://modrinth.com/mod/geckolib/versions)
 * [NucleoidMC/fantasy](https://github.com/NucleoidMC/fantasy)
 * [Path of Exile](https://www.pathofexile.com/)
-
----
-
-## License
-
-This project is licensed under the CC0-1.0 License. See the [LICENSE](https://github.com/maucon/MCEndgame-fabric/blob/master/LICENSE) file for details.
+* [Best README Template](https://github.com/othneildrew/Best-README-Template)
