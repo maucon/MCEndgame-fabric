@@ -110,12 +110,12 @@ Equipment found in dungeons is imbued with **Custom Attributes** that go beyond 
 
 ### Building from Source
 
-TODO env variables (MAUCONFRAMEWORK_REPO_KEY -> normal github access key)
 ```bash
 git clone https://github.com/maucon/MCEndgame-fabric.git
 cd MCEndgame-fabric
 ./gradlew build
 ```
+The built mod `.jar` will be in `build/libs/`.
 > Note: Building requires a valid GitHub token set as the `MAUCONFRAMEWORK_REPO_KEY` environment variable.
 
 ---
