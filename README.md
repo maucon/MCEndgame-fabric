@@ -97,7 +97,7 @@ system.
 | [Fabric API](https://modrinth.com/mod/fabric-api)                         | ~0.141.3+1.21.11      |
 | [Fabric Language Kotlin](https://modrinth.com/mod/fabric-language-kotlin) | ~1.13.9+kotlin.2.3.10 |
 | [Fantasy](https://github.com/NucleoidMC/fantasy)                          | ~0.7.0+1.21.11        |
-| [GeckoLib](https://modrinth.com/mod/geckolib)                             | ~5.4.4                |
+| [Geckolib](https://modrinth.com/mod/geckolib)                             | ~5.4.4                |
 
 ### Building from Source
 
