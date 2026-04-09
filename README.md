@@ -75,6 +75,10 @@ system.
     <summary>Aspects</summary>
     <img src="assets/images/aspects.png" alt="Aspects">
 </details>
+<details>
+    <summary>Killer</summary>
+    <img src="assets/images/killer.png" alt="Killer">
+</details>
 
 ---
 
