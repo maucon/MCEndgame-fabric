@@ -7,8 +7,8 @@
 <!-- PROJECT LOGO -->
 <br />
 <div align="center">
-  <img src="assets/images/icon.png" alt="Logo" width="100" height="100">
-  <h3 align="center">MCEndgame</h3>
+  <img src="assets/images/icon.png" alt="Logo" width="100" height="100" style="margin-bottom: -30px">
+  <h3 align="center" style="font-size: 25px">MCEndgame</h3>
 
   <p align="center">
     <a href="https://modrinth.com/mod/mcendgame">Get it on Modrinth</a>
