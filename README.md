@@ -37,12 +37,12 @@ system.
 
 ### Commands
 
-- `/dungeonfilter` – Configure which dungeon item type will not be picked up
-- `/killer` - See the equipment and status effects of your latest killer
-- `/totems` - Manage your currently equipped totems
-- `/giveunique` (Moderator) - Generate a unique item with custom rolls
-- `/dungeonlevel` (Moderator) - Set the current dungeon level and progress of a player
-- `/givetotem` (Moderator) - Generate a specific totem
+- `/dungeonfilter` – Configure which item types will not be picked up when in a dungeon
+- `/killer` – See the equipment and status effects of your latest killer
+- `/totems` – Manage your currently equipped totems
+- `/giveunique` (Moderator) – Generate a unique item with custom rolls
+- `/dungeonlevel` (Moderator) – Set the current dungeon level and progress of a player
+- `/givetotem` (Moderator) – Generate a specific totem
 
 ### Gallery
 
@@ -83,7 +83,7 @@ system.
 
 1. Install [Fabric Loader](https://fabricmc.net/use/) for Minecraft **1.21.11**
 2. Download [Fabric API](https://modrinth.com/mod/fabric-api)
-3. Download this mod from [Releases](https://github.com/maucon/MCEndgame-fabric/releases) or [Modrinth](https://modrinth.com/project/mcendgame/)
+3. Download MCEndgame from [Releases](https://github.com/maucon/MCEndgame-fabric/releases) or [Modrinth](https://modrinth.com/project/mcendgame/)
 4. Download all [required dependencies](#dependencies)
 5. Place all `.jar` files into your mods folder
 6. Launch the game
