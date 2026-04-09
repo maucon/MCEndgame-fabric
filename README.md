@@ -4,6 +4,8 @@
 [![build](https://github.com/maucon/MCEndgame-fabric/actions/workflows/build.yml/badge.svg)](https://github.com/maucon/MCEndgame-fabric/actions/workflows/build.yml)
 ![License](https://img.shields.io/badge/License-CC0--1.0-lightgrey)
 
+<br>
+
 <div align="center">
   <h1 align="center">MCEndgame</h1>
 
@@ -17,7 +19,6 @@
 </div>
 
 <br>
-
 
 ## About The Project
 
