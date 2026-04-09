@@ -1,10 +1,9 @@
 ![Minecraft Version](https://img.shields.io/badge/Minecraft-1.21.11-brightgreen)
 ![Mod Loader](https://img.shields.io/badge/Loader-Fabric-blue)
-[![Modrinth](https://img.shields.io/badge/Modrinth-MCEndgame-green)](https://modrinth.com/project/mcendgame/)
+[![Modrinth](https://img.shields.io/badge/Modrinth-MCEndgame-green)](https://modrinth.com/mod/mcendgame)
 [![build](https://github.com/maucon/MCEndgame-fabric/actions/workflows/build.yml/badge.svg)](https://github.com/maucon/MCEndgame-fabric/actions/workflows/build.yml)
 ![License](https://img.shields.io/badge/License-CC0--1.0-lightgrey)
 
-<!-- PROJECT LOGO -->
 <br />
 <div align="center">
   <h1 align="center">MCEndgame</h1>
@@ -17,6 +16,9 @@
     <a href="https://github.com/maucon/MCEndgame-fabric/issues/new?labels=enhancement&template=feature-request.md">Request Feature</a>
   </p>
 </div>
+
+<br>
+
 
 ## About The Project
 
@@ -47,31 +49,31 @@ system.
 
 <details>
     <summary>Dungeon Device</summary>
-    <img src="assets/images/dungeons.png" alt="Logo">
+    <img src="assets/images/dungeons.png" alt="Dungeon Device">
 </details>
 <details>
     <summary>Bosses</summary>
-    <img src="assets/images/bosses.png" alt="Logo">
+    <img src="assets/images/bosses.png" alt="Bosses">
 </details>
 <details>
     <summary>Scaling Difficulty</summary>
-    <img src="assets/images/difficulty.png" alt="Logo">
+    <img src="assets/images/difficulty.png" alt="Scaling Difficulty">
 </details>
 <details>
     <summary>Custom Items</summary>
-    <img src="assets/images/items.png" alt="Logo">
+    <img src="assets/images/items.png" alt="Custom Items">
 </details>
 <details>
     <summary>Custom Attribute System</summary>
-    <img src="assets/images/attributes.png" alt="Logo">
+    <img src="assets/images/attributes.png" alt="Custom Attribute System">
 </details>
 <details>
     <summary>Crystals</summary>
-    <img src="assets/images/crystals.png" alt="Logo">
+    <img src="assets/images/crystals.png" alt="Crystals">
 </details>
 <details>
     <summary>Aspects</summary>
-    <img src="assets/images/aspects.png" alt="Logo">
+    <img src="assets/images/aspects.png" alt="Aspects">
 </details>
 
 ---
@@ -82,7 +84,7 @@ system.
 
 1. Install [Fabric Loader](https://fabricmc.net/use/) for Minecraft **1.21.11**
 2. Download [Fabric API](https://modrinth.com/mod/fabric-api)
-3. Download MCEndgame from [Releases](https://github.com/maucon/MCEndgame-fabric/releases) or [Modrinth](https://modrinth.com/project/mcendgame/)
+3. Download MCEndgame from [Releases](https://github.com/maucon/MCEndgame-fabric/releases) or [Modrinth](https://modrinth.com/mod/mcendgame/)
 4. Download all [required dependencies](#dependencies)
 5. Place all `.jar` files into your mods folder
 6. Launch the game
