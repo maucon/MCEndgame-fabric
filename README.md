@@ -1,6 +1,7 @@
 ![Minecraft Version](https://img.shields.io/badge/Minecraft-1.21.11-brightgreen)
 ![Mod Loader](https://img.shields.io/badge/Loader-Fabric-blue)
 [![Modrinth](https://img.shields.io/badge/Modrinth-MCEndgame-green)](https://modrinth.com/mod/mcendgame)
+[![CurseForge](https://img.shields.io/badge/CurseForge-MCEndgame-orange)](https://www.curseforge.com/minecraft/mc-mods/mcendgame)
 [![build](https://github.com/maucon/MCEndgame-fabric/actions/workflows/build.yml/badge.svg)](https://github.com/maucon/MCEndgame-fabric/actions/workflows/build.yml)
 ![License](https://img.shields.io/badge/License-CC0--1.0-lightgrey)
 
@@ -11,6 +12,8 @@
 
   <p align="center">
     <a href="https://modrinth.com/mod/mcendgame">Get it on Modrinth</a>
+    &middot;
+    <a href="https://www.curseforge.com/minecraft/mc-mods/mcendgame">Get it on CurseForge</a>
     &middot;
     <a href="https://github.com/maucon/MCEndgame-fabric/issues/new?labels=bug&template=bug-report.md">Report Bug</a>
     &middot;
@@ -88,7 +91,7 @@ system.
 
 1. Install [Fabric Loader](https://fabricmc.net/use/) for Minecraft **1.21.11**
 2. Download [Fabric API](https://modrinth.com/mod/fabric-api)
-3. Download MCEndgame from [Releases](https://github.com/maucon/MCEndgame-fabric/releases) or [Modrinth](https://modrinth.com/mod/mcendgame/)
+3. Download MCEndgame from [Releases](https://github.com/maucon/MCEndgame-fabric/releases), [Modrinth](https://modrinth.com/mod/mcendgame/) or [CurseForge](https://www.curseforge.com/minecraft/mc-mods/mcendgame)
 4. Download all [required dependencies](#dependencies)
 5. Place all `.jar` files into your mods folder
 6. Launch the game
@@ -130,7 +133,7 @@ If you have a feature request or found a bug, please open an issue. If you'd lik
 
 ## License
 
-This project is licensed under the CC0-1.0 License. See the [LICENSE](https://github.com/maucon/MCEndgame-fabric/blob/master/LICENSE) file for details.
+This project is licensed under the MIT License. See the [LICENSE](https://github.com/maucon/MCEndgame-fabric/blob/master/LICENSE) file for details.
 
 ## Contact
 
