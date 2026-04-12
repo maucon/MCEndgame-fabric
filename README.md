@@ -1,14 +1,12 @@
-![Minecraft Version](https://img.shields.io/badge/Minecraft-1.21.11-brightgreen)
-![Mod Loader](https://img.shields.io/badge/Loader-Fabric-blue)
+[![Minecraft Version](https://img.shields.io/badge/Minecraft-1.21.11-brightgreen)](https://www.minecraft.net/)
+[![Mod Loader](https://img.shields.io/badge/Loader-Fabric-blue)](https://fabricmc.net/use/installer/)
 [![Modrinth](https://img.shields.io/badge/Modrinth-MCEndgame-green)](https://modrinth.com/mod/mcendgame)
 [![CurseForge](https://img.shields.io/badge/CurseForge-MCEndgame-orange)](https://www.curseforge.com/minecraft/mc-mods/mcendgame)
 [![build](https://github.com/maucon/MCEndgame-fabric/actions/workflows/build.yml/badge.svg)](https://github.com/maucon/MCEndgame-fabric/actions/workflows/build.yml)
-![License](https://img.shields.io/badge/License-MIT-lightblue)
-
-<br>
+[![License](https://img.shields.io/badge/License-MIT-lightblue)](LICENSE)
 
 <div align="center">
-  <h1 align="center">MCEndgame</h1>
+  <img src="assets/images/banner.png" alt="MCEndgame Banner" width="850">
 
   <p align="center">
     <a href="https://modrinth.com/mod/mcendgame">Get it on Modrinth</a>
