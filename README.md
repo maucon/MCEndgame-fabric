@@ -133,7 +133,7 @@ If you have a feature request or found a bug, please open an issue. If you'd lik
 
 ## License
 
-This project is licensed under the MIT License. See the [LICENSE](https://github.com/maucon/MCEndgame-fabric/blob/master/LICENSE) file for details.
+This project is licensed under the MIT License. See the [LICENSE](LICENSE) file for details.
 
 ## Contact
 
