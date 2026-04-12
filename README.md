@@ -3,7 +3,7 @@
 [![Modrinth](https://img.shields.io/badge/Modrinth-MCEndgame-green)](https://modrinth.com/mod/mcendgame)
 [![CurseForge](https://img.shields.io/badge/CurseForge-MCEndgame-orange)](https://www.curseforge.com/minecraft/mc-mods/mcendgame)
 [![build](https://github.com/maucon/MCEndgame-fabric/actions/workflows/build.yml/badge.svg)](https://github.com/maucon/MCEndgame-fabric/actions/workflows/build.yml)
-![License](https://img.shields.io/badge/License-CC0--1.0-lightgrey)
+![License](https://img.shields.io/badge/License-MIT-lightblue)
 
 <br>
 
