@@ -6,7 +6,7 @@
 [![License](https://img.shields.io/badge/License-MIT-lightblue)](LICENSE)
 
 <div align="center">
-  <img src="assets/images/banner.png" alt="Logo">
+  <img src="assets/images/banner.png" alt="MCEndgame Banner">
 
   <p align="center">
     <a href="https://modrinth.com/mod/mcendgame">Get it on Modrinth</a>
