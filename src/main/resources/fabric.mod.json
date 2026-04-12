@@ -12,7 +12,7 @@
     "homepage": "https://modrinth.com/project/mcendgame/",
     "sources": "https://github.com/maucon/MCEndgame-fabric"
   },
-  "license": "CC0-1.0",
+  "license": "MIT",
   "icon": "assets/mcendgame/icon.png",
   "environment": "*",
   "entrypoints": {
