@@ -5,8 +5,6 @@
 [![build](https://github.com/maucon/MCEndgame-fabric/actions/workflows/build.yml/badge.svg)](https://github.com/maucon/MCEndgame-fabric/actions/workflows/build.yml)
 [![License](https://img.shields.io/badge/License-MIT-lightblue)](LICENSE)
 
-<br>
-
 <div align="center">
   <img src="assets/images/banner.png" alt="Logo">
 
