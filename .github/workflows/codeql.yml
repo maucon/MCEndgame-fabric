@@ -65,7 +65,9 @@ jobs:
         env:
           GITHUB_PACKAGES_NAME: ${{ github.actor }}
           GITHUB_PACKAGES_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-        run: ./gradlew build --no-daemon
+        run: |
+          export JAVA_OPTS="-Xmx4096m"
+          ./gradlew --no-daemon -Dorg.gradle.jvmargs=-Xmx1g build --info --stacktrace -x ktlintCheck -x test
       # endregion
 
       - name: Perform CodeQL Analysis
