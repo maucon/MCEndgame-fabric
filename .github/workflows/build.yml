@@ -4,6 +4,10 @@ on: [ push ]
 jobs:
   build:
     runs-on: ubuntu-22.04
+    permissions:
+      contents: read
+      packages: read
+
     steps:
       - name: Checkout repository
         uses: actions/checkout@v6
@@ -32,7 +36,8 @@ jobs:
 
       - name: Gradle build
         env:
-          MAUCONFRAMEWORK_REPO_KEY: ${{ secrets.GITHUB_TOKEN }}
+          GITHUB_PACKAGES_NAME: "Github Runner"
+          GITHUB_PACKAGES_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         run: |
           ./gradlew runDatagen
           ./gradlew build

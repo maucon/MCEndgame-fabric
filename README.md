@@ -115,7 +115,7 @@ cd MCEndgame-fabric
 ```
 
 The built mod `.jar` will be in `build/libs/`.
-> Note: Building requires a valid GitHub token set as the `MAUCONFRAMEWORK_REPO_KEY` environment variable.
+> Note: To build the project, you must provide a valid GitHub token via the `GITHUB_PACKAGES_TOKEN` environment variable and set your GitHub username in `GITHUB_PACKAGES_NAME`.
 
 ---
 

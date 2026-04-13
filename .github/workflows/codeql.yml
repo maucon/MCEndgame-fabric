@@ -23,7 +23,7 @@ jobs:
           - language: actions
             build-mode: none
           - language: java-kotlin
-            build-mode: autobuild
+            build-mode: manual
 
     steps:
       - name: Checkout repository
@@ -45,7 +45,6 @@ jobs:
 
       # region custom build part
       - name: Setup gradle cache
-        if: matrix.build-mode == 'manual'
         uses: actions/cache@v5
         with:
           path: |
@@ -56,13 +55,12 @@ jobs:
           restore-keys: ${{ runner.os }}-gradle-
 
       - name: Grant gradle permissions
-        if: matrix.build-mode == 'manual'
         run: chmod +x ./gradlew
 
       - name: Gradle build
-        if: matrix.build-mode == 'manual'
         env:
-          MAUCONFRAMEWORK_REPO_KEY: ${{ secrets.MAUCONFRAMEWORK_REPO_KEY }}
+          GITHUB_PACKAGES_NAME: "Github Runner"
+          GITHUB_PACKAGES_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         run: |
           ./gradlew runDatagen
           ./gradlew build
