@@ -89,7 +89,8 @@ system.
 
 1. Install [Fabric Loader](https://fabricmc.net/use/) for Minecraft **1.21.11**
 2. Download [Fabric API](https://modrinth.com/mod/fabric-api)
-3. Download MCEndgame from [Releases](https://github.com/maucon/MCEndgame-fabric/releases), [Modrinth](https://modrinth.com/mod/mcendgame/) or [CurseForge](https://www.curseforge.com/minecraft/mc-mods/mcendgame)
+3. Download MCEndgame from [Releases](https://github.com/maucon/MCEndgame-fabric/releases), [Modrinth](https://modrinth.com/mod/mcendgame/)
+   or [CurseForge](https://www.curseforge.com/minecraft/mc-mods/mcendgame)
 4. Download all [required dependencies](#dependencies)
 5. Place all `.jar` files into your mods folder
 6. Launch the game
@@ -115,7 +116,8 @@ cd MCEndgame-fabric
 ```
 
 The built mod `.jar` will be in `build/libs/`.
-> Note: To build the project, you must provide a valid GitHub token via the `GITHUB_PACKAGES_TOKEN` environment variable and set your GitHub username in `GITHUB_PACKAGES_NAME`.
+> Note: Building the project requires a valid GitHub token with `read:packages` permission, provided via the `GITHUB_PACKAGES_TOKEN` environment variable, along with your GitHub username set
+> in `GITHUB_PACKAGES_NAME`.
 
 ---
 
