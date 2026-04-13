@@ -31,6 +31,7 @@ jobs:
 
       # region custom init part
       - name: Set up JDK 21
+        if: ${{ matrix.language == 'java-kotlin' }}
         uses: actions/setup-java@v5
         with:
           java-version: '21'
@@ -45,6 +46,7 @@ jobs:
 
       # region custom build part
       - name: Setup gradle cache
+        if: ${{ matrix.language == 'java-kotlin' }}
         uses: actions/cache@v5
         with:
           path: |
@@ -55,11 +57,13 @@ jobs:
           restore-keys: ${{ runner.os }}-gradle-
 
       - name: Grant gradle permissions
+        if: ${{ matrix.language == 'java-kotlin' }}
         run: chmod +x ./gradlew
 
       - name: Gradle build
+        if: ${{ matrix.language == 'java-kotlin' }}
         env:
-          GITHUB_PACKAGES_NAME: "Github Runner"
+          GITHUB_PACKAGES_NAME: ${{ github.actor }}
           GITHUB_PACKAGES_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         run: |
           ./gradlew runDatagen

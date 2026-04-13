@@ -36,7 +36,7 @@ jobs:
 
       - name: Gradle build
         env:
-          GITHUB_PACKAGES_NAME: "Github Runner"
+          GITHUB_PACKAGES_NAME: ${{ github.actor }}
           GITHUB_PACKAGES_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         run: |
           ./gradlew runDatagen
