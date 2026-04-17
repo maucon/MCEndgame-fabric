@@ -1,6 +1,7 @@
 package de.fuballer.mcendgame.main.component.entity.custom
 
 import de.fuballer.mcendgame.main.component.entity.custom.entities.arachne.ArachneEntity
+import de.fuballer.mcendgame.main.component.entity.custom.entities.beakburn.BeakburnEntity
 import de.fuballer.mcendgame.main.component.entity.custom.entities.bonecrusher.BonecrusherEntity
 import de.fuballer.mcendgame.main.component.entity.custom.entities.elf_duelist.ElfDuelistEntity
 import de.fuballer.mcendgame.main.component.entity.custom.entities.swamp_golem.SwampGolemEntity
@@ -53,6 +54,13 @@ object CustomEntities {
         EntityType.Builder.create({ type, world -> ElfDuelistEntity(type, world) }, SpawnGroup.MONSTER)
             .dimensions(0.7f, 1.9f)
             .eyeHeight(1.8f)
+            .maxTrackingRange(8)
+    )
+    val BEAKBURN = RegistryUtil.registerEntity(
+        "beakburn",
+        EntityType.Builder.create({ type, world -> BeakburnEntity(type, world) }, SpawnGroup.MONSTER)
+            .dimensions(1.6f, 2.5f)
+            .eyeHeight(2.0f)
             .maxTrackingRange(8)
     )
 }

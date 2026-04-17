@@ -382,7 +382,6 @@ class ElfDuelistEntity(
                 .add(EntityAttributes.ATTACK_DAMAGE, 3.0)
                 .add(EntityAttributes.ATTACK_KNOCKBACK, 0.3)
                 .add(EntityAttributes.ARMOR, 0.0)
-                .add(EntityAttributes.KNOCKBACK_RESISTANCE, 0.8)
                 .add(EntityAttributes.MOVEMENT_EFFICIENCY, 0.85)
                 .add(EntityAttributes.SAFE_FALL_DISTANCE, 10.0)
                 .add(EntityAttributes.FALL_DAMAGE_MULTIPLIER, 0.1)

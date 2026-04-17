@@ -1,6 +1,7 @@
 package de.fuballer.mcendgame.main.component.entity.custom
 
 import de.fuballer.mcendgame.main.component.entity.custom.entities.arachne.ArachneEntity
+import de.fuballer.mcendgame.main.component.entity.custom.entities.beakburn.BeakburnEntity
 import de.fuballer.mcendgame.main.component.entity.custom.entities.bonecrusher.BonecrusherEntity
 import de.fuballer.mcendgame.main.component.entity.custom.entities.elf_duelist.ElfDuelistEntity
 import de.fuballer.mcendgame.main.component.entity.custom.entities.swamp_golem.SwampGolemEntity
@@ -16,5 +17,6 @@ object EntityAttributeRegisterer {
         FabricDefaultAttributeRegistry.register(CustomEntities.ARACHNE, ArachneEntity.createAttributes())
         FabricDefaultAttributeRegistry.register(CustomEntities.BONECRUSHER, BonecrusherEntity.createAttributes())
         FabricDefaultAttributeRegistry.register(CustomEntities.ELF_DUELIST, ElfDuelistEntity.createAttributes())
+        FabricDefaultAttributeRegistry.register(CustomEntities.BEAKBURN, BeakburnEntity.createAttributes())
     }
 }
