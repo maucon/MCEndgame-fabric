@@ -11,6 +11,7 @@ import net.minecraft.item.ItemStack
 import net.minecraft.text.MutableText
 import net.minecraft.text.Text
 import net.minecraft.util.Formatting
+import java.awt.Color
 
 abstract class CrystalItem(
     settings: Settings,
@@ -18,6 +19,8 @@ abstract class CrystalItem(
     companion object {
         const val DESCRIPTION_BASE_KEY = "item.mcendgame.crystal.description."
     }
+
+    abstract val forgeColor: Color
 
     abstract val description: MutableText
 

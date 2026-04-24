@@ -8,10 +8,13 @@ import net.minecraft.item.Item
 import net.minecraft.item.ItemStack
 import net.minecraft.text.MutableText
 import net.minecraft.text.Text
+import java.awt.Color
 
 class ReforgeCrystalItem(
     settings: Settings,
 ) : CrystalItem(settings) {
+    override val forgeColor = Color(232, 40, 160)
+
     override val description: MutableText = Text.translatable(DESCRIPTION_BASE_KEY + "reforge")
 
     override fun canForge(stack: ItemStack): MutableText? {
