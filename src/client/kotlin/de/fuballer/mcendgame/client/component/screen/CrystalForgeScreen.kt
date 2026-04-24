@@ -116,14 +116,14 @@ class CrystalForgeScreen(
 
             val bgAlpha = (pulse * 100).toInt()
             val bgColor = ColorUtil.rgbaToInt(forgeAnimationColor.red, forgeAnimationColor.green, forgeAnimationColor.blue, bgAlpha)
-            context.fill(forgeAnimationX1 + 2, forgeAnimationY1 + 2, forgeAnimationX2 - 2, forgeAnimationY2 - 2, bgColor)
+            context.fill(forgeAnimationX1 + 1, forgeAnimationY1 + 1, forgeAnimationX2 - 1, forgeAnimationY2 - 1, bgColor)
 
             val outlineAlpha = (pulse * 255).toInt()
             val outlineColor = ColorUtil.rgbaToInt(forgeAnimationColor.red, forgeAnimationColor.green, forgeAnimationColor.blue, outlineAlpha)
             context.fill(forgeAnimationX1, forgeAnimationY1, forgeAnimationX2, forgeAnimationY1 + 1, outlineColor)
             context.fill(forgeAnimationX1, forgeAnimationY2 - 1, forgeAnimationX2, forgeAnimationY2, outlineColor)
-            context.fill(forgeAnimationX1, forgeAnimationY1, forgeAnimationX1 + 1, forgeAnimationY2, outlineColor)
-            context.fill(forgeAnimationX2 - 1, forgeAnimationY1, forgeAnimationX2, forgeAnimationY2, outlineColor)
+            context.fill(forgeAnimationX1, forgeAnimationY1 + 1, forgeAnimationX1 + 1, forgeAnimationY2 - 1, outlineColor)
+            context.fill(forgeAnimationX2 - 1, forgeAnimationY1 + 1, forgeAnimationX2, forgeAnimationY2 - 1, outlineColor)
 
             forgeAnimationTime += deltaTicks
             if (forgeAnimationTime >= FORGE_ANIMATION_DURATION) forgeAnimationTime = -1F
