@@ -7,10 +7,13 @@ import de.fuballer.mcendgame.main.component.item.custom.crystal.CrystalItem
 import net.minecraft.item.ItemStack
 import net.minecraft.text.MutableText
 import net.minecraft.text.Text
+import java.awt.Color
 
 class PermutationCrystalItem(
     settings: Settings,
 ) : CrystalItem(settings) {
+    override val forgeColor = Color(176, 232, 40)
+
     override val description: MutableText = Text.translatable(DESCRIPTION_BASE_KEY + "permutation")
 
     override fun canForge(stack: ItemStack): MutableText? {

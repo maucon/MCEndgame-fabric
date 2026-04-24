@@ -7,10 +7,13 @@ import de.fuballer.mcendgame.main.component.item.custom.crystal.CrystalItem
 import net.minecraft.item.ItemStack
 import net.minecraft.text.MutableText
 import net.minecraft.text.Text
+import java.awt.Color
 
 class CalibrationCrystalItem(
     settings: Settings,
 ) : CrystalItem(settings) {
+    override val forgeColor = Color(40, 179, 232)
+
     override val description: MutableText = Text.translatable(DESCRIPTION_BASE_KEY + "calibration")
 
     override fun canForge(stack: ItemStack): MutableText? {

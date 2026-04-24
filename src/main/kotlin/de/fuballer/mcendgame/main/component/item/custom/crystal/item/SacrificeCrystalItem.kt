@@ -9,6 +9,7 @@ import de.fuballer.mcendgame.main.component.item.custom.crystal.CrystalItem
 import net.minecraft.item.ItemStack
 import net.minecraft.text.MutableText
 import net.minecraft.text.Text
+import java.awt.Color
 
 private val TIER_BASED_ENHANCE_VALUES = mapOf(
     1 to 0.5,
@@ -21,6 +22,8 @@ private fun getTierBasedEnhanceValue(tier: Int) = TIER_BASED_ENHANCE_VALUES[tier
 class SacrificeCrystalItem(
     settings: Settings,
 ) : CrystalItem(settings) {
+    override val forgeColor = Color(232, 40, 40)
+
     override val description: MutableText = Text.translatable(DESCRIPTION_BASE_KEY + "sacrifice")
 
     override fun canForge(stack: ItemStack): MutableText? {
