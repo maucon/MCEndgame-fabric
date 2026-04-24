@@ -1,0 +1,13 @@
+package de.fuballer.mcendgame.main.component.entity.custom.attack.fire_geysers
+
+import net.minecraft.entity.Entity
+
+data class FireGeysersAttackEvent(
+    val attacker: Entity,
+    val target: Entity?,
+    val radius: Int,
+    val geyserProbability: Double,
+    val geyserCountLimit: Int,
+    val indicatorDuration: Int,
+    val pillarDuration: Int,
+)

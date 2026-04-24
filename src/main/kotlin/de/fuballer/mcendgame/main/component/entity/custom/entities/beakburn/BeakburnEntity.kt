@@ -2,11 +2,18 @@ package de.fuballer.mcendgame.main.component.entity.custom.entities.beakburn
 
 import de.fuballer.mcendgame.main.component.entity.custom.attack.Attack
 import de.fuballer.mcendgame.main.component.entity.custom.attack.AttackPose
+import de.fuballer.mcendgame.main.component.entity.custom.attack.LeapAttack
+import de.fuballer.mcendgame.main.component.entity.custom.attack.WindBurstAttack
 import de.fuballer.mcendgame.main.component.entity.custom.attack.damage.BasicAttackDamage
 import de.fuballer.mcendgame.main.component.entity.custom.attack.damage.DelayedAttackDamage
 import de.fuballer.mcendgame.main.component.entity.custom.attack.damage.instance.AttackDamageInstance
 import de.fuballer.mcendgame.main.component.entity.custom.attack.data.AttackAnimationData
+import de.fuballer.mcendgame.main.component.entity.custom.attack.fire_geysers.FireGeysersAttack
+import de.fuballer.mcendgame.main.component.entity.custom.attack.flame_breath.FlameBreathAttack
 import de.fuballer.mcendgame.main.component.entity.custom.attack.trigger_condition.DistanceTriggerCondition
+import de.fuballer.mcendgame.main.component.entity.custom.attack.trigger_condition.HealthTriggerCondition
+import de.fuballer.mcendgame.main.component.entity.custom.attack.trigger_condition.TriggerConditionGroup
+import de.fuballer.mcendgame.main.component.entity.custom.attack.trigger_condition.YDistanceTriggerCondition
 import de.fuballer.mcendgame.main.component.entity.custom.goals.*
 import de.fuballer.mcendgame.main.component.entity.custom.interfaces.BlockAbleMovementMob
 import de.fuballer.mcendgame.main.component.entity.custom.interfaces.CustomAttacksMob
@@ -33,6 +40,8 @@ import software.bernie.geckolib.animation.RawAnimation
 import software.bernie.geckolib.animation.`object`.PlayState
 import software.bernie.geckolib.constant.DefaultAnimations
 import software.bernie.geckolib.util.GeckoLibUtil
+import kotlin.math.sqrt
+import kotlin.random.Random
 
 class BeakburnEntity(
     type: EntityType<out BeakburnEntity>,
@@ -43,9 +52,9 @@ class BeakburnEntity(
 
         private const val ATTACK_ANIM_CONTROLLER_ID = "Attack"
 
-        private val PLACEHOLDER_ATTACK_DAMAGE = BasicAttackDamage(0.6F, 1.0, 3.5)
+        private val BASIC_ATTACK_DAMAGE = BasicAttackDamage(0.6F, 1.0, 3.5)
 
-        private val PECK_ANIM: RawAnimation = RawAnimation.begin().thenPlayAndHold("attack.peck")
+        private val PECK_ANIM: RawAnimation = RawAnimation.begin().thenPlay("attack.peck")
         private const val PECK_ID = "Peck"
         private val PECK_ANIM_DATA = AttackAnimationData(AttackPose.DEFAULT, AttackPose.DEFAULT, ATTACK_ANIM_CONTROLLER_ID, PECK_ID)
         private val PECK_ATTACK =
@@ -54,10 +63,10 @@ class BeakburnEntity(
                 10 + 2,
                 0,
                 DistanceTriggerCondition(3.0),
-                DelayedAttackDamage(PLACEHOLDER_ATTACK_DAMAGE, 4),
+                DelayedAttackDamage(BASIC_ATTACK_DAMAGE, 4),
             )
 
-        private val BITE_RIGHT_ANIM: RawAnimation = RawAnimation.begin().thenPlayAndHold("attack.bite_right")
+        private val BITE_RIGHT_ANIM: RawAnimation = RawAnimation.begin().thenPlay("attack.bite_right")
         private const val BITE_RIGHT_ID = "Bite Right"
         private val BITE_RIGHT_ANIM_DATA = AttackAnimationData(AttackPose.DEFAULT, AttackPose.DEFAULT, ATTACK_ANIM_CONTROLLER_ID, BITE_RIGHT_ID)
         private val BITE_RIGHT_ATTACK =
@@ -66,10 +75,10 @@ class BeakburnEntity(
                 13 + 2,
                 0,
                 DistanceTriggerCondition(3.0),
-                DelayedAttackDamage(PLACEHOLDER_ATTACK_DAMAGE, 6),
+                DelayedAttackDamage(BASIC_ATTACK_DAMAGE, 6),
             )
 
-        private val BITE_LEFT_ANIM: RawAnimation = RawAnimation.begin().thenPlayAndHold("attack.bite_left")
+        private val BITE_LEFT_ANIM: RawAnimation = RawAnimation.begin().thenPlay("attack.bite_left")
         private const val BITE_LEFT_ID = "Bite Left"
         private val BITE_LEFT_ANIM_DATA = AttackAnimationData(AttackPose.DEFAULT, AttackPose.DEFAULT, ATTACK_ANIM_CONTROLLER_ID, BITE_LEFT_ID)
         private val BITE_LEFT_ATTACK =
@@ -78,10 +87,10 @@ class BeakburnEntity(
                 13 + 2,
                 0,
                 DistanceTriggerCondition(3.0),
-                DelayedAttackDamage(PLACEHOLDER_ATTACK_DAMAGE, 6),
+                DelayedAttackDamage(BASIC_ATTACK_DAMAGE, 6),
             )
 
-        private val WING_SWIPE_RIGHT_ANIM: RawAnimation = RawAnimation.begin().thenPlayAndHold("attack.wing_swipe_right")
+        private val WING_SWIPE_RIGHT_ANIM: RawAnimation = RawAnimation.begin().thenPlay("attack.wing_swipe_right")
         private const val WING_SWIPE_RIGHT_ID = "Wing Swipe Right"
         private val WING_SWIPE_RIGHT_ANIM_DATA = AttackAnimationData(AttackPose.DEFAULT, AttackPose.DEFAULT, ATTACK_ANIM_CONTROLLER_ID, WING_SWIPE_RIGHT_ID)
         private val WING_SWIPE_RIGHT_ATTACK =
@@ -90,10 +99,10 @@ class BeakburnEntity(
                 13 + 2,
                 0,
                 DistanceTriggerCondition(3.0),
-                DelayedAttackDamage(PLACEHOLDER_ATTACK_DAMAGE, 4),
+                DelayedAttackDamage(BASIC_ATTACK_DAMAGE, 4),
             )
 
-        private val WING_SWIPE_LEFT_ANIM: RawAnimation = RawAnimation.begin().thenPlayAndHold("attack.wing_swipe_left")
+        private val WING_SWIPE_LEFT_ANIM: RawAnimation = RawAnimation.begin().thenPlay("attack.wing_swipe_left")
         private const val WING_SWIPE_LEFT_ID = "Wing Swipe Left"
         private val WING_SWIPE_LEFT_ANIM_DATA = AttackAnimationData(AttackPose.DEFAULT, AttackPose.DEFAULT, ATTACK_ANIM_CONTROLLER_ID, WING_SWIPE_LEFT_ID)
         private val WING_SWIPE_LEFT_ATTACK =
@@ -102,71 +111,94 @@ class BeakburnEntity(
                 13 + 2,
                 0,
                 DistanceTriggerCondition(3.0),
-                DelayedAttackDamage(PLACEHOLDER_ATTACK_DAMAGE, 4),
+                DelayedAttackDamage(BASIC_ATTACK_DAMAGE, 4),
             )
 
-        private val POUNCE_ANIM: RawAnimation = RawAnimation.begin().thenPlayAndHold("attack.pounce")
+        private val POUNCE_TRIGGER_CONDITION = TriggerConditionGroup(
+            TriggerConditionGroup.TriggerConditionJoinType.AND,
+            listOf(
+                YDistanceTriggerCondition(-2.5, 2.5),
+                DistanceTriggerCondition(5.0, 12.0),
+            )
+        )
+
+        private val POUNCE_ANIM: RawAnimation = RawAnimation.begin().thenPlay("attack.pounce")
         private const val POUNCE_ID = "Pounce"
         private val POUNCE_ANIM_DATA = AttackAnimationData(AttackPose.DEFAULT, AttackPose.DEFAULT, ATTACK_ANIM_CONTROLLER_ID, POUNCE_ID)
         private val POUNCE_ATTACK =
-            Attack<BeakburnEntity>(
+            LeapAttack<BeakburnEntity>(
                 POUNCE_ANIM_DATA,
                 20 + 4,
                 0,
-                DistanceTriggerCondition(3.0),
-                DelayedAttackDamage(PLACEHOLDER_ATTACK_DAMAGE, 8),
+                POUNCE_TRIGGER_CONDITION,
+                DelayedAttackDamage(BASIC_ATTACK_DAMAGE, 5, 11),
+                LeapAttack.LeapType.BASIC,
                 20,
             )
 
-        private val WIND_BURST_ANIM: RawAnimation = RawAnimation.begin().thenPlayAndHold("attack.wind_burst")
+        private val WIND_BURST_ANIM: RawAnimation = RawAnimation.begin().thenPlay("attack.wind_burst")
         private const val WIND_BURST_ID = "Wind Burst"
         private val WIND_BURST_ANIM_DATA = AttackAnimationData(AttackPose.DEFAULT, AttackPose.DEFAULT, ATTACK_ANIM_CONTROLLER_ID, WIND_BURST_ID)
         private val WIND_BURST_ATTACK =
-            Attack<BeakburnEntity>(
+            WindBurstAttack<BeakburnEntity>(
                 WIND_BURST_ANIM_DATA,
                 20 + 3,
-                0,
-                DistanceTriggerCondition(3.0),
-                DelayedAttackDamage(PLACEHOLDER_ATTACK_DAMAGE, 5),
+                80,
+                DistanceTriggerCondition(12.0),
+                null,
+                LeapAttack.LeapType.JUMP_BACK,
+                projectileCount = { distance -> (distance / 2).toInt() },
+                projectileSpeed = { 1.2F + 0.2F * Random.nextFloat() },
+                projectileDirectionSpread = { distance -> sqrt(distance * 3).toFloat() + 1F },
+                projectileExplosionPower = 0.8F,
                 20,
             )
 
-        private val BREATH_ANIM: RawAnimation = RawAnimation.begin().thenPlayAndHold("attack.breath")
+        private val BREATH_ANIM: RawAnimation = RawAnimation.begin().thenPlay("attack.breath")
         private const val BREATH_ID = "Breath"
         private val BREATH_ANIM_DATA = AttackAnimationData(AttackPose.DEFAULT, AttackPose.DEFAULT, ATTACK_ANIM_CONTROLLER_ID, BREATH_ID)
         private val BREATH_ATTACK =
-            Attack<BeakburnEntity>(
+            FlameBreathAttack<BeakburnEntity>(
                 BREATH_ANIM_DATA,
                 60 + 5,
-                0,
-                DistanceTriggerCondition(3.0),
-                DelayedAttackDamage(PLACEHOLDER_ATTACK_DAMAGE, 28),
+                220,
+                DistanceTriggerCondition(3.0, 8.0),
+                null,
+                delay = 20,
+                duration = 30,
+                angle = 70.0,
+                entityWidthOffsetFactor = 1.2,
+                entityHeightOffsetFactor = 0.3,
                 60,
             )
 
-        private val ULTIMATE_ANIM: RawAnimation = RawAnimation.begin().thenPlayAndHold("attack.ultimate")
+        private val ULTIMATE_ANIM: RawAnimation = RawAnimation.begin().thenPlay("attack.ultimate")
         private const val ULTIMATE_ID = "Ultimate"
         private val ULTIMATE_ANIM_DATA = AttackAnimationData(AttackPose.DEFAULT, AttackPose.DEFAULT, ATTACK_ANIM_CONTROLLER_ID, ULTIMATE_ID)
         private val ULTIMATE_ATTACK =
-            Attack<BeakburnEntity>(
+            FireGeysersAttack<BeakburnEntity>(
                 ULTIMATE_ANIM_DATA,
                 43 + 5,
-                0,
-                DistanceTriggerCondition(3.0),
-                DelayedAttackDamage(PLACEHOLDER_ATTACK_DAMAGE, 15),
-                43,
+                Int.MAX_VALUE,
+                HealthTriggerCondition(0.0, 0.5),
+                null,
+                radius = 15,
+                geyserProbability = 0.07,
+                indicatorDuration = 50,
+                pillarDuration = 50,
+                blockMovementDuration = 43,
             )
 
         private val ATTACKS: List<RandomOption<out Attack<BeakburnEntity>>> = listOf(
-            RandomOption(1, PECK_ATTACK),
-            RandomOption(1, BITE_RIGHT_ATTACK),
-            RandomOption(1, BITE_LEFT_ATTACK),
-            RandomOption(1, WING_SWIPE_RIGHT_ATTACK),
-            RandomOption(1, WING_SWIPE_LEFT_ATTACK),
+            RandomOption(5, PECK_ATTACK),
+            RandomOption(5, BITE_RIGHT_ATTACK),
+            RandomOption(5, BITE_LEFT_ATTACK),
+            RandomOption(5, WING_SWIPE_RIGHT_ATTACK),
+            RandomOption(5, WING_SWIPE_LEFT_ATTACK),
             RandomOption(1, POUNCE_ATTACK),
             RandomOption(1, WIND_BURST_ATTACK),
-            RandomOption(1, BREATH_ATTACK),
-            RandomOption(1, ULTIMATE_ATTACK),
+            RandomOption(4, BREATH_ATTACK),
+            RandomOption(10000, ULTIMATE_ATTACK), // guaranteed once at health threshold + Int.MAX_VALUE cd
         )
 
         fun createAttributes(): DefaultAttributeContainer.Builder {

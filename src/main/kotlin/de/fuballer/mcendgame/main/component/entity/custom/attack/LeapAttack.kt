@@ -13,7 +13,7 @@ import kotlin.math.abs
 import kotlin.math.max
 import kotlin.math.sqrt
 
-class LeapAttack<T>(
+open class LeapAttack<T>(
     animationData: AttackAnimationData,
     totalDuration: Int,
     cooldown: Int,
