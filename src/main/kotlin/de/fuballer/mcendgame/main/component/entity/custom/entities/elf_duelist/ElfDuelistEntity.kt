@@ -12,6 +12,7 @@ import de.fuballer.mcendgame.main.component.entity.custom.goals.*
 import de.fuballer.mcendgame.main.component.entity.custom.interfaces.BlockAbleMovementMob
 import de.fuballer.mcendgame.main.component.entity.custom.interfaces.CustomAttacksMob
 import de.fuballer.mcendgame.main.component.entity.custom.interfaces.DisableAbleGoalsMob
+import de.fuballer.mcendgame.main.component.entity.custom.sound.DelayedSoundInstance
 import de.fuballer.mcendgame.main.util.extension.Vec3dExtension.getYaw
 import de.fuballer.mcendgame.main.util.random.RandomOption
 import net.minecraft.entity.EntityType
@@ -218,7 +219,7 @@ class ElfDuelistEntity(
                 DistanceTriggerCondition(3.0),
                 DelayedAttackDamage(DOWNWARDS_SLICE_BOTH_ATTACK_DAMAGE, 0, 3),
                 LeapAttack.LeapType.JUMP_BACK,
-                10,
+                blockMovementDuration = 10,
             )
 
         private val DOWNWARDS_SLICE_BOTH_RESET_ANIM: RawAnimation = RawAnimation.begin().thenPlayAndHold("attack.downwards_slice_both_reset")
@@ -312,7 +313,7 @@ class ElfDuelistEntity(
                 LEAP_TRIGGER_CONDITION,
                 DelayedAttackDamage(ATTACK_DAMAGE, 4, 10),
                 LeapAttack.LeapType.BASIC,
-                10
+                blockMovementDuration = 10
             )
 
         private val LEAP_LEFT_ANIM: RawAnimation = RawAnimation.begin().thenPlayAndHold("attack.stab_left")
@@ -326,7 +327,7 @@ class ElfDuelistEntity(
                 LEAP_TRIGGER_CONDITION,
                 DelayedAttackDamage(ATTACK_DAMAGE, 4, 10),
                 LeapAttack.LeapType.BASIC,
-                10
+                blockMovementDuration = 10
             )
 
         private val BACKFLIP_TRIGGER_CONDITION = TriggerConditionGroup(
@@ -348,7 +349,7 @@ class ElfDuelistEntity(
                 BACKFLIP_TRIGGER_CONDITION,
                 null,
                 LeapAttack.LeapType.BACKFLIP,
-                10
+                blockMovementDuration = 10
             )
 
         private val ATTACKS = listOf(
@@ -393,6 +394,7 @@ class ElfDuelistEntity(
     override val attacks = ATTACKS
     override val attackCooldowns: MutableMap<Attack<ElfDuelistEntity>, Int> = mutableMapOf()
     override val attackDamageInstances = mutableListOf<AttackDamageInstance>()
+    override val attackSoundInstances = mutableListOf<DelayedSoundInstance>()
 
     override var blockAbleMovementEntity = this
     override var blockedMovementTicks = 0

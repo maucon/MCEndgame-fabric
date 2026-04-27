@@ -10,10 +10,14 @@ import net.minecraft.entity.LivingEntity
 import net.minecraft.particle.BlockStateParticleEffect
 import net.minecraft.particle.ParticleTypes
 import net.minecraft.server.world.ServerWorld
+import net.minecraft.sound.SoundCategory
+import net.minecraft.sound.SoundEvents
 import net.minecraft.util.math.BlockPos
 import net.minecraft.util.math.Box
 import net.minecraft.world.World
+import kotlin.math.max
 import kotlin.math.min
+import kotlin.random.Random
 
 @Injectable
 class FireGeysersAttackService(
@@ -26,8 +30,9 @@ class FireGeysersAttackService(
 
         val positions = chosePositions(world, attacker.blockPos, event.radius, event.geyserProbability, event.geyserCountLimit)
 
-        createParticles(world, positions, event.indicatorDuration, event.pillarDuration)
-        dealDamage(world, positions, event.indicatorDuration, event.pillarDuration, attacker)
+        createParticles(world, positions, event.delay, event.indicatorDuration, event.pillarDuration)
+        playSound(world, positions, event.delay, event.indicatorDuration, event.pillarDuration)
+        dealDamage(world, positions, event.delay, event.indicatorDuration, event.pillarDuration, attacker)
     }
 
     private fun chosePositions(
@@ -94,10 +99,11 @@ class FireGeysersAttackService(
     private fun createParticles(
         world: ServerWorld,
         positions: List<BlockPos>,
+        delay: Int,
         indicatorDuration: Int,
         pillarDuration: Int,
     ) {
-        scheduler.repeatingForDuration(1, indicatorDuration) {
+        scheduler.repeatingForDuration(delay, 1, indicatorDuration) {
             positions.forEach {
                 val centerPos = it.toCenterPos().subtract(0.0, 0.2, 0.0)
                 world.spawnParticles(
@@ -115,7 +121,7 @@ class FireGeysersAttackService(
         }
 
         val halfIndicatorDuration = indicatorDuration / 2
-        scheduler.repeatingForDuration(halfIndicatorDuration, 4, halfIndicatorDuration + pillarDuration) {
+        scheduler.repeatingForDuration(delay + halfIndicatorDuration, 4, halfIndicatorDuration + pillarDuration) {
             positions.forEach {
                 val centerPos = it.toCenterPos().subtract(0.0, 0.2, 0.0)
                 world.spawnParticles(
@@ -132,7 +138,7 @@ class FireGeysersAttackService(
             }
         }
 
-        scheduler.delayed(indicatorDuration) {
+        scheduler.delayed(delay + indicatorDuration) {
             positions.forEach {
                 val centerPos = it.toCenterPos().subtract(0.0, 0.2, 0.0)
                 world.spawnParticles(
@@ -149,7 +155,7 @@ class FireGeysersAttackService(
             }
         }
 
-        scheduler.repeatingForDuration(indicatorDuration, 2, pillarDuration) {
+        scheduler.repeatingForDuration(delay + indicatorDuration, 2, pillarDuration) {
             positions.forEach {
                 val centerPos = it.toCenterPos().subtract(0.0, 0.2, 0.0)
                 world.spawnParticles(
@@ -189,14 +195,54 @@ class FireGeysersAttackService(
         }
     }
 
+    private fun playSound(
+        world: ServerWorld,
+        positions: List<BlockPos>,
+        delay: Int,
+        indicatorDuration: Int,
+        pillarDuration: Int,
+    ) {
+        scheduler.delayed(max(1, delay + indicatorDuration - 60)) {
+            positions.forEach {
+                if (Random.nextDouble() > 0.15) return@forEach
+                world.playSound(null, it, SoundEvents.BLOCK_LAVA_AMBIENT, SoundCategory.HOSTILE, 0.5F, 0.8F + 0.3F * Random.nextFloat())
+            }
+        }
+
+        scheduler.repeatingForDuration(delay, 2, indicatorDuration) { ticks ->
+            val volume = max(0.2F, ticks / indicatorDuration.toFloat())
+            positions.forEach {
+                if (Random.nextDouble() > 0.15) return@forEach
+                world.playSound(null, it, SoundEvents.BLOCK_STONE_HIT, SoundCategory.HOSTILE, volume, 0.5F)
+            }
+        }
+
+        scheduler.delayed(delay + indicatorDuration) {
+            positions.forEach {
+                if (Random.nextDouble() < 0.5)
+                    world.playSound(null, it, SoundEvents.ENTITY_GENERIC_EXPLODE.value(), SoundCategory.HOSTILE, 0.3F, 0.8F + 0.4F * Random.nextFloat())
+                if (Random.nextDouble() < 0.3)
+                    world.playSound(null, it, SoundEvents.ITEM_FIRECHARGE_USE, SoundCategory.HOSTILE, 0.3F, 1F)
+            }
+        }
+
+        scheduler.repeatingForDuration(delay + indicatorDuration, 2, pillarDuration) {
+            positions.forEach {
+                if (Random.nextDouble() > 0.15) return@forEach
+                world.playSound(null, it, SoundEvents.ENTITY_BLAZE_BURN, SoundCategory.HOSTILE, 0.4F + 0.1F * Random.nextFloat(), 0.8F + 0.3F * Random.nextFloat())
+            }
+        }
+    }
+
     private fun dealDamage(
         world: ServerWorld,
         positions: List<BlockPos>,
+        delay: Int,
         indicatorDuration: Int,
         pillarDuration: Int,
         attacker: Entity,
     ) {
-        scheduler.delayed(indicatorDuration) {
+        scheduler.delayed(delay + indicatorDuration) {
             val targets = getTargets(world, positions, attacker)
             targets.forEach {
                 it.dealGenericAttackDamage(1F, attacker) // TODO deal generic elemental damage without knockback

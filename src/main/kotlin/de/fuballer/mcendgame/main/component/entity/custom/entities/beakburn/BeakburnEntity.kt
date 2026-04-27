@@ -18,6 +18,8 @@ import de.fuballer.mcendgame.main.component.entity.custom.goals.*
 import de.fuballer.mcendgame.main.component.entity.custom.interfaces.BlockAbleMovementMob
 import de.fuballer.mcendgame.main.component.entity.custom.interfaces.CustomAttacksMob
 import de.fuballer.mcendgame.main.component.entity.custom.interfaces.DisableAbleGoalsMob
+import de.fuballer.mcendgame.main.component.entity.custom.sound.DelayedSoundData
+import de.fuballer.mcendgame.main.component.entity.custom.sound.DelayedSoundInstance
 import de.fuballer.mcendgame.main.util.random.RandomOption
 import net.minecraft.entity.EntityType
 import net.minecraft.entity.ai.goal.ActiveTargetGoal
@@ -25,11 +27,15 @@ import net.minecraft.entity.ai.goal.RevengeGoal
 import net.minecraft.entity.ai.goal.SwimGoal
 import net.minecraft.entity.attribute.DefaultAttributeContainer
 import net.minecraft.entity.attribute.EntityAttributes
+import net.minecraft.entity.damage.DamageSource
 import net.minecraft.entity.mob.Monster
 import net.minecraft.entity.mob.PathAwareEntity
 import net.minecraft.entity.passive.VillagerEntity
 import net.minecraft.entity.player.PlayerEntity
 import net.minecraft.server.world.ServerWorld
+import net.minecraft.sound.SoundCategory
+import net.minecraft.sound.SoundEvent
+import net.minecraft.sound.SoundEvents
 import net.minecraft.world.World
 import software.bernie.geckolib.animatable.GeoAnimatable
 import software.bernie.geckolib.animatable.GeoEntity
@@ -64,8 +70,12 @@ class BeakburnEntity(
                 0,
                 DistanceTriggerCondition(3.0),
                 DelayedAttackDamage(BASIC_ATTACK_DAMAGE, 4),
+                sounds = listOf(
+                    DelayedSoundData(SoundEvents.BLOCK_NOTE_BLOCK_HAT.value(), { 1F }, { 0.7F + 0.3F * Random.nextFloat() }, SoundCategory.HOSTILE, 4)
+                )
             )
 
+        private val BITE_SOUNDS = listOf(DelayedSoundData(SoundEvents.BLOCK_NOTE_BLOCK_HAT.value(), { 1F }, { 0.7F + 0.3F * Random.nextFloat() }, SoundCategory.HOSTILE, 6))
         private val BITE_RIGHT_ANIM: RawAnimation = RawAnimation.begin().thenPlay("attack.bite_right")
         private const val BITE_RIGHT_ID = "Bite Right"
         private val BITE_RIGHT_ANIM_DATA = AttackAnimationData(AttackPose.DEFAULT, AttackPose.DEFAULT, ATTACK_ANIM_CONTROLLER_ID, BITE_RIGHT_ID)
@@ -76,6 +86,7 @@ class BeakburnEntity(
                 0,
                 DistanceTriggerCondition(3.0),
                 DelayedAttackDamage(BASIC_ATTACK_DAMAGE, 6),
+                sounds = BITE_SOUNDS
             )
 
         private val BITE_LEFT_ANIM: RawAnimation = RawAnimation.begin().thenPlay("attack.bite_left")
@@ -88,6 +99,7 @@ class BeakburnEntity(
                 0,
                 DistanceTriggerCondition(3.0),
                 DelayedAttackDamage(BASIC_ATTACK_DAMAGE, 6),
+                sounds = BITE_SOUNDS,
             )
 
         private val WING_SWIPE_RIGHT_ANIM: RawAnimation = RawAnimation.begin().thenPlay("attack.wing_swipe_right")
@@ -133,7 +145,7 @@ class BeakburnEntity(
                 POUNCE_TRIGGER_CONDITION,
                 DelayedAttackDamage(BASIC_ATTACK_DAMAGE, 5, 11),
                 LeapAttack.LeapType.BASIC,
-                20,
+                blockMovementDuration = 20,
             )
 
         private val WIND_BURST_ANIM: RawAnimation = RawAnimation.begin().thenPlay("attack.wind_burst")
@@ -151,7 +163,7 @@ class BeakburnEntity(
                 projectileSpeed = { 1.2F + 0.2F * Random.nextFloat() },
                 projectileDirectionSpread = { distance -> sqrt(distance * 3).toFloat() + 1F },
                 projectileExplosionPower = 0.8F,
-                20,
+                blockMovementDuration = 20,
             )
 
         private val BREATH_ANIM: RawAnimation = RawAnimation.begin().thenPlay("attack.breath")
@@ -169,7 +181,10 @@ class BeakburnEntity(
                 angle = 70.0,
                 entityWidthOffsetFactor = 1.2,
                 entityHeightOffsetFactor = 0.3,
-                60,
+                sounds = listOf(
+                    DelayedSoundData(SoundEvents.ENTITY_BREEZE_INHALE, 0.7F, 0.6F, SoundCategory.HOSTILE, 0),
+                ),
+                blockMovementDuration = 60,
             )
 
         private val ULTIMATE_ANIM: RawAnimation = RawAnimation.begin().thenPlay("attack.ultimate")
@@ -182,10 +197,14 @@ class BeakburnEntity(
                 Int.MAX_VALUE,
                 HealthTriggerCondition(0.0, 0.5),
                 null,
+                delay = 10,
                 radius = 15,
                 geyserProbability = 0.07,
                 indicatorDuration = 50,
                 pillarDuration = 50,
+                sounds = listOf(
+                    DelayedSoundData(SoundEvents.ENTITY_ENDER_DRAGON_GROWL, { 0.4F }, { 3.5F + 0.3F * Random.nextFloat() }, SoundCategory.HOSTILE, 10),
+                ),
                 blockMovementDuration = 43,
             )
 
@@ -224,6 +243,7 @@ class BeakburnEntity(
     override val attacks = ATTACKS
     override val attackCooldowns: MutableMap<Attack<BeakburnEntity>, Int> = mutableMapOf()
     override val attackDamageInstances = mutableListOf<AttackDamageInstance>()
+    override val attackSoundInstances = mutableListOf<DelayedSoundInstance>()
 
     private val cache: AnimatableInstanceCache = GeckoLibUtil.createInstanceCache(this)
     override fun getAnimatableInstanceCache() = cache
@@ -290,4 +310,8 @@ class BeakburnEntity(
         tickBlockedMovement()
         tickAttacks(world, this)
     }
+
+    override fun getHurtSound(source: DamageSource): SoundEvent = SoundEvents.ENTITY_CAMEL_HUSK_HURT
+
+    override fun getDeathSound(): SoundEvent = SoundEvents.ENTITY_CAMEL_HUSK_DEATH
 }

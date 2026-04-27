@@ -4,6 +4,7 @@ import de.fuballer.mcendgame.main.component.entity.custom.attack.Attack
 import de.fuballer.mcendgame.main.component.entity.custom.attack.damage.DelayedAttackDamage
 import de.fuballer.mcendgame.main.component.entity.custom.attack.data.AttackAnimationData
 import de.fuballer.mcendgame.main.component.entity.custom.attack.trigger_condition.TriggerCondition
+import de.fuballer.mcendgame.main.component.entity.custom.sound.DelayedSoundData
 import de.maucon.mauconframework.event.EventGateway
 import net.minecraft.entity.LivingEntity
 import net.minecraft.entity.mob.MobEntity
@@ -21,8 +22,9 @@ class FlameBreathAttack<T>(
     val angle: Double,
     val entityWidthOffsetFactor: Double,
     val entityHeightOffsetFactor: Double,
+    sounds: List<DelayedSoundData> = listOf(),
     blockMovementDuration: Int = 0,
-) : Attack<T>(animationData, totalDuration, cooldown, trigger, damage, blockMovementDuration) where T : MobEntity, T : GeoEntity {
+) : Attack<T>(animationData, totalDuration, cooldown, trigger, damage, sounds, blockMovementDuration) where T : MobEntity, T : GeoEntity {
     constructor(
         animationData: AttackAnimationData,
         totalDuration: Int,
@@ -34,6 +36,7 @@ class FlameBreathAttack<T>(
         angle: Double,
         entityWidthOffsetFactor: Double,
         entityHeightOffsetFactor: Double,
+        sounds: List<DelayedSoundData> = listOf(),
         blockMovementDuration: Int = 0,
     ) : this(
         animationData,
@@ -46,6 +49,7 @@ class FlameBreathAttack<T>(
         angle,
         entityWidthOffsetFactor,
         entityHeightOffsetFactor,
+        sounds,
         blockMovementDuration,
     )
 

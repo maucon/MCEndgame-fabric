@@ -8,11 +8,14 @@ import de.maucon.mauconframework.event.EventSubscriber
 import net.minecraft.entity.Entity
 import net.minecraft.entity.LivingEntity
 import net.minecraft.server.world.ServerWorld
+import net.minecraft.sound.SoundCategory
+import net.minecraft.sound.SoundEvents
 import net.minecraft.util.math.Box
 import net.minecraft.util.math.Vec3d
 import kotlin.math.cos
 import kotlin.math.max
 import kotlin.math.min
+import kotlin.random.Random
 
 private val HORIZONTAL_VECTOR = Vec3d(1.0, 0.0, 1.0)
 
@@ -32,6 +35,7 @@ class FlameBreathAttackService(
         val originPoint = attacker.entityPos.add(horizontalOffset).add(verticalOffset)
 
         createParticles(world, attacker, originPoint, horizontalDirection, event.delay, event.duration, event.angle)
+        playSound(world, originPoint, event.delay, event.duration)
         dealDamage(world, attacker, originPoint, horizontalDirection, event.delay, event.duration, event.angle)
     }
 
@@ -64,6 +68,38 @@ class FlameBreathAttackService(
                 0.0,
                 0.0,
                 1.0,
+            )
+        }
+    }
+
+    private fun playSound(
+        world: ServerWorld,
+        originPoint: Vec3d,
+        delay: Int,
+        duration: Int,
+    ) {
+        scheduler.repeatingForDuration(max(0, delay - 14), 5, max(1, duration - 10)) {
+            world.playSound(
+                null,
+                originPoint.x,
+                originPoint.y,
+                originPoint.z,
+                SoundEvents.ENTITY_BREEZE_IDLE_GROUND,
+                SoundCategory.HOSTILE,
+                0.4F + 0.1F * Random.nextFloat(),
+                0.2F + 0.2F * Random.nextFloat()
+            )
+        }
+        scheduler.repeatingForDuration(delay, 3, duration) {
+            world.playSound(
+                null,
+                originPoint.x,
+                originPoint.y,
+                originPoint.z,
+                SoundEvents.ENTITY_BLAZE_BURN,
+                SoundCategory.HOSTILE,
+                0.4F + 0.1F * Random.nextFloat(),
+                0.8F + 0.3F * Random.nextFloat()
             )
         }
     }

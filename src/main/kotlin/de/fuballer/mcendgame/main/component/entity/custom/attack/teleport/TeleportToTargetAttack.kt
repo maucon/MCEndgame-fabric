@@ -5,6 +5,7 @@ import de.fuballer.mcendgame.main.component.entity.custom.attack.damage.DelayedA
 import de.fuballer.mcendgame.main.component.entity.custom.attack.data.AttackAnimationData
 import de.fuballer.mcendgame.main.component.entity.custom.attack.trigger_condition.TriggerCondition
 import de.fuballer.mcendgame.main.component.entity.custom.interfaces.TeleportAttackMob
+import de.fuballer.mcendgame.main.component.entity.custom.sound.DelayedSoundData
 import de.maucon.mauconframework.event.EventGateway
 import net.minecraft.entity.LivingEntity
 import net.minecraft.entity.mob.MobEntity
@@ -18,8 +19,9 @@ class TeleportToTargetAttack<T>(
     damage: List<DelayedAttackDamage>,
     val teleportDelayTicks: Int,
     val choseLocationDelayTicks: Int,
+    sounds: List<DelayedSoundData> = listOf(),
     blockMovementDuration: Int = 0,
-) : Attack<T>(animationData, totalDuration, cooldown, trigger, damage, blockMovementDuration) where T : MobEntity, T : GeoEntity {
+) : Attack<T>(animationData, totalDuration, cooldown, trigger, damage, sounds, blockMovementDuration) where T : MobEntity, T : GeoEntity {
     constructor(
         animationData: AttackAnimationData,
         totalDuration: Int,
@@ -28,6 +30,7 @@ class TeleportToTargetAttack<T>(
         damage: DelayedAttackDamage?,
         teleportDelay: Int,
         choseLocationDelayTicks: Int,
+        sounds: List<DelayedSoundData> = listOf(),
         blockMovementDuration: Int = 0,
     ) : this(
         animationData,
@@ -37,6 +40,7 @@ class TeleportToTargetAttack<T>(
         if (damage != null) listOf(damage) else listOf(),
         teleportDelay,
         choseLocationDelayTicks,
+        sounds,
         blockMovementDuration,
     )
 

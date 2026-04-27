@@ -4,6 +4,7 @@ import de.fuballer.mcendgame.main.component.entity.custom.attack.Attack
 import de.fuballer.mcendgame.main.component.entity.custom.attack.damage.DelayedAttackDamage
 import de.fuballer.mcendgame.main.component.entity.custom.attack.data.AttackAnimationData
 import de.fuballer.mcendgame.main.component.entity.custom.attack.trigger_condition.TriggerCondition
+import de.fuballer.mcendgame.main.component.entity.custom.sound.DelayedSoundData
 import de.maucon.mauconframework.event.EventGateway
 import net.minecraft.entity.LivingEntity
 import net.minecraft.entity.mob.MobEntity
@@ -15,24 +16,28 @@ class FireGeysersAttack<T>(
     cooldown: Int,
     trigger: TriggerCondition,
     damage: List<DelayedAttackDamage>,
+    val delay: Int,
     val radius: Int,
     val geyserProbability: Double, // probability for each possible location to have a geyser
     val indicatorDuration: Int,
     val pillarDuration: Int,
     val geyserCountLimit: Int = Int.MAX_VALUE,
+    sounds: List<DelayedSoundData> = listOf(),
     blockMovementDuration: Int = 0,
-) : Attack<T>(animationData, totalDuration, cooldown, trigger, damage, blockMovementDuration) where T : MobEntity, T : GeoEntity {
+) : Attack<T>(animationData, totalDuration, cooldown, trigger, damage, sounds, blockMovementDuration) where T : MobEntity, T : GeoEntity {
     constructor(
         animationData: AttackAnimationData,
         totalDuration: Int,
         cooldown: Int,
         trigger: TriggerCondition,
         damage: DelayedAttackDamage?,
+        delay: Int,
         radius: Int,
         geyserProbability: Double,
         indicatorDuration: Int,
         pillarDuration: Int,
         geyserCountLimit: Int = Int.MAX_VALUE,
+        sounds: List<DelayedSoundData> = listOf(),
         blockMovementDuration: Int = 0,
     ) : this(
         animationData,
@@ -40,18 +45,20 @@ class FireGeysersAttack<T>(
         cooldown,
         trigger,
         if (damage != null) listOf(damage) else listOf(),
+        delay,
         radius,
         geyserProbability,
         indicatorDuration,
         pillarDuration,
         geyserCountLimit,
+        sounds,
         blockMovementDuration,
     )
 
     override fun start(attacker: T, target: LivingEntity?) {
         super.start(attacker, target)
 
-        val event = FireGeysersAttackEvent(attacker, target, radius, geyserProbability, geyserCountLimit, indicatorDuration, pillarDuration)
+        val event = FireGeysersAttackEvent(attacker, target, delay, radius, geyserProbability, geyserCountLimit, indicatorDuration, pillarDuration)
         EventGateway.publish(event)
     }
 }

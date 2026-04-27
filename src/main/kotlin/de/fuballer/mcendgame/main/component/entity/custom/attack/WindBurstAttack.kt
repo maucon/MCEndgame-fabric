@@ -3,6 +3,7 @@ package de.fuballer.mcendgame.main.component.entity.custom.attack
 import de.fuballer.mcendgame.main.component.entity.custom.attack.damage.DelayedAttackDamage
 import de.fuballer.mcendgame.main.component.entity.custom.attack.data.AttackAnimationData
 import de.fuballer.mcendgame.main.component.entity.custom.attack.trigger_condition.TriggerCondition
+import de.fuballer.mcendgame.main.component.entity.custom.sound.DelayedSoundData
 import de.fuballer.mcendgame.main.util.extension.mixin.WindChargeEntityMixinExtension.setExplosionPower
 import net.minecraft.entity.EntityType
 import net.minecraft.entity.LivingEntity
@@ -28,8 +29,9 @@ class WindBurstAttack<T>(
     private val projectileSpeed: () -> Float,
     private val projectileDirectionSpread: (distance: Double) -> Float,
     private val projectileExplosionPower: Float,
+    sounds: List<DelayedSoundData> = listOf(),
     blockMovementDuration: Int = 0,
-) : LeapAttack<T>(animationData, totalDuration, cooldown, trigger, damage, leapType, blockMovementDuration) where T : MobEntity, T : GeoEntity {
+) : LeapAttack<T>(animationData, totalDuration, cooldown, trigger, damage, leapType, sounds, blockMovementDuration) where T : MobEntity, T : GeoEntity {
     constructor(
         animationData: AttackAnimationData,
         totalDuration: Int,
@@ -41,6 +43,7 @@ class WindBurstAttack<T>(
         projectileSpeed: () -> Float,
         projectileDirectionSpread: (distance: Double) -> Float,
         projectileExplosionPower: Float,
+        sounds: List<DelayedSoundData> = listOf(),
         blockMovementDuration: Int = 0,
     ) : this(
         animationData,
@@ -53,6 +56,7 @@ class WindBurstAttack<T>(
         projectileSpeed,
         projectileDirectionSpread,
         projectileExplosionPower,
+        sounds,
         blockMovementDuration,
     )
 

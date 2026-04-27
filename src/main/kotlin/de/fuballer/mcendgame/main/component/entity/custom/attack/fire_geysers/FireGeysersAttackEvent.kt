@@ -5,6 +5,7 @@ import net.minecraft.entity.Entity
 data class FireGeysersAttackEvent(
     val attacker: Entity,
     val target: Entity?,
+    val delay: Int,
     val radius: Int,
     val geyserProbability: Double,
     val geyserCountLimit: Int,
