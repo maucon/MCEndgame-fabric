@@ -52,8 +52,9 @@ public class RangedWeaponItemAdditionalArrowsMixin {
         var attributes = allAttributes.get(CustomAttributeTypes.INSTANCE.getADDITIONAL_ARROWS());
         if (attributes == null || attributes.isEmpty()) return 0;
 
-        return attributes.stream()
+        var arrowCount = attributes.stream()
                 .mapToInt(attr -> ((IntRoll) attr.getRolls().getFirst()).getValue())
                 .sum();
+        return Math.max(0, arrowCount);
     }
 }
