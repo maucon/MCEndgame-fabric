@@ -2,7 +2,7 @@ package de.fuballer.mcendgame.main.component.entity.custom.entities.arachne
 
 import de.fuballer.mcendgame.main.component.block.CustomBlocks
 import de.fuballer.mcendgame.main.component.custom_attribute.effects.knockback.AttackKnockbackUtil.takeKnockbackFrom
-import de.fuballer.mcendgame.main.component.damage.dealing.DamageDealingService.dealGenericAttackDamage
+import de.fuballer.mcendgame.main.component.damage.dealing.DamageDealingExtension.dealGenericAttackDamage
 import de.fuballer.mcendgame.main.component.entity.custom.CustomEntities
 import de.fuballer.mcendgame.main.component.entity.custom.entities.mount.DirectionalMovementEntity
 import de.fuballer.mcendgame.main.component.entity.custom.entities.webhook.WebhookEntity
@@ -44,9 +44,7 @@ import net.minecraft.util.math.Vec3d
 import net.minecraft.world.World
 import java.util.*
 import kotlin.math.abs
-import kotlin.math.cos
 import kotlin.math.pow
-import kotlin.math.sin
 import kotlin.math.sqrt
 
 class ArachneEntity(

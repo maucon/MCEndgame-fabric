@@ -20,7 +20,7 @@ class CustomDamageTypeTagProvider(
 
     override fun configure(arg: RegistryWrapper.WrapperLookup) {
         getTagBuilder(DamageTypeTags.NO_KNOCKBACK)
-            .addOptional(CustomDamageTypes.ELEMENTAL.value)
+            .addOptional(CustomDamageTypes.SPELL.value)
 
         getTagBuilder(DamageTypeTags.BYPASSES_SHIELD)
             .addOptional(CustomDamageTypes.GENERIC_ATTACK_UNBLOCKABLE.value)

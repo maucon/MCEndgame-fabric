@@ -1,12 +1,18 @@
 package de.fuballer.mcendgame.main.component.entity.custom.attack.fire_geysers
 
-import de.fuballer.mcendgame.main.component.damage.dealing.DamageDealingService.dealGenericAttackDamage
+import de.fuballer.mcendgame.main.component.custom_attribute.data.CustomAttribute
+import de.fuballer.mcendgame.main.component.custom_attribute.data.DoubleBounds
+import de.fuballer.mcendgame.main.component.custom_attribute.data.DoubleRoll
+import de.fuballer.mcendgame.main.component.custom_attribute.types.CustomAttributeTypes
+import de.fuballer.mcendgame.main.component.damage.custom_type.CustomDamageTypes
+import de.fuballer.mcendgame.main.component.damage.dealing.DamageDealingExtension.dealDamage
 import de.fuballer.mcendgame.main.component.particle.CustomParticleTypes
 import de.fuballer.mcendgame.main.functional.scheduler.Scheduler
 import de.maucon.mauconframework.di.annotation.Injectable
 import de.maucon.mauconframework.event.EventSubscriber
 import net.minecraft.entity.Entity
 import net.minecraft.entity.LivingEntity
+import net.minecraft.entity.attribute.EntityAttributes
 import net.minecraft.particle.BlockStateParticleEffect
 import net.minecraft.particle.ParticleTypes
 import net.minecraft.server.world.ServerWorld
@@ -18,6 +24,8 @@ import net.minecraft.world.World
 import kotlin.math.max
 import kotlin.math.min
 import kotlin.random.Random
+
+private val NO_AD_ATTRIBUTE = CustomAttribute(CustomAttributeTypes.NO_ATTACK_DAMAGE)
 
 @Injectable
 class FireGeysersAttackService(
@@ -32,7 +40,7 @@ class FireGeysersAttackService(
 
         createParticles(world, positions, event.delay, event.indicatorDuration, event.pillarDuration)
         playSound(world, positions, event.delay, event.indicatorDuration, event.pillarDuration)
-        dealDamage(world, positions, event.delay, event.indicatorDuration, event.pillarDuration, attacker)
+        dealDamage(world, positions, event.delay, event.indicatorDuration, event.pillarDuration, attacker, event.burstDamageConversion, event.durationDamageConversion)
     }
 
     private fun chosePositions(
@@ -241,11 +249,24 @@ class FireGeysersAttackService(
         indicatorDuration: Int,
         pillarDuration: Int,
         attacker: Entity,
+        burstDamageConversion: Double,
+        durationDamageConversion: Double,
     ) {
+        val attackDamage = if (attacker is LivingEntity) attacker.getAttributeValue(EntityAttributes.ATTACK_DAMAGE) else 1.0
+        val burstElementalDamage = attackDamage * burstDamageConversion
+        val durationDamageConversion = attackDamage * durationDamageConversion
+
         scheduler.delayed(delay + indicatorDuration) {
             val targets = getTargets(world, positions, attacker)
             targets.forEach {
-                it.dealGenericAttackDamage(1F, attacker) // TODO deal generic elemental damage without knockback
+                it.dealDamage(
+                    attacker,
+                    listOf(
+                        NO_AD_ATTRIBUTE,
+                        CustomAttribute(CustomAttributeTypes.ELEMENTAL_DAMAGE, roll = DoubleRoll(DoubleBounds(burstElementalDamage))),
+                    ),
+                    CustomDamageTypes.SPELL
+                )
                 it.setOnFireForTicks(80)
                 it.addVelocity(0.0, 0.5, 0.0)
                 it.velocityDirty = true
@@ -255,7 +276,14 @@ class FireGeysersAttackService(
         scheduler.repeatingForDuration(indicatorDuration, 2, pillarDuration) {
             val targets = getTargets(world, positions, attacker)
             targets.forEach {
-                it.dealGenericAttackDamage(1F, attacker)  // TODO deal generic elemental damage without knockback
+                it.dealDamage(
+                    attacker,
+                    listOf(
+                        NO_AD_ATTRIBUTE,
+                        CustomAttribute(CustomAttributeTypes.ELEMENTAL_DAMAGE, roll = DoubleRoll(DoubleBounds(durationDamageConversion))),
+                    ),
+                    CustomDamageTypes.SPELL
+                )
                 it.setOnFireForTicks(80)
             }
         }

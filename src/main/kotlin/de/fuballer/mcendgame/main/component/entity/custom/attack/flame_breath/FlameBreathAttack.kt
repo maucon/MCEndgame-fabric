@@ -17,6 +17,7 @@ class FlameBreathAttack<T>(
     cooldown: Int,
     trigger: TriggerCondition,
     damage: List<DelayedAttackDamage>,
+    val damageConversion: Double = 1.0,
     val delay: Int,
     val duration: Int,
     val angle: Double,
@@ -31,6 +32,7 @@ class FlameBreathAttack<T>(
         cooldown: Int,
         trigger: TriggerCondition,
         damage: DelayedAttackDamage?,
+        damageConversion: Double = 1.0,
         delay: Int,
         duration: Int,
         angle: Double,
@@ -44,6 +46,7 @@ class FlameBreathAttack<T>(
         cooldown,
         trigger,
         if (damage != null) listOf(damage) else listOf(),
+        damageConversion,
         delay,
         duration,
         angle,
@@ -74,7 +77,7 @@ class FlameBreathAttack<T>(
             attacker.headYaw = attacker.yaw
         }
 
-        val event = FlameBreathAttackEvent(attacker, target, delay, duration, angle, entityWidthOffsetFactor, entityHeightOffsetFactor)
+        val event = FlameBreathAttackEvent(attacker, target, damageConversion, delay, duration, angle, entityWidthOffsetFactor, entityHeightOffsetFactor)
         EventGateway.publish(event)
     }
 }

@@ -16,6 +16,8 @@ class FireGeysersAttack<T>(
     cooldown: Int,
     trigger: TriggerCondition,
     damage: List<DelayedAttackDamage>,
+    val burstDamageConversion: Double,
+    val durationDamageConversion: Double,
     val delay: Int,
     val radius: Int,
     val geyserProbability: Double, // probability for each possible location to have a geyser
@@ -31,6 +33,8 @@ class FireGeysersAttack<T>(
         cooldown: Int,
         trigger: TriggerCondition,
         damage: DelayedAttackDamage?,
+        burstDamageConversion: Double,
+        durationDamageConversion: Double,
         delay: Int,
         radius: Int,
         geyserProbability: Double,
@@ -45,6 +49,8 @@ class FireGeysersAttack<T>(
         cooldown,
         trigger,
         if (damage != null) listOf(damage) else listOf(),
+        burstDamageConversion,
+        durationDamageConversion,
         delay,
         radius,
         geyserProbability,
@@ -58,7 +64,7 @@ class FireGeysersAttack<T>(
     override fun start(attacker: T, target: LivingEntity?) {
         super.start(attacker, target)
 
-        val event = FireGeysersAttackEvent(attacker, target, delay, radius, geyserProbability, geyserCountLimit, indicatorDuration, pillarDuration)
+        val event = FireGeysersAttackEvent(attacker, target, burstDamageConversion, durationDamageConversion, delay, radius, geyserProbability, geyserCountLimit, indicatorDuration, pillarDuration)
         EventGateway.publish(event)
     }
 }

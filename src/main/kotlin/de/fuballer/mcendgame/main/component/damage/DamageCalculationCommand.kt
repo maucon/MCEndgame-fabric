@@ -49,10 +49,21 @@ data class DamageCalculationCommand(
             damaged: LivingEntity,
             world: ServerWorld,
             source: ExtendedDamageSource,
+            attackAttributes: List<CustomAttribute>,
             shieldBlocking: Boolean,
         ): DamageCalculationCommand {
             val damager = source.attacker
-            val damagerAttributes = (damager as? LivingEntity)?.getAllCustomAttributes() ?: emptyMap()
+            val damagerAttributes = (damager as? LivingEntity)
+                ?.getAllCustomAttributes()
+                ?.toMutableMap()
+                ?: mutableMapOf()
+            attackAttributes.filter { it.type is CustomAttributeType }
+                .groupBy { it.type as CustomAttributeType }
+                .forEach { (type, attributes) ->
+                    val existing = damagerAttributes[type] ?: emptyList()
+                    damagerAttributes[type] = existing + attributes
+                }
+
             val damagedAttributes = damaged.getAllCustomAttributes()
             val damageType = source.type
 

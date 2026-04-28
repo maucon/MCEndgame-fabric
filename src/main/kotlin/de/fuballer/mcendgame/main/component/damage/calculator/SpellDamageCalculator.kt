@@ -8,15 +8,15 @@ import de.fuballer.mcendgame.main.util.extension.DamageTypeExtension.isOf
 import net.minecraft.entity.LivingEntity
 import net.minecraft.entity.damage.DamageSource
 
-object ElementalDamageCalculator : DamageCalculator {
-    override fun isActive(source: DamageSource) = source.type.isOf(CustomDamageTypes.ELEMENTAL)
+object SpellDamageCalculator : DamageCalculator {
+    override fun isActive(source: DamageSource) = source.type.isOf(CustomDamageTypes.SPELL)
 
     override fun calculateAttackDamage(
         originalDamage: Float,
         attacked: LivingEntity,
         source: ExtendedDamageSource,
         event: DamageCalculationCommand
-    ) = 0f
+    ) = 0f // TODO add attack damage calculation (currently no spell has attack damage)
 
     override fun calculateElementalDamage(
         originalDamage: Float,
@@ -26,10 +26,9 @@ object ElementalDamageCalculator : DamageCalculator {
     ): Float {
         val baseDamage = calculateBaseElementalDamage(event)
         val damageMulti = DamageUtil.calculateElementalDamageMultiplier(event)
-        val damageFactor = source.damageCalculationConfig.damageFactor
 
         val critMulti = calculateCriticalMultiplier(event)
-        return (baseDamage * critMulti * damageMulti * damageFactor).toFloat()
+        return (baseDamage * critMulti * damageMulti).toFloat()
     }
 
     private fun calculateBaseElementalDamage(

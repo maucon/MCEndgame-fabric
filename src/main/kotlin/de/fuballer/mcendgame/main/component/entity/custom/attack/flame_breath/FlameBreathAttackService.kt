@@ -1,12 +1,18 @@
 package de.fuballer.mcendgame.main.component.entity.custom.attack.flame_breath
 
-import de.fuballer.mcendgame.main.component.damage.dealing.DamageDealingService.dealGenericAttackDamage
+import de.fuballer.mcendgame.main.component.custom_attribute.data.CustomAttribute
+import de.fuballer.mcendgame.main.component.custom_attribute.data.DoubleBounds
+import de.fuballer.mcendgame.main.component.custom_attribute.data.DoubleRoll
+import de.fuballer.mcendgame.main.component.custom_attribute.types.CustomAttributeTypes
+import de.fuballer.mcendgame.main.component.damage.custom_type.CustomDamageTypes
+import de.fuballer.mcendgame.main.component.damage.dealing.DamageDealingExtension.dealDamage
 import de.fuballer.mcendgame.main.component.particle.HorizontalFlameBreathParticleEffect
 import de.fuballer.mcendgame.main.functional.scheduler.Scheduler
 import de.maucon.mauconframework.di.annotation.Injectable
 import de.maucon.mauconframework.event.EventSubscriber
 import net.minecraft.entity.Entity
 import net.minecraft.entity.LivingEntity
+import net.minecraft.entity.attribute.EntityAttributes
 import net.minecraft.server.world.ServerWorld
 import net.minecraft.sound.SoundCategory
 import net.minecraft.sound.SoundEvents
@@ -18,6 +24,7 @@ import kotlin.math.min
 import kotlin.random.Random
 
 private val HORIZONTAL_VECTOR = Vec3d(1.0, 0.0, 1.0)
+private val NO_AD_ATTRIBUTE = CustomAttribute(CustomAttributeTypes.NO_ATTACK_DAMAGE)
 
 @Injectable
 class FlameBreathAttackService(
@@ -36,7 +43,7 @@ class FlameBreathAttackService(
 
         createParticles(world, attacker, originPoint, horizontalDirection, event.delay, event.duration, event.angle)
         playSound(world, originPoint, event.delay, event.duration)
-        dealDamage(world, attacker, originPoint, horizontalDirection, event.delay, event.duration, event.angle)
+        dealDamage(world, attacker, event.damageConversion, originPoint, horizontalDirection, event.delay, event.duration, event.angle)
     }
 
     private fun getDirection(
@@ -107,6 +114,7 @@ class FlameBreathAttackService(
     private fun dealDamage(
         world: ServerWorld,
         attacker: Entity,
+        damageConversion: Double,
         originPoint: Vec3d,
         direction: Vec3d,
         delay: Int,
@@ -145,12 +153,21 @@ class FlameBreathAttackService(
                 it != attacker && squaredDistance <= maxDistanceSquared && squaredDistance >= minDistanceSquared
             }
 
+            val attackDamage = if (attacker is LivingEntity) attacker.getAttributeValue(EntityAttributes.ATTACK_DAMAGE) else 1.0
+            val elementalDamage = attackDamage * damageConversion
             for (entity in entities) {
                 val directionVectorToEntity = entity.entityPos.subtract(originPoint).multiply(HORIZONTAL_VECTOR).normalize()
 
                 val dotProduct = direction.dotProduct(directionVectorToEntity)
                 if (dotProduct >= cosThreshold) {
-                    entity.dealGenericAttackDamage(1F, attacker) // TODO deal generic elemental damage
+                    entity.dealDamage(
+                        attacker,
+                        listOf(
+                            NO_AD_ATTRIBUTE,
+                            CustomAttribute(CustomAttributeTypes.ELEMENTAL_DAMAGE, roll = DoubleRoll(DoubleBounds(elementalDamage))),
+                        ),
+                        CustomDamageTypes.SPELL
+                    )
                     entity.setOnFireForTicks(80)
                 }
             }

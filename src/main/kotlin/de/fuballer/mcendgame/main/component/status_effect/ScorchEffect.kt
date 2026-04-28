@@ -1,6 +1,6 @@
 package de.fuballer.mcendgame.main.component.status_effect
 
-import de.fuballer.mcendgame.main.component.damage.dealing.DamageDealingService.dealGenericAttackDamage
+import de.fuballer.mcendgame.main.component.damage.dealing.DamageDealingExtension.dealGenericAttackDamage
 import de.fuballer.mcendgame.main.util.extension.EntityExtension.isEnemy
 import net.minecraft.entity.Entity
 import net.minecraft.entity.LivingEntity
