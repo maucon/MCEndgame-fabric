@@ -14,7 +14,6 @@ import de.maucon.mauconframework.command.CommandGateway
 import net.minecraft.component.DataComponentTypes
 import net.minecraft.entity.Entity
 import net.minecraft.entity.LivingEntity
-import net.minecraft.entity.PlayerLikeEntity
 import net.minecraft.entity.Tameable
 import net.minecraft.entity.decoration.ArmorStandEntity
 import net.minecraft.entity.effect.StatusEffectInstance
@@ -23,7 +22,7 @@ import net.minecraft.entity.passive.AnimalEntity
 import net.minecraft.entity.passive.IronGolemEntity
 import net.minecraft.entity.passive.VillagerEntity
 import net.minecraft.entity.player.PlayerEntity
-import net.minecraft.registry.Registries
+import net.minecraft.item.Items
 import net.minecraft.server.world.ServerWorld
 import net.minecraft.util.function.BooleanBiFunction
 import net.minecraft.util.math.BlockPos
@@ -184,13 +183,11 @@ object EntityExtension {
         addStatusEffect(effectInstance, source)
     }
 
-    fun PlayerLikeEntity.setShieldsCooldown(cooldown: Float) {
+    fun LivingEntity.setShieldsCooldown(cooldown: Float) {
         val serverWorld = entityWorld as? ServerWorld ?: return
 
-        Registries.ITEM.iterateEntries(CustomTags.SHIELD).forEach { entry ->
-            val stack = entry.value().defaultStack
-            val blocksAttacksComponent = stack.get(DataComponentTypes.BLOCKS_ATTACKS) ?: return@forEach
-            blocksAttacksComponent.applyShieldCooldown(serverWorld, this, cooldown, stack)
-        }
+        val shieldStack = Items.SHIELD.defaultStack
+        val blocksAttacksComponent = shieldStack.get(DataComponentTypes.BLOCKS_ATTACKS) ?: return
+        blocksAttacksComponent.applyShieldCooldown(serverWorld, this, cooldown, shieldStack)
     }
 }

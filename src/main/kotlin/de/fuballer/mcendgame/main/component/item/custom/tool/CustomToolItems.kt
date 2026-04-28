@@ -5,9 +5,11 @@ import de.fuballer.mcendgame.main.component.item.custom.tool.item.*
 import de.maucon.mauconframework.di.annotation.Injectable
 import net.minecraft.component.DataComponentTypes
 import net.minecraft.component.type.BlocksAttacksComponent
+import net.minecraft.component.type.UseCooldownComponent
 import net.minecraft.item.Item
 import net.minecraft.registry.tag.DamageTypeTags
 import net.minecraft.sound.SoundEvents
+import net.minecraft.util.Identifier
 import java.util.*
 
 @Injectable
@@ -72,6 +74,10 @@ object CustomToolItems {
                     Optional.of(SoundEvents.ITEM_SHIELD_BLOCK),
                     Optional.of(SoundEvents.ITEM_SHIELD_BREAK),
                 )
+            )
+            .component(
+                DataComponentTypes.USE_COOLDOWN,
+                UseCooldownComponent(0F, Optional.of(Identifier.of("minecraft", "shield")))
             )
             .component(DataComponentTypes.BREAK_SOUND, SoundEvents.ITEM_SHIELD_BREAK),
         "grudgebearer"
