@@ -5,6 +5,7 @@
   "mixins": [
     "access.EntityAccessMixin",
     "access.PlayerEntityAccessMixin",
+    "additional_arrows.RangedWeaponItemAdditionalArrowsMixin",
     "conversion.SkeletonConversionMixin",
     "conversion.ZombieConversionMixin",
     "corruption.AnvilScreenHandlerCorruptionUnmodifiableMixin",
@@ -67,7 +68,6 @@
     "player.PlayerEntityDungeonSeedMixin",
     "player.PlayerEntityInsideDungeonMixin",
     "projectile.PersistentProjectileEntityDamageMixin",
-    "projectile.PersistentProjectileEntityIsAdditionalMixin",
     "projectile.PersistentProjectileEntityPierceLevelMixin",
     "server_player_entity.ServerPlayerEntityDeathNBTCopyMixin",
     "server_player_entity.ServerPlayerEntityTeleportCommandMixin",
