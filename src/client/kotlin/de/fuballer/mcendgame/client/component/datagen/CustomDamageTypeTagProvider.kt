@@ -24,6 +24,7 @@ class CustomDamageTypeTagProvider(
 
         getTagBuilder(DamageTypeTags.BYPASSES_SHIELD)
             .addOptional(CustomDamageTypes.GENERIC_ATTACK_UNBLOCKABLE.value)
+            .addOptional(CustomDamageTypes.SPELL.value)
 
         getTagBuilder(CustomTags.MELEE_ATTACK)
             .add(DamageTypes.PLAYER_ATTACK.value)
