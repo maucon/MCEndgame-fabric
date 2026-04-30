@@ -2,6 +2,8 @@ package de.fuballer.mcendgame.client.component.entity.custom
 
 import de.fuballer.mcendgame.client.component.entity.custom.entities.arachne.ArachneEntityModel
 import de.fuballer.mcendgame.client.component.entity.custom.entities.arachne.ArachneRenderer
+import de.fuballer.mcendgame.client.component.entity.custom.entities.beakburn.BeakburnRenderState
+import de.fuballer.mcendgame.client.component.entity.custom.entities.beakburn.BeakburnRenderer
 import de.fuballer.mcendgame.client.component.entity.custom.entities.bonecrusher.BonecrusherRenderState
 import de.fuballer.mcendgame.client.component.entity.custom.entities.bonecrusher.BonecrusherRenderer
 import de.fuballer.mcendgame.client.component.entity.custom.entities.elf_duelist.ElfDuelistRenderState
@@ -20,13 +22,9 @@ import de.maucon.mauconframework.di.annotation.Injectable
 import de.maucon.mauconframework.initializer.Initializer
 import net.fabricmc.fabric.api.client.rendering.v1.EntityModelLayerRegistry
 import net.fabricmc.fabric.api.client.rendering.v1.EntityRendererRegistry
-import net.minecraft.client.render.entity.state.BipedEntityRenderState
-import software.bernie.geckolib.renderer.base.GeoRenderState
 
 @Injectable
 object EntityModelRegisterer {
-    private abstract class Help<R> where  R : BipedEntityRenderState, R : GeoRenderState
-
     @Initializer
     fun register() {
         EntityModelLayerRegistry.registerModelLayer(
@@ -51,6 +49,7 @@ object EntityModelRegisterer {
 
         EntityRendererRegistry.register(CustomEntities.BONECRUSHER) { state -> BonecrusherRenderer<BonecrusherRenderState>(state) }
         EntityRendererRegistry.register(CustomEntities.ELF_DUELIST) { state -> ElfDuelistRenderer<ElfDuelistRenderState>(state) }
+        EntityRendererRegistry.register(CustomEntities.BEAKBURN) { state -> BeakburnRenderer<BeakburnRenderState>(state) }
 
         EntityModelLayerRegistry.registerModelLayer(
             DefaultPortalEntityModel.PORTAL,

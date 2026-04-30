@@ -27,7 +27,7 @@ typealias VanillaDamageUtil = net.minecraft.entity.DamageUtil
 private val DAMAGE_CALCULATORS = listOf(
     PierceAttackDamageCalculator,
     KineticAttackDamageCalculator,
-    ElementalDamageCalculator,
+    SpellDamageCalculator,
     EnderDragonCalculator,
     WitherSkullCalculator,
     WitherExplosionCalculator,
@@ -67,7 +67,7 @@ object DamageService {
             return DamageCalculationResult.noDamage()
         }
 
-        val damageCalculationCommand = DamageCalculationCommand.of(entity, world, source, damageCalculationConfig.shieldBlocked)
+        val damageCalculationCommand = DamageCalculationCommand.of(entity, world, source, damageCalculationConfig.attackAttributes, damageCalculationConfig.shieldBlocked)
         damageCalculationCommand.moreDamage.addAll(damageCalculationConfig.vanillaMoreDamage)
         damageCalculationCommand.moreDamageTaken.addAll(damageCalculationConfig.vanillaMoreDamageTaken)
 

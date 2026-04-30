@@ -12,7 +12,7 @@ import net.minecraft.world.World
 @Injectable
 object CustomDamageTypes {
     val SWEEPING: RegistryKey<DamageType> = RegistryKey.of(RegistryKeys.DAMAGE_TYPE, IdentifierUtil.default("sweeping"))
-    val ELEMENTAL: RegistryKey<DamageType> = RegistryKey.of(RegistryKeys.DAMAGE_TYPE, IdentifierUtil.default("elemental"))
+    val SPELL: RegistryKey<DamageType> = RegistryKey.of(RegistryKeys.DAMAGE_TYPE, IdentifierUtil.default("spell"))
     val GENERIC_ATTACK: RegistryKey<DamageType> = RegistryKey.of(RegistryKeys.DAMAGE_TYPE, IdentifierUtil.default("generic_attack"))
     val GENERIC_ATTACK_UNBLOCKABLE: RegistryKey<DamageType> = RegistryKey.of(RegistryKeys.DAMAGE_TYPE, IdentifierUtil.default("generic_attack_unblockable"))
     val PIERCE_ATTACK: RegistryKey<DamageType> = RegistryKey.of(RegistryKeys.DAMAGE_TYPE, IdentifierUtil.default("pierce_attack"))

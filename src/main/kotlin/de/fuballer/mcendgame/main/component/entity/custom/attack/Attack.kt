@@ -5,6 +5,7 @@ import de.fuballer.mcendgame.main.component.entity.custom.attack.damage.instance
 import de.fuballer.mcendgame.main.component.entity.custom.attack.data.AttackAnimationData
 import de.fuballer.mcendgame.main.component.entity.custom.attack.trigger_condition.TriggerCondition
 import de.fuballer.mcendgame.main.component.entity.custom.interfaces.BlockAbleMovementMob
+import de.fuballer.mcendgame.main.component.entity.custom.sound.DelayedSoundData
 import net.minecraft.entity.LivingEntity
 import net.minecraft.entity.mob.MobEntity
 import software.bernie.geckolib.animatable.GeoEntity
@@ -15,6 +16,7 @@ open class Attack<T>(
     val cooldown: Int,
     private val trigger: TriggerCondition,
     private val damage: List<DelayedAttackDamage>,
+    private val sounds: List<DelayedSoundData> = listOf(),
     private val blockMovementDuration: Int = 0,
 ) where T : MobEntity, T : GeoEntity {
     constructor(
@@ -23,6 +25,7 @@ open class Attack<T>(
         cooldown: Int,
         trigger: TriggerCondition,
         damage: DelayedAttackDamage?,
+        sounds: List<DelayedSoundData> = listOf(),
         blockMovementDuration: Int = 0,
     ) : this(
         animationData,
@@ -30,6 +33,7 @@ open class Attack<T>(
         cooldown,
         trigger,
         if (damage != null) listOf(damage) else listOf(),
+        sounds,
         blockMovementDuration,
     )
 
@@ -66,4 +70,6 @@ open class Attack<T>(
         target: LivingEntity?,
         delayedDamage: DelayedAttackDamage,
     ) = AttackDamageInstance(delayedDamage.minDelay, delayedDamage.maxDelay, target, delayedDamage.damage)
+
+    open fun getSoundInstances() = sounds.map(DelayedSoundData::getInstance)
 }

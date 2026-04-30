@@ -5,6 +5,7 @@ import de.fuballer.mcendgame.main.component.entity.custom.attack.damage.instance
 import de.fuballer.mcendgame.main.component.entity.custom.attack.data.AttackAnimationData
 import de.fuballer.mcendgame.main.component.entity.custom.attack.trigger_condition.TriggerCondition
 import de.fuballer.mcendgame.main.component.entity.custom.interfaces.BlockAbleMovementMob
+import de.fuballer.mcendgame.main.component.entity.custom.sound.DelayedSoundData
 import net.minecraft.entity.LivingEntity
 import net.minecraft.entity.mob.MobEntity
 import net.minecraft.util.math.Vec3d
@@ -13,15 +14,16 @@ import kotlin.math.abs
 import kotlin.math.max
 import kotlin.math.sqrt
 
-class LeapAttack<T>(
+open class LeapAttack<T>(
     animationData: AttackAnimationData,
     totalDuration: Int,
     cooldown: Int,
     trigger: TriggerCondition,
     damage: List<DelayedAttackDamage>,
     private val leapType: LeapType,
+    sounds: List<DelayedSoundData> = listOf(),
     blockMovementDuration: Int = 0,
-) : Attack<T>(animationData, totalDuration, cooldown, trigger, damage, blockMovementDuration) where T : MobEntity, T : GeoEntity {
+) : Attack<T>(animationData, totalDuration, cooldown, trigger, damage, sounds, blockMovementDuration) where T : MobEntity, T : GeoEntity {
     constructor(
         animationData: AttackAnimationData,
         totalDuration: Int,
@@ -29,6 +31,7 @@ class LeapAttack<T>(
         trigger: TriggerCondition,
         damage: DelayedAttackDamage?,
         leapType: LeapType,
+        sounds: List<DelayedSoundData> = listOf(),
         blockMovementDuration: Int = 0,
     ) : this(
         animationData,
@@ -37,6 +40,7 @@ class LeapAttack<T>(
         trigger,
         if (damage != null) listOf(damage) else listOf(),
         leapType,
+        sounds,
         blockMovementDuration,
     )
 

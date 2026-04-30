@@ -6,7 +6,7 @@ import de.fuballer.mcendgame.main.component.custom_attribute.data.DoubleRoll;
 import de.fuballer.mcendgame.main.component.custom_attribute.data.IntRoll;
 import de.fuballer.mcendgame.main.component.custom_attribute.effects.link.LinkSettings;
 import de.fuballer.mcendgame.main.component.custom_attribute.types.CustomAttributeTypes;
-import de.fuballer.mcendgame.main.component.damage.dealing.DamageDealingService;
+import de.fuballer.mcendgame.main.component.damage.dealing.DamageDealingExtension;
 import de.fuballer.mcendgame.main.util.extension.EntityExtension;
 import de.fuballer.mcendgame.main.util.minecraft.IdentifierUtil;
 import io.netty.buffer.ByteBuf;
@@ -198,7 +198,7 @@ public abstract class LivingEntityLinkAttributeMixin implements LivingEntityLink
                 .map(Pair::getFirst)
                 .toList();
 
-        linkedEntities.forEach(linkedEntity -> DamageDealingService.INSTANCE.dealElementalDamage(linkedEntity, sum, entity));
+        linkedEntities.forEach(linkedEntity -> DamageDealingExtension.INSTANCE.dealElementalSpellDamage(linkedEntity, sum, entity));
     }
 
     @Override

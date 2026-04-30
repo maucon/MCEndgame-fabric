@@ -6,6 +6,7 @@ import de.fuballer.mcendgame.main.component.dungeon.type.data.RolledDungeonType
 import de.fuballer.mcendgame.main.component.entity.EntityTypeStats
 import de.fuballer.mcendgame.main.component.entity.types.*
 import de.fuballer.mcendgame.main.component.entity.types.boss.ArachneBossStats
+import de.fuballer.mcendgame.main.component.entity.types.boss.BeakburnBossStats
 import de.fuballer.mcendgame.main.component.entity.types.boss.BonecrusherBossStats
 import de.fuballer.mcendgame.main.component.entity.types.boss.ElfDuelistBossStats
 import de.fuballer.mcendgame.main.util.random.RandomOption
@@ -42,6 +43,7 @@ enum class DungeonType(
             RandomOption(1, ArachneBossStats),
             RandomOption(1, BonecrusherBossStats),
             RandomOption(1, ElfDuelistBossStats),
+            RandomOption(1, BeakburnBossStats),
         ),
         bossCount = 3,
         biome = BiomeKeys.PLAINS,
@@ -63,6 +65,7 @@ enum class DungeonType(
             RandomOption(1, ArachneBossStats),
             RandomOption(1, BonecrusherBossStats),
             RandomOption(1, ElfDuelistBossStats),
+            RandomOption(1, BeakburnBossStats),
         ),
         bossCount = 3,
         biome = BiomeKeys.NETHER_WASTES,

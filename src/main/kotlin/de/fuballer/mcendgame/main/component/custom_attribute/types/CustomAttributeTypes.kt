@@ -42,6 +42,7 @@ object CustomAttributeTypes {
     val CRITICAL_DAMAGE_MULTIPLIER =
         CustomAttributeType("critical_damage_multiplier", AttributeFormats.SIGNED_PERCENT_ROLL, AttributeFormats.PERCENT_BOUNDS, AttributeAffinities.BENEFICIAL)
 
+
     // BOW
     val BOW_PULL_TICKS = CustomAttributeType("bow_pull_ticks", AttributeFormats.SIGNED_INT_ROLL, AttributeFormats.INT_BOUNDS, AttributeAffinities.DETRIMENTAL)
     val ADDITIONAL_ARROWS = CustomAttributeType("additional_arrows", AttributeFormats.SIGNED_INT_ROLL, AttributeFormats.INT_BOUNDS, AttributeAffinities.BENEFICIAL)
@@ -245,6 +246,8 @@ object CustomAttributeTypes {
     val STRENGTH_ON_KILL = CustomAttributeType("strength_on_kill", AttributeFormats.TWO_INT_ROLL, AttributeFormats.TWO_INT_BOUNDS, AttributeAffinities.BENEFICIAL_CONDITIONAL_BENEFICIAL)
     val SPEED_ON_KILL = CustomAttributeType("speed_on_kill", AttributeFormats.TWO_INT_ROLL, AttributeFormats.TWO_INT_BOUNDS, AttributeAffinities.BENEFICIAL_CONDITIONAL_BENEFICIAL)
     val HASTE_ON_KILL = CustomAttributeType("haste_on_kill", AttributeFormats.TWO_INT_ROLL, AttributeFormats.TWO_INT_BOUNDS, AttributeAffinities.BENEFICIAL_CONDITIONAL_BENEFICIAL)
+
+    val NO_ATTACK_DAMAGE = CustomAttributeType("no_attack_damage", AttributeFormats.EMPTY_ROLL, AttributeFormats.EMPTY_BOUNDS, AttributeAffinities.DETRIMENTAL)
 
     // for use on enemies (don't use for players)
     val DROP_INCREASED_LOOT =

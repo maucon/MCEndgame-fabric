@@ -78,6 +78,7 @@
     "status_effect.ApplyHealingFactorInstantHealthOrDamageStatusEffectMixin",
     "status_effect.PoisonStatusEffectMixin",
     "status_effect.WitherStatusEffectMixin",
+    "wind_charge.WindChargeEntityExplosionPowerMixin",
     "wolf_entity.WolfEntityColorAndVariantMixin",
     "wolf_entity.WolfEntityCompanionInteractMixin",
     "world.DungeonWorldMixin"

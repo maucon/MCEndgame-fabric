@@ -247,6 +247,7 @@
   "attribute.mcendgame.increased_healing": "%s%% %s Healing",
   "attribute.mcendgame.more_healing": " %s%% %s Healing",
   "attribute.mcendgame.chance_to_heal_more": " %s%% Chance to Heal %s%% %s",
+  "attribute.mcendgame.no_attack_damage": " Deal no Attack Damage",
 
   "effect.mcendgame.fury": "Fury",
   "effect.mcendgame.resilience": "Resilience",
@@ -262,6 +263,7 @@
   "entity.mcendgame.webhook": "Webhook",
   "entity.mcendgame.portal": "Portal",
   "entity.mcendgame.bonecrusher": "Bonecrusher",
+  "entity.mcendgame.beakburn": "Beakburn",
 
   "block.mcendgame.decaying_cobweb": "Decaying Cobweb",
   "block.mcendgame.totem_statue": "Totem Statue",

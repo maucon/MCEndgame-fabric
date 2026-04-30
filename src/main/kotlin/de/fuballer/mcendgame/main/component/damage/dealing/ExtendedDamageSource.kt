@@ -1,5 +1,6 @@
 package de.fuballer.mcendgame.main.component.damage.dealing
 
+import de.fuballer.mcendgame.main.component.custom_attribute.data.CustomAttribute
 import de.fuballer.mcendgame.main.component.damage.DifficultyScaling
 import net.minecraft.entity.Entity
 import net.minecraft.entity.damage.DamageSource
@@ -27,7 +28,7 @@ data class DamageCalculationConfig(
     val vanillaMoreDamage: MutableList<Double> = mutableListOf(),
     val vanillaMoreDamageTaken: MutableList<Double> = mutableListOf(),
     var shieldBlocked: Boolean = false,
-    var damageFactor: Double = 1.0,
+    val attackAttributes: List<CustomAttribute> = mutableListOf(),
 ) {
     constructor() : this(false) // explicitly empty constructor for java
 

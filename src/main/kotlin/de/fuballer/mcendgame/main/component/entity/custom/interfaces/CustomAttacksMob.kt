@@ -3,8 +3,10 @@ package de.fuballer.mcendgame.main.component.entity.custom.interfaces
 import de.fuballer.mcendgame.main.component.entity.custom.attack.Attack
 import de.fuballer.mcendgame.main.component.entity.custom.attack.AttackPose
 import de.fuballer.mcendgame.main.component.entity.custom.attack.damage.instance.AttackDamageInstance
+import de.fuballer.mcendgame.main.component.entity.custom.sound.DelayedSoundInstance
 import de.fuballer.mcendgame.main.util.random.RandomOption
 import de.fuballer.mcendgame.main.util.random.RandomUtil
+import net.minecraft.entity.Entity
 import net.minecraft.entity.mob.MobEntity
 import net.minecraft.server.world.ServerWorld
 import software.bernie.geckolib.animatable.GeoEntity
@@ -18,6 +20,7 @@ interface CustomAttacksMob<T> where T : MobEntity, T : GeoEntity {
     val attackCooldowns: MutableMap<Attack<T>, Int>
 
     val attackDamageInstances: MutableList<AttackDamageInstance>
+    val attackSoundInstances: MutableList<DelayedSoundInstance>
 
     fun tickAttacks(
         world: ServerWorld,
@@ -25,6 +28,7 @@ interface CustomAttacksMob<T> where T : MobEntity, T : GeoEntity {
     ) {
         tickCooldowns()
         tickAttackDamageInstances(world, damager)
+        tickSoundInstances(world, damager)
 
         if (attackDuration > 0) {
             --attackDuration
@@ -52,6 +56,7 @@ interface CustomAttacksMob<T> where T : MobEntity, T : GeoEntity {
         val target = attacker.target
         attack.start(attacker, target)
         attackDamageInstances.addAll(attack.getDamageInstances(target))
+        attackSoundInstances.addAll(attack.getSoundInstances())
     }
 
     private fun tickCooldowns() {
@@ -77,6 +82,18 @@ interface CustomAttacksMob<T> where T : MobEntity, T : GeoEntity {
             toRemove.add(attack)
         }
         attackDamageInstances.removeAll(toRemove)
+    }
+
+    private fun tickSoundInstances(
+        world: ServerWorld,
+        entity: Entity,
+    ) {
+        val toRemove = mutableListOf<DelayedSoundInstance>()
+        for (sound in attackSoundInstances) {
+            if (!sound.tick(world, entity)) continue
+            toRemove.add(sound)
+        }
+        attackSoundInstances.removeAll(toRemove)
     }
 
     fun getRandomAttack(

@@ -13,6 +13,7 @@ import de.fuballer.mcendgame.main.component.entity.custom.interfaces.BlockAbleMo
 import de.fuballer.mcendgame.main.component.entity.custom.interfaces.CustomAttacksMob
 import de.fuballer.mcendgame.main.component.entity.custom.interfaces.DisableAbleGoalsMob
 import de.fuballer.mcendgame.main.component.entity.custom.interfaces.TeleportAttackMob
+import de.fuballer.mcendgame.main.component.entity.custom.sound.DelayedSoundInstance
 import de.fuballer.mcendgame.main.util.random.RandomOption
 import net.minecraft.entity.EntityType
 import net.minecraft.entity.ai.goal.ActiveTargetGoal
@@ -74,7 +75,7 @@ class BonecrusherEntity(
             cooldown = 100,
             DistanceTriggerCondition(1.5, 4.0),
             DelayedAttackDamage(SLAM_ATTACK_DAMAGE, 14),
-            22,
+            blockMovementDuration = 22,
         )
 
         private val TELEPORT_PRESS_ANIM: RawAnimation = RawAnimation.begin().thenPlay("attack.press")
@@ -171,6 +172,7 @@ class BonecrusherEntity(
     override val attacks = ATTACKS
     override val attackCooldowns: MutableMap<Attack<BonecrusherEntity>, Int> = mutableMapOf()
     override val attackDamageInstances = mutableListOf<AttackDamageInstance>()
+    override val attackSoundInstances = mutableListOf<DelayedSoundInstance>()
 
     override var teleportAttackTargetPosition: Vec3d? = null
 

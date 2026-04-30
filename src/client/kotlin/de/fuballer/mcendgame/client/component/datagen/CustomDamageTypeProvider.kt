@@ -18,8 +18,8 @@ class CustomDamageTypeProvider(
             generateDamageTypeJSON()
                 .let { DataProvider.writeToPath(writer, it, getPath(CustomDamageTypes.SWEEPING.value.path)) },
 
-            generateDamageTypeJSON(CustomDamageTypes.ELEMENTAL.value.path)
-                .let { DataProvider.writeToPath(writer, it, getPath(CustomDamageTypes.ELEMENTAL.value.path)) },
+            generateDamageTypeJSON(CustomDamageTypes.SPELL.value.path)
+                .let { DataProvider.writeToPath(writer, it, getPath(CustomDamageTypes.SPELL.value.path)) },
 
             generateDamageTypeJSON()
                 .let { DataProvider.writeToPath(writer, it, getPath(CustomDamageTypes.GENERIC_ATTACK.value.path)) },
