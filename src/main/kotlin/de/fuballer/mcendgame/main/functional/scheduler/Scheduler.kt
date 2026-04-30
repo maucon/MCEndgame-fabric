@@ -23,7 +23,7 @@ class Scheduler(
                 return@forEach
             }
 
-            if (tickDifference > task.repeatDuration){
+            if (task.repeatDuration != INFINITE_REPEATING && tickDifference > task.repeatDuration) {
                 taskRepo.delete(task)
                 return@forEach
             }

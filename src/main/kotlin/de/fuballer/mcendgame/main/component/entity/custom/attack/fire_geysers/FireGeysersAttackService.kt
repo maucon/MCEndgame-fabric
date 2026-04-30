@@ -89,12 +89,10 @@ class FireGeysersAttackService(
 
                 for (neighbor in neighbors) {
                     if (neighbor in checkedPositions) continue
+                    checkedPositions.add(neighbor)
 
                     val state = world.getBlockState(neighbor)
-                    if (!state.isSolidBlock(world, neighbor)) {
-                        newHeads.add(neighbor)
-                        checkedPositions.add(neighbor)
-                    }
+                    if (!state.isSolidBlock(world, neighbor)) newHeads.add(neighbor)
                 }
             }
 
