@@ -3,7 +3,9 @@ package de.fuballer.mcendgame.main.component.dungeon.world
 import de.fuballer.mcendgame.main.component.dimension.CustomDimensions
 import de.fuballer.mcendgame.main.configuration.RuntimeConfig
 import de.fuballer.mcendgame.main.util.minecraft.IdentifierUtil
+import net.minecraft.registry.RegistryKey
 import net.minecraft.world.Difficulty
+import net.minecraft.world.biome.Biome
 import net.minecraft.world.rule.GameRules
 import xyz.nucleoid.fantasy.RuntimeWorldConfig
 import xyz.nucleoid.fantasy.util.VoidChunkGenerator
@@ -13,10 +15,12 @@ object DungeonWorldSettings {
     const val EMPTY_WORLD_CHECK_PERIOD = 10 * 60 * 20 // ticks
     const val MAX_EMPTY_TIME = 8 * 60L // seconds
 
-    fun getWorldConfig(): RuntimeWorldConfig = RuntimeWorldConfig()
+    fun getWorldConfig(
+        biome: RegistryKey<Biome>,
+    ): RuntimeWorldConfig = RuntimeWorldConfig()
         .setDimensionType(CustomDimensions.DUNGEON)
         .setDifficulty(Difficulty.HARD)
-        .setGenerator(VoidChunkGenerator(RuntimeConfig.SERVER))
+        .setGenerator(VoidChunkGenerator(RuntimeConfig.SERVER, biome))
         .setTimeOfDay(18000L)
         .setGameRule(GameRules.KEEP_INVENTORY, true)
         .setGameRule(GameRules.DO_MOB_GRIEFING, false)

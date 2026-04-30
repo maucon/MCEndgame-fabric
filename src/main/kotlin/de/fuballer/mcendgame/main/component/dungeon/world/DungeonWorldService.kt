@@ -48,7 +48,7 @@ class DungeonWorldService(
         dungeonExitPos: GlobalPos,
     ): ServerWorld {
         val dungeonWorld = RuntimeConfig.FANTASY
-            .openTemporaryWorld(DungeonWorldSettings.generateIdentifier(), DungeonWorldSettings.getWorldConfig())
+            .openTemporaryWorld(DungeonWorldSettings.generateIdentifier(), DungeonWorldSettings.getWorldConfig(dungeonType.biome))
             .asWorld()
 
         dungeonWorld.setDungeonLevel(dungeonLevel)

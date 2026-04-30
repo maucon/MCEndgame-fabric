@@ -41,8 +41,28 @@ class CustomDimensionTypeProvider(
         piglinSafe: Boolean = false,
         respawnAnchorWorks: Boolean = false,
         ultrawarm: Boolean = false,
+        musicDefault: String = "minecraft:music.game",
+        musicCreative: String = "minecraft:music.creative",
+        musicMinDelay: Int = 0,
+        musicMaxDelay: Int = 0,
     ) = JsonObject().apply {
         addProperty("ambient_light", ambientLight)
+
+        add("attributes", JsonObject().apply {
+            add("minecraft:audio/background_music", JsonObject().apply {
+                add("creative", JsonObject().apply {
+                    addProperty("max_delay", musicMaxDelay)
+                    addProperty("min_delay", musicMinDelay)
+                    addProperty("sound", musicCreative)
+                })
+                add("default", JsonObject().apply {
+                    addProperty("max_delay", musicMaxDelay)
+                    addProperty("min_delay", musicMinDelay)
+                    addProperty("sound", musicDefault)
+                })
+            })
+        })
+
         addProperty("bed_works", bedWorks)
         addProperty("coordinate_scale", coordinateScale)
         addProperty("effects", effects)
