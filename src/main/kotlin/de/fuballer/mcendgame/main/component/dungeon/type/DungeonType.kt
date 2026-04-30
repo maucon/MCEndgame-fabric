@@ -11,6 +11,9 @@ import de.fuballer.mcendgame.main.component.entity.types.boss.ElfDuelistBossStat
 import de.fuballer.mcendgame.main.util.random.RandomOption
 import de.fuballer.mcendgame.main.util.random.RandomUtil
 import net.minecraft.entity.LivingEntity
+import net.minecraft.registry.RegistryKey
+import net.minecraft.world.biome.Biome
+import net.minecraft.world.biome.BiomeKeys
 import kotlin.random.Random
 
 enum class DungeonType(
@@ -18,6 +21,7 @@ enum class DungeonType(
     private val entityTypes: List<RandomOption<EntityTypeStats>>,
     private val bossEntityTypes: List<RandomOption<EntityTypeStats>>,
     val bossCount: Int,
+    val biome: RegistryKey<Biome>,
     val applyMisc: (List<LivingEntity>) -> Unit = {},
 ) {
     STRONGHOLD(
@@ -39,7 +43,8 @@ enum class DungeonType(
             RandomOption(1, BonecrusherBossStats),
             RandomOption(1, ElfDuelistBossStats),
         ),
-        3,
+        bossCount = 3,
+        biome = BiomeKeys.PLAINS,
     ),
     NETHER(
         listOf(
@@ -59,7 +64,8 @@ enum class DungeonType(
             RandomOption(1, BonecrusherBossStats),
             RandomOption(1, ElfDuelistBossStats),
         ),
-        3,
+        bossCount = 3,
+        biome = BiomeKeys.NETHER_WASTES,
         { enemies -> enemies.forEach { it.addStatusEffect(PotionEffect.FIRE_RESISTANCE.getEffectInstance(false)) } },
     );
 
