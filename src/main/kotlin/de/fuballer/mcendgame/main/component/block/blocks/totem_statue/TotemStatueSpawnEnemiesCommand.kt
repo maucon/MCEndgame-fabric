@@ -1,4 +1,4 @@
-package de.fuballer.mcendgame.main.component.block.totem_statue
+package de.fuballer.mcendgame.main.component.block.blocks.totem_statue
 
 import net.minecraft.entity.LivingEntity
 import net.minecraft.server.world.ServerWorld

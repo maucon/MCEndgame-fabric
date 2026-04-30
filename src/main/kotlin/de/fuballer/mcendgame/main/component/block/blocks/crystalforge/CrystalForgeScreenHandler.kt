@@ -1,7 +1,7 @@
-package de.fuballer.mcendgame.main.component.block.crystalforge
+package de.fuballer.mcendgame.main.component.block.blocks.crystalforge
 
-import de.fuballer.mcendgame.main.component.block.crystalforge.slot.CrystalSlot
-import de.fuballer.mcendgame.main.component.block.crystalforge.slot.ForgeableEquipmentSlot
+import de.fuballer.mcendgame.main.component.block.blocks.crystalforge.slot.CrystalSlot
+import de.fuballer.mcendgame.main.component.block.blocks.crystalforge.slot.ForgeableEquipmentSlot
 import de.fuballer.mcendgame.main.component.item.custom.crystal.CrystalItem
 import de.fuballer.mcendgame.main.component.screen.CustomScreenHandlerTypes
 import net.minecraft.entity.player.PlayerEntity

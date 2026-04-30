@@ -1,7 +1,7 @@
-package de.fuballer.mcendgame.main.component.block.dungeon_device
+package de.fuballer.mcendgame.main.component.block.blocks.dungeon_device
 
 import de.fuballer.mcendgame.main.component.block.CustomBlockEntityTypes
-import de.fuballer.mcendgame.main.component.block.dungeon_device.networking.DungeonDevicePayload
+import de.fuballer.mcendgame.main.component.block.blocks.dungeon_device.networking.DungeonDevicePayload
 import de.fuballer.mcendgame.main.functional.inventory.ImplementedInventory
 import de.fuballer.mcendgame.main.util.extension.mixin.PlayerEntityMixinExtension.getDungeonLevel
 import net.fabricmc.fabric.api.screenhandler.v1.ExtendedScreenHandlerFactory

@@ -1,4 +1,4 @@
-package de.fuballer.mcendgame.main.component.block
+package de.fuballer.mcendgame.main.component.block.blocks
 
 import com.mojang.serialization.MapCodec
 import net.minecraft.block.Block

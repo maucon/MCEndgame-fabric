@@ -7,6 +7,7 @@ import net.minecraft.entity.Entity
 import net.minecraft.entity.LivingEntity
 import net.minecraft.entity.attribute.EntityAttribute
 import net.minecraft.entity.attribute.EntityAttributeModifier
+import net.minecraft.entity.projectile.ProjectileEntity
 import net.minecraft.registry.entry.RegistryEntry
 import net.minecraft.util.Identifier
 import net.minecraft.util.math.Vec3i
@@ -38,6 +39,13 @@ object EntityMixinExtension {
         val accessor = this as LivingEntityDungeonEnemyAccessor
         return accessor.`mcendgame$setDungeonEnemy`(enemy)
     }
+
+    fun Entity.isDungeonEnemyOrProjectile(): Boolean {
+        if (this is ProjectileEntity) return isDungeonEnemyProjectile()
+        return (this as? LivingEntity)?.isDungeonEnemy() ?: false
+    }
+
+    fun ProjectileEntity.isDungeonEnemyProjectile() = (owner as? LivingEntity)?.isDungeonEnemy() ?: false
 
     fun LivingEntity.isDungeonEnemy(): Boolean {
         val enemyAccessor = this as LivingEntityDungeonEnemyAccessor

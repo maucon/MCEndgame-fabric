@@ -1,4 +1,4 @@
-package de.fuballer.mcendgame.main.component.block.crystalforge.slot
+package de.fuballer.mcendgame.main.component.block.blocks.crystalforge.slot
 
 import de.fuballer.mcendgame.main.util.extension.ItemStackExtension.isForgeable
 import net.minecraft.inventory.Inventory

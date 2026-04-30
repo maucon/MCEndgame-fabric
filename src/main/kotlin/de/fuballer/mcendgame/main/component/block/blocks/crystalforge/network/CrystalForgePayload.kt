@@ -1,6 +1,6 @@
-package de.fuballer.mcendgame.main.component.block.crystalforge.network
+package de.fuballer.mcendgame.main.component.block.blocks.crystalforge.network
 
-import de.fuballer.mcendgame.main.component.block.crystalforge.CrystalForgeBlock
+import de.fuballer.mcendgame.main.component.block.blocks.crystalforge.CrystalForgeBlock
 import de.fuballer.mcendgame.main.util.minecraft.IdentifierUtil
 import net.minecraft.network.RegistryByteBuf
 import net.minecraft.network.codec.PacketCodec

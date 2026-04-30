@@ -99,6 +99,7 @@ class CustomModelProvider(
         generator.register(TotemItems.TOTEM_OF_RESTORATION, Models.GENERATED)
 
         generator.register(CustomBlocks.TOTEM_STATUE.asItem(), Models.GENERATED)
+        generator.register(CustomBlocks.DUNGEON_ENEMY_BLOCKER.asItem(), Models.GENERATED)
     }
 
     private fun sideTopBottomTextureMap(block: Block) = TextureMap()

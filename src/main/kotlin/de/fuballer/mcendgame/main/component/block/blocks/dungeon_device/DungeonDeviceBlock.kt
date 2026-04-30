@@ -1,4 +1,4 @@
-package de.fuballer.mcendgame.main.component.block.dungeon_device
+package de.fuballer.mcendgame.main.component.block.blocks.dungeon_device
 
 import com.mojang.serialization.MapCodec
 import de.maucon.mauconframework.event.EventGateway

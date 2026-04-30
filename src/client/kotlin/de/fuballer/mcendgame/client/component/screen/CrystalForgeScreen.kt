@@ -1,8 +1,8 @@
 package de.fuballer.mcendgame.client.component.screen
 
-import de.fuballer.mcendgame.main.component.block.crystalforge.CrystalForgeScreenHandler
-import de.fuballer.mcendgame.main.component.block.crystalforge.CrystalForgeSettings
-import de.fuballer.mcendgame.main.component.block.crystalforge.network.CrystalForgePayload
+import de.fuballer.mcendgame.main.component.block.blocks.crystalforge.CrystalForgeScreenHandler
+import de.fuballer.mcendgame.main.component.block.blocks.crystalforge.CrystalForgeSettings
+import de.fuballer.mcendgame.main.component.block.blocks.crystalforge.network.CrystalForgePayload
 import de.fuballer.mcendgame.main.component.item.custom.crystal.CrystalItem
 import de.fuballer.mcendgame.main.util.ColorUtil
 import de.fuballer.mcendgame.main.util.minecraft.IdentifierUtil
