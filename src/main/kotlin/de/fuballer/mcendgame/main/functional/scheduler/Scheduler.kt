@@ -23,7 +23,11 @@ class Scheduler(
                 return@forEach
             }
 
-            if (tickDifference > task.repeatDuration) taskRepo.delete(task)
+            if (tickDifference > task.repeatDuration){
+                taskRepo.delete(task)
+                return@forEach
+            }
+
             if (tickDifference % task.period != 0) return@forEach
             task.runnable(tickDifference)
         }
@@ -34,7 +38,7 @@ class Scheduler(
     }
 
     fun repeating(delay: Int, period: Int, runnable: (Int) -> Unit): UUID {
-        assert(period > 0)
+        require(period > 0)
 
         val startTick = RuntimeConfig.SERVER.ticks + delay
         val task = Task(runnable, startTick, period)
@@ -47,7 +51,7 @@ class Scheduler(
     }
 
     fun repeatingForDuration(delay: Int, period: Int, duration: Int, runnable: (Int) -> Unit): UUID {
-        assert(period > 0)
+        require(period > 0)
 
         val startTick = RuntimeConfig.SERVER.ticks + delay
         val task = Task(runnable, startTick, period, duration)

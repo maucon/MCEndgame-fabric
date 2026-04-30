@@ -8,7 +8,7 @@ class HealthTriggerCondition(
     private val maxHealthPercent: Double,
 ) : TriggerCondition() {
     override fun doesTrigger(attacker: MobEntity, target: LivingEntity?): Boolean {
-        val percent = attacker.health / attacker.maxHealth
+        val percent = (attacker.health / attacker.maxHealth).toDouble()
         return percent in minHealthPercent..maxHealthPercent
     }
 }

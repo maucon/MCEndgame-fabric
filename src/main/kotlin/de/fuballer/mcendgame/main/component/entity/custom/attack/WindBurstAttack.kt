@@ -91,7 +91,7 @@ class WindBurstAttack<T>(
         repeat(projectileCount(distance)) {
             val windCharge = WindChargeEntity(EntityType.WIND_CHARGE, serverWorld)
             windCharge.setExplosionPower(projectileExplosionPower)
-
+            windCharge.owner = attacker
             windCharge.setPosition(spawnPos)
 
             val itemStack = ItemStack(Items.AIR)

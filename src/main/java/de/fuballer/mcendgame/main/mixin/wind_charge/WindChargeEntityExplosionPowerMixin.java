@@ -10,7 +10,7 @@ import org.spongepowered.asm.mixin.injection.ModifyArg;
 @Mixin(WindChargeEntity.class)
 public class WindChargeEntityExplosionPowerMixin implements WindChargeEntityExplosionPowerAccessor {
     @Unique
-    private float explosionPower = -1;
+    private float explosionPower = Float.NaN;
 
     @ModifyArg(
             method = "createExplosion",
@@ -20,7 +20,7 @@ public class WindChargeEntityExplosionPowerMixin implements WindChargeEntityExpl
             )
     )
     float a(float originalPower) {
-        return (explosionPower > 0) ? explosionPower : originalPower;
+        return Float.isNaN(explosionPower) ? originalPower : explosionPower;
     }
 
     @Override

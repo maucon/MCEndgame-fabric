@@ -21,11 +21,13 @@ object DamageDealingExtension {
     }
 
     fun Entity.dealGenericAttackDamage(amount: Float, attacker: Entity, blockable: Boolean = true) {
+        val serverWorld = entityWorld as? ServerWorld ?: return
+
         val damageType = if (blockable) CustomDamageTypes.GENERIC_ATTACK else CustomDamageTypes.GENERIC_ATTACK_UNBLOCKABLE
-        val damageSource = CustomDamageTypes.of(entityWorld, damageType, attacker)
+        val damageSource = CustomDamageTypes.of(serverWorld, damageType, attacker)
         val extended = ExtendedDamageSource(DamageCalculationConfig(), damageSource)
 
-        this.damage(entityWorld as ServerWorld, extended, amount)
+        this.damage(serverWorld, extended, amount)
     }
 
     fun Entity.dealDamage(
@@ -33,10 +35,12 @@ object DamageDealingExtension {
         attributes: List<CustomAttribute>,
         damageType: RegistryKey<DamageType>,
     ) {
-        val damageSource = CustomDamageTypes.of(entityWorld, damageType, attacker)
+        val serverWorld = entityWorld as? ServerWorld ?: return
+
+        val damageSource = CustomDamageTypes.of(serverWorld, damageType, attacker)
         val config = DamageCalculationConfig(attackAttributes = attributes)
         val extended = ExtendedDamageSource(config, damageSource)
 
-        this.damage(entityWorld as ServerWorld, extended, 420F) // amount does not matter, will be calculated by us
+        this.damage(serverWorld, extended, 420F) // amount does not matter, will be calculated by us
     }
 }
