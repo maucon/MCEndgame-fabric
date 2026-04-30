@@ -38,7 +38,7 @@ class DungeonEnemyBlockerBlock(
     ): VoxelShape {
         val entityContext = context as? EntityShapeContext ?: return VoxelShapes.empty()
         val player = entityContext.entity as? PlayerEntity ?: return VoxelShapes.empty()
-        if (player.gameMode != GameMode.CREATIVE) return VoxelShapes.empty()
+        if (!player.isCreative) return VoxelShapes.empty()
         return VoxelShapes.fullCube()
     }
 }
