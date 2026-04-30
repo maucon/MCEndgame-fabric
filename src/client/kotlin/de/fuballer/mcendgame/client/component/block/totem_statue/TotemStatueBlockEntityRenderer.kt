@@ -1,6 +1,6 @@
 package de.fuballer.mcendgame.client.component.block.totem_statue
 
-import de.fuballer.mcendgame.main.component.block.totem_statue.TotemStatueBlockEntity
+import de.fuballer.mcendgame.main.component.block.blocks.totem_statue.TotemStatueBlockEntity
 import de.fuballer.mcendgame.main.util.minecraft.IdentifierUtil
 import net.minecraft.client.MinecraftClient
 import net.minecraft.client.render.OverlayTexture

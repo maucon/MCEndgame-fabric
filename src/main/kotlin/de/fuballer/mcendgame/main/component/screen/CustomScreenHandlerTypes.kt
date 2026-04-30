@@ -1,10 +1,10 @@
 package de.fuballer.mcendgame.main.component.screen
 
-import de.fuballer.mcendgame.main.component.block.crystalforge.CrystalForgeBlock
-import de.fuballer.mcendgame.main.component.block.crystalforge.CrystalForgeScreenHandler
-import de.fuballer.mcendgame.main.component.block.dungeon_device.DungeonDeviceBlock
-import de.fuballer.mcendgame.main.component.block.dungeon_device.DungeonDeviceScreenHandler
-import de.fuballer.mcendgame.main.component.block.dungeon_device.networking.DungeonDevicePayload
+import de.fuballer.mcendgame.main.component.block.blocks.crystalforge.CrystalForgeBlock
+import de.fuballer.mcendgame.main.component.block.blocks.crystalforge.CrystalForgeScreenHandler
+import de.fuballer.mcendgame.main.component.block.blocks.dungeon_device.DungeonDeviceBlock
+import de.fuballer.mcendgame.main.component.block.blocks.dungeon_device.DungeonDeviceScreenHandler
+import de.fuballer.mcendgame.main.component.block.blocks.dungeon_device.networking.DungeonDevicePayload
 import de.fuballer.mcendgame.main.component.killer.KillerScreenHandler
 import de.fuballer.mcendgame.main.component.killer.networking.KillerEntityPayload
 import de.fuballer.mcendgame.main.component.totem.TotemScreenHandler

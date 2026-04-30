@@ -1,4 +1,4 @@
-package de.fuballer.mcendgame.main.component.block.totem_statue
+package de.fuballer.mcendgame.main.component.block.blocks.totem_statue
 
 import com.mojang.serialization.MapCodec
 import de.fuballer.mcendgame.main.component.block.CustomBlockEntityTypes

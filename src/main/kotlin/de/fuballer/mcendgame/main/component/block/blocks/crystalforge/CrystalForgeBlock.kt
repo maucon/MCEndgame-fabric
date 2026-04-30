@@ -1,4 +1,4 @@
-package de.fuballer.mcendgame.main.component.block.crystalforge
+package de.fuballer.mcendgame.main.component.block.blocks.crystalforge
 
 import net.minecraft.block.Block
 import net.minecraft.block.BlockState

@@ -1,11 +1,14 @@
 package de.fuballer.mcendgame.main.component.block
 
-import de.fuballer.mcendgame.main.component.block.crystalforge.CrystalForgeBlock
-import de.fuballer.mcendgame.main.component.block.dungeon_device.DungeonDeviceBlock
-import de.fuballer.mcendgame.main.component.block.totem_statue.TotemStatueBlock
+import de.fuballer.mcendgame.main.component.block.blocks.DecayingCobwebBlock
+import de.fuballer.mcendgame.main.component.block.blocks.DungeonEnemyBlockerBlock
+import de.fuballer.mcendgame.main.component.block.blocks.crystalforge.CrystalForgeBlock
+import de.fuballer.mcendgame.main.component.block.blocks.dungeon_device.DungeonDeviceBlock
+import de.fuballer.mcendgame.main.component.block.blocks.totem_statue.TotemStatueBlock
 import de.fuballer.mcendgame.main.util.minecraft.RegistryUtil
 import de.maucon.mauconframework.di.annotation.Injectable
 import net.minecraft.block.AbstractBlock.Settings
+import net.minecraft.block.Blocks
 import net.minecraft.block.MapColor
 import net.minecraft.block.piston.PistonBehavior
 import net.minecraft.sound.BlockSoundGroup
@@ -53,5 +56,18 @@ object CustomBlocks {
             .requiresTool()
             .nonOpaque(),
         TotemStatueBlock.ID,
+    )
+
+    val DUNGEON_ENEMY_BLOCKER = RegistryUtil.registerBlock(
+        ::DungeonEnemyBlockerBlock,
+        Settings.create()
+            .strength(-1.0F, 3600000.8F)
+			.mapColor(MapColor.CLEAR)
+			.dropsNothing()
+			.nonOpaque()
+			.allowsSpawning(Blocks::never)
+			.noBlockBreakParticles()
+			.pistonBehavior(PistonBehavior.BLOCK),
+        DungeonEnemyBlockerBlock.ID
     )
 }

@@ -1,7 +1,7 @@
 package de.fuballer.mcendgame.main.component.dungeon.generation.encounter.encounters.totem
 
 import de.fuballer.mcendgame.main.component.block.CustomBlocks
-import de.fuballer.mcendgame.main.component.block.totem_statue.TotemStatueSpawnEnemiesCommand
+import de.fuballer.mcendgame.main.component.block.blocks.totem_statue.TotemStatueSpawnEnemiesCommand
 import de.fuballer.mcendgame.main.component.dungeon.enemy.EnemyGenerationService
 import de.fuballer.mcendgame.main.component.dungeon.generation.data.SpawnPosition
 import de.fuballer.mcendgame.main.component.dungeon.generation.encounter.EncounterType

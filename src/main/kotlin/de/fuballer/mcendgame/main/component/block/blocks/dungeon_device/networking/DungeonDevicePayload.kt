@@ -1,4 +1,4 @@
-package de.fuballer.mcendgame.main.component.block.dungeon_device.networking
+package de.fuballer.mcendgame.main.component.block.blocks.dungeon_device.networking
 
 import de.fuballer.mcendgame.main.component.dungeon.level.PlayerDungeonLevel
 import de.fuballer.mcendgame.main.util.minecraft.IdentifierUtil

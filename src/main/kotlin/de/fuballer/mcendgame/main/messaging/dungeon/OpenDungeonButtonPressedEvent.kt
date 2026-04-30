@@ -1,10 +1,8 @@
 package de.fuballer.mcendgame.main.messaging.dungeon
 
-import de.fuballer.mcendgame.main.component.block.dungeon_device.DungeonDeviceBlockEntity
+import de.fuballer.mcendgame.main.component.block.blocks.dungeon_device.DungeonDeviceBlockEntity
 import net.minecraft.block.entity.BlockEntity
 import net.minecraft.entity.player.PlayerEntity
-import net.minecraft.item.ItemStack
-import net.minecraft.util.collection.DefaultedList
 
 /**
  * only server-side

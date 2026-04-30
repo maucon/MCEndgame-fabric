@@ -1,6 +1,6 @@
 package de.fuballer.mcendgame.main.component.item.custom.crystal.item
 
-import de.fuballer.mcendgame.main.component.block.crystalforge.CrystalForgeSettings
+import de.fuballer.mcendgame.main.component.block.blocks.crystalforge.CrystalForgeSettings
 import de.fuballer.mcendgame.main.component.custom_attribute.CustomAttributesExtensions.getCustomAttributes
 import de.fuballer.mcendgame.main.component.custom_attribute.CustomAttributesExtensions.updateCustomAttributes
 import de.fuballer.mcendgame.main.component.custom_attribute.data.AttributeRoll

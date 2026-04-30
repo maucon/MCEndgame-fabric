@@ -1,6 +1,6 @@
-package de.fuballer.mcendgame.main.component.block.dungeon_device.networking
+package de.fuballer.mcendgame.main.component.block.blocks.dungeon_device.networking
 
-import de.fuballer.mcendgame.main.component.block.dungeon_device.DungeonDeviceBlockEntity
+import de.fuballer.mcendgame.main.component.block.blocks.dungeon_device.DungeonDeviceBlockEntity
 import de.fuballer.mcendgame.main.configuration.RuntimeConfig
 import de.fuballer.mcendgame.main.messaging.dungeon.OpenDungeonButtonPressedEvent
 import de.maucon.mauconframework.di.annotation.Injectable

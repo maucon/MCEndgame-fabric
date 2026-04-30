@@ -1,7 +1,7 @@
 package de.fuballer.mcendgame.client.component.screen
 
 import com.mojang.logging.LogUtils
-import de.fuballer.mcendgame.main.component.block.dungeon_device.DungeonDeviceScreenHandler
+import de.fuballer.mcendgame.main.component.block.blocks.dungeon_device.DungeonDeviceScreenHandler
 import de.fuballer.mcendgame.main.component.custom_attribute.data.CustomAttribute
 import de.fuballer.mcendgame.main.component.dungeon.enemy.EnemyLevelScalingSettings
 import de.fuballer.mcendgame.main.component.dungeon.level.DungeonLevelSettings

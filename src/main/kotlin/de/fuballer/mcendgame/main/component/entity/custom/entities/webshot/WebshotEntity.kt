@@ -1,7 +1,7 @@
 package de.fuballer.mcendgame.main.component.entity.custom.entities.webshot
 
 import de.fuballer.mcendgame.main.component.block.CustomBlocks
-import de.fuballer.mcendgame.main.component.block.DecayingCobwebBlock
+import de.fuballer.mcendgame.main.component.block.blocks.DecayingCobwebBlock
 import net.minecraft.enchantment.EnchantmentHelper
 import net.minecraft.entity.Entity
 import net.minecraft.entity.EntityType

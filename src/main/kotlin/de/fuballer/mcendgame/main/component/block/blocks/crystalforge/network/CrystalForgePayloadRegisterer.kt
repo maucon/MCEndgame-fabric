@@ -1,6 +1,6 @@
-package de.fuballer.mcendgame.main.component.block.crystalforge.network
+package de.fuballer.mcendgame.main.component.block.blocks.crystalforge.network
 
-import de.fuballer.mcendgame.main.component.block.crystalforge.CrystalForgeScreenHandler
+import de.fuballer.mcendgame.main.component.block.blocks.crystalforge.CrystalForgeScreenHandler
 import de.maucon.mauconframework.di.annotation.Injectable
 import de.maucon.mauconframework.initializer.Initializer
 import net.fabricmc.fabric.api.networking.v1.PayloadTypeRegistry
