@@ -24,6 +24,7 @@ public class LivingEntityCustomAttributesMixin implements LivingEntityCustomAttr
     @Unique
     private final String CUSTOM_ATTRIBUTES_NBT_KEY = "CustomAttributes";
 
+    // TODO: #236 don't sync attributes with clients
     @Unique
     private static final TrackedData<List<CustomAttribute>> CUSTOM_ATTRIBUTES =
             DataTracker.registerData(LivingEntity.class, CustomAttribute.Companion.getLIST_TRACKED_DATA_HANDLER());

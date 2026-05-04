@@ -150,4 +150,9 @@ object EntityMixinExtension {
     fun LivingEntity.getLinkedBy(): HashSet<UUID> = (this as LivingEntityLinkAttributeAccessor).`mcendgame$getLinkedBy`()
 
     fun LivingEntity.getLinkedEntities(): Map<UUID, Long> = (this as LivingEntityLinkAttributeAccessor).`mcendgame$getLinkedEntities`()
+
+    fun LivingEntity.resetWorldAttributesUpdate() {
+        val accessor = this as LivingEntityWorldAttributesAccessor
+        accessor.`mcendgame$resetWorldAttributesUpdate`()
+    }
 }

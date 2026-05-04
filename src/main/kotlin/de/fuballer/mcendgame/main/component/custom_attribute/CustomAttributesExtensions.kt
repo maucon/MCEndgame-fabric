@@ -7,6 +7,7 @@ import de.fuballer.mcendgame.main.component.custom_attribute.types.CustomAttribu
 import de.fuballer.mcendgame.main.messaging.collect_attribute.CollectHealFactorCommand
 import de.fuballer.mcendgame.main.messaging.misc.CollectCustomAttributesCommand
 import de.fuballer.mcendgame.main.util.extension.SlotExtension.isOrIsChildOf
+import de.fuballer.mcendgame.main.util.extension.mixin.WorldMixinExtension.getCustomTypeAttributes
 import de.fuballer.mcendgame.main.util.minecraft.IdentifierUtil
 import de.fuballer.mcendgame.main.util.minecraft.RegistryUtil
 import de.maucon.mauconframework.command.CommandGateway
@@ -19,6 +20,7 @@ import net.minecraft.entity.EquipmentSlot
 import net.minecraft.entity.LivingEntity
 import net.minecraft.entity.attribute.EntityAttributeModifier
 import net.minecraft.item.ItemStack
+import net.minecraft.server.world.ServerWorld
 
 @Injectable
 object CustomAttributesExtensions {
@@ -66,6 +68,7 @@ object CustomAttributesExtensions {
 
         val customAttributes = mutableListOf<CustomAttribute>()
         customAttributes.addAll(getCustomAttributes())
+        customAttributes.addAll(getCustomAttributesFromWorld())
         customAttributes.addAll(getCustomAttributesOfItems())
 
         val command = CollectCustomAttributesCommand(this, customAttributes)
@@ -156,4 +159,6 @@ object CustomAttributesExtensions {
         val accessor = this as LivingEntityCustomAttributesAccessor
         return accessor.`mcendgame$getCustomAttributes`()
     }
+
+    fun LivingEntity.getCustomAttributesFromWorld(): List<CustomAttribute> = (entityWorld as? ServerWorld)?.getCustomTypeAttributes(this) ?: listOf()
 }
