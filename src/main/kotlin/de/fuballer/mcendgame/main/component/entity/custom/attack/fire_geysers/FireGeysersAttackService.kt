@@ -8,6 +8,7 @@ import de.fuballer.mcendgame.main.component.damage.custom_type.CustomDamageTypes
 import de.fuballer.mcendgame.main.component.damage.dealing.DamageDealingExtension.dealDamage
 import de.fuballer.mcendgame.main.component.particle.CustomParticleTypes
 import de.fuballer.mcendgame.main.functional.scheduler.Scheduler
+import de.fuballer.mcendgame.main.util.extension.EntityExtension.setAndSyncVelocity
 import de.maucon.mauconframework.di.annotation.Injectable
 import de.maucon.mauconframework.event.EventSubscriber
 import net.minecraft.entity.Entity
@@ -266,8 +267,7 @@ class FireGeysersAttackService(
                     CustomDamageTypes.SPELL
                 )
                 it.setOnFireForTicks(80)
-                it.addVelocity(0.0, 0.5, 0.0)
-                it.velocityDirty = true
+                it.setAndSyncVelocity(it.velocity.add(0.0, 1.0, 0.0))
             }
         }
 

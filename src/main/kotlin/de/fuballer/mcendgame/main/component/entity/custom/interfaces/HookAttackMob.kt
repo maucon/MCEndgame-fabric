@@ -1,13 +1,12 @@
 package de.fuballer.mcendgame.main.component.entity.custom.interfaces
 
 import de.fuballer.mcendgame.main.component.entity.custom.networking.EntityHookEntityPayload
+import de.fuballer.mcendgame.main.util.extension.EntityExtension.setAndSyncVelocity
 import net.fabricmc.fabric.api.networking.v1.PlayerLookup
 import net.fabricmc.fabric.api.networking.v1.ServerPlayNetworking
 import net.minecraft.entity.Entity
 import net.minecraft.entity.LivingEntity
-import net.minecraft.entity.player.PlayerEntity
 import net.minecraft.server.world.ServerWorld
-import net.minecraft.util.math.Vec3d
 import java.util.*
 
 interface HookAttackMob {
@@ -96,10 +95,11 @@ interface HookAttackMob {
     fun pullHookedEntity(
         hooked: Entity
     ) {
-        val direction = Vec3d(hooker.x - hooked.x, hooker.y - hooked.y, hooker.z - hooked.z)
+        val direction = hooker.entityPos.subtract(hooked.entityPos)
         val normalizedDirection = direction.normalize()
-        val velocity = normalizedDirection.multiply(hookPullStrength)
-        hooked.setVelocity(velocity.x, velocity.y + hookPullAdditionalY, velocity.z)
-        if (hooked is PlayerEntity) hooked.velocityDirty = true
+        val baseVelocity = normalizedDirection.multiply(hookPullStrength)
+        val finalVelocity = baseVelocity.add(0.0, hookPullAdditionalY, 0.0)
+
+        hooked.setAndSyncVelocity(finalVelocity)
     }
 }
