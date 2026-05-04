@@ -1,11 +1,18 @@
 package de.fuballer.mcendgame.main.component.entity.custom.entities.scarred_one
 
+import de.fuballer.mcendgame.main.component.dungeon.generation.encounter.encounters.scarred_one.data.RolledScarredOneEffect
+import de.fuballer.mcendgame.main.component.dungeon.generation.encounter.encounters.scarred_one.event.ScarredOneInteractEvent
+import de.maucon.mauconframework.event.EventGateway
 import net.minecraft.entity.EntityType
 import net.minecraft.entity.ai.goal.LookAtEntityGoal
 import net.minecraft.entity.attribute.DefaultAttributeContainer
 import net.minecraft.entity.attribute.EntityAttributes
 import net.minecraft.entity.mob.MobEntity
 import net.minecraft.entity.player.PlayerEntity
+import net.minecraft.server.network.ServerPlayerEntity
+import net.minecraft.server.world.ServerWorld
+import net.minecraft.util.ActionResult
+import net.minecraft.util.Hand
 import net.minecraft.world.World
 import software.bernie.geckolib.animatable.GeoEntity
 import software.bernie.geckolib.animatable.instance.AnimatableInstanceCache
@@ -24,6 +31,12 @@ class ScarredOneEntity(
         }
     }
 
+    //TODO make persistent
+    var positiveEffects = listOf<RolledScarredOneEffect>()
+    var negativeEffects = listOf<RolledScarredOneEffect>()
+
+    fun hasRolledEffects() = positiveEffects.isNotEmpty() || negativeEffects.isNotEmpty()
+
     override fun initGoals() {
         goalSelector.add(0, LookAtEntityGoal(this, PlayerEntity::class.java, 8F))
     }
@@ -32,6 +45,19 @@ class ScarredOneEntity(
     override fun getAnimatableInstanceCache() = cache
 
     override fun registerControllers(controllers: AnimatableManager.ControllerRegistrar) {
+    }
+
+    override fun interact(
+        player: PlayerEntity,
+        hand: Hand
+    ): ActionResult {
+        val world = entityWorld as? ServerWorld ?: return ActionResult.PASS
+        val serverPlayer = player as? ServerPlayerEntity ?: return ActionResult.PASS
+
+        val event = ScarredOneInteractEvent(this, serverPlayer, world)
+        EventGateway.publish(event)
+
+        return ActionResult.PASS
     }
 
     override fun isPushable() = false

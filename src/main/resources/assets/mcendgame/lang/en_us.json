@@ -167,6 +167,7 @@
   "attribute.mcendgame.more_movement_speed": " %s%% %s Movement Speed",
   "attribute.mcendgame.luck": "%s Luck",
   "attribute.mcendgame.increased_scale": "%s%% %s Size",
+  "attribute.mcendgame.more_scale": " %s%% %s Size",
   "attribute.mcendgame.increased_entity_interaction_range": "%s%% %s Attack Range",
   "attribute.mcendgame.more_attack_knockback": " %s%% %s Attack Knockback",
   "attribute.mcendgame.ward": "%s Ward",
@@ -283,6 +284,9 @@
   "text.mcendgame.dungeon_level.regress": " You are now Level: %s",
 
   "text.mcendgame.dungeon.device.level": "Level: %s",
+
+  "text.mcendgame.scarred_one.effect_targets.enemies": "Enemies gain: ",
+  "text.mcendgame.scarred_one.effect_targets.allies": "Allies gain: ",
 
   "error.mcendgame.teleport.failed": "Destination location invalid! Closing portal.",
 

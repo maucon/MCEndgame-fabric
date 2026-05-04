@@ -81,7 +81,7 @@ object EntityExtension {
         return false
     }
 
-    private fun Entity.isOrIsTameableOf(clazz: Class<*>): Boolean {
+    fun Entity.isOrIsTameableOf(clazz: Class<*>): Boolean {
         if (clazz.isInstance(this)) return true
 
         val tameable = this as? Tameable ?: return false
