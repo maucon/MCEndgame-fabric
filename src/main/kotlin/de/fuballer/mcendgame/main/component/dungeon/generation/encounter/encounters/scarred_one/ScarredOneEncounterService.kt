@@ -3,13 +3,13 @@ package de.fuballer.mcendgame.main.component.dungeon.generation.encounter.encoun
 import de.fuballer.mcendgame.main.component.dungeon.generation.encounter.EncounterType
 import de.fuballer.mcendgame.main.component.dungeon.generation.encounter.messaging.CollectDungeonEncountersCommand
 import de.fuballer.mcendgame.main.component.dungeon.generation.encounter.messaging.GenerateDungeonEncountersEvent
+import de.fuballer.mcendgame.main.component.entity.custom.CustomEntities
+import de.fuballer.mcendgame.main.component.entity.custom.entities.scarred_one.ScarredOneEntity
 import de.fuballer.mcendgame.main.util.extension.Vec3iExtension.toVec3d
 import de.maucon.mauconframework.command.CommandHandler
 import de.maucon.mauconframework.di.annotation.Injectable
 import de.maucon.mauconframework.event.EventSubscriber
 import net.minecraft.command.argument.EntityAnchorArgumentType
-import net.minecraft.entity.EntityType
-import net.minecraft.entity.passive.VillagerEntity
 
 @Injectable
 class ScarredOneEncounterService {
@@ -29,11 +29,10 @@ class ScarredOneEncounterService {
 
         val world = event.world
         locations.forEach { encounterLocation ->
-            val entity = VillagerEntity(EntityType.VILLAGER, world)
-            entity.setPosition(encounterLocation.location.toVec3d())
+            val entity = ScarredOneEntity(CustomEntities.SCARRED_ONE, world)
+            entity.setPosition(encounterLocation.location.toVec3d().add(0.5, 0.0, 0.5))
             entity.isInvulnerable = true
-            entity.isAiDisabled = true
-            entity.lookAt(EntityAnchorArgumentType.EntityAnchor.FEET, encounterLocation.facingToLocation.toVec3d())
+            entity.lookAt(EntityAnchorArgumentType.EntityAnchor.EYES, encounterLocation.facingToLocation.toVec3d().add(0.5, 1.0, 0.5))
             world.spawnEntity(entity)
         }
     }
