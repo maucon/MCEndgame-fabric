@@ -25,6 +25,7 @@ object Vec3iExtension {
     }
 
     fun Vec3i.toBlockPos() = BlockPos(x, y, z)
+    fun Vec3i.toVec3d() = Vec3d(x.toDouble(), y.toDouble(), z.toDouble())
     fun Vec3i.toCenter() = Vec3d(x + 0.5, y.toDouble(), z + 0.5)
 
     fun Vec3i.max(other: Vec3i) = Vec3i(kotlin.math.max(x, other.x), kotlin.math.max(y, other.y), kotlin.math.max(z, other.z))

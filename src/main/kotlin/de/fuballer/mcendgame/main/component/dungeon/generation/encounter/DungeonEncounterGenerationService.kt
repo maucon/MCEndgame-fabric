@@ -15,14 +15,22 @@ class DungeonEncounterGenerationService {
     fun generate(
         world: ServerWorld,
         dungeonLevel: Int,
-        positions: List<EncounterLocation>,
+        encounterLocations: List<EncounterLocation>,
+        startEncounterLocations: List<EncounterLocation>,
         aspects: Map<AspectItem, Int>,
         random: Random,
     ) {
         val collectCommand = CollectDungeonEncountersCommand(random, aspects)
         val cmd = CommandGateway.apply(collectCommand)
 
-        val generateEvent = GenerateDungeonEncountersEvent(world, dungeonLevel, positions.toMutableList(), aspects, cmd.encounters)
+        val generateEvent = GenerateDungeonEncountersEvent(
+            world,
+            dungeonLevel,
+            encounterLocations.toMutableList(),
+            startEncounterLocations.toMutableList(),
+            aspects,
+            cmd.encounters
+        )
         EventGateway.publish(generateEvent)
     }
 }

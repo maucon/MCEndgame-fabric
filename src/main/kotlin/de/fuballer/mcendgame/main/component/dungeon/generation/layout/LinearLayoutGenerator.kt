@@ -47,6 +47,9 @@ class LinearLayoutGenerator(
         branchComplexityLimit = calculateBranchComplexityLimit()
 
         val startRoom = PlaceableRoom(startRoomType, Vec3i.ZERO, 0)
+        val spawnPos = SpawnPosition(startRoomType.markerPoints.startPos!!, -90.0)
+        val startEncounterLocations = startRoomType.markerPoints.startEncounterPos.map { EncounterLocation(it, spawnPos.pos) }
+
         val tiles = mutableListOf(startRoom)
 
         val spawnLocations = mutableListOf<SpawnPosition>()
@@ -70,8 +73,7 @@ class LinearLayoutGenerator(
             throw IllegalStateException("No valid layout could be generated")
         }
 
-        val spawnPos = SpawnPosition(startRoomType.markerPoints.startPos!!, -90.0)
-        return Layout(spawnPos, tiles, spawnLocations, bossSpawnLocations, encounterLocations)
+        return Layout(spawnPos, tiles, spawnLocations, bossSpawnLocations, encounterLocations, startEncounterLocations)
     }
 
     private fun generateNextRoom(

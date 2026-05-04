@@ -59,7 +59,7 @@ class DungeonGenerationService(
             val dungeonWorld = dungeonWorldService.create(dungeonLevel, player, affectingAspects, dungeonType, dungeonDeviceGlobalPos)
 
             dungeonBuilderService.build(dungeonWorld, layout.rooms)
-            dungeonEncounterGenerationService.generate(dungeonWorld, dungeonLevel, layout.encounterPos, affectingAspects, random)
+            dungeonEncounterGenerationService.generate(dungeonWorld, dungeonLevel, layout.encounterLocations, layout.startEncounterLocations, affectingAspects, random)
 
             enemyGenerationService.generate(dungeonWorld, dungeonLevel, enemyTypes, applyMisc, layout.enemySpawnPos)
             bossGenerationService.generate(dungeonWorld, bossTypes, applyMisc, layout.bossSpawnPos)

@@ -8,6 +8,7 @@ data class RoomMarkerPoints(
     val bossPos: MutableList<SpawnPosition>,
     val doors: MutableList<Door>,
     val encounterPos: MutableList<Vec3i>,
+    val startEncounterPos: MutableList<Vec3i>,
 ) {
     companion object {
         fun fromImmutable(
@@ -15,14 +16,16 @@ data class RoomMarkerPoints(
             monsterPos: List<SpawnPosition>,
             bossPos: List<SpawnPosition>,
             doors: List<Door>,
-            encounterPos: List<Vec3i>
+            encounterPos: List<Vec3i>,
+            startEncounterPos: List<Vec3i>,
         ): RoomMarkerPoints {
             return RoomMarkerPoints(
                 startPos,
                 monsterPos.toMutableList(),
                 bossPos.toMutableList(),
                 doors.toMutableList(),
-                encounterPos.toMutableList()
+                encounterPos.toMutableList(),
+                startEncounterPos.toMutableList(),
             )
         }
     }
