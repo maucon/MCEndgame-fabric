@@ -2,6 +2,7 @@ package de.fuballer.mcendgame.main.component.entity.custom.entities.scarred_one
 
 import de.fuballer.mcendgame.main.component.dungeon.generation.encounter.encounters.scarred_one.data.RolledScarredOneEffect
 import de.fuballer.mcendgame.main.component.dungeon.generation.encounter.encounters.scarred_one.event.ScarredOneInteractEvent
+import de.fuballer.mcendgame.main.util.extension.mixin.WorldMixinExtension.addCustomAttribute
 import de.maucon.mauconframework.event.EventGateway
 import net.minecraft.entity.EntityType
 import net.minecraft.entity.ai.goal.LookAtEntityGoal
@@ -9,6 +10,7 @@ import net.minecraft.entity.attribute.DefaultAttributeContainer
 import net.minecraft.entity.attribute.EntityAttributes
 import net.minecraft.entity.mob.MobEntity
 import net.minecraft.entity.player.PlayerEntity
+import net.minecraft.particle.ParticleTypes
 import net.minecraft.server.network.ServerPlayerEntity
 import net.minecraft.server.world.ServerWorld
 import net.minecraft.util.ActionResult
@@ -34,6 +36,19 @@ class ScarredOneEntity(
     //TODO make persistent
     var positiveEffects = listOf<RolledScarredOneEffect>()
     var negativeEffects = listOf<RolledScarredOneEffect>()
+
+    var gotResponse = false
+
+    fun respond(accept: Boolean, world: ServerWorld) {
+        gotResponse = true
+
+        if (accept) {
+            positiveEffects.forEach { world.addCustomAttribute(it.attribute, it.targets.predicate) }
+            negativeEffects.forEach { world.addCustomAttribute(it.attribute, it.targets.predicate) }
+        }
+
+        EventGateway.publish(ScarredOneDespawnEvent(this, accept))
+    }
 
     fun hasRolledEffects() = positiveEffects.isNotEmpty() || negativeEffects.isNotEmpty()
 

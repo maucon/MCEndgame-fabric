@@ -27,9 +27,9 @@ data class RolledScarredOneEffect(
             )
     }
 
-    fun getText(): Text {
+    fun getText(detailed: Boolean = false): Text {
         val targetsText = targets.text
-        val attributeText = CommandGateway.apply(GetCustomAttributesTextsCommand(attribute)).texts.firstOrNull() ?: return targetsText
+        val attributeText = CommandGateway.apply(GetCustomAttributesTextsCommand(attribute, detailed)).texts.firstOrNull() ?: return targetsText
         return targetsText.copy().append(attributeText)
     }
 }

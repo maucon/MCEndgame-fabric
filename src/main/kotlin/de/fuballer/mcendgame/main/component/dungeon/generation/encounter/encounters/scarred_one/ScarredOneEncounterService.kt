@@ -2,7 +2,7 @@ package de.fuballer.mcendgame.main.component.dungeon.generation.encounter.encoun
 
 import de.fuballer.mcendgame.main.component.dungeon.generation.encounter.EncounterType
 import de.fuballer.mcendgame.main.component.dungeon.generation.encounter.encounters.scarred_one.event.ScarredOneInteractEvent
-import de.fuballer.mcendgame.main.component.dungeon.generation.encounter.encounters.scarred_one.screen.ScarredOneEffectsPayload
+import de.fuballer.mcendgame.main.component.dungeon.generation.encounter.encounters.scarred_one.networking.ScarredOneEffectsPayload
 import de.fuballer.mcendgame.main.component.dungeon.generation.encounter.messaging.CollectDungeonEncountersCommand
 import de.fuballer.mcendgame.main.component.dungeon.generation.encounter.messaging.GenerateDungeonEncountersEvent
 import de.fuballer.mcendgame.main.component.entity.custom.CustomEntities
@@ -13,6 +13,8 @@ import de.maucon.mauconframework.di.annotation.Injectable
 import de.maucon.mauconframework.event.EventSubscriber
 import net.fabricmc.fabric.api.networking.v1.ServerPlayNetworking
 import net.minecraft.command.argument.EntityAnchorArgumentType
+import net.minecraft.server.network.ServerPlayerEntity
+import java.util.*
 
 @Injectable
 class ScarredOneEncounterService {
@@ -43,12 +45,26 @@ class ScarredOneEncounterService {
     @EventSubscriber(sync = true)
     fun on(event: ScarredOneInteractEvent) {
         val scarredOne = event.scarredOne
+        if (scarredOne.gotResponse) return
+
         if (!scarredOne.hasRolledEffects()) {
             scarredOne.positiveEffects = ScarredOneEncounterSettings.getPositiveEffects()
             scarredOne.negativeEffects = ScarredOneEncounterSettings.getNegativeEffects()
         }
 
-        val payload = ScarredOneEffectsPayload(scarredOne.positiveEffects, scarredOne.negativeEffects)
+        val payload = ScarredOneEffectsPayload(scarredOne.positiveEffects, scarredOne.negativeEffects, scarredOne.uuid)
         ServerPlayNetworking.send(event.player, payload)
+    }
+
+    fun response(
+        player: ServerPlayerEntity,
+        accept: Boolean,
+        scarredOneUuid: UUID,
+    ) {
+        val world = player.entityWorld
+        val scarredOne = world.getEntity(scarredOneUuid) as? ScarredOneEntity ?: return
+        if (scarredOne.gotResponse) return
+
+        scarredOne.respond(accept, world)
     }
 }
