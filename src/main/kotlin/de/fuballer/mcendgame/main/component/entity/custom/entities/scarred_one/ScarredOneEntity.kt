@@ -10,9 +10,10 @@ import net.minecraft.entity.attribute.DefaultAttributeContainer
 import net.minecraft.entity.attribute.EntityAttributes
 import net.minecraft.entity.mob.MobEntity
 import net.minecraft.entity.player.PlayerEntity
-import net.minecraft.particle.ParticleTypes
 import net.minecraft.server.network.ServerPlayerEntity
 import net.minecraft.server.world.ServerWorld
+import net.minecraft.sound.SoundCategory
+import net.minecraft.sound.SoundEvents
 import net.minecraft.util.ActionResult
 import net.minecraft.util.Hand
 import net.minecraft.world.World
@@ -20,6 +21,7 @@ import software.bernie.geckolib.animatable.GeoEntity
 import software.bernie.geckolib.animatable.instance.AnimatableInstanceCache
 import software.bernie.geckolib.animatable.manager.AnimatableManager
 import software.bernie.geckolib.util.GeckoLibUtil
+import kotlin.random.Random
 
 class ScarredOneEntity(
     type: EntityType<out ScarredOneEntity>,
@@ -45,9 +47,14 @@ class ScarredOneEntity(
         if (accept) {
             positiveEffects.forEach { world.addCustomAttribute(it.attribute, it.targets.predicate) }
             negativeEffects.forEach { world.addCustomAttribute(it.attribute, it.targets.predicate) }
+            playAcceptedSound(world)
         }
 
         EventGateway.publish(ScarredOneDespawnEvent(this, accept))
+    }
+
+    private fun playAcceptedSound(world: ServerWorld) {
+        world.playSound(this, blockPos, SoundEvents.BLOCK_ENCHANTMENT_TABLE_USE, SoundCategory.NEUTRAL, 1F, 0.95F + 0.1F * Random.nextFloat())
     }
 
     fun hasRolledEffects() = positiveEffects.isNotEmpty() || negativeEffects.isNotEmpty()
