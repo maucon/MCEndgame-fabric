@@ -14,6 +14,10 @@ enum class ScarredOneEffectTargetGroup(
     val predicate: Predicate<LivingEntity>,
     val text: Text,
 ) {
+    ALLIES(
+        { it.isOrIsTameableOf(PlayerLikeEntity::class.java) },
+        Text.translatable(TRANSLATION_KEY_BASE + "allies"),
+    ),
     ENEMIES(
         { it.isDungeonEnemy() },
         Text.translatable(TRANSLATION_KEY_BASE + "enemies"),
@@ -25,9 +29,5 @@ enum class ScarredOneEffectTargetGroup(
     BOSSES(
         { it.isDungeonBoss() },
         Text.translatable(TRANSLATION_KEY_BASE + "bosses"),
-    ),
-    ALLIES(
-        { it.isOrIsTameableOf(PlayerLikeEntity::class.java) },
-        Text.translatable(TRANSLATION_KEY_BASE + "allies"),
     ),
 }

@@ -1,22 +1,26 @@
 package de.fuballer.mcendgame.client.component.screen.scarred_one
 
+import de.fuballer.mcendgame.main.component.dungeon.generation.encounter.encounters.scarred_one.ScarredOneEffectTargetGroup
 import de.fuballer.mcendgame.main.component.dungeon.generation.encounter.encounters.scarred_one.data.RolledScarredOneEffect
 import de.fuballer.mcendgame.main.component.dungeon.generation.encounter.encounters.scarred_one.networking.ScarredOneResponsePayload
-import de.fuballer.mcendgame.main.util.ColorUtil
 import net.fabricmc.fabric.api.client.networking.v1.ClientPlayNetworking
-import net.minecraft.client.MinecraftClient
 import net.minecraft.client.gui.DrawContext
 import net.minecraft.client.gui.screen.Screen
 import net.minecraft.client.gui.tooltip.TooltipBackgroundRenderer
 import net.minecraft.client.gui.widget.ButtonWidget
 import net.minecraft.text.Text
+import net.minecraft.util.Colors
+import net.minecraft.util.Formatting
 import java.util.*
+import kotlin.math.max
+import kotlin.math.min
 
 private const val BACKGROUND_PADDING = 10
 private const val ATTRIBUTE_LINE_OFFSET = 15
 private const val BUTTON_WIDTH = 80
 private const val BUTTON_HEIGHT = 20
-private const val BUTTON_Y_OFFSET = 15
+private const val BUTTON_Y_PADDING = 15
+private const val TOTAL_BUTTON_HEIGHT = BUTTON_HEIGHT + BUTTON_Y_PADDING * 2
 private const val BUTTON_CENTER_GAP = 20
 
 class ScarredOneScreen(
@@ -27,6 +31,8 @@ class ScarredOneScreen(
     private var effectsTextData = listOf<EffectTextData>()
     private var backgroundWidth = 0
     private var backgroundHeight = 0
+    private var scrollOffset = 0.0
+    private var maxScroll = 0
     private var backgroundX = 0
     private var backgroundY = 0
 
@@ -38,34 +44,37 @@ class ScarredOneScreen(
         addDrawableChild(
             ButtonWidget.builder(Text.literal("Accept")) {
                 sendResponse(true)
-            }.dimensions(width / 2 + BUTTON_CENTER_GAP / 2, backgroundY + backgroundHeight + BUTTON_Y_OFFSET, BUTTON_WIDTH, BUTTON_HEIGHT)
+            }.dimensions(width / 2 + BUTTON_CENTER_GAP / 2, backgroundY + backgroundHeight + BUTTON_Y_PADDING, BUTTON_WIDTH, BUTTON_HEIGHT)
                 .build()
         )
 
         addDrawableChild(
             ButtonWidget.builder(Text.literal("Decline")) {
                 sendResponse(false)
-            }.dimensions(width / 2 - BUTTON_WIDTH - BUTTON_CENTER_GAP / 2, backgroundY + backgroundHeight + BUTTON_Y_OFFSET, BUTTON_WIDTH, BUTTON_HEIGHT)
+            }.dimensions(width / 2 - BUTTON_WIDTH - BUTTON_CENTER_GAP / 2, backgroundY + backgroundHeight + BUTTON_Y_PADDING, BUTTON_WIDTH, BUTTON_HEIGHT)
                 .build()
         )
     }
 
     private fun setUp() {
-        effectsTextData = positiveEffects.map {
-            val text = it.getText(false)
-            val detailedText = it.getText(true)
-            EffectTextData(it, true, text, detailedText, textRenderer.getWidth(text.string), textRenderer.getWidth(detailedText.string))
-        } + negativeEffects.map {
-            val text = it.getText(false)
-            val detailedText = it.getText(true)
-            EffectTextData(it, false, text, detailedText, textRenderer.getWidth(text.string), textRenderer.getWidth(detailedText.string))
-        }
+        effectsTextData = positiveEffects.map { EffectTextData(it, true) }.sortedBy { it.targets } +
+                negativeEffects.map { EffectTextData(it, false) }.sortedBy { it.targets }
 
-        val maxTextWidth = effectsTextData.maxOf(EffectTextData::detailedWidth)
+        val maxTextWidth = effectsTextData.maxOf { textRenderer.getWidth(it.text.string) }
         backgroundWidth = maxTextWidth + 2 * BACKGROUND_PADDING
-        backgroundHeight = (effectsTextData.size - 1) * ATTRIBUTE_LINE_OFFSET + textRenderer.fontHeight + 2 * BACKGROUND_PADDING
         backgroundX = (width / 2) - (backgroundWidth / 2)
+
+        val targetLineCount = effectsTextData.distinctBy { it.positive to it.targets }.size
+        val totalLineCount = effectsTextData.size + targetLineCount
+
+        val totalTextHeight = (totalLineCount - 1) * ATTRIBUTE_LINE_OFFSET + textRenderer.fontHeight + BACKGROUND_PADDING * 2
+        backgroundHeight = min(totalTextHeight, height - TOTAL_BUTTON_HEIGHT * 2)
+        maxScroll = max(0, totalTextHeight - backgroundHeight)
         backgroundY = (height / 2) - (backgroundHeight / 2)
+
+        println(totalTextHeight)
+        println(backgroundHeight)
+        println(backgroundY)
     }
 
     override fun render(
@@ -78,29 +87,59 @@ class ScarredOneScreen(
 
         TooltipBackgroundRenderer.render(context, backgroundX, backgroundY, backgroundWidth, backgroundHeight, null)
 
-        val detailed = MinecraftClient.getInstance().isShiftPressed
-        effectsTextData.forEachIndexed { index, effect ->
-            val text = if (detailed) effect.detailedText else effect.text
-            val textWidth = if (detailed) effect.detailedWidth else effect.width
+        context.enableScissor(
+            backgroundX,
+            backgroundY,
+            backgroundX + backgroundWidth,
+            backgroundY + backgroundHeight
+        )
+
+        var lastTargets: ScarredOneEffectTargetGroup? = null
+        var lastPositive: Boolean? = null
+        var y = backgroundY + BACKGROUND_PADDING - scrollOffset.toInt()
+
+        effectsTextData.forEach { effect ->
+            if (effect.targets != lastTargets || effect.positive != lastPositive) {
+                context.drawText(
+                    textRenderer,
+                    effect.targets.text.copy().formatted(Formatting.UNDERLINE),
+                    backgroundX + BACKGROUND_PADDING,
+                    y,
+                    if (effect.positive) Colors.GREEN else Colors.RED,
+                    false
+                )
+
+                lastTargets = effect.targets
+                lastPositive = effect.positive
+                y += ATTRIBUTE_LINE_OFFSET
+            }
+
             context.drawText(
                 textRenderer,
-                text,
-                (width / 2) - (textWidth / 2),
-                backgroundY + BACKGROUND_PADDING + index * ATTRIBUTE_LINE_OFFSET,
-                if (effect.positive) ColorUtil.rgbaToInt(0, 255, 0, 255) else ColorUtil.rgbaToInt(255, 0, 0, 255),
+                effect.text,
+                backgroundX + BACKGROUND_PADDING,
+                y,
+                Colors.BLUE, // is overruled by text color anyway
                 false
             )
+            y += ATTRIBUTE_LINE_OFFSET
         }
+
+        context.disableScissor()
     }
 
     private data class EffectTextData(
-        val effect: RolledScarredOneEffect,
         val positive: Boolean,
+        val targets: ScarredOneEffectTargetGroup,
         val text: Text,
-        val detailedText: Text,
-        val width: Int,
-        val detailedWidth: Int,
-    )
+    ) {
+        constructor(effect: RolledScarredOneEffect, positive: Boolean) : this(positive, effect.targets, effect.getAttribute())
+    }
+
+    override fun mouseScrolled(mouseX: Double, mouseY: Double, horizontalAmount: Double, verticalAmount: Double): Boolean {
+        scrollOffset = (scrollOffset - verticalAmount * 5.0).coerceIn(0.0, maxScroll.toDouble())
+        return true
+    }
 
     override fun shouldPause(): Boolean = false
 

@@ -14,7 +14,7 @@ private const val DURATION = 40
 private const val SOUND_DELAY = 15
 
 @Injectable
-class ScarredOneEntityDespawnService(
+class ScarredOneDespawnService(
     val scheduler: Scheduler,
 ) {
     @EventSubscriber(sync = true)

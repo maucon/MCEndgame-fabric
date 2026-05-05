@@ -32,9 +32,5 @@ data class RolledScarredOneEffect(
         val PACKET_CODEC: PacketCodec<ByteBuf, RolledScarredOneEffect> = PacketCodecs.codec(CODEC)
     }
 
-    fun getText(detailed: Boolean = false): Text {
-        val targetsText = targets.text
-        val attributeText = CommandGateway.apply(GetCustomAttributesTextsCommand(attribute, detailed)).texts.firstOrNull() ?: return targetsText
-        return targetsText.copy().append(attributeText)
-    }
+    fun getAttribute(): Text = CommandGateway.apply(GetCustomAttributesTextsCommand(attribute)).texts.firstOrNull() ?: Text.empty()
 }
