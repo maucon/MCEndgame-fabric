@@ -14,6 +14,8 @@ import net.minecraft.server.network.ServerPlayerEntity
 import net.minecraft.server.world.ServerWorld
 import net.minecraft.sound.SoundCategory
 import net.minecraft.sound.SoundEvents
+import net.minecraft.storage.ReadView
+import net.minecraft.storage.WriteView
 import net.minecraft.util.ActionResult
 import net.minecraft.util.Hand
 import net.minecraft.world.World
@@ -21,7 +23,11 @@ import software.bernie.geckolib.animatable.GeoEntity
 import software.bernie.geckolib.animatable.instance.AnimatableInstanceCache
 import software.bernie.geckolib.animatable.manager.AnimatableManager
 import software.bernie.geckolib.util.GeckoLibUtil
+import kotlin.jvm.optionals.getOrDefault
 import kotlin.random.Random
+
+private const val POSITIVE_EFFECTS_KEY = "positive_effects"
+private const val NEGATIVE_EFFECTS_KEY = "negative_effects"
 
 class ScarredOneEntity(
     type: EntityType<out ScarredOneEntity>,
@@ -35,7 +41,6 @@ class ScarredOneEntity(
         }
     }
 
-    //TODO make persistent
     var positiveEffects = listOf<RolledScarredOneEffect>()
     var negativeEffects = listOf<RolledScarredOneEffect>()
 
@@ -83,4 +88,18 @@ class ScarredOneEntity(
     }
 
     override fun isPushable() = false
+
+    override fun writeCustomData(view: WriteView) {
+        super.writeCustomData(view)
+
+        view.put(POSITIVE_EFFECTS_KEY, RolledScarredOneEffect.LIST_CODEC, positiveEffects)
+        view.put(NEGATIVE_EFFECTS_KEY, RolledScarredOneEffect.LIST_CODEC, negativeEffects)
+    }
+
+    override fun readCustomData(view: ReadView) {
+        super.readCustomData(view)
+
+        positiveEffects = view.read(POSITIVE_EFFECTS_KEY, RolledScarredOneEffect.LIST_CODEC).getOrDefault(listOf())
+        negativeEffects = view.read(NEGATIVE_EFFECTS_KEY, RolledScarredOneEffect.LIST_CODEC).getOrDefault(listOf())
+    }
 }

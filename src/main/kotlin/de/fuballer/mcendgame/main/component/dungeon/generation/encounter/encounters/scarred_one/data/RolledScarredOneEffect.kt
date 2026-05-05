@@ -1,10 +1,12 @@
 package de.fuballer.mcendgame.main.component.dungeon.generation.encounter.encounters.scarred_one.data
 
+import com.mojang.serialization.Codec
+import com.mojang.serialization.codecs.RecordCodecBuilder
 import de.fuballer.mcendgame.main.component.custom_attribute.data.CustomAttribute
 import de.fuballer.mcendgame.main.component.dungeon.generation.encounter.encounters.scarred_one.ScarredOneEffectTargetGroup
 import de.fuballer.mcendgame.main.messaging.misc.GetCustomAttributesTextsCommand
 import de.maucon.mauconframework.command.CommandGateway
-import net.minecraft.network.RegistryByteBuf
+import io.netty.buffer.ByteBuf
 import net.minecraft.network.codec.PacketCodec
 import net.minecraft.network.codec.PacketCodecs
 import net.minecraft.text.Text
@@ -14,17 +16,20 @@ data class RolledScarredOneEffect(
     val targets: ScarredOneEffectTargetGroup,
 ) {
     companion object {
-        val PACKET_CODEC: PacketCodec<RegistryByteBuf, RolledScarredOneEffect> =
-            PacketCodec.tuple(
-                CustomAttribute.PACKET_CODEC, RolledScarredOneEffect::attribute,
+        val CODEC: Codec<RolledScarredOneEffect> =
+            RecordCodecBuilder.create { instance ->
+                instance.group(
+                    CustomAttribute.CODEC.fieldOf("attribute").forGetter(RolledScarredOneEffect::attribute),
 
-                PacketCodecs.indexed(
-                    { index -> ScarredOneEffectTargetGroup.entries[index] },
-                    ScarredOneEffectTargetGroup::ordinal
-                ), RolledScarredOneEffect::targets,
+                    Codec.INT.xmap(
+                        { index -> ScarredOneEffectTargetGroup.entries[index] },
+                        { it.ordinal }
+                    ).fieldOf("targets").forGetter(RolledScarredOneEffect::targets)
+                ).apply(instance, ::RolledScarredOneEffect)
+            }
+        val LIST_CODEC: Codec<List<RolledScarredOneEffect>> = Codec.list(CODEC)
 
-                ::RolledScarredOneEffect
-            )
+        val PACKET_CODEC: PacketCodec<ByteBuf, RolledScarredOneEffect> = PacketCodecs.codec(CODEC)
     }
 
     fun getText(detailed: Boolean = false): Text {
