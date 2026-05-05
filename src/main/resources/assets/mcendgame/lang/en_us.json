@@ -286,6 +286,8 @@
   "text.mcendgame.dungeon.device.level": "Level: %s",
 
   "text.mcendgame.scarred_one.effect_targets.enemies": "Enemies gain: ",
+  "text.mcendgame.scarred_one.effect_targets.non_boss_enemies": "Non-Boss Enemies gain: ",
+  "text.mcendgame.scarred_one.effect_targets.bosses": "Bosses gain: ",
   "text.mcendgame.scarred_one.effect_targets.allies": "Allies gain: ",
 
   "error.mcendgame.teleport.failed": "Destination location invalid! Closing portal.",

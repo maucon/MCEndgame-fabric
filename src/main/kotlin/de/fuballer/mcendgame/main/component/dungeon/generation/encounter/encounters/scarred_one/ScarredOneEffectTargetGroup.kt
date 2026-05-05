@@ -1,6 +1,7 @@
 package de.fuballer.mcendgame.main.component.dungeon.generation.encounter.encounters.scarred_one
 
 import de.fuballer.mcendgame.main.util.extension.EntityExtension.isOrIsTameableOf
+import de.fuballer.mcendgame.main.util.extension.mixin.EntityMixinExtension.isDungeonBoss
 import de.fuballer.mcendgame.main.util.extension.mixin.EntityMixinExtension.isDungeonEnemy
 import net.minecraft.entity.LivingEntity
 import net.minecraft.entity.PlayerLikeEntity
@@ -16,6 +17,14 @@ enum class ScarredOneEffectTargetGroup(
     ENEMIES(
         { it.isDungeonEnemy() },
         Text.translatable(TRANSLATION_KEY_BASE + "enemies"),
+    ),
+    NON_BOSS_ENEMIES(
+        { it.isDungeonEnemy() && !it.isDungeonBoss() },
+        Text.translatable(TRANSLATION_KEY_BASE + "non_boss_enemies"),
+    ),
+    BOSSES(
+        { it.isDungeonBoss() },
+        Text.translatable(TRANSLATION_KEY_BASE + "bosses"),
     ),
     ALLIES(
         { it.isOrIsTameableOf(PlayerLikeEntity::class.java) },
