@@ -6,6 +6,9 @@ import de.fuballer.mcendgame.main.component.custom_attribute.data.CustomAttribut
 import de.fuballer.mcendgame.main.component.dungeon.type.DungeonType
 import de.fuballer.mcendgame.main.component.item.custom.aspect.AspectItem
 import de.fuballer.mcendgame.main.component.world.VanillaTypeWorldAttributeInstance
+import de.fuballer.mcendgame.main.component.world.WorldAttributeAction
+import de.fuballer.mcendgame.main.messaging.dungeon.WorldAttributeChangedEvent
+import de.maucon.mauconframework.event.EventGateway
 import net.minecraft.entity.LivingEntity
 import net.minecraft.entity.player.PlayerEntity
 import net.minecraft.server.world.ServerWorld
@@ -101,11 +104,15 @@ object WorldMixinExtension {
     fun ServerWorld.addCustomAttribute(attribute: CustomAttribute, applies: Predicate<LivingEntity> = { true }) {
         val accessor = this as WorldAttributesAccessor
         accessor.`mcendgame$addCustomAttribute`(attribute, applies)
+
+        EventGateway.publish(WorldAttributeChangedEvent(this, attribute, WorldAttributeAction.ADD))
     }
 
     fun ServerWorld.removeCustomAttribute(attribute: CustomAttribute, applies: Predicate<LivingEntity> = { true }) {
         val accessor = this as WorldAttributesAccessor
         accessor.`mcendgame$removeCustomAttribute`(attribute, applies)
+
+        EventGateway.publish(WorldAttributeChangedEvent(this, attribute, WorldAttributeAction.REMOVE))
     }
 
     fun ServerWorld.getCustomTypeAttributes(entity: LivingEntity): List<CustomAttribute> {

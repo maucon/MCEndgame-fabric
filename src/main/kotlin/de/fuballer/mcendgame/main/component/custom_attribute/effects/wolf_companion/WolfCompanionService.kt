@@ -5,6 +5,7 @@ import de.fuballer.mcendgame.main.component.custom_attribute.CustomAttributesExt
 import de.fuballer.mcendgame.main.component.custom_attribute.CustomAttributesExtensions.getCustomAttributes
 import de.fuballer.mcendgame.main.component.custom_attribute.types.CustomAttributeTypes
 import de.fuballer.mcendgame.main.configuration.RuntimeConfig
+import de.fuballer.mcendgame.main.messaging.dungeon.WorldAttributeChangedEvent
 import de.fuballer.mcendgame.main.messaging.misc.EquipmentChangeEvent
 import de.fuballer.mcendgame.main.messaging.misc.PlayerAfterDimensionChangeEvent
 import de.fuballer.mcendgame.main.messaging.misc.PlayerBeforeDimensionChangeEvent
@@ -65,12 +66,24 @@ class WolfCompanionService {
         val attributeSlot = AttributeModifierSlot.forEquipmentSlot(event.slot)
         if (!hasApplicableAttribute(event.oldStack, attributeSlot) && !hasApplicableAttribute(event.newStack, attributeSlot)) return
 
-        removeWolfCompanions(player)
-        summonWolfCompanions(player)
+        resummonWolfCompanions(player)
+    }
+
+    @EventSubscriber(sync = true)
+    fun on(event: WorldAttributeChangedEvent) {
+        if (event.attribute.type != CustomAttributeTypes.WOLF_COMPANION) return
+        event.world.players.forEach {
+            resummonWolfCompanions(it)
+        }
     }
 
     private fun hasApplicableAttribute(stack: ItemStack, slot: AttributeModifierSlot) =
         stack.getCustomAttributes().filter { slot.isOrIsChildOf(it.slot) }.any { it.type == CustomAttributeTypes.WOLF_COMPANION }
+
+    private fun resummonWolfCompanions(player: PlayerEntity) {
+        removeWolfCompanions(player)
+        summonWolfCompanions(player)
+    }
 
     private fun summonWolfCompanions(
         player: PlayerEntity,
