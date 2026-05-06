@@ -1,13 +1,16 @@
 package de.fuballer.mcendgame.main.component.dungeon.generation.encounter.encounters.scarred_one
 
 import de.fuballer.mcendgame.main.component.dungeon.generation.encounter.EncounterType
-import de.fuballer.mcendgame.main.component.dungeon.generation.encounter.encounters.scarred_one.event.ScarredOneInteractEvent
+import de.fuballer.mcendgame.main.component.dungeon.generation.encounter.encounters.scarred_one.messaging.CollectScarredOneEffectCountCommand
+import de.fuballer.mcendgame.main.component.dungeon.generation.encounter.encounters.scarred_one.messaging.ScarredOneInteractEvent
 import de.fuballer.mcendgame.main.component.dungeon.generation.encounter.encounters.scarred_one.networking.ScarredOneEffectsPayload
 import de.fuballer.mcendgame.main.component.dungeon.generation.encounter.messaging.CollectDungeonEncountersCommand
 import de.fuballer.mcendgame.main.component.dungeon.generation.encounter.messaging.GenerateDungeonEncountersEvent
 import de.fuballer.mcendgame.main.component.entity.custom.CustomEntities
 import de.fuballer.mcendgame.main.component.entity.custom.entities.scarred_one.ScarredOneEntity
 import de.fuballer.mcendgame.main.util.extension.Vec3iExtension.toVec3d
+import de.fuballer.mcendgame.main.util.extension.mixin.WorldMixinExtension.getDungeonLevel
+import de.maucon.mauconframework.command.CommandGateway
 import de.maucon.mauconframework.command.CommandHandler
 import de.maucon.mauconframework.di.annotation.Injectable
 import de.maucon.mauconframework.event.EventSubscriber
@@ -49,8 +52,13 @@ class ScarredOneEncounterService {
         if (scarredOne.gotResponse) return
 
         if (!scarredOne.hasRolledEffects()) {
-            scarredOne.positiveEffects = ScarredOneEncounterSettings.getPositiveEffects()
-            scarredOne.negativeEffects = ScarredOneEncounterSettings.getNegativeEffects()
+            val dungeonWorld = event.serverWorld
+
+            val baseCount = ScarredOneEncounterSettings.getBaseEffectCount(dungeonWorld.getDungeonLevel())
+            val cmd = CommandGateway.apply(CollectScarredOneEffectCountCommand(dungeonWorld, baseCount, baseCount))
+
+            scarredOne.positiveEffects = ScarredOneEncounterSettings.getPositiveEffects(cmd.positive)
+            scarredOne.negativeEffects = ScarredOneEncounterSettings.getNegativeEffects(cmd.negative)
         }
 
         val payload = ScarredOneEffectsPayload(scarredOne.positiveEffects, scarredOne.negativeEffects, scarredOne.uuid)

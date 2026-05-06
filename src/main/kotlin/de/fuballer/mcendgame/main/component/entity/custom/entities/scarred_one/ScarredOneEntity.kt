@@ -1,7 +1,7 @@
 package de.fuballer.mcendgame.main.component.entity.custom.entities.scarred_one
 
 import de.fuballer.mcendgame.main.component.dungeon.generation.encounter.encounters.scarred_one.data.RolledScarredOneEffect
-import de.fuballer.mcendgame.main.component.dungeon.generation.encounter.encounters.scarred_one.event.ScarredOneInteractEvent
+import de.fuballer.mcendgame.main.component.dungeon.generation.encounter.encounters.scarred_one.messaging.ScarredOneInteractEvent
 import de.fuballer.mcendgame.main.util.extension.mixin.WorldMixinExtension.addCustomAttribute
 import de.maucon.mauconframework.event.EventGateway
 import net.minecraft.entity.EntityType

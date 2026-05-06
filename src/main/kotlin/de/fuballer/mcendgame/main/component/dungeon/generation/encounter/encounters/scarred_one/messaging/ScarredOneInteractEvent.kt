@@ -1,4 +1,4 @@
-package de.fuballer.mcendgame.main.component.dungeon.generation.encounter.encounters.scarred_one.event
+package de.fuballer.mcendgame.main.component.dungeon.generation.encounter.encounters.scarred_one.messaging
 
 import de.fuballer.mcendgame.main.component.entity.custom.entities.scarred_one.ScarredOneEntity
 import net.minecraft.server.network.ServerPlayerEntity

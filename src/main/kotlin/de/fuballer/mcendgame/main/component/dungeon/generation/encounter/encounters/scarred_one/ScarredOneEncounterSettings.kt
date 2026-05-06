@@ -10,10 +10,13 @@ import de.fuballer.mcendgame.main.component.custom_attribute.types.VanillaAttrib
 import de.fuballer.mcendgame.main.component.dungeon.generation.encounter.encounters.scarred_one.data.ScarredOneEffect
 import de.fuballer.mcendgame.main.util.random.RandomOption
 import de.fuballer.mcendgame.main.util.random.RandomUtil
+import kotlin.math.min
 import kotlin.random.Random
 
 object ScarredOneEncounterSettings {
     const val BASE_PROBABILITY = 1.0 // per dungeon
+
+    fun getBaseEffectCount(dungeonLevel: Int) = min(1 + dungeonLevel / 5, 3)
 
     fun getPositiveEffects(count: Int = 1) = RandomUtil.pickRepeatIfNeeded(POSITIVE, Random.Default, count).map { it.roll() }
     fun getNegativeEffects(count: Int = 1) = RandomUtil.pickRepeatIfNeeded(NEGATIVE, Random.Default, count).map { it.roll() }
@@ -73,7 +76,7 @@ object ScarredOneEncounterSettings {
         RandomOption(7, ScarredOneEffect(RollableCustomAttribute(CustomAttributeTypes.MORE_DAMAGE, 0, DoubleBounds(0.1, 0.15)), ScarredOneEffectTargetGroup.ENEMIES)),
         RandomOption(5, ScarredOneEffect(RollableCustomAttribute(CustomAttributeTypes.ADDITIONAL_ARROWS, 0, IntBounds(1, 2)), ScarredOneEffectTargetGroup.ENEMIES)),
         RandomOption(5, ScarredOneEffect(RollableCustomAttribute(CustomAttributeTypes.MORE_ATTACK_KNOCKBACK, 0, DoubleBounds(0.15, 0.25)), ScarredOneEffectTargetGroup.ENEMIES)),
-        RandomOption(5, ScarredOneEffect(RollableCustomAttribute(CustomAttributeTypes.SLOWNESS_ON_HIT, 0,  IntBounds(1), IntBounds(1, 2)), ScarredOneEffectTargetGroup.ENEMIES)),
+        RandomOption(5, ScarredOneEffect(RollableCustomAttribute(CustomAttributeTypes.SLOWNESS_ON_HIT, 0, IntBounds(1), IntBounds(1, 2)), ScarredOneEffectTargetGroup.ENEMIES)),
 
         RandomOption(6, ScarredOneEffect(RollableCustomAttribute(CustomAttributeTypes.MORE_DAMAGE_TAKEN, 0, DoubleBounds(-0.15, -0.05)), ScarredOneEffectTargetGroup.BOSSES)),
         RandomOption(5, ScarredOneEffect(RollableCustomAttribute(CustomAttributeTypes.DODGE, 0, DoubleBounds(0.1, 0.2)), ScarredOneEffectTargetGroup.BOSSES)),
