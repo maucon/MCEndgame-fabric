@@ -1,6 +1,7 @@
 package de.fuballer.mcendgame.main.component.block.blocks
 
 import de.fuballer.mcendgame.main.util.extension.mixin.EntityMixinExtension.getLastDamageTime
+import de.fuballer.mcendgame.main.util.extension.mixin.EntityMixinExtension.isDungeonBoss
 import de.fuballer.mcendgame.main.util.extension.mixin.EntityMixinExtension.isDungeonEnemy
 import net.minecraft.block.BarrierBlock
 import net.minecraft.block.BlockState
@@ -32,7 +33,7 @@ class DungeonEnemyBlockerBlock(
         val entityContext = context as? EntityShapeContext ?: return VoxelShapes.empty()
         val entity = entityContext.entity as? LivingEntity ?: return VoxelShapes.empty()
 
-        if (!entity.isDungeonEnemy()) return VoxelShapes.empty()
+        if (!entity.isDungeonEnemy() || entity.isDungeonBoss()) return VoxelShapes.empty()
         if (entity.entityWorld.time - entity.getLastDamageTime() <= DAMAGE_TAKEN_TIME) return VoxelShapes.empty()
 
         val blockShape = VoxelShapes.fullCube()
