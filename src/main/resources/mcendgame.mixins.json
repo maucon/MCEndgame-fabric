@@ -53,6 +53,7 @@
     "living_entity.LivingEntityCustomAttributesMixin",
     "living_entity.LivingEntityDodgedRecentlyMixin",
     "living_entity.LivingEntityHealMixin",
+    "living_entity.LivingEntityLastDamageTimeAccessorMixin",
     "living_entity.LivingEntityLinkAttributeMixin",
     "living_entity.LivingEntityPoisonDamageImmunityMixin",
     "living_entity.LivingEntityTemporaryAttributeModifierMixin",

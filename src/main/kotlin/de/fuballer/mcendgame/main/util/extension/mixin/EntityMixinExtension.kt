@@ -3,11 +3,11 @@ package de.fuballer.mcendgame.main.util.extension.mixin
 import de.fuballer.mcendgame.main.accessor.*
 import de.fuballer.mcendgame.main.component.custom_attribute.effects.data.AuraStatusEffect
 import de.fuballer.mcendgame.main.component.dungeon.generation.data.SpawnPosition
+import de.fuballer.mcendgame.main.mixin.living_entity.LivingEntityLastDamageTimeAccessorMixin
 import net.minecraft.entity.Entity
 import net.minecraft.entity.LivingEntity
 import net.minecraft.entity.attribute.EntityAttribute
 import net.minecraft.entity.attribute.EntityAttributeModifier
-import net.minecraft.entity.projectile.ProjectileEntity
 import net.minecraft.registry.entry.RegistryEntry
 import net.minecraft.util.Identifier
 import net.minecraft.util.math.Vec3i
@@ -39,13 +39,6 @@ object EntityMixinExtension {
         val accessor = this as LivingEntityDungeonEnemyAccessor
         return accessor.`mcendgame$setDungeonEnemy`(enemy)
     }
-
-    fun Entity.isDungeonEnemyOrProjectile(): Boolean {
-        if (this is ProjectileEntity) return isDungeonEnemyProjectile()
-        return (this as? LivingEntity)?.isDungeonEnemy() ?: false
-    }
-
-    fun ProjectileEntity.isDungeonEnemyProjectile() = (owner as? LivingEntity)?.isDungeonEnemy() ?: false
 
     fun LivingEntity.isDungeonEnemy(): Boolean {
         val enemyAccessor = this as LivingEntityDungeonEnemyAccessor
@@ -130,6 +123,11 @@ object EntityMixinExtension {
     fun LivingEntity.isLootGoblin(): Boolean {
         val accessor = this as LivingEntityLootGoblinAccessor
         return accessor.`mcendgame$isLootGoblin`()
+    }
+
+    fun LivingEntity.getLastDamageTime(): Long {
+        val accessor = this as LivingEntityLastDamageTimeAccessorMixin
+        return accessor.lastDamageTime
     }
 
     fun LivingEntity.setDungeonBossSpawnPosition(spawnPosition: SpawnPosition) {

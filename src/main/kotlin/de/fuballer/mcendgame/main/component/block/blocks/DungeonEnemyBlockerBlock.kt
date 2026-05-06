@@ -1,22 +1,26 @@
 package de.fuballer.mcendgame.main.component.block.blocks
 
-import de.fuballer.mcendgame.main.util.extension.mixin.EntityMixinExtension.isDungeonEnemyOrProjectile
+import de.fuballer.mcendgame.main.util.extension.mixin.EntityMixinExtension.getLastDamageTime
+import de.fuballer.mcendgame.main.util.extension.mixin.EntityMixinExtension.isDungeonEnemy
 import net.minecraft.block.BarrierBlock
 import net.minecraft.block.BlockState
 import net.minecraft.block.EntityShapeContext
 import net.minecraft.block.ShapeContext
+import net.minecraft.entity.LivingEntity
 import net.minecraft.entity.player.PlayerEntity
+import net.minecraft.util.function.BooleanBiFunction
 import net.minecraft.util.math.BlockPos
 import net.minecraft.util.shape.VoxelShape
 import net.minecraft.util.shape.VoxelShapes
 import net.minecraft.world.BlockView
-import net.minecraft.world.GameMode
 
 class DungeonEnemyBlockerBlock(
     settings: Settings,
 ) : BarrierBlock(settings) {
     companion object {
         const val ID = "dungeon_enemy_blocker"
+
+        private const val DAMAGE_TAKEN_TIME = 100
     }
 
     override fun getCollisionShape(
@@ -26,8 +30,16 @@ class DungeonEnemyBlockerBlock(
         context: ShapeContext,
     ): VoxelShape {
         val entityContext = context as? EntityShapeContext ?: return VoxelShapes.empty()
-        if (entityContext.entity?.isDungeonEnemyOrProjectile() != true) return VoxelShapes.empty()
-        return VoxelShapes.fullCube()
+        val entity = entityContext.entity as? LivingEntity ?: return VoxelShapes.empty()
+
+        if (!entity.isDungeonEnemy()) return VoxelShapes.empty()
+        if (entity.entityWorld.time - entity.getLastDamageTime() <= DAMAGE_TAKEN_TIME) return VoxelShapes.empty()
+
+        val blockShape = VoxelShapes.fullCube()
+        val offsetShape = blockShape.offset(pos.x.toDouble(), pos.y.toDouble(), pos.z.toDouble())
+        if (VoxelShapes.matchesAnywhere(offsetShape, VoxelShapes.cuboid(entity.boundingBox), BooleanBiFunction.AND)) return VoxelShapes.empty()
+
+        return blockShape
     }
 
     override fun getOutlineShape(
