@@ -65,7 +65,7 @@ class ScarredOneEntity(
     fun hasRolledEffects() = positiveEffects.isNotEmpty() || negativeEffects.isNotEmpty()
 
     override fun initGoals() {
-        goalSelector.add(0, LookAtEntityGoal(this, PlayerEntity::class.java, 8F))
+        goalSelector.add(0, LookAtEntityGoal(this, PlayerEntity::class.java, 8F, 1F))
     }
 
     private val cache: AnimatableInstanceCache = GeckoLibUtil.createInstanceCache(this)
