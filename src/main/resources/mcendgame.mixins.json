@@ -5,6 +5,7 @@
   "mixins": [
     "access.EntityAccessMixin",
     "access.PlayerEntityAccessMixin",
+    "additional_arrows.AbstractSkeletonAdditionalArrowsMixin",
     "additional_arrows.RangedWeaponItemAdditionalArrowsMixin",
     "conversion.SkeletonConversionMixin",
     "conversion.ZombieConversionMixin",
