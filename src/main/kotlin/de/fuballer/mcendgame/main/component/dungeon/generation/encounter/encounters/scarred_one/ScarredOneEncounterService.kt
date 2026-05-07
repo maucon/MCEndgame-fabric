@@ -33,17 +33,17 @@ class ScarredOneEncounterService {
         val amount = event.encounters[EncounterType.SCARRED_ONE] ?: return
         if (amount <= 0) return
 
-        val locations = event.takeStartLocations(amount)
+        val locations = event.takeStartLocations(1) // limited to one
         if (locations.isEmpty()) return
 
+        val encounterLocation = locations.first()
+
         val world = event.world
-        locations.forEach { encounterLocation ->
-            val entity = ScarredOneEntity(CustomEntities.SCARRED_ONE, world)
-            entity.setPosition(encounterLocation.location.toVec3d().add(0.5, 0.0, 0.5))
-            entity.isInvulnerable = true
-            entity.lookAt(EntityAnchorArgumentType.EntityAnchor.EYES, encounterLocation.facingToLocation.toVec3d().add(0.5, 1.0, 0.5))
-            world.spawnEntity(entity)
-        }
+        val entity = ScarredOneEntity(CustomEntities.SCARRED_ONE, world)
+        entity.setPosition(encounterLocation.location.toVec3d().add(0.5, 0.0, 0.5))
+        entity.isInvulnerable = true
+        entity.lookAt(EntityAnchorArgumentType.EntityAnchor.EYES, encounterLocation.facingToLocation.toVec3d().add(0.5, 1.0, 0.5))
+        world.spawnEntity(entity)
     }
 
     @EventSubscriber(sync = true)
