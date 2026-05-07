@@ -24,7 +24,9 @@
     "player.PlayerLikeEntityMixin",
     "renderer.ArmorFeatureRendererMixin",
     "renderer.ItemStackAttributeRenderMixin",
-    "renderer.SkullBlockEntityRendererAccessorMixin"
+    "renderer.SkullBlockEntityRendererAccessorMixin",
+    "stats.StatsScreenMixin",
+    "stats.GeneralStatsListWidgetMixin"
   ],
   "injectors": {
     "defaultRequire": 1

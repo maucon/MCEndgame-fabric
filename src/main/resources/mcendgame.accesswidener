@@ -1,0 +1,5 @@
+accessWidener v2 named
+
+# Custom stats tab
+accessible class net/minecraft/client/gui/screen/StatsScreen$StatsTab
+accessible class net/minecraft/client/gui/screen/StatsScreen$GeneralStatsListWidget

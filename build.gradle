@@ -39,6 +39,8 @@ repositories {
 loom {
     log4jConfigs.from(file("src/main/resources/log4j.xml"))
 
+    accessWidenerPath = file("src/main/resources/mcendgame.accesswidener")
+
     splitEnvironmentSourceSets()
 
     mods {

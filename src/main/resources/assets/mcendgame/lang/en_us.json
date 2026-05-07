@@ -118,6 +118,9 @@
   "item.mcendgame.totem.type.effect": "Type: Effect",
   "item.mcendgame.totem.type.ultimate": "Type: Ultimate",
 
+  "container.mcendgame.stats_screen.tab.title": "MCEndgame",
+  "stat.mcendgame.test_stat": "MCEndgame Test Stat",
+
   "container.mcendgame.totem.title": "Totems",
 
   "container.mcendgame.filter.title": "Dungeon Filter / Blacklist",
