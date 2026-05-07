@@ -57,11 +57,11 @@ object ScarredOneEncounterSettings {
         RandomOption(4, ScarredOneEffect(RollableCustomAttribute(CustomAttributeTypes.STEALTH, 0), ScarredOneEffectTargetGroup.ALLIES)),
         RandomOption(5, ScarredOneEffect(RollableCustomAttribute(CustomAttributeTypes.SLOWNESS_ON_HIT, 0, IntBounds(1), IntBounds(2, 4)), ScarredOneEffectTargetGroup.ALLIES)),
 
-        RandomOption(4, ScarredOneEffect(RollableCustomAttribute(CustomAttributeTypes.MORE_DAMAGE_TAKEN, 0, DoubleBounds(-0.15, -0.1)), ScarredOneEffectTargetGroup.ENEMIES)),
+        RandomOption(4, ScarredOneEffect(RollableCustomAttribute(CustomAttributeTypes.MORE_DAMAGE_TAKEN, 0, DoubleBounds(0.1, 0.15)), ScarredOneEffectTargetGroup.ENEMIES)),
         RandomOption(4, ScarredOneEffect(RollableCustomAttribute(VanillaAttributeTypes.INCREASED_MOVEMENT_SPEED, 0, DoubleBounds(-0.15, -0.1)), ScarredOneEffectTargetGroup.ENEMIES)),
         RandomOption(4, ScarredOneEffect(RollableCustomAttribute(CustomAttributeTypes.MORE_DAMAGE, 0, DoubleBounds(-0.15, -0.1)), ScarredOneEffectTargetGroup.ENEMIES)),
 
-        RandomOption(4, ScarredOneEffect(RollableCustomAttribute(CustomAttributeTypes.MORE_DAMAGE_TAKEN, 0, DoubleBounds(-0.15, -0.1)), ScarredOneEffectTargetGroup.BOSSES)),
+        RandomOption(4, ScarredOneEffect(RollableCustomAttribute(CustomAttributeTypes.MORE_DAMAGE_TAKEN, 0, DoubleBounds(0.1, 0.15)), ScarredOneEffectTargetGroup.BOSSES)),
         RandomOption(4, ScarredOneEffect(RollableCustomAttribute(CustomAttributeTypes.MORE_DAMAGE, 0, DoubleBounds(-0.2, -0.1)), ScarredOneEffectTargetGroup.BOSSES)),
 
         RandomOption(50, ScarredOneEffect(RollableCustomAttribute(CustomAttributeTypes.DROP_INCREASED_LOOT, 0, DoubleBounds(0.2, 0.4)), ScarredOneEffectTargetGroup.NON_BOSS_ENEMIES)),

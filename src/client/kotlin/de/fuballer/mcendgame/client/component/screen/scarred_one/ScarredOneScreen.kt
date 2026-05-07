@@ -137,7 +137,7 @@ class ScarredOneScreen(
     }
 
     override fun mouseScrolled(mouseX: Double, mouseY: Double, horizontalAmount: Double, verticalAmount: Double): Boolean {
-        scrollOffset = (scrollOffset - verticalAmount * 5.0).coerceIn(0.0, maxScroll.toDouble())
+        scrollOffset = (scrollOffset - verticalAmount * 10.0).coerceIn(0.0, maxScroll.toDouble())
         return true
     }
 
