@@ -116,7 +116,7 @@ class CustomStatsService {
             is PermutationCrystalItem -> player.increaseStat(CustomStats.PERMUTATION_CRYSTAL_USED, 1)
             is ReforgeCrystalItem -> player.increaseStat(CustomStats.REFORGE_CRYSTAL_USED, 1)
             is CorruptionCrystalItem -> player.increaseStat(CustomStats.CORRUPTION_CRYSTAL_USED, 1)
-            else -> log.error("Crystal stats handling not implement for ${event.crystal}")
+            else -> log.error("Crystal stats handling not implemented for ${event.crystal}")
         }
     }
 
