@@ -14,9 +14,9 @@ import kotlin.math.min
 import kotlin.random.Random
 
 object ScarredOneEncounterSettings {
-    const val BASE_PROBABILITY = 1.0 // per dungeon
+    fun getSpawnProbability(dungeonLevel: Int) = if (dungeonLevel >= 4) 0.2 else 0.0 // per dungeon
 
-    fun getBaseEffectCount(dungeonLevel: Int) = min(1 + dungeonLevel / 5, 3)
+    fun getBaseEffectCount(dungeonLevel: Int) = min(dungeonLevel / 4, 3)
 
     fun getPositiveEffects(count: Int = 1) = RandomUtil.pickRepeatIfNeeded(POSITIVE, Random.Default, count).map { it.roll() }
     fun getNegativeEffects(count: Int = 1) = RandomUtil.pickRepeatIfNeeded(NEGATIVE, Random.Default, count).map { it.roll() }

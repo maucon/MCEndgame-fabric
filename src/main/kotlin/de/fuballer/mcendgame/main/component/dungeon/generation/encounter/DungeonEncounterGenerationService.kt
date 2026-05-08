@@ -22,7 +22,7 @@ class DungeonEncounterGenerationService {
         aspects: Map<AspectItem, Int>,
         random: Random,
     ) {
-        val collectCommand = CollectDungeonEncountersCommand(random, playerSeed, aspects)
+        val collectCommand = CollectDungeonEncountersCommand(random, dungeonLevel, playerSeed, aspects)
         val cmd = CommandGateway.apply(collectCommand)
 
         val generateEvent = GenerateDungeonEncountersEvent(

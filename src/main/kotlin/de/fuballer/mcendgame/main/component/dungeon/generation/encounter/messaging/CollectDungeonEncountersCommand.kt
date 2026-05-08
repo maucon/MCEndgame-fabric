@@ -7,6 +7,7 @@ import kotlin.random.Random
 
 data class CollectDungeonEncountersCommand(
     val random: Random,
+    val dungeonLevel: Int,
     val playerSeed: PlayerDungeonSeed,
     val aspects: Map<AspectItem, Int>,
     val encounters: MutableMap<EncounterType, Int> = mutableMapOf(),

@@ -24,7 +24,7 @@ class ScarredOneEncounterService {
     @CommandHandler
     fun on(cmd: CollectDungeonEncountersCommand) {
         if (cmd.playerSeed.hasBeenUsed) return
-        if (cmd.random.nextDouble() >= ScarredOneEncounterSettings.BASE_PROBABILITY) return
+        if (cmd.random.nextDouble() >= ScarredOneEncounterSettings.getSpawnProbability(cmd.dungeonLevel)) return
         cmd.add(EncounterType.SCARRED_ONE)
     }
 
