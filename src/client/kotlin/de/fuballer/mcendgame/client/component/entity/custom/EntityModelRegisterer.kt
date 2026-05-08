@@ -11,6 +11,8 @@ import de.fuballer.mcendgame.client.component.entity.custom.entities.elf_duelist
 import de.fuballer.mcendgame.client.component.entity.custom.entities.portal.PortalRenderer
 import de.fuballer.mcendgame.client.component.entity.custom.entities.portal.type.default_.DefaultPortalEntityModel
 import de.fuballer.mcendgame.client.component.entity.custom.entities.portal.type.legacy.LegacyPortalEntityModel
+import de.fuballer.mcendgame.client.component.entity.custom.entities.scarred_one.ScarredOneRenderState
+import de.fuballer.mcendgame.client.component.entity.custom.entities.scarred_one.ScarredOneRenderer
 import de.fuballer.mcendgame.client.component.entity.custom.entities.swamp_golem.SwampGolemEntityModel
 import de.fuballer.mcendgame.client.component.entity.custom.entities.swamp_golem.SwampGolemRenderer
 import de.fuballer.mcendgame.client.component.entity.custom.entities.webhook.WebhookRenderer
@@ -50,6 +52,8 @@ object EntityModelRegisterer {
         EntityRendererRegistry.register(CustomEntities.BONECRUSHER) { state -> BonecrusherRenderer<BonecrusherRenderState>(state) }
         EntityRendererRegistry.register(CustomEntities.ELF_DUELIST) { state -> ElfDuelistRenderer<ElfDuelistRenderState>(state) }
         EntityRendererRegistry.register(CustomEntities.BEAKBURN) { state -> BeakburnRenderer<BeakburnRenderState>(state) }
+
+        EntityRendererRegistry.register(CustomEntities.SCARRED_ONE) { state -> ScarredOneRenderer<ScarredOneRenderState>(state) }
 
         EntityModelLayerRegistry.registerModelLayer(
             DefaultPortalEntityModel.PORTAL,

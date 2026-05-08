@@ -7,4 +7,9 @@ data class GetCustomAttributesTextsCommand(
     val attributes: List<CustomAttribute>,
     val detailed: Boolean = false,
     var texts: List<Text> = listOf(),
-)
+){
+    constructor(
+        attribute: CustomAttribute,
+        detailed: Boolean = false,
+    ) : this(listOf(attribute), detailed)
+}

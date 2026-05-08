@@ -1,11 +1,19 @@
 package de.fuballer.mcendgame.main.util.extension.mixin
 
 import de.fuballer.mcendgame.main.accessor.DungeonWorldAccessor
+import de.fuballer.mcendgame.main.accessor.WorldAttributesAccessor
+import de.fuballer.mcendgame.main.component.custom_attribute.data.CustomAttribute
 import de.fuballer.mcendgame.main.component.dungeon.type.DungeonType
 import de.fuballer.mcendgame.main.component.item.custom.aspect.AspectItem
+import de.fuballer.mcendgame.main.component.world.VanillaTypeWorldAttributeInstance
+import de.fuballer.mcendgame.main.component.world.WorldAttributeAction
+import de.fuballer.mcendgame.main.messaging.dungeon.WorldAttributeChangedEvent
+import de.maucon.mauconframework.event.EventGateway
+import net.minecraft.entity.LivingEntity
 import net.minecraft.entity.player.PlayerEntity
 import net.minecraft.server.world.ServerWorld
 import net.minecraft.util.math.GlobalPos
+import java.util.function.Predicate
 
 object WorldMixinExtension {
     fun ServerWorld.setDungeonCompleted(completed: Boolean = true) {
@@ -86,5 +94,34 @@ object WorldMixinExtension {
     fun ServerWorld.getDungeonExitPos(): GlobalPos {
         val accessor = this as DungeonWorldAccessor
         return accessor.`mcendgame$getDungeonExitPos`()
+    }
+
+    fun ServerWorld.getAttributeUpdateCount(): Int {
+        val accessor = this as WorldAttributesAccessor
+        return accessor.`mcendgame$getAttributeUpdateCount`()
+    }
+
+    fun ServerWorld.addCustomAttribute(attribute: CustomAttribute, applies: Predicate<LivingEntity> = { true }) {
+        val accessor = this as WorldAttributesAccessor
+        accessor.`mcendgame$addCustomAttribute`(attribute, applies)
+
+        EventGateway.publish(WorldAttributeChangedEvent(this, attribute, WorldAttributeAction.ADD))
+    }
+
+    fun ServerWorld.removeCustomAttribute(attribute: CustomAttribute, applies: Predicate<LivingEntity> = { true }) {
+        val accessor = this as WorldAttributesAccessor
+        accessor.`mcendgame$removeCustomAttribute`(attribute, applies)
+
+        EventGateway.publish(WorldAttributeChangedEvent(this, attribute, WorldAttributeAction.REMOVE))
+    }
+
+    fun ServerWorld.getCustomTypeAttributes(entity: LivingEntity): List<CustomAttribute> {
+        val accessor = this as WorldAttributesAccessor
+        return accessor.`mcendgame$getCustomTypeAttributes`(entity)
+    }
+
+    fun ServerWorld.getVanillaTypeAttributesHistory(entity: LivingEntity): List<VanillaTypeWorldAttributeInstance> {
+        val accessor = this as WorldAttributesAccessor
+        return accessor.`mcendgame$getVanillaTypeAttributesHistory`(entity)
     }
 }

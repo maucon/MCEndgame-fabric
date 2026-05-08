@@ -11,16 +11,18 @@ private const val DUNGEON_SEED_NBT = "PlayerDungeonSeed"
 
 data class PlayerDungeonSeed(
     var seed: Long,
-    var type: DungeonType
+    var type: DungeonType,
+    var hasBeenUsed: Boolean = false,
 ) {
     companion object {
         val CODEC: Codec<PlayerDungeonSeed> = RecordCodecBuilder.create { instance ->
             instance.group(
                 Codec.LONG.fieldOf("seed").forGetter(PlayerDungeonSeed::seed),
                 Codec.STRING.fieldOf("type").forGetter { it.type.name },
-            ).apply(instance) { seed, typeName ->
+                Codec.BOOL.optionalFieldOf("hasBeenUsed", false).forGetter { it.hasBeenUsed },
+            ).apply(instance) { seed, typeName, hasBeenUsed ->
                 val type = runCatching { DungeonType.valueOf(typeName) }.getOrDefault(DungeonType.STRONGHOLD)
-                PlayerDungeonSeed(seed, type)
+                PlayerDungeonSeed(seed, type, hasBeenUsed)
             }
         }
 
@@ -28,6 +30,6 @@ data class PlayerDungeonSeed(
             view.put(DUNGEON_SEED_NBT, CODEC, seed)
         }
 
-        fun read(view: ReadView): PlayerDungeonSeed? = view.read<PlayerDungeonSeed>(DUNGEON_SEED_NBT, CODEC).getOrNull()
+        fun read(view: ReadView): PlayerDungeonSeed? = view.read(DUNGEON_SEED_NBT, CODEC).getOrNull()
     }
 }

@@ -59,6 +59,7 @@ class CustomModelProvider(
         generator.register(AspectItems.ASPECT_OF_ANCESTORS, Models.GENERATED)
         generator.register(AspectItems.ASPECT_OF_CURIO, Models.GENERATED)
         generator.register(AspectItems.ASPECT_OF_DOMINION, Models.GENERATED)
+        generator.register(AspectItems.ASPECT_OF_DUALITY, Models.GENERATED)
         generator.register(AspectItems.ASPECT_OF_EMINENCE, Models.GENERATED)
         generator.register(AspectItems.ASPECT_OF_FORTITUDE, Models.GENERATED)
         generator.register(AspectItems.ASPECT_OF_FORTUNE, Models.GENERATED)

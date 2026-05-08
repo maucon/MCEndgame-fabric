@@ -11,6 +11,7 @@ import net.minecraft.network.codec.PacketCodec
 import net.minecraft.network.codec.PacketCodecs
 import net.minecraft.util.Uuids
 import java.util.*
+import kotlin.random.Random
 
 data class RollableCustomAttribute(
     val type: AttributeType,
@@ -29,6 +30,14 @@ data class RollableCustomAttribute(
             .map { (attributeBounds, percentRoll) -> attributeBounds.roll(percentRoll) }
 
         return CustomAttribute(type, tier, attributeRolls, slot)
+    }
+
+    fun roll(slot: AttributeModifierSlot = AttributeModifierSlot.ANY): CustomAttribute {
+        val percentageRolls = mutableListOf<Double>()
+        repeat(bounds.size) {
+            percentageRolls.add(Random.nextDouble())
+        }
+        return roll(percentageRolls, slot)
     }
 }
 
