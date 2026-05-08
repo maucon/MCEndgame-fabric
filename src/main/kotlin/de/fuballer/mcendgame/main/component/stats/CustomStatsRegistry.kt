@@ -1,4 +1,4 @@
-package de.fuballer.mcendgame.client.component.stats
+package de.fuballer.mcendgame.main.component.stats
 
 import de.fuballer.mcendgame.main.util.minecraft.IdentifierUtil
 import net.minecraft.registry.Registries

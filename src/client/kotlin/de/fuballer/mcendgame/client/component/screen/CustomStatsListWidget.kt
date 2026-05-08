@@ -1,5 +1,6 @@
-package de.fuballer.mcendgame.client.component.stats
+package de.fuballer.mcendgame.client.component.screen
 
+import de.fuballer.mcendgame.main.component.stats.CustomStatsRegistry
 import net.fabricmc.api.EnvType
 import net.fabricmc.api.Environment
 import net.minecraft.client.MinecraftClient

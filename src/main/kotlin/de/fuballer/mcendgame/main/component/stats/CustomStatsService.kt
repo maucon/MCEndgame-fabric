@@ -1,4 +1,4 @@
-package de.fuballer.mcendgame.client.component.stats
+package de.fuballer.mcendgame.main.component.stats
 
 import de.fuballer.mcendgame.main.component.dungeon.completion.DungeonCompletedEvent
 import de.fuballer.mcendgame.main.component.entity.custom.entities.scarred_one.ScarredOneDespawnEvent

@@ -1,4 +1,4 @@
-package de.fuballer.mcendgame.client.component.stats
+package de.fuballer.mcendgame.main.component.stats
 
 import de.maucon.mauconframework.di.annotation.Injectable
 import net.minecraft.stat.StatFormatter

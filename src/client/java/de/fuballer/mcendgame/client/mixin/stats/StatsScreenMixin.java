@@ -1,6 +1,6 @@
 package de.fuballer.mcendgame.client.mixin.stats;
 
-import de.fuballer.mcendgame.client.component.stats.CustomStatsListWidget;
+import de.fuballer.mcendgame.client.component.screen.CustomStatsListWidget;
 import net.minecraft.client.MinecraftClient;
 import net.minecraft.client.gui.screen.StatsScreen;
 import net.minecraft.client.gui.tab.Tab;
