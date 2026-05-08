@@ -38,7 +38,7 @@ class ScarredOneDespawnService(
                 entity.x,
                 entity.y + entity.height / 2,
                 entity.z,
-                if (tick < DURATION) 1 + if (Random.nextDouble() < tick / DURATION) 1 else 0 else 20,
+                if (tick < DURATION) 1 + if (Random.nextDouble() < tick.toDouble() / DURATION) 1 else 0 else 20,
                 0.25,
                 0.6,
                 0.25,

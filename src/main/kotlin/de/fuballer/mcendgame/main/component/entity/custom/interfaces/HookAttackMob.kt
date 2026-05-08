@@ -96,7 +96,9 @@ interface HookAttackMob {
         hooked: Entity
     ) {
         val direction = hooker.entityPos.subtract(hooked.entityPos)
+        if (direction.lengthSquared() < 1e-6) return
         val normalizedDirection = direction.normalize()
+
         val baseVelocity = normalizedDirection.multiply(hookPullStrength)
         val finalVelocity = baseVelocity.add(0.0, hookPullAdditionalY, 0.0)
 

@@ -22,11 +22,11 @@ class ScarredOneRenderer<R>(
         super.adjustModelBonesForRender(renderPassInfo, snapshots)
 
         snapshots.get("head").ifPresent {
-            var pitch = renderPassInfo.getGeckolibData(DataTickets.ENTITY_PITCH)!!
+            var pitch = renderPassInfo.getGeckolibData(DataTickets.ENTITY_PITCH) ?: return@ifPresent
             pitch = Math.clamp(pitch, -35F, 35F)
             it.rotX = -pitch * PI.toFloat() / 180F
 
-            var yaw = renderPassInfo.getGeckolibData(DataTickets.ENTITY_YAW)!!
+            var yaw = renderPassInfo.getGeckolibData(DataTickets.ENTITY_YAW) ?: return@ifPresent
             yaw = Math.clamp(yaw, -45F, 45F)
             it.rotY = -yaw * PI.toFloat() / 180F
         }

@@ -20,9 +20,9 @@ data class PlayerDungeonSeed(
                 Codec.LONG.fieldOf("seed").forGetter(PlayerDungeonSeed::seed),
                 Codec.STRING.fieldOf("type").forGetter { it.type.name },
                 Codec.BOOL.optionalFieldOf("hasBeenUsed", false).forGetter { it.hasBeenUsed },
-            ).apply(instance) { seed, typeName, hasBeenOpened ->
+            ).apply(instance) { seed, typeName, hasBeenUsed ->
                 val type = runCatching { DungeonType.valueOf(typeName) }.getOrDefault(DungeonType.STRONGHOLD)
-                PlayerDungeonSeed(seed, type, hasBeenOpened)
+                PlayerDungeonSeed(seed, type, hasBeenUsed)
             }
         }
 

@@ -47,6 +47,7 @@ class ScarredOneEntity(
     var gotResponse = false
 
     fun respond(accept: Boolean, world: ServerWorld) {
+        if (gotResponse) return
         gotResponse = true
 
         if (accept) {

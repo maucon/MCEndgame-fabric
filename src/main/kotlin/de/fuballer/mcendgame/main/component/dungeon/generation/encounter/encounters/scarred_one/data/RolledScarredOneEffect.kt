@@ -22,7 +22,7 @@ data class RolledScarredOneEffect(
                     CustomAttribute.CODEC.fieldOf("attribute").forGetter(RolledScarredOneEffect::attribute),
 
                     Codec.INT.xmap(
-                        { index -> ScarredOneEffectTargetGroup.entries[index] },
+                        { index -> ScarredOneEffectTargetGroup.entries.getOrNull(index) ?: ScarredOneEffectTargetGroup.ALLIES },
                         { it.ordinal }
                     ).fieldOf("targets").forGetter(RolledScarredOneEffect::targets)
                 ).apply(instance, ::RolledScarredOneEffect)

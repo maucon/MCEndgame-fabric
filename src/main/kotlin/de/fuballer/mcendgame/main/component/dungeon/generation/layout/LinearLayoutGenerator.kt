@@ -47,7 +47,8 @@ class LinearLayoutGenerator(
         branchComplexityLimit = calculateBranchComplexityLimit()
 
         val startRoom = PlaceableRoom(startRoomType, Vec3i.ZERO, 0)
-        val spawnPos = SpawnPosition(startRoomType.markerPoints.startPos!!, -90.0)
+        val startPos = requireNotNull(startRoomType.markerPoints.startPos) { "Start room '${startRoomType.path}' is missing markerPoints.startPos" }
+        val spawnPos = SpawnPosition(startPos, -90.0)
         val startEncounterLocations = startRoomType.markerPoints.startEncounterPos.map { EncounterLocation(it, spawnPos.pos) }
 
         val tiles = mutableListOf(startRoom)

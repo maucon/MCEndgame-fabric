@@ -27,7 +27,7 @@ public class LivingEntityWorldAttributesMixin implements LivingEntityWorldAttrib
     )
     void updateWorldAttributes(CallbackInfo ci) {
         var entity = (LivingEntity) (Object) this;
-        var world = (ServerWorld) entity.getEntityWorld();
+        if (!(entity.getEntityWorld() instanceof ServerWorld world)) return;
 
         var latestUpdate = WorldMixinExtension.INSTANCE.getAttributeUpdateCount(world);
         if (latestUpdate <= appliedWorldAttributesUpdate) return;

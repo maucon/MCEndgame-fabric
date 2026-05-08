@@ -60,21 +60,18 @@ class ScarredOneScreen(
         effectsTextData = positiveEffects.map { EffectTextData(it, true) }.sortedBy { it.targets } +
                 negativeEffects.map { EffectTextData(it, false) }.sortedBy { it.targets }
 
-        val maxTextWidth = effectsTextData.maxOf { textRenderer.getWidth(it.text.string) }
+        val maxTextWidth = effectsTextData.maxOfOrNull { textRenderer.getWidth(it.text.string) } ?: 0
         backgroundWidth = maxTextWidth + 2 * BACKGROUND_PADDING
         backgroundX = (width / 2) - (backgroundWidth / 2)
 
         val targetLineCount = effectsTextData.distinctBy { it.positive to it.targets }.size
         val totalLineCount = effectsTextData.size + targetLineCount
 
-        val totalTextHeight = (totalLineCount - 1) * ATTRIBUTE_LINE_OFFSET + textRenderer.fontHeight + BACKGROUND_PADDING * 2
+        val textHeight = if (totalLineCount > 0) (totalLineCount - 1) * ATTRIBUTE_LINE_OFFSET + textRenderer.fontHeight else 0
+        val totalTextHeight = BACKGROUND_PADDING * 2 + textHeight
         backgroundHeight = min(totalTextHeight, height - TOTAL_BUTTON_HEIGHT * 2)
         maxScroll = max(0, totalTextHeight - backgroundHeight)
         backgroundY = (height / 2) - (backgroundHeight / 2)
-
-        println(totalTextHeight)
-        println(backgroundHeight)
-        println(backgroundY)
     }
 
     override fun render(
