@@ -5,12 +5,15 @@ import com.mojang.serialization.codecs.RecordCodecBuilder
 import de.fuballer.mcendgame.main.component.block.CustomBlockEntityTypes
 import de.fuballer.mcendgame.main.component.dungeon.generation.encounter.encounters.totem.TotemEncounterSettings
 import de.fuballer.mcendgame.main.configuration.RuntimeConfig
+import de.fuballer.mcendgame.main.messaging.totem_encounter.TotemEncounterActivatedEvent
 import de.fuballer.mcendgame.main.util.extension.mixin.WorldMixinExtension.getDungeonLevel
 import de.maucon.mauconframework.command.CommandGateway
+import de.maucon.mauconframework.event.EventGateway
 import net.minecraft.block.BlockState
 import net.minecraft.block.Blocks
 import net.minecraft.block.entity.BlockEntity
 import net.minecraft.entity.ItemEntity
+import net.minecraft.entity.player.PlayerEntity
 import net.minecraft.nbt.NbtCompound
 import net.minecraft.network.listener.ClientPlayPacketListener
 import net.minecraft.network.packet.Packet
@@ -100,18 +103,21 @@ class TotemStatueBlockEntity(
 
     fun isActive() = activeTicks >= 0
 
-    fun tryActivate() {
+    fun tryActivate(player: PlayerEntity) {
         if (isActive()) return
         activeTicks = 0
         sync()
-        activate()
+        activate(player)
     }
 
-    private fun activate() {
+    private fun activate(player: PlayerEntity) {
         val serverWorld = world as? ServerWorld ?: return
         val level = serverWorld.getDungeonLevel()
         val enemyCount = TotemEncounterSettings.getEnemyCount(level)
         spawnPositions = getNearbyBlockPos(enemyCount)
+
+        val event = TotemEncounterActivatedEvent(player)
+        EventGateway.publish(event)
     }
 
     private fun getNearbyBlockPos(count: Int): List<BlockPos> {

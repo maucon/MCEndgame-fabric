@@ -13,7 +13,7 @@ class UniqueItemSuggestionProvider : SuggestionProvider<ServerCommandSource> {
         context: CommandContext<ServerCommandSource>,
         builder: SuggestionsBuilder
     ): CompletableFuture<Suggestions> {
-        for (name in UniqueItemRegistry.NAME_MAP.keys) {
+        for (name in UniqueItemRegistry.ENTRIES.keys) {
             builder.suggest(name)
         }
 

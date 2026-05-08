@@ -47,7 +47,7 @@ class ScarredOneEntity(
 
     var gotResponse = false
 
-    fun respond(accept: Boolean, world: ServerWorld) {
+    fun respond(player: ServerPlayerEntity, accept: Boolean, world: ServerWorld) {
         if (gotResponse) return
         gotResponse = true
 
@@ -57,7 +57,7 @@ class ScarredOneEntity(
             playAcceptedSound(world)
         }
 
-        EventGateway.publish(ScarredOneDespawnEvent(this, accept))
+        EventGateway.publish(ScarredOneDespawnEvent(player, this, accept))
     }
 
     private fun playAcceptedSound(world: ServerWorld) {

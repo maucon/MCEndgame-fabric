@@ -7,6 +7,8 @@ import de.fuballer.mcendgame.main.component.portal.teleport.TeleportExtensions.t
 import de.fuballer.mcendgame.main.component.portal.teleport.TeleportLocation
 import de.fuballer.mcendgame.main.component.portal.type.DefaultPortalType
 import de.fuballer.mcendgame.main.component.portal.type.PortalType
+import de.fuballer.mcendgame.main.messaging.portal.PortalUsedEvent
+import de.maucon.mauconframework.event.EventGateway
 import net.minecraft.entity.EntityType
 import net.minecraft.entity.EquipmentSlot
 import net.minecraft.entity.LivingEntity
@@ -83,15 +85,8 @@ class PortalEntity(
         if (entityWorld.isClient) return ActionResult.PASS
         if (hand != Hand.MAIN_HAND) return ActionResult.PASS
 
-        return teleportPlayer(player)
-    }
-
-    private fun teleportPlayer(player: PlayerEntity): ActionResult {
-        val teleportSuccessful = teleportLocation?.let { player.teleportTo(it) } ?: false
-
-        if (!teleportSuccessful) {
-            player.sendMessage(PortalSettings.TELEPORTATION_FAILED_MESSAGE, false)
-        }
+        val event = PortalUsedEvent(player, teleportLocation)
+        EventGateway.publish(event)
 
         if (singleUse) {
             remove(RemovalReason.KILLED)

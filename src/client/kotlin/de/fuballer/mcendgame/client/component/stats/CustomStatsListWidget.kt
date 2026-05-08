@@ -23,7 +23,7 @@ class CustomStatsListWidget(
     init {
         val statHandler = client.player?.statHandler
         if (statHandler != null) {
-            for (id in CustomStats.ALL) {
+            for (id in CustomStatsRegistry.ENTRIES) {
                 val stat = Stats.CUSTOM.getOrCreateStat(id, StatFormatter.DEFAULT)
                 addEntry(Entry(stat, statHandler.getStat(stat)))
             }

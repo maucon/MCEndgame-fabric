@@ -45,7 +45,7 @@ class TotemStatueBlock(
         if (world.isClient) return ActionResult.SUCCESS
 
         val blockEntity = world.getBlockEntity(pos) as? TotemStatueBlockEntity ?: return ActionResult.SUCCESS
-        blockEntity.tryActivate()
+        blockEntity.tryActivate(player)
 
         return ActionResult.SUCCESS
     }
