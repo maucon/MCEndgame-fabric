@@ -1,5 +1,6 @@
 package de.fuballer.mcendgame.main.component.stats
 
+import com.mojang.logging.LogUtils
 import de.fuballer.mcendgame.main.component.dungeon.completion.DungeonCompletedEvent
 import de.fuballer.mcendgame.main.component.entity.custom.entities.scarred_one.ScarredOneDespawnEvent
 import de.fuballer.mcendgame.main.component.item.custom.crystal.item.*
@@ -27,6 +28,8 @@ import net.minecraft.stat.Stats
 
 @Injectable
 class CustomStatsService {
+    private val log = LogUtils.getLogger()
+
     @EventSubscriber
     fun on(event: PortalUsedEvent) {
         event.player.increaseStat(CustomStats.PORTALS_USED, 1)
@@ -113,7 +116,7 @@ class CustomStatsService {
             is PermutationCrystalItem -> player.increaseStat(CustomStats.PERMUTATION_CRYSTAL_USED, 1)
             is ReforgeCrystalItem -> player.increaseStat(CustomStats.REFORGE_CRYSTAL_USED, 1)
             is CorruptionCrystalItem -> player.increaseStat(CustomStats.CORRUPTION_CRYSTAL_USED, 1)
-            else -> throw NotImplementedError("Please implement handling of ${event.crystal}")
+            else -> log.error("Crystal stats handling not implement for ${event.crystal}")
         }
     }
 

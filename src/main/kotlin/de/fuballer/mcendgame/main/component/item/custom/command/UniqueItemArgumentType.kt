@@ -13,6 +13,6 @@ class UniqueItemArgumentType : ArgumentType<Item> {
         val string = reader.readString()
 
         return UniqueItemRegistry.ENTRIES[string]
-            ?: throw CommandSyntaxException.BUILT_IN_EXCEPTIONS.dispatcherParseException().create("Invalid unique item name.");
+            ?: throw CommandSyntaxException.BUILT_IN_EXCEPTIONS.dispatcherParseException().create("Invalid unique item name.")
     }
 }
