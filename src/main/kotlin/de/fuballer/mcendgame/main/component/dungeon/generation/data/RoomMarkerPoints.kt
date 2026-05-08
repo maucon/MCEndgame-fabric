@@ -39,5 +39,6 @@ data class RoomMarkerPoints(
         bossPos.addAll(markerPoints.bossPos)
         doors.addAll(markerPoints.doors)
         encounterPos.addAll(markerPoints.encounterPos)
+        startEncounterPos.addAll(markerPoints.startEncounterPos)
     }
 }
