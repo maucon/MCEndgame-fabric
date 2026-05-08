@@ -28,6 +28,7 @@ import kotlin.random.Random
 
 private const val POSITIVE_EFFECTS_KEY = "positive_effects"
 private const val NEGATIVE_EFFECTS_KEY = "negative_effects"
+private const val GOT_RESPONSE_KEY = "got_response"
 
 class ScarredOneEntity(
     type: EntityType<out ScarredOneEntity>,
@@ -95,6 +96,8 @@ class ScarredOneEntity(
 
         view.put(POSITIVE_EFFECTS_KEY, RolledScarredOneEffect.LIST_CODEC, positiveEffects)
         view.put(NEGATIVE_EFFECTS_KEY, RolledScarredOneEffect.LIST_CODEC, negativeEffects)
+
+        view.putBoolean(GOT_RESPONSE_KEY, gotResponse)
     }
 
     override fun readCustomData(view: ReadView) {
@@ -102,5 +105,7 @@ class ScarredOneEntity(
 
         positiveEffects = view.read(POSITIVE_EFFECTS_KEY, RolledScarredOneEffect.LIST_CODEC).getOrDefault(listOf())
         negativeEffects = view.read(NEGATIVE_EFFECTS_KEY, RolledScarredOneEffect.LIST_CODEC).getOrDefault(listOf())
+
+        gotResponse = view.getBoolean(GOT_RESPONSE_KEY, false)
     }
 }

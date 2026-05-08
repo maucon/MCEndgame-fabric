@@ -10,7 +10,6 @@ import net.minecraft.client.gui.tooltip.TooltipBackgroundRenderer
 import net.minecraft.client.gui.widget.ButtonWidget
 import net.minecraft.text.Text
 import net.minecraft.util.Colors
-import net.minecraft.util.Formatting
 import java.util.*
 import kotlin.math.max
 import kotlin.math.min
@@ -60,16 +59,21 @@ class ScarredOneScreen(
         effectsTextData = positiveEffects.map { EffectTextData(it, true) }.sortedBy { it.targets } +
                 negativeEffects.map { EffectTextData(it, false) }.sortedBy { it.targets }
 
-        val maxTextWidth = effectsTextData.maxOfOrNull { textRenderer.getWidth(it.text.string) } ?: 0
+        val targetLines = effectsTextData.distinctBy { it.positive to it.targets }.map { it.targets.text }
+
+        val maxEffectLineWidth = effectsTextData.maxOfOrNull { textRenderer.getWidth(it.text.string) } ?: 0
+        val maxTargetLineWidth = targetLines.maxOfOrNull { textRenderer.getWidth(it.string) } ?: 0
+        val maxTextWidth = max(maxEffectLineWidth, maxTargetLineWidth)
         backgroundWidth = maxTextWidth + 2 * BACKGROUND_PADDING
         backgroundX = (width / 2) - (backgroundWidth / 2)
 
-        val targetLineCount = effectsTextData.distinctBy { it.positive to it.targets }.size
+        val targetLineCount = targetLines.size
         val totalLineCount = effectsTextData.size + targetLineCount
 
         val textHeight = if (totalLineCount > 0) (totalLineCount - 1) * ATTRIBUTE_LINE_OFFSET + textRenderer.fontHeight else 0
         val totalTextHeight = BACKGROUND_PADDING * 2 + textHeight
-        backgroundHeight = min(totalTextHeight, height - TOTAL_BUTTON_HEIGHT * 2)
+        val availableHeight = (height - TOTAL_BUTTON_HEIGHT * 2).coerceAtLeast(0)
+        backgroundHeight = min(totalTextHeight, availableHeight)
         maxScroll = max(0, totalTextHeight - backgroundHeight)
         backgroundY = (height / 2) - (backgroundHeight / 2)
     }
