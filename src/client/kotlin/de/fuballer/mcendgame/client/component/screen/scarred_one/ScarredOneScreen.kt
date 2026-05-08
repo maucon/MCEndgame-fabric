@@ -99,7 +99,7 @@ class ScarredOneScreen(
             if (effect.targets != lastTargets || effect.positive != lastPositive) {
                 context.drawText(
                     textRenderer,
-                    effect.targets.text.copy().formatted(Formatting.UNDERLINE),
+                    effect.targets.text,
                     backgroundX + BACKGROUND_PADDING,
                     y,
                     if (effect.positive) Colors.GREEN else Colors.RED,
