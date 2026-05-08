@@ -1,6 +1,8 @@
 package de.fuballer.mcendgame.main.component.portal.teleport
 
+import com.mojang.logging.LogUtils
 import com.mojang.serialization.Codec
+import com.mojang.serialization.DataResult
 import com.mojang.serialization.codecs.RecordCodecBuilder
 import de.fuballer.mcendgame.main.configuration.RuntimeConfig
 import net.minecraft.registry.RegistryKey
@@ -16,11 +18,27 @@ data class TeleportLocation(
     val yRot: Float = 0.0F
 ) {
     companion object {
+        private val log = LogUtils.getLogger()
+
+        private val WORLD_CODEC: Codec<ServerWorld> = Identifier.CODEC.comapFlatMap(
+            { id ->
+                val worldKey = RegistryKey.of(RegistryKeys.WORLD, id)
+                val world = RuntimeConfig.SERVER.getWorld(worldKey)
+                if (world != null) {
+                    DataResult.success(world)
+                } else {
+                    log.warn("World '{}' not found, skipping teleport location", worldKey.value)
+                    DataResult.error { "World with key '$worldKey' not found" }
+                }
+            },
+            { world -> world.registryKey.value }
+        )
+
         val CODEC: Codec<TeleportLocation> = RecordCodecBuilder.create { instance ->
             instance.group(
-                Identifier.CODEC
+                WORLD_CODEC
                     .fieldOf("World")
-                    .forGetter { location -> location.world.registryKey.value },
+                    .forGetter { it.world },
 
                 Vec3d.CODEC
                     .fieldOf("Coordinates")
@@ -34,13 +52,7 @@ data class TeleportLocation(
                     .optionalFieldOf("RotationY", 0.0f)
                     .forGetter { location -> location.yRot }
 
-            ).apply(instance) { worldId, vec3d, xRot, yRot ->
-                val worldKey = RegistryKey.of(RegistryKeys.WORLD, worldId)
-                val world = RuntimeConfig.SERVER.getWorld(worldKey)
-                    ?: throw IllegalArgumentException("world with key '$worldKey' not found") // TODO probably remove this exception
-
-                TeleportLocation(world, vec3d, xRot, yRot)
-            }
+            ).apply(instance, ::TeleportLocation)
         }
     }
 }

@@ -52,7 +52,7 @@ class PortalEntity(
                 instance.group(
                     Codec.STRING.fieldOf("type_id").forGetter(PortalEntityData::typeId),
                     Codec.BOOL.fieldOf("single_use").forGetter(PortalEntityData::singleUse),
-                    TeleportLocation.CODEC.optionalFieldOf("teleport_location").forGetter { Optional.ofNullable(it.teleportLocation) },
+                    TeleportLocation.CODEC.lenientOptionalFieldOf("teleport_location").forGetter { Optional.ofNullable(it.teleportLocation) },
                 ).apply(instance) { typeId, singleUse, location ->
                     PortalEntityData(typeId, singleUse, location.getOrNull())
                 }
@@ -124,7 +124,14 @@ class PortalEntity(
             return
         }
 
-        val data = view.read(DATA_KEY, PortalEntityData.CODEC).orElseThrow()
+        val result = view.read(DATA_KEY, PortalEntityData.CODEC)
+        if (result.isEmpty) {
+            log.warn("Cannot load data of portal: $uuid")
+            removed = true
+            return
+        }
+
+        val data = result.get()
         type = PortalType.getById(data.typeId)
         dataTracker.set(TYPE, data.typeId)
 

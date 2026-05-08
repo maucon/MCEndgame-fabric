@@ -38,20 +38,4 @@ object CustomStats {
     val PORTALS_USED = CustomStatsRegistry.register("portals_used", StatFormatter.DEFAULT)
     val ASPECTS_USED = CustomStatsRegistry.register("aspects_used", StatFormatter.DEFAULT)
     val TOTEM_ENCOUNTERS_ACTIVATED = CustomStatsRegistry.register("totem_encounters_activated", StatFormatter.DEFAULT)
-
-    /*
-    total time in dungeons
-    fastest dungeon completion
-    dungeon completed without dying
-
-    log out in dungeon
-    foliage destroyed
-
-    highest single damage hit (raw)
-    highest single damage hit (after mitigation)
-    number of hits dodged
-    number of critical damage
-
-    distance traveled in dungeon
-     */
 }
