@@ -16,8 +16,8 @@ object CustomStatsRegistry {
     fun register(name: String, formatter: StatFormatter): Identifier {
         val identifier = IdentifierUtil.default(name)
 
-        Registry.register(Registries.CUSTOM_STAT, identifier, identifier);
-        Stats.CUSTOM.getOrCreateStat(identifier, formatter);
+        Registry.register(Registries.CUSTOM_STAT, identifier, identifier)
+        Stats.CUSTOM.getOrCreateStat(identifier, formatter)
         _entries.add(identifier)
 
         return identifier

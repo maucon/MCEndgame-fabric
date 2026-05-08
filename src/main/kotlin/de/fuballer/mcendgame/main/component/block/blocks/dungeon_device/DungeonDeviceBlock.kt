@@ -26,8 +26,6 @@ class DungeonDeviceBlock(
         if (!world.isClient) {
             val screenHandlerFactory = state.createScreenHandlerFactory(world, pos)
             player.openHandledScreen(screenHandlerFactory)
-
-            // TODO stats
         }
 
         return ActionResult.SUCCESS

@@ -50,8 +50,8 @@ class DungeonGenerationService(
 
         val (mapType, enemyTypes, bossTypes, applyMisc) = dungeonType.roll(random)
 
-        val event = DungeonGeneratingEvent(player, affectingAspects)
-        EventGateway.publish(event)
+        val dungeonGeneratingEvent = DungeonGeneratingEvent(player, affectingAspects)
+        EventGateway.publish(dungeonGeneratingEvent)
 
         val dungeonGenerateCommand = DungeonGenerateCommand(playerDungeonLevel, dungeonType.bossCount, affectingAspects)
         val (dungeonLevel, bossCount, _) = CommandGateway.apply(dungeonGenerateCommand)

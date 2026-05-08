@@ -11,6 +11,7 @@ import de.fuballer.mcendgame.main.messaging.misc.LivingEntityDamagedEvent
 import de.fuballer.mcendgame.main.messaging.misc.PlayerAfterDimensionChangeEvent
 import de.fuballer.mcendgame.main.messaging.portal.PortalUsedEvent
 import de.fuballer.mcendgame.main.messaging.totem_encounter.TotemEncounterActivatedEvent
+import de.fuballer.mcendgame.main.util.extension.DamageTypeExtension.isOf
 import de.fuballer.mcendgame.main.util.extension.WorldExtension.isDungeonWorld
 import de.fuballer.mcendgame.main.util.extension.mixin.EntityMixinExtension.isDungeonBoss
 import de.fuballer.mcendgame.main.util.extension.mixin.EntityMixinExtension.isDungeonEnemy
@@ -19,7 +20,6 @@ import de.fuballer.mcendgame.main.util.extension.mixin.EntityMixinExtension.isLo
 import de.fuballer.mcendgame.main.util.extension.mixin.WorldMixinExtension.getDungeonLevel
 import de.maucon.mauconframework.di.annotation.Injectable
 import de.maucon.mauconframework.event.EventSubscriber
-import net.minecraft.entity.damage.DamageSource
 import net.minecraft.entity.damage.DamageTypes
 import net.minecraft.entity.player.PlayerEntity
 import net.minecraft.server.network.ServerPlayerEntity
@@ -95,7 +95,9 @@ class CustomStatsService {
     @EventSubscriber
     fun onDamageTaken(event: LivingEntityDamagedEvent) {
         val player = event.damaged as? ServerPlayerEntity ?: return
-        if (event.damageSource.type == DamageTypes.GENERIC_KILL) return
+
+        if (!player.entityWorld.isDungeonWorld()) return
+        if (event.damageSource.type.isOf(DamageTypes.GENERIC_KILL)) return
 
         player.increaseStat(CustomStats.DUNGEON_DAMAGE_TAKEN, (event.amount * 10).toInt())
     }
@@ -111,6 +113,7 @@ class CustomStatsService {
             is PermutationCrystalItem -> player.increaseStat(CustomStats.PERMUTATION_CRYSTAL_USED, 1)
             is ReforgeCrystalItem -> player.increaseStat(CustomStats.REFORGE_CRYSTAL_USED, 1)
             is CorruptionCrystalItem -> player.increaseStat(CustomStats.CORRUPTION_CRYSTAL_USED, 1)
+            else -> throw NotImplementedError("Please implement handling of ${event.crystal}")
         }
     }
 

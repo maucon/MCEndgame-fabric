@@ -3,7 +3,6 @@ package de.fuballer.mcendgame.main.component.portal
 import com.mojang.logging.LogUtils
 import com.mojang.serialization.Codec
 import com.mojang.serialization.codecs.RecordCodecBuilder
-import de.fuballer.mcendgame.main.component.portal.teleport.TeleportExtensions.teleportTo
 import de.fuballer.mcendgame.main.component.portal.teleport.TeleportLocation
 import de.fuballer.mcendgame.main.component.portal.type.DefaultPortalType
 import de.fuballer.mcendgame.main.component.portal.type.PortalType

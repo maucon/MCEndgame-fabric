@@ -4,7 +4,7 @@ import net.minecraft.server.network.ServerPlayerEntity
 
 data class ScarredOneDespawnEvent(
     /**
-     * the player which accepted/denied
+     * the player who accepted/denied
      */
     val player: ServerPlayerEntity,
     val entity: ScarredOneEntity,
