@@ -12,6 +12,7 @@ import de.fuballer.mcendgame.main.component.item.custom.aspect.AspectService
 import de.fuballer.mcendgame.main.configuration.RuntimeConfig
 import de.fuballer.mcendgame.main.messaging.dungeon.DungeonGenerateCommand
 import de.fuballer.mcendgame.main.messaging.dungeon.DungeonGeneratedEvent
+import de.fuballer.mcendgame.main.messaging.dungeon.DungeonGeneratingEvent
 import de.fuballer.mcendgame.main.messaging.dungeon.OpenDungeonButtonPressedEvent
 import de.fuballer.mcendgame.main.util.extension.mixin.PlayerEntityMixinExtension.getDungeonLevel
 import de.maucon.mauconframework.command.CommandGateway
@@ -48,6 +49,9 @@ class DungeonGenerationService(
         val random = Random(seed)
 
         val (mapType, enemyTypes, bossTypes, applyMisc) = dungeonType.roll(random)
+
+        val dungeonGeneratingEvent = DungeonGeneratingEvent(player, affectingAspects)
+        EventGateway.publish(dungeonGeneratingEvent)
 
         val dungeonGenerateCommand = DungeonGenerateCommand(playerDungeonLevel, dungeonType.bossCount, affectingAspects)
         val (dungeonLevel, bossCount, _) = CommandGateway.apply(dungeonGenerateCommand)

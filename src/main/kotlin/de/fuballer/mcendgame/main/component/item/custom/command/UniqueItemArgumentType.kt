@@ -12,7 +12,7 @@ class UniqueItemArgumentType : ArgumentType<Item> {
     override fun parse(reader: StringReader): Item {
         val string = reader.readString()
 
-        return UniqueItemRegistry.NAME_MAP[string]
-            ?: throw CommandSyntaxException.BUILT_IN_EXCEPTIONS.dispatcherParseException().create("Invalid unique item name.");
+        return UniqueItemRegistry.ENTRIES[string]
+            ?: throw CommandSyntaxException.BUILT_IN_EXCEPTIONS.dispatcherParseException().create("Invalid unique item name.")
     }
 }

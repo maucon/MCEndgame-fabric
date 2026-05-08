@@ -6,5 +6,8 @@ import net.minecraft.entity.damage.DamageSource
 data class LivingEntityDamagedEvent(
     val damaged: LivingEntity,
     val damageSource: DamageSource,
+    /**
+     * damage amount after mitigation
+     */
     val amount: Float,
 )

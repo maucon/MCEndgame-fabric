@@ -4,6 +4,8 @@ import de.fuballer.mcendgame.main.component.block.blocks.crystalforge.slot.Cryst
 import de.fuballer.mcendgame.main.component.block.blocks.crystalforge.slot.ForgeableEquipmentSlot
 import de.fuballer.mcendgame.main.component.item.custom.crystal.CrystalItem
 import de.fuballer.mcendgame.main.component.screen.CustomScreenHandlerTypes
+import de.fuballer.mcendgame.main.messaging.crystals.CrystalForgeUsedEvent
+import de.maucon.mauconframework.event.EventGateway
 import net.minecraft.entity.player.PlayerEntity
 import net.minecraft.entity.player.PlayerInventory
 import net.minecraft.inventory.SimpleInventory
@@ -13,7 +15,7 @@ import net.minecraft.screen.slot.Slot
 
 class CrystalForgeScreenHandler(
     syncId: Int,
-    playerInventory: PlayerInventory,
+    private val playerInventory: PlayerInventory,
 ) : ScreenHandler(CustomScreenHandlerTypes.CRYSTAL_FORGE, syncId) {
     private val inputInventory = SimpleInventory(2)
 
@@ -63,6 +65,9 @@ class CrystalForgeScreenHandler(
         val crystalItem = crystalStack.item as? CrystalItem ?: return
 
         if (crystalItem.canForge(toForgeStack) != null) return
+
+        val event = CrystalForgeUsedEvent(playerInventory.player, crystalStack.item)
+        EventGateway.publish(event)
 
         val forgedStack = crystalItem.forge(toForgeStack)
         crystalStack.decrement(1)
