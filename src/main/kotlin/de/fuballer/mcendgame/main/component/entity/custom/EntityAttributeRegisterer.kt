@@ -4,6 +4,7 @@ import de.fuballer.mcendgame.main.component.entity.custom.entities.arachne.Arach
 import de.fuballer.mcendgame.main.component.entity.custom.entities.beakburn.BeakburnEntity
 import de.fuballer.mcendgame.main.component.entity.custom.entities.bonecrusher.BonecrusherEntity
 import de.fuballer.mcendgame.main.component.entity.custom.entities.elf_duelist.ElfDuelistEntity
+import de.fuballer.mcendgame.main.component.entity.custom.entities.scarred_one.ScarredOneEntity
 import de.fuballer.mcendgame.main.component.entity.custom.entities.swamp_golem.SwampGolemEntity
 import de.maucon.mauconframework.di.annotation.Injectable
 import de.maucon.mauconframework.initializer.Initializer
@@ -18,5 +19,6 @@ object EntityAttributeRegisterer {
         FabricDefaultAttributeRegistry.register(CustomEntities.BONECRUSHER, BonecrusherEntity.createAttributes())
         FabricDefaultAttributeRegistry.register(CustomEntities.ELF_DUELIST, ElfDuelistEntity.createAttributes())
         FabricDefaultAttributeRegistry.register(CustomEntities.BEAKBURN, BeakburnEntity.createAttributes())
+        FabricDefaultAttributeRegistry.register(CustomEntities.SCARRED_ONE, ScarredOneEntity.createAttributes())
     }
 }

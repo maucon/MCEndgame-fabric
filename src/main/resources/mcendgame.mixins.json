@@ -5,6 +5,7 @@
   "mixins": [
     "access.EntityAccessMixin",
     "access.PlayerEntityAccessMixin",
+    "additional_arrows.AbstractSkeletonAdditionalArrowsMixin",
     "additional_arrows.RangedWeaponItemAdditionalArrowsMixin",
     "conversion.SkeletonConversionMixin",
     "conversion.ZombieConversionMixin",
@@ -53,12 +54,14 @@
     "living_entity.LivingEntityCustomAttributesMixin",
     "living_entity.LivingEntityDodgedRecentlyMixin",
     "living_entity.LivingEntityHealMixin",
+    "living_entity.LivingEntityLastDamageTimeAccessorMixin",
     "living_entity.LivingEntityLinkAttributeMixin",
     "living_entity.LivingEntityPoisonDamageImmunityMixin",
     "living_entity.LivingEntityTemporaryAttributeModifierMixin",
     "living_entity.LivingEntityVisualFireMixin",
     "living_entity.LivingEntityWebbedMixin",
     "living_entity.LivingEntityWitherDamageImmunityMixin",
+    "living_entity.LivingEntityWorldAttributesMixin",
     "mob_entity.MobEntityTargetCommandMixin",
     "phasing.AbstractBlockStateBlockPhasingMixin",
     "phasing.EntityBlockPhasingMixin",
@@ -81,7 +84,8 @@
     "wind_charge.WindChargeEntityExplosionPowerMixin",
     "wolf_entity.WolfEntityColorAndVariantMixin",
     "wolf_entity.WolfEntityCompanionInteractMixin",
-    "world.DungeonWorldMixin"
+    "world.DungeonWorldMixin",
+    "world.WorldAttributesMixin"
   ],
   "injectors": {
     "defaultRequire": 1

@@ -6,7 +6,7 @@ import de.maucon.mauconframework.initializer.Initializer
 import net.minecraft.client.gui.screen.ingame.HandledScreens
 
 @Injectable
-object ScreenRegisterer {
+object ScreenHandlerRegisterer {
     @Initializer
     fun register() {
         HandledScreens.register(CustomScreenHandlerTypes.DUNGEON_DEVICE, ::DungeonDeviceScreen)

@@ -121,6 +121,15 @@ object VanillaAttributeTypes {
         AttributeAffinities.NEUTRAL,
         SignBasedKeywords.INCREASED
     )
+    val MORE_SCALE = VanillaAttributeType(
+        EntityAttributes.SCALE,
+        EntityAttributeModifier.Operation.ADD_MULTIPLIED_TOTAL,
+        "more_scale",
+        AttributeFormats.PERCENT_ROLL,
+        AttributeFormats.PERCENT_BOUNDS,
+        AttributeAffinities.NEUTRAL,
+        SignBasedKeywords.MORE
+    )
     val INCREASED_ENTITY_INTERACTION_RANGE = VanillaAttributeType(
         EntityAttributes.ENTITY_INTERACTION_RANGE,
         EntityAttributeModifier.Operation.ADD_MULTIPLIED_BASE,

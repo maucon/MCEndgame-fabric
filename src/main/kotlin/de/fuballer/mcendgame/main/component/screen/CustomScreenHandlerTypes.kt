@@ -27,10 +27,12 @@ object CustomScreenHandlerTypes {
     ).also { RegistryUtil.registerScreenHandler("killer", it) }
 
     val CRYSTAL_FORGE = ScreenHandlerType(
-        ::CrystalForgeScreenHandler, FeatureFlags.VANILLA_FEATURES,
+        ::CrystalForgeScreenHandler,
+        FeatureFlags.VANILLA_FEATURES,
     ).also { RegistryUtil.registerScreenHandler(CrystalForgeBlock.ID, it) }
 
-    val TOTEM = ScreenHandlerType<TotemScreenHandler>(
-        ::TotemScreenHandler, FeatureFlags.VANILLA_FEATURES,
+    val TOTEM = ScreenHandlerType(
+        ::TotemScreenHandler,
+        FeatureFlags.VANILLA_FEATURES,
     ).also { RegistryUtil.registerScreenHandler("totem", it) }
 }

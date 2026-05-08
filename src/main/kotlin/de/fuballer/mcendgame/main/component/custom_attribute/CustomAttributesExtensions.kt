@@ -4,9 +4,11 @@ import de.fuballer.mcendgame.main.MCEndgame
 import de.fuballer.mcendgame.main.accessor.LivingEntityCustomAttributesAccessor
 import de.fuballer.mcendgame.main.component.custom_attribute.data.*
 import de.fuballer.mcendgame.main.component.custom_attribute.types.CustomAttributeTypes
+import de.fuballer.mcendgame.main.component.custom_attribute.types.CustomAttributeTypes.ADDITIONAL_ARROWS
 import de.fuballer.mcendgame.main.messaging.collect_attribute.CollectHealFactorCommand
 import de.fuballer.mcendgame.main.messaging.misc.CollectCustomAttributesCommand
 import de.fuballer.mcendgame.main.util.extension.SlotExtension.isOrIsChildOf
+import de.fuballer.mcendgame.main.util.extension.mixin.WorldMixinExtension.getCustomTypeAttributes
 import de.fuballer.mcendgame.main.util.minecraft.IdentifierUtil
 import de.fuballer.mcendgame.main.util.minecraft.RegistryUtil
 import de.maucon.mauconframework.command.CommandGateway
@@ -19,6 +21,8 @@ import net.minecraft.entity.EquipmentSlot
 import net.minecraft.entity.LivingEntity
 import net.minecraft.entity.attribute.EntityAttributeModifier
 import net.minecraft.item.ItemStack
+import net.minecraft.server.world.ServerWorld
+import kotlin.math.max
 
 @Injectable
 object CustomAttributesExtensions {
@@ -66,6 +70,7 @@ object CustomAttributesExtensions {
 
         val customAttributes = mutableListOf<CustomAttribute>()
         customAttributes.addAll(getCustomAttributes())
+        customAttributes.addAll(getCustomAttributesFromWorld())
         customAttributes.addAll(getCustomAttributesOfItems())
 
         val command = CollectCustomAttributesCommand(this, customAttributes)
@@ -137,6 +142,13 @@ object CustomAttributesExtensions {
 
     fun LivingEntity.getHealingFactor() = CommandGateway.apply(CollectHealFactorCommand(this)).getFactor()
 
+    fun LivingEntity.getAdditionalArrowCount(): Int {
+        val attributes = getAllCustomAttributes()[ADDITIONAL_ARROWS]
+        if (attributes.isNullOrEmpty()) return 0
+        val arrowCount = attributes.sumOf { it.rolls[0].asIntRoll().getValue() }
+        return max(0, arrowCount)
+    }
+
     fun LivingEntity.addCustomAttribute(customAttribute: CustomAttribute) {
         val accessor = this as LivingEntityCustomAttributesAccessor
         accessor.`mcendgame$addCustomAttribute`(customAttribute)
@@ -156,4 +168,6 @@ object CustomAttributesExtensions {
         val accessor = this as LivingEntityCustomAttributesAccessor
         return accessor.`mcendgame$getCustomAttributes`()
     }
+
+    fun LivingEntity.getCustomAttributesFromWorld(): List<CustomAttribute> = (entityWorld as? ServerWorld)?.getCustomTypeAttributes(this) ?: listOf()
 }

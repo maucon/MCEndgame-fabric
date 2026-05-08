@@ -5,5 +5,6 @@ data class Layout(
     val rooms: List<PlaceableRoom>,
     val enemySpawnPos: List<SpawnPosition>,
     val bossSpawnPos: List<SpawnPosition>,
-    val encounterPos: MutableList<EncounterLocation>,
+    val encounterLocations: List<EncounterLocation>,
+    val startEncounterLocations: List<EncounterLocation>,
 )

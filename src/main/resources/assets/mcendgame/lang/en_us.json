@@ -48,6 +48,7 @@
   "item.mcendgame.aspect_of_tyranny": "Aspect of Tyranny",
   "item.mcendgame.aspect_of_greed": "Aspect of Greed",
   "item.mcendgame.aspect_of_dominion": "Aspect of Dominion",
+  "item.mcendgame.aspect_of_duality": "Aspect of Duality",
   "item.mcendgame.aspect_of_impatience": "Aspect of Impatience",
   "item.mcendgame.aspect_of_hordes": "Aspect of Hordes",
   "item.mcendgame.aspect_of_curio": "Aspect of Curio",
@@ -63,6 +64,8 @@
   "item.mcendgame.aspect.description.tyranny": "Dungeon contains %s additional Elites",
   "item.mcendgame.aspect.description.greed": "Dungeon contains %s additional Loot Goblins",
   "item.mcendgame.aspect.description.dominion": "Dungeon contains an additional Boss",
+  "item.mcendgame.aspect.description.duality_0": "Dungeon contains the Scarred One",
+  "item.mcendgame.aspect.description.duality_1": "The Scarred One's Pact is doubled",
   "item.mcendgame.aspect.description.impatience": "Dungeon is %s Level higher",
   "item.mcendgame.aspect.description.hordes": "Dungeon contains %s%% increased Enemies",
   "item.mcendgame.aspect.description.curio": "Enemies spawn with %s%% increased Unique Items",
@@ -167,6 +170,7 @@
   "attribute.mcendgame.more_movement_speed": " %s%% %s Movement Speed",
   "attribute.mcendgame.luck": "%s Luck",
   "attribute.mcendgame.increased_scale": "%s%% %s Size",
+  "attribute.mcendgame.more_scale": " %s%% %s Size",
   "attribute.mcendgame.increased_entity_interaction_range": "%s%% %s Attack Range",
   "attribute.mcendgame.more_attack_knockback": " %s%% %s Attack Knockback",
   "attribute.mcendgame.ward": "%s Ward",
@@ -264,6 +268,7 @@
   "entity.mcendgame.portal": "Portal",
   "entity.mcendgame.bonecrusher": "Bonecrusher",
   "entity.mcendgame.beakburn": "Beakburn",
+  "entity.mcendgame.scarred_one": "Scarred One",
 
   "block.mcendgame.decaying_cobweb": "Decaying Cobweb",
   "block.mcendgame.totem_statue": "Totem Statue",
@@ -283,6 +288,11 @@
   "text.mcendgame.dungeon_level.regress": " You are now Level: %s",
 
   "text.mcendgame.dungeon.device.level": "Level: %s",
+
+  "text.mcendgame.scarred_one.effect_targets.enemies": "Enemies gain:",
+  "text.mcendgame.scarred_one.effect_targets.non_boss_enemies": "Non-Boss Enemies gain:",
+  "text.mcendgame.scarred_one.effect_targets.bosses": "Bosses gain:",
+  "text.mcendgame.scarred_one.effect_targets.allies": "Allies gain:",
 
   "error.mcendgame.teleport.failed": "Destination location invalid! Closing portal.",
 

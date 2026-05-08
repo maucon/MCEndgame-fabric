@@ -91,8 +91,10 @@ object RoomTypeLoader {
 
         val encounterPosMarkerInfos = getMarkerInfos(template, DungeonGenerationSettings.ENCOUNTER_MARKER)
         val encounterPos = encounterPosMarkerInfos.stream().map { it.pos.add(offset) }.toList()
+        val startEncounterPosMarkerInfos = getMarkerInfos(template, DungeonGenerationSettings.START_ENCOUNTER_MARKER)
+        val startEncounterPos = startEncounterPosMarkerInfos.stream().map { it.pos.add(offset) }.toList()
 
-        return RoomMarkerPoints.fromImmutable(startPos, monsterPos, bossPos, doorPos, encounterPos)
+        return RoomMarkerPoints.fromImmutable(startPos, monsterPos, bossPos, doorPos, encounterPos, startEncounterPos)
     }
 
     private fun getMarkerInfos(template: StructureTemplate, block: Block) = template.getInfosForBlock(BlockPos(0, 0, 0), StructurePlacementData(), block)

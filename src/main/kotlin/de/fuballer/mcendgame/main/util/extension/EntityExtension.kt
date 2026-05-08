@@ -23,6 +23,7 @@ import net.minecraft.entity.passive.IronGolemEntity
 import net.minecraft.entity.passive.VillagerEntity
 import net.minecraft.entity.player.PlayerEntity
 import net.minecraft.item.Items
+import net.minecraft.network.packet.s2c.play.EntityVelocityUpdateS2CPacket
 import net.minecraft.server.world.ServerWorld
 import net.minecraft.util.function.BooleanBiFunction
 import net.minecraft.util.math.BlockPos
@@ -80,7 +81,7 @@ object EntityExtension {
         return false
     }
 
-    private fun Entity.isOrIsTameableOf(clazz: Class<*>): Boolean {
+    fun Entity.isOrIsTameableOf(clazz: Class<*>): Boolean {
         if (clazz.isInstance(this)) return true
 
         val tameable = this as? Tameable ?: return false
@@ -189,5 +190,17 @@ object EntityExtension {
         val shieldStack = Items.SHIELD.defaultStack
         val blocksAttacksComponent = shieldStack.get(DataComponentTypes.BLOCKS_ATTACKS) ?: return
         blocksAttacksComponent.applyShieldCooldown(serverWorld, this, cooldown, shieldStack)
+    }
+
+    fun Entity.setAndSyncVelocity(newVelocity: Vec3d) {
+        velocity = newVelocity
+        velocityDirty = true
+
+        val world = entityWorld as? ServerWorld ?: return
+        for (serverPlayerEntity in world.players) {
+            if (serverPlayerEntity.squaredDistanceTo(entityPos) < 4096.0) {
+                serverPlayerEntity.networkHandler.sendPacket(EntityVelocityUpdateS2CPacket(id, newVelocity))
+            }
+        }
     }
 }

@@ -37,7 +37,7 @@ data class TeleportLocation(
             ).apply(instance) { worldId, vec3d, xRot, yRot ->
                 val worldKey = RegistryKey.of(RegistryKeys.WORLD, worldId)
                 val world = RuntimeConfig.SERVER.getWorld(worldKey)
-                    ?: throw IllegalArgumentException("world with key '$worldKey' not found")
+                    ?: throw IllegalArgumentException("world with key '$worldKey' not found") // TODO probably remove this exception
 
                 TeleportLocation(world, vec3d, xRot, yRot)
             }

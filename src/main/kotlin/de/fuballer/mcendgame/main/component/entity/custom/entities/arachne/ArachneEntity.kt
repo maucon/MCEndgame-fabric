@@ -1,7 +1,6 @@
 package de.fuballer.mcendgame.main.component.entity.custom.entities.arachne
 
 import de.fuballer.mcendgame.main.component.block.CustomBlocks
-import de.fuballer.mcendgame.main.component.custom_attribute.effects.knockback.AttackKnockbackUtil.takeKnockbackFrom
 import de.fuballer.mcendgame.main.component.damage.dealing.DamageDealingExtension.dealGenericAttackDamage
 import de.fuballer.mcendgame.main.component.entity.custom.CustomEntities
 import de.fuballer.mcendgame.main.component.entity.custom.entities.mount.DirectionalMovementEntity
@@ -11,6 +10,7 @@ import de.fuballer.mcendgame.main.component.entity.custom.goals.*
 import de.fuballer.mcendgame.main.component.entity.custom.interfaces.CustomPosesEntity
 import de.fuballer.mcendgame.main.component.entity.custom.interfaces.HookAttackMob
 import de.fuballer.mcendgame.main.component.entity.custom.interfaces.MeleeAttackMob
+import de.fuballer.mcendgame.main.util.extension.EntityExtension.setAndSyncVelocity
 import de.fuballer.mcendgame.main.util.extension.EntityExtension.setShieldsCooldown
 import de.fuballer.mcendgame.main.util.extension.mixin.EntityMixinExtension.setWebbed
 import net.minecraft.block.BlockState
@@ -102,7 +102,7 @@ class ArachneEntity(
                 .add(EntityAttributes.SAFE_FALL_DISTANCE, 10.0)
                 .add(EntityAttributes.FALL_DAMAGE_MULTIPLIER, 0.2)
                 .add(EntityAttributes.ATTACK_DAMAGE, 4.0)
-                .add(EntityAttributes.ATTACK_KNOCKBACK, 2.0)
+                .add(EntityAttributes.ATTACK_KNOCKBACK, 1.5)
                 .add(EntityAttributes.ARMOR, 0.0)
                 .add(EntityAttributes.KNOCKBACK_RESISTANCE, 0.8)
                 .add(EntityAttributes.MOVEMENT_EFFICIENCY, 0.85)
@@ -418,11 +418,9 @@ class ArachneEntity(
 
         targets.forEach {
             it.dealGenericAttackDamage(damage, this)
-
             if (entityWorld is ServerWorld && it is PlayerLikeEntity && it.isBlocking) it.setShieldsCooldown(MELEE_SHIELD_DISABLE_TIME)
 
-            it.velocityDirty = true
-            it.takeKnockbackFrom(this, knockBackStrength, -knockBackDirection.x, -knockBackDirection.z) //takeKnockback inverts it
+            it.setAndSyncVelocity(knockBackDirection.multiply(knockBackStrength))
         }
     }
 

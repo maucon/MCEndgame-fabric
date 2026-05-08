@@ -2,6 +2,7 @@ package de.fuballer.mcendgame.main.component.dungeon.seed
 
 import de.fuballer.mcendgame.main.component.dungeon.completion.DungeonCompletedEvent
 import de.fuballer.mcendgame.main.component.dungeon.type.DungeonType
+import de.fuballer.mcendgame.main.messaging.dungeon.DungeonGeneratedEvent
 import de.fuballer.mcendgame.main.util.extension.mixin.PlayerEntityMixinExtension.clearDungeonSeed
 import de.fuballer.mcendgame.main.util.extension.mixin.PlayerEntityMixinExtension.getDungeonSeed
 import de.fuballer.mcendgame.main.util.extension.mixin.PlayerEntityMixinExtension.setDungeonSeed
@@ -32,5 +33,10 @@ class DungeonSeedService {
         val opener = dungeonWorld.getOpener()
 
         opener.clearDungeonSeed()
+    }
+
+    @EventSubscriber(sync = true)
+    fun on(event: DungeonGeneratedEvent) {
+        event.player.getDungeonSeed()?.hasBeenUsed = true
     }
 }
