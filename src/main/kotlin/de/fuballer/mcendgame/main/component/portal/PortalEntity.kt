@@ -133,7 +133,7 @@ class PortalEntity(
 
         val data = result.get()
         if (data.teleportLocation == null) {
-            log.warn("Teleport Location is empty, removing portal: $uuid")
+            log.warn("Teleport Location is missing, removing portal: $uuid")
             removed = true
             return
         }
