@@ -6,7 +6,7 @@ import net.fabricmc.fabric.api.networking.v1.PayloadTypeRegistry
 
 @Injectable
 class EntityHookEntityPayloadRegisterer {
-    @Initializer
+    @Initializer(priority = 0)
     fun register() {
         PayloadTypeRegistry.playS2C().register(EntityHookEntityPayload.ID, EntityHookEntityPayload.CODEC)
     }

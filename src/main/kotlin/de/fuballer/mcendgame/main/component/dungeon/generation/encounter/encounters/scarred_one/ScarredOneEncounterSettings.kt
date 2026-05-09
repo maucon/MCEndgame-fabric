@@ -10,13 +10,12 @@ import de.fuballer.mcendgame.main.component.custom_attribute.types.VanillaAttrib
 import de.fuballer.mcendgame.main.component.dungeon.generation.encounter.encounters.scarred_one.data.ScarredOneEffect
 import de.fuballer.mcendgame.main.util.random.RandomOption
 import de.fuballer.mcendgame.main.util.random.RandomUtil
-import kotlin.math.min
 import kotlin.random.Random
 
 object ScarredOneEncounterSettings {
     fun getSpawnProbability(dungeonLevel: Int) = if (dungeonLevel >= 4) 0.2 else 0.0 // per dungeon
 
-    fun getBaseEffectCount(dungeonLevel: Int) = min(dungeonLevel / 4, 3)
+    fun getBaseEffectCount(dungeonLevel: Int) = (dungeonLevel / 4).coerceIn(1, 3)
 
     fun getPositiveEffects(count: Int = 1) = RandomUtil.pickRepeatIfNeeded(POSITIVE, Random.Default, count).map { it.roll() }
     fun getNegativeEffects(count: Int = 1) = RandomUtil.pickRepeatIfNeeded(NEGATIVE, Random.Default, count).map { it.roll() }

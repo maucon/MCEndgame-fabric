@@ -132,6 +132,12 @@ class PortalEntity(
         }
 
         val data = result.get()
+        if (data.teleportLocation == null) {
+            log.warn("Teleport Location is missing, removing portal: $uuid")
+            removed = true
+            return
+        }
+
         type = PortalType.getById(data.typeId)
         dataTracker.set(TYPE, data.typeId)
 
