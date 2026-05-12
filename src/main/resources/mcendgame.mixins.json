@@ -28,6 +28,7 @@
     "damage.spear.LivingEntityPierceMixin",
     "damage.spear.PiercingWeaponComponentMixin",
     "damage.spear.PlayerEntityPierceMixin",
+    "dungeon_rules.DecoratedPotBlockUnbreakableMixin",
     "enemy.LivingEntityDungeonEnemyMixin",
     "enemy.LivingEntityEliteMixin",
     "enemy.LivingEntityLootGoblinMixin",
