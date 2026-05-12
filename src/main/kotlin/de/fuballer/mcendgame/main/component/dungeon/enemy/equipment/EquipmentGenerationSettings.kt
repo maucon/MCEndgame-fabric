@@ -52,12 +52,13 @@ object EquipmentGenerationSettings {
         RandomOption(100, TaggedEquipment(Leggings.SUEDE_LEGGINGS, EquipmentSlot.LEGS)),
         RandomOption(100, TaggedEquipment(Leggings.STONEWARD, EquipmentSlot.LEGS)),
         RandomOption(100, TaggedEquipment(Leggings.GILDED_TEMPEST, EquipmentSlot.LEGS)),
+        //RandomOption(100, TaggedEquipment(Leggings.WINDSTRIDER, EquipmentSlot.LEGS)), drop from bosses with aspect of TODO
 
         RandomOption(100, TaggedEquipment(Boots.DRUIDS_BOOTS, EquipmentSlot.FEET)),
         RandomOption(100, TaggedEquipment(Boots.WITHER_ROSE_BOOTS, EquipmentSlot.FEET)),
         RandomOption(100, TaggedEquipment(Boots.SUEDE_BOOTS, EquipmentSlot.FEET)),
         RandomOption(100, TaggedEquipment(Boots.MOONSHADOW, EquipmentSlot.FEET)),
-        //RandomOption(100, TaggedEquipment(Boots.GEISTERGALOSCHEN, EquipmentSlot.FEET)), should not drop default
+        //RandomOption(100, TaggedEquipment(Boots.GEISTERGALOSCHEN, EquipmentSlot.FEET)), drops from final boss with aspect of ghosts
 
         RandomOption(100, TaggedEquipment.forRangedWeapon(Bow.WINDSTRING)),
         RandomOption(100, TaggedEquipment.forRangedWeapon(Bow.HAILSTORM)),

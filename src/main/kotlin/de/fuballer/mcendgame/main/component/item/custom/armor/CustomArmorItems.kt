@@ -19,6 +19,7 @@ import de.fuballer.mcendgame.main.component.item.custom.armor.item.suede.SuedeCh
 import de.fuballer.mcendgame.main.component.item.custom.armor.item.suede.SuedeHelmet
 import de.fuballer.mcendgame.main.component.item.custom.armor.item.suede.SuedeLeggings
 import de.fuballer.mcendgame.main.component.item.custom.armor.item.voidweaver.Voidweaver
+import de.fuballer.mcendgame.main.component.item.custom.armor.item.windstrider.Windstrider
 import de.fuballer.mcendgame.main.component.item.custom.armor.item.wither_rose.WitherRoseBoots
 import de.fuballer.mcendgame.main.component.item.custom.armor.item.wither_rose.WitherRoseChestplate
 import de.fuballer.mcendgame.main.component.item.custom.armor.item.wither_rose.WitherRoseHelmet
@@ -51,4 +52,5 @@ object CustomArmorItems {
     val VOIDWEAVER = UniqueItemRegistry.registerArmorItem(::Voidweaver, VoidweaverArmorMaterial, EquipmentType.CHESTPLATE, "voidweaver")
     val ABYSSAL_MASK = UniqueItemRegistry.registerArmorItem(::AbyssalMask, AbyssalMaskArmorMaterial, EquipmentType.HELMET, "abyssal_mask")
     val GILDED_TEMPEST = UniqueItemRegistry.registerArmorItem(::GildedTempest, GildedTempestArmorMaterial, EquipmentType.LEGGINGS, "gilded_tempest")
+    val WINDSTRIDER = UniqueItemRegistry.registerArmorItem(::Windstrider, WindstriderArmorMaterial, EquipmentType.LEGGINGS, "windstrider")
 }

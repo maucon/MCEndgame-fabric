@@ -18,6 +18,7 @@ import de.fuballer.mcendgame.client.component.item.custom.armor.model.suede.Sued
 import de.fuballer.mcendgame.client.component.item.custom.armor.model.suede.SuedeHelmetModel
 import de.fuballer.mcendgame.client.component.item.custom.armor.model.suede.SuedeLeggingsModel
 import de.fuballer.mcendgame.client.component.item.custom.armor.model.voidweaver.VoidweaverModel
+import de.fuballer.mcendgame.client.component.item.custom.armor.model.windstrider.WindstriderModel
 import de.fuballer.mcendgame.client.component.item.custom.armor.model.wither_rose.WitherRoseBootsModel
 import de.fuballer.mcendgame.client.component.item.custom.armor.model.wither_rose.WitherRoseChestplateModel
 import de.fuballer.mcendgame.client.component.item.custom.armor.model.wither_rose.WitherRoseHelmetModel
@@ -152,6 +153,10 @@ class CustomHumanoidArmorFeatureRenderer<S : BipedEntityRenderState, M : BipedEn
         texturedArmorModels[CustomArmorItems.GILDED_TEMPEST] = TexturedArmorModel(
             { GildedTempestModel(ctx.getPart(GildedTempestModel.MODEL_LAYER)) },
             IdentifierUtil.default("textures/entity/equipment/custom_humanoid/gilded_tempest.png"),
+        )
+        texturedArmorModels[CustomArmorItems.WINDSTRIDER] = TexturedArmorModel(
+            { WindstriderModel(ctx.getPart(WindstriderModel.MODEL_LAYER)) },
+            IdentifierUtil.default("textures/entity/equipment/custom_humanoid/windstrider.png"),
         )
     }
 

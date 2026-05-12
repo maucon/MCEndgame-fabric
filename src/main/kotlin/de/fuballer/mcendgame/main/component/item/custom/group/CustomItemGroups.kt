@@ -87,6 +87,7 @@ object CustomItemGroups {
             itemGroup.add(CustomArmorItems.VOIDWEAVER.defaultStack)
             itemGroup.add(CustomArmorItems.ABYSSAL_MASK.defaultStack)
             itemGroup.add(CustomArmorItems.GILDED_TEMPEST.defaultStack)
+            itemGroup.add(CustomArmorItems.WINDSTRIDER.defaultStack)
         }
         ItemGroupEvents.modifyEntriesEvent(CUSTOM_TOOLS_KEY).register { itemGroup ->
             itemGroup.add(CustomToolItems.BLOODHARVEST.defaultStack)

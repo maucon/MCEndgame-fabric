@@ -49,6 +49,7 @@ class CustomItemTagProvider(
             .add(CustomArmorItems.WITHER_ROSE_LEGGINGS)
             .add(CustomArmorItems.STONEWARD)
             .add(CustomArmorItems.GILDED_TEMPEST)
+            .add(CustomArmorItems.WINDSTRIDER)
 
         valueLookupBuilder(ItemTags.FOOT_ARMOR)
             .add(CustomArmorItems.DRUIDS_BOOTS)
