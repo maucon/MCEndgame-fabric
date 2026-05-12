@@ -78,6 +78,10 @@ class CustomBlockTagProvider(
             .add(Blocks.HANGING_ROOTS)
             .add(Blocks.LILY_PAD)
             .add(Blocks.BAMBOO_SAPLING)
+            .add(Blocks.DEAD_BUSH)
+
+        valueLookupBuilder(CustomTags.DUNGEON_INTERACTABLE)
+            .add(CustomBlocks.TOTEM_STATUE)
 
         valueLookupBuilder(CustomTags.PHASING_BLOCKING)
             .add(Blocks.BARRIER)
