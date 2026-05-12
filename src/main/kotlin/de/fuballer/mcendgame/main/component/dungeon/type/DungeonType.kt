@@ -70,6 +70,28 @@ enum class DungeonType(
         bossCount = 3,
         biome = BiomeKeys.NETHER_WASTES,
         { enemies -> enemies.forEach { it.addStatusEffect(PotionEffect.FIRE_RESISTANCE.getEffectInstance(false)) } },
+    ),
+    DESERT(
+        listOf(
+            RandomOption(1, DungeonLayoutType.DESERT),
+        ),
+        listOf(
+            RandomOption(25, ZombieStats),
+            RandomOption(30, HuskStats),
+            RandomOption(10, SkeletonStats),
+            RandomOption(8, BoggedStats),
+            RandomOption(20, ParchedStats),
+            RandomOption(20, MeleeSkeletonStats),
+            RandomOption(5, WitherSkeletonStats),
+        ),
+        listOf(
+            RandomOption(1, ArachneBossStats),
+            RandomOption(1, BonecrusherBossStats),
+            RandomOption(1, ElfDuelistBossStats),
+            RandomOption(1, BeakburnBossStats),
+        ),
+        bossCount = 3,
+        biome = BiomeKeys.DESERT,
     );
 
     fun roll(random: Random): RolledDungeonType =
