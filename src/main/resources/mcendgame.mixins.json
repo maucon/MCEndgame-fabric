@@ -75,6 +75,7 @@
     "player.PlayerEntityInsideDungeonMixin",
     "projectile.PersistentProjectileEntityDamageMixin",
     "projectile.PersistentProjectileEntityPierceLevelMixin",
+    "server_player_entity.ServerPlayerEntityAccessor",
     "server_player_entity.ServerPlayerEntityDeathNBTCopyMixin",
     "server_player_entity.ServerPlayerEntityTeleportCommandMixin",
     "shield.BlocksAttackComponentDisableShieldsMixin",
