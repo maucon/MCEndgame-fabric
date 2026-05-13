@@ -41,6 +41,8 @@
     "goal.BowAttackGoalAccessor",
     "goal.BowAttackGoalMixin",
     "goal.LookAtEntityGoalPredicateMixin",
+    "goal.RevengeGoalDisableCallSameTypeMixin",
+    "goal.TrackTargetGoalMobAccessor",
     "item.ImmuneItemEntityMixin",
     "item.ItemStackDamageMixin",
     "item.bow.BowItemDrawSpeedMixin",
