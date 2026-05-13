@@ -1,5 +1,6 @@
 package de.fuballer.mcendgame.main.component.dungeon.type
 
+import de.fuballer.mcendgame.main.component.biome.CustomBiomes
 import de.fuballer.mcendgame.main.component.dungeon.enemy.potion_effect.PotionEffect
 import de.fuballer.mcendgame.main.component.dungeon.generation.layout.DungeonLayoutType
 import de.fuballer.mcendgame.main.component.dungeon.type.data.RolledDungeonType
@@ -91,7 +92,7 @@ enum class DungeonType(
             RandomOption(1, BeakburnBossStats),
         ),
         bossCount = 3,
-        biome = BiomeKeys.DESERT,
+        biome = CustomBiomes.DESERT_DUNGEON,
     );
 
     fun roll(random: Random): RolledDungeonType =
