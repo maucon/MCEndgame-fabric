@@ -1,6 +1,8 @@
 package de.fuballer.mcendgame.main.component.dungeon.generation.room_types
 
 import de.fuballer.mcendgame.main.component.dungeon.generation.data.RoomType
+import de.fuballer.mcendgame.main.component.dungeon.generation.room_types.loader.RoomTypeLoader
+import de.fuballer.mcendgame.main.component.dungeon.generation.room_types.loader.loadRoom
 import de.fuballer.mcendgame.main.messaging.server.ServerStartedEvent
 import de.fuballer.mcendgame.main.util.random.RandomOption
 import de.maucon.mauconframework.di.annotation.Injectable
@@ -21,15 +23,15 @@ object DesertRoomTypes {
         BOSS_ROOM = RoomTypeLoader.load(templateManager, "dungeon/desert/boss")
 
         ROOMS = listOf(
-            RandomOption(7, RoomTypeLoader.load(templateManager, "dungeon/desert/small_connector")),
-            RandomOption(4, RoomTypeLoader.load(templateManager, "dungeon/desert/arches_red-sand-side-path_curve")),
-            RandomOption(4, RoomTypeLoader.load(templateManager, "dungeon/desert/arches_red-sand-side-path_mini-drop")),
-            RandomOption(4, RoomTypeLoader.load(templateManager, "dungeon/desert/chandelier-above-fountain")),
-            RandomOption(4, RoomTypeLoader.load(templateManager, "dungeon/desert/levels_drop-into-pool_curve")),
-            RandomOption(4, RoomTypeLoader.load(templateManager, "dungeon/desert/library_curve")),
-            RandomOption(4, RoomTypeLoader.load(templateManager, "dungeon/desert/square_center-flower-pool_lecterns")),
-            RandomOption(4, RoomTypeLoader.load(templateManager, "dungeon/desert/stairs-in-between-levels_curve")),
-            RandomOption(1, RoomTypeLoader.load(templateManager, "dungeon/desert/stairwell_branching")),
-        )
+            loadRoom(weight = 7, templateManager, "dungeon/desert/small_connector"),
+            loadRoom(weight = 4, templateManager, "dungeon/desert/arches_red-sand-side-path_curve"),
+            loadRoom(weight = 4, templateManager, "dungeon/desert/arches_red-sand-side-path_mini-drop"),
+            loadRoom(weight = 4, templateManager, "dungeon/desert/chandelier-above-fountain"),
+            loadRoom(weight = 4, templateManager, "dungeon/desert/levels_drop-into-pool_curve"),
+            loadRoom(weight = 4, templateManager, "dungeon/desert/library_curve"),
+            loadRoom(weight = 4, templateManager, "dungeon/desert/square_center-flower-pool_lecterns"),
+            loadRoom(weight = 4, templateManager, "dungeon/desert/stairs-in-between-levels_curve"),
+            loadRoom(weight = 1, templateManager, "dungeon/desert/stairwell_branching"),
+        ).flatten()
     }
 }
