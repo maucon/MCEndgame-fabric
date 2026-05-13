@@ -31,6 +31,10 @@ object DesertRoomTypes {
             loadRoom(weight = 4, templateManager, "dungeon/desert/library_curve"),
             loadRoom(weight = 4, templateManager, "dungeon/desert/square_center-flower-pool_lecterns"),
             loadRoom(weight = 4, templateManager, "dungeon/desert/stairs-in-between-levels_curve"),
+            loadRoom(weight = 4, templateManager, "dungeon/desert/small_connector_curve"),
+            loadRoom(weight = 3, templateManager, "dungeon/desert/small_connector_mini-drop_curve"),
+            loadRoom(weight = 4, templateManager, "dungeon/desert/elevated-walk-way_curve"),
+            loadRoom(weight = 1, templateManager, "dungeon/desert/stairwell_drop-with-hanging-lantern_branching"),
             loadRoom(weight = 1, templateManager, "dungeon/desert/stairwell_branching"),
         ).flatten()
     }
