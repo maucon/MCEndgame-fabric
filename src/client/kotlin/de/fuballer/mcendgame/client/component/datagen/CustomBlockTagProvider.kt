@@ -85,6 +85,7 @@ class CustomBlockTagProvider(
             .add(CustomBlocks.TOTEM_STATUE)
             .forceAddTag(BlockTags.BUTTONS)
             .add(Blocks.REDSTONE_WIRE)
+            .add(Blocks.LEVER)
 
         valueLookupBuilder(CustomTags.PHASING_BLOCKING)
             .add(Blocks.BARRIER)
