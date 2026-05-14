@@ -20,6 +20,7 @@ object CustomTags {
     val TOTEM: TagKey<Item> = createItemTag("totem")
 
     val DUNGEON_BREAKABLE: TagKey<Block> = createBlockTag("dungeon_breakable")
+    val DUNGEON_INTERACTABLE: TagKey<Block> = createBlockTag("dungeon_interactable")
     val PHASING_BLOCKING: TagKey<Block> = createBlockTag("phasing_blocking")
     val NO_PHASING_SLOW_AND_FOG: TagKey<Block> = createBlockTag("no_phasing_slow_and_fog")
 
