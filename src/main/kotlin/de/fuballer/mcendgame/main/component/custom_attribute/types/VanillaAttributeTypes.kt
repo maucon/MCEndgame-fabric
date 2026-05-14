@@ -104,6 +104,15 @@ object VanillaAttributeTypes {
         AttributeAffinities.BENEFICIAL,
         SignBasedKeywords.MORE
     )
+    val INCREASED_JUMP_STRENGTH = VanillaAttributeType(
+        EntityAttributes.JUMP_STRENGTH,
+        EntityAttributeModifier.Operation.ADD_MULTIPLIED_BASE,
+        "increased_jump_strength",
+        AttributeFormats.SIGNED_PERCENT_ROLL,
+        AttributeFormats.PERCENT_BOUNDS,
+        AttributeAffinities.BENEFICIAL,
+        SignBasedKeywords.INCREASED
+    )
     val LUCK = VanillaAttributeType(
         EntityAttributes.LUCK,
         EntityAttributeModifier.Operation.ADD_VALUE,
