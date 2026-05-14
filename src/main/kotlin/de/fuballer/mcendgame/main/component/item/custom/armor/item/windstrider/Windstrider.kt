@@ -13,9 +13,9 @@ class Windstrider(
     settings: Settings,
 ) : UniqueAttributesItem(settings), HidePlayerModelPartArmor {
     override fun getCustomAttributes() = listOf(
-        RollableCustomAttribute(CustomAttributeTypes.PROJECTILE_DODGE, 0, DoubleBounds(0.2, 0.3)),
+        RollableCustomAttribute(CustomAttributeTypes.PROJECTILE_DODGE, 0, DoubleBounds(0.3, 0.4)),
         RollableCustomAttribute(CustomAttributeTypes.DODGED_PROJECTILE_REFLECT, 0),
-        RollableCustomAttribute(VanillaAttributeTypes.INCREASED_MOVEMENT_SPEED, 0, DoubleBounds(0.1, 0.15)),
+        RollableCustomAttribute(VanillaAttributeTypes.INCREASED_MOVEMENT_SPEED, 0, DoubleBounds(0.15, 0.25)),
         RollableCustomAttribute(VanillaAttributeTypes.INCREASED_JUMP_STRENGTH, 0, DoubleBounds(0.15, 0.25)),
     )
 
