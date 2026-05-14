@@ -82,6 +82,7 @@
     "status_effect.ApplyHealingFactorInstantHealthOrDamageStatusEffectMixin",
     "status_effect.PoisonStatusEffectMixin",
     "status_effect.WitherStatusEffectMixin",
+    "trident.TridentEntityAccessor",
     "wind_charge.WindChargeEntityExplosionPowerMixin",
     "wolf_entity.WolfEntityColorAndVariantMixin",
     "wolf_entity.WolfEntityCompanionInteractMixin",

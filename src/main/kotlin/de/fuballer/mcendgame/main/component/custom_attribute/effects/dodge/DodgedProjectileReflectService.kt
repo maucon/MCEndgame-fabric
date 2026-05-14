@@ -5,15 +5,21 @@ import de.fuballer.mcendgame.main.component.custom_attribute.types.CustomAttribu
 import de.fuballer.mcendgame.main.functional.scheduler.Scheduler
 import de.fuballer.mcendgame.main.messaging.misc.LivingEntityDodgedEvent
 import de.fuballer.mcendgame.main.mixin.projectile.ProjectileEntityAccessor
+import de.fuballer.mcendgame.main.mixin.trident.TridentEntityAccessor
 import de.maucon.mauconframework.di.annotation.Injectable
 import de.maucon.mauconframework.event.EventSubscriber
 import net.minecraft.enchantment.EnchantmentHelper
 import net.minecraft.enchantment.Enchantments
+import net.minecraft.entity.Entity
 import net.minecraft.entity.PlayerLikeEntity
 import net.minecraft.entity.projectile.PersistentProjectileEntity
 import net.minecraft.entity.projectile.ProjectileEntity
 import net.minecraft.entity.projectile.TridentEntity
 import net.minecraft.registry.RegistryKeys
+import net.minecraft.server.world.ServerWorld
+import net.minecraft.sound.SoundCategory
+import net.minecraft.sound.SoundEvents
+import kotlin.random.Random
 
 @Injectable
 class DodgedProjectileReflectService(
@@ -27,9 +33,9 @@ class DodgedProjectileReflectService(
         if (!entity.getAllCustomAttributes().contains(CustomAttributeTypes.DODGED_PROJECTILE_REFLECT)) return
 
         val attacker = event.attacker
-
         scheduler.delayed(1) {
             if (!projectile.isAlive) return@delayed
+            val world = projectile.entityWorld as? ServerWorld ?: return@delayed
 
             val rawDirection = if (attacker == null) entity.rotationVector else attacker.eyePos.subtract(projectile.entityPos)
             if (rawDirection.lengthSquared() < 1.0E-6) return@delayed
@@ -46,11 +52,13 @@ class DodgedProjectileReflectService(
             if (projectile is TridentEntity) {
                 val stack = projectile.itemStack
 
-                projectile.entityWorld.registryManager
+                world.registryManager
                     .getOrThrow(RegistryKeys.ENCHANTMENT)
                     .getEntry(Enchantments.LOYALTY.value).ifPresent {
                         loyalty = EnchantmentHelper.getLevel(it, stack) > 0
                     }
+
+                (projectile as TridentEntityAccessor).`mcendgame$setDealtDamage`(false)
             }
 
             if (!loyalty) projectile.owner = entity
@@ -63,6 +71,26 @@ class DodgedProjectileReflectService(
                     projectile.pickupType = PersistentProjectileEntity.PickupPermission.ALLOWED
                 }
             }
+
+            playSound(entity, world)
         }
+    }
+
+    private fun playSound(
+        entity: Entity,
+        world: ServerWorld,
+    ) {
+        val pos = entity.entityPos
+        val soundCategory = if (entity is PlayerLikeEntity) SoundCategory.PLAYERS else SoundCategory.HOSTILE
+        world.playSound(
+            null,
+            pos.x,
+            pos.y,
+            pos.z,
+            SoundEvents.ENTITY_BREEZE_WIND_BURST,
+            soundCategory,
+            0.5F,
+            0.9F + 0.2F * Random.nextFloat(),
+        )
     }
 }
