@@ -2,6 +2,7 @@ package de.fuballer.mcendgame.client.component.item.custom.armor
 
 import de.fuballer.mcendgame.client.component.item.custom.armor.model.abyssal_mask.AbyssalMaskModel
 import de.fuballer.mcendgame.client.component.item.custom.armor.model.bound_abyss.BoundAbyssModel
+import de.fuballer.mcendgame.client.component.item.custom.armor.model.broodmother.BroodmotherModel
 import de.fuballer.mcendgame.client.component.item.custom.armor.model.druids.DruidsBootsModel
 import de.fuballer.mcendgame.client.component.item.custom.armor.model.druids.DruidsChestplateModel
 import de.fuballer.mcendgame.client.component.item.custom.armor.model.druids.DruidsHelmetModel
@@ -157,6 +158,10 @@ class CustomHumanoidArmorFeatureRenderer<S : BipedEntityRenderState, M : BipedEn
         texturedArmorModels[CustomArmorItems.WINDSTRIDER] = TexturedArmorModel(
             { WindstriderModel(ctx.getPart(WindstriderModel.MODEL_LAYER)) },
             IdentifierUtil.default("textures/entity/equipment/custom_humanoid/windstrider.png"),
+        )
+        texturedArmorModels[CustomArmorItems.BROODMOTHER] = TexturedArmorModel(
+            { BroodmotherModel(ctx.getPart(BroodmotherModel.MODEL_LAYER)) },
+            IdentifierUtil.default("textures/entity/equipment/custom_humanoid/broodmother.png"),
         )
     }
 

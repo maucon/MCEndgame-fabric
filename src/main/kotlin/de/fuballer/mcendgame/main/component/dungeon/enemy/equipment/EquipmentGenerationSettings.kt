@@ -45,6 +45,7 @@ object EquipmentGenerationSettings {
         RandomOption(100, TaggedEquipment(Chestplate.WITHER_ROSE_CHESTPLATE, EquipmentSlot.CHEST)),
         RandomOption(100, TaggedEquipment(Chestplate.SUEDE_CHESTPLATE, EquipmentSlot.CHEST)),
         RandomOption(100, TaggedEquipment(Chestplate.VOIDWEAVER, EquipmentSlot.CHEST)),
+        //RandomOption(100, TaggedEquipment(Chestplate.BROODMOTHER, EquipmentSlot.CHEST)), drop from arachne boss with aspect of TODO
 
         RandomOption(100, TaggedEquipment(Leggings.LAMIAS_GIFT, EquipmentSlot.LEGS)),
         RandomOption(100, TaggedEquipment(Leggings.DRUIDS_LEGGINGS, EquipmentSlot.LEGS)),
@@ -52,7 +53,7 @@ object EquipmentGenerationSettings {
         RandomOption(100, TaggedEquipment(Leggings.SUEDE_LEGGINGS, EquipmentSlot.LEGS)),
         RandomOption(100, TaggedEquipment(Leggings.STONEWARD, EquipmentSlot.LEGS)),
         RandomOption(100, TaggedEquipment(Leggings.GILDED_TEMPEST, EquipmentSlot.LEGS)),
-        //RandomOption(100, TaggedEquipment(Leggings.WINDSTRIDER, EquipmentSlot.LEGS)), drop from bosses with aspect of TODO
+        //RandomOption(100, TaggedEquipment(Leggings.WINDSTRIDER, EquipmentSlot.LEGS)), drop from elf duelist boss with aspect of TODO
 
         RandomOption(100, TaggedEquipment(Boots.DRUIDS_BOOTS, EquipmentSlot.FEET)),
         RandomOption(100, TaggedEquipment(Boots.WITHER_ROSE_BOOTS, EquipmentSlot.FEET)),

@@ -2,6 +2,7 @@ package de.fuballer.mcendgame.client.component.item.custom.armor
 
 import de.fuballer.mcendgame.client.component.item.custom.armor.model.abyssal_mask.AbyssalMaskModel
 import de.fuballer.mcendgame.client.component.item.custom.armor.model.bound_abyss.BoundAbyssModel
+import de.fuballer.mcendgame.client.component.item.custom.armor.model.broodmother.BroodmotherModel
 import de.fuballer.mcendgame.client.component.item.custom.armor.model.druids.DruidsBootsModel
 import de.fuballer.mcendgame.client.component.item.custom.armor.model.druids.DruidsChestplateModel
 import de.fuballer.mcendgame.client.component.item.custom.armor.model.druids.DruidsHelmetModel
@@ -122,6 +123,10 @@ object ArmorModelRegisterer {
         EntityModelLayerRegistry.registerModelLayer(
             WindstriderModel.MODEL_LAYER,
             WindstriderModel.Companion::getTexturedModelData
+        )
+        EntityModelLayerRegistry.registerModelLayer(
+            BroodmotherModel.MODEL_LAYER,
+            BroodmotherModel.Companion::getTexturedModelData
         )
     }
 }

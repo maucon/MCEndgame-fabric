@@ -41,6 +41,7 @@ class CustomItemTagProvider(
             .add(CustomArmorItems.SUEDE_CHESTPLATE)
             .add(CustomArmorItems.VOIDWEAVER)
             .add(CustomArmorItems.WITHER_ROSE_CHESTPLATE)
+            .add(CustomArmorItems.BROODMOTHER)
 
         valueLookupBuilder(ItemTags.LEG_ARMOR)
             .add(CustomArmorItems.LAMIAS_GIFT)
@@ -102,6 +103,11 @@ class CustomItemTagProvider(
             .add(Items.NETHERITE_AXE)
             .add(Items.NETHERITE_SHOVEL)
             .add(Items.NETHERITE_HOE)
+
+
+        valueLookupBuilder(CustomTags.REPAIRS_SPIDER_ARMOR)
+            .add(Items.SPIDER_EYE)
+            .add(Items.FERMENTED_SPIDER_EYE)
 
         valueLookupBuilder(CustomTags.DUNGEON_DROP_DISABLED)
             .add(Items.TRIDENT)

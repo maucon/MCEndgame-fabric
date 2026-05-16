@@ -56,6 +56,7 @@ class CustomModelProvider(
         generator.register(CustomArmorItems.ABYSSAL_MASK, Models.GENERATED)
         generator.register(CustomArmorItems.GILDED_TEMPEST, Models.GENERATED)
         generator.register(CustomArmorItems.WINDSTRIDER, Models.GENERATED)
+        generator.register(CustomArmorItems.BROODMOTHER, Models.GENERATED)
 
         generator.register(AspectItems.ASPECT_OF_ANCESTORS, Models.GENERATED)
         generator.register(AspectItems.ASPECT_OF_CURIO, Models.GENERATED)

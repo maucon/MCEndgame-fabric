@@ -3,6 +3,7 @@ package de.fuballer.mcendgame.main.component.item.custom.armor
 import de.fuballer.mcendgame.main.component.item.custom.UniqueItemRegistry
 import de.fuballer.mcendgame.main.component.item.custom.armor.item.abyssal_mask.AbyssalMask
 import de.fuballer.mcendgame.main.component.item.custom.armor.item.bound_abyss.BoundAbyss
+import de.fuballer.mcendgame.main.component.item.custom.armor.item.broodmother.Broodmother
 import de.fuballer.mcendgame.main.component.item.custom.armor.item.druids.DruidsBoots
 import de.fuballer.mcendgame.main.component.item.custom.armor.item.druids.DruidsChestplate
 import de.fuballer.mcendgame.main.component.item.custom.armor.item.druids.DruidsHelmet
@@ -53,4 +54,5 @@ object CustomArmorItems {
     val ABYSSAL_MASK = UniqueItemRegistry.registerArmorItem(::AbyssalMask, AbyssalMaskArmorMaterial, EquipmentType.HELMET, "abyssal_mask")
     val GILDED_TEMPEST = UniqueItemRegistry.registerArmorItem(::GildedTempest, GildedTempestArmorMaterial, EquipmentType.LEGGINGS, "gilded_tempest")
     val WINDSTRIDER = UniqueItemRegistry.registerArmorItem(::Windstrider, WindstriderArmorMaterial, EquipmentType.LEGGINGS, "windstrider")
+    val BROODMOTHER = UniqueItemRegistry.registerArmorItem(::Broodmother, BroodmotherArmorMaterial, EquipmentType.CHESTPLATE, "broodmother")
 }
