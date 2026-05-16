@@ -13,7 +13,6 @@ import de.fuballer.mcendgame.client.component.entity.custom.entities.portal.type
 import de.fuballer.mcendgame.client.component.entity.custom.entities.portal.type.legacy.LegacyPortalEntityModel
 import de.fuballer.mcendgame.client.component.entity.custom.entities.scarred_one.ScarredOneRenderState
 import de.fuballer.mcendgame.client.component.entity.custom.entities.scarred_one.ScarredOneRenderer
-import de.fuballer.mcendgame.client.component.entity.custom.entities.spiderling.SpiderlingRenderState
 import de.fuballer.mcendgame.client.component.entity.custom.entities.spiderling.SpiderlingRenderer
 import de.fuballer.mcendgame.client.component.entity.custom.entities.swamp_golem.SwampGolemEntityModel
 import de.fuballer.mcendgame.client.component.entity.custom.entities.swamp_golem.SwampGolemRenderer
@@ -51,13 +50,13 @@ object EntityModelRegisterer {
 
         EntityRendererFactories.register(CustomEntities.WEBHOOK, ::WebhookRenderer)
 
+        EntityRendererFactories.register(CustomEntities.SPIDERLING, ::SpiderlingRenderer)
+
         EntityRendererFactories.register(CustomEntities.BONECRUSHER) { state -> BonecrusherRenderer<BonecrusherRenderState>(state) }
         EntityRendererFactories.register(CustomEntities.ELF_DUELIST) { state -> ElfDuelistRenderer<ElfDuelistRenderState>(state) }
         EntityRendererFactories.register(CustomEntities.BEAKBURN) { state -> BeakburnRenderer<BeakburnRenderState>(state) }
 
         EntityRendererFactories.register(CustomEntities.SCARRED_ONE) { state -> ScarredOneRenderer<ScarredOneRenderState>(state) }
-
-        EntityRendererFactories.register(CustomEntities.SPIDERLING) { state -> SpiderlingRenderer<SpiderlingRenderState>(state) }
 
         EntityModelLayerRegistry.registerModelLayer(
             DefaultPortalEntityModel.PORTAL,

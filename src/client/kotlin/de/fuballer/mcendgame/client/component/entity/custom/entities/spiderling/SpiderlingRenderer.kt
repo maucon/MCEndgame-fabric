@@ -1,34 +1,32 @@
 package de.fuballer.mcendgame.client.component.entity.custom.entities.spiderling
 
-import de.fuballer.mcendgame.client.component.entity.custom.feature.isolated.IsolatedGeoLayer
 import de.fuballer.mcendgame.main.component.entity.custom.entities.spiderling.SpiderlingEntity
 import net.minecraft.client.render.entity.EntityRendererFactory
+import net.minecraft.client.render.entity.MobEntityRenderer
+import net.minecraft.client.render.entity.feature.SpiderEyesFeatureRenderer
+import net.minecraft.client.render.entity.model.EntityModelLayers
+import net.minecraft.client.render.entity.model.SpiderEntityModel
 import net.minecraft.client.render.entity.state.LivingEntityRenderState
-import software.bernie.geckolib.constant.DataTickets
-import software.bernie.geckolib.renderer.GeoEntityRenderer
-import software.bernie.geckolib.renderer.base.BoneSnapshots
-import software.bernie.geckolib.renderer.base.GeoRenderState
-import software.bernie.geckolib.renderer.base.RenderPassInfo
-import kotlin.math.PI
+import net.minecraft.util.Identifier
 
-class SpiderlingRenderer<R>(
-    context: EntityRendererFactory.Context
-) : GeoEntityRenderer<SpiderlingEntity, R>(context, SpiderlingModel()) where R : LivingEntityRenderState, R : GeoRenderState {
+class SpiderlingRenderer(
+    context: EntityRendererFactory.Context,
+) : MobEntityRenderer<SpiderlingEntity, LivingEntityRenderState, SpiderEntityModel>(
+    context,
+    SpiderEntityModel(context.getPart(EntityModelLayers.SPIDER)),
+    0.8f,
+) {
     init {
-        withRenderLayer(IsolatedGeoLayer(this))
+        addFeature(SpiderEyesFeatureRenderer(this))
     }
 
-    override fun adjustModelBonesForRender(renderPassInfo: RenderPassInfo<R>, snapshots: BoneSnapshots) {
-        super.adjustModelBonesForRender(renderPassInfo, snapshots)
-
-        snapshots.get("head").ifPresent {
-            var pitch = renderPassInfo.getGeckolibData(DataTickets.ENTITY_PITCH) ?: return@ifPresent
-            pitch = Math.clamp(pitch, -35F, 35F)
-            it.rotX = -pitch * PI.toFloat() / 180F
-
-            var yaw = renderPassInfo.getGeckolibData(DataTickets.ENTITY_YAW) ?: return@ifPresent
-            yaw = Math.clamp(yaw, -45F, 45F)
-            it.rotY = -yaw * PI.toFloat() / 180F
-        }
+    companion object {
+        val TEXTURE: Identifier = Identifier.ofVanilla("textures/entity/spider/spider.png")
     }
+
+    override fun getTexture(state: LivingEntityRenderState) = TEXTURE
+
+    override fun createRenderState() = LivingEntityRenderState()
+
+    override fun getLyingPositionRotationDegrees() = 180.0f
 }

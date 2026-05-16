@@ -12,15 +12,11 @@ import net.minecraft.server.world.ServerWorld
 import net.minecraft.util.ActionResult
 import net.minecraft.util.Hand
 import net.minecraft.world.World
-import software.bernie.geckolib.animatable.GeoEntity
-import software.bernie.geckolib.animatable.instance.AnimatableInstanceCache
-import software.bernie.geckolib.animatable.manager.AnimatableManager
-import software.bernie.geckolib.util.GeckoLibUtil
 
 class SpiderlingEntity(
     type: EntityType<out SpiderlingEntity>,
     world: World,
-) : TameableEntity(type, world), GeoEntity {
+) : TameableEntity(type, world) {
     companion object {
         fun createAttributes(): DefaultAttributeContainer.Builder {
             return createLivingAttributes()
@@ -33,11 +29,9 @@ class SpiderlingEntity(
                 .add(EntityAttributes.MOVEMENT_EFFICIENCY, 0.85)
                 .add(EntityAttributes.SAFE_FALL_DISTANCE, 10.0)
                 .add(EntityAttributes.FALL_DAMAGE_MULTIPLIER, 0.1)
+                .add(EntityAttributes.SCALE, 0.5)
         }
     }
-
-    private val cache: AnimatableInstanceCache = GeckoLibUtil.createInstanceCache(this)
-    override fun getAnimatableInstanceCache() = cache
 
     override fun initGoals() {
         goalSelector.add(1, SwimGoal(this))
@@ -49,9 +43,6 @@ class SpiderlingEntity(
 
         targetSelector.add(1, TrackOwnerAttackerGoal(this))
         targetSelector.add(2, AttackWithOwnerGoal(this))
-    }
-
-    override fun registerControllers(controllers: AnimatableManager.ControllerRegistrar) {
     }
 
     override fun isBreedingItem(item: ItemStack) = false
