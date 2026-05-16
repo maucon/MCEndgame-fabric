@@ -5,6 +5,7 @@ import de.fuballer.mcendgame.main.component.entity.custom.entities.beakburn.Beak
 import de.fuballer.mcendgame.main.component.entity.custom.entities.bonecrusher.BonecrusherEntity
 import de.fuballer.mcendgame.main.component.entity.custom.entities.elf_duelist.ElfDuelistEntity
 import de.fuballer.mcendgame.main.component.entity.custom.entities.scarred_one.ScarredOneEntity
+import de.fuballer.mcendgame.main.component.entity.custom.entities.spiderling.SpiderlingEntity
 import de.fuballer.mcendgame.main.component.entity.custom.entities.swamp_golem.SwampGolemEntity
 import de.fuballer.mcendgame.main.component.entity.custom.entities.webhook.WebhookEntity
 import de.fuballer.mcendgame.main.component.entity.custom.entities.webshot.WebshotEntity
@@ -74,5 +75,12 @@ object CustomEntities {
         EntityType.Builder.create({ type, world -> ScarredOneEntity(type, world) }, SpawnGroup.MISC)
             .dimensions(0.6f, 1.95f)
             .maxTrackingRange(10)
+    )
+    val SPIDERLING = RegistryUtil.registerEntity(
+        "spiderling",
+        EntityType.Builder.create({ type, world -> SpiderlingEntity(type, world) }, SpawnGroup.MISC)
+            .dimensions(0.7f, 0.45f)
+            .eyeHeight(0.325f)
+            .maxTrackingRange(8)
     )
 }

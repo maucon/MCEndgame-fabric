@@ -31,7 +31,9 @@ import de.fuballer.mcendgame.main.component.item.custom.armor.CustomArmorItems
 import de.fuballer.mcendgame.main.util.ColorUtil
 import de.fuballer.mcendgame.main.util.minecraft.IdentifierUtil
 import net.minecraft.client.model.Model
+import net.minecraft.client.render.LightmapTextureManager
 import net.minecraft.client.render.OverlayTexture
+import net.minecraft.client.render.RenderLayer
 import net.minecraft.client.render.RenderLayers
 import net.minecraft.client.render.command.OrderedRenderCommandQueue
 import net.minecraft.client.render.entity.EntityRendererFactory
@@ -46,7 +48,6 @@ import net.minecraft.entity.EntityType
 import net.minecraft.entity.EquipmentSlot
 import net.minecraft.item.Item
 import net.minecraft.item.ItemStack
-import net.minecraft.util.Identifier
 
 class CustomHumanoidArmorFeatureRenderer<S : BipedEntityRenderState, M : BipedEntityModel<S>>(
     featureContext: FeatureRendererContext<S, M>,
@@ -162,6 +163,7 @@ class CustomHumanoidArmorFeatureRenderer<S : BipedEntityRenderState, M : BipedEn
         texturedArmorModels[CustomArmorItems.BROODMOTHER] = TexturedArmorModel(
             { BroodmotherModel(ctx.getPart(BroodmotherModel.MODEL_LAYER)) },
             IdentifierUtil.default("textures/entity/equipment/custom_humanoid/broodmother.png"),
+            emissiveTexture = IdentifierUtil.default("textures/entity/equipment/custom_humanoid/broodmother_emissive.png"),
         )
     }
 
@@ -189,7 +191,7 @@ class CustomHumanoidArmorFeatureRenderer<S : BipedEntityRenderState, M : BipedEn
             renderModel(
                 bipedEntityRenderState,
                 model,
-                texturedArmorModel.texture,
+                RenderLayers.armorCutoutNoCull(texturedArmorModel.texture),
                 matrices,
                 queue,
                 light,
@@ -201,12 +203,12 @@ class CustomHumanoidArmorFeatureRenderer<S : BipedEntityRenderState, M : BipedEn
             renderModel(
                 bipedEntityRenderState,
                 model,
-                texturedArmorModel.colorAbleTexture,
+                RenderLayers.armorCutoutNoCull(texturedArmorModel.colorAbleTexture),
                 matrices,
                 queue,
                 light,
                 itemStack.hasGlint(),
-                DyedColorComponent.getColor(itemStack, texturedArmorModel.defaultColor),
+                color = DyedColorComponent.getColor(itemStack, texturedArmorModel.defaultColor),
             )
         }
 
@@ -214,12 +216,23 @@ class CustomHumanoidArmorFeatureRenderer<S : BipedEntityRenderState, M : BipedEn
             renderModel(
                 bipedEntityRenderState,
                 model,
-                texturedArmorModel.translucentTexture,
+                RenderLayers.entityTranslucent(texturedArmorModel.translucentTexture),
                 matrices,
                 queue,
                 light,
+                itemStack.hasGlint()
+            )
+        }
+
+        if (texturedArmorModel.emissiveTexture != null) {
+            renderModel(
+                bipedEntityRenderState,
+                model,
+                RenderLayers.eyes(texturedArmorModel.emissiveTexture),
+                matrices,
+                queue,
+                LightmapTextureManager.MAX_LIGHT_COORDINATE,
                 itemStack.hasGlint(),
-                translucent = true,
             )
         }
 
@@ -229,21 +242,18 @@ class CustomHumanoidArmorFeatureRenderer<S : BipedEntityRenderState, M : BipedEn
     private fun renderModel(
         state: S,
         model: Model<S>,
-        texture: Identifier,
+        renderLayer: RenderLayer,
         matrices: MatrixStack,
         queue: OrderedRenderCommandQueue,
         light: Int,
         glint: Boolean,
         color: Int = -1,
-        translucent: Boolean = false,
     ) {
         /*
         if (model is CustomVertexConsumer) {
             vertexConsumer = model.getVertexConsumer(bipedEntityRenderState, vertexConsumerProvider, vertexConsumer)
         }
         */
-        val renderLayer = if (translucent) RenderLayers.entityTranslucent(texture) else RenderLayers.armorCutoutNoCull(texture)
-
         queue.submitModel(model, state, matrices, renderLayer, light, OverlayTexture.DEFAULT_UV, color, null, state.outlineColor, null)
         if (glint) queue.submitModel(model, state, matrices, RenderLayers.armorEntityGlint(), light, OverlayTexture.DEFAULT_UV, color, null, state.outlineColor, null)
     }

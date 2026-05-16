@@ -25,10 +25,13 @@
     "renderer.ArmorFeatureRendererMixin",
     "renderer.ItemStackAttributeRenderMixin",
     "renderer.SkullBlockEntityRendererAccessorMixin",
-    "stats.StatsScreenMixin",
-    "stats.GeneralStatsListWidgetMixin"
+    "stats.GeneralStatsListWidgetMixin",
+    "stats.StatsScreenMixin"
   ],
   "injectors": {
     "defaultRequire": 1
-  }
+  },
+  "mixins": [
+    "living_entity.LivingEntityCapeDataMixin"
+  ]
 }

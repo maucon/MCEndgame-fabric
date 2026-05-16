@@ -1,0 +1,109 @@
+{
+	"format_version": "1.12.0",
+	"minecraft:geometry": [
+		{
+			"description": {
+				"identifier": "geometry.unknown",
+				"texture_width": 64,
+				"texture_height": 32,
+				"visible_bounds_width": 3,
+				"visible_bounds_height": 1.5,
+				"visible_bounds_offset": [0, 0.25, 0]
+			},
+			"bones": [
+				{
+					"name": "spiderling",
+					"pivot": [0, 0, 0]
+				},
+				{
+					"name": "head",
+					"parent": "spiderling",
+					"pivot": [0, 4.5, -1.5],
+					"cubes": [
+						{"origin": [-2, 2.5, -5.5], "size": [4, 4, 4], "uv": [17, 0]}
+					]
+				},
+				{
+					"name": "neck",
+					"parent": "spiderling",
+					"pivot": [0, 4.5, 0],
+					"cubes": [
+						{"origin": [-1.5, 3, -1.5], "size": [3, 3, 3], "uv": [19, 9]}
+					]
+				},
+				{
+					"name": "body",
+					"parent": "spiderling",
+					"pivot": [0, 4.5, 4.5],
+					"cubes": [
+						{"origin": [-2.5, 2.5, 1.5], "size": [5, 4, 6], "uv": [14, 16]}
+					]
+				},
+				{
+					"name": "leg1",
+					"parent": "spiderling",
+					"pivot": [-2, 4.5, 2],
+					"cubes": [
+						{"origin": [-9.5, 4, 1.5], "size": [8, 1, 1], "uv": [0, 19]}
+					]
+				},
+				{
+					"name": "leg2",
+					"parent": "spiderling",
+					"pivot": [2, 4.5, 2],
+					"cubes": [
+						{"origin": [1.5, 4, 1.5], "size": [8, 1, 1], "uv": [32, 19]}
+					]
+				},
+				{
+					"name": "leg3",
+					"parent": "spiderling",
+					"pivot": [-2, 4.5, 0.5],
+					"cubes": [
+						{"origin": [-9.5, 4, 0], "size": [8, 1, 1], "uv": [0, 16]}
+					]
+				},
+				{
+					"name": "leg4",
+					"parent": "spiderling",
+					"pivot": [2, 4.5, 0.5],
+					"cubes": [
+						{"origin": [1.5, 4, 0], "size": [8, 1, 1], "uv": [32, 16]}
+					]
+				},
+				{
+					"name": "leg5",
+					"parent": "spiderling",
+					"pivot": [-2, 4.5, -1],
+					"cubes": [
+						{"origin": [-9.5, 4, -1.5], "size": [8, 1, 1], "uv": [0, 13]}
+					]
+				},
+				{
+					"name": "leg6",
+					"parent": "spiderling",
+					"pivot": [2, 4.5, -1],
+					"cubes": [
+						{"origin": [1.5, 4, -1.5], "size": [8, 1, 1], "uv": [32, 13]}
+					]
+				},
+				{
+					"name": "leg7",
+					"parent": "spiderling",
+					"pivot": [-2, 4.5, -2.5],
+					"cubes": [
+						{"origin": [-9.5, 4, -3], "size": [8, 1, 1], "uv": [0, 10]}
+					]
+				},
+				{
+					"name": "leg8",
+					"parent": "spiderling",
+					"pivot": [2, 4.5, -2.5],
+					"cubes": [
+						{"origin": [1.5, 4, -3], "size": [8, 1, 1], "uv": [32, 10]}
+					]
+				}
+			]
+		}
+	]
+}
