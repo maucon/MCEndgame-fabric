@@ -153,6 +153,8 @@ object CustomAttributeTypes {
 
     val WOLF_COMPANION = CustomAttributeType("wolf_companion", AttributeFormats.STRING_ROLL, AttributeFormats.STRING_SHOW_ALL_OPTIONS, AttributeAffinities.BENEFICIAL)
 
+    val SPIDERLINGS = CustomAttributeType("spiderlings", AttributeFormats.INT_ROLL, AttributeFormats.INT_BOUNDS, AttributeAffinities.BENEFICIAL)
+
     val GHOSTLY_APPEARANCE = CustomAttributeType("ghostly_appearance", AttributeFormats.EMPTY_ROLL, AttributeFormats.EMPTY_BOUNDS, AttributeAffinities.EMPTY)
 
     val ENTITY_PHASING = CustomAttributeType("entity_phasing", AttributeFormats.EMPTY_ROLL, AttributeFormats.EMPTY_BOUNDS, AttributeAffinities.EMPTY)
