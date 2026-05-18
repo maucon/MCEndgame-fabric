@@ -13,7 +13,7 @@ class Broodmother(
 ) : UniqueAttributesItem(settings), HidePlayerModelPartArmor {
     override fun getCustomAttributes() = listOf(
         RollableCustomAttribute(CustomAttributeTypes.POISON_DAMAGE_IMMUNITY, 0),
-        RollableCustomAttribute(CustomAttributeTypes.SPIDERLINGS, 0, IntBounds(2, 3)),
+        RollableCustomAttribute(CustomAttributeTypes.SPIDERLING_COMPANIONS, 0, IntBounds(2, 3)),
     )
 
     override fun getAttributeModifierSlot() = AttributeModifierSlot.CHEST

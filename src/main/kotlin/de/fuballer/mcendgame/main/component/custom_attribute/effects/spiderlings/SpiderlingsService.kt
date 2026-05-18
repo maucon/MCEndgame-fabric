@@ -59,14 +59,14 @@ class SpiderlingsService {
 
     @EventSubscriber(sync = true)
     fun on(event: WorldAttributeChangedEvent) {
-        if (event.attribute.type != CustomAttributeTypes.SPIDERLINGS) return
+        if (event.attribute.type != CustomAttributeTypes.SPIDERLING_COMPANIONS) return
         event.world.players.forEach {
             resummonSpiderlings(it)
         }
     }
 
     private fun hasApplicableAttribute(stack: ItemStack, slot: AttributeModifierSlot) =
-        stack.getCustomAttributes().filter { slot.isOrIsChildOf(it.slot) }.any { it.type == CustomAttributeTypes.SPIDERLINGS }
+        stack.getCustomAttributes().filter { slot.isOrIsChildOf(it.slot) }.any { it.type == CustomAttributeTypes.SPIDERLING_COMPANIONS }
 
     private fun resummonSpiderlings(player: PlayerEntity) {
         removeSpiderlings(player)
@@ -77,7 +77,7 @@ class SpiderlingsService {
         player: PlayerEntity,
     ) {
         val world = player.entityWorld as? ServerWorld ?: return
-        val attributes = player.getAllCustomAttributes()[CustomAttributeTypes.SPIDERLINGS] ?: return
+        val attributes = player.getAllCustomAttributes()[CustomAttributeTypes.SPIDERLING_COMPANIONS] ?: return
 
         val count = attributes.sumOf { it.rolls[0].asIntRoll().getValue() }
         repeat(count) { summonSpiderling(player, world) }

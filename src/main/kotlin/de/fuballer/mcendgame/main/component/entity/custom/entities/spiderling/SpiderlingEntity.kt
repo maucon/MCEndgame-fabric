@@ -11,6 +11,7 @@ import de.fuballer.mcendgame.main.util.extension.mixin.GoalMixinExtension.setTar
 import de.fuballer.mcendgame.main.util.extension.mixin.GoalMixinExtension.setTargetZ
 import de.fuballer.mcendgame.main.util.extension.mixin.GoalMixinExtension.setUpdateCountdownTicks
 import net.minecraft.component.DataComponentTypes
+import net.minecraft.entity.Entity
 import net.minecraft.entity.EntityType
 import net.minecraft.entity.LivingEntity
 import net.minecraft.entity.ai.goal.*
@@ -127,5 +128,9 @@ class SpiderlingEntity(
 
         val box = entity.getHitbox()
         return this.getAttackBox(maxRange).intersects(box) && (minRange <= 0.0 || !this.getAttackBox(minRange).intersects(box))
+    }
+
+    override fun pushAway(entity: Entity) {
+        if (entity is SpiderlingEntity) super.pushAway(entity)
     }
 }
