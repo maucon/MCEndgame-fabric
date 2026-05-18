@@ -50,6 +50,7 @@ class SpiderlingEntity(
             val speed: Double,
             pauseWhenMobIdle: Boolean,
         ) : MeleeAttackGoal(mob, speed, pauseWhenMobIdle) {
+            // copied from MeleeAttackGoal but replaced canSee with true
             override fun tick() {
                 val livingEntity = mob.target ?: return
                 mob.getLookControl().lookAt(livingEntity, 30.0f, 30.0f)
@@ -90,6 +91,7 @@ class SpiderlingEntity(
                 attack(livingEntity)
             }
 
+            // copied from MeleeAttackGoal but replaced canSee with true
             override fun canAttack(target: LivingEntity) = isCooledDown && mob.isInAttackRange(target)
         }
     }
@@ -110,7 +112,7 @@ class SpiderlingEntity(
 
     override fun createChild(world: ServerWorld, entity: PassiveEntity) = null
 
-    // copied from LivingEntity but using own MAX_ATTACK_RANGE
+    // copied from MobEntity but using own MAX_ATTACK_RANGE
     override fun isInAttackRange(entity: LivingEntity): Boolean {
         val attackRangeComponent = activeOrMainHandStack.get(DataComponentTypes.ATTACK_RANGE)
         val maxRange: Double
