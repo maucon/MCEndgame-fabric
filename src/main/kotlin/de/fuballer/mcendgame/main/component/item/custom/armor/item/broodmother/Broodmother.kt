@@ -5,12 +5,13 @@ import de.fuballer.mcendgame.main.component.custom_attribute.data.RollableCustom
 import de.fuballer.mcendgame.main.component.custom_attribute.types.CustomAttributeTypes
 import de.fuballer.mcendgame.main.component.item.custom.UniqueAttributesItem
 import de.fuballer.mcendgame.main.component.item.custom.armor.interfaces.HidePlayerModelPartArmor
+import de.fuballer.mcendgame.main.component.item.custom.armor.interfaces.ItemWithCape
 import net.minecraft.component.type.AttributeModifierSlot
 import net.minecraft.entity.player.PlayerModelPart
 
 class Broodmother(
     settings: Settings,
-) : UniqueAttributesItem(settings), HidePlayerModelPartArmor {
+) : UniqueAttributesItem(settings), HidePlayerModelPartArmor, ItemWithCape {
     override fun getCustomAttributes() = listOf(
         RollableCustomAttribute(CustomAttributeTypes.POISON_DAMAGE_IMMUNITY, 0),
         RollableCustomAttribute(CustomAttributeTypes.SPIDERLING_COMPANIONS, 0, IntBounds(2, 3)),

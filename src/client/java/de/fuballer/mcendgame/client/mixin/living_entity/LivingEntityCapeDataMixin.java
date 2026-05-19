@@ -1,6 +1,7 @@
 package de.fuballer.mcendgame.client.mixin.living_entity;
 
 import de.fuballer.mcendgame.client.accessor.LivingEntityCapeDataAccessor;
+import de.fuballer.mcendgame.main.util.extension.EntityExtension;
 import net.minecraft.client.network.ClientPlayerLikeState;
 import net.minecraft.entity.LivingEntity;
 import org.spongepowered.asm.mixin.Mixin;
@@ -20,6 +21,7 @@ public class LivingEntityCapeDataMixin implements LivingEntityCapeDataAccessor {
     )
     void updateCapeState(CallbackInfo ci) {
         var entity = (LivingEntity) (Object) this;
+        if (!EntityExtension.INSTANCE.needsCapeData(entity)) return;
         capeState.tick(entity.getEntityPos(), entity.getVelocity());
     }
 

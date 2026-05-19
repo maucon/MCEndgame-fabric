@@ -4,6 +4,7 @@ import de.fuballer.mcendgame.client.accessor.BipedEntityRenderStateAccessor;
 import de.fuballer.mcendgame.client.accessor.LivingEntityCapeDataAccessor;
 import de.fuballer.mcendgame.main.component.item.custom.armor.interfaces.HideBipedBoneArmor;
 import de.fuballer.mcendgame.main.component.item.custom.armor.interfaces.HideOtherArmorArmor;
+import de.fuballer.mcendgame.main.util.extension.EntityExtension;
 import net.minecraft.client.item.ItemModelManager;
 import net.minecraft.client.network.ClientPlayerLikeState;
 import net.minecraft.client.render.entity.BipedEntityRenderer;
@@ -54,7 +55,9 @@ public class BipedEntityRendererMixin {
 
         accessor.mcendgame$setVelocity(entity.getVelocity());
 
-        updateCape(entity, state, tickDelta);
+        if (EntityExtension.INSTANCE.needsCapeData(entity)) {
+            updateCape(entity, state, tickDelta);
+        }
     }
 
     @Unique
